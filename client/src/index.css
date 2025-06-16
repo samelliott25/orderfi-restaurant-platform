@@ -1,54 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One:wght@400&family=Comfortaa:wght@300;400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Loose Moose Color Palette - Grenadine background with Beeswax text */
-  --background: hsl(15, 85%, 57%); /* Grenadine red-orange background */
-  --foreground: hsl(34, 80%, 65%); /* Beeswax warm orange text */
-  --muted: hsl(15, 70%, 50%); /* Darker grenadine for muted elements */
-  --muted-foreground: hsl(34, 70%, 55%); /* Slightly darker beeswax */
-  --popover: hsl(15, 80%, 52%); /* Slightly darker grenadine for popover */
-  --popover-foreground: hsl(34, 80%, 65%); /* Beeswax text */
-  --card: hsl(15, 80%, 52%); /* Slightly darker grenadine for cards */
-  --card-foreground: hsl(34, 80%, 65%); /* Beeswax text */
-  --border: hsl(15, 60%, 45%); /* Darker grenadine for borders */
-  --input: hsl(15, 70%, 50%); /* Darker grenadine for inputs */
-  --primary: hsl(168, 34%, 55%); /* Darlington sage green for accents */
-  --primary-foreground: hsl(34, 80%, 65%); /* Beeswax text on primary */
-  --secondary: hsl(34, 80%, 65%); /* Beeswax warm orange */
-  --secondary-foreground: hsl(15, 85%, 57%); /* Grenadine text on secondary */
-  --accent: hsl(168, 34%, 55%); /* Sage green accent */
-  --accent-foreground: hsl(34, 80%, 65%); /* Beeswax text on accent */
-  --destructive: hsl(0, 84%, 60%); /* Standard destructive red */
-  --destructive-foreground: hsl(34, 80%, 65%); /* Beeswax text */
-  --ring: hsl(34, 80%, 65%); /* Beeswax ring color */
-  --radius: 0.75rem;
+  /* Clean Paper Aesthetic with Retro Disney Two-Tone Palette */
+  --background: hsl(41, 25%, 92%); /* Cream paper background */
+  --foreground: hsl(25, 15%, 25%); /* Dark brown text */
+  --muted: hsl(41, 20%, 88%); /* Slightly darker cream for muted elements */
+  --muted-foreground: hsl(25, 12%, 45%); /* Medium brown for secondary text */
+  --popover: hsl(41, 30%, 95%); /* Light cream for popover */
+  --popover-foreground: hsl(25, 15%, 25%); /* Dark brown text */
+  --card: hsl(41, 30%, 95%); /* Light cream for cards */
+  --card-foreground: hsl(25, 15%, 25%); /* Dark brown text */
+  --border: hsl(25, 10%, 75%); /* Light brown borders */
+  --input: hsl(41, 25%, 90%); /* Cream input backgrounds */
+  --primary: hsl(94, 25%, 55%); /* Sage green primary */
+  --primary-foreground: hsl(41, 30%, 95%); /* Light cream text on primary */
+  --secondary: hsl(25, 75%, 55%); /* Warm orange secondary */
+  --secondary-foreground: hsl(41, 30%, 95%); /* Light cream text on secondary */
+  --accent: hsl(25, 75%, 65%); /* Lighter orange accent */
+  --accent-foreground: hsl(25, 15%, 25%); /* Dark brown text on accent */
+  --destructive: hsl(0, 65%, 55%); /* Muted red */
+  --destructive-foreground: hsl(41, 30%, 95%); /* Light cream text */
+  --ring: hsl(94, 25%, 55%); /* Sage green ring */
+  --radius: 0.5rem;
 }
 
 .dark {
-  --background: hsl(15, 85%, 57%); /* Grenadine background for dark mode too */
-  --foreground: hsl(34, 80%, 65%); /* Beeswax text for dark mode */
-  --muted: hsl(15, 70%, 50%);
-  --muted-foreground: hsl(34, 70%, 55%);
-  --popover: hsl(15, 80%, 52%);
-  --popover-foreground: hsl(34, 80%, 65%);
-  --card: hsl(15, 80%, 52%);
-  --card-foreground: hsl(34, 80%, 65%);
-  --border: hsl(15, 60%, 45%);
-  --input: hsl(15, 70%, 50%);
-  --primary: hsl(168, 34%, 55%);
-  --primary-foreground: hsl(34, 80%, 65%);
-  --secondary: hsl(34, 80%, 65%);
-  --secondary-foreground: hsl(15, 85%, 57%);
-  --accent: hsl(168, 34%, 55%);
-  --accent-foreground: hsl(34, 80%, 65%);
-  --destructive: hsl(0, 84%, 60%);
-  --destructive-foreground: hsl(34, 80%, 65%);
-  --ring: hsl(34, 80%, 65%);
-  --radius: 0.75rem;
+  /* Keep same paper aesthetic in dark mode */
+  --background: hsl(41, 25%, 92%); /* Cream paper background */
+  --foreground: hsl(25, 15%, 25%); /* Dark brown text */
+  --muted: hsl(41, 20%, 88%);
+  --muted-foreground: hsl(25, 12%, 45%);
+  --popover: hsl(41, 30%, 95%);
+  --popover-foreground: hsl(25, 15%, 25%);
+  --card: hsl(41, 30%, 95%);
+  --card-foreground: hsl(25, 15%, 25%);
+  --border: hsl(25, 10%, 75%);
+  --input: hsl(41, 25%, 90%);
+  --primary: hsl(94, 25%, 55%);
+  --primary-foreground: hsl(41, 30%, 95%);
+  --secondary: hsl(25, 75%, 55%);
+  --secondary-foreground: hsl(41, 30%, 95%);
+  --accent: hsl(25, 75%, 65%);
+  --accent-foreground: hsl(25, 15%, 25%);
+  --destructive: hsl(0, 65%, 55%);
+  --destructive-foreground: hsl(41, 30%, 95%);
+  --ring: hsl(94, 25%, 55%);
+  --radius: 0.5rem;
 }
 
 @layer base {
@@ -58,15 +59,48 @@
 
   body {
     @apply antialiased bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    font-feature-settings: 'cv11', 'ss01';
-    font-variation-settings: 'opsz' 32;
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 400;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    letter-spacing: -0.025em;
+  h1, h2, h3, h4, h5, h6, .logo-text {
+    font-family: 'Fredoka One', cursive;
+    font-weight: 400;
+    letter-spacing: 0.025em;
+  }
+  
+  .retro-text {
+    font-family: 'Fredoka One', cursive;
+    text-shadow: 2px 2px 0px hsl(25, 10%, 75%);
+    letter-spacing: 0.05em;
+  }
+  
+  .paper-shadow {
+    box-shadow: 
+      0 2px 4px hsl(25, 10%, 85%),
+      0 8px 16px hsl(25, 5%, 90%);
+  }
+  
+  .cartoon-button {
+    border: 2px solid hsl(25, 15%, 25%);
+    box-shadow: 
+      3px 3px 0px hsl(25, 15%, 25%),
+      inset 0 0 0 2px hsl(41, 30%, 95%);
+    transition: all 0.1s ease;
+  }
+  
+  .cartoon-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 
+      2px 2px 0px hsl(25, 15%, 25%),
+      inset 0 0 0 2px hsl(41, 30%, 95%);
+  }
+  
+  .cartoon-button:active {
+    transform: translate(3px, 3px);
+    box-shadow: 
+      0px 0px 0px hsl(25, 15%, 25%),
+      inset 0 0 0 2px hsl(41, 30%, 95%);
   }
 }
 

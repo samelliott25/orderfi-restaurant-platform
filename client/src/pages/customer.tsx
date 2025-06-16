@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChatInterface } from "@/components/chat-interface";
 import { OrderSummary } from "@/components/order-summary";
-import { Bot, Settings, MessageSquare, Clock, Star, MapPin, Phone } from "lucide-react";
+import { Bot, Settings, MessageSquare, Clock, Star, MapPin, Phone, UtensilsCrossed } from "lucide-react";
 import { restaurantApi } from "@/lib/api";
 
 const RESTAURANT_ID = 1; // Default restaurant for demo
@@ -26,21 +26,24 @@ export default function CustomerPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <Bot className="text-xl text-primary-foreground" />
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center paper-shadow cartoon-button">
+                  <Bot className="text-secondary-foreground h-6 w-6" />
                 </div>
-                <span className="text-xl font-bold text-foreground">Loose Moose</span>
+                <div>
+                  <h1 className="text-2xl retro-text text-primary">Loose Moose</h1>
+                  <p className="text-xs text-muted-foreground font-medium">Modern Australian Dining</p>
+                </div>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" asChild>
+              <Button variant="ghost" asChild className="cartoon-button bg-accent text-accent-foreground">
                 <Link href="/admin">
                   <Settings className="mr-2 h-4 w-4" />
                   Admin
                 </Link>
               </Button>
-              <Button asChild className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+              <Button asChild className="cartoon-button bg-secondary text-secondary-foreground">
                 <Link href="/customer">
                   <MessageSquare className="mr-2 h-4 w-4" />
                   Order Now
