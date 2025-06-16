@@ -113,14 +113,8 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
 
   return (
     <div className="h-full flex flex-col relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 fluid-bg">
-        <div className="floating-orbs">
-          <div className="orb orb-1"></div>
-          <div className="orb orb-2"></div>
-          <div className="orb orb-3"></div>
-        </div>
-      </div>
+      {/* Background */}
+      <div className="absolute inset-0 fluid-bg"></div>
 
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 relative z-10">
@@ -191,7 +185,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       </div>
 
       {/* Input Area */}
-      <div className="p-4 border-t border-border/20 backdrop-blur-sm bg-background/80 relative z-10">
+      <div className="p-4 border-t-2 border-white relative z-10" style={{ backgroundColor: '#F5E6D3' }}>
         <form onSubmit={handleSendMessage} className="flex space-x-2">
           <div className="flex-1 relative">
             <Input

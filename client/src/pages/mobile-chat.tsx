@@ -22,9 +22,9 @@ export default function MobileChatPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-background">
+    <div className="h-screen flex flex-col" style={{ backgroundColor: '#F5E6D3' }}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border/20 bg-background/80 backdrop-blur-sm relative z-20">
+      <div className="flex items-center justify-between p-4 border-b-2 border-white relative z-20" style={{ backgroundColor: '#F5E6D3' }}>
         <Link href="/">
           <div className="p-2 rounded-full hover:bg-secondary/50 transition-colors cursor-pointer">
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
@@ -32,7 +32,7 @@ export default function MobileChatPage() {
         </Link>
         
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 p-1">
+          <div className="w-8 h-8 rounded-full p-1">
             <img 
               src={mimiLogo} 
               alt="Mimi" 
@@ -40,8 +40,7 @@ export default function MobileChatPage() {
             />
           </div>
           <div className="text-center">
-            <h1 className="text-lg font-bold text-foreground">Mimi</h1>
-            <p className="text-xs text-muted-foreground">AI Waitress</p>
+            <p className="text-xs text-gray-600">Chat with your AI waitress</p>
           </div>
         </div>
 
