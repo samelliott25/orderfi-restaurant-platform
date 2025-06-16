@@ -97,8 +97,8 @@ export function OrderSummary() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8 text-gray-500">
-            <ShoppingCart className="mx-auto h-12 w-12 text-gray-300 mb-4" />
+          <div className="text-center py-8 text-muted-foreground">
+            <ShoppingCart className="mx-auto h-12 w-12 text-muted mb-4" />
             <p>Your order is empty</p>
             <p className="text-sm">Chat with our AI to add items!</p>
           </div>
@@ -118,17 +118,17 @@ export function OrderSummary() {
       <CardContent>
         <div className="space-y-3">
           {orderItems.map((item) => (
-            <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <div key={item.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">{item.name}</h4>
+                <h4 className="font-medium text-card-foreground">{item.name}</h4>
                 {item.modifications && (
-                  <p className="text-sm text-gray-600">{item.modifications}</p>
+                  <p className="text-sm text-muted-foreground">{item.modifications}</p>
                 )}
-                <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
               </div>
               <div className="text-right flex items-center space-x-2">
                 <div>
-                  <p className="font-semibold text-gray-900">
+                  <p className="font-semibold text-card-foreground">
                     ${(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
@@ -136,7 +136,7 @@ export function OrderSummary() {
                   variant="ghost"
                   size="sm"
                   onClick={() => handleRemoveItem(item.id)}
-                  className="text-red-600 hover:text-red-700"
+                  className="text-destructive hover:text-destructive/90"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -145,18 +145,18 @@ export function OrderSummary() {
           ))}
         </div>
         
-        <div className="border-t border-gray-200 pt-3 mt-4">
+        <div className="border-t border-border pt-3 mt-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-gray-600">Subtotal</span>
-            <span className="text-gray-900">${subtotal.toFixed(2)}</span>
+            <span className="text-muted-foreground">Subtotal</span>
+            <span className="text-card-foreground">${subtotal.toFixed(2)}</span>
           </div>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-gray-600">Tax</span>
-            <span className="text-gray-900">${tax.toFixed(2)}</span>
+            <span className="text-muted-foreground">Tax</span>
+            <span className="text-card-foreground">${tax.toFixed(2)}</span>
           </div>
           <div className="flex items-center justify-between text-lg font-semibold">
-            <span className="text-gray-900">Total</span>
-            <span className="text-gray-900">${total.toFixed(2)}</span>
+            <span className="text-card-foreground">Total</span>
+            <span className="text-card-foreground">${total.toFixed(2)}</span>
           </div>
         </div>
         

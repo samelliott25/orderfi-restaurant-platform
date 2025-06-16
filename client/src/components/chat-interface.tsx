@@ -132,7 +132,7 @@ export function ChatInterface({ restaurantId, welcomeMessage }: ChatInterfacePro
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-border flex flex-col h-[600px]">
+    <div className="bg-card rounded-xl shadow-sm border border-border flex flex-col h-[600px]">
       {/* Chat Header */}
       <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-primary/10 to-secondary/10">
         <div className="flex items-center space-x-3">
