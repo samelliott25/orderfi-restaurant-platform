@@ -185,7 +185,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       </div>
 
       {/* Input Area */}
-      <div className="p-4 border-t-2 border-white relative z-10" style={{ backgroundColor: '#F5E6D3' }}>
+      <div className="p-4 border-t-2 border-white bg-background relative z-10">
         <form onSubmit={handleSendMessage} className="flex space-x-2">
           <div className="flex-1 relative">
             <Input
