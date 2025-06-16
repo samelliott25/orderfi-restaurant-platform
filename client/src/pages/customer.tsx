@@ -55,7 +55,7 @@ export default function CustomerPage() {
       </nav>
 
       {/* Restaurant Header */}
-      <div className="polka-dot-bg shadow-lg">
+      <div className="pop-art-orange shadow-lg">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-white drop-shadow-lg">

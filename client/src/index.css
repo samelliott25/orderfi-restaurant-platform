@@ -142,15 +142,22 @@
     border-color: hsl(168, 34%, 55%);
   }
   
-  .polka-dot-bg {
-    background-color: hsl(94, 25%, 55%); /* Sage green base */
-    background-image: 
-      radial-gradient(circle at 20% 20%, hsl(25, 75%, 65%) 8px, transparent 8px),
-      radial-gradient(circle at 80% 80%, hsl(41, 30%, 95%) 6px, transparent 6px),
-      radial-gradient(circle at 40% 70%, hsl(25, 75%, 55%) 4px, transparent 4px),
-      radial-gradient(circle at 70% 30%, hsl(41, 25%, 88%) 5px, transparent 5px),
-      radial-gradient(circle at 60% 50%, hsl(25, 75%, 65%) 3px, transparent 3px);
-    background-size: 60px 60px, 80px 80px, 40px 40px, 70px 70px, 50px 50px;
-    background-position: 0 0, 30px 30px, 10px 10px, 50px 50px, 20px 40px;
+  .pop-art-orange {
+    background-color: hsl(25, 75%, 55%); /* Bold orange block color */
+    position: relative;
+  }
+  
+  .pop-art-orange::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 48%, hsl(25, 75%, 65%) 48%, hsl(25, 75%, 65%) 52%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, hsl(25, 75%, 45%) 48%, hsl(25, 75%, 45%) 52%, transparent 52%);
+    background-size: 20px 20px;
+    opacity: 0.1;
+    pointer-events: none;
   }
 }
