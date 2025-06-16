@@ -1,0 +1,56 @@
+Build me a full-stack AI web app called **AgentChef** that allows restaurants to train and deploy a custom GPT-powered digital waiter.
+
+## App Purpose:
+Restaurants can upload their menu and settings through an admin interface, and customers can place orders via a chat-based GPT agent. The AI understands natural language, answers questions, and builds structured orders from a restaurant’s menu. Optional Stripe payment support.
+
+## Features:
+
+### 🔧 Admin Interface (`/admin`)
+- Upload menu via form or CSV (dish name, description, tags like vegan/gluten-free).
+- Set restaurant name, description, tone (e.g. friendly, classy).
+- Input FAQs (e.g. "Do you allow dogs?" → "Yes, outside only.").
+- Store settings in Supabase or mock JSON for MVP.
+- Preview how GPT will respond using current settings.
+
+### 🤖 Customer Interface (`/agent`)
+- Chat interface using GPT-4 to:
+  - Interpret natural language orders.
+  - Suggest items based on context.
+  - Answer questions like ingredients, allergy info, or daily specials.
+- Display and confirm order before "placing" it.
+- Optional: Generate Stripe Checkout link or simulate payment.
+- Voice input optional (later).
+
+## Backend (Node.js or Python Flask):
+- GPT integration using OpenAI Chat API.
+- Endpoints:
+  - `/api/chat` → Accepts customer input, builds GPT prompt, returns response.
+  - `/api/menu` → Load/save restaurant data.
+  - `/api/pay` → Stripe or placeholder.
+
+## File structure:
+- `/frontend`
+  - `agent.jsx` – Chat interface
+  - `admin.jsx` – Upload menu + config
+- `/backend`
+  - `server.js`
+  - `/routes/gpt.js`, `/routes/menu.js`, `/routes/payment.js`
+- `/data/example_menu.json` – Sample menu
+- `.env` for OpenAI + Stripe keys
+- README.md with setup and instructions
+
+## Tech Stack:
+- Frontend: React + TailwindCSS
+- Backend: Node.js + Express (or Python Flask)
+- GPT: OpenAI API
+- Storage: Supabase or JSON
+- Payments: Stripe Checkout (optional)
+- Hosting: Replit
+
+## Stretch Goals (comment out if needed):
+- Whisper voice input
+- Loyalty tracking
+- Fine-tuned GPT model
+- QR code scanner for table recognition
+
+Build this in a modular way so I can easily extend it later. Include basic CSS or Tailwind styles to make the interface clean and mobile-friendly.
