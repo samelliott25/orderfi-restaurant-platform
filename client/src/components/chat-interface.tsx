@@ -134,7 +134,7 @@ export function ChatInterface({ restaurantId, welcomeMessage }: ChatInterfacePro
   return (
     <div className="bg-card rounded-xl shadow-sm border border-border flex flex-col h-[600px]">
       {/* Chat Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border bg-secondary/20">
+      <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center paper-shadow cartoon-button">
             <Bot className="text-primary-foreground h-6 w-6" />
