@@ -134,19 +134,19 @@ export function ChatInterface({ restaurantId, welcomeMessage }: ChatInterfacePro
   return (
     <div className="bg-card rounded-xl shadow-sm border border-border flex flex-col h-[600px]">
       {/* Chat Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-primary/10 to-secondary/10">
+      <div className="flex items-center justify-between p-4 border-b border-border bg-secondary/20">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-sm">
-            <Bot className="text-primary-foreground h-5 w-5" />
+          <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center paper-shadow cartoon-button">
+            <Bot className="text-primary-foreground h-6 w-6" />
           </div>
           <div>
-            <h3 className="font-semibold text-foreground">AI Waiter</h3>
+            <h3 className="font-semibold text-foreground retro-text">AI Waiter</h3>
             <p className="text-sm text-primary flex items-center">
-              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>Online
+              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>Ready to Help!
             </p>
           </div>
         </div>
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="sm" className="cartoon-button bg-accent text-accent-foreground">
           <MoreVertical className="h-4 w-4" />
         </Button>
       </div>
@@ -254,7 +254,7 @@ export function ChatInterface({ restaurantId, welcomeMessage }: ChatInterfacePro
           <Button
             variant="outline"
             size="sm"
-            className="rounded-full text-sm border-primary/30 hover:bg-primary/10"
+            className="cartoon-button bg-primary text-primary-foreground rounded-full text-sm"
             onClick={() => handleQuickReply("Show me the menu")}
           >
             Show menu
@@ -262,7 +262,7 @@ export function ChatInterface({ restaurantId, welcomeMessage }: ChatInterfacePro
           <Button
             variant="outline"
             size="sm"
-            className="rounded-full text-sm border-secondary/30 hover:bg-secondary/10"
+            className="cartoon-button bg-secondary text-secondary-foreground rounded-full text-sm"
             onClick={() => handleQuickReply("What are today's specials?")}
           >
             Daily specials
@@ -270,7 +270,7 @@ export function ChatInterface({ restaurantId, welcomeMessage }: ChatInterfacePro
           <Button
             variant="outline"
             size="sm"
-            className="rounded-full text-sm border-accent/30 hover:bg-accent/10"
+            className="cartoon-button bg-accent text-accent-foreground rounded-full text-sm"
             onClick={() => handleQuickReply("I have allergies, can you help?")}
           >
             Allergies
