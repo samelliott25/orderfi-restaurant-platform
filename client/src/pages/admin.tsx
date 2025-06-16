@@ -101,15 +101,17 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+      <nav className="bg-white shadow-sm border-b border-border sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Bot className="text-2xl text-primary" />
-                <span className="text-xl font-bold text-gray-900">AgentChef</span>
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <Bot className="text-xl text-primary-foreground" />
+                </div>
+                <span className="text-xl font-bold text-foreground">Loose Moose</span>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -119,7 +121,7 @@ export default function AdminPage() {
                   Admin
                 </Link>
               </Button>
-              <Button asChild>
+              <Button asChild className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
                 <Link href="/customer">
                   <MessageSquare className="mr-2 h-4 w-4" />
                   Order Now
@@ -132,8 +134,8 @@ export default function AdminPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Restaurant Admin Dashboard</h1>
-          <p className="text-gray-600 mt-2">Configure your AI-powered digital waiter</p>
+          <h1 className="text-3xl font-bold text-foreground">Restaurant Admin Dashboard</h1>
+          <p className="text-muted-foreground mt-2">Configure your AI-powered digital waiter</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

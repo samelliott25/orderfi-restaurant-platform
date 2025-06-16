@@ -132,17 +132,17 @@ export function ChatInterface({ restaurantId, welcomeMessage }: ChatInterfacePro
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col h-[600px]">
+    <div className="bg-white rounded-xl shadow-sm border border-border flex flex-col h-[600px]">
       {/* Chat Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
+      <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-primary/10 to-secondary/10">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-            <Bot className="text-white h-5 w-5" />
+          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-sm">
+            <Bot className="text-primary-foreground h-5 w-5" />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900">AI Waiter</h3>
-            <p className="text-sm text-green-600 flex items-center">
-              <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>Online
+            <h3 className="font-semibold text-foreground">AI Waiter</h3>
+            <p className="text-sm text-primary flex items-center">
+              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>Online
             </p>
           </div>
         </div>

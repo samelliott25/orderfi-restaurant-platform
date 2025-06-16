@@ -1,51 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  /* Loose Moose Color Palette inspired by the image */
+  --background: hsl(168, 25%, 96%); /* Very light sage */
+  --foreground: hsl(25, 35%, 15%); /* Dark brown */
+  --muted: hsl(168, 15%, 90%);
+  --muted-foreground: hsl(25, 20%, 45%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --popover-foreground: hsl(25, 35%, 15%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(60, 4.8%, 95.9%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
-  --radius: 0.5rem;
+  --card-foreground: hsl(25, 35%, 15%);
+  --border: hsl(168, 20%, 85%);
+  --input: hsl(168, 20%, 92%);
+  --primary: hsl(168, 34%, 55%); /* Darlington sage green */
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(34, 80%, 65%); /* Beeswax warm orange */
+  --secondary-foreground: hsl(25, 35%, 15%);
+  --accent: hsl(15, 85%, 57%); /* Grenadine red-orange */
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(15, 85%, 57%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(168, 34%, 55%);
+  --radius: 0.75rem;
 }
 
 .dark {
-  --background: hsl(240, 10%, 3.9%);
-  --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
-  --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 15.9%);
-  --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 4.9%, 83.9%);
-  --radius: 0.5rem;
+  --background: hsl(25, 30%, 8%); /* Dark brown */
+  --foreground: hsl(168, 25%, 95%); /* Light sage */
+  --muted: hsl(25, 20%, 15%);
+  --muted-foreground: hsl(168, 20%, 65%);
+  --popover: hsl(25, 30%, 10%);
+  --popover-foreground: hsl(168, 25%, 95%);
+  --card: hsl(25, 30%, 10%);
+  --card-foreground: hsl(168, 25%, 95%);
+  --border: hsl(25, 20%, 20%);
+  --input: hsl(25, 20%, 15%);
+  --primary: hsl(168, 34%, 65%); /* Lighter sage for dark mode */
+  --primary-foreground: hsl(25, 30%, 8%);
+  --secondary: hsl(34, 60%, 45%); /* Darker orange for dark mode */
+  --secondary-foreground: hsl(168, 25%, 95%);
+  --accent: hsl(15, 70%, 50%); /* Darker red-orange for dark mode */
+  --accent-foreground: hsl(168, 25%, 95%);
+  --destructive: hsl(15, 70%, 50%);
+  --destructive-foreground: hsl(168, 25%, 95%);
+  --ring: hsl(168, 34%, 65%);
+  --radius: 0.75rem;
 }
 
 @layer base {
@@ -54,6 +57,58 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply antialiased bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variation-settings: 'opsz' 32;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Custom utility classes for the Loose Moose theme */
+@layer utilities {
+  .bg-darlington {
+    background-color: hsl(168, 34%, 55%);
+  }
+  
+  .bg-beeswax {
+    background-color: hsl(34, 80%, 65%);
+  }
+  
+  .bg-grenadine {
+    background-color: hsl(15, 85%, 57%);
+  }
+  
+  .bg-cafe-latte {
+    background-color: hsl(25, 35%, 45%);
+  }
+  
+  .text-darlington {
+    color: hsl(168, 34%, 55%);
+  }
+  
+  .text-beeswax {
+    color: hsl(34, 80%, 65%);
+  }
+  
+  .text-grenadine {
+    color: hsl(15, 85%, 57%);
+  }
+  
+  .text-cafe-latte {
+    color: hsl(25, 35%, 45%);
+  }
+  
+  .border-darlington {
+    border-color: hsl(168, 34%, 55%);
+  }
+  
+  .gradient-moose {
+    background: linear-gradient(135deg, hsl(168, 34%, 55%) 0%, hsl(34, 80%, 65%) 50%, hsl(15, 85%, 57%) 100%);
   }
 }
