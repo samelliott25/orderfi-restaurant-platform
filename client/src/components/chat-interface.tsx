@@ -164,8 +164,8 @@ export function ChatInterface({ restaurantId, welcomeMessage }: ChatInterfacePro
               
               <div className={`rounded-2xl p-4 max-w-xs lg:max-w-sm ${
                 message.isUser 
-                  ? 'bg-primary text-white rounded-tr-sm' 
-                  : 'bg-gray-100 text-gray-800 rounded-tl-sm'
+                  ? 'bg-secondary text-secondary-foreground rounded-tr-sm shadow-sm' 
+                  : 'bg-muted text-foreground rounded-tl-sm'
               }`}>
                 {message.id === "typing" ? (
                   <div className="flex space-x-1">
@@ -252,25 +252,25 @@ export function ChatInterface({ restaurantId, welcomeMessage }: ChatInterfacePro
         </div>
         <div className="flex items-center justify-center space-x-4 mt-3">
           <Button
-            variant="secondary"
+            variant="outline"
             size="sm"
-            className="rounded-full text-sm"
+            className="rounded-full text-sm border-primary/30 hover:bg-primary/10"
             onClick={() => handleQuickReply("Show me the menu")}
           >
             Show menu
           </Button>
           <Button
-            variant="secondary"
+            variant="outline"
             size="sm"
-            className="rounded-full text-sm"
+            className="rounded-full text-sm border-secondary/30 hover:bg-secondary/10"
             onClick={() => handleQuickReply("What are today's specials?")}
           >
             Daily specials
           </Button>
           <Button
-            variant="secondary"
+            variant="outline"
             size="sm"
-            className="rounded-full text-sm"
+            className="rounded-full text-sm border-accent/30 hover:bg-accent/10"
             onClick={() => handleQuickReply("I have allergies, can you help?")}
           >
             Allergies
