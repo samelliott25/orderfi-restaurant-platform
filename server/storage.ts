@@ -80,7 +80,7 @@ export class MemStorage implements IStorage {
       description: "A modern Australian pub offering fresh, locally-sourced dishes with creative twists on classic favorites. From gourmet burgers to premium steaks, our menu celebrates bold flavors and quality ingredients.",
       cuisineType: "Modern Australian",
       tone: "friendly",
-      welcomeMessage: "G'day! Welcome to Loose Moose! I'm your digital mate here to help you explore our delicious menu and get your order sorted. What can I get started for you today?",
+      welcomeMessage: "Hello there! I'm Mimi, your waitress here at Loose Moose. It's lovely to meet you! May I ask your name? And would you like to start with a drink or something light to eat?",
       isActive: true,
     });
 
