@@ -195,8 +195,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
             backgroundSize: 'contain',
             width: '480px',
             height: '480px',
-            left: '50%',
-            transform: 'translateX(-50%)'
+            left: '50%'
           }}
         />
       </div>
