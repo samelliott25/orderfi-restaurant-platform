@@ -3,7 +3,7 @@ import mimiLogo from "@assets/5ff63cd3-a67c-49ab-a371-14b12a36506d_1750080680868
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#F0DDB8' }}>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#fae3bb]" style={{ backgroundColor: '#F0DDB8' }}>
       {/* Main Logo */}
       <Link href="/customer">
         <div className="relative z-10 flex flex-col items-center cursor-pointer group">
