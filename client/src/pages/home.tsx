@@ -27,7 +27,7 @@ export default function HomePage() {
               <div 
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1"
                 style={{ 
-                  fontFamily: 'Molle, cursive',
+                  fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-5deg)',
@@ -39,7 +39,7 @@ export default function HomePage() {
               <div 
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
                 style={{ 
-                  fontFamily: 'Molle, cursive',
+                  fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-3deg)',
