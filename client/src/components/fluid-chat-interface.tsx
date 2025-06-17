@@ -289,26 +289,21 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
         {/* Authentication Popup Buttons - positioned after last message */}
         {showAuthButtons && (
           <div className="px-4 py-4">
-            <div className="bg-white/95 backdrop-blur-sm border-2 border-orange-300 rounded-xl p-6 shadow-lg max-w-md mx-auto animate-bounce-drop">
-              <p className="text-center text-gray-800 mb-4 font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
-                Choose your dining experience:
-              </p>
-              <div className="flex gap-3">
-                <Button
-                  onClick={() => handleAuthChoice('login')}
-                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-                  style={{ fontFamily: 'Inter, sans-serif' }}
-                >
-                  Sign In
-                </Button>
-                <Button
-                  onClick={() => handleAuthChoice('anonymous')}
-                  className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-                  style={{ fontFamily: 'Inter, sans-serif' }}
-                >
-                  Continue Anonymous
-                </Button>
-              </div>
+            <div className="flex gap-3 max-w-md mx-auto animate-bounce-drop">
+              <Button
+                onClick={() => handleAuthChoice('login')}
+                className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-lg"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                Sign In
+              </Button>
+              <Button
+                onClick={() => handleAuthChoice('anonymous')}
+                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-lg"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                Continue Anonymous
+              </Button>
             </div>
           </div>
         )}
