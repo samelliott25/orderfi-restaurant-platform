@@ -76,6 +76,37 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
     }
   });
 
+  const handleAuthChoice = (choice: 'login' | 'anonymous') => {
+    const wittyAnonymousResponses = [
+      "No problem, Batman! Your secret identity is safe with me. Now, what can I get started for you today?",
+      "Gotcha, Mystery Guest! I'll keep things nice and anonymous. What sounds delicious to you?",
+      "Perfect, Secret Agent! I'll keep your identity under wraps. Let's talk about some amazing food instead!",
+      "You got it, Superhero! Anonymous dining it is. What can I whip up for you today?",
+      "Absolutely, Incognito! Your dining mission starts now. What's catching your eye on our menu?",
+      "No worries, Shadow! We'll keep this between us. What tasty adventure shall we begin?"
+    ];
+
+    let responseMessage = "";
+    if (choice === 'login') {
+      responseMessage = "Wonderful! I'd love to personalize your experience, but I'll need you to sign in through your account page. For now, let's get you started with our delicious menu! What sounds good to you today?";
+      setIsAuthenticated(false); // Still anonymous until actual login
+    } else {
+      const randomResponse = wittyAnonymousResponses[Math.floor(Math.random() * wittyAnonymousResponses.length)];
+      responseMessage = randomResponse;
+      setIsAuthenticated(false);
+    }
+
+    const aiMessage: ChatMessage = {
+      id: `ai-auth-${Date.now()}`,
+      content: responseMessage,
+      isUser: false,
+      timestamp: new Date(),
+    };
+
+    setMessages(prev => [...prev, aiMessage]);
+    setShowAuthPrompt(false);
+  };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
@@ -211,6 +242,33 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
         <div ref={messagesEndRef} />
       </div>
 
+      {/* Authentication Popup Buttons */}
+      {showAuthPrompt && (
+        <div className="absolute inset-x-4 bottom-32 z-20">
+          <div className="bg-white/95 backdrop-blur-sm border-2 border-orange-300 rounded-xl p-6 shadow-lg">
+            <p className="text-center text-gray-800 mb-4 font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
+              Choose your dining experience:
+            </p>
+            <div className="flex gap-3">
+              <Button
+                onClick={() => handleAuthChoice('login')}
+                className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                Sign In
+              </Button>
+              <Button
+                onClick={() => handleAuthChoice('anonymous')}
+                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                Continue Anonymous
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Input Area */}
       <div className="p-4 border-t-2 border-white bg-background relative z-10">
         {/* Voice Input Section */}
@@ -233,7 +291,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
             onStopListening={() => {
               // Optional: Add visual feedback when listening stops
             }}
-            disabled={sendMessageMutation.isPending}
+            disabled={sendMessageMutation.isPending || showAuthPrompt}
           />
         </div>
 
@@ -242,9 +300,9 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask about our menu or speak your order..."
+              placeholder={showAuthPrompt ? "Please use the buttons above to choose..." : "Ask about our menu or speak your order..."}
               className="pr-12 bg-background/90 backdrop-blur border-border/50 focus:border-primary/50 transition-colors duration-300 fluid-input"
-              disabled={sendMessageMutation.isPending}
+              disabled={sendMessageMutation.isPending || showAuthPrompt}
             />
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
               <Zap className="h-4 w-4 text-muted-foreground" />
@@ -252,7 +310,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
           </div>
           <Button 
             type="submit" 
-            disabled={!inputValue.trim() || sendMessageMutation.isPending}
+            disabled={!inputValue.trim() || sendMessageMutation.isPending || showAuthPrompt}
             className="rounded-full w-12 h-12 p-0 send-button hover:scale-110 transition-transform duration-300"
           >
             <Send className="h-4 w-4" />
