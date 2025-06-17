@@ -118,22 +118,20 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
       {/* Instruction text */}
       <div className="mt-8 text-center">
         <h2 
-          className="text-4xl text-black mb-2"
+          className="text-5xl text-black mb-2 transform skew-x-12"
           style={{ 
-            fontFamily: 'Great Vibes, Dancing Script, cursive',
-            textShadow: '3px 3px 0px rgba(255,255,255,0.8), 6px 6px 0px rgba(0,0,0,0.3)',
+            fontFamily: 'Dancing Script, cursive',
             letterSpacing: '0.02em',
-            fontWeight: '400'
+            fontWeight: '700'
           }}
         >
           Swipe Right to Order!
         </h2>
         <p 
-          className="text-black text-xl"
+          className="text-black text-2xl transform skew-x-12"
           style={{
-            fontFamily: 'Great Vibes, Dancing Script, cursive',
-            textShadow: '2px 2px 0px rgba(255,255,255,0.7), 4px 4px 0px rgba(0,0,0,0.2)',
-            fontWeight: '400'
+            fontFamily: 'Dancing Script, cursive',
+            fontWeight: '600'
           }}
         >
           Meet Mimi, your AI waitress
