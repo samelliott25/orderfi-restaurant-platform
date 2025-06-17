@@ -93,7 +93,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
     <>
       {/* Full screen swipe overlay */}
       <div 
-        className="fixed inset-0 z-50 pointer-events-auto"
+        className="fixed inset-0 z-50 pointer-events-auto text-[#1a736c]"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -114,16 +114,16 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
           </div>
         )}
       </div>
-
       {/* Instruction text */}
       <div className="mt-8 text-center">
         <h2 
-          className="text-5xl text-black mb-2 italic"
+          className="text-5xl mb-2 italic"
           style={{ 
             fontFamily: 'Permanent Marker, cursive',
             letterSpacing: '0.02em',
             fontWeight: '400',
-            transform: 'rotate(-7deg)'
+            transform: 'rotate(-7deg)',
+            color: '#D2691E'
           }}
         >
           Swipe Right to Order!
