@@ -161,10 +161,10 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       <div className="absolute inset-0">
         {/* Mimi waitress image in right corner with pulsing animation */}
         <div 
-          className="absolute bottom-4 right-4 w-64 h-64 bg-no-repeat bg-center bg-contain opacity-30 logo-pulse-simple"
+          className="absolute bottom-4 right-4 w-80 h-80 bg-no-repeat bg-center bg-contain opacity-30 logo-pulse-simple"
           style={{ 
             backgroundImage: `url(${mimiWaitressImage})`,
-            backgroundSize: '150%'
+            backgroundSize: 'contain'
           }}
         />
       </div>
