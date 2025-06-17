@@ -5,9 +5,9 @@
 @tailwind utilities;
 
 :root {
-  /* Mimi Logo Cream Background Block Colors */
-  --background: 245 230 211; /* #F5E6D3 - Exact cream from Mimi logo */
-  --foreground: 51 51 51; /* #333 - Dark text */
+  /* Mimi's Teal Hair Color Background */
+  --background: 32 116 106; /* #20746A - Teal from Mimi's hair */
+  --foreground: 255 255 255; /* White text for teal background */
   --muted: 245 230 211; /* Same cream for muted elements */
   --muted-foreground: 102 102 102; /* Gray text */
   --popover: 255 255 255; /* White for popover */

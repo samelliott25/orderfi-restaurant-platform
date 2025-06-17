@@ -8,29 +8,26 @@ interface TypingTextProps {
 
 export function TypingText({ text, speed = 3, onComplete }: TypingTextProps) {
   const [displayedText, setDisplayedText] = useState('');
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  
-  const words = text.split(' ');
+  const [currentCharIndex, setCurrentCharIndex] = useState(0);
   
   useEffect(() => {
-    if (currentWordIndex >= words.length) {
+    if (currentCharIndex >= text.length) {
       onComplete?.();
       return;
     }
     
     const timer = setTimeout(() => {
-      const wordsToShow = words.slice(0, currentWordIndex + 1);
-      setDisplayedText(wordsToShow.join(' '));
-      setCurrentWordIndex(prev => prev + 1);
-    }, 1000 / speed); // Convert speed to milliseconds
+      setDisplayedText(text.slice(0, currentCharIndex + 1));
+      setCurrentCharIndex(prev => prev + 1);
+    }, 1000 / (speed * 8)); // Much faster, character by character for fluid effect
     
     return () => clearTimeout(timer);
-  }, [currentWordIndex, words, speed, onComplete]);
+  }, [currentCharIndex, text, speed, onComplete]);
   
   return (
     <span>
       {displayedText}
-      {currentWordIndex < words.length && (
+      {currentCharIndex < text.length && (
         <span className="animate-pulse">|</span>
       )}
     </span>

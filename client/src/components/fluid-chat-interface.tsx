@@ -153,7 +153,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                   </div>
                 ) : (
                   <>
-                    <p className={`text-lg leading-relaxed font-medium text-black break-words ${
+                    <p className={`text-xl leading-relaxed font-medium text-white break-words ${
                       message.isUser ? 'font-semibold' : 'font-normal'
                     }`} style={{ fontFamily: message.isUser ? 'Inter, Arial, sans-serif' : 'Rancho, cursive' }}>
                       {message.isUser ? (
@@ -161,11 +161,11 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                       ) : (
                         <TypingText 
                           text={message.content} 
-                          speed={4}
+                          speed={8}
                         />
                       )}
                     </p>
-                    <p className="text-xs text-gray-600 mt-1" 
+                    <p className="text-xs text-gray-300 mt-1" 
                        style={{ fontFamily: 'Inter, sans-serif' }}>
                       {formatTime(message.timestamp)}
                     </p>
