@@ -239,35 +239,36 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
             </div>
           </div>
         ))}
-        <div ref={messagesEndRef} />
-      </div>
 
-      {/* Authentication Popup Buttons */}
-      {showAuthPrompt && (
-        <div className="absolute inset-x-4 bottom-32 z-20">
-          <div className="bg-white/95 backdrop-blur-sm border-2 border-orange-300 rounded-xl p-6 shadow-lg">
-            <p className="text-center text-gray-800 mb-4 font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
-              Choose your dining experience:
-            </p>
-            <div className="flex gap-3">
-              <Button
-                onClick={() => handleAuthChoice('login')}
-                className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-                style={{ fontFamily: 'Inter, sans-serif' }}
-              >
-                Sign In
-              </Button>
-              <Button
-                onClick={() => handleAuthChoice('anonymous')}
-                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-                style={{ fontFamily: 'Inter, sans-serif' }}
-              >
-                Continue Anonymous
-              </Button>
+        {/* Authentication Popup Buttons - positioned after last message */}
+        {showAuthPrompt && (
+          <div className="px-4 py-4">
+            <div className="bg-white/95 backdrop-blur-sm border-2 border-orange-300 rounded-xl p-6 shadow-lg max-w-md mx-auto">
+              <p className="text-center text-gray-800 mb-4 font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
+                Choose your dining experience:
+              </p>
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => handleAuthChoice('login')}
+                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  onClick={() => handleAuthChoice('anonymous')}
+                  className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                  Continue Anonymous
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+        <div ref={messagesEndRef} />
+      </div>
 
       {/* Input Area */}
       <div className="p-4 border-t-2 border-white bg-background relative z-10">
