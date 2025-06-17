@@ -120,9 +120,9 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
         <h2 
           className="text-5xl text-black mb-2 transform skew-x-12"
           style={{ 
-            fontFamily: 'Dancing Script, cursive',
+            fontFamily: 'Seaweed Script, cursive',
             letterSpacing: '0.02em',
-            fontWeight: '700'
+            fontWeight: '400'
           }}
         >
           Swipe Right to Order!
@@ -130,8 +130,8 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
         <p 
           className="text-black text-2xl transform skew-x-12"
           style={{
-            fontFamily: 'Dancing Script, cursive',
-            fontWeight: '600'
+            fontFamily: 'Seaweed Script, cursive',
+            fontWeight: '400'
           }}
         >
           Meet Mimi, your AI waitress
