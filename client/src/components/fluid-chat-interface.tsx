@@ -8,6 +8,7 @@ import { chatApi } from "@/lib/api";
 import { Bot, User, Send, Sparkles, Zap } from "lucide-react";
 import { VoiceInput } from "./VoiceInput";
 import { TypingText } from "./TypingText";
+import mimiWaitressImage from "@assets/dbca6733-e706-480e-8432-a4e8c2b9ae7f_1750162558763.png";
 
 interface ChatMessage {
   id: string;
@@ -155,9 +156,18 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
   };
 
   return (
-    <div className="h-full flex flex-col relative overflow-hidden" style={{ backgroundColor: '#20746A' }}>
+    <div className="h-full flex flex-col relative overflow-hidden" style={{ backgroundColor: '#F5E6B8' }}>
       {/* Background */}
-      <div className="absolute inset-0"></div>
+      <div className="absolute inset-0">
+        {/* Mimi waitress image in lower 50% */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-1/2 bg-no-repeat bg-center bg-contain opacity-20"
+          style={{ 
+            backgroundImage: `url(${mimiWaitressImage})`,
+            backgroundPosition: 'center bottom'
+          }}
+        />
+      </div>
 
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 relative z-10">
