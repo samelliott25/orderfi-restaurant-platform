@@ -156,12 +156,12 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                   </div>
                 ) : (
                   <>
-                    <p className={`text-base leading-relaxed font-bold ${
-                      message.isUser ? 'text-black' : 'text-black'
-                    }`} style={{ fontFamily: 'Comic Sans MS, Arial Black, sans-serif' }}>
+                    <p className="text-sm leading-relaxed font-bold text-black break-words" 
+                       style={{ fontFamily: 'Comic Sans MS, Arial, sans-serif' }}>
                       {message.content}
                     </p>
-                    <p className="text-xs opacity-60 mt-2 font-bold" style={{ fontFamily: 'Arial, sans-serif' }}>
+                    <p className="text-xs opacity-60 mt-1 font-semibold" 
+                       style={{ fontFamily: 'Arial, sans-serif' }}>
                       {formatTime(message.timestamp)}
                     </p>
                   </>
