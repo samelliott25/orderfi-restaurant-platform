@@ -318,7 +318,22 @@
     animation: logo-pulse 3s ease-in-out infinite;
   }
 
+  .logo-pulse-chat {
+    animation: logo-pulse-chat 3s ease-in-out infinite;
+  }
+
   @keyframes logo-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes logo-pulse-chat {
     0%, 100% {
       transform: translateX(-50%) scale(1);
       opacity: 1;
