@@ -119,7 +119,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
         <h2 
           className="text-5xl mb-2 italic"
           style={{ 
-            fontFamily: 'Permanent Marker, cursive',
+            fontFamily: 'Satisfy, cursive',
             letterSpacing: '0.02em',
             fontWeight: '400',
             transform: 'rotate(-7deg)',
