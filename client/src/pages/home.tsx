@@ -13,12 +13,21 @@ export default function HomePage() {
       <div className="relative z-10 flex flex-col items-center">
         {/* Mimi Logo */}
         <div className="relative">
-          <div className="w-96 h-96 md:w-108 md:h-108 rounded-full flex items-center justify-center p-8 logo-pulse-simple">
+          <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple relative" style={{ width: '576px', height: '576px' }}>
             <img 
               src={mimiLogo} 
               alt="Mimi Waitress" 
               className="w-full h-full object-contain"
             />
+            {/* Overlay text */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <h1 className="text-8xl md:text-9xl font-bold text-orange-600 mb-2" style={{ fontFamily: 'Arial Black, sans-serif', textShadow: '3px 3px 0px #1a3d36' }}>
+                MIMI
+              </h1>
+              <p className="text-3xl md:text-4xl font-bold text-orange-500" style={{ fontFamily: 'Arial, sans-serif', textShadow: '2px 2px 0px #1a3d36' }}>
+                WAITRESS
+              </p>
+            </div>
           </div>
         </div>
         
