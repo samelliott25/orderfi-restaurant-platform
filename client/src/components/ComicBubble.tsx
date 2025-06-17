@@ -9,116 +9,146 @@ interface ComicBubbleProps {
 export function ComicBubble({ children, isUser = false, className = '' }: ComicBubbleProps) {
   const bubbleId = `bubble-${Math.random().toString(36).substr(2, 9)}`;
   
-  // Generate slightly randomized organic shapes for each bubble
-  const wobbleOffset = () => Math.random() * 4 - 2;
-  const rotation = Math.random() * 3 - 1.5;
+  // Select a random bubble style from the comic book collection
+  const bubbleStyles = isUser ? [
+    // User bubbles (right-aligned, blue theme)
+    {
+      path: "M40 30 Q35 15 55 12 L280 10 Q300 15 298 35 L300 110 Q295 130 275 132 L90 135 Q70 130 65 115 L60 80 Q55 70 50 75 L35 85 Q25 75 30 65 Z",
+      tail: "M275 115 Q290 130 300 120 Q295 140 280 125 Z",
+      rotation: -0.5
+    },
+    {
+      path: "M45 35 Q40 20 60 17 L275 15 Q295 20 293 40 L295 115 Q290 135 270 137 L95 140 Q75 135 70 120 L65 85 Q60 75 55 80 L40 90 Q30 80 35 70 Z",
+      tail: "M270 120 Q285 135 295 125 Q290 145 275 130 Z",
+      rotation: 0.8
+    }
+  ] : [
+    // AI bubbles (left-aligned, cream/orange theme)
+    {
+      path: "M30 35 Q25 18 45 15 L270 12 Q290 18 288 38 L292 118 Q287 138 267 140 L75 143 Q55 138 50 123 L45 88 Q40 78 35 83 L20 93 Q10 83 15 73 Z",
+      tail: "M35 118 Q20 133 10 123 Q15 143 30 128 Z",
+      rotation: 1.2
+    },
+    {
+      path: "M35 40 Q30 22 50 18 L275 16 Q295 22 292 42 L296 122 Q291 142 271 144 L80 147 Q60 142 55 127 L50 92 Q45 82 40 87 L25 97 Q15 87 20 77 Z",
+      tail: "M40 122 Q25 137 15 127 Q20 147 35 132 Z",
+      rotation: -1.5
+    },
+    {
+      path: "M32 38 Q27 20 47 16 L272 14 Q292 20 290 40 L294 120 Q289 140 269 142 L77 145 Q57 140 52 125 L47 90 Q42 80 37 85 L22 95 Q12 85 17 75 Z",
+      tail: "M37 120 Q22 135 12 125 Q17 145 32 130 Z",
+      rotation: 0.3
+    }
+  ];
+  
+  const selectedStyle = bubbleStyles[Math.floor(Math.random() * bubbleStyles.length)];
   
   return (
     <div className={`relative comic-bubble ${className}`}>
-      {/* SVG Speech Bubble Background */}
+      {/* SVG Speech Bubble Background - Authentic Comic Book Style */}
       <svg
         className="absolute inset-0 w-full h-full"
-        viewBox="0 0 320 180"
+        viewBox="0 0 320 160"
         preserveAspectRatio="none"
         style={{ zIndex: -1 }}
       >
         <defs>
-          <filter id={`bubble-shadow-${bubbleId}`} x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="3" dy="5" stdDeviation="4" floodColor="rgba(0,0,0,0.25)" />
-            <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+          {/* Halftone pattern for authentic comic book effect */}
+          <pattern id={`halftone-${bubbleId}`} patternUnits="userSpaceOnUse" width="8" height="8">
+            <circle cx="2" cy="2" r="1" fill="rgba(0,0,0,0.1)" />
+            <circle cx="6" cy="2" r="0.8" fill="rgba(0,0,0,0.08)" />
+            <circle cx="2" cy="6" r="0.6" fill="rgba(0,0,0,0.06)" />
+            <circle cx="6" cy="6" r="1.2" fill="rgba(0,0,0,0.12)" />
+          </pattern>
+          
+          {/* Comic book shadow effect */}
+          <filter id={`comic-shadow-${bubbleId}`} x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="4" dy="6" stdDeviation="3" floodColor="rgba(0,0,0,0.4)" />
           </filter>
-          <filter id={`inner-shadow-${bubbleId}`}>
-            <feOffset dx="1" dy="1"/>
-            <feGaussianBlur stdDeviation="2" result="offset-blur"/>
-            <feFlood floodColor="rgba(255,255,255,0.8)"/>
-            <feComposite in2="offset-blur" operator="in"/>
+          
+          {/* Hand-drawn stroke effect */}
+          <filter id={`rough-paper-${bubbleId}`}>
+            <feTurbulence baseFrequency="0.04" numOctaves="3" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
           </filter>
         </defs>
         
         {isUser ? (
-          // User bubble (right side, blue-ish) - More organic hand-drawn shape
+          // User bubble - Blue comic style
           <g>
             <path
-              d={`M${25 + wobbleOffset()} ${45 + wobbleOffset()} 
-                 Q${18 + wobbleOffset()} ${28 + wobbleOffset()} ${38 + wobbleOffset()} ${22 + wobbleOffset()} 
-                 L${255 + wobbleOffset()} ${18 + wobbleOffset()} 
-                 Q${288 + wobbleOffset()} ${24 + wobbleOffset()} ${287 + wobbleOffset()} ${42 + wobbleOffset()} 
-                 L${292 + wobbleOffset()} ${125 + wobbleOffset()} 
-                 Q${286 + wobbleOffset()} ${148 + wobbleOffset()} ${268 + wobbleOffset()} ${152 + wobbleOffset()} 
-                 L${85 + wobbleOffset()} ${157 + wobbleOffset()} 
-                 Q${62 + wobbleOffset()} ${153 + wobbleOffset()} ${58 + wobbleOffset()} ${138 + wobbleOffset()} 
-                 L${52 + wobbleOffset()} ${95 + wobbleOffset()} 
-                 Q${48 + wobbleOffset()} ${82 + wobbleOffset()} ${43 + wobbleOffset()} ${88 + wobbleOffset()} 
-                 L${28 + wobbleOffset()} ${98 + wobbleOffset()} 
-                 Q${17 + wobbleOffset()} ${87 + wobbleOffset()} ${22 + wobbleOffset()} ${78 + wobbleOffset()} Z`}
-              fill="#E8F4FD"
-              stroke="#2196F3"
-              strokeWidth="2.5"
+              d={selectedStyle.path}
+              fill="white"
+              stroke="black"
+              strokeWidth="3"
               strokeLinecap="round"
               strokeLinejoin="round"
-              filter={`url(#bubble-shadow-${bubbleId})`}
+              filter={`url(#comic-shadow-${bubbleId})`}
               style={{
-                transform: `rotate(${rotation}deg)`,
+                transform: `rotate(${selectedStyle.rotation}deg)`,
                 transformOrigin: 'center'
               }}
             />
-            {/* Tail pointing right - more organic */}
+            {/* Halftone shading */}
             <path
-              d={`M${272 + wobbleOffset()} ${138 + wobbleOffset()} 
-                 Q${287 + wobbleOffset()} ${152 + wobbleOffset()} ${296 + wobbleOffset()} ${143 + wobbleOffset()} 
-                 Q${293 + wobbleOffset()} ${165 + wobbleOffset()} ${278 + wobbleOffset()} ${148 + wobbleOffset()} Z`}
-              fill="#E8F4FD"
-              stroke="#2196F3"
-              strokeWidth="2.5"
+              d={selectedStyle.path}
+              fill={`url(#halftone-${bubbleId})`}
+              style={{
+                transform: `rotate(${selectedStyle.rotation}deg)`,
+                transformOrigin: 'center'
+              }}
+            />
+            {/* Tail */}
+            <path
+              d={selectedStyle.tail}
+              fill="white"
+              stroke="black"
+              strokeWidth="3"
               strokeLinecap="round"
             />
           </g>
         ) : (
-          // AI bubble (left side, cream/orange) - More organic hand-drawn shape
+          // AI bubble - Cream/white comic style  
           <g>
             <path
-              d={`M${28 + wobbleOffset()} ${38 + wobbleOffset()} 
-                 Q${22 + wobbleOffset()} ${22 + wobbleOffset()} ${42 + wobbleOffset()} ${18 + wobbleOffset()} 
-                 L${265 + wobbleOffset()} ${22 + wobbleOffset()} 
-                 Q${285 + wobbleOffset()} ${28 + wobbleOffset()} ${282 + wobbleOffset()} ${48 + wobbleOffset()} 
-                 L${287 + wobbleOffset()} ${128 + wobbleOffset()} 
-                 Q${281 + wobbleOffset()} ${150 + wobbleOffset()} ${258 + wobbleOffset()} ${153 + wobbleOffset()} 
-                 L${75 + wobbleOffset()} ${158 + wobbleOffset()} 
-                 Q${52 + wobbleOffset()} ${154 + wobbleOffset()} ${48 + wobbleOffset()} ${138 + wobbleOffset()} 
-                 L${42 + wobbleOffset()} ${88 + wobbleOffset()} 
-                 Q${38 + wobbleOffset()} ${78 + wobbleOffset()} ${33 + wobbleOffset()} ${83 + wobbleOffset()} 
-                 L${18 + wobbleOffset()} ${93 + wobbleOffset()} 
-                 Q${7 + wobbleOffset()} ${83 + wobbleOffset()} ${12 + wobbleOffset()} ${73 + wobbleOffset()} Z`}
+              d={selectedStyle.path}
               fill="#FBE4BC"
-              stroke="#E6A547"
-              strokeWidth="3"
+              stroke="black"
+              strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
-              filter={`url(#bubble-shadow-${bubbleId})`}
+              filter={`url(#comic-shadow-${bubbleId})`}
               style={{
-                transform: `rotate(${-rotation}deg)`,
+                transform: `rotate(${selectedStyle.rotation}deg)`,
                 transformOrigin: 'center'
               }}
             />
-            {/* Tail pointing left - more organic */}
+            {/* Halftone shading for depth */}
             <path
-              d={`M${32 + wobbleOffset()} ${128 + wobbleOffset()} 
-                 Q${17 + wobbleOffset()} ${143 + wobbleOffset()} ${8 + wobbleOffset()} ${133 + wobbleOffset()} 
-                 Q${12 + wobbleOffset()} ${155 + wobbleOffset()} ${27 + wobbleOffset()} ${138 + wobbleOffset()} Z`}
+              d={selectedStyle.path}
+              fill={`url(#halftone-${bubbleId})`}
+              style={{
+                transform: `rotate(${selectedStyle.rotation}deg)`,
+                transformOrigin: 'center'
+              }}
+            />
+            {/* Tail */}
+            <path
+              d={selectedStyle.tail}
               fill="#FBE4BC"
-              stroke="#E6A547"
-              strokeWidth="3"
+              stroke="black"
+              strokeWidth="4"
               strokeLinecap="round"
             />
-            {/* Inner highlight for depth */}
+            {/* Inner highlight typical of comic bubbles */}
             <ellipse
               cx="160"
-              cy="70"
-              rx="80"
-              ry="25"
-              fill="rgba(255,255,255,0.3)"
+              cy="60"
+              rx="60"
+              ry="15"
+              fill="rgba(255,255,255,0.6)"
               style={{
-                transform: `rotate(${rotation * 0.5}deg)`,
+                transform: `rotate(${selectedStyle.rotation * 0.3}deg)`,
                 transformOrigin: 'center'
               }}
             />
@@ -127,7 +157,7 @@ export function ComicBubble({ children, isUser = false, className = '' }: ComicB
       </svg>
       
       {/* Content */}
-      <div className={`relative z-10 p-5 ${isUser ? 'pr-8' : 'pl-8'}`}>
+      <div className={`relative z-10 p-6 ${isUser ? 'pr-10' : 'pl-10'}`}>
         {children}
       </div>
     </div>

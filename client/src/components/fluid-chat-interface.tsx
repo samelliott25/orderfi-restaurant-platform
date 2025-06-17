@@ -156,42 +156,60 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                   </div>
                 ) : (
                   <>
-                    <p className={`text-sm leading-relaxed font-comic ${
-                      message.isUser ? 'text-blue-800' : 'text-gray-800'
-                    }`}>
+                    <p className={`text-base leading-relaxed font-bold ${
+                      message.isUser ? 'text-black' : 'text-black'
+                    }`} style={{ fontFamily: 'Comic Sans MS, Arial Black, sans-serif' }}>
                       {message.content}
                     </p>
-                    <p className="text-xs opacity-60 mt-1 font-mono">
+                    <p className="text-xs opacity-60 mt-2 font-bold" style={{ fontFamily: 'Arial, sans-serif' }}>
                       {formatTime(message.timestamp)}
                     </p>
                   </>
                 )}
 
-                {/* Suggested Items with Comic Style */}
+                {/* Suggested Items with Authentic Comic Style */}
                 {message.suggestedItems && message.suggestedItems.length > 0 && (
-                  <div className="mt-3 space-y-2">
-                    <p className="text-xs font-bold opacity-70 text-orange-600 uppercase tracking-wide">
-                      Recommended for you:
+                  <div className="mt-4 space-y-3">
+                    <p className="text-sm font-black uppercase tracking-wide text-black" 
+                       style={{ fontFamily: 'Arial Black, sans-serif', textShadow: '1px 1px 0px white' }}>
+                      ★ TRY THESE! ★
                     </p>
                     {message.suggestedItems.map((item) => (
                       <div 
                         key={item.id} 
-                        className="p-3 bg-yellow-50 border-2 border-orange-300 rounded-lg hover:scale-105 hover:rotate-1 transition-all duration-300 cursor-pointer suggested-item shadow-lg"
+                        className="relative p-3 bg-white border-3 border-black hover:scale-105 hover:rotate-1 transition-all duration-300 cursor-pointer suggested-item"
                         style={{
-                          transform: `rotate(${Math.random() * 2 - 1}deg)`,
-                          boxShadow: '3px 3px 0px rgba(230, 165, 71, 0.5)'
+                          transform: `rotate(${Math.random() * 3 - 1.5}deg)`,
+                          boxShadow: '4px 4px 0px black',
+                          borderRadius: '8px'
                         }}
                       >
-                        <div className="flex justify-between items-start">
+                        {/* Halftone background pattern */}
+                        <div className="absolute inset-0 opacity-10 pointer-events-none"
+                             style={{
+                               backgroundImage: 'radial-gradient(circle, black 1px, transparent 1px)',
+                               backgroundSize: '8px 8px',
+                               borderRadius: '8px'
+                             }}>
+                        </div>
+                        
+                        <div className="relative flex justify-between items-start">
                           <div className="flex-1">
-                            <h4 className="font-bold text-sm text-gray-800 font-comic">
+                            <h4 className="font-black text-base text-black leading-tight" 
+                                style={{ fontFamily: 'Comic Sans MS, Arial Black, sans-serif' }}>
                               {item.name}
                             </h4>
-                            <p className="text-xs text-gray-600 mt-1 font-comic">
+                            <p className="text-sm text-black mt-1 font-bold leading-snug" 
+                               style={{ fontFamily: 'Arial, sans-serif' }}>
                               {item.description}
                             </p>
                           </div>
-                          <div className="ml-2 bg-orange-200 text-orange-800 px-2 py-1 rounded-full text-xs font-bold border-2 border-orange-400">
+                          <div className="ml-3 bg-yellow-300 text-black px-3 py-1 text-sm font-black border-2 border-black"
+                               style={{ 
+                                 borderRadius: '12px',
+                                 boxShadow: '2px 2px 0px black',
+                                 fontFamily: 'Arial Black, sans-serif'
+                               }}>
                             {item.price}
                           </div>
                         </div>
