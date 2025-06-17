@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { chatApi } from "@/lib/api";
 import { Bot, User, Send, Sparkles, Zap } from "lucide-react";
 import { VoiceInput } from "./VoiceInput";
+import { ComicBubble } from "./ComicBubble";
 
 interface ChatMessage {
   id: string;
@@ -141,44 +142,64 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                 )}
               </div>
 
-              {/* Message Bubble */}
-              <div className={`message-bubble ${
-                message.isUser 
-                  ? 'user-message bg-primary text-primary-foreground' 
-                  : 'ai-message bg-secondary/80 backdrop-blur text-secondary-foreground'
-              }`}>
+              {/* Comic Book Style Message Bubble */}
+              <ComicBubble 
+                isUser={message.isUser}
+                className={`message-bubble animate-bounce-in ${
+                  message.isUser ? 'user-message' : 'ai-message'
+                }`}
+              >
                 {message.id === 'typing' ? (
                   <div className="flex items-center space-x-2 py-2">
-                    <Sparkles className="h-4 w-4 animate-pulse" />
-                    <span className="text-sm opacity-70">Thinking...</span>
+                    <Sparkles className="h-4 w-4 animate-pulse text-orange-500" />
+                    <span className="text-sm font-comic text-gray-700">Thinking...</span>
                   </div>
                 ) : (
                   <>
-                    <p className="text-sm leading-relaxed">{message.content}</p>
-                    <p className="text-xs opacity-50 mt-1">{formatTime(message.timestamp)}</p>
+                    <p className={`text-sm leading-relaxed font-comic ${
+                      message.isUser ? 'text-blue-800' : 'text-gray-800'
+                    }`}>
+                      {message.content}
+                    </p>
+                    <p className="text-xs opacity-60 mt-1 font-mono">
+                      {formatTime(message.timestamp)}
+                    </p>
                   </>
                 )}
 
-                {/* Suggested Items */}
+                {/* Suggested Items with Comic Style */}
                 {message.suggestedItems && message.suggestedItems.length > 0 && (
                   <div className="mt-3 space-y-2">
-                    <p className="text-xs font-medium opacity-70">Recommended for you:</p>
+                    <p className="text-xs font-bold opacity-70 text-orange-600 uppercase tracking-wide">
+                      Recommended for you:
+                    </p>
                     {message.suggestedItems.map((item) => (
-                      <Card key={item.id} className="p-3 bg-background/50 backdrop-blur border-0 hover:scale-105 transition-transform duration-300 cursor-pointer suggested-item">
+                      <div 
+                        key={item.id} 
+                        className="p-3 bg-yellow-50 border-2 border-orange-300 rounded-lg hover:scale-105 hover:rotate-1 transition-all duration-300 cursor-pointer suggested-item shadow-lg"
+                        style={{
+                          transform: `rotate(${Math.random() * 2 - 1}deg)`,
+                          boxShadow: '3px 3px 0px rgba(230, 165, 71, 0.5)'
+                        }}
+                      >
                         <div className="flex justify-between items-start">
                           <div className="flex-1">
-                            <h4 className="font-medium text-sm">{item.name}</h4>
-                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{item.description}</p>
+                            <h4 className="font-bold text-sm text-gray-800 font-comic">
+                              {item.name}
+                            </h4>
+                            <p className="text-xs text-gray-600 mt-1 font-comic">
+                              {item.description}
+                            </p>
                           </div>
-                          <Badge variant="secondary" className="ml-2 shrink-0">
+                          <div className="ml-2 bg-orange-200 text-orange-800 px-2 py-1 rounded-full text-xs font-bold border-2 border-orange-400">
                             {item.price}
-                          </Badge>
+                          </div>
                         </div>
-                      </Card>
+                      </div>
                     ))}
                   </div>
                 )}
-              </div>
+              </ComicBubble>
             </div>
           </div>
         ))}
