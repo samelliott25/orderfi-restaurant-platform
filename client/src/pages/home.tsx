@@ -8,12 +8,12 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: '#ffe6b0' }}>
+    <div className="min-h-screen flex flex-col items-center p-4 pt-8 sm:pt-16" style={{ backgroundColor: '#ffe6b0' }}>
       {/* Main Logo Container */}
-      <div className="relative z-10 flex flex-col items-center justify-center">
+      <div className="relative z-10 flex flex-col items-center mt-4 sm:mt-8">
         {/* Mimi Logo with Halfway Positioned Text */}
         <div className="relative" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple" style={{ width: '576px', height: '576px' }}>
+          <div className="rounded-full flex items-center justify-center p-4 sm:p-8 logo-pulse-simple w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[576px] lg:h-[576px]">
             <img 
               src={mimiLogo} 
               alt="Mimi Waitress" 
@@ -22,10 +22,10 @@ export default function HomePage() {
           </div>
           
           {/* Text Positioned Just Below Logo */}
-          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ transform: 'translateY(75%)' }}>
+          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ transform: 'translateY(60%)' }}>
             <div className="text-center">
               <div 
-                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-1"
+                className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-1"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
@@ -37,7 +37,7 @@ export default function HomePage() {
                 Swipe Right
               </div>
               <div 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4"
+                className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
