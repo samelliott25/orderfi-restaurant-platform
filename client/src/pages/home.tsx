@@ -11,7 +11,7 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: '#ffe6b0' }}>
       {/* Main Logo Container */}
       <div className="relative z-10 flex flex-col items-center justify-center">
-        {/* Mimi Logo */}
+        {/* Mimi Logo with Halfway Positioned Text */}
         <div className="relative" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple" style={{ width: '576px', height: '576px' }}>
             <img 
@@ -20,33 +20,35 @@ export default function HomePage() {
               className="w-full h-full object-contain"
             />
           </div>
-        </div>
-        
-        {/* Text Below Logo */}
-        <div className="mt-4 text-center">
-          <div 
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-1"
-            style={{ 
-              fontFamily: 'Permanent Marker, cursive',
-              letterSpacing: '0.02em',
-              fontWeight: '400',
-              transform: 'rotate(-5deg)',
-              color: '#D2691E'
-            }}
-          >
-            Swipe Right
-          </div>
-          <div 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold"
-            style={{ 
-              fontFamily: 'Permanent Marker, cursive',
-              letterSpacing: '0.02em',
-              fontWeight: '400',
-              transform: 'rotate(-3deg)',
-              color: '#D2691E'
-            }}
-          >
-            To Order!
+          
+          {/* Text Positioned Halfway - Bottom Edge of Logo */}
+          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ transform: 'translateY(50%)' }}>
+            <div className="text-center">
+              <div 
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-1"
+                style={{ 
+                  fontFamily: 'Permanent Marker, cursive',
+                  letterSpacing: '0.02em',
+                  fontWeight: '400',
+                  transform: 'rotate(-5deg)',
+                  color: '#D2691E'
+                }}
+              >
+                Swipe Right
+              </div>
+              <div 
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold"
+                style={{ 
+                  fontFamily: 'Permanent Marker, cursive',
+                  letterSpacing: '0.02em',
+                  fontWeight: '400',
+                  transform: 'rotate(-3deg)',
+                  color: '#D2691E'
+                }}
+              >
+                To Order!
+              </div>
+            </div>
           </div>
         </div>
         
