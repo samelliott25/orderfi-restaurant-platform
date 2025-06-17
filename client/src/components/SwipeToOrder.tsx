@@ -118,24 +118,15 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
       {/* Instruction text */}
       <div className="mt-8 text-center">
         <h2 
-          className="text-5xl text-black mb-2 transform skew-x-12"
+          className="text-5xl text-black mb-2 italic"
           style={{ 
-            fontFamily: 'Seaweed Script, cursive',
+            fontFamily: 'Permanent Marker, cursive',
             letterSpacing: '0.02em',
             fontWeight: '400'
           }}
         >
           Swipe Right to Order!
         </h2>
-        <p 
-          className="text-black text-2xl transform skew-x-12"
-          style={{
-            fontFamily: 'Seaweed Script, cursive',
-            fontWeight: '400'
-          }}
-        >
-          Meet Mimi, your AI waitress
-        </p>
         
         {/* Visual swipe hint */}
         <div className="mt-4 flex items-center justify-center space-x-2 opacity-60">
