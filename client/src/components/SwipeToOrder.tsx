@@ -132,11 +132,11 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
         {/* Visual swipe hint */}
         <div className="mt-4 flex items-center justify-center space-x-2 opacity-60">
           <div className="flex space-x-1">
-            <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
-            <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-            <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
           </div>
-          <span className="text-2xl">→</span>
+          <span className="text-2xl text-white">→</span>
         </div>
       </div>
     </>
