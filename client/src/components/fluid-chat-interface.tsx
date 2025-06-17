@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { chatApi } from "@/lib/api";
 import { Bot, User, Send, Sparkles, Zap } from "lucide-react";
 import { VoiceInput } from "./VoiceInput";
+import { TypingText } from "./TypingText";
 
 interface ChatMessage {
   id: string;
@@ -152,10 +153,17 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                   </div>
                 ) : (
                   <>
-                    <p className={`text-base leading-relaxed font-medium text-black break-words ${
+                    <p className={`text-lg leading-relaxed font-medium text-black break-words ${
                       message.isUser ? 'font-semibold' : 'font-normal'
-                    }`} style={{ fontFamily: 'Inter, Arial, sans-serif' }}>
-                      {message.content}
+                    }`} style={{ fontFamily: message.isUser ? 'Inter, Arial, sans-serif' : 'Reenie Beanie, cursive' }}>
+                      {message.isUser ? (
+                        message.content
+                      ) : (
+                        <TypingText 
+                          text={message.content} 
+                          speed={4}
+                        />
+                      )}
                     </p>
                     <p className="text-xs text-gray-600 mt-1" 
                        style={{ fontFamily: 'Inter, sans-serif' }}>
