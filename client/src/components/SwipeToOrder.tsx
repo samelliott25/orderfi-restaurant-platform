@@ -37,21 +37,16 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
     if (swipeDistance > threshold) {
       onSwipe();
       
-      // Add page curl animation to home content
-      const homeContent = document.getElementById('home-content');
-      if (homeContent) {
-        homeContent.classList.add('page-curl');
+      // Add page curl animation to entire page
+      const pageContainer = document.querySelector('.page-curl-container');
+      if (pageContainer) {
+        pageContainer.classList.add('page-curl');
       }
-      
-      // Add curl overlay effect
-      const curlOverlay = document.createElement('div');
-      curlOverlay.className = 'page-curl-overlay';
-      document.body.appendChild(curlOverlay);
       
       // Navigate to chat after animation completes
       setTimeout(() => {
         setLocation('/mobile-chat');
-      }, 1000);
+      }, 1200);
     } else {
       // Reset progress
       setSwipeProgress(0);
