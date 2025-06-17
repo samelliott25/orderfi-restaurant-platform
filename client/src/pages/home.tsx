@@ -21,8 +21,8 @@ export default function HomePage() {
             />
           </div>
           
-          {/* Text Positioned Halfway - Bottom Edge of Logo */}
-          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ transform: 'translateY(50%)' }}>
+          {/* Text Positioned Just Below Logo */}
+          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ transform: 'translateY(75%)' }}>
             <div className="text-center">
               <div 
                 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-1"
