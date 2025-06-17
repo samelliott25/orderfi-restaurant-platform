@@ -6,7 +6,7 @@
 
 :root {
   /* Mimi Logo Cream Background Block Colors */
-  --background: 250 228 190; /* #fae4be - Exact cream from Mimi logo */
+  --background: 255 230 176; /* #ffe6b0 - Exact cream from Mimi logo */
   --foreground: 51 51 51; /* #333 - Dark text */
   --muted: 245 230 211; /* Same cream for muted elements */
   --muted-foreground: 102 102 102; /* Gray text */
