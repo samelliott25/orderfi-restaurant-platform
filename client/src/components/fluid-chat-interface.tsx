@@ -297,12 +297,8 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
             </div>
           </div>
         ))}
-        <div ref={messagesEndRef} />
-      </div>
 
-      {/* Bottom spacer - empty space for bottom 50% */}
-      <div className="flex-1 flex items-center justify-center">
-        {/* Authentication Popup Buttons - positioned in bottom half */}
+        {/* Authentication Popup Buttons - positioned after last message */}
         {showAuthButtons && (
           <div className="px-4 py-4">
             <div className="flex gap-3 max-w-md mx-auto animate-bounce-drop">
@@ -323,7 +319,12 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
             </div>
           </div>
         )}
+
+        <div ref={messagesEndRef} />
       </div>
+
+      {/* Bottom spacer - empty space for bottom 50% */}
+      <div className="flex-1"></div>
 
       {/* Input Area - Only show after authentication choice */}
       {userChoiceType && (
