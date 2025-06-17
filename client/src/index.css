@@ -51,6 +51,62 @@
   animation: slideInFromLeft 0.5s ease-out forwards;
 }
 
+/* Page curl animation */
+@keyframes pageCurl {
+  0% {
+    transform: rotateY(0deg) translateZ(0);
+    border-radius: 0;
+  }
+  50% {
+    transform: rotateY(-15deg) translateZ(50px);
+    border-radius: 0 0 50px 0;
+    box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    transform: rotateY(-90deg) translateZ(100px);
+    border-radius: 0 0 100px 0;
+    box-shadow: -20px 20px 50px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.page-curl-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.page-curl {
+  animation: pageCurl 1s ease-in-out forwards;
+  transform-origin: bottom left;
+  backface-visibility: hidden;
+}
+
+.page-curl-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, transparent 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.2) 100%);
+  border-radius: 0 0 0 100px;
+  opacity: 0;
+  animation: curlShadow 1s ease-in-out forwards;
+}
+
+@keyframes curlShadow {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
 /* Comic bubble animations */
 @keyframes bounce-in {
   0% {

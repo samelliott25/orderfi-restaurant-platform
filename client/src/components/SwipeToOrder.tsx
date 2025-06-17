@@ -35,8 +35,23 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
     const threshold = window.innerWidth * 0.25; // 25% of screen width
     
     if (swipeDistance > threshold) {
-      setLocation('/customer');
       onSwipe();
+      
+      // Add page curl animation to home content
+      const homeContent = document.getElementById('home-content');
+      if (homeContent) {
+        homeContent.classList.add('page-curl');
+      }
+      
+      // Add curl overlay effect
+      const curlOverlay = document.createElement('div');
+      curlOverlay.className = 'page-curl-overlay';
+      document.body.appendChild(curlOverlay);
+      
+      // Navigate to chat after animation completes
+      setTimeout(() => {
+        setLocation('/mobile-chat');
+      }, 1000);
     } else {
       // Reset progress
       setSwipeProgress(0);
