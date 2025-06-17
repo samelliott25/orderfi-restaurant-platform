@@ -39,6 +39,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
   const [showAuthPrompt, setShowAuthPrompt] = useState(true);
   const [showAuthButtons, setShowAuthButtons] = useState(false);
   const [userChoiceType, setUserChoiceType] = useState<'login' | 'anonymous' | null>(null);
+  const [messageAges, setMessageAges] = useState<Map<string, number>>(new Map());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Initialize with authentication prompt
@@ -58,6 +59,23 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Track message age for Star Wars scroll effect
+  useEffect(() => {
+    messages.forEach(message => {
+      if (!messageAges.has(message.id)) {
+        setMessageAges(prev => new Map(prev.set(message.id, Date.now())));
+        
+        // Start scroll animation after 4 seconds
+        setTimeout(() => {
+          const messageElement = document.getElementById(`message-${message.id}`);
+          if (messageElement) {
+            messageElement.classList.add('star-wars-scroll');
+          }
+        }, 4000);
+      }
+    });
+  }, [messages, messageAges]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -175,9 +193,9 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 relative z-10">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 relative z-10 chat-container">
         {messages.map((message) => (
-          <div key={message.id} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
+          <div key={message.id} id={`message-${message.id}`} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
             <div className={`flex max-w-[80%] ${message.isUser ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2 ${!message.isUser ? 'slide-in-left' : ''}`}>
               {/* Avatar */}
               <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${

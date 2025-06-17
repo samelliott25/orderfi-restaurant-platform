@@ -74,6 +74,31 @@
   animation: bounceDropIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
+/* Star Wars style scrolling text */
+@keyframes starWarsScroll {
+  0% {
+    transform: translateY(0) perspective(400px) rotateX(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) perspective(400px) rotateX(25deg);
+    opacity: 0;
+  }
+}
+
+.star-wars-scroll {
+  animation: starWarsScroll 8s linear forwards;
+  transform-origin: 50% 100%;
+}
+
+.chat-container {
+  perspective: 1000px;
+  overflow: hidden;
+}
+
 
 
 /* Comic bubble animations */
