@@ -10,10 +10,10 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: '#ffe6b0' }}>
       {/* Main Logo Container */}
-      <div className="relative z-10 flex flex-col items-center">
+      <div className="relative z-10 flex flex-col items-center justify-center">
         {/* Mimi Logo with Overlay Text */}
-        <div className="relative flex items-center justify-center">
-          <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple relative" style={{ width: '576px', height: '576px' }}>
+        <div className="relative" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple" style={{ width: '576px', height: '576px' }}>
             <img 
               src={mimiLogo} 
               alt="Mimi Waitress" 
@@ -31,8 +31,7 @@ export default function HomePage() {
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-5deg)',
-                  color: '#E6A547',
-                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                  color: '#E6A547'
                 }}
               >
                 Swipe Right
@@ -44,8 +43,7 @@ export default function HomePage() {
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-3deg)',
-                  color: '#E6A547',
-                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                  color: '#E6A547'
                 }}
               >
                 To Order!
