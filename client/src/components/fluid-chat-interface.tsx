@@ -208,7 +208,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                   <>
                     <p className={`text-xl leading-relaxed font-medium break-words ${
                       message.isUser ? 'font-semibold text-orange-800' : 'font-normal text-orange-800'
-                    }`} style={{ fontFamily: message.isUser ? 'Inter, Arial, sans-serif' : 'Rancho, cursive' }}>
+                    }`} style={{ fontFamily: message.isUser ? 'Dongle, sans-serif' : 'Dongle, cursive' }}>
                       {message.isUser ? (
                         message.content
                       ) : (
