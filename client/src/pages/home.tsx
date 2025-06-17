@@ -8,7 +8,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: '#F5E6D3' }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: '#fae4be' }}>
       {/* Main Logo */}
       <div className="relative z-10 flex flex-col items-center">
         {/* Mimi Logo */}
