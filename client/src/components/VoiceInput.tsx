@@ -147,18 +147,11 @@ export function VoiceInput({
       <button
         onClick={toggleListening}
         disabled={disabled}
-        className={`p-3 rounded-full transition-all duration-200 ${
-          isListening
-            ? 'bg-red-500 text-white animate-pulse shadow-lg'
-            : disabled
-            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            : 'bg-blue-500 text-white hover:bg-blue-600 shadow-md hover:shadow-lg'
-        }`}
+        className="p-3 rounded-full transition-all duration-200 text-white hover:bg-blue-600 shadow-md hover:shadow-lg bg-[#f9be39]"
         aria-label={isListening ? 'Stop recording' : 'Start voice input'}
       >
         {isListening ? <MicOff size={24} /> : <Mic size={24} />}
       </button>
-
       {/* Live Transcript Display */}
       {transcript && (
         <div className="mt-2 p-3 bg-gray-100 rounded-lg border border-gray-300 max-w-xs">
@@ -169,7 +162,6 @@ export function VoiceInput({
           <p className="text-sm text-gray-800 italic">"{transcript}"</p>
         </div>
       )}
-
       {/* Instructions */}
       <p className="text-xs text-gray-500 mt-2 text-center max-w-xs">
         {isListening 
