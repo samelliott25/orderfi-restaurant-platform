@@ -33,19 +33,20 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
   const [sessionId] = useState(() => `session-${Date.now()}-${Math.random()}`);
   const [conversationHistory, setConversationHistory] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize with welcome message
+  // Initialize with authentication prompt
   useEffect(() => {
-    if (welcomeMessage) {
-      setMessages([{
-        id: "welcome",
-        content: welcomeMessage,
-        isUser: false,
-        timestamp: new Date(),
-      }]);
-    }
-  }, [welcomeMessage]);
+    const authMessage = "Hi there! I'm Mimi, your friendly AI waitress. Would you like to sign into your account for a personalized experience, or shall we continue as anonymous? Either way works perfectly for me!";
+    setMessages([{
+      id: "auth-prompt",
+      content: authMessage,
+      isUser: false,
+      timestamp: new Date(),
+    }]);
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
