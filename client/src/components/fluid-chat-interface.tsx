@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { chatApi } from "@/lib/api";
 import { Bot, User, Send, Sparkles, Zap } from "lucide-react";
+import { VoiceInput } from "./VoiceInput";
 
 interface ChatMessage {
   id: string;
@@ -186,12 +187,36 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
 
       {/* Input Area */}
       <div className="p-4 border-t-2 border-white bg-background relative z-10">
+        {/* Voice Input Section */}
+        <div className="mb-4 flex justify-center">
+          <VoiceInput
+            onTranscript={(text) => {
+              setInputValue(text);
+              // Auto-send voice messages after a brief delay
+              setTimeout(() => {
+                const event = new Event('submit');
+                const form = document.querySelector('form');
+                if (form && text.trim()) {
+                  form.dispatchEvent(event);
+                }
+              }, 500);
+            }}
+            onStartListening={() => {
+              // Optional: Add visual feedback when listening starts
+            }}
+            onStopListening={() => {
+              // Optional: Add visual feedback when listening stops
+            }}
+            disabled={sendMessageMutation.isPending}
+          />
+        </div>
+
         <form onSubmit={handleSendMessage} className="flex space-x-2">
           <div className="flex-1 relative">
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask about our menu..."
+              placeholder="Ask about our menu or speak your order..."
               className="pr-12 bg-background/90 backdrop-blur border-border/50 focus:border-primary/50 transition-colors duration-300 fluid-input"
               disabled={sendMessageMutation.isPending}
             />
