@@ -93,7 +93,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
     <>
       {/* Full screen swipe overlay */}
       <div 
-        className="fixed inset-0 z-50 pointer-events-auto text-[#1a736c]"
+        className="fixed inset-0 z-50 pointer-events-auto text-[#106a65]"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
