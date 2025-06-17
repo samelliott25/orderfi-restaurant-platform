@@ -155,7 +155,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                   <>
                     <p className={`text-lg leading-relaxed font-medium text-black break-words ${
                       message.isUser ? 'font-semibold' : 'font-normal'
-                    }`} style={{ fontFamily: message.isUser ? 'Inter, Arial, sans-serif' : 'Reenie Beanie, cursive' }}>
+                    }`} style={{ fontFamily: message.isUser ? 'Inter, Arial, sans-serif' : 'Gochi Hand, cursive' }}>
                       {message.isUser ? (
                         message.content
                       ) : (
