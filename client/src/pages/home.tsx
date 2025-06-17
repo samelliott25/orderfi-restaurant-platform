@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import mimiLogo from "@assets/5ff63cd3-a67c-49ab-a371-14b12a36506d_1750080680868.png";
+import mimiLogo from "@assets/df9f9953-0ac5-4cb9-9b1a-c9da40670f54_1750160795103.png";
 import { SwipeToOrder } from "../components/SwipeToOrder";
 
 export default function HomePage() {
