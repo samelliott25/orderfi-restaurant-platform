@@ -159,12 +159,12 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
     <div className="h-full flex flex-col relative overflow-hidden" style={{ backgroundColor: '#F5E6B8' }}>
       {/* Background */}
       <div className="absolute inset-0">
-        {/* Mimi waitress image in lower 50% */}
+        {/* Mimi waitress image in right corner with pulsing animation */}
         <div 
-          className="absolute bottom-0 left-0 right-0 h-1/2 bg-no-repeat bg-center bg-contain opacity-20"
+          className="absolute bottom-4 right-4 w-64 h-64 bg-no-repeat bg-center bg-contain opacity-30 logo-pulse-simple"
           style={{ 
             backgroundImage: `url(${mimiWaitressImage})`,
-            backgroundPosition: 'center bottom'
+            backgroundSize: '150%'
           }}
         />
       </div>
