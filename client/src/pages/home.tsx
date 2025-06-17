@@ -12,7 +12,7 @@ export default function HomePage() {
       {/* Main Logo Container */}
       <div className="relative z-10 flex flex-col items-center">
         {/* Mimi Logo with Overlay Text */}
-        <div className="relative">
+        <div className="relative flex items-center justify-center">
           <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple relative" style={{ width: '576px', height: '576px' }}>
             <img 
               src={mimiLogo} 
