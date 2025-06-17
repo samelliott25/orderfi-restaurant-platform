@@ -8,12 +8,12 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: '#ffe6b0', paddingTop: 'max(1rem, calc(50vh - 400px))' }}>
+    <div className="min-h-screen flex flex-col items-center p-4 pt-8" style={{ backgroundColor: '#ffe6b0' }}>
       {/* Main Logo Container */}
-      <div className="relative z-10 flex flex-col items-center justify-center">
+      <div className="relative z-10 flex flex-col items-center flex-1 justify-center max-w-full">
         {/* Mimi Logo with Halfway Positioned Text */}
-        <div className="relative" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple" style={{ width: '576px', height: '576px' }}>
+        <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div className="rounded-full flex items-center justify-center p-4 sm:p-6 md:p-8 logo-pulse-simple w-full aspect-square max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
             <img 
               src={mimiLogo} 
               alt="Mimi Waitress" 
@@ -22,10 +22,10 @@ export default function HomePage() {
           </div>
           
           {/* Text Positioned Just Below Logo */}
-          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ transform: 'translateY(75%)' }}>
-            <div className="text-center">
+          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ transform: 'translateY(50%)' }}>
+            <div className="text-center px-4">
               <div 
-                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-1"
+                className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-1"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
@@ -37,7 +37,7 @@ export default function HomePage() {
                 Swipe Right
               </div>
               <div 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
@@ -56,7 +56,7 @@ export default function HomePage() {
                   <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
                   <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
                 </div>
-                <span className="text-2xl">→</span>
+                <span className="text-xl sm:text-2xl">→</span>
               </div>
             </div>
           </div>
