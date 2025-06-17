@@ -19,15 +19,7 @@ export default function HomePage() {
               alt="Mimi Waitress" 
               className="w-full h-full object-contain"
             />
-            {/* Overlay text */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <h1 className="text-8xl md:text-9xl font-bold text-orange-600 mb-2" style={{ fontFamily: 'Arial Black, sans-serif', textShadow: '3px 3px 0px #1a3d36' }}>
-                MIMI
-              </h1>
-              <p className="text-3xl md:text-4xl font-bold text-orange-500" style={{ fontFamily: 'Arial, sans-serif', textShadow: '2px 2px 0px #1a3d36' }}>
-                WAITRESS
-              </p>
-            </div>
+
           </div>
         </div>
         
