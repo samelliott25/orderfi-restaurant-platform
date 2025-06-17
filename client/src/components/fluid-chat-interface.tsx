@@ -200,7 +200,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       <div className="flex-1 overflow-y-auto p-4 space-y-4 relative z-10 chat-container">
         {messages.map((message, index) => (
           <div key={message.id} id={`message-${message.id}`} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} ${index === messages.length - 1 ? 'message-entering' : ''}`}>
-            <div className={`flex max-w-[80%] ${message.isUser ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2 ${!message.isUser ? 'slide-in-left' : ''}`}>
+            <div className={`flex w-full ${message.isUser ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2 ${!message.isUser ? 'slide-in-left' : ''}`}>
               {/* Avatar */}
               <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                 message.isUser 
@@ -221,7 +221,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
               </div>
 
               {/* Clean Message Display */}
-              <div className={`max-w-[80%] ${
+              <div className={`flex-1 ${
                 message.isUser ? 'text-right' : 'text-left'
               }`}>
                 {message.id === 'typing' ? (
@@ -231,7 +231,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                   </div>
                 ) : (
                   <>
-                    <p className={`leading-relaxed font-medium break-words ${
+                    <p className={`leading-relaxed font-medium break-words text-justify ${
                       message.isUser ? 'font-semibold text-orange-800' : 'font-normal text-orange-800'
                     }`} style={{ fontFamily: message.isUser ? 'Dongle, sans-serif' : 'Dongle, cursive', fontSize: '26px' }}>
                       {message.isUser ? (
