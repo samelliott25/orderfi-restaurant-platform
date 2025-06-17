@@ -179,6 +179,14 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
     setInputValue("");
   };
 
+  // Auto-scroll to bottom of chat container when messages change
+  useEffect(() => {
+    const chatContainer = document.querySelector('.chat-container');
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+  }, [messages]);
+
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
@@ -200,9 +208,9 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
         />
       </div>
 
-      {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 relative z-10 chat-container">
-        {messages.map((message, index) => (
+      {/* Chat Messages - Constrained to top 50% */}
+      <div className="overflow-y-auto p-4 space-y-4 relative z-10 chat-container" style={{ height: '50vh' }}>
+        {messages.slice().reverse().map((message, index) => (
           <div key={message.id} id={`message-${message.id}`} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} ${index === messages.length - 1 ? 'message-entering' : ''}`}>
             <div className={`flex w-full ${message.isUser ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2 ${!message.isUser ? 'slide-in-left' : ''}`}>
               {/* Avatar */}
@@ -289,8 +297,12 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
+      </div>
 
-        {/* Authentication Popup Buttons - positioned after last message */}
+      {/* Bottom spacer - empty space for bottom 50% */}
+      <div className="flex-1 flex items-center justify-center">
+        {/* Authentication Popup Buttons - positioned in bottom half */}
         {showAuthButtons && (
           <div className="px-4 py-4">
             <div className="flex gap-3 max-w-md mx-auto animate-bounce-drop">
@@ -311,8 +323,6 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
             </div>
           </div>
         )}
-
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Input Area - Only show after authentication choice */}
