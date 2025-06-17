@@ -36,7 +36,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
     
     if (swipeDistance > threshold) {
       onSwipe();
-      setLocation('/mobile-chat');
+      setLocation('/customer');
     } else {
       // Reset progress
       setSwipeProgress(0);
