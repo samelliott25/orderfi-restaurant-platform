@@ -35,6 +35,22 @@
   letter-spacing: 0.5px;
 }
 
+/* Slide-in animation for Mimi's messages */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-left {
+  animation: slideInFromLeft 0.5s ease-out forwards;
+}
+
 /* Comic bubble animations */
 @keyframes bounce-in {
   0% {
