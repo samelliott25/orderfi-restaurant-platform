@@ -189,12 +189,14 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       <div className="absolute inset-0">
         {/* Mimi waitress image centered with pulsing animation */}
         <div 
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-no-repeat bg-center bg-contain opacity-30 logo-pulse-simple"
+          className="absolute bottom-4 bg-no-repeat bg-center bg-contain opacity-30 logo-pulse-simple"
           style={{ 
             backgroundImage: `url(${userChoiceType === 'anonymous' ? batmanMimiImage : mimiWaitressImage})`,
             backgroundSize: 'contain',
             width: '480px',
-            height: '480px'
+            height: '480px',
+            left: '50%',
+            transform: 'translateX(-50%)'
           }}
         />
       </div>
