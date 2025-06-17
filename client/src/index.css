@@ -95,6 +95,20 @@
   perspective: 1000px;
   overflow-y: auto;
   scroll-behavior: smooth;
+  position: relative;
+}
+
+/* Fade out effect at the top of chat */
+.chat-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(180deg, rgba(255, 230, 176, 1) 0%, rgba(255, 230, 176, 0) 100%);
+  pointer-events: none;
+  z-index: 20;
 }
 
 .message-entering {
