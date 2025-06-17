@@ -114,9 +114,9 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
   };
 
   return (
-    <div className="h-full flex flex-col relative overflow-hidden">
+    <div className="h-full flex flex-col relative overflow-hidden" style={{ backgroundColor: '#20746A' }}>
       {/* Background */}
-      <div className="absolute inset-0 fluid-bg"></div>
+      <div className="absolute inset-0"></div>
 
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 relative z-10">

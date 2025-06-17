@@ -22,9 +22,9 @@ export default function MobileChatPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-background">
+    <div className="h-screen flex flex-col" style={{ backgroundColor: '#20746A' }}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b-2 border-white bg-background relative z-20">
+      <div className="flex items-center justify-between p-4 border-b-2 border-white relative z-20" style={{ backgroundColor: '#20746A' }}>
         <Link href="/">
           <div className="p-2 rounded-full hover:bg-secondary/50 transition-colors cursor-pointer">
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
