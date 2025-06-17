@@ -80,23 +80,36 @@
     transform: translateY(0) perspective(400px) rotateX(0deg);
     opacity: 1;
   }
-  50% {
-    opacity: 1;
-  }
   100% {
-    transform: translateY(-100vh) perspective(400px) rotateX(25deg);
-    opacity: 0;
+    transform: translateY(-50px) perspective(400px) rotateX(15deg);
+    opacity: 0.3;
   }
 }
 
 .star-wars-scroll {
-  animation: starWarsScroll 8s linear forwards;
+  animation: starWarsScroll 2s ease-out forwards;
   transform-origin: 50% 100%;
 }
 
 .chat-container {
   perspective: 1000px;
-  overflow: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.message-entering {
+  animation: slideInFromBottom 0.5s ease-out;
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 

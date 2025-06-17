@@ -60,22 +60,26 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
     return () => clearTimeout(timer);
   }, []);
 
-  // Track message age for Star Wars scroll effect
+  // Apply scroll effect to older messages when new ones arrive
   useEffect(() => {
-    messages.forEach(message => {
-      if (!messageAges.has(message.id)) {
-        setMessageAges(prev => new Map(prev.set(message.id, Date.now())));
-        
-        // Start scroll animation after 4 seconds
-        setTimeout(() => {
-          const messageElement = document.getElementById(`message-${message.id}`);
-          if (messageElement) {
-            messageElement.classList.add('star-wars-scroll');
-          }
-        }, 4000);
-      }
-    });
-  }, [messages, messageAges]);
+    if (messages.length > 2) { // Only start scrolling when we have more than 2 messages
+      const messagesToScroll = messages.slice(0, -2); // All but the last 2 messages
+      
+      messagesToScroll.forEach((message, index) => {
+        if (!messageAges.has(message.id)) {
+          setMessageAges(prev => new Map(prev.set(message.id, Date.now())));
+          
+          // Stagger the scroll animation for a wave effect
+          setTimeout(() => {
+            const messageElement = document.getElementById(`message-${message.id}`);
+            if (messageElement && !messageElement.classList.contains('star-wars-scroll')) {
+              messageElement.classList.add('star-wars-scroll');
+            }
+          }, index * 200); // 200ms delay between each message
+        }
+      });
+    }
+  }, [messages.length]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -194,8 +198,8 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
 
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 relative z-10 chat-container">
-        {messages.map((message) => (
-          <div key={message.id} id={`message-${message.id}`} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
+        {messages.map((message, index) => (
+          <div key={message.id} id={`message-${message.id}`} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} ${index === messages.length - 1 ? 'message-entering' : ''}`}>
             <div className={`flex max-w-[80%] ${message.isUser ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2 ${!message.isUser ? 'slide-in-left' : ''}`}>
               {/* Avatar */}
               <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
