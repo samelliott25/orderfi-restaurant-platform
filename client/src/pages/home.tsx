@@ -25,25 +25,25 @@ export default function HomePage() {
           <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ height: '20%' }}>
             <div className="text-center">
               <div 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1"
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-1"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-5deg)',
-                  color: '#E6A547'
+                  color: '#D2691E'
                 }}
               >
                 Swipe Right
               </div>
               <div 
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-3deg)',
-                  color: '#E6A547'
+                  color: '#D2691E'
                 }}
               >
                 To Order!
