@@ -7,6 +7,7 @@ import HomePage from "@/pages/home";
 import AdminPage from "@/pages/admin";
 import CustomerPage from "@/pages/customer";
 import MobileChatPage from "@/pages/mobile-chat";
+import RetroChatPage from "@/pages/retro-chat";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -14,6 +15,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/admin" component={AdminPage} />
+      <Route path="/retro" component={RetroChatPage} />
       <Route path="/customer" component={MobileChatPage} />
       <Route path="/legacy" component={CustomerPage} />
       <Route component={NotFound} />

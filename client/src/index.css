@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One:wght@400&family=Comfortaa:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One:wght@400&family=Comfortaa:wght@300;400;700&family=Lobster:wght@400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -290,5 +290,84 @@
 
   .send-button:active {
     transform: scale(0.95);
+  }
+
+  /* Retro Chat UI Styles */
+  .retro-background {
+    background-color: #fef1dd;
+    background-image: 
+      radial-gradient(circle at 2% 8%, rgba(210, 105, 30, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 95% 15%, rgba(90, 138, 138, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at 20% 90%, rgba(210, 105, 30, 0.03) 1px, transparent 1px);
+  }
+
+  .retro-text-header {
+    font-family: 'Lobster', cursive;
+    font-size: 2.5rem;
+    color: #2d5016;
+    text-shadow: 3px 3px 0px #a8d5a8, 6px 6px 10px rgba(0,0,0,0.2);
+    letter-spacing: 0.05em;
+  }
+
+  .retro-text-message {
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .message-bubble-retro {
+    padding: 16px 20px;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+    border: 3px solid transparent;
+  }
+
+  .mimi-bubble {
+    border-radius: 20px 20px 20px 5px;
+    box-shadow: 4px 4px 0px rgba(45, 80, 22, 0.2);
+  }
+
+  .user-bubble {
+    border-radius: 20px 20px 5px 20px;
+    box-shadow: 4px 4px 0px rgba(184, 98, 28, 0.2);
+  }
+
+  .retro-shadow {
+    box-shadow: 4px 4px 0px rgba(45, 80, 22, 0.3);
+  }
+
+  .border-3 {
+    border-width: 3px;
+  }
+
+  .retro-card {
+    background: white;
+    border: 4px solid #2d5016;
+    border-radius: 20px;
+    box-shadow: 8px 8px 0px rgba(45, 80, 22, 0.2);
+    padding: 32px;
+  }
+
+  .swipe-button-track {
+    background: linear-gradient(90deg, #166534 0%, #15803d 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .swipe-button-track::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(255,255,255,0.1) 10px,
+      rgba(255,255,255,0.1) 12px
+    );
   }
 }
