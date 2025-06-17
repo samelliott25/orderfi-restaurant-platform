@@ -9,21 +9,62 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: '#ffe6b0' }}>
-      {/* Main Logo */}
+      {/* Main Logo Container */}
       <div className="relative z-10 flex flex-col items-center">
-        {/* Mimi Logo */}
+        {/* Mimi Logo with Overlay Text */}
         <div className="relative">
-          <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple relative" style={{ width: '576px', height: '576px' }}>
+          <div className="rounded-full flex items-center justify-center p-4 sm:p-8 logo-pulse-simple relative" style={{ width: '320px', height: '320px' }}>
             <img 
               src={mimiLogo} 
               alt="Mimi Waitress" 
               className="w-full h-full object-contain"
             />
-
+          </div>
+          
+          {/* Overlay Text on Lower 20% of Logo */}
+          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ height: '20%' }}>
+            <div className="text-center">
+              <div 
+                className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1"
+                style={{ 
+                  fontFamily: 'Molle, cursive',
+                  letterSpacing: '0.02em',
+                  fontWeight: '400',
+                  transform: 'rotate(-5deg)',
+                  color: '#E6A547',
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                }}
+              >
+                Swipe Right
+              </div>
+              <div 
+                className="text-lg sm:text-xl md:text-2xl font-bold"
+                style={{ 
+                  fontFamily: 'Molle, cursive',
+                  letterSpacing: '0.02em',
+                  fontWeight: '400',
+                  transform: 'rotate(-3deg)',
+                  color: '#E6A547',
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                }}
+              >
+                To Order!
+              </div>
+            </div>
           </div>
         </div>
         
-        {/* Swipe to Order Component */}
+        {/* Visual swipe hint below logo */}
+        <div className="mt-6 flex items-center justify-center space-x-2 opacity-60">
+          <div className="flex space-x-1">
+            <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          </div>
+          <span className="text-2xl">→</span>
+        </div>
+        
+        {/* Swipe to Order Component (invisible interaction layer) */}
         <SwipeToOrder onSwipe={handleSwipeComplete} />
       </div>
     </div>

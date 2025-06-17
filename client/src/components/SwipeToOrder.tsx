@@ -90,55 +90,27 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
   }, [isDragging, swipeProgress]);
 
   return (
-    <>
-      {/* Full screen swipe overlay */}
-      <div 
-        className="fixed inset-0 z-50 pointer-events-auto"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={handleMouseDown}
-        style={{ touchAction: 'none' }}
-      >
-        {/* Swipe progress indicator */}
-        {swipeProgress > 0 && (
-          <div 
-            className="absolute left-0 top-0 h-full bg-gradient-to-r from-red-500/20 to-transparent transition-all duration-200 ease-out"
-            style={{ width: `${swipeProgress * 100}%` }}
-          >
-            <div className="h-full flex items-center justify-start pl-8">
-              <div className="bg-red-500 rounded-full p-3 shadow-lg animate-pulse">
-                <span className="text-white text-2xl">→</span>
-              </div>
+    <div 
+      className="fixed inset-0 z-50 pointer-events-auto"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      style={{ touchAction: 'none' }}
+    >
+      {/* Swipe progress indicator */}
+      {swipeProgress > 0 && (
+        <div 
+          className="absolute left-0 top-0 h-full bg-gradient-to-r from-red-500/20 to-transparent transition-all duration-200 ease-out"
+          style={{ width: `${swipeProgress * 100}%` }}
+        >
+          <div className="h-full flex items-center justify-start pl-8">
+            <div className="bg-red-500 rounded-full p-3 shadow-lg animate-pulse">
+              <span className="text-white text-2xl">→</span>
             </div>
           </div>
-        )}
-      </div>
-      {/* Instruction text */}
-      <div className="mt-4 text-center">
-        <h2 
-          className="text-5xl mb-2 italic"
-          style={{ 
-            fontFamily: 'Molle, cursive',
-            letterSpacing: '0.02em',
-            fontWeight: '400',
-            transform: 'rotate(-7deg)',
-            color: '#E6A547'
-          }}
-        >
-          Swipe Right to Order!
-        </h2>
-        
-        {/* Visual swipe hint */}
-        <div className="mt-4 flex items-center justify-center space-x-2 opacity-60">
-          <div className="flex space-x-1">
-            <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
-            <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-            <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-          </div>
-          <span className="text-2xl">→</span>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 }
