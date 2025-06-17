@@ -13,7 +13,7 @@ export default function HomePage() {
       <div className="relative z-10 flex flex-col items-center">
         {/* Mimi Logo with Overlay Text */}
         <div className="relative">
-          <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple relative w-80 h-80 sm:w-96 sm:h-96 lg:w-[576px] lg:h-[576px]">
+          <div className="rounded-full flex items-center justify-center p-8 logo-pulse-simple relative" style={{ width: '576px', height: '576px' }}>
             <img 
               src={mimiLogo} 
               alt="Mimi Waitress" 
@@ -22,10 +22,10 @@ export default function HomePage() {
           </div>
           
           {/* Overlay Text on Lower 20% of Logo */}
-          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center pb-4 sm:pb-8" style={{ height: '20%' }}>
+          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ height: '20%' }}>
             <div className="text-center">
               <div 
-                className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-1"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-1"
                 style={{ 
                   fontFamily: 'Molle, cursive',
                   letterSpacing: '0.02em',
@@ -38,7 +38,7 @@ export default function HomePage() {
                 Swipe Right
               </div>
               <div 
-                className="text-sm sm:text-lg md:text-xl lg:text-2xl font-bold"
+                className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold"
                 style={{ 
                   fontFamily: 'Molle, cursive',
                   letterSpacing: '0.02em',
