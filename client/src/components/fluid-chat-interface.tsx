@@ -35,6 +35,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
   const [isTyping, setIsTyping] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showAuthPrompt, setShowAuthPrompt] = useState(true);
+  const [showAuthButtons, setShowAuthButtons] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Initialize with authentication prompt
@@ -46,6 +47,13 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       isUser: false,
       timestamp: new Date(),
     }]);
+
+    // Delay showing the auth buttons to allow message to appear first
+    const timer = setTimeout(() => {
+      setShowAuthButtons(true);
+    }, 1500); // 1.5 second delay after message appears
+
+    return () => clearTimeout(timer);
   }, []);
 
   const scrollToBottom = () => {
@@ -105,6 +113,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
 
     setMessages(prev => [...prev, aiMessage]);
     setShowAuthPrompt(false);
+    setShowAuthButtons(false);
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -241,9 +250,9 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
         ))}
 
         {/* Authentication Popup Buttons - positioned after last message */}
-        {showAuthPrompt && (
+        {showAuthButtons && (
           <div className="px-4 py-4">
-            <div className="bg-white/95 backdrop-blur-sm border-2 border-orange-300 rounded-xl p-6 shadow-lg max-w-md mx-auto">
+            <div className="bg-white/95 backdrop-blur-sm border-2 border-orange-300 rounded-xl p-6 shadow-lg max-w-md mx-auto animate-bounce-drop">
               <p className="text-center text-gray-800 mb-4 font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Choose your dining experience:
               </p>

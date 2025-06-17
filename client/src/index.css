@@ -51,6 +51,29 @@
   animation: slideInFromLeft 0.5s ease-out forwards;
 }
 
+/* Bounce drop animation for authentication popup */
+@keyframes bounceDropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px) scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(15px) scale(1.05);
+  }
+  70% {
+    transform: translateY(-5px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-bounce-drop {
+  animation: bounceDropIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
 
 
 /* Comic bubble animations */
