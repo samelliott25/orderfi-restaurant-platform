@@ -99,7 +99,10 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
         timestamp: new Date(),
         suggestedItems: response.suggestedItems,
       };
-      setMessages(prev => prev.filter(m => m.id !== 'typing').concat([aiMessage]));
+      setMessages(prev => {
+        const filteredMessages = prev.filter(m => m.id !== 'typing');
+        return [...filteredMessages, aiMessage];
+      });
       setConversationHistory(prev => [...prev, { role: 'assistant', content: response.message }]);
       setIsTyping(false);
     },

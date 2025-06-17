@@ -3,10 +3,11 @@ import { FluidChatInterface } from "@/components/fluid-chat-interface";
 import { restaurantApi } from "@/lib/api";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
+import { type Restaurant } from "@shared/schema";
 import mimiLogo from "@assets/5ff63cd3-a67c-49ab-a371-14b12a36506d_1750080680868.png";
 
 export default function MobileChatPage() {
-  const { data: restaurant, isLoading } = useQuery({
+  const { data: restaurant, isLoading } = useQuery<Restaurant>({
     queryKey: ['/api/restaurants/1'],
   });
 
@@ -51,7 +52,7 @@ export default function MobileChatPage() {
       <div className="flex-1 overflow-hidden">
         <FluidChatInterface 
           restaurantId={1} 
-          welcomeMessage={restaurant?.welcomeMessage || "Hi! I'm Mimi, your AI waitress. I'm here to help you explore our delicious menu and place your order. What can I get started for you today?"}
+          welcomeMessage={(restaurant as Restaurant)?.welcomeMessage || "Hi! I'm Mimi, your AI waitress. I'm here to help you explore our delicious menu and place your order. What can I get started for you today?"}
         />
       </div>
     </div>
