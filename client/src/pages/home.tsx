@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import mimiLogo from "@assets/ChatGPT Image Jun 17, 2025, 09_31_09 PM_1750159877241.png";
+import mimiLogo from "@assets/5ff63cd3-a67c-49ab-a371-14b12a36506d_1750080680868.png";
 import { SwipeToOrder } from "../components/SwipeToOrder";
 
 export default function HomePage() {
