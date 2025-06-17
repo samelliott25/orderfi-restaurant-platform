@@ -210,7 +210,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
 
       {/* Chat Messages - Constrained to top 50% */}
       <div className="overflow-y-auto p-4 space-y-4 relative z-10 chat-container" style={{ height: '50vh' }}>
-        {messages.slice().reverse().map((message, index) => (
+        {messages.map((message, index) => (
           <div key={message.id} id={`message-${message.id}`} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} ${index === messages.length - 1 ? 'message-entering' : ''}`}>
             <div className={`flex w-full ${message.isUser ? 'flex-row-reverse' : 'flex-row'} items-end space-x-2 ${!message.isUser ? 'slide-in-left' : ''}`}>
               {/* Avatar */}
