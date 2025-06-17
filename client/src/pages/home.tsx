@@ -31,9 +31,7 @@ export default function HomePage() {
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-5deg)',
-                  color: '#E6A547',
-                  WebkitTextStroke: '3px #ffe6b0',
-                  textStroke: '3px #ffe6b0'
+                  color: '#E6A547'
                 }}
               >
                 Swipe Right
@@ -45,9 +43,7 @@ export default function HomePage() {
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-3deg)',
-                  color: '#E6A547',
-                  WebkitTextStroke: '3px #ffe6b0',
-                  textStroke: '3px #ffe6b0'
+                  color: '#E6A547'
                 }}
               >
                 To Order!
