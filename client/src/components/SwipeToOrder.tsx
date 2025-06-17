@@ -123,7 +123,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
             letterSpacing: '0.02em',
             fontWeight: '400',
             transform: 'rotate(-7deg)',
-            color: '#5A8A8A'
+            color: '#D2691E'
           }}
         >
           Swipe Right to Order!
