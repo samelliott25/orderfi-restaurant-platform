@@ -13,7 +13,7 @@ export default function HomePage() {
       <div className="relative z-10 flex flex-col items-center">
         {/* Mimi Logo */}
         <div className="relative">
-          <div className="w-64 h-64 md:w-72 md:h-72 rounded-full flex items-center justify-center p-8 logo-pulse-simple">
+          <div className="w-96 h-96 md:w-108 md:h-108 rounded-full flex items-center justify-center p-8 logo-pulse-simple">
             <img 
               src={mimiLogo} 
               alt="Mimi Waitress" 
