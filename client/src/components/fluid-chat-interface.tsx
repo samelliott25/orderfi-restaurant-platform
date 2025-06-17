@@ -167,49 +167,34 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                   </>
                 )}
 
-                {/* Suggested Items with Authentic Comic Style */}
+                {/* Suggested Items - Simple outlined style */}
                 {message.suggestedItems && message.suggestedItems.length > 0 && (
-                  <div className="mt-4 space-y-3">
-                    <p className="text-sm font-black uppercase tracking-wide text-black" 
-                       style={{ fontFamily: 'Arial Black, sans-serif', textShadow: '1px 1px 0px white' }}>
-                      ★ TRY THESE! ★
+                  <div className="mt-3 space-y-2">
+                    <p className="text-sm font-bold text-black opacity-80" 
+                       style={{ fontFamily: 'Comic Sans MS, sans-serif' }}>
+                      Try these:
                     </p>
                     {message.suggestedItems.map((item) => (
                       <div 
                         key={item.id} 
-                        className="relative p-3 bg-white border-3 border-black hover:scale-105 hover:rotate-1 transition-all duration-300 cursor-pointer suggested-item"
+                        className="p-3 border-2 border-black border-dashed hover:scale-105 transition-all duration-300 cursor-pointer"
                         style={{
-                          transform: `rotate(${Math.random() * 3 - 1.5}deg)`,
-                          boxShadow: '4px 4px 0px black',
-                          borderRadius: '8px'
+                          borderRadius: '12px',
+                          transform: `rotate(${Math.random() * 2 - 1}deg)`,
                         }}
                       >
-                        {/* Halftone background pattern */}
-                        <div className="absolute inset-0 opacity-10 pointer-events-none"
-                             style={{
-                               backgroundImage: 'radial-gradient(circle, black 1px, transparent 1px)',
-                               backgroundSize: '8px 8px',
-                               borderRadius: '8px'
-                             }}>
-                        </div>
-                        
-                        <div className="relative flex justify-between items-start">
+                        <div className="flex justify-between items-start">
                           <div className="flex-1">
-                            <h4 className="font-black text-base text-black leading-tight" 
-                                style={{ fontFamily: 'Comic Sans MS, Arial Black, sans-serif' }}>
+                            <h4 className="font-bold text-sm text-black" 
+                                style={{ fontFamily: 'Comic Sans MS, sans-serif' }}>
                               {item.name}
                             </h4>
-                            <p className="text-sm text-black mt-1 font-bold leading-snug" 
+                            <p className="text-xs text-black opacity-80 mt-1" 
                                style={{ fontFamily: 'Arial, sans-serif' }}>
                               {item.description}
                             </p>
                           </div>
-                          <div className="ml-3 bg-yellow-300 text-black px-3 py-1 text-sm font-black border-2 border-black"
-                               style={{ 
-                                 borderRadius: '12px',
-                                 boxShadow: '2px 2px 0px black',
-                                 fontFamily: 'Arial Black, sans-serif'
-                               }}>
+                          <div className="ml-3 text-sm font-bold text-black">
                             {item.price}
                           </div>
                         </div>
