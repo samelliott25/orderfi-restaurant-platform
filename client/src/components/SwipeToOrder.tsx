@@ -115,7 +115,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
         )}
       </div>
       {/* Instruction text */}
-      <div className="mt-8 text-center">
+      <div className="mt-4 text-center">
         <h2 
           className="text-5xl mb-2 italic"
           style={{ 
@@ -123,7 +123,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
             letterSpacing: '0.02em',
             fontWeight: '400',
             transform: 'rotate(-7deg)',
-            color: '#D2691E'
+            color: '#5A8A8A'
           }}
         >
           Swipe Right to Order!
