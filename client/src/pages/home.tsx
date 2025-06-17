@@ -8,9 +8,9 @@ export default function HomePage() {
   };
 
   return (
-    <div className="page-curl-container min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: '#fae4be' }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4" style={{ backgroundColor: '#fae4be' }}>
       {/* Main Logo */}
-      <div className="relative z-10 flex flex-col items-center" id="home-content">
+      <div className="relative z-10 flex flex-col items-center">
         {/* Mimi Logo */}
         <div className="relative">
           <div className="w-96 h-96 md:w-108 md:h-108 rounded-full flex items-center justify-center p-8 logo-pulse-simple">

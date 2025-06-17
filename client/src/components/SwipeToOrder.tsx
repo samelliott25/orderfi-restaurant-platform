@@ -36,17 +36,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
     
     if (swipeDistance > threshold) {
       onSwipe();
-      
-      // Add page curl animation to entire page
-      const pageContainer = document.querySelector('.page-curl-container');
-      if (pageContainer) {
-        pageContainer.classList.add('page-curl');
-      }
-      
-      // Navigate to chat after animation completes
-      setTimeout(() => {
-        setLocation('/mobile-chat');
-      }, 1200);
+      setLocation('/mobile-chat');
     } else {
       // Reset progress
       setSwipeProgress(0);
