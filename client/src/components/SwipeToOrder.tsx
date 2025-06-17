@@ -117,7 +117,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
       {/* Instruction text */}
       <div className="mt-4 text-center">
         <h2 
-          className="text-5xl mb-2 italic"
+          className="text-5xl mb-2 italic bg-yellow-200/50 border-2 border-dashed border-yellow-500 p-2 rounded"
           style={{ 
             fontFamily: 'Molle, cursive',
             letterSpacing: '0.02em',
