@@ -156,7 +156,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
   };
 
   return (
-    <div className="h-full flex flex-col relative overflow-hidden" style={{ backgroundColor: '#F5E6B8' }}>
+    <div className="h-full flex flex-col relative overflow-hidden" style={{ backgroundColor: '#ffebb1' }}>
       {/* Background */}
       <div className="absolute inset-0">
         {/* Mimi waitress image in right corner with pulsing animation */}
