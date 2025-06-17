@@ -117,13 +117,13 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
       {/* Instruction text */}
       <div className="mt-4 text-center">
         <h2 
-          className="text-5xl mb-2 italic bg-yellow-200/50 border-2 border-dashed border-yellow-500 p-2 rounded"
+          className="text-5xl mb-2 italic"
           style={{ 
             fontFamily: 'Molle, cursive',
             letterSpacing: '0.02em',
             fontWeight: '400',
             transform: 'rotate(-7deg)',
-            color: '#D2691E'
+            color: '#E6A547'
           }}
         >
           Swipe Right to Order!
