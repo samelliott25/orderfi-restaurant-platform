@@ -44,7 +44,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
 
   // Initialize with authentication prompt
   useEffect(() => {
-    const authMessage = "Hi there! I'm Mimi, your friendly AI waitress. Would you like to sign into your account for a personalized experience, or shall we continue as anonymous? Either way works perfectly for me!";
+    const authMessage = "Hi! I'm Mimi. Sign in or continue anonymous?";
     setMessages([{
       id: "auth-prompt",
       content: authMessage,
@@ -251,7 +251,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
                       ) : (
                         <TypingText 
                           text={message.content} 
-                          speed={8}
+                          speed={4}
                         />
                       )}
                     </p>
