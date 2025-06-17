@@ -37,7 +37,7 @@ export default function HomePage() {
                 Swipe Right
               </div>
               <div 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
@@ -48,18 +48,18 @@ export default function HomePage() {
               >
                 To Order!
               </div>
+              
+              {/* Visual swipe hint below text */}
+              <div className="flex items-center justify-center space-x-2 opacity-60">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                </div>
+                <span className="text-2xl">→</span>
+              </div>
             </div>
           </div>
-        </div>
-        
-        {/* Visual swipe hint below logo */}
-        <div className="mt-6 flex items-center justify-center space-x-2 opacity-60">
-          <div className="flex space-x-1">
-            <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
-            <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-            <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-          </div>
-          <span className="text-2xl">→</span>
         </div>
         
         {/* Swipe to Order Component (invisible interaction layer) */}
