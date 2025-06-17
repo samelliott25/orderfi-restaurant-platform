@@ -13,16 +13,18 @@ export default function HomePage() {
       <div className="relative z-10 flex flex-col items-center flex-1 justify-center max-w-full">
         {/* Mimi Logo with Halfway Positioned Text */}
         <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div className="rounded-full flex items-center justify-center p-4 sm:p-6 md:p-8 logo-pulse-simple w-full aspect-square max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
+          <div className="rounded-full flex items-center justify-center p-4 sm:p-6 md:p-8 logo-pulse-simple w-full aspect-square max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl" style={{ transform: 'scale(1.3)' }}>
             <img 
               src={mimiLogo} 
               alt="Mimi Waitress" 
               className="w-full h-full object-contain"
             />
           </div>
-          
-          {/* Text Positioned Just Below Logo */}
-          <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center" style={{ transform: 'translateY(50%)' }}>
+        </div>
+        
+        {/* Text Positioned Below Logo Container */}
+        <div className="mt-8 sm:mt-12 md:mt-16">
+          <div className="flex flex-col items-center justify-center">
             <div className="text-center px-4">
               <div 
                 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-1"
