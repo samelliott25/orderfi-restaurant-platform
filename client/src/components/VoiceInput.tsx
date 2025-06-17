@@ -162,13 +162,7 @@ export function VoiceInput({
           <p className="text-sm text-gray-800 italic">"{transcript}"</p>
         </div>
       )}
-      {/* Instructions */}
-      <p className="text-xs text-gray-500 mt-2 text-center max-w-xs">
-        {isListening 
-          ? 'Speak clearly. Tap microphone to stop.' 
-          : 'Tap microphone to speak your order'
-        }
-      </p>
+
     </div>
   );
 }
