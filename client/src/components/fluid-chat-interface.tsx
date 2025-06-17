@@ -319,19 +319,6 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       {userChoiceType && (
         <div className="p-4 border-t-2 border-white bg-background relative z-10">
           <form onSubmit={handleSendMessage} className="flex space-x-2">
-            <div className="flex-1 relative">
-              <Input
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ask about our menu or speak your order..."
-                className="pr-12 bg-background/90 backdrop-blur border-border/50 focus:border-primary/50 transition-colors duration-300 fluid-input"
-                disabled={sendMessageMutation.isPending}
-              />
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                <Zap className="h-4 w-4 text-muted-foreground" />
-              </div>
-            </div>
-            
             {/* Voice Input */}
             <VoiceInput
               onTranscript={(text) => {
@@ -353,6 +340,19 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
               }}
               disabled={sendMessageMutation.isPending}
             />
+            
+            <div className="flex-1 relative">
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Ask about our menu or speak your order..."
+                className="pr-12 bg-background/90 backdrop-blur border-border/50 focus:border-primary/50 transition-colors duration-300 fluid-input"
+                disabled={sendMessageMutation.isPending}
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <Zap className="h-4 w-4 text-muted-foreground" />
+              </div>
+            </div>
             
             <Button 
               type="submit" 
