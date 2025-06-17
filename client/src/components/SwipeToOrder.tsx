@@ -93,7 +93,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
     <>
       {/* Full screen swipe overlay */}
       <div 
-        className="fixed inset-0 z-50 pointer-events-auto text-[#106a65]"
+        className="fixed inset-0 z-50 pointer-events-auto"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -123,7 +123,7 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
             letterSpacing: '0.02em',
             fontWeight: '400',
             transform: 'rotate(-7deg)',
-            color: '#D2691E'
+            color: '#106a65'
           }}
         >
           Swipe Right to Order!
