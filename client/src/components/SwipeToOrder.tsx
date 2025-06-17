@@ -122,7 +122,8 @@ export function SwipeToOrder({ onSwipe }: SwipeToOrderProps) {
           style={{ 
             fontFamily: 'Permanent Marker, cursive',
             letterSpacing: '0.02em',
-            fontWeight: '400'
+            fontWeight: '400',
+            transform: 'rotate(15deg)'
           }}
         >
           Swipe Right to Order!
