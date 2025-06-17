@@ -9,6 +9,7 @@ import { Bot, User, Send, Sparkles, Zap } from "lucide-react";
 import { VoiceInput } from "./VoiceInput";
 import { TypingText } from "./TypingText";
 import mimiWaitressImage from "@assets/dbca6733-e706-480e-8432-a4e8c2b9ae7f_1750162558763.png";
+import batmanMimiImage from "@assets/618f6653-3952-4528-96d7-6a46294b334d_1750163671450.png";
 
 interface ChatMessage {
   id: string;
@@ -37,6 +38,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showAuthPrompt, setShowAuthPrompt] = useState(true);
   const [showAuthButtons, setShowAuthButtons] = useState(false);
+  const [userChoiceType, setUserChoiceType] = useState<'login' | 'anonymous' | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Initialize with authentication prompt
@@ -115,6 +117,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
     setMessages(prev => [...prev, aiMessage]);
     setShowAuthPrompt(false);
     setShowAuthButtons(false);
+    setUserChoiceType(choice);
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -163,7 +166,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
         <div 
           className="absolute bottom-4 right-4 bg-no-repeat bg-center bg-contain opacity-30 logo-pulse-simple"
           style={{ 
-            backgroundImage: `url(${mimiWaitressImage})`,
+            backgroundImage: `url(${userChoiceType === 'anonymous' ? batmanMimiImage : mimiWaitressImage})`,
             backgroundSize: 'contain',
             width: '480px',
             height: '480px'
@@ -291,54 +294,56 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="p-4 border-t-2 border-white bg-background relative z-10">
-        {/* Voice Input Section */}
-        <div className="mb-4 flex justify-center">
-          <VoiceInput
-            onTranscript={(text) => {
-              setInputValue(text);
-              // Auto-send voice messages after a brief delay
-              setTimeout(() => {
-                const event = new Event('submit');
-                const form = document.querySelector('form');
-                if (form && text.trim()) {
-                  form.dispatchEvent(event);
-                }
-              }, 500);
-            }}
-            onStartListening={() => {
-              // Optional: Add visual feedback when listening starts
-            }}
-            onStopListening={() => {
-              // Optional: Add visual feedback when listening stops
-            }}
-            disabled={sendMessageMutation.isPending || showAuthPrompt}
-          />
-        </div>
-
-        <form onSubmit={handleSendMessage} className="flex space-x-2">
-          <div className="flex-1 relative">
-            <Input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder={showAuthPrompt ? "Please use the buttons above to choose..." : "Ask about our menu or speak your order..."}
-              className="pr-12 bg-background/90 backdrop-blur border-border/50 focus:border-primary/50 transition-colors duration-300 fluid-input"
-              disabled={sendMessageMutation.isPending || showAuthPrompt}
+      {/* Input Area - Only show after authentication choice */}
+      {userChoiceType && (
+        <div className="p-4 border-t-2 border-white bg-background relative z-10">
+          {/* Voice Input Section */}
+          <div className="mb-4 flex justify-center">
+            <VoiceInput
+              onTranscript={(text) => {
+                setInputValue(text);
+                // Auto-send voice messages after a brief delay
+                setTimeout(() => {
+                  const event = new Event('submit');
+                  const form = document.querySelector('form');
+                  if (form && text.trim()) {
+                    form.dispatchEvent(event);
+                  }
+                }, 500);
+              }}
+              onStartListening={() => {
+                // Optional: Add visual feedback when listening starts
+              }}
+              onStopListening={() => {
+                // Optional: Add visual feedback when listening stops
+              }}
+              disabled={sendMessageMutation.isPending}
             />
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <Zap className="h-4 w-4 text-muted-foreground" />
-            </div>
           </div>
-          <Button 
-            type="submit" 
-            disabled={!inputValue.trim() || sendMessageMutation.isPending || showAuthPrompt}
-            className="rounded-full w-12 h-12 p-0 send-button hover:scale-110 transition-transform duration-300"
-          >
-            <Send className="h-4 w-4" />
-          </Button>
-        </form>
-      </div>
+
+          <form onSubmit={handleSendMessage} className="flex space-x-2">
+            <div className="flex-1 relative">
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Ask about our menu or speak your order..."
+                className="pr-12 bg-background/90 backdrop-blur border-border/50 focus:border-primary/50 transition-colors duration-300 fluid-input"
+                disabled={sendMessageMutation.isPending}
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <Zap className="h-4 w-4 text-muted-foreground" />
+              </div>
+            </div>
+            <Button 
+              type="submit" 
+              disabled={!inputValue.trim() || sendMessageMutation.isPending}
+              className="rounded-full w-12 h-12 p-0 send-button hover:scale-110 transition-transform duration-300"
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
