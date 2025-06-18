@@ -134,9 +134,9 @@ export function LiveSalesDashboard() {
 
       {/* Key Metrics - Collapsible */}
       <Collapsible open={overviewOpen} onOpenChange={setOverviewOpen}>
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-card rounded-lg border border-border hover:bg-muted/50 transition-colors">
-          <h2 className="text-xl font-semibold text-foreground">Today's Overview</h2>
-          {overviewOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 shadow-sm">
+          <h2 className="text-xl font-bold text-blue-900">Today's Overview</h2>
+          {overviewOpen ? <ChevronDown className="w-5 h-5 text-blue-600" /> : <ChevronRight className="w-5 h-5 text-blue-600" />}
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6 mt-4 w-full">
@@ -196,20 +196,18 @@ export function LiveSalesDashboard() {
         </div>
 
         {/* Active Sessions Card */}
-        <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
+        <div className="bg-gradient-to-br from-orange-50 to-amber-100 rounded-2xl p-6 border border-orange-200 shadow-sm hover:shadow-lg transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-muted-foreground">Active Sessions</h3>
-            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-              <svg className="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
+            <h3 className="text-sm font-semibold text-orange-700">Active Sessions</h3>
+            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-md">
+              <Activity className="w-5 h-5 text-white" />
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-2xl font-semibold text-foreground">2</span>
-            <span className="text-sm text-muted-foreground">active</span>
+            <span className="text-3xl font-bold text-orange-900">2</span>
+            <span className="text-sm text-orange-600 font-medium">active</span>
           </div>
-          <div className="text-xs text-muted-foreground">
+          <div className="text-xs text-orange-700 font-medium">
             Avg duration: 24min
           </div>
         </div>
@@ -219,9 +217,9 @@ export function LiveSalesDashboard() {
 
       {/* Order Queue and Details - Collapsible */}
       <Collapsible open={ordersOpen} onOpenChange={setOrdersOpen}>
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-card rounded-lg border border-border hover:bg-muted/50 transition-colors">
-          <h2 className="text-xl font-semibold text-foreground">Live Orders</h2>
-          {ordersOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200 hover:from-green-100 hover:to-emerald-100 transition-all duration-300 shadow-sm">
+          <h2 className="text-xl font-bold text-green-900">Live Orders</h2>
+          {ordersOpen ? <ChevronDown className="w-5 h-5 text-green-600" /> : <ChevronRight className="w-5 h-5 text-green-600" />}
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="mt-4">

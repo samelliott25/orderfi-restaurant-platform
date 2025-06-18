@@ -223,14 +223,14 @@ export function OperationsAiChat() {
   return (
     <div className="w-full h-full bg-card border-l border-border flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="p-4 lg:p-6 border-b border-border flex-shrink-0">
+      <div className="p-4 lg:p-6 border-b border-border flex-shrink-0 bg-gradient-to-r from-indigo-50 to-purple-50">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 lg:w-10 lg:h-10 bg-primary rounded-xl flex items-center justify-center">
-            <Bot className="w-4 h-4 lg:w-5 lg:h-5 text-primary-foreground" />
+          <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+            <Bot className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-sm lg:text-base font-semibold text-foreground">Operations AI</h3>
-            <p className="text-xs lg:text-sm text-muted-foreground">Autonomous Manager</p>
+            <h3 className="text-sm lg:text-base font-bold text-indigo-900">Operations AI</h3>
+            <p className="text-xs lg:text-sm text-indigo-600 font-medium">Autonomous Manager</p>
           </div>
         </div>
         
