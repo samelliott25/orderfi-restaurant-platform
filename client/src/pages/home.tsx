@@ -46,11 +46,8 @@ export default function HomePage() {
             <div className="flex flex-col space-y-3 w-full max-w-xs">
               <Button
                 asChild
-                className="w-full py-3 text-lg font-bold text-white shadow-lg transition-all duration-200 transform hover:scale-105 hover:opacity-90"
+                className="w-full py-3 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform hover:scale-105 hover:opacity-90"
                 style={{ 
-                  fontFamily: 'Permanent Marker, cursive',
-                  letterSpacing: '0.02em',
-                  fontWeight: '400',
                   backgroundColor: '#8b795e'
                 }}
               >
@@ -63,11 +60,8 @@ export default function HomePage() {
               <Button
                 asChild
                 variant="outline"
-                className="w-full py-3 text-lg font-bold border-2 shadow-lg transition-all duration-200 transform hover:scale-105"
+                className="w-full py-3 text-lg font-semibold border-2 shadow-lg transition-all duration-200 transform hover:scale-105"
                 style={{ 
-                  fontFamily: 'Permanent Marker, cursive',
-                  letterSpacing: '0.02em',
-                  fontWeight: '400',
                   borderColor: '#8b795e',
                   color: '#654321',
                   backgroundColor: '#fff0cc'
