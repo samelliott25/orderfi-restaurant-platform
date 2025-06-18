@@ -256,8 +256,9 @@ export function OperationsAiChat() {
                   ? 'bg-blue-500 text-white' 
                   : message.type === 'system'
                   ? 'bg-green-50 border border-green-200 text-green-800'
-                  : 'bg-gray-100 text-gray-900'
-              }`}>
+                  : ''
+              }`}
+              style={message.type === 'assistant' ? { backgroundColor: '#fff0cc', color: '#654321' } : {}}>
                 <div className="flex items-start space-x-2">
                   <div className="flex-1">
                     <p className="text-sm">{message.content}</p>
