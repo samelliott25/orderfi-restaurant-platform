@@ -10,13 +10,24 @@ import MobileChatPage from "@/pages/mobile-chat";
 import RetroChatPage from "@/pages/retro-chat";
 import NotFound from "@/pages/not-found";
 
+// Admin module pages
+import AdminMenuPage from "@/pages/admin/menu";
+import AdminUsersPage from "@/pages/admin/users";
+import AdminOrdersPage from "@/pages/admin/orders";
+import AdminSettingsPage from "@/pages/admin/settings";
+
 function Router() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/admin" component={AdminPage} />
+      <Route path="/admin/menu" component={AdminMenuPage} />
+      <Route path="/admin/users" component={AdminUsersPage} />
+      <Route path="/admin/orders" component={AdminOrdersPage} />
+      <Route path="/admin/settings" component={AdminSettingsPage} />
       <Route path="/retro" component={RetroChatPage} />
       <Route path="/customer" component={MobileChatPage} />
+      <Route path="/mobile-chat" component={MobileChatPage} />
       <Route path="/legacy" component={CustomerPage} />
       <Route component={NotFound} />
     </Switch>
