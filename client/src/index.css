@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 :root {
-  /* LoFi Minimalist Color Palette */
-  --background: 249 250 251; /* #f9fafb - Clean light gray */
+  /* LoFi Minimalist Color Palette with Warm Background */
+  --background: 255 230 176; /* #ffe6b0 - Warm cream background */
   --foreground: 17 24 39; /* #111827 - Dark gray text */
   --muted: 243 244 246; /* #f3f4f6 - Light gray */
   --muted-foreground: 107 114 128; /* #6b7280 - Medium gray */
