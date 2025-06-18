@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import mimiLogo from "@assets/df9f9953-0ac5-4cb9-9b1a-c9da40670f54_1750160795103.png";
+import mimiVideo from "@assets/20250618_2023_Retro Waitress Spin_simple_compose_01jy190he3fbbafrrzzfgz9784_1750242597851.mp4";
 import { SwipeToOrder } from "../components/SwipeToOrder";
 
 export default function HomePage() {
@@ -14,10 +14,14 @@ export default function HomePage() {
         {/* Mimi Logo with Halfway Positioned Text */}
         <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div className="rounded-full flex items-center justify-center p-4 sm:p-6 md:p-8 logo-pulse-simple w-full aspect-square max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl" style={{ transform: 'scale(1.3)' }}>
-            <img 
-              src={mimiLogo} 
-              alt="Mimi Waitress" 
+            <video 
+              src={mimiVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
               className="w-full h-full object-contain"
+              style={{ borderRadius: '50%' }}
             />
           </div>
         </div>
