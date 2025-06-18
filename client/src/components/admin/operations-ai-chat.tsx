@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { VoiceInput } from "@/components/VoiceInput";
 import { 
   Send, 
   Bot, 
@@ -313,12 +314,16 @@ export function OperationsAiChat() {
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t border-border bg-card">
-        <div className="flex space-x-2">
+      <div className="p-3 border-t border-border bg-card flex-shrink-0">
+        <div className="flex space-x-2 items-center">
+          <VoiceInput
+            onTranscript={(text) => setInput(text)}
+            disabled={isLoading}
+          />
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask Mimi to help with operations..."
+            placeholder="Ask Mimi..."
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             disabled={isLoading}
             className="text-sm flex-1 min-w-0"
