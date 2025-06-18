@@ -8,10 +8,12 @@ export default function AdminPage() {
       <DashboardSidebar />
       
       <div className="flex flex-1 lg:pl-64">
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <LiveSalesDashboard />
         </div>
-        <OperationsAiChat />
+        <div className="flex-shrink-0">
+          <OperationsAiChat />
+        </div>
       </div>
     </div>
   );

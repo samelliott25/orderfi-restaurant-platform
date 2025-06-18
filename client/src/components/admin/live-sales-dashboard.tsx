@@ -104,9 +104,9 @@ export function LiveSalesDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f1e8] p-6 pr-0">
+    <div className="min-h-screen bg-[#f5f1e8] p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8 pr-6">
+      <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Good morning, Chef</h1>
           <p className="text-gray-600">
@@ -124,7 +124,7 @@ export function LiveSalesDashboard() {
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 pr-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Orders Card - Yellow Gradient */}
         <div className="bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-2xl p-6 relative overflow-hidden">
           <h3 className="text-gray-700 font-medium mb-2">Orders:</h3>
@@ -205,7 +205,7 @@ export function LiveSalesDashboard() {
       </div>
 
       {/* Order Queue and Details */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pr-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Order List */}
         <div>
           <div className="flex items-center justify-between mb-6">
