@@ -1,0 +1,341 @@
+import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Send, 
+  Bot, 
+  FileText, 
+  Mail, 
+  BarChart3, 
+  Database, 
+  Settings,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  Loader2
+} from "lucide-react";
+import { apiRequest } from "@/lib/queryClient";
+
+interface ChatMessage {
+  id: string;
+  type: 'user' | 'assistant' | 'system';
+  content: string;
+  timestamp: Date;
+  actions?: TaskAction[];
+  status?: 'pending' | 'completed' | 'failed';
+}
+
+interface TaskAction {
+  id: string;
+  type: 'report' | 'email' | 'data_load' | 'analysis';
+  description: string;
+  status: 'pending' | 'running' | 'completed' | 'failed';
+  result?: string;
+}
+
+const suggestedTasks = [
+  {
+    icon: BarChart3,
+    title: "Generate daily sales report",
+    description: "Create comprehensive sales summary for today"
+  },
+  {
+    icon: Mail,
+    title: "Email supplier status",
+    description: "Send inventory update to main suppliers"
+  },
+  {
+    icon: Database,
+    title: "Load menu analytics",
+    description: "Import and analyze menu performance data"
+  },
+  {
+    icon: FileText,
+    title: "Create staff schedule",
+    description: "Generate optimized schedule for next week"
+  }
+];
+
+export function OperationsAiChat() {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeTask, setActiveTask] = useState<TaskAction | null>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Initialize with welcome message
+    const welcomeMessage: ChatMessage = {
+      id: "welcome",
+      type: "assistant",
+      content: "Hello! I'm Mimi, your Operations AI Agent. I can help you run your restaurant business autonomously - from generating reports to managing suppliers and analyzing data. What would you like me to help you with today?",
+      timestamp: new Date()
+    };
+    setMessages([welcomeMessage]);
+  }, []);
+
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  const simulateTaskExecution = async (task: TaskAction) => {
+    setActiveTask({ ...task, status: 'running' });
+    
+    // Simulate different task durations
+    const duration = task.type === 'email' ? 2000 : task.type === 'report' ? 4000 : 3000;
+    
+    await new Promise(resolve => setTimeout(resolve, duration));
+    
+    const results = {
+      'report': "✅ Daily sales report generated successfully. Revenue: $1,847.50, Orders: 47, Top item: Classic Burger (12 orders)",
+      'email': "✅ Email sent to 3 suppliers with current inventory status and upcoming requirements",
+      'data_load': "✅ Menu analytics loaded. Identified 2 underperforming items and 3 trending dishes",
+      'analysis': "✅ Analysis complete. Peak hours: 12-2pm & 6-8pm. Suggested staffing adjustments provided"
+    };
+
+    const completedTask = {
+      ...task,
+      status: 'completed' as const,
+      result: results[task.type] || "Task completed successfully"
+    };
+
+    setActiveTask(completedTask);
+    
+    // Add result message
+    const resultMessage: ChatMessage = {
+      id: Date.now().toString(),
+      type: 'system',
+      content: completedTask.result!,
+      timestamp: new Date(),
+      status: 'completed'
+    };
+
+    setMessages(prev => [...prev, resultMessage]);
+    setTimeout(() => setActiveTask(null), 2000);
+  };
+
+  const handleSendMessage = async () => {
+    if (!input.trim() || isLoading) return;
+
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      type: 'user',
+      content: input,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInput("");
+    setIsLoading(true);
+
+    try {
+      // Send to AI for processing
+      const response = await fetch("/api/operations-ai-chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: input,
+          context: "restaurant_operations"
+        })
+      });
+
+      const data = await response.json();
+
+      const aiMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: data.message,
+        timestamp: new Date(),
+        actions: data.actions || []
+      };
+
+      setMessages(prev => [...prev, aiMessage]);
+
+      // Auto-execute any suggested actions
+      if (data.actions?.length > 0) {
+        for (const action of data.actions) {
+          await simulateTaskExecution(action);
+        }
+      }
+    } catch (error) {
+      const errorMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: "I'm having trouble processing that request right now. Please try again or use one of the suggested tasks below.",
+        timestamp: new Date(),
+        status: 'failed'
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSuggestedTask = async (task: typeof suggestedTasks[0]) => {
+    const taskAction: TaskAction = {
+      id: Date.now().toString(),
+      type: task.title.includes('report') ? 'report' : 
+            task.title.includes('email') ? 'email' :
+            task.title.includes('analytics') ? 'data_load' : 'analysis',
+      description: task.description,
+      status: 'pending'
+    };
+
+    const taskMessage: ChatMessage = {
+      id: Date.now().toString(),
+      type: 'user',
+      content: `Execute task: ${task.title}`,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, taskMessage]);
+
+    const confirmMessage: ChatMessage = {
+      id: (Date.now() + 1).toString(),
+      type: 'assistant',
+      content: `I'll ${task.title.toLowerCase()} for you right now. This will take a moment...`,
+      timestamp: new Date(),
+      status: 'pending'
+    };
+
+    setMessages(prev => [...prev, confirmMessage]);
+    await simulateTaskExecution(taskAction);
+  };
+
+  const getStatusIcon = (status?: string) => {
+    switch (status) {
+      case 'pending':
+        return <Clock className="w-4 h-4 text-yellow-500" />;
+      case 'completed':
+        return <CheckCircle className="w-4 h-4 text-green-500" />;
+      case 'failed':
+        return <AlertCircle className="w-4 h-4 text-red-500" />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="w-80 h-screen bg-white border-l border-gray-200 flex flex-col">
+      {/* Header */}
+      <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-pink-50">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+            <Bot className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900">Mimi Operations AI</h3>
+            <p className="text-xs text-gray-600">Autonomous Business Manager</p>
+          </div>
+        </div>
+        
+        {activeTask && (
+          <div className="mt-3 p-2 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="flex items-center space-x-2">
+              <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
+              <span className="text-sm text-blue-700 font-medium">
+                {activeTask.description}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Chat Messages */}
+      <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
+        <div className="space-y-4">
+          {messages.map((message) => (
+            <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[85%] rounded-lg p-3 ${
+                message.type === 'user' 
+                  ? 'bg-blue-500 text-white' 
+                  : message.type === 'system'
+                  ? 'bg-green-50 border border-green-200 text-green-800'
+                  : 'bg-gray-100 text-gray-900'
+              }`}>
+                <div className="flex items-start space-x-2">
+                  <div className="flex-1">
+                    <p className="text-sm">{message.content}</p>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-xs opacity-70">
+                        {message.timestamp.toLocaleTimeString()}
+                      </span>
+                      {getStatusIcon(message.status)}
+                    </div>
+                  </div>
+                </div>
+                
+                {message.actions && message.actions.length > 0 && (
+                  <div className="mt-2 space-y-1">
+                    {message.actions.map((action) => (
+                      <Badge key={action.id} variant="outline" className="text-xs">
+                        {action.description}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+          
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="bg-gray-100 rounded-lg p-3">
+                <div className="flex items-center space-x-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span className="text-sm text-gray-600">Mimi is thinking...</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </ScrollArea>
+
+      {/* Suggested Tasks */}
+      <div className="p-4 border-t border-gray-200 bg-gray-50">
+        <h4 className="text-sm font-medium text-gray-700 mb-3">Quick Actions:</h4>
+        <div className="grid grid-cols-2 gap-2">
+          {suggestedTasks.map((task, index) => (
+            <button
+              key={index}
+              onClick={() => handleSuggestedTask(task)}
+              className="p-2 text-left border border-gray-200 rounded-lg hover:bg-white hover:shadow-sm transition-all"
+              disabled={isLoading || activeTask !== null}
+            >
+              <div className="flex items-center space-x-2 mb-1">
+                <task.icon className="w-3 h-3 text-gray-500" />
+                <span className="text-xs font-medium text-gray-700 truncate">{task.title}</span>
+              </div>
+              <p className="text-xs text-gray-500 line-clamp-2">{task.description}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Input */}
+      <div className="p-4 border-t border-gray-200">
+        <div className="flex space-x-2">
+          <Input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ask Mimi to help with operations..."
+            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            disabled={isLoading}
+            className="text-sm"
+          />
+          <Button 
+            onClick={handleSendMessage}
+            disabled={isLoading || !input.trim()}
+            size="sm"
+          >
+            <Send className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

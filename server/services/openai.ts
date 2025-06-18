@@ -174,3 +174,68 @@ ${context.menuItems.map(item => `${item.name}: ${item.description}`).join('\n')}
     return [];
   }
 }
+
+export interface OperationsTaskAction {
+  id: string;
+  type: 'report' | 'email' | 'data_load' | 'analysis';
+  description: string;
+  status: 'pending' | 'running' | 'completed' | 'failed';
+  result?: string;
+}
+
+export interface OperationsAiResponse {
+  message: string;
+  actions?: OperationsTaskAction[];
+}
+
+export async function processOperationsAiMessage(
+  userMessage: string,
+  context: string = "restaurant_operations"
+): Promise<OperationsAiResponse> {
+  try {
+    const systemPrompt = `You are Mimi, an autonomous Operations AI Agent for a restaurant business. You can:
+
+1. Generate reports (sales, inventory, staff performance)
+2. Send emails to suppliers, staff, or customers
+3. Load and analyze data from various sources
+4. Automate routine tasks
+5. Provide business insights and recommendations
+
+When a user requests a task, determine if it requires actions and respond with:
+- A conversational response explaining what you'll do
+- Specific actions that need to be executed
+
+Available action types:
+- "report": Generate business reports
+- "email": Send emails to stakeholders  
+- "data_load": Import and process data
+- "analysis": Analyze business metrics
+
+Always be professional, autonomous, and action-oriented. Respond in JSON format with "message" and optionally "actions" array.`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage }
+      ],
+      response_format: { type: "json_object" },
+      max_tokens: 500,
+    });
+
+    const result = JSON.parse(response.choices[0].message.content || '{}');
+    
+    // Ensure proper response format
+    return {
+      message: result.message || "I'll help you with that request.",
+      actions: result.actions || []
+    };
+
+  } catch (error) {
+    console.error("OpenAI API error:", error);
+    return {
+      message: "I'm ready to help with your restaurant operations. What would you like me to do today?",
+      actions: []
+    };
+  }
+}

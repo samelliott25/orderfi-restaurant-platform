@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { processChatMessage, type ChatContext } from "./services/openai";
+import { processChatMessage, processOperationsAiMessage, type ChatContext } from "./services/openai";
 import { 
   insertRestaurantSchema, 
   insertMenuItemSchema, 
@@ -184,6 +184,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Chat error:", error);
       res.status(500).json({ message: "Failed to process chat message" });
+    }
+  });
+
+  // Operations AI Chat endpoint
+  app.post("/api/operations-ai-chat", async (req, res) => {
+    try {
+      const { message, context } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ message: "Message is required" });
+      }
+
+      const response = await processOperationsAiMessage(message, context);
+      res.json(response);
+    } catch (error) {
+      console.error("Operations AI error:", error);
+      res.status(500).json({ message: "Failed to process operations request" });
     }
   });
 
