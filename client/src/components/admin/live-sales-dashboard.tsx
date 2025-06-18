@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { 
   DollarSign, 
   ShoppingCart, 
@@ -12,7 +13,9 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
-  Activity
+  Activity,
+  ChevronDown,
+  ChevronRight
 } from "lucide-react";
 
 interface OrderStats {
@@ -48,6 +51,11 @@ export function LiveSalesDashboard() {
     completionRate: 89.4,
     ordersPerHour: 12.3
   });
+
+  // Collapsible section states
+  const [overviewOpen, setOverviewOpen] = useState(true);
+  const [metricsOpen, setMetricsOpen] = useState(true);
+  const [ordersOpen, setOrdersOpen] = useState(true);
 
   // Simulate real-time updates
   useEffect(() => {
@@ -104,9 +112,9 @@ export function LiveSalesDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="bg-background p-8 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-semibold text-foreground mb-3">Good morning, Chef</h1>
           <p className="text-muted-foreground text-base leading-relaxed max-w-2xl">
@@ -124,8 +132,14 @@ export function LiveSalesDashboard() {
         </div>
       </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6 mb-8 w-full">
+      {/* Key Metrics - Collapsible */}
+      <Collapsible open={overviewOpen} onOpenChange={setOverviewOpen}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-card rounded-lg border border-border hover:bg-muted/50 transition-colors">
+          <h2 className="text-xl font-semibold text-foreground">Today's Overview</h2>
+          {overviewOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6 mt-4 w-full">
         {/* Orders Card */}
         <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-4">
@@ -206,9 +220,19 @@ export function LiveSalesDashboard() {
             Avg duration: 24min
           </div>
         </div>
-      </div>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
 
-      {/* Order Queue and Details */}
+      {/* Order Queue and Details - Collapsible */}
+      <Collapsible open={ordersOpen} onOpenChange={setOrdersOpen}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-card rounded-lg border border-border hover:bg-muted/50 transition-colors">
+          <h2 className="text-xl font-semibold text-foreground">Live Orders</h2>
+          {ordersOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <div className="mt-4">
+            {/* Order Queue and Details */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full">
         {/* Order List */}
         <div>
@@ -309,7 +333,9 @@ export function LiveSalesDashboard() {
           )}
         </div>
       </div>
-
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 }
