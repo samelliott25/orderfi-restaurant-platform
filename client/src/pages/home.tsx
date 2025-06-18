@@ -1,11 +1,9 @@
 import { Link } from "wouter";
 import mimiVideo from "@assets/20250618_2023_Retro Waitress Spin_simple_compose_01jy190he3fbbafrrzzfgz9784_1750242597851.mp4";
-import { SwipeToOrder } from "../components/SwipeToOrder";
+import { Button } from "@/components/ui/button";
+import { User, UserCheck } from "lucide-react";
 
 export default function HomePage() {
-  const handleSwipeComplete = () => {
-    console.log('Swipe completed - navigating to chat');
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center p-4 pt-8" style={{ backgroundColor: '#ffe6b0' }}>
@@ -26,50 +24,59 @@ export default function HomePage() {
           </div>
         </div>
         
-        {/* Text Positioned Below Logo Container */}
+        {/* Sign-in Options Below Logo Container */}
         <div className="mt-8 sm:mt-12 md:mt-16">
-          <div className="flex flex-col items-center justify-center">
-            <div className="text-center px-4">
+          <div className="flex flex-col items-center justify-center space-y-4 px-4">
+            <div className="text-center mb-4">
               <div 
-                className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-1"
+                className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
                   fontWeight: '400',
-                  transform: 'rotate(-5deg)',
+                  transform: 'rotate(-2deg)',
                   color: '#D2691E'
                 }}
               >
-                Swipe Right
+                Ready to Order?
               </div>
-              <div 
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4"
+            </div>
+            
+            {/* Sign-in Buttons */}
+            <div className="flex flex-col space-y-3 w-full max-w-xs">
+              <Button
+                asChild
+                className="w-full py-3 text-lg font-bold bg-orange-500 hover:bg-orange-600 text-white shadow-lg transition-all duration-200 transform hover:scale-105"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
-                  fontWeight: '400',
-                  transform: 'rotate(-3deg)',
-                  color: '#D2691E'
+                  fontWeight: '400'
                 }}
               >
-                To Order!
-              </div>
+                <Link href="/mobile-chat">
+                  <UserCheck className="mr-2 h-5 w-5" />
+                  Sign In
+                </Link>
+              </Button>
               
-              {/* Visual swipe hint below text */}
-              <div className="flex items-center justify-center space-x-2 opacity-60">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-black rounded-full animate-pulse"></div>
-                  <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-2 bg-black rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-                </div>
-                <span className="text-xl sm:text-2xl">→</span>
-              </div>
+              <Button
+                asChild
+                variant="outline"
+                className="w-full py-3 text-lg font-bold border-2 border-orange-500 text-orange-600 hover:bg-orange-50 shadow-lg transition-all duration-200 transform hover:scale-105"
+                style={{ 
+                  fontFamily: 'Permanent Marker, cursive',
+                  letterSpacing: '0.02em',
+                  fontWeight: '400'
+                }}
+              >
+                <Link href="/mobile-chat">
+                  <User className="mr-2 h-5 w-5" />
+                  Continue as Guest
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
-        
-        {/* Swipe to Order Component (invisible interaction layer) */}
-        <SwipeToOrder onSwipe={handleSwipeComplete} />
       </div>
     </div>
   );
