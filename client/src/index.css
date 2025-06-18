@@ -5,30 +5,30 @@
 @tailwind utilities;
 
 :root {
-  /* LoFi Minimalist Color Palette with Warm Background */
+  /* Warm Cream Theme - #ffe6b0 */
   --background: 255 230 176; /* #ffe6b0 - Warm cream background */
-  --foreground: 17 24 39; /* #111827 - Dark gray text */
-  --muted: 243 244 246; /* #f3f4f6 - Light gray */
-  --muted-foreground: 107 114 128; /* #6b7280 - Medium gray */
-  --popover: 255 255 255; /* White for popover */
-  --popover-foreground: 17 24 39; /* Dark gray text */
-  --card: 255 255 255; /* White for cards */
-  --card-foreground: 17 24 39; /* Dark gray text */
-  --border: 229 231 235; /* #e5e7eb - Light border */
-  --input: 255 255 255; /* White input backgrounds */
-  --primary: 75 85 99; /* #4b5563 - Medium gray primary */
+  --foreground: 101 67 33; /* #654321 - Dark brown text */
+  --muted: 255 240 204; /* #fff0cc - Lighter cream */
+  --muted-foreground: 139 121 94; /* #8b795e - Medium brown */
+  --popover: 255 230 176; /* #ffe6b0 - Cream for popover */
+  --popover-foreground: 101 67 33; /* Dark brown text */
+  --card: 255 230 176; /* #ffe6b0 - Cream for cards */
+  --card-foreground: 101 67 33; /* Dark brown text */
+  --border: 229 207 151; /* #e5cf97 - Darker cream border */
+  --input: 255 240 204; /* #fff0cc - Light cream input backgrounds */
+  --primary: 139 121 94; /* #8b795e - Medium brown primary */
   --primary-foreground: 255 255 255; /* White text on primary */
-  --secondary: 156 163 175; /* #9ca3af - Light gray secondary */
-  --secondary-foreground: 17 24 39; /* Dark text on secondary */
-  --accent: 107 114 128; /* #6b7280 - Accent gray */
+  --secondary: 210 180 140; /* #d2b48c - Tan secondary */
+  --secondary-foreground: 101 67 33; /* Dark brown text on secondary */
+  --accent: 160 134 98; /* #a08662 - Brown accent */
   --accent-foreground: 255 255 255; /* White text on accent */
-  --warning: 120 113 108; /* #78716c - Muted brown warning */
+  --warning: 184 134 11; /* #b8860b - Dark goldenrod warning */
   --warning-foreground: 255 255 255; /* White text on warning */
-  --destructive: 127 29 29; /* #7f1d1d - Dark red */
+  --destructive: 139 69 19; /* #8b4513 - Saddle brown */
   --destructive-foreground: 255 255 255; /* White text on destructive */
-  --info: 107 114 128; /* #6b7280 - Gray info */
+  --info: 139 121 94; /* #8b795e - Brown info */
   --info-foreground: 255 255 255; /* White text on info */
-  --ring: 75 85 99; /* Gray ring */
+  --ring: 139 121 94; /* Brown ring */
   --radius: 0.75rem;
 }
 
