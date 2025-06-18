@@ -10,7 +10,7 @@ export default function AdminPage() {
       {/* Main Content Area - takes remaining space */}
       <div className="flex-1 lg:pl-64">
         <div className="flex h-screen">
-          <div className="flex-1 overflow-auto">
+          <div className="flex-1 overflow-auto max-w-none">
             <LiveSalesDashboard />
           </div>
           <div className="w-80 flex-shrink-0">
