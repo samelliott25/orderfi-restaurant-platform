@@ -182,7 +182,7 @@ export function LiveSalesDashboard() {
               <img 
                 src={mimiAccountantImage} 
                 alt="Mimi Accountant" 
-                className="h-16 w-auto object-contain opacity-80"
+                className="h-24 w-auto object-contain opacity-90"
               />
             </div>
           </div>
