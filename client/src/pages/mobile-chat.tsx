@@ -12,10 +12,10 @@ export default function MobileChatPage() {
 
   if (isLoading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-background">
+      <div className="h-screen flex items-center justify-center" style={{ backgroundColor: '#ffe6b0' }}>
         <div className="text-center space-y-4">
-          <div className="w-16 h-16 mx-auto rounded-full bg-secondary animate-pulse"></div>
-          <p className="text-muted-foreground">Loading Mimi...</p>
+          <div className="w-16 h-16 mx-auto rounded-full animate-pulse" style={{ backgroundColor: '#fff0cc' }}></div>
+          <p style={{ color: '#8b795e' }}>Loading Mimi...</p>
         </div>
       </div>
     );

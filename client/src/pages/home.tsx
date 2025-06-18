@@ -35,7 +35,7 @@ export default function HomePage() {
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-2deg)',
-                  color: '#D2691E'
+                  color: '#654321'
                 }}
               >
                 Ready to Order?
@@ -46,11 +46,12 @@ export default function HomePage() {
             <div className="flex flex-col space-y-3 w-full max-w-xs">
               <Button
                 asChild
-                className="w-full py-3 text-lg font-bold bg-orange-500 hover:bg-orange-600 text-white shadow-lg transition-all duration-200 transform hover:scale-105"
+                className="w-full py-3 text-lg font-bold text-white shadow-lg transition-all duration-200 transform hover:scale-105 hover:opacity-90"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
-                  fontWeight: '400'
+                  fontWeight: '400',
+                  backgroundColor: '#8b795e'
                 }}
               >
                 <Link href="/mobile-chat">
@@ -62,11 +63,14 @@ export default function HomePage() {
               <Button
                 asChild
                 variant="outline"
-                className="w-full py-3 text-lg font-bold border-2 border-orange-500 text-orange-600 hover:bg-orange-50 shadow-lg transition-all duration-200 transform hover:scale-105"
+                className="w-full py-3 text-lg font-bold border-2 shadow-lg transition-all duration-200 transform hover:scale-105"
                 style={{ 
                   fontFamily: 'Permanent Marker, cursive',
                   letterSpacing: '0.02em',
-                  fontWeight: '400'
+                  fontWeight: '400',
+                  borderColor: '#8b795e',
+                  color: '#654321',
+                  backgroundColor: '#fff0cc'
                 }}
               >
                 <Link href="/mobile-chat">
