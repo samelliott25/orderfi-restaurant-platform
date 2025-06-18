@@ -220,24 +220,24 @@ export function OperationsAiChat() {
   };
 
   return (
-    <div className="w-full h-screen bg-white border-l border-gray-200 flex flex-col">
+    <div className="w-full h-screen bg-card border-l border-border flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-pink-50">
+      <div className="p-6 border-b border-border">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-            <Bot className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+            <Bot className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900">Mimi Operations AI</h3>
-            <p className="text-xs text-gray-600">Autonomous Business Manager</p>
+            <h3 className="font-semibold text-foreground">Operations AI</h3>
+            <p className="text-sm text-muted-foreground">Autonomous Manager</p>
           </div>
         </div>
         
         {activeTask && (
-          <div className="mt-3 p-2 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="mt-4 p-3 bg-primary/5 rounded-xl border border-primary/20">
             <div className="flex items-center space-x-2">
-              <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
-              <span className="text-sm text-blue-700 font-medium">
+              <Loader2 className="w-4 h-4 text-primary animate-spin" />
+              <span className="text-sm text-foreground font-medium">
                 {activeTask.description}
               </span>
             </div>

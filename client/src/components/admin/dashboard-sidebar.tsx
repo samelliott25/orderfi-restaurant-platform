@@ -102,11 +102,13 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
   const [location] = useLocation();
 
   const SidebarContent = () => (
-    <div className="flex h-full flex-col bg-[#1a1a1a] text-white">
+    <div className="flex h-full flex-col bg-card border-r border-border">
       {/* Logo */}
-      <div className="flex h-16 items-center px-6">
-        <Bot className="h-8 w-8 text-purple-400" />
-        <span className="ml-3 text-xl font-bold">mimi</span>
+      <div className="flex h-16 items-center px-6 border-b border-border">
+        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+          <Bot className="h-5 w-5 text-primary-foreground" />
+        </div>
+        <span className="ml-3 text-xl font-semibold text-foreground">mimi</span>
       </div>
 
       {/* Navigation */}
