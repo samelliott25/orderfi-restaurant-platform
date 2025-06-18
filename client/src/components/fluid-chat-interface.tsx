@@ -42,22 +42,20 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
   const [messageAges, setMessageAges] = useState<Map<string, number>>(new Map());
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize with authentication prompt
+  // Initialize with welcome message
   useEffect(() => {
-    const authMessage = "Hi! I'm Mimi. Sign in or continue anonymous?";
+    const welcomeMsg = "Hi! I'm Mimi, your AI waitress! What delicious food can I help you order today? 🍴";
     setMessages([{
-      id: "auth-prompt",
-      content: authMessage,
+      id: "welcome-msg",
+      content: welcomeMsg,
       isUser: false,
       timestamp: new Date(),
     }]);
-
-    // Delay showing the auth buttons to allow message to appear first
-    const timer = setTimeout(() => {
-      setShowAuthButtons(true);
-    }, 1500); // 1.5 second delay after message appears
-
-    return () => clearTimeout(timer);
+    
+    // Skip auth since user already chose on landing page
+    setIsAuthenticated(true);
+    setShowAuthPrompt(false);
+    setUserChoiceType('anonymous'); // Default to anonymous experience
   }, []);
 
   // Apply scroll effect to older messages when new ones arrive
@@ -112,38 +110,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
     }
   });
 
-  const handleAuthChoice = (choice: 'login' | 'anonymous') => {
-    const wittyAnonymousResponses = [
-      "No problem, Batman! Your secret identity is safe with me. Now, what can I get started for you today?",
-      "Gotcha, Mystery Guest! I'll keep things nice and anonymous. What sounds delicious to you?",
-      "Perfect, Secret Agent! I'll keep your identity under wraps. Let's talk about some amazing food instead!",
-      "You got it, Superhero! Anonymous dining it is. What can I whip up for you today?",
-      "Absolutely, Incognito! Your dining mission starts now. What's catching your eye on our menu?",
-      "No worries, Shadow! We'll keep this between us. What tasty adventure shall we begin?"
-    ];
 
-    let responseMessage = "";
-    if (choice === 'login') {
-      responseMessage = "Wonderful! I'd love to personalize your experience, but I'll need you to sign in through your account page. For now, let's get you started with our delicious menu! What sounds good to you today?";
-      setIsAuthenticated(false); // Still anonymous until actual login
-    } else {
-      const randomResponse = wittyAnonymousResponses[Math.floor(Math.random() * wittyAnonymousResponses.length)];
-      responseMessage = randomResponse;
-      setIsAuthenticated(false);
-    }
-
-    const aiMessage: ChatMessage = {
-      id: `ai-auth-${Date.now()}`,
-      content: responseMessage,
-      isUser: false,
-      timestamp: new Date(),
-    };
-
-    setMessages(prev => [...prev, aiMessage]);
-    setShowAuthPrompt(false);
-    setShowAuthButtons(false);
-    setUserChoiceType(choice);
-  };
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -298,27 +265,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
           </div>
         ))}
 
-        {/* Authentication Popup Buttons - positioned after last message */}
-        {showAuthButtons && (
-          <div className="px-4 py-4">
-            <div className="flex gap-3 max-w-md mx-auto animate-bounce-drop">
-              <Button
-                onClick={() => handleAuthChoice('login')}
-                className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-lg"
-                style={{ fontFamily: 'Inter, sans-serif' }}
-              >
-                Sign In
-              </Button>
-              <Button
-                onClick={() => handleAuthChoice('anonymous')}
-                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-lg"
-                style={{ fontFamily: 'Inter, sans-serif' }}
-              >
-                Continue Anonymous
-              </Button>
-            </div>
-          </div>
-        )}
+
 
         <div ref={messagesEndRef} />
       </div>
@@ -326,9 +273,8 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       {/* Bottom spacer - empty space for bottom 50% */}
       <div className="flex-1"></div>
 
-      {/* Input Area - Only show after authentication choice */}
-      {userChoiceType && (
-        <div className="p-4 border-t-2 border-white bg-background relative z-10">
+      {/* Input Area */}
+      <div className="p-4 border-t-2 border-white bg-background relative z-10">
           <form onSubmit={handleSendMessage} className="flex space-x-2">
             {/* Voice Input */}
             <VoiceInput
@@ -373,8 +319,7 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
               <Send className="h-4 w-4" />
             </Button>
           </form>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
