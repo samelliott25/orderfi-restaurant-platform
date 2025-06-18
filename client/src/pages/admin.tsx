@@ -4,20 +4,23 @@ import { OperationsAiChat } from "@/components/admin/operations-ai-chat";
 
 export default function AdminPage() {
   return (
-    <div className="min-h-screen bg-[#f5f1e8]">
+    <div className="min-h-screen bg-background">
       <div className="flex">
-        {/* Sidebar - Fixed width */}
-        <div className="w-64 flex-shrink-0">
+        {/* Sidebar - Hidden on mobile, shown as overlay */}
+        <div className="hidden lg:block w-64 flex-shrink-0">
           <DashboardSidebar />
         </div>
         
-        {/* Main Dashboard Content - Takes remaining space */}
+        {/* Main Dashboard Content - Full width on mobile, constrained on desktop */}
         <div className="flex-1 min-w-0 overflow-auto">
+          <div className="lg:hidden">
+            <DashboardSidebar />
+          </div>
           <LiveSalesDashboard />
         </div>
         
-        {/* Operations AI Chat - Fixed width */}
-        <div className="w-80 flex-shrink-0">
+        {/* Operations AI Chat - Hidden on mobile */}
+        <div className="hidden xl:block w-80 flex-shrink-0">
           <OperationsAiChat />
         </div>
       </div>
