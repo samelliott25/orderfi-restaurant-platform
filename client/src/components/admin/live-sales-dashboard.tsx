@@ -104,7 +104,7 @@ export function LiveSalesDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f1e8] p-6 w-full max-w-none">
+    <div className="min-h-screen bg-[#f5f1e8] p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>

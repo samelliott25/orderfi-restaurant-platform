@@ -220,7 +220,7 @@ export function OperationsAiChat() {
   };
 
   return (
-    <div className="w-80 h-screen bg-white border-l border-gray-200 flex flex-col">
+    <div className="w-full h-screen bg-white border-l border-gray-200 flex flex-col">
       {/* Header */}
       <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-pink-50">
         <div className="flex items-center space-x-3">

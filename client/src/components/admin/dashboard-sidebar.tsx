@@ -175,10 +175,8 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className={cn("hidden lg:block", className)}>
-        <div className="flex h-screen w-64 flex-col border-r bg-background">
-          <SidebarContent />
-        </div>
+      <div className={cn("hidden lg:block h-screen", className)}>
+        <SidebarContent />
       </div>
 
       {/* Mobile Sidebar */}
