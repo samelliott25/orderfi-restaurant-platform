@@ -134,25 +134,25 @@ export function LiveSalesDashboard() {
 
       {/* Key Metrics - Collapsible */}
       <Collapsible open={overviewOpen} onOpenChange={setOverviewOpen}>
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border-2 border-orange-200 hover:from-orange-100 hover:to-yellow-100 transition-all duration-300 shadow-sm">
-          <h2 className="text-xl font-bold text-teal-900">Today's Overview</h2>
-          {overviewOpen ? <ChevronDown className="w-5 h-5 text-orange-600" /> : <ChevronRight className="w-5 h-5 text-orange-600" />}
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-card rounded-lg border border-border hover:bg-muted/50 transition-colors">
+          <h2 className="text-xl font-semibold text-foreground">Today's Overview</h2>
+          {overviewOpen ? <ChevronDown className="w-5 h-5 text-muted-foreground" /> : <ChevronRight className="w-5 h-5 text-muted-foreground" />}
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6 mt-4 w-full">
         {/* Orders Card */}
-        <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 border-2 border-orange-200 shadow-sm hover:shadow-lg transition-all duration-300">
+        <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-orange-800">Total Orders</h3>
-            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-md">
-              <ShoppingCart className="w-5 h-5 text-white" />
+            <h3 className="text-sm font-medium text-muted-foreground">Total Orders</h3>
+            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
+              <ShoppingCart className="w-5 h-5 text-muted-foreground" />
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold text-teal-900">{todayStats.totalOrders}</span>
-            <span className="text-sm text-orange-700 font-medium">today</span>
+            <span className="text-3xl font-bold text-foreground">{todayStats.totalOrders}</span>
+            <span className="text-sm text-muted-foreground font-medium">today</span>
           </div>
-          <div className="flex items-center space-x-1 text-xs text-teal-800 font-medium">
+          <div className="flex items-center space-x-1 text-xs text-muted-foreground">
             <span>{todayStats.pendingOrders} pending</span>
             <span>•</span>
             <span>{todayStats.ordersPerHour.toFixed(1)}/hour avg</span>
@@ -160,35 +160,35 @@ export function LiveSalesDashboard() {
         </div>
 
         {/* Revenue Card */}
-        <div className="bg-gradient-to-br from-teal-50 to-green-50 rounded-2xl p-6 border-2 border-teal-200 shadow-sm hover:shadow-lg transition-all duration-300">
+        <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-teal-800">Revenue</h3>
-            <div className="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center shadow-md">
-              <DollarSign className="w-5 h-5 text-white" />
+            <h3 className="text-sm font-medium text-muted-foreground">Revenue</h3>
+            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
+              <DollarSign className="w-5 h-5 text-muted-foreground" />
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold text-teal-900">${todayStats.totalRevenue.toFixed(0)}</span>
-            <span className="text-sm font-medium text-orange-700 bg-orange-100 px-2 py-1 rounded-full">+12.3%</span>
+            <span className="text-3xl font-bold text-foreground">${todayStats.totalRevenue.toFixed(0)}</span>
+            <span className="text-sm font-medium text-muted-foreground bg-muted px-2 py-1 rounded-full">+12.3%</span>
           </div>
-          <div className="text-xs text-teal-800 font-medium">
+          <div className="text-xs text-muted-foreground">
             Avg: ${todayStats.averageOrderValue.toFixed(0)} • Target: $2000
           </div>
         </div>
 
         {/* Completion Status Card */}
-        <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-6 border-2 border-green-200 shadow-sm hover:shadow-lg transition-all duration-300">
+        <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-green-800">Completion Rate</h3>
-            <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center shadow-md">
-              <CheckCircle className="w-5 h-5 text-white" />
+            <h3 className="text-sm font-medium text-muted-foreground">Completion Rate</h3>
+            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
+              <CheckCircle className="w-5 h-5 text-muted-foreground" />
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold text-teal-900">{todayStats.completionRate}%</span>
-            <span className="text-sm text-green-700 font-medium">success</span>
+            <span className="text-3xl font-bold text-foreground">{todayStats.completionRate}%</span>
+            <span className="text-sm text-muted-foreground font-medium">success</span>
           </div>
-          <div className="flex items-center space-x-3 text-xs text-teal-800 font-medium">
+          <div className="flex items-center space-x-3 text-xs text-muted-foreground">
             <span>{todayStats.completedOrders} completed</span>
             <span>•</span>
             <span>{todayStats.pendingOrders} pending</span>
@@ -196,18 +196,18 @@ export function LiveSalesDashboard() {
         </div>
 
         {/* Active Sessions Card */}
-        <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 border-2 border-yellow-200 shadow-sm hover:shadow-lg transition-all duration-300">
+        <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-orange-800">Active Sessions</h3>
-            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-md">
-              <Activity className="w-5 h-5 text-white" />
+            <h3 className="text-sm font-medium text-muted-foreground">Active Sessions</h3>
+            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
+              <Activity className="w-5 h-5 text-muted-foreground" />
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold text-teal-900">2</span>
-            <span className="text-sm text-orange-700 font-medium">active</span>
+            <span className="text-3xl font-bold text-foreground">2</span>
+            <span className="text-sm text-muted-foreground font-medium">active</span>
           </div>
-          <div className="text-xs text-teal-800 font-medium">
+          <div className="text-xs text-muted-foreground">
             Avg duration: 24min
           </div>
         </div>
@@ -217,9 +217,9 @@ export function LiveSalesDashboard() {
 
       {/* Order Queue and Details - Collapsible */}
       <Collapsible open={ordersOpen} onOpenChange={setOrdersOpen}>
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-gradient-to-r from-teal-50 to-green-50 rounded-lg border-2 border-teal-200 hover:from-teal-100 hover:to-green-100 transition-all duration-300 shadow-sm">
-          <h2 className="text-xl font-bold text-teal-900">Live Orders</h2>
-          {ordersOpen ? <ChevronDown className="w-5 h-5 text-teal-600" /> : <ChevronRight className="w-5 h-5 text-teal-600" />}
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-card rounded-lg border border-border hover:bg-muted/50 transition-colors">
+          <h2 className="text-xl font-semibold text-foreground">Live Orders</h2>
+          {ordersOpen ? <ChevronDown className="w-5 h-5 text-muted-foreground" /> : <ChevronRight className="w-5 h-5 text-muted-foreground" />}
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="mt-4">

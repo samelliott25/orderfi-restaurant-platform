@@ -5,32 +5,30 @@
 @tailwind utilities;
 
 :root {
-  /* Mimi Waitress Retro Color Palette */
-  --background: 252 248 238; /* #fcf8ee - Warm cream background */
-  --foreground: 45 66 58; /* #2d423a - Deep teal text */
-  --muted: 239 232 214; /* #efe8d6 - Light cream */
-  --muted-foreground: 101 125 115; /* #657d73 - Muted teal */
+  /* LoFi Minimalist Color Palette */
+  --background: 249 250 251; /* #f9fafb - Clean light gray */
+  --foreground: 17 24 39; /* #111827 - Dark gray text */
+  --muted: 243 244 246; /* #f3f4f6 - Light gray */
+  --muted-foreground: 107 114 128; /* #6b7280 - Medium gray */
   --popover: 255 255 255; /* White for popover */
-  --popover-foreground: 45 66 58; /* Deep teal text */
+  --popover-foreground: 17 24 39; /* Dark gray text */
   --card: 255 255 255; /* White for cards */
-  --card-foreground: 45 66 58; /* Deep teal text */
-  --border: 200 212 203; /* #c8d4cb - Sage border */
+  --card-foreground: 17 24 39; /* Dark gray text */
+  --border: 229 231 235; /* #e5e7eb - Light border */
   --input: 255 255 255; /* White input backgrounds */
-  --primary: 45 66 58; /* #2d423a - Deep teal primary */
+  --primary: 75 85 99; /* #4b5563 - Medium gray primary */
   --primary-foreground: 255 255 255; /* White text on primary */
-  --secondary: 239 123 69; /* #ef7b45 - Warm orange secondary */
-  --secondary-foreground: 255 255 255; /* White text on secondary */
-  --accent: 150 188 164; /* #96bca4 - Sage green accent */
-  --accent-foreground: 45 66 58; /* Deep teal on accent */
-  --warning: 239 123 69; /* #ef7b45 - Orange warning */
+  --secondary: 156 163 175; /* #9ca3af - Light gray secondary */
+  --secondary-foreground: 17 24 39; /* Dark text on secondary */
+  --accent: 107 114 128; /* #6b7280 - Accent gray */
+  --accent-foreground: 255 255 255; /* White text on accent */
+  --warning: 120 113 108; /* #78716c - Muted brown warning */
   --warning-foreground: 255 255 255; /* White text on warning */
-  --destructive: 217 98 86; /* #d96256 - Muted red */
+  --destructive: 127 29 29; /* #7f1d1d - Dark red */
   --destructive-foreground: 255 255 255; /* White text on destructive */
-  --info: 150 188 164; /* #96bca4 - Sage info */
-  --info-foreground: 45 66 58; /* Deep teal on info */
-  --orange: 239 123 69; /* #ef7b45 - Mimi's orange */
-  --orange-foreground: 255 255 255; /* White text on orange */
-  --ring: 45 66 58; /* Deep teal ring */
+  --info: 107 114 128; /* #6b7280 - Gray info */
+  --info-foreground: 255 255 255; /* White text on info */
+  --ring: 75 85 99; /* Gray ring */
   --radius: 0.75rem;
 }
 
