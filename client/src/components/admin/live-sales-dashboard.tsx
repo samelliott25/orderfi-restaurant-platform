@@ -17,6 +17,7 @@ import {
   ChevronDown,
   ChevronRight
 } from "lucide-react";
+import mimiAccountantImage from "@assets/20250618_2323_Mimi the Accountant_remix_01jy1k8nqkf4wavwcqmck1phg8_1750254058384.png";
 
 interface OrderStats {
   totalOrders: number;
@@ -160,19 +161,30 @@ export function LiveSalesDashboard() {
         </div>
 
         {/* Revenue Card */}
-        <div className="rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-300" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
+        <div className="rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium" style={{ color: '#8b795e' }}>Revenue</h3>
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#fff0cc' }}>
               <DollarSign className="w-5 h-5" style={{ color: '#8b795e' }} />
             </div>
           </div>
-          <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold" style={{ color: '#654321' }}>${todayStats.totalRevenue.toFixed(0)}</span>
-            <span className="text-sm font-medium px-2 py-1 rounded-full" style={{ color: '#8b795e', backgroundColor: '#fff0cc' }}>+12.3%</span>
-          </div>
-          <div className="text-xs" style={{ color: '#8b795e' }}>
-            Avg: ${todayStats.averageOrderValue.toFixed(0)} • Target: $2000
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-baseline space-x-2 mb-2">
+                <span className="text-3xl font-bold" style={{ color: '#654321' }}>${todayStats.totalRevenue.toFixed(0)}</span>
+                <span className="text-sm font-medium px-2 py-1 rounded-full" style={{ color: '#8b795e', backgroundColor: '#fff0cc' }}>+12.3%</span>
+              </div>
+              <div className="text-xs" style={{ color: '#8b795e' }}>
+                Avg: ${todayStats.averageOrderValue.toFixed(0)} • Target: $2000
+              </div>
+            </div>
+            <div className="ml-4">
+              <img 
+                src={mimiAccountantImage} 
+                alt="Mimi Accountant" 
+                className="h-16 w-auto object-contain opacity-80"
+              />
+            </div>
           </div>
         </div>
 

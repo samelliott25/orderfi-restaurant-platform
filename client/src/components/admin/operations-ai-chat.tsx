@@ -18,7 +18,6 @@ import {
   Loader2
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
-import mimiAccountantLogo from "@assets/20250618_2323_Mimi the Accountant_remix_01jy1k8nqkf4wavwcqmck1phg8_1750253222474.png";
 
 interface ChatMessage {
   id: string;
@@ -223,17 +222,8 @@ export function OperationsAiChat() {
 
   return (
     <div className="w-full h-full border-l flex flex-col overflow-hidden" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
-      {/* Logo Section */}
-      <div className="p-3 border-b flex-shrink-0 flex justify-center" style={{ borderColor: '#e5cf97' }}>
-        <img 
-          src={mimiAccountantLogo} 
-          alt="Mimi Accountant" 
-          className="h-16 w-auto object-contain"
-        />
-      </div>
-      
       {/* Header */}
-      <div className="p-4 lg:p-5 border-b flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
+      <div className="p-4 lg:p-6 border-b flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#8b795e' }}>
             <Bot className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
