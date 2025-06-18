@@ -295,21 +295,18 @@ export function OperationsAiChat() {
         </div>
       </ScrollArea>
 
-      {/* Quick Actions - Properly Contained */}
-      <div className="border-t border-border bg-muted/10 p-3">
-        <h4 className="text-xs font-semibold text-foreground mb-2">Quick Actions</h4>
-        <div className="grid grid-cols-1 gap-1">
-          {suggestedTasks.slice(0, 4).map((task, index) => (
+      {/* Quick Actions */}
+      <div className="px-4 py-2 border-t border-border">
+        <h4 className="text-xs font-medium text-muted-foreground mb-2">Quick Actions</h4>
+        <div className="flex flex-wrap gap-1">
+          {suggestedTasks.slice(0, 3).map((task, index) => (
             <button
               key={index}
               onClick={() => handleSuggestedTask(task)}
-              className="p-1.5 text-left border border-border/50 rounded-md hover:bg-card text-xs transition-colors"
+              className="px-2 py-1 text-xs bg-muted hover:bg-muted/80 rounded text-foreground"
               disabled={isLoading || activeTask !== null}
             >
-              <div className="flex items-center gap-1.5">
-                <task.icon className="w-3 h-3 text-muted-foreground shrink-0" />
-                <span className="font-medium truncate">{task.title.slice(0, 20)}...</span>
-              </div>
+              {task.title.split(' ')[0]}
             </button>
           ))}
         </div>
