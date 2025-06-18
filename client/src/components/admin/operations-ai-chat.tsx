@@ -295,22 +295,21 @@ export function OperationsAiChat() {
         </div>
       </ScrollArea>
 
-      {/* Suggested Tasks */}
-      <div className="p-4 border-t border-border bg-muted/30 flex-shrink-0">
-        <h4 className="text-sm font-medium text-foreground mb-3">Quick Actions:</h4>
-        <div className="space-y-2 w-full">
-          {suggestedTasks.map((task, index) => (
+      {/* Quick Actions - Properly Contained */}
+      <div className="border-t border-border bg-muted/10 p-3">
+        <h4 className="text-xs font-semibold text-foreground mb-2">Quick Actions</h4>
+        <div className="grid grid-cols-1 gap-1">
+          {suggestedTasks.slice(0, 4).map((task, index) => (
             <button
               key={index}
               onClick={() => handleSuggestedTask(task)}
-              className="w-full p-2 text-left border border-border rounded-lg hover:bg-card hover:shadow-sm transition-all overflow-hidden"
+              className="p-1.5 text-left border border-border/50 rounded-md hover:bg-card text-xs transition-colors"
               disabled={isLoading || activeTask !== null}
             >
-              <div className="flex items-center space-x-2 mb-1">
-                <task.icon className="w-3 h-3 text-muted-foreground flex-shrink-0" />
-                <span className="text-xs font-medium text-foreground truncate">{task.title}</span>
+              <div className="flex items-center gap-1.5">
+                <task.icon className="w-3 h-3 text-muted-foreground shrink-0" />
+                <span className="font-medium truncate">{task.title.slice(0, 20)}...</span>
               </div>
-              <p className="text-xs text-muted-foreground truncate">{task.description}</p>
             </button>
           ))}
         </div>
