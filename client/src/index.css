@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 :root {
-  /* Modern Healthcare App Inspired Colors */
+  /* Vibrant Healthcare App Colors */
   --background: 248 250 252; /* #f8fafc - Clean light background */
   --foreground: 15 23 42; /* #0f172a - Dark slate text */
   --muted: 241 245 249; /* #f1f5f9 - Subtle gray */
@@ -16,15 +16,21 @@
   --card-foreground: 15 23 42; /* Dark text */
   --border: 226 232 240; /* #e2e8f0 - Light border */
   --input: 255 255 255; /* White input backgrounds */
-  --primary: 99 102 241; /* #6366f1 - Modern indigo */
+  --primary: 79 70 229; /* #4f46e5 - Vibrant indigo */
   --primary-foreground: 255 255 255; /* White text on primary */
-  --secondary: 148 163 184; /* #94a3b8 - Slate secondary */
-  --secondary-foreground: 15 23 42; /* Dark text on secondary */
-  --accent: 34 197 94; /* #22c55e - Green accent */
+  --secondary: 236 72 153; /* #ec4899 - Vibrant pink */
+  --secondary-foreground: 255 255 255; /* White text on secondary */
+  --accent: 34 197 94; /* #22c55e - Success green */
   --accent-foreground: 255 255 255; /* White text on accent */
-  --destructive: 239 68 68; /* Red */
-  --destructive-foreground: 255 255 255; /* White text */
-  --ring: 99 102 241; /* Indigo ring */
+  --warning: 251 146 60; /* #fb923c - Orange warning */
+  --warning-foreground: 255 255 255; /* White text on warning */
+  --destructive: 239 68 68; /* #ef4444 - Red error */
+  --destructive-foreground: 255 255 255; /* White text on destructive */
+  --info: 59 130 246; /* #3b82f6 - Blue info */
+  --info-foreground: 255 255 255; /* White text on info */
+  --purple: 147 51 234; /* #9333ea - Purple accent */
+  --purple-foreground: 255 255 255; /* White text on purple */
+  --ring: 79 70 229; /* Indigo ring */
   --radius: 0.75rem;
 }
 
