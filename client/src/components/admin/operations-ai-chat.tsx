@@ -271,8 +271,8 @@ export function OperationsAiChat() {
                 
                 {message.actions && message.actions.length > 0 && (
                   <div className="mt-2 space-y-1">
-                    {message.actions.map((action) => (
-                      <Badge key={action.id} variant="outline" className="text-xs">
+                    {message.actions.map((action, index) => (
+                      <Badge key={`${action.id}-${index}`} variant="outline" className="text-xs">
                         {action.description}
                       </Badge>
                     ))}

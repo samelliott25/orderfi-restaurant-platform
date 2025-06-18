@@ -4,14 +4,12 @@ import { OperationsAiChat } from "@/components/admin/operations-ai-chat";
 
 export default function AdminPage() {
   return (
-    <div className="flex min-h-screen bg-[#f5f1e8]">
+    <div className="min-h-screen bg-[#f5f1e8]">
       <DashboardSidebar />
       
-      <div className="flex flex-1 lg:pl-64">
-        <div className="flex-1 min-w-0">
-          <LiveSalesDashboard />
-        </div>
-        <div className="flex-shrink-0">
+      <div className="lg:pl-64 pr-80 relative">
+        <LiveSalesDashboard />
+        <div className="fixed top-0 right-0 h-full">
           <OperationsAiChat />
         </div>
       </div>
