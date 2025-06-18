@@ -232,17 +232,16 @@ export function LiveSalesDashboard() {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="mt-4">
-            {/* Order Queue and Details */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full">
-        {/* Order List */}
-        <div>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-foreground">Order Queue</h2>
-            <select className="bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium border-0 outline-none">
-              <option>Today</option>
-              <option>This Week</option>
-            </select>
-          </div>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full">
+              {/* Order List */}
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-semibold text-foreground">Order Queue</h3>
+                  <select className="bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium border-0 outline-none">
+                    <option>Today</option>
+                    <option>This Week</option>
+                  </select>
+                </div>
           
           <div className="space-y-3">
             {liveOrders.length === 0 ? (
@@ -292,48 +291,45 @@ export function LiveSalesDashboard() {
 
         {/* Order Details */}
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Order details</h2>
+          <h3 className="text-lg font-semibold text-foreground mb-6">Order Details</h3>
           
           {liveOrders.length > 0 ? (
-            <div className="bg-white rounded-xl border border-gray-100 p-6">
+            <div className="bg-card rounded-xl border border-border p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-medium text-gray-900">{liveOrders[0].customerName}</h3>
-                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                <h4 className="font-medium text-foreground">{liveOrders[0].customerName}</h4>
+                <span className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs font-medium">
                   PREP-TIME-24M72
                 </span>
               </div>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Min:</span>
-                  <span className="font-medium">24 mins • 3 Months</span>
+                  <span className="text-muted-foreground">Duration:</span>
+                  <span className="font-medium text-foreground">24 mins</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Status:</span>
-                  <span className="font-medium capitalize">{liveOrders[0].status}</span>
+                  <span className="text-muted-foreground">Status:</span>
+                  <span className="font-medium capitalize text-foreground">{liveOrders[0].status}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Last Checked:</span>
-                  <span className="font-medium">⚡ Ready on 21 April 2021</span>
+                  <span className="text-muted-foreground">Total:</span>
+                  <span className="font-medium text-foreground">${liveOrders[0].total.toFixed(2)}</span>
                 </div>
               </div>
               
-              <div className="border-t pt-4">
-                <div className="text-sm text-gray-600 mb-2">Order items:</div>
-                <div className="text-sm font-medium">High level of spice • Normal</div>
-                <div className="text-xs text-gray-500 mt-1">hemoglobin levels</div>
-                <div className="text-xs text-gray-500 mt-2">Prescription • 2 times a day</div>
-                <div className="text-xs text-gray-500">Dosage • Day and Night before</div>
+              <div className="border-t border-border pt-4">
+                <div className="text-sm text-muted-foreground mb-2">Order Items:</div>
+                <div className="text-sm font-medium text-foreground">{liveOrders[0].items} items</div>
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-xl border border-gray-100 p-6 text-center">
-              <p className="text-gray-500">Select an order to view details</p>
+            <div className="bg-card rounded-xl border border-border p-6 text-center">
+              <p className="text-muted-foreground">Select an order to view details</p>
             </div>
           )}
         </div>
       </div>
-          </div>
+    </div>
         </CollapsibleContent>
       </Collapsible>
     </div>
