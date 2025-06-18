@@ -19,8 +19,8 @@ export default function AdminPage() {
           <LiveSalesDashboard />
         </div>
         
-        {/* Operations AI Chat - Hidden on mobile */}
-        <div className="hidden xl:block w-80 flex-shrink-0">
+        {/* Operations AI Chat - Hidden only on mobile */}
+        <div className="hidden lg:block w-80 flex-shrink-0">
           <OperationsAiChat />
         </div>
       </div>
