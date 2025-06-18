@@ -31,7 +31,7 @@ export default function AdminPage() {
         </div>
         
         {/* Operations AI Chat - Always visible */}
-        <div className="w-80 flex-shrink-0">
+        <div className="w-80 flex-shrink-0 relative z-10">
           <OperationsAiChat />
         </div>
       </div>

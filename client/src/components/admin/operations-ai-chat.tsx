@@ -220,7 +220,7 @@ export function OperationsAiChat() {
   };
 
   return (
-    <div className="w-full h-screen bg-card border-l border-border flex flex-col">
+    <div className="w-full h-screen bg-card border-l border-border flex flex-col overflow-hidden">
       {/* Header */}
       <div className="p-6 border-b border-border">
         <div className="flex items-center space-x-3">
@@ -296,17 +296,17 @@ export function OperationsAiChat() {
       </ScrollArea>
 
       {/* Suggested Tasks */}
-      <div className="p-4 border-t border-border bg-muted/30">
+      <div className="p-4 border-t border-border bg-muted/30 flex-shrink-0">
         <h4 className="text-sm font-medium text-foreground mb-3">Quick Actions:</h4>
-        <div className="grid grid-cols-2 gap-2 max-w-full overflow-hidden">
+        <div className="space-y-2 w-full">
           {suggestedTasks.map((task, index) => (
             <button
               key={index}
               onClick={() => handleSuggestedTask(task)}
-              className="p-2 text-left border border-border rounded-lg hover:bg-card hover:shadow-sm transition-all min-w-0 flex-shrink"
+              className="w-full p-2 text-left border border-border rounded-lg hover:bg-card hover:shadow-sm transition-all overflow-hidden"
               disabled={isLoading || activeTask !== null}
             >
-              <div className="flex items-center space-x-1 mb-1 overflow-hidden">
+              <div className="flex items-center space-x-2 mb-1">
                 <task.icon className="w-3 h-3 text-muted-foreground flex-shrink-0" />
                 <span className="text-xs font-medium text-foreground truncate">{task.title}</span>
               </div>
