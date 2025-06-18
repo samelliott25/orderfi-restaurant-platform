@@ -158,7 +158,7 @@ export function MenuManagementDashboard() {
               <ChefHat className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-medium">Total Items</span>
             </div>
-            <div className="text-2xl font-bold">{menuItems.length}</div>
+            <div className="text-2xl font-bold">{typedMenuItems.length}</div>
           </CardContent>
         </Card>
         <Card>
@@ -168,8 +168,8 @@ export function MenuManagementDashboard() {
               <span className="text-sm font-medium">Avg Price</span>
             </div>
             <div className="text-2xl font-bold">
-              ${menuItems.length > 0 
-                ? (menuItems.reduce((sum: number, item: MenuItem) => sum + parseFloat(item.price), 0) / menuItems.length).toFixed(2)
+              ${typedMenuItems.length > 0 
+                ? (typedMenuItems.reduce((sum: number, item: MenuItem) => sum + parseFloat(item.price), 0) / typedMenuItems.length).toFixed(2)
                 : '0.00'
               }
             </div>
@@ -191,7 +191,7 @@ export function MenuManagementDashboard() {
               <span className="text-sm font-medium">Available</span>
             </div>
             <div className="text-2xl font-bold">
-              {menuItems.filter((item: MenuItem) => item.available).length}
+              {typedMenuItems.filter((item: MenuItem) => item.available).length}
             </div>
           </CardContent>
         </Card>
