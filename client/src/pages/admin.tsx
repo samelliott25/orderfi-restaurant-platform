@@ -9,7 +9,7 @@ export default function AdminPage() {
       <div className="lg:hidden">
         <DashboardSidebar />
         {/* Operations AI Chat - Always visible on mobile at top */}
-        <div className="h-96 border-b border-border">
+        <div className="h-96 border-b border-border overflow-hidden">
           <OperationsAiChat />
         </div>
         {/* Main Dashboard Content - Below chat on mobile */}
@@ -31,7 +31,7 @@ export default function AdminPage() {
         </div>
         
         {/* Operations AI Chat - Always visible */}
-        <div className="w-80 flex-shrink-0 relative z-10">
+        <div className="w-80 flex-shrink-0 relative z-10 overflow-hidden">
           <OperationsAiChat />
         </div>
       </div>
