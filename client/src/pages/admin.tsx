@@ -4,7 +4,7 @@ import { OperationsAiChat } from "@/components/admin/operations-ai-chat";
 
 export default function AdminPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ backgroundColor: '#ffe6b0' }}>
       {/* Mobile Layout - Vertical Stack */}
       <div className="lg:hidden">
         <DashboardSidebar />
