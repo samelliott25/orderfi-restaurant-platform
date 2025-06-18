@@ -102,19 +102,19 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
   const [location] = useLocation();
 
   const SidebarContent = () => (
-    <div className="flex h-full flex-col bg-card border-r border-border">
+    <div className="flex h-full flex-col border-r" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
       {/* Logo */}
-      <div className="flex h-16 items-center px-6 border-b border-border">
-        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-          <Bot className="h-5 w-5 text-primary-foreground" />
+      <div className="flex h-16 items-center px-6 border-b" style={{ borderColor: '#e5cf97' }}>
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#8b795e' }}>
+          <Bot className="h-5 w-5 text-white" />
         </div>
-        <span className="ml-3 text-xl font-semibold text-foreground">mimi</span>
+        <span className="ml-3 text-xl font-semibold" style={{ color: '#654321' }}>mimi</span>
       </div>
 
       {/* Navigation */}
       <ScrollArea className="flex-1 px-4 py-6">
         <div className="mb-4">
-          <span className="text-xs font-medium text-gray-400 uppercase tracking-wider px-3">General</span>
+          <span className="text-xs font-medium uppercase tracking-wider px-3" style={{ color: '#8b795e' }}>General</span>
         </div>
         <nav className="space-y-1 mb-6">
           {navigation.slice(0, 5).map((item) => {
@@ -124,12 +124,13 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
             return (
               <Link key={item.name} href={item.href}>
                 <div
-                  className={cn(
-                    "group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:bg-gray-800",
-                    isActive && "bg-gray-800 text-white"
-                  )}
+                  className="group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:opacity-80"
+                  style={{
+                    backgroundColor: isActive ? '#8b795e' : 'transparent',
+                    color: isActive ? 'white' : '#654321'
+                  }}
                 >
-                  <item.icon className="h-5 w-5 shrink-0 text-gray-400" />
+                  <item.icon className="h-5 w-5 shrink-0" style={{ color: isActive ? 'white' : '#8b795e' }} />
                   <span className="ml-3 truncate">{item.name.replace(' Dashboard', '').replace(' Management', '')}</span>
                 </div>
               </Link>
@@ -138,7 +139,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
         </nav>
 
         <div className="mb-4">
-          <span className="text-xs font-medium text-gray-400 uppercase tracking-wider px-3">Tools</span>
+          <span className="text-xs font-medium uppercase tracking-wider px-3" style={{ color: '#8b795e' }}>Tools</span>
         </div>
         <nav className="space-y-1">
           {navigation.slice(5).map((item) => {
@@ -148,12 +149,13 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
             return (
               <Link key={item.name} href={item.href}>
                 <div
-                  className={cn(
-                    "group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:bg-gray-800",
-                    isActive && "bg-gray-800 text-white"
-                  )}
+                  className="group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:opacity-80"
+                  style={{
+                    backgroundColor: isActive ? '#8b795e' : 'transparent',
+                    color: isActive ? 'white' : '#654321'
+                  }}
                 >
-                  <item.icon className="h-5 w-5 shrink-0 text-gray-400" />
+                  <item.icon className="h-5 w-5 shrink-0" style={{ color: isActive ? 'white' : '#8b795e' }} />
                   <span className="ml-3 truncate">{item.name.replace(' & ', ' & ').replace(' Management', '')}</span>
                 </div>
               </Link>
@@ -163,8 +165,8 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       </ScrollArea>
 
       {/* Bottom Actions */}
-      <div className="border-t border-gray-700 p-4">
-        <Button asChild variant="ghost" className="w-full text-white hover:bg-gray-800 justify-start">
+      <div className="border-t p-4" style={{ borderColor: '#e5cf97' }}>
+        <Button asChild variant="ghost" className="w-full justify-start hover:opacity-80" style={{ color: '#654321' }}>
           <Link href="/mobile-chat">
             <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
             Log out

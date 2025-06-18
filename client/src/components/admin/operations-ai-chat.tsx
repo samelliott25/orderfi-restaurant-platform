@@ -221,16 +221,16 @@ export function OperationsAiChat() {
   };
 
   return (
-    <div className="w-full h-full bg-card border-l border-border flex flex-col overflow-hidden">
+    <div className="w-full h-full border-l flex flex-col overflow-hidden" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
       {/* Header */}
-      <div className="p-4 lg:p-6 border-b border-border flex-shrink-0">
+      <div className="p-4 lg:p-6 border-b flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 lg:w-10 lg:h-10 bg-primary rounded-xl flex items-center justify-center">
-            <Bot className="w-4 h-4 lg:w-5 lg:h-5 text-primary-foreground" />
+          <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#8b795e' }}>
+            <Bot className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-sm lg:text-base font-semibold text-foreground">Operations AI</h3>
-            <p className="text-xs lg:text-sm text-muted-foreground">Autonomous Manager</p>
+            <h3 className="text-sm lg:text-base font-semibold" style={{ color: '#654321' }}>Operations AI</h3>
+            <p className="text-xs lg:text-sm" style={{ color: '#8b795e' }}>Autonomous Manager</p>
           </div>
         </div>
         
@@ -297,14 +297,15 @@ export function OperationsAiChat() {
       </ScrollArea>
 
       {/* Quick Actions */}
-      <div className="px-3 py-2 border-t border-border flex-shrink-0">
-        <h4 className="text-xs font-medium text-muted-foreground mb-1">Quick Actions</h4>
+      <div className="px-3 py-2 border-t flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
+        <h4 className="text-xs font-medium mb-1" style={{ color: '#8b795e' }}>Quick Actions</h4>
         <div className="flex flex-wrap gap-1">
           {suggestedTasks.slice(0, 3).map((task, index) => (
             <button
               key={index}
               onClick={() => handleSuggestedTask(task)}
-              className="px-2 py-0.5 text-xs bg-muted hover:bg-muted/80 rounded text-foreground"
+              className="px-2 py-0.5 text-xs rounded hover:opacity-80"
+              style={{ backgroundColor: '#fff0cc', color: '#654321' }}
               disabled={isLoading || activeTask !== null}
             >
               {task.title.split(' ')[0]}
@@ -314,7 +315,7 @@ export function OperationsAiChat() {
       </div>
 
       {/* Input */}
-      <div className="p-3 border-t border-border bg-card flex-shrink-0">
+      <div className="p-3 border-t flex-shrink-0" style={{ borderColor: '#e5cf97', backgroundColor: '#ffe6b0' }}>
         <div className="flex space-x-2 items-center">
           <VoiceInput
             onTranscript={(text) => setInput(text)}
@@ -327,12 +328,14 @@ export function OperationsAiChat() {
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             disabled={isLoading}
             className="text-sm flex-1 min-w-0"
+            style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97', color: '#654321' }}
           />
           <Button 
             onClick={handleSendMessage}
             disabled={isLoading || !input.trim()}
             size="sm"
             className="flex-shrink-0"
+            style={{ backgroundColor: '#8b795e', color: 'white' }}
           >
             <Send className="w-4 h-4" />
           </Button>
