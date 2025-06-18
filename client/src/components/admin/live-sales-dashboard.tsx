@@ -112,7 +112,7 @@ export function LiveSalesDashboard() {
   };
 
   return (
-    <div className="bg-background p-8 space-y-6">
+    <div className="p-8 space-y-6" style={{ backgroundColor: '#ffe6b0' }}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -134,25 +134,25 @@ export function LiveSalesDashboard() {
 
       {/* Key Metrics - Collapsible */}
       <Collapsible open={overviewOpen} onOpenChange={setOverviewOpen}>
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-card rounded-lg border border-border hover:bg-muted/50 transition-colors">
-          <h2 className="text-xl font-semibold text-foreground">Today's Overview</h2>
-          {overviewOpen ? <ChevronDown className="w-5 h-5 text-muted-foreground" /> : <ChevronRight className="w-5 h-5 text-muted-foreground" />}
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 rounded-lg border hover:opacity-80 transition-colors" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
+          <h2 className="text-xl font-semibold" style={{ color: '#654321' }}>Today's Overview</h2>
+          {overviewOpen ? <ChevronDown className="w-5 h-5" style={{ color: '#8b795e' }} /> : <ChevronRight className="w-5 h-5" style={{ color: '#8b795e' }} />}
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6 mt-4 w-full">
         {/* Orders Card */}
-        <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-300" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-muted-foreground">Total Orders</h3>
-            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
-              <ShoppingCart className="w-5 h-5 text-muted-foreground" />
+            <h3 className="text-sm font-medium" style={{ color: '#8b795e' }}>Total Orders</h3>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#fff0cc' }}>
+              <ShoppingCart className="w-5 h-5" style={{ color: '#8b795e' }} />
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold text-foreground">{todayStats.totalOrders}</span>
-            <span className="text-sm text-muted-foreground font-medium">today</span>
+            <span className="text-3xl font-bold" style={{ color: '#654321' }}>{todayStats.totalOrders}</span>
+            <span className="text-sm font-medium" style={{ color: '#8b795e' }}>today</span>
           </div>
-          <div className="flex items-center space-x-1 text-xs text-muted-foreground">
+          <div className="flex items-center space-x-1 text-xs" style={{ color: '#8b795e' }}>
             <span>{todayStats.pendingOrders} pending</span>
             <span>•</span>
             <span>{todayStats.ordersPerHour.toFixed(1)}/hour avg</span>
@@ -160,35 +160,35 @@ export function LiveSalesDashboard() {
         </div>
 
         {/* Revenue Card */}
-        <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-300" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-muted-foreground">Revenue</h3>
-            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
-              <DollarSign className="w-5 h-5 text-muted-foreground" />
+            <h3 className="text-sm font-medium" style={{ color: '#8b795e' }}>Revenue</h3>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#fff0cc' }}>
+              <DollarSign className="w-5 h-5" style={{ color: '#8b795e' }} />
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold text-foreground">${todayStats.totalRevenue.toFixed(0)}</span>
-            <span className="text-sm font-medium text-muted-foreground bg-muted px-2 py-1 rounded-full">+12.3%</span>
+            <span className="text-3xl font-bold" style={{ color: '#654321' }}>${todayStats.totalRevenue.toFixed(0)}</span>
+            <span className="text-sm font-medium px-2 py-1 rounded-full" style={{ color: '#8b795e', backgroundColor: '#fff0cc' }}>+12.3%</span>
           </div>
-          <div className="text-xs text-muted-foreground">
+          <div className="text-xs" style={{ color: '#8b795e' }}>
             Avg: ${todayStats.averageOrderValue.toFixed(0)} • Target: $2000
           </div>
         </div>
 
         {/* Completion Status Card */}
-        <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-300" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-muted-foreground">Completion Rate</h3>
-            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
-              <CheckCircle className="w-5 h-5 text-muted-foreground" />
+            <h3 className="text-sm font-medium" style={{ color: '#8b795e' }}>Completion Rate</h3>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#fff0cc' }}>
+              <CheckCircle className="w-5 h-5" style={{ color: '#8b795e' }} />
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold text-foreground">{todayStats.completionRate}%</span>
-            <span className="text-sm text-muted-foreground font-medium">success</span>
+            <span className="text-3xl font-bold" style={{ color: '#654321' }}>{todayStats.completionRate}%</span>
+            <span className="text-sm font-medium" style={{ color: '#8b795e' }}>success</span>
           </div>
-          <div className="flex items-center space-x-3 text-xs text-muted-foreground">
+          <div className="flex items-center space-x-3 text-xs" style={{ color: '#8b795e' }}>
             <span>{todayStats.completedOrders} completed</span>
             <span>•</span>
             <span>{todayStats.pendingOrders} pending</span>
@@ -196,18 +196,18 @@ export function LiveSalesDashboard() {
         </div>
 
         {/* Active Sessions Card */}
-        <div className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="rounded-2xl p-6 border shadow-sm hover:shadow-md transition-all duration-300" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-muted-foreground">Active Sessions</h3>
-            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
-              <Activity className="w-5 h-5 text-muted-foreground" />
+            <h3 className="text-sm font-medium" style={{ color: '#8b795e' }}>Active Sessions</h3>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#fff0cc' }}>
+              <Activity className="w-5 h-5" style={{ color: '#8b795e' }} />
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold text-foreground">2</span>
-            <span className="text-sm text-muted-foreground font-medium">active</span>
+            <span className="text-3xl font-bold" style={{ color: '#654321' }}>2</span>
+            <span className="text-sm font-medium" style={{ color: '#8b795e' }}>active</span>
           </div>
-          <div className="text-xs text-muted-foreground">
+          <div className="text-xs" style={{ color: '#8b795e' }}>
             Avg duration: 24min
           </div>
         </div>
@@ -217,9 +217,9 @@ export function LiveSalesDashboard() {
 
       {/* Order Queue and Details - Collapsible */}
       <Collapsible open={ordersOpen} onOpenChange={setOrdersOpen}>
-        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 bg-card rounded-lg border border-border hover:bg-muted/50 transition-colors">
-          <h2 className="text-xl font-semibold text-foreground">Live Orders</h2>
-          {ordersOpen ? <ChevronDown className="w-5 h-5 text-muted-foreground" /> : <ChevronRight className="w-5 h-5 text-muted-foreground" />}
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 rounded-lg border hover:opacity-80 transition-colors" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
+          <h2 className="text-xl font-semibold" style={{ color: '#654321' }}>Live Orders</h2>
+          {ordersOpen ? <ChevronDown className="w-5 h-5" style={{ color: '#8b795e' }} /> : <ChevronRight className="w-5 h-5" style={{ color: '#8b795e' }} />}
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="mt-4">
