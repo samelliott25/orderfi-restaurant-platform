@@ -102,17 +102,20 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
   const [location] = useLocation();
 
   const SidebarContent = () => (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col bg-[#1a1a1a] text-white">
       {/* Logo */}
-      <div className="flex h-16 items-center border-b px-6">
-        <Bot className="h-8 w-8 text-primary" />
-        <span className="ml-2 text-xl font-bold">Mimi Admin</span>
+      <div className="flex h-16 items-center px-6">
+        <Bot className="h-8 w-8 text-purple-400" />
+        <span className="ml-3 text-xl font-bold">mimi</span>
       </div>
 
       {/* Navigation */}
-      <ScrollArea className="flex-1 px-3 py-6">
-        <nav className="space-y-2">
-          {navigation.map((item) => {
+      <ScrollArea className="flex-1 px-4 py-6">
+        <div className="mb-4">
+          <span className="text-xs font-medium text-gray-400 uppercase tracking-wider px-3">General</span>
+        </div>
+        <nav className="space-y-1 mb-6">
+          {navigation.slice(0, 5).map((item) => {
             const isActive = location === item.href || 
               (item.href !== "/admin" && location?.startsWith(item.href));
             
@@ -120,17 +123,36 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
               <Link key={item.name} href={item.href}>
                 <div
                   className={cn(
-                    "group flex flex-col rounded-lg p-3 text-sm transition-all hover:bg-accent",
-                    isActive && "bg-accent text-accent-foreground font-medium"
+                    "group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:bg-gray-800",
+                    isActive && "bg-gray-800 text-white"
                   )}
                 >
-                  <div className="flex items-center">
-                    <item.icon className="h-4 w-4 shrink-0" />
-                    <span className="ml-3 truncate">{item.name}</span>
-                  </div>
-                  <span className="mt-1 ml-7 text-xs text-muted-foreground">
-                    {item.description}
-                  </span>
+                  <item.icon className="h-5 w-5 shrink-0 text-gray-400" />
+                  <span className="ml-3 truncate">{item.name.replace(' Dashboard', '').replace(' Management', '')}</span>
+                </div>
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="mb-4">
+          <span className="text-xs font-medium text-gray-400 uppercase tracking-wider px-3">Tools</span>
+        </div>
+        <nav className="space-y-1">
+          {navigation.slice(5).map((item) => {
+            const isActive = location === item.href || 
+              (item.href !== "/admin" && location?.startsWith(item.href));
+            
+            return (
+              <Link key={item.name} href={item.href}>
+                <div
+                  className={cn(
+                    "group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:bg-gray-800",
+                    isActive && "bg-gray-800 text-white"
+                  )}
+                >
+                  <item.icon className="h-5 w-5 shrink-0 text-gray-400" />
+                  <span className="ml-3 truncate">{item.name.replace(' & ', ' & ').replace(' Management', '')}</span>
                 </div>
               </Link>
             );
@@ -139,10 +161,11 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       </ScrollArea>
 
       {/* Bottom Actions */}
-      <div className="border-t p-4">
-        <Button asChild variant="outline" className="w-full">
+      <div className="border-t border-gray-700 p-4">
+        <Button asChild variant="ghost" className="w-full text-white hover:bg-gray-800 justify-start">
           <Link href="/mobile-chat">
-            View Customer App
+            <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+            Log out
           </Link>
         </Button>
       </div>
