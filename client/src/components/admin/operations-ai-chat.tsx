@@ -296,28 +296,28 @@ export function OperationsAiChat() {
       </ScrollArea>
 
       {/* Suggested Tasks */}
-      <div className="p-4 border-t border-gray-200 bg-gray-50">
-        <h4 className="text-sm font-medium text-gray-700 mb-3">Quick Actions:</h4>
-        <div className="grid grid-cols-2 gap-2">
+      <div className="p-4 border-t border-border bg-muted/30">
+        <h4 className="text-sm font-medium text-foreground mb-3">Quick Actions:</h4>
+        <div className="grid grid-cols-2 gap-2 max-w-full overflow-hidden">
           {suggestedTasks.map((task, index) => (
             <button
               key={index}
               onClick={() => handleSuggestedTask(task)}
-              className="p-2 text-left border border-gray-200 rounded-lg hover:bg-white hover:shadow-sm transition-all"
+              className="p-2 text-left border border-border rounded-lg hover:bg-card hover:shadow-sm transition-all min-w-0 flex-shrink"
               disabled={isLoading || activeTask !== null}
             >
-              <div className="flex items-center space-x-2 mb-1">
-                <task.icon className="w-3 h-3 text-gray-500" />
-                <span className="text-xs font-medium text-gray-700 truncate">{task.title}</span>
+              <div className="flex items-center space-x-1 mb-1 overflow-hidden">
+                <task.icon className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+                <span className="text-xs font-medium text-foreground truncate">{task.title}</span>
               </div>
-              <p className="text-xs text-gray-500 line-clamp-2">{task.description}</p>
+              <p className="text-xs text-muted-foreground truncate">{task.description}</p>
             </button>
           ))}
         </div>
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 border-t border-border bg-card">
         <div className="flex space-x-2">
           <Input
             value={input}
@@ -325,12 +325,13 @@ export function OperationsAiChat() {
             placeholder="Ask Mimi to help with operations..."
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             disabled={isLoading}
-            className="text-sm"
+            className="text-sm flex-1 min-w-0"
           />
           <Button 
             onClick={handleSendMessage}
             disabled={isLoading || !input.trim()}
             size="sm"
+            className="flex-shrink-0"
           >
             <Send className="w-4 h-4" />
           </Button>
