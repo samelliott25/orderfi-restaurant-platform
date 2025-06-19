@@ -207,7 +207,7 @@ export default function AdminAiTrainingPage() {
           </TabsList>
 
           <TabsContent value="service-flow" className="space-y-6">
-            <Card style={{ backgroundColor: '#f5e6d3', borderColor: '#8b795e' }}>
+            <Card style={{ backgroundColor: '#ffe6b0', borderColor: '#8b795e' }}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2" style={{ color: '#654321' }}>
                   <Utensils className="h-5 w-5" />
@@ -237,7 +237,7 @@ export default function AdminAiTrainingPage() {
                   {serviceSteps.map((step, index) => (
                     <Card key={step.id} className="border-2" style={{ 
                       borderColor: step.enabled ? '#8b795e' : '#a0927d',
-                      backgroundColor: step.enabled ? '#f5e6d3' : '#e8dcc6'
+                      backgroundColor: '#ffe6b0'
                     }}>
                       <CardHeader className="pb-3">
                         <div className="flex items-center justify-between">
@@ -369,7 +369,7 @@ export default function AdminAiTrainingPage() {
           </TabsContent>
 
           <TabsContent value="personality" className="space-y-6">
-            <Card style={{ backgroundColor: '#f5e6d3', borderColor: '#8b795e' }}>
+            <Card style={{ backgroundColor: '#ffe6b0', borderColor: '#8b795e' }}>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -497,7 +497,7 @@ export default function AdminAiTrainingPage() {
           </TabsContent>
 
           <TabsContent value="advanced" className="space-y-6">
-            <Card style={{ backgroundColor: '#f5e6d3', borderColor: '#8b795e' }}>
+            <Card style={{ backgroundColor: '#ffe6b0', borderColor: '#8b795e' }}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2" style={{ color: '#654321' }}>
                   <Settings className="h-5 w-5" />
