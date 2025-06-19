@@ -18,6 +18,7 @@ export class BlockchainIntegrationService {
   };
 
   private backupTimer?: NodeJS.Timeout;
+  private lastBackupTime: number | null = null;
 
   constructor() {
     this.initializeBackupSchedule();
@@ -159,8 +160,8 @@ export class BlockchainIntegrationService {
         const exportData = await this.exportForIPFS();
         console.log(`✓ Blockchain backup completed - ${stats.totalBlocks} blocks, ${exportData.size} bytes`);
         
-        // Store backup timestamp
-        localStorage?.setItem('lastBlockchainBackup', Date.now().toString());
+        // Store backup timestamp (server-side storage)
+        this.lastBackupTime = Date.now();
       } else {
         console.error('✗ Blockchain integrity check failed - backup skipped');
       }
@@ -170,12 +171,7 @@ export class BlockchainIntegrationService {
   }
 
   private getLastBackupTime(): number | null {
-    try {
-      const timestamp = localStorage?.getItem('lastBlockchainBackup');
-      return timestamp ? parseInt(timestamp) : null;
-    } catch {
-      return null;
-    }
+    return this.lastBackupTime;
   }
 
   updateConfig(newConfig: Partial<BlockchainIntegrationConfig>): void {
