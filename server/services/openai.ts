@@ -239,3 +239,58 @@ Always be professional, autonomous, and action-oriented. Respond in JSON format 
     };
   }
 }
+
+export async function processMenuImage(imageBuffer: Buffer): Promise<any[]> {
+  try {
+    const base64Image = imageBuffer.toString('base64');
+    
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: `You are an AI that extracts menu items from restaurant menu images. 
+          
+          Analyze the image and extract all menu items with their details. Return a JSON array of menu items.
+          
+          For each item, provide:
+          - name: The item name
+          - description: Brief description (if available)
+          - price: Numeric price (extract just the number)
+          - category: Categorize as one of: pizza, burger, appetizer, salad, dessert, drink, main, pasta, seafood, or other
+          
+          Only return the JSON array, no other text.`
+        },
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: "Extract all menu items from this restaurant menu image with their names, descriptions, prices, and categories."
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: `data:image/jpeg;base64,${base64Image}`
+              }
+            }
+          ]
+        }
+      ],
+      max_tokens: 2000,
+    });
+
+    const responseText = completion.choices[0]?.message?.content || "[]";
+    
+    try {
+      const menuItems = JSON.parse(responseText);
+      return Array.isArray(menuItems) ? menuItems : [];
+    } catch (parseError) {
+      console.error("Failed to parse menu items JSON:", parseError);
+      return [];
+    }
+  } catch (error) {
+    console.error("Menu image processing error:", error);
+    throw new Error("Failed to process menu image");
+  }
+}

@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { processChatMessage, processOperationsAiMessage, type ChatContext } from "./services/openai";
+import { processChatMessage, processOperationsAiMessage, processMenuImage, type ChatContext } from "./services/openai";
 import { 
   insertRestaurantSchema, 
   insertMenuItemSchema, 
@@ -9,6 +9,10 @@ import {
   insertOrderSchema,
   insertChatMessageSchema 
 } from "@shared/schema";
+import multer from 'multer';
+
+// Configure multer for image uploads
+const upload = multer({ storage: multer.memoryStorage() });
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Restaurant routes
@@ -201,6 +205,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Operations AI error:", error);
       res.status(500).json({ message: "Failed to process operations request" });
+    }
+  });
+
+  // AI Menu Image Processing endpoint
+  app.post("/api/ai/process-menu", upload.single('image'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No image file provided" });
+      }
+
+      const menuItems = await processMenuImage(req.file.buffer);
+      res.json({ menuItems });
+    } catch (error) {
+      console.error("Menu processing error:", error);
+      res.status(500).json({ message: "Failed to process menu image" });
     }
   });
 
