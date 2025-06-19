@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import mimiDashboardLogo from "@assets/20250619_2033_Text Color Change_remix_01jy3vxw7zf9nrnvh4xxtpypeq_1750332973497.png";
+import mimiDashboardLogo from "@assets/mimidashboardtext_1750333406399.webp";
 
 const navigation = [
   {
