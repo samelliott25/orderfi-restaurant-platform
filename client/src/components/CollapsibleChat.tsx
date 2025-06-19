@@ -50,6 +50,11 @@ interface CollapsibleChatProps {
   className?: string;
 }
 
+interface ProductViewRequest {
+  productId: number;
+  productName: string;
+}
+
 export function CollapsibleChat({ className }: CollapsibleChatProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -63,6 +68,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
   const [inputMessage, setInputMessage] = useState('');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [highlightedProductId, setHighlightedProductId] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const menuItems: MenuItem[] = [
@@ -165,30 +171,75 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
 
     setMessages(prev => [...prev, userMessage]);
 
-    // Simple bot responses based on keywords
+    // Enhanced bot responses with specific product navigation
     setTimeout(() => {
       let botResponse = "Let me show you some options! 📋";
       let showMenu = false;
+      let highlightProduct: number | null = null;
       
-      if (inputMessage.toLowerCase().includes('pizza')) {
+      // Check for specific product mentions
+      const lowerMessage = inputMessage.toLowerCase();
+      
+      // Specific product requests
+      if (lowerMessage.includes('pepperoni') || lowerMessage.includes('pepperoni pizza')) {
+        botResponse = "Perfect! Here's our popular Pepperoni Pizza:";
+        setSelectedCategory('pizza');
+        highlightProduct = 1;
+        showMenu = true;
+      } else if (lowerMessage.includes('vegetable pizza') || lowerMessage.includes('veggie pizza')) {
+        botResponse = "Great choice! Here's our fresh Vegetable Pizza:";
+        setSelectedCategory('pizza');
+        highlightProduct = 2;
+        showMenu = true;
+      } else if (lowerMessage.includes('classic burger') || (lowerMessage.includes('burger') && !lowerMessage.includes('pizza'))) {
+        botResponse = "Excellent! Here's our juicy Classic Burger:";
+        setSelectedCategory('burger');
+        highlightProduct = 3;
+        showMenu = true;
+      } else if (lowerMessage.includes('wings') || lowerMessage.includes('chicken wings')) {
+        botResponse = "Tasty choice! Here are our crispy Chicken Wings:";
+        setSelectedCategory('appetizer');
+        highlightProduct = 4;
+        showMenu = true;
+      } else if (lowerMessage.includes('caesar') || lowerMessage.includes('salad')) {
+        botResponse = "Healthy option! Here's our fresh Caesar Salad:";
+        setSelectedCategory('salad');
+        highlightProduct = 5;
+        showMenu = true;
+      } else if (lowerMessage.includes('pasta') || lowerMessage.includes('carbonara')) {
+        botResponse = "Delicious! Here's our creamy Pasta Carbonara:";
+        setSelectedCategory('pasta');
+        highlightProduct = 6;
+        showMenu = true;
+      } else if (lowerMessage.includes('tiramisu') || lowerMessage.includes('dessert')) {
+        botResponse = "Sweet ending! Here's our classic Tiramisu:";
+        setSelectedCategory('dessert');
+        highlightProduct = 7;
+        showMenu = true;
+      }
+      // General category requests
+      else if (lowerMessage.includes('pizza')) {
         botResponse = "Great choice! Here are our delicious pizzas:";
         setSelectedCategory('pizza');
         showMenu = true;
-      } else if (inputMessage.toLowerCase().includes('burger')) {
-        botResponse = "Perfect! Check out our juicy burgers:";
-        setSelectedCategory('burger');
-        showMenu = true;
-      } else if (inputMessage.toLowerCase().includes('menu') || inputMessage.toLowerCase().includes('food')) {
+      } else if (lowerMessage.includes('menu') || lowerMessage.includes('food')) {
         botResponse = "Here's our full menu! Scroll through to see everything:";
         setSelectedCategory('all');
         showMenu = true;
-      } else if (inputMessage.toLowerCase().includes('recommend') || inputMessage.toLowerCase().includes('popular')) {
+      } else if (lowerMessage.includes('recommend') || lowerMessage.includes('popular')) {
         botResponse = "Our most popular items are right here:";
         showMenu = true;
-      } else if (inputMessage.toLowerCase().includes('healthy')) {
+      } else if (lowerMessage.includes('healthy')) {
         botResponse = "Here are our healthy options:";
         setSelectedCategory('salad');
         showMenu = true;
+      }
+      
+      // Set highlighted product for auto-focus
+      if (highlightProduct) {
+        setHighlightedProductId(highlightProduct);
+        // Clear highlight after 3 seconds
+        setTimeout(() => setHighlightedProductId(null), 3000);
       }
 
       const botMessage: ChatMessage = {
@@ -354,50 +405,70 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                       
                       {/* Menu Items */}
                       <div className="space-y-3 max-h-96 overflow-y-auto">
-                        {message.menuItems?.map((item) => (
-                          <Card key={item.id} className="bg-white border" style={{ borderColor: '#e5cf97' }}>
-                            <CardContent className="p-3">
-                              <div className="flex gap-3">
-                                <div className="text-2xl">{item.image}</div>
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-start justify-between mb-1">
-                                    <h4 className="font-semibold text-sm truncate" style={{ color: '#654321' }}>
-                                      {item.name}
-                                    </h4>
-                                    <span className="font-bold text-sm ml-2" style={{ color: '#654321' }}>
-                                      ${item.price}
-                                    </span>
+                        {message.menuItems?.map((item) => {
+                          const isHighlighted = highlightedProductId === item.id;
+                          return (
+                            <Card 
+                              key={item.id} 
+                              className={`bg-white border transition-all duration-500 ${
+                                isHighlighted ? 'ring-2 ring-yellow-400 shadow-lg scale-105' : ''
+                              }`} 
+                              style={{ borderColor: isHighlighted ? '#f59e0b' : '#e5cf97' }}
+                            >
+                              <CardContent className="p-3">
+                                {isHighlighted && (
+                                  <div className="mb-2 text-center">
+                                    <Badge className="bg-yellow-400 text-yellow-900 text-xs">
+                                      ⭐ Suggested for you!
+                                    </Badge>
                                   </div>
-                                  
-                                  <p className="text-xs mb-2 line-clamp-2" style={{ color: '#8b795e' }}>
-                                    {item.description}
-                                  </p>
-                                  
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3 text-xs" style={{ color: '#8b795e' }}>
-                                      <div className="flex items-center gap-1">
-                                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                                        <span>{item.rating}</span>
-                                      </div>
-                                      <div className="flex items-center gap-1">
-                                        <Clock className="w-3 h-3" />
-                                        <span>{item.deliveryTime}</span>
-                                      </div>
+                                )}
+                                <div className="flex gap-3">
+                                  <div className="text-2xl">{item.image}</div>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-start justify-between mb-1">
+                                      <h4 className="font-semibold text-sm truncate" style={{ color: '#654321' }}>
+                                        {item.name}
+                                      </h4>
+                                      <span className="font-bold text-sm ml-2" style={{ color: '#654321' }}>
+                                        ${item.price}
+                                      </span>
                                     </div>
-                                    <Button 
-                                      onClick={() => addToCart(item)}
-                                      size="sm"
-                                      className="bg-[#8b795e] hover:bg-[#6d5d4f] text-white text-xs px-3 py-1"
-                                    >
-                                      <Plus className="w-3 h-3 mr-1" />
-                                      Add
-                                    </Button>
+                                    
+                                    <p className="text-xs mb-2 line-clamp-2" style={{ color: '#8b795e' }}>
+                                      {item.description}
+                                    </p>
+                                    
+                                    <div className="flex items-center justify-between">
+                                      <div className="flex items-center gap-3 text-xs" style={{ color: '#8b795e' }}>
+                                        <div className="flex items-center gap-1">
+                                          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                          <span>{item.rating}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          <Clock className="w-3 h-3" />
+                                          <span>{item.deliveryTime}</span>
+                                        </div>
+                                      </div>
+                                      <Button 
+                                        onClick={() => addToCart(item)}
+                                        size="sm"
+                                        className={`text-white text-xs px-3 py-1 ${
+                                          isHighlighted 
+                                            ? 'bg-yellow-500 hover:bg-yellow-600' 
+                                            : 'bg-[#8b795e] hover:bg-[#6d5d4f]'
+                                        }`}
+                                      >
+                                        <Plus className="w-3 h-3 mr-1" />
+                                        {isHighlighted ? 'Add This!' : 'Add'}
+                                      </Button>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        ))}
+                              </CardContent>
+                            </Card>
+                          );
+                        })}
                       </div>
                     </div>
                   ) : null}
