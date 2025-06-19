@@ -430,7 +430,7 @@ export default function ChatbotPrimaryPage() {
               ) : (
                 <div className="flex justify-start">
                   <div className="space-y-3">
-                    <div className="max-w-[80%] bg-white p-3 rounded-2xl rounded-bl-sm border" style={{ borderColor: '#e5cf97', color: '#654321' }}>
+                    <div className="max-w-[80%] p-3 rounded-2xl rounded-bl-sm border" style={{ borderColor: '#8b795e', color: '#654321', backgroundColor: '#fff0cc' }}>
                       {message.content}
                     </div>
                     
@@ -446,7 +446,8 @@ export default function ChatbotPrimaryPage() {
                               e.preventDefault();
                               handleSendMessage(key);
                             }}
-                            className="text-xs px-3 py-1 border-[#8b795e] text-[#8b795e] bg-white hover:bg-[#8b795e] hover:text-white transition-colors"
+                            className="text-xs px-3 py-1 border-[#8b795e] text-[#8b795e] hover:bg-[#8b795e] hover:text-white transition-colors"
+                            style={{ backgroundColor: '#ffe6b0' }}
                           >
                             {key}
                           </Button>
@@ -466,8 +467,8 @@ export default function ChatbotPrimaryPage() {
       <div className="absolute bottom-20 left-4 right-4 z-10">
         <Button
           onClick={() => setIsMenuExpanded(!isMenuExpanded)}
-          className="w-full bg-white border-2 shadow-lg flex items-center justify-center gap-2 py-3"
-          style={{ borderColor: '#8b795e', color: '#654321' }}
+          className="w-full border-2 shadow-lg flex items-center justify-center gap-2 py-3"
+          style={{ borderColor: '#8b795e', color: '#654321', backgroundColor: '#ffe6b0' }}
         >
           <Menu className="w-5 h-5" />
           <span className="font-semibold">Menu</span>
@@ -489,7 +490,7 @@ export default function ChatbotPrimaryPage() {
           />
           
           {/* Menu Card */}
-          <div className="fixed bottom-0 left-0 right-0 z-30 bg-white rounded-t-3xl shadow-2xl animate-in slide-in-from-bottom-4">
+          <div className="fixed bottom-0 left-0 right-0 z-30 rounded-t-3xl shadow-2xl animate-in slide-in-from-bottom-4" style={{ backgroundColor: '#fff0cc' }}>
             {/* Menu Header */}
             <div className="p-4 border-b" style={{ borderColor: '#e5cf97' }}>
               <div className="flex items-center justify-between mb-4">
@@ -515,8 +516,9 @@ export default function ChatbotPrimaryPage() {
                     className={`whitespace-nowrap ${
                       selectedCategory === index 
                         ? 'bg-[#8b795e] text-white' 
-                        : 'border-[#8b795e] text-[#654321] bg-white'
+                        : 'border-[#8b795e] text-[#654321]'
                     }`}
+                    style={selectedCategory !== index ? { backgroundColor: '#ffe6b0' } : undefined}
                   >
                     <span className="mr-2">{category.icon}</span>
                     {category.name}
@@ -562,7 +564,7 @@ export default function ChatbotPrimaryPage() {
                   </div>
 
                   {/* Current Item Card */}
-                  <Card className="border-2" style={{ borderColor: '#e5cf97' }}>
+                  <Card className="border-2" style={{ borderColor: '#e5cf97', backgroundColor: '#ffe6b0' }}>
                     <CardContent className="p-6">
                       <div className="text-center mb-4">
                         <div className="text-6xl mb-3">{currentItem.image}</div>
@@ -661,8 +663,9 @@ export default function ChatbotPrimaryPage() {
             className={`px-3 border-[#8b795e] ${
               isListening 
                 ? 'bg-red-500 text-white border-red-500' 
-                : 'text-[#8b795e] bg-white hover:bg-[#8b795e] hover:text-white'
+                : 'text-[#8b795e] hover:bg-[#8b795e] hover:text-white'
             }`}
+            style={!isListening ? { backgroundColor: '#ffe6b0' } : undefined}
           >
             {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
           </Button>

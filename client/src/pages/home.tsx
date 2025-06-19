@@ -64,7 +64,7 @@ export default function HomePage() {
                 style={{ 
                   borderColor: '#8b795e',
                   color: '#654321',
-                  backgroundColor: '#fff0cc'
+                  backgroundColor: '#ffe6b0'
                 }}
               >
                 <Link href="/chatbot-primary">
