@@ -58,19 +58,19 @@ html {
 :root {
   /* Warm Cream Theme - #ffe6b0 */
   --background: 255 230 176; /* #ffe6b0 - Warm cream background */
-  --foreground: 101 67 33; /* #654321 - Dark brown text */
+  --foreground: 139 121 94; /* #8b795e - Medium brown text */
   --muted: 255 240 204; /* #fff0cc - Lighter cream */
   --muted-foreground: 139 121 94; /* #8b795e - Medium brown */
   --popover: 255 230 176; /* #ffe6b0 - Cream for popover */
-  --popover-foreground: 101 67 33; /* Dark brown text */
+  --popover-foreground: 139 121 94; /* #8b795e - Medium brown text */
   --card: 255 230 176; /* #ffe6b0 - Cream for cards */
-  --card-foreground: 101 67 33; /* Dark brown text */
+  --card-foreground: 139 121 94; /* #8b795e - Medium brown text */
   --border: 229 207 151; /* #e5cf97 - Darker cream border */
   --input: 255 230 176; /* #ffe6b0 - Same as background cream */
   --primary: 139 121 94; /* #8b795e - Medium brown primary */
   --primary-foreground: 255 255 255; /* White text on primary */
   --secondary: 210 180 140; /* #d2b48c - Tan secondary */
-  --secondary-foreground: 101 67 33; /* Dark brown text on secondary */
+  --secondary-foreground: 139 121 94; /* #8b795e - Medium brown text on secondary */
   --accent: 160 134 98; /* #a08662 - Brown accent */
   --accent-foreground: 255 255 255; /* White text on accent */
   --warning: 184 134 11; /* #b8860b - Dark goldenrod warning */

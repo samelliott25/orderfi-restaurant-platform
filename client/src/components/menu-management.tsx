@@ -447,7 +447,7 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
             {Object.entries(categorizedItems as Record<string, any[]>).map(([category, items]) => (
               <div key={category} className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-900">{category}</h3>
+                  <h3 className="text-lg font-semibold" style={{ color: '#8b795e' }}>{category}</h3>
                   <Badge variant="secondary" className="text-xs">
                     {items.length} item{items.length !== 1 ? 's' : ''}
                   </Badge>
@@ -457,7 +457,7 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
                     <div key={item.id} className="flex items-center justify-between p-4 bg-background rounded-lg border">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
-                          <h4 className="font-medium text-gray-900">{item.name}</h4>
+                          <h4 className="font-medium" style={{ color: '#8b795e' }}>{item.name}</h4>
                           {item.blockchainHash && (
                             <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
                               Blockchain Verified
@@ -471,7 +471,7 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
                               {tag}
                             </Badge>
                           ))}
-                          <span className="text-sm font-medium text-gray-900">${item.price}</span>
+                          <span className="text-sm font-medium" style={{ color: '#8b795e' }}>${item.price}</span>
                           {item.timestamp && (
                             <span className="text-xs text-gray-500">
                               Added {new Date(item.timestamp).toLocaleDateString()}

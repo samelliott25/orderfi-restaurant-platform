@@ -29,7 +29,7 @@ export function ChatBubble({ message, isUser = false, timestamp }: ChatBubblePro
         <div className={`message-bubble-retro ${
           isUser 
             ? 'bg-orange-500 text-white user-bubble' 
-            : 'bg-background text-gray-800 border-3 border-green-700 mimi-bubble'
+            : 'bg-background border-3 border-green-700 mimi-bubble'
         }`}>
           <p className="text-lg leading-relaxed retro-text-message">
             {message}

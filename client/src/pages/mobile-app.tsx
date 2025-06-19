@@ -128,8 +128,8 @@ export default function MobileAppPage() {
             <div>
               <p className="text-sm" style={{ color: '#8b795e' }}>Deliver to</p>
               <div className="flex items-center gap-1">
-                <MapPin className="w-4 h-4" style={{ color: '#654321' }} />
-                <span className="font-semibold text-sm" style={{ color: '#654321' }}>Current Location</span>
+                <MapPin className="w-4 h-4" style={{ color: '#8b795e' }} />
+                <span className="font-semibold text-sm" style={{ color: '#8b795e' }}>Current Location</span>
               </div>
             </div>
           </div>
@@ -218,10 +218,10 @@ export default function MobileAppPage() {
                   <div className="text-4xl">{item.image}</div>
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-bold text-lg" style={{ color: '#654321' }}>
+                      <h4 className="font-bold text-lg" style={{ color: '#8b795e' }}>
                         {item.name}
                       </h4>
-                      <span className="font-bold text-lg" style={{ color: '#654321' }}>
+                      <span className="font-bold text-lg" style={{ color: '#8b795e' }}>
                         ${item.price}
                       </span>
                     </div>
