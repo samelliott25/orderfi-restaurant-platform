@@ -372,7 +372,7 @@ I've updated your dashboard with this real data. Is there anything specific you'
         <div 
           className="absolute bottom-0 left-0 right-0 pointer-events-none"
           style={{
-            height: '30%',
+            height: '60%',
             backgroundImage: `url(${mimiLogo})`,
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
