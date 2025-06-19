@@ -34,6 +34,9 @@ export function BlockchainDashboard({ restaurantId }: BlockchainDashboardProps) 
     refetchInterval: 30000, // Refresh every 30 seconds
   });
 
+  // Type assertion for blockchain stats
+  const stats = blockchainStats as any;
+
   // Fetch categorized menu items
   const { data: categorizedItems, isLoading: itemsLoading } = useQuery({
     queryKey: [`/api/restaurants/${restaurantId}/menu/categorized`],
@@ -127,7 +130,7 @@ export function BlockchainDashboard({ restaurantId }: BlockchainDashboardProps) 
             <div className="flex items-center space-x-2">
               <Blocks className="h-8 w-8 text-blue-500" />
               <div>
-                <p className="text-2xl font-bold">{statsLoading ? '-' : blockchainStats?.totalBlocks || 0}</p>
+                <p className="text-2xl font-bold">{statsLoading ? '-' : stats?.totalBlocks || 0}</p>
                 <p className="text-xs text-muted-foreground">Total Blocks</p>
               </div>
             </div>
@@ -139,7 +142,7 @@ export function BlockchainDashboard({ restaurantId }: BlockchainDashboardProps) 
             <div className="flex items-center space-x-2">
               <Utensils className="h-8 w-8 text-green-500" />
               <div>
-                <p className="text-2xl font-bold">{statsLoading ? '-' : blockchainStats?.menuItemBlocks || 0}</p>
+                <p className="text-2xl font-bold">{statsLoading ? '-' : stats?.menuItemBlocks || 0}</p>
                 <p className="text-xs text-muted-foreground">Menu Items</p>
               </div>
             </div>
@@ -151,14 +154,14 @@ export function BlockchainDashboard({ restaurantId }: BlockchainDashboardProps) 
             <div className="flex items-center space-x-2">
               {statsLoading ? (
                 <Shield className="h-8 w-8 text-gray-400" />
-              ) : blockchainStats?.integrity ? (
+              ) : stats?.integrity ? (
                 <CheckCircle className="h-8 w-8 text-green-500" />
               ) : (
                 <XCircle className="h-8 w-8 text-red-500" />
               )}
               <div>
                 <p className="text-2xl font-bold">
-                  {statsLoading ? '-' : blockchainStats?.integrity ? 'Valid' : 'Invalid'}
+                  {statsLoading ? '-' : stats?.integrity ? 'Valid' : 'Invalid'}
                 </p>
                 <p className="text-xs text-muted-foreground">Chain Integrity</p>
               </div>
@@ -180,7 +183,7 @@ export function BlockchainDashboard({ restaurantId }: BlockchainDashboardProps) 
       </div>
 
       {/* Latest Block Info */}
-      {blockchainStats?.latestBlock && (
+      {stats?.latestBlock && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
@@ -192,19 +195,19 @@ export function BlockchainDashboard({ restaurantId }: BlockchainDashboardProps) 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm font-medium">Block ID</p>
-                <p className="text-xs text-muted-foreground font-mono">{blockchainStats.latestBlock.id}</p>
+                <p className="text-xs text-muted-foreground font-mono">{stats.latestBlock.id}</p>
               </div>
               <div>
                 <p className="text-sm font-medium">Hash</p>
-                <p className="text-xs text-muted-foreground font-mono">{blockchainStats.latestBlock.hash?.substring(0, 32)}...</p>
+                <p className="text-xs text-muted-foreground font-mono">{stats.latestBlock.hash?.substring(0, 32)}...</p>
               </div>
               <div>
                 <p className="text-sm font-medium">Timestamp</p>
-                <p className="text-xs text-muted-foreground">{formatTimestamp(blockchainStats.latestBlock.timestamp)}</p>
+                <p className="text-xs text-muted-foreground">{formatTimestamp(stats.latestBlock.timestamp)}</p>
               </div>
               <div>
                 <p className="text-sm font-medium">Previous Hash</p>
-                <p className="text-xs text-muted-foreground font-mono">{blockchainStats.latestBlock.previousHash?.substring(0, 32)}...</p>
+                <p className="text-xs text-muted-foreground font-mono">{stats.latestBlock.previousHash?.substring(0, 32)}...</p>
               </div>
             </div>
           </CardContent>
