@@ -246,19 +246,41 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
     setIsLoading(true);
     
     try {
-      // Process the actual file data
-      const processedData = await DataProcessor.processFile(file);
+      // Check if it's an image file
+      const isImage = file.type.startsWith('image/');
       
-      // Update dashboard with processed data
-      if (onDataUpdate) {
-        onDataUpdate(processedData);
-      }
-      
-      // Generate detailed AI response based on processed data
-      const responseMessage: ChatMessage = {
-        id: `ai-${Date.now()}`,
-        type: 'assistant',
-        content: `I've analyzed your ${file.name} file and extracted the following insights:
+      if (isImage) {
+        // Handle image upload for AI analysis
+        const responseMessage: ChatMessage = {
+          id: `ai-${Date.now()}`,
+          type: 'assistant',
+          content: `I've received your image "${file.name}". I can analyze images for various purposes:
+
+🖼️ **Image Analysis Options**
+• Menu item extraction and pricing
+• Receipt or invoice data extraction
+• Visual content analysis
+• Document text recognition
+• Inventory or product identification
+
+What would you like me to analyze from this image? I can extract menu items, read receipts, analyze visual content, or help with other business-related image processing tasks.`,
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, responseMessage]);
+      } else {
+        // Handle data file processing
+        const processedData = await DataProcessor.processFile(file);
+        
+        // Update dashboard with processed data
+        if (onDataUpdate) {
+          onDataUpdate(processedData);
+        }
+        
+        // Generate detailed AI response based on processed data
+        const responseMessage: ChatMessage = {
+          id: `ai-${Date.now()}`,
+          type: 'assistant',
+          content: `I've analyzed your ${file.name} file and extracted the following insights:
 
 📊 **Sales Summary**
 • Total Orders: ${processedData.totalOrders}
@@ -272,15 +294,16 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
 • Orders per Hour: ${processedData.ordersPerHour.toFixed(1)}
 
 I've updated your dashboard with this real data. Is there anything specific you'd like me to analyze or any actions you'd like me to take based on these insights?`,
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, responseMessage]);
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, responseMessage]);
+      }
       
     } catch (error) {
       const errorMessage: ChatMessage = {
         id: `error-${Date.now()}`,
         type: 'assistant',
-        content: `I encountered an issue processing your ${file.name} file. Please ensure it's a valid CSV, JSON, or text file with sales/order data. Would you like to try uploading a different file format?`,
+        content: `I encountered an issue processing your ${file.name} file. Please ensure it's a valid file format. For data files, I support CSV, JSON, and text files. For images, I support JPG, PNG, GIF, and WebP formats. Would you like to try uploading a different file?`,
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -352,7 +375,7 @@ I've updated your dashboard with this real data. Is there anything specific you'
           <div className="text-center">
             <div className="text-3xl mb-2">📁</div>
             <p className="text-blue-600 font-medium">Drop files here to analyze</p>
-            <p className="text-blue-500 text-sm">Supports CSV, Excel, JSON, and text files</p>
+            <p className="text-blue-500 text-sm">Supports CSV, Excel, JSON, text files, and images</p>
           </div>
         </div>
       )}
@@ -362,7 +385,7 @@ I've updated your dashboard with this real data. Is there anything specific you'
         ref={fileInputRef}
         type="file"
         className="hidden"
-        accept=".csv,.xlsx,.xls,.json,.txt"
+        accept=".csv,.xlsx,.xls,.json,.txt,.jpg,.jpeg,.png,.gif,.bmp,.webp"
         onChange={handleFileInputChange}
       />
 
