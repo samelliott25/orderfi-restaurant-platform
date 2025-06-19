@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { storage } from "../storage";
+import { menuCategorizationService } from "./menu-categorization";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ 
@@ -389,20 +390,29 @@ export async function extractMenuItemsFromImage(
       }
     }
     
-    // Add items to restaurant menu via storage
+    // Add items to restaurant menu via storage with proper categorization
     const addedItems = [];
     for (const item of result.items || []) {
       try {
+        // Use the categorization service to ensure proper category assignment
+        const properCategory = menuCategorizationService.categorizeMenuItem(
+          item.name,
+          item.description || "",
+          item.price || "0"
+        );
+        
         const menuItem = await storage.createMenuItem({
           restaurantId,
           name: item.name,
           description: item.description || "",
           price: item.price || "0",
-          category: item.category || "mains",
+          category: properCategory,
           tags: [...(item.tags || []), ...(item.allergens || [])], // Combine allergens into tags
           isAvailable: true
         });
         addedItems.push(menuItem);
+        
+        console.log(`Added "${item.name}" to category "${properCategory}"`);
       } catch (error) {
         console.error(`Failed to add menu item ${item.name}:`, error);
       }

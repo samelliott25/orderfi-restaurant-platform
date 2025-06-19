@@ -2,6 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { blockchainStorage } from "./blockchain/storage";
+import { blockchainIntegrationService } from "./services/blockchain-integration";
+import { menuCategorizationService } from "./services/menu-categorization";
 import { processChatMessage, processOperationsAiMessage, processMenuImage, type ChatContext } from "./services/openai";
 import { 
   insertRestaurantSchema, 
@@ -69,16 +71,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         restaurantId,
       });
       
-      // Create menu item with blockchain integration
-      const blockchainRecord = await blockchainStorage.createMenuItemBlock(menuItemData);
+      // Create menu item with blockchain integration and proper categorization
+      const result = await blockchainIntegrationService.createMenuItemWithBlockchain(menuItemData);
       
-      // Get the created menu item from traditional storage
-      const menuItems = await storage.getMenuItems(restaurantId);
-      const menuItem = menuItems.find(item => item.name === menuItemData.name);
-      
-      console.log(`Menu item "${menuItemData.name}" created with blockchain hash: ${blockchainRecord.hash}`);
-      
-      res.status(201).json(menuItem || blockchainRecord.data);
+      res.status(201).json({
+        ...result.menuItem,
+        blockchainHash: result.blockchainHash,
+        category: result.category
+      });
     } catch (error) {
       console.error("Menu item creation error:", error);
       res.status(400).json({ message: "Invalid menu item data" });
@@ -90,13 +90,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const id = parseInt(req.params.id);
       const updateData = insertMenuItemSchema.partial().parse(req.body);
       
-      // Update with blockchain integration
-      const blockchainRecord = await blockchainStorage.updateMenuItemBlock(id, updateData);
-      const menuItem = await storage.getMenuItem(id);
+      // Update with blockchain integration and proper categorization
+      const result = await blockchainIntegrationService.updateMenuItemWithBlockchain(id, updateData);
       
-      console.log(`Menu item ${id} updated with blockchain hash: ${blockchainRecord.hash}`);
-      
-      res.json(menuItem);
+      res.json({
+        ...result.menuItem,
+        blockchainHash: result.blockchainHash
+      });
     } catch (error) {
       console.error("Menu item update error:", error);
       res.status(400).json({ message: "Invalid menu item data" });
@@ -162,6 +162,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       res.status(500).json({ message: "Failed to prepare IPFS data" });
+    }
+  });
+
+  // Enhanced menu categorization endpoints
+  app.get("/api/restaurants/:id/menu/categorized", async (req, res) => {
+    try {
+      const restaurantId = parseInt(req.params.id);
+      const categorizedItems = await blockchainIntegrationService.getMenuItemsByCategory(restaurantId);
+      res.json(categorizedItems);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get categorized menu items" });
+    }
+  });
+
+  app.get("/api/menu/categories", async (req, res) => {
+    try {
+      const categories = menuCategorizationService.getCategories();
+      res.json(categories);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get menu categories" });
+    }
+  });
+
+  app.post("/api/restaurants/:id/menu/validate-categories", async (req, res) => {
+    try {
+      const restaurantId = parseInt(req.params.id);
+      const result = await blockchainIntegrationService.validateMenuItemCategories(restaurantId);
+      res.json({
+        message: `Fixed ${result.fixed} incorrectly categorized items out of ${result.total} total`,
+        fixed: result.fixed,
+        total: result.total
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to validate menu categories" });
+    }
+  });
+
+  app.get("/api/blockchain/stats", async (req, res) => {
+    try {
+      const stats = await blockchainIntegrationService.getBlockchainStats();
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get blockchain statistics" });
     }
   });
 
