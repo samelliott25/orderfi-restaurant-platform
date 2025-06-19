@@ -1,4 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+
+// TypeScript declarations for Web Speech API
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -15,7 +23,9 @@ import {
   ChevronDown,
   ChevronUp,
   ArrowLeft,
-  ArrowRight
+  ArrowRight,
+  Mic,
+  MicOff
 } from "lucide-react";
 
 interface MenuItem {
@@ -60,6 +70,8 @@ export default function ChatbotPrimaryPage() {
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
+  const [isListening, setIsListening] = useState(false);
+  const [recognition, setRecognition] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const menuItems: MenuItem[] = [
@@ -199,6 +211,40 @@ export default function ChatbotPrimaryPage() {
     setCurrentItemIndex(0);
   }, [selectedCategory]);
 
+  // Initialize speech recognition
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        const speechRecognition = new SpeechRecognition();
+        speechRecognition.continuous = false;
+        speechRecognition.interimResults = false;
+        speechRecognition.lang = 'en-US';
+
+        speechRecognition.onstart = () => {
+          setIsListening(true);
+        };
+
+        speechRecognition.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          setInputMessage(transcript);
+          setIsListening(false);
+        };
+
+        speechRecognition.onerror = (event: any) => {
+          console.error('Speech recognition error:', event.error);
+          setIsListening(false);
+        };
+
+        speechRecognition.onend = () => {
+          setIsListening(false);
+        };
+
+        setRecognition(speechRecognition);
+      }
+    }
+  }, []);
+
   const handleSendMessage = (message?: string) => {
     const messageToSend = message || inputMessage;
     if (!messageToSend.trim()) return;
@@ -292,6 +338,19 @@ export default function ChatbotPrimaryPage() {
     }, 800);
 
     setInputMessage('');
+  };
+
+  const toggleVoiceInput = () => {
+    if (!recognition) {
+      alert('Voice recognition is not supported in this browser');
+      return;
+    }
+
+    if (isListening) {
+      recognition.stop();
+    } else {
+      recognition.start();
+    }
   };
 
   const addToCart = (item: MenuItem) => {
@@ -596,6 +655,20 @@ export default function ChatbotPrimaryPage() {
           <Button 
             onClick={(e) => {
               e.preventDefault();
+              toggleVoiceInput();
+            }}
+            variant="outline"
+            className={`px-3 border-[#8b795e] ${
+              isListening 
+                ? 'bg-red-500 text-white border-red-500' 
+                : 'text-[#8b795e] bg-white hover:bg-[#8b795e] hover:text-white'
+            }`}
+          >
+            {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+          </Button>
+          <Button 
+            onClick={(e) => {
+              e.preventDefault();
               handleSendMessage();
             }}
             className="bg-[#8b795e] hover:bg-[#6d5d4f] text-white px-4"
@@ -603,6 +676,15 @@ export default function ChatbotPrimaryPage() {
             <Send className="w-4 h-4" />
           </Button>
         </div>
+        
+        {/* Voice feedback */}
+        {isListening && (
+          <div className="mt-2 text-center">
+            <p className="text-sm animate-pulse" style={{ color: '#8b795e' }}>
+              🎤 Listening... Speak now
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
