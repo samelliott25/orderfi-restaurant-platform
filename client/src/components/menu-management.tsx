@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useToast } from "@/hooks/use-toast";
 import { restaurantApi } from "@/lib/api";
 import { queryClient } from "@/lib/queryClient";
-import { Utensils, Plus, Edit, Trash2, Upload } from "lucide-react";
+import { Utensils, Plus, Edit, Trash2, Upload, Bot, Camera, FileImage, Loader2 } from "lucide-react";
 
 interface MenuManagementProps {
   restaurantId: number;
@@ -20,7 +20,11 @@ interface MenuManagementProps {
 export function MenuManagement({ restaurantId }: MenuManagementProps) {
   const { toast } = useToast();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isAiDialogOpen, setIsAiDialogOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [extractedItems, setExtractedItems] = useState<any[]>([]);
   const [newItem, setNewItem] = useState({
     name: "",
     description: "",
@@ -80,6 +84,61 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
       toast({ title: "Failed to delete menu item", variant: "destructive" });
     },
   });
+
+  // AI Menu Processing
+  const processMenuImage = async () => {
+    if (!selectedFile) return;
+
+    setIsProcessing(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', selectedFile);
+      
+      const response = await fetch('/api/ai/process-menu', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to process menu image');
+      }
+
+      const result = await response.json();
+      setExtractedItems(result.menuItems);
+      toast({ title: "Menu processed successfully!", description: `Found ${result.menuItems.length} items` });
+    } catch (error) {
+      toast({ 
+        title: "Processing failed", 
+        description: "Could not extract menu items from image",
+        variant: "destructive" 
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // Batch add extracted items
+  const addExtractedItems = async () => {
+    try {
+      for (const item of extractedItems) {
+        await restaurantApi.createMenuItem(restaurantId, item);
+      }
+      toast({ 
+        title: "Menu items added!", 
+        description: `Successfully added ${extractedItems.length} items to menu` 
+      });
+      setIsAiDialogOpen(false);
+      setExtractedItems([]);
+      setSelectedFile(null);
+      queryClient.invalidateQueries({ queryKey: [`/api/restaurants/${restaurantId}/menu`] });
+    } catch (error) {
+      toast({ 
+        title: "Failed to add items", 
+        description: "Some items could not be added to the menu",
+        variant: "destructive" 
+      });
+    }
+  };
 
   const handleAddItem = (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,13 +205,101 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
             <Utensils className="mr-2 text-primary" />
             Menu Management
           </span>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Item
-              </Button>
-            </DialogTrigger>
+          <div className="flex gap-2">
+            <Dialog open={isAiDialogOpen} onOpenChange={setIsAiDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <Bot className="mr-2 h-4 w-4" />
+                  AI Import
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-lg">
+                <DialogHeader>
+                  <DialogTitle>AI Menu Import</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <p className="text-sm text-gray-600">
+                    Upload a photo of your menu and our AI will automatically extract items with pricing and categorize them.
+                  </p>
+                  
+                  {/* File Upload */}
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                      className="hidden"
+                      id="menu-upload"
+                    />
+                    <label htmlFor="menu-upload" className="cursor-pointer">
+                      <div className="flex flex-col items-center space-y-2">
+                        {selectedFile ? (
+                          <>
+                            <FileImage className="h-8 w-8 text-green-500" />
+                            <span className="text-sm text-green-600">{selectedFile.name}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Camera className="h-8 w-8 text-gray-400" />
+                            <span className="text-sm text-gray-500">Click to upload menu image</span>
+                          </>
+                        )}
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* Processing Button */}
+                  <Button 
+                    onClick={processMenuImage} 
+                    disabled={!selectedFile || isProcessing}
+                    className="w-full"
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Processing Menu...
+                      </>
+                    ) : (
+                      <>
+                        <Bot className="mr-2 h-4 w-4" />
+                        Extract Menu Items
+                      </>
+                    )}
+                  </Button>
+
+                  {/* Extracted Items Preview */}
+                  {extractedItems.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="font-medium">Extracted Items ({extractedItems.length})</h4>
+                      <div className="max-h-64 overflow-y-auto space-y-2">
+                        {extractedItems.map((item, index) => (
+                          <div key={index} className="p-3 bg-gray-50 rounded border">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <p className="font-medium">{item.name}</p>
+                                <p className="text-sm text-gray-600">{item.description}</p>
+                                <p className="text-sm text-blue-600">Category: {item.category}</p>
+                              </div>
+                              <span className="font-bold">${item.price}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <Button onClick={addExtractedItems} className="w-full">
+                        Add All Items to Menu
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </DialogContent>
+            </Dialog>
+            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+              <DialogTrigger asChild>
+                <Button>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Item
+                </Button>
+              </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>Add Menu Item</DialogTitle>
