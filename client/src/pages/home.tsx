@@ -42,7 +42,7 @@ export default function HomePage() {
               </div>
             </div>
             
-            {/* Sign-in Buttons */}
+            {/* Ordering Options */}
             <div className="flex flex-col space-y-3 w-full max-w-xs">
               <Button
                 asChild
@@ -51,9 +51,9 @@ export default function HomePage() {
                   backgroundColor: '#8b795e'
                 }}
               >
-                <Link href="/mobile-chat">
+                <Link href="/hybrid-chat">
                   <UserCheck className="mr-2 h-5 w-5" />
-                  Sign In
+                  Interactive Menu
                 </Link>
               </Button>
               
@@ -69,7 +69,7 @@ export default function HomePage() {
               >
                 <Link href="/mobile-chat">
                   <User className="mr-2 h-5 w-5" />
-                  Continue as Guest
+                  Chat Only
                 </Link>
               </Button>
             </div>
