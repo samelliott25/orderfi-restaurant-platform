@@ -13,7 +13,7 @@ export function ComicBubble({ children, isUser = false, className = '' }: ComicB
     <div className={`relative inline-block ${className}`}>
       {/* Content container to measure text size */}
       <div 
-        className={`relative bg-white border-4 border-black p-4 ${
+        className={`relative bg-background border-4 border-black p-4 ${
           isUser ? 'ml-4' : 'mr-4'
         }`}
         style={{

@@ -145,7 +145,7 @@ export default function MobileAppPage() {
           <input
             type="text"
             placeholder="Search for food, restaurants..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border bg-white"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border bg-background"
             style={{ borderColor: '#e5cf97', color: '#654321' }}
           />
           <Button
@@ -212,7 +212,7 @@ export default function MobileAppPage() {
         
         <div className="grid gap-4">
           {filteredItems.map((item) => (
-            <Card key={item.id} className="bg-white border" style={{ borderColor: '#e5cf97' }}>
+            <Card key={item.id} className="bg-background border" style={{ borderColor: '#e5cf97' }}>
               <CardContent className="p-4">
                 <div className="flex gap-4">
                   <div className="text-4xl">{item.image}</div>
@@ -269,7 +269,7 @@ export default function MobileAppPage() {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 border-t bg-white" style={{ borderColor: '#e5cf97' }}>
+      <div className="fixed bottom-0 left-0 right-0 border-t bg-background" style={{ borderColor: '#e5cf97' }}>
         <div className="flex justify-around py-2">
           {[
             { id: 'home', icon: Home, label: 'Home' },

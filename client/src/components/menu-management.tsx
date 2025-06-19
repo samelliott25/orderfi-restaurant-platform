@@ -454,7 +454,7 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
                 </div>
                 <div className="space-y-3">
                   {items.map((item: any) => (
-                    <div key={item.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border">
+                    <div key={item.id} className="flex items-center justify-between p-4 bg-background rounded-lg border">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
                           <h4 className="font-medium text-gray-900">{item.name}</h4>

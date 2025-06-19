@@ -410,7 +410,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                           return (
                             <Card 
                               key={item.id} 
-                              className={`bg-white border transition-all duration-500 ${
+                              className={`bg-background border transition-all duration-500 ${
                                 isHighlighted ? 'ring-2 ring-yellow-400 shadow-lg scale-105' : ''
                               }`} 
                               style={{ borderColor: isHighlighted ? '#f59e0b' : '#e5cf97' }}
