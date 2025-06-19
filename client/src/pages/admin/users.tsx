@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -239,10 +240,10 @@ export default function AdminUsersPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#654321' }}>
-              User & Staff Management
+              Staffing Costs & Management
             </h1>
             <p className="text-sm" style={{ color: '#8b795e' }}>
-              Manage staff schedules, roles, and workforce integrations
+              Track labor costs, budget analysis, and workforce expenses
             </p>
           </div>
           <div className="flex gap-3">
@@ -325,154 +326,245 @@ export default function AdminUsersPage() {
           </div>
         </div>
 
-        <Tabs defaultValue="roster" className="space-y-6">
+        <Tabs defaultValue="costs" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="roster">Weekly Roster</TabsTrigger>
+            <TabsTrigger value="costs">Staffing Costs</TabsTrigger>
             <TabsTrigger value="staff">Staff Directory</TabsTrigger>
             <TabsTrigger value="integrations">WFM Integrations</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="roster" className="space-y-6">
-            {/* Week Navigation */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => navigateWeek('prev')}
-                  style={{ borderColor: '#8b795e', color: '#654321' }}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <div className="text-lg font-semibold" style={{ color: '#654321' }}>
-                  {getWeekRange()}
-                </div>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => navigateWeek('next')}
-                  style={{ borderColor: '#8b795e', color: '#654321' }}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-              <Select value={selectedDepartment} onValueChange={(value: 'ALL' | 'FOH' | 'BOH') => setSelectedDepartment(value)}>
-                <SelectTrigger className="w-48">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="ALL">All Departments</SelectItem>
-                  <SelectItem value="FOH">Front of House</SelectItem>
-                  <SelectItem value="BOH">Back of House</SelectItem>
-                </SelectContent>
-              </Select>
+          <TabsContent value="costs" className="space-y-6">
+            {/* Cost Overview Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
+                    Monthly Labor Cost
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+                    $18,425
+                  </div>
+                  <p className="text-xs text-green-600">
+                    -8.5% from last month
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
+                    Labor Cost %
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+                    28.3%
+                  </div>
+                  <p className="text-xs" style={{ color: '#8b795e' }}>
+                    of total revenue
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
+                    Budget Remaining
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+                    $3,250
+                  </div>
+                  <p className="text-xs" style={{ color: '#8b795e' }}>
+                    15% of monthly budget
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
+                    Avg. Hourly Rate
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+                    $18.85
+                  </div>
+                  <p className="text-xs" style={{ color: '#8b795e' }}>
+                    Across all positions
+                  </p>
+                </CardContent>
+              </Card>
             </div>
 
-            {/* Weekly Calendar */}
+            {/* Department Cost Breakdown */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+                <CardHeader>
+                  <CardTitle style={{ color: '#654321' }}>Department Cost Breakdown</CardTitle>
+                  <CardDescription style={{ color: '#8b795e' }}>
+                    Labor costs by FOH and BOH departments
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-3 rounded-lg" style={{ backgroundColor: '#e8f5e8', border: '1px solid #c8e6c8' }}>
+                      <div>
+                        <div className="font-medium" style={{ color: '#654321' }}>Front of House (FOH)</div>
+                        <div className="text-sm" style={{ color: '#8b795e' }}>Servers, Hosts, Bartenders</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold" style={{ color: '#654321' }}>$11,200</div>
+                        <div className="text-xs" style={{ color: '#8b795e' }}>60.8% of total</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between p-3 rounded-lg" style={{ backgroundColor: '#e8f0ff', border: '1px solid #c8e0ff' }}>
+                      <div>
+                        <div className="font-medium" style={{ color: '#654321' }}>Back of House (BOH)</div>
+                        <div className="text-sm" style={{ color: '#8b795e' }}>Chefs, Line Cooks, Prep</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold" style={{ color: '#654321' }}>$7,225</div>
+                        <div className="text-xs" style={{ color: '#8b795e' }}>39.2% of total</div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+                <CardHeader>
+                  <CardTitle style={{ color: '#654321' }}>Cost Trends</CardTitle>
+                  <CardDescription style={{ color: '#8b795e' }}>
+                    Labor cost trends over the last 6 months
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {[
+                      { month: 'Jan', cost: 19250, change: '+5.2%' },
+                      { month: 'Feb', cost: 18750, change: '-2.6%' },
+                      { month: 'Mar', cost: 19850, change: '+5.9%' },
+                      { month: 'Apr', cost: 18950, change: '-4.5%' },
+                      { month: 'May', cost: 20150, change: '+6.3%' },
+                      { month: 'Jun', cost: 18425, change: '-8.5%' }
+                    ].map((month, index) => (
+                      <div key={month.month} className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 text-sm font-medium" style={{ color: '#654321' }}>
+                            {month.month}
+                          </div>
+                          <div className="flex-1">
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div 
+                                className="bg-[#8b795e] h-2 rounded-full" 
+                                style={{ width: `${(month.cost / 25000) * 100}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium" style={{ color: '#654321' }}>
+                            ${month.cost.toLocaleString()}
+                          </div>
+                          <div className={`text-xs ${month.change.startsWith('+') ? 'text-red-600' : 'text-green-600'}`}>
+                            {month.change}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Budget Analysis */}
             <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
               <CardHeader>
-                <CardTitle style={{ color: '#654321' }}>Weekly Schedule</CardTitle>
+                <CardTitle style={{ color: '#654321' }}>Budget Analysis & Forecasting</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
-                  Staff roster for the week - FOH (Front of House) and BOH (Back of House)
+                  Monthly budget tracking and cost optimization insights
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-7 gap-4">
-                  {weekDays.map((day) => (
-                    <div key={day} className="space-y-2">
-                      <div className="text-center">
-                        <h3 className="font-semibold text-sm mb-2" style={{ color: '#654321' }}>
-                          {day}
-                        </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold" style={{ color: '#654321' }}>Budget Status</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span style={{ color: '#8b795e' }}>Monthly Budget:</span>
+                        <span className="font-medium" style={{ color: '#654321' }}>$21,675</span>
                       </div>
-                      <div className="space-y-2 min-h-[300px]">
-                        {weeklySchedule[day]
-                          ?.filter(shift => selectedDepartment === 'ALL' || shift.department === selectedDepartment)
-                          .map((shift) => (
-                          <div 
-                            key={shift.id} 
-                            className="p-2 rounded-lg text-xs border"
-                            style={{ 
-                              backgroundColor: shift.department === 'FOH' ? '#e8f5e8' : '#e8f0ff',
-                              borderColor: shift.department === 'FOH' ? '#c8e6c8' : '#c8e0ff'
-                            }}
-                          >
-                            <div className="font-medium mb-1" style={{ color: '#654321' }}>
-                              {shift.staffName}
-                            </div>
-                            <div className="text-xs mb-1" style={{ color: '#8b795e' }}>
-                              {shift.role} ({shift.department})
-                            </div>
-                            <div className="text-xs mb-2" style={{ color: '#8b795e' }}>
-                              {shift.startTime} - {shift.endTime}
-                            </div>
-                            <Badge className={`text-xs ${getStatusColor(shift.status)}`}>
-                              {shift.status}
-                            </Badge>
-                          </div>
-                        ))}
-                        {(!weeklySchedule[day] || weeklySchedule[day].filter(shift => selectedDepartment === 'ALL' || shift.department === selectedDepartment).length === 0) && (
-                          <div className="p-4 text-center text-xs" style={{ color: '#8b795e' }}>
-                            No shifts scheduled
-                          </div>
-                        )}
+                      <div className="flex justify-between text-sm">
+                        <span style={{ color: '#8b795e' }}>Current Spend:</span>
+                        <span className="font-medium" style={{ color: '#654321' }}>$18,425</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span style={{ color: '#8b795e' }}>Remaining:</span>
+                        <span className="font-medium text-green-600">$3,250</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-[#8b795e] h-2 rounded-full" 
+                          style={{ width: '85%' }}
+                        ></div>
+                      </div>
+                      <p className="text-xs" style={{ color: '#8b795e' }}>85% of budget used</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold" style={{ color: '#654321' }}>Cost Optimization</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2">
+                        <div className="w-2 h-2 rounded-full bg-green-500 mt-2"></div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: '#654321' }}>Reduced overtime costs</p>
+                          <p className="text-xs" style={{ color: '#8b795e' }}>Saved $850 this month</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <div className="w-2 h-2 rounded-full bg-blue-500 mt-2"></div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: '#654321' }}>Optimized shift patterns</p>
+                          <p className="text-xs" style={{ color: '#8b795e' }}>Better coverage efficiency</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <div className="w-2 h-2 rounded-full bg-yellow-500 mt-2"></div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: '#654321' }}>Cross-training impact</p>
+                          <p className="text-xs" style={{ color: '#8b795e' }}>Reduced hiring needs</p>
+                        </div>
                       </div>
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold" style={{ color: '#654321' }}>Next Month Forecast</h4>
+                    <div className="space-y-2">
+                      <div className="p-3 rounded-lg" style={{ backgroundColor: '#f8f9fa' }}>
+                        <div className="text-lg font-bold mb-1" style={{ color: '#654321' }}>
+                          $19,200
+                        </div>
+                        <p className="text-xs" style={{ color: '#8b795e' }}>
+                          Projected labor cost
+                        </p>
+                      </div>
+                      <div className="text-xs space-y-1" style={{ color: '#8b795e' }}>
+                        <div>+ Holiday premium: $400</div>
+                        <div>+ New hire training: $300</div>
+                        <div>- Efficiency gains: -$125</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
-
-            {/* Schedule Summary */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
-                    This Week's Coverage
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
-                    94%
-                  </div>
-                  <p className="text-xs" style={{ color: '#8b795e' }}>
-                    All positions covered
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
-                    Total Hours Scheduled
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
-                    312
-                  </div>
-                  <p className="text-xs" style={{ color: '#8b795e' }}>
-                    FOH: 180hrs, BOH: 132hrs
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
-                    Labor Cost
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
-                    $5,234
-                  </div>
-                  <p className="text-xs" style={{ color: '#8b795e' }}>
-                    Within budget (89%)
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
           </TabsContent>
 
           <TabsContent value="staff" className="space-y-6">
