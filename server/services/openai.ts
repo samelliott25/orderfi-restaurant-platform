@@ -190,7 +190,8 @@ export interface OperationsAiResponse {
 
 export async function processOperationsAiMessage(
   userMessage: string,
-  context: string = "restaurant_operations"
+  context: string = "restaurant_operations",
+  imageData?: string
 ): Promise<OperationsAiResponse> {
   try {
     const systemPrompt = `You are Mimi, an autonomous Operations AI Agent for a restaurant business. You can:
@@ -198,8 +199,9 @@ export async function processOperationsAiMessage(
 1. Generate reports (sales, inventory, staff performance)
 2. Send emails to suppliers, staff, or customers
 3. Load and analyze data from various sources
-4. Automate routine tasks
-5. Provide business insights and recommendations
+4. Analyze images for menu extraction, receipts, invoices, and business documents
+5. Automate routine tasks
+6. Provide business insights and recommendations
 
 When a user requests a task, determine if it requires actions and respond with:
 - A conversational response explaining what you'll do
@@ -213,17 +215,54 @@ Available action types:
 
 Always be professional, autonomous, and action-oriented. Respond in JSON format with "message" and optionally "actions" array.`;
 
+    const messages: any[] = [
+      { role: "system", content: systemPrompt }
+    ];
+
+    if (imageData) {
+      messages.push({
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: userMessage || "Please analyze this image for restaurant operations insights."
+          },
+          {
+            type: "image_url",
+            image_url: {
+              url: `data:image/jpeg;base64,${imageData}`
+            }
+          }
+        ]
+      });
+    } else {
+      messages.push({ role: "user", content: userMessage });
+    }
+
     const response = await openai.chat.completions.create({
       model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userMessage }
-      ],
-      response_format: { type: "json_object" },
-      max_tokens: 500,
+      messages,
+      ...(imageData ? {} : { response_format: { type: "json_object" } }), // Only use JSON format for text-only requests
+      max_tokens: 1000,
     });
 
-    const result = JSON.parse(response.choices[0].message.content || '{}');
+    const content = response.choices[0].message.content || '';
+    
+    let result: any;
+    if (imageData) {
+      // For image responses, wrap the content in proper format
+      result = {
+        message: content,
+        actions: []
+      };
+    } else {
+      // For text responses, parse JSON
+      try {
+        result = JSON.parse(content);
+      } catch {
+        result = { message: content, actions: [] };
+      }
+    }
     
     // Ensure proper response format
     return {

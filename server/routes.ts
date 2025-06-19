@@ -192,15 +192,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Operations AI Chat endpoint
-  app.post("/api/operations-ai-chat", async (req, res) => {
+  app.post("/api/operations-ai-chat", upload.single('image'), async (req, res) => {
     try {
       const { message, context } = req.body;
+      let imageData: string | undefined;
       
-      if (!message) {
-        return res.status(400).json({ message: "Message is required" });
+      // Handle image upload
+      if (req.file) {
+        imageData = req.file.buffer.toString('base64');
+      }
+      
+      if (!message && !imageData) {
+        return res.status(400).json({ message: "Message or image is required" });
       }
 
-      const response = await processOperationsAiMessage(message, context);
+      const response = await processOperationsAiMessage(message || "Please analyze this image", context, imageData);
       res.json(response);
     } catch (error) {
       console.error("Operations AI error:", error);

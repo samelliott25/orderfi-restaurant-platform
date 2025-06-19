@@ -252,24 +252,38 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
       const dataFiles = fileArray.filter(file => !file.type.startsWith('image/'));
       
       if (imageFiles.length > 0) {
-        // Handle multiple image uploads
+        // Process first image with AI (for now, handle one at a time)
+        const formData = new FormData();
+        formData.append('image', imageFiles[0]);
+        formData.append('message', `Analyze this ${imageFiles[0].name} image for restaurant operations. Extract menu items with prices if it's a menu, or provide business insights if it's receipts, invoices, or other business documents.`);
+        formData.append('context', 'restaurant_operations');
+
+        const response = await fetch("/api/operations-ai-chat", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
         const responseMessage: ChatMessage = {
           id: `ai-${Date.now()}`,
           type: 'assistant',
-          content: `I've received ${imageFiles.length} image${imageFiles.length > 1 ? 's' : ''}: ${imageFiles.map(f => f.name).join(', ')}. I can analyze these images for various purposes:
-
-🖼️ **Multi-Image Analysis Options**
-• Batch menu item extraction and pricing comparison
-• Multiple receipt or invoice processing
-• Visual content analysis across images
-• Document text recognition from multiple sources
-• Inventory comparison and product identification
-• Menu layout analysis and optimization suggestions
-
-What would you like me to analyze from these images? I can process them individually or compare them for insights across your business operations.`,
+          content: data.message,
           timestamp: new Date(),
+          actions: data.actions || []
         };
         setMessages(prev => [...prev, responseMessage]);
+
+        // Handle additional images if multiple were uploaded
+        if (imageFiles.length > 1) {
+          const additionalMessage: ChatMessage = {
+            id: `ai-additional-${Date.now()}`,
+            type: 'assistant',
+            content: `I've analyzed the first image. I can also process the remaining ${imageFiles.length - 1} image${imageFiles.length > 2 ? 's' : ''}: ${imageFiles.slice(1).map(f => f.name).join(', ')}. Would you like me to analyze them as well?`,
+            timestamp: new Date(),
+          };
+          setMessages(prev => [...prev, additionalMessage]);
+        }
       }
       
       if (dataFiles.length > 0) {
