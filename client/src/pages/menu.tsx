@@ -1,18 +1,14 @@
-import { useState } from "react";
 import { DashboardSidebar } from "@/components/admin/dashboard-sidebar";
-import { LiveSalesDashboard } from "@/components/admin/live-sales-dashboard";
+import { MenuManagement } from "@/components/menu-management";
 import { AdminLayout } from "@/components/admin/admin-layout";
-import { ProcessedData } from "@/services/dataProcessor";
 
-export default function AdminPage() {
-  const [dashboardData, setDashboardData] = useState<ProcessedData | null>(null);
-
+export default function MenuPage() {
   return (
     <AdminLayout>
       {/* Mobile Layout - Vertical Stack */}
       <div className="lg:hidden">
         <DashboardSidebar />
-        <LiveSalesDashboard uploadedData={dashboardData} />
+        <MenuManagement restaurantId={1} />
       </div>
 
       {/* Desktop Layout - Horizontal Flex */}
@@ -22,9 +18,9 @@ export default function AdminPage() {
           <DashboardSidebar />
         </div>
         
-        {/* Main Dashboard Content - Scrollable */}
+        {/* Main Menu Content - Scrollable */}
         <div className="flex-1 min-w-0 h-full overflow-y-auto">
-          <LiveSalesDashboard uploadedData={dashboardData} />
+          <MenuManagement restaurantId={1} />
         </div>
       </div>
     </AdminLayout>

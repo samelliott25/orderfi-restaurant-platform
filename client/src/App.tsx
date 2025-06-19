@@ -11,6 +11,7 @@ import RetroChatPage from "@/pages/retro-chat";
 import NotFound from "@/pages/not-found";
 
 // Admin module pages
+import MenuPage from "@/pages/menu";
 import AdminMenuPage from "@/pages/admin/menu";
 import AdminUsersPage from "@/pages/admin/users";
 import AdminOrdersPage from "@/pages/admin/orders";
