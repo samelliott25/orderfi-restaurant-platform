@@ -642,18 +642,6 @@ export default function ChatbotPrimaryPage() {
       {/* Chat Input */}
       <div className="p-4 border-t" style={{ borderColor: '#e5cf97' }}>
         <div className="flex gap-2">
-          <Input
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            placeholder="Tell me what you're craving..."
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleSendMessage();
-              }
-            }}
-            className="flex-1"
-          />
           <Button 
             onClick={(e) => {
               e.preventDefault();
@@ -669,6 +657,18 @@ export default function ChatbotPrimaryPage() {
           >
             {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
           </Button>
+          <Input
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            placeholder="Tell me what you're craving..."
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
+            className="flex-1"
+          />
           <Button 
             onClick={(e) => {
               e.preventDefault();
