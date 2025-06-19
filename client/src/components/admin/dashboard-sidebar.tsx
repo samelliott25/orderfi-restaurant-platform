@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import mimiDashboardLogo from "@assets/20250619_2033_Text Color Change_remix_01jy3vxw7zf9nrnvh4xxtpypeq_1750332973497.png";
 
 const navigation = [
   {
@@ -152,10 +153,11 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
     <div className="flex h-full flex-col border-r" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
       {/* Logo */}
       <div className="flex h-16 items-center px-6 border-b" style={{ borderColor: '#e5cf97' }}>
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#8b795e' }}>
-          <Bot className="h-5 w-5 text-white" />
-        </div>
-        <span className="ml-3 text-xl font-semibold" style={{ color: '#654321' }}>mimi</span>
+        <img 
+          src={mimiDashboardLogo} 
+          alt="Mimi Dashboard" 
+          className="h-10 w-auto"
+        />
       </div>
 
       {/* Navigation */}
