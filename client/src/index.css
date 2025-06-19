@@ -437,7 +437,7 @@ html {
 
   .ai-message {
     border-radius: 18px 18px 18px 4px;
-    background-color: white;
+    background-color: #ffe6b0;
     border: 2px solid #5A8A8A;
     color: #333;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);

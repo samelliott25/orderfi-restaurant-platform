@@ -47,10 +47,10 @@ export function ComicBubble({ children, isUser = false, className = '' }: ComicB
             borderStyle: 'solid',
             ...(isUser ? {
               borderWidth: '0 0 20px 20px',
-              borderColor: 'transparent transparent white transparent',
+              borderColor: 'transparent transparent #ffe6b0 transparent',
             } : {
               borderWidth: '0 20px 20px 0',
-              borderColor: 'transparent white transparent transparent',
+              borderColor: 'transparent #ffe6b0 transparent transparent',
             })
           }}
         />

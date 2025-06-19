@@ -105,7 +105,7 @@ export function SwipeConfirmButton({ text, onConfirm, disabled = false }: SwipeC
       
       {/* Sliding handle */}
       <div 
-        className={`absolute left-2 top-2 bottom-2 w-12 bg-white rounded-full flex items-center justify-center transition-transform duration-200 ${
+        className={`absolute left-2 top-2 bottom-2 w-12 bg-background rounded-full flex items-center justify-center transition-transform duration-200 ${
           isConfirmed ? 'transform translate-x-full' : ''
         }`}
         style={{
@@ -117,9 +117,9 @@ export function SwipeConfirmButton({ text, onConfirm, disabled = false }: SwipeC
       
       {/* Arrow indicators */}
       <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex space-x-1">
-        <div className="w-2 h-2 bg-white rounded-full opacity-60"></div>
-        <div className="w-2 h-2 bg-white rounded-full opacity-40"></div>
-        <div className="w-2 h-2 bg-white rounded-full opacity-20"></div>
+        <div className="w-2 h-2 bg-background rounded-full opacity-60"></div>
+        <div className="w-2 h-2 bg-background rounded-full opacity-40"></div>
+        <div className="w-2 h-2 bg-background rounded-full opacity-20"></div>
       </div>
     </div>
   );

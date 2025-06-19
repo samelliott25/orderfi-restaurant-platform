@@ -16,7 +16,7 @@ export function ChatBubble({ message, isUser = false, timestamp }: ChatBubblePro
       <div className={`flex max-w-[85%] ${isUser ? 'flex-row-reverse' : 'flex-row'} items-end space-x-3`}>
         {/* Avatar */}
         {!isUser && (
-          <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white border-3 border-green-700 p-1 retro-shadow">
+          <div className="flex-shrink-0 w-12 h-12 rounded-full bg-background border-3 border-green-700 p-1 retro-shadow">
             <img 
               src={mimiLogo} 
               alt="Mimi" 
@@ -29,7 +29,7 @@ export function ChatBubble({ message, isUser = false, timestamp }: ChatBubblePro
         <div className={`message-bubble-retro ${
           isUser 
             ? 'bg-orange-500 text-white user-bubble' 
-            : 'bg-white text-gray-800 border-3 border-green-700 mimi-bubble'
+            : 'bg-background text-gray-800 border-3 border-green-700 mimi-bubble'
         }`}>
           <p className="text-lg leading-relaxed retro-text-message">
             {message}
