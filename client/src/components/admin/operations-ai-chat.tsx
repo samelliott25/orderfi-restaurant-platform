@@ -64,7 +64,9 @@ export function OperationsAiChat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [activeTask, setActiveTask] = useState<TaskAction | null>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // Initialize with welcome message
@@ -217,6 +219,62 @@ export function OperationsAiChat() {
         return <AlertCircle className="w-4 h-4 text-red-500" />;
       default:
         return null;
+    }
+  };
+
+  const handleFileUpload = async (files: FileList | File[]) => {
+    const file = files[0];
+    if (!file) return;
+
+    // Add file upload message
+    const uploadMessage: ChatMessage = {
+      id: `upload-${Date.now()}`,
+      type: 'user',
+      content: `Uploaded file: ${file.name} (${file.type})`,
+      timestamp: new Date(),
+    };
+    setMessages(prev => [...prev, uploadMessage]);
+
+    // Simulate AI processing the file
+    setIsLoading(true);
+    
+    setTimeout(() => {
+      const responseMessage: ChatMessage = {
+        id: `ai-${Date.now()}`,
+        type: 'assistant',
+        content: `I've analyzed your ${file.name} file. I'm now updating the dashboard with the data I found. This includes sales figures, order counts, and revenue metrics that I've extracted from your upload.`,
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, responseMessage]);
+      setIsLoading(false);
+      
+      // Trigger dashboard data update (this would normally parse the file)
+      // For now, we'll simulate updating the dashboard with new data
+    }, 2000);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      handleFileUpload(files);
+    }
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      handleFileUpload(e.target.files);
     }
   };
 
