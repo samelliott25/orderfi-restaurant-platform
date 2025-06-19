@@ -413,132 +413,185 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
           </div>
         </div>
 
-        <div className="space-y-3">
-          {menuItems.map((item: any) => (
-            <div key={item.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div className="flex-1">
-                <h3 className="font-medium text-gray-900">{item.name}</h3>
-                <p className="text-sm text-gray-600">{item.description}</p>
-                <div className="flex items-center space-x-2 mt-2">
-                  {item.tags?.map((tag: string) => (
-                    <Badge key={tag} variant={getBadgeVariant(tag)} className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                  <span className="text-sm font-medium text-gray-900">${item.price}</span>
-                  <Badge variant="outline" className="text-xs">
-                    {item.category}
+        {/* Blockchain Validation Button */}
+        <div className="mb-6">
+          <Button 
+            onClick={() => {
+              fetch(`/api/restaurants/${restaurantId}/menu/validate-categories`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+              })
+              .then(res => res.json())
+              .then(data => {
+                toast({ title: "Categories Validated", description: data.message });
+                queryClient.invalidateQueries({ queryKey: [`/api/restaurants/${restaurantId}/menu/categorized`] });
+              })
+              .catch(() => {
+                toast({ title: "Validation Failed", description: "Could not validate menu categories" });
+              });
+            }}
+            variant="outline"
+            className="w-full"
+          >
+            <Bot className="mr-2 h-4 w-4" />
+            Validate & Fix Categories with AI
+          </Button>
+        </div>
+
+        {/* Categorized Menu Display */}
+        {categorizedLoading ? (
+          <div className="text-center py-8">Loading categorized menu items...</div>
+        ) : Object.keys(categorizedItems as Record<string, any[]>).length > 0 ? (
+          <div className="space-y-6">
+            {Object.entries(categorizedItems as Record<string, any[]>).map(([category, items]) => (
+              <div key={category} className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-gray-900">{category}</h3>
+                  <Badge variant="secondary" className="text-xs">
+                    {items.length} item{items.length !== 1 ? 's' : ''}
                   </Badge>
                 </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Dialog open={editingItem?.id === item.id} onOpenChange={(open) => !open && setEditingItem(null)}>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setEditingItem(item)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-md">
-                    <DialogHeader>
-                      <DialogTitle>Edit Menu Item</DialogTitle>
-                    </DialogHeader>
-                    {editingItem && (
-                      <form onSubmit={handleUpdateItem} className="space-y-4">
-                        <div>
-                          <Label htmlFor="editName">Name</Label>
-                          <Input
-                            id="editName"
-                            value={editingItem.name}
-                            onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
-                            required
-                          />
+                <div className="space-y-3">
+                  {items.map((item: any) => (
+                    <div key={item.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <h4 className="font-medium text-gray-900">{item.name}</h4>
+                          {item.blockchainHash && (
+                            <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
+                              Blockchain Verified
+                            </Badge>
+                          )}
                         </div>
-                        <div>
-                          <Label htmlFor="editDescription">Description</Label>
-                          <Textarea
-                            id="editDescription"
-                            value={editingItem.description || ""}
-                            onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })}
-                            rows={2}
-                          />
+                        <p className="text-sm text-gray-600">{item.description}</p>
+                        <div className="flex items-center space-x-2 mt-2">
+                          {item.tags?.map((tag: string) => (
+                            <Badge key={tag} variant={getBadgeVariant(tag)} className="text-xs">
+                              {tag}
+                            </Badge>
+                          ))}
+                          <span className="text-sm font-medium text-gray-900">${item.price}</span>
+                          {item.timestamp && (
+                            <span className="text-xs text-gray-500">
+                              Added {new Date(item.timestamp).toLocaleDateString()}
+                            </span>
+                          )}
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Label htmlFor="editPrice">Price</Label>
-                            <Input
-                              id="editPrice"
-                              type="number"
-                              step="0.01"
-                              value={editingItem.price}
-                              onChange={(e) => setEditingItem({ ...editingItem, price: e.target.value })}
-                              required
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="editCategory">Category</Label>
-                            <Select 
-                              value={editingItem.category} 
-                              onValueChange={(value) => setEditingItem({ ...editingItem, category: value })}
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Dialog open={editingItem?.id === item.id} onOpenChange={(open) => !open && setEditingItem(null)}>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setEditingItem(item)}
                             >
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="appetizer">Appetizer</SelectItem>
-                                <SelectItem value="pizza">Pizza</SelectItem>
-                                <SelectItem value="pasta">Pasta</SelectItem>
-                                <SelectItem value="main">Main Course</SelectItem>
-                                <SelectItem value="salad">Salad</SelectItem>
-                                <SelectItem value="dessert">Dessert</SelectItem>
-                                <SelectItem value="beverage">Beverage</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </div>
-                        <div>
-                          <Label>Tags</Label>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            {availableTags.map(tag => (
-                              <Badge
-                                key={tag}
-                                variant={(editingItem.tags || []).includes(tag) ? "default" : "outline"}
-                                className="cursor-pointer"
-                                onClick={() => handleTagToggle(tag, true)}
-                              >
-                                {tag}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="flex justify-end space-x-2">
-                          <Button type="button" variant="outline" onClick={() => setEditingItem(null)}>
-                            Cancel
-                          </Button>
-                          <Button type="submit" disabled={updateMenuItemMutation.isPending}>
-                            Update Item
-                          </Button>
-                        </div>
-                      </form>
-                    )}
-                  </DialogContent>
-                </Dialog>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => deleteMenuItemMutation.mutate(item.id)}
-                  disabled={deleteMenuItemMutation.isPending}
-                  className="text-red-600 hover:text-red-700"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-md">
+                            <DialogHeader>
+                              <DialogTitle>Edit Menu Item</DialogTitle>
+                            </DialogHeader>
+                            {editingItem && (
+                              <form onSubmit={handleUpdateItem} className="space-y-4">
+                                <div>
+                                  <Label htmlFor="editName">Name</Label>
+                                  <Input
+                                    id="editName"
+                                    value={editingItem.name}
+                                    onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
+                                    required
+                                  />
+                                </div>
+                                <div>
+                                  <Label htmlFor="editDescription">Description</Label>
+                                  <Textarea
+                                    id="editDescription"
+                                    value={editingItem.description || ""}
+                                    onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })}
+                                    rows={2}
+                                  />
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div>
+                                    <Label htmlFor="editPrice">Price</Label>
+                                    <Input
+                                      id="editPrice"
+                                      type="number"
+                                      step="0.01"
+                                      value={editingItem.price}
+                                      onChange={(e) => setEditingItem({ ...editingItem, price: e.target.value })}
+                                      required
+                                    />
+                                  </div>
+                                  <div>
+                                    <Label htmlFor="editCategory">Category</Label>
+                                    <Select 
+                                      value={editingItem.category} 
+                                      onValueChange={(value) => setEditingItem({ ...editingItem, category: value })}
+                                    >
+                                      <SelectTrigger>
+                                        <SelectValue />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        {availableCategories.map((cat: any) => (
+                                          <SelectItem key={cat.id} value={cat.name}>
+                                            {cat.name}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                  </div>
+                                </div>
+                                <div>
+                                  <Label>Tags</Label>
+                                  <div className="flex flex-wrap gap-2 mt-2">
+                                    {availableTags.map(tag => (
+                                      <Badge
+                                        key={tag}
+                                        variant={(editingItem.tags || []).includes(tag) ? "default" : "outline"}
+                                        className="cursor-pointer"
+                                        onClick={() => handleTagToggle(tag, true)}
+                                      >
+                                        {tag}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div className="flex justify-end space-x-2">
+                                  <Button type="button" variant="outline" onClick={() => setEditingItem(null)}>
+                                    Cancel
+                                  </Button>
+                                  <Button type="submit" disabled={updateMenuItemMutation.isPending}>
+                                    Update Item
+                                  </Button>
+                                </div>
+                              </form>
+                            )}
+                          </DialogContent>
+                        </Dialog>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => deleteMenuItemMutation.mutate(item.id)}
+                          disabled={deleteMenuItemMutation.isPending}
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-muted-foreground">
+            No menu items found. Add items using the AI Import or manual entry above.
+          </div>
+        )}
       </CardContent>
     </Card>
   );
