@@ -3,6 +3,7 @@ import { OperationsAiChat } from "@/components/admin/operations-ai-chat";
 import { DashboardSidebar } from "@/components/admin/dashboard-sidebar";
 import { ProcessedData } from "@/services/dataProcessor";
 import { useLocation } from "wouter";
+import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
 
 interface AdminLayoutProps {
   children: React.ReactNode;

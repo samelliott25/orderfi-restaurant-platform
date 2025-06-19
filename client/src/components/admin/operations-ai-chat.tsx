@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useOperationsAi } from "@/contexts/OperationsAiContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -69,24 +70,28 @@ interface OperationsAiChatProps {
 }
 
 export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const {
+    messages,
+    setMessages,
+    isLoading,
+    setIsLoading,
+    activeTask,
+    setActiveTask,
+    dashboardData,
+    setDashboardData
+  } = useOperationsAi();
+  
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [activeTask, setActiveTask] = useState<TaskAction | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Handle data updates from the chat
   useEffect(() => {
-    // Initialize with welcome message
-    const welcomeMessage: ChatMessage = {
-      id: "welcome",
-      type: "assistant",
-      content: "Hello! I'm Mimi, your Operations AI Agent. I can help you run your restaurant business autonomously - from generating reports to managing suppliers and analyzing data. What would you like me to help you with today?",
-      timestamp: new Date()
-    };
-    setMessages([welcomeMessage]);
-  }, []);
+    if (dashboardData && onDataUpdate) {
+      onDataUpdate(dashboardData);
+    }
+  }, [dashboardData, onDataUpdate]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -310,6 +315,7 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
         const processedData = await DataProcessor.processFile(dataFiles[0]);
         
         // Update dashboard with processed data
+        setDashboardData(processedData);
         if (onDataUpdate) {
           onDataUpdate(processedData);
         }
