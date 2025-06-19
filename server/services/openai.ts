@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { storage } from "../storage";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ 
@@ -200,41 +201,72 @@ export async function processOperationsAiMessage(
 2. Send emails to suppliers, staff, or customers
 3. Load and analyze data from various sources
 4. Analyze images for menu extraction, receipts, invoices, and business documents
-5. Automate routine tasks
-6. Provide business insights and recommendations
+5. Extract menu items from images with names, prices, descriptions, and allergens
+6. Automate routine tasks
+7. Provide business insights and recommendations
 
-When a user requests a task, determine if it requires actions and respond with:
-- A conversational response explaining what you'll do
-- Specific actions that need to be executed
+When analyzing menu images, extract:
+- Item names (exact text from image)
+- Prices (with currency symbols)
+- Descriptions (full text descriptions)
+- Allergens (if mentioned: dairy, gluten, nuts, etc.)
+- Categories (appetizers, mains, desserts, drinks, etc.)
+
+For menu extraction tasks, provide detailed item-by-item breakdown with all visible text and organize by category.
 
 Available action types:
 - "report": Generate business reports
 - "email": Send emails to stakeholders  
 - "data_load": Import and process data
 - "analysis": Analyze business metrics
+- "menu_extract": Extract menu items from images
 
-Always be professional, autonomous, and action-oriented. Respond in JSON format with "message" and optionally "actions" array.`;
+Always be professional, autonomous, and action-oriented. For text-only requests, respond in JSON format with "message" and optionally "actions" array.`;
 
     const messages: any[] = [
       { role: "system", content: systemPrompt }
     ];
 
     if (imageData) {
-      messages.push({
-        role: "user",
-        content: [
-          {
-            type: "text",
-            text: userMessage || "Please analyze this image for restaurant operations insights."
-          },
-          {
-            type: "image_url",
-            image_url: {
-              url: `data:image/jpeg;base64,${imageData}`
+      // Check if user wants menu extraction
+      const isMenuExtraction = userMessage?.toLowerCase().includes('extract') && 
+                              (userMessage?.toLowerCase().includes('menu') || 
+                               userMessage?.toLowerCase().includes('items') ||
+                               userMessage?.toLowerCase().includes('products'));
+      
+      if (isMenuExtraction) {
+        // Use specialized menu extraction
+        const imageBuffer = Buffer.from(imageData, 'base64');
+        const extractionResult = await extractMenuItemsFromImage(imageBuffer, 1); // Default restaurant ID
+        
+        return {
+          message: extractionResult.message,
+          actions: extractionResult.items.length > 0 ? [{
+            id: `menu-extract-${Date.now()}`,
+            type: 'data_load' as const,
+            description: `Added ${extractionResult.items.length} menu items to system`,
+            status: 'completed' as const,
+            result: `Items: ${extractionResult.items.map(i => i.name).join(', ')}`
+          }] : []
+        };
+      } else {
+        // Regular image analysis
+        messages.push({
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: userMessage || "Please analyze this image for restaurant operations insights."
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: `data:image/jpeg;base64,${imageData}`
+              }
             }
-          }
-        ]
-      });
+          ]
+        });
+      }
     } else {
       messages.push({ role: "user", content: userMessage });
     }
@@ -275,6 +307,90 @@ Always be professional, autonomous, and action-oriented. Respond in JSON format 
     return {
       message: "I'm ready to help with your restaurant operations. What would you like me to do today?",
       actions: []
+    };
+  }
+}
+
+export async function extractMenuItemsFromImage(
+  imageBuffer: Buffer,
+  restaurantId: number
+): Promise<{ items: any[], message: string }> {
+  try {
+    const base64Image = imageBuffer.toString('base64');
+    
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: `Extract ALL menu items from this image with complete details. Return a JSON object with:
+          {
+            "items": [
+              {
+                "name": "exact item name",
+                "price": "price as string (no currency symbols)",
+                "description": "full description text",
+                "category": "category (appetizers/mains/desserts/drinks/etc)",
+                "allergens": ["list", "of", "allergens"],
+                "tags": ["dietary", "tags"]
+              }
+            ],
+            "message": "summary of extraction"
+          }
+          
+          Categories should be: appetizers, salads, soups, mains, sides, desserts, drinks, specials
+          Extract every single visible item with its exact text.`
+        },
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: "Extract all menu items from this image with names, prices, descriptions, categories, and any allergen information."
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: `data:image/jpeg;base64,${base64Image}`
+              }
+            }
+          ]
+        }
+      ],
+      max_tokens: 2000,
+    });
+
+    const result = JSON.parse(completion.choices[0].message.content || '{"items": [], "message": "No items found"}');
+    
+    // Add items to restaurant menu via storage
+    const addedItems = [];
+    for (const item of result.items || []) {
+      try {
+        const menuItem = await storage.createMenuItem({
+          restaurantId,
+          name: item.name,
+          description: item.description || "",
+          price: item.price || "0",
+          category: item.category || "mains",
+          tags: [...(item.tags || []), ...(item.allergens || [])], // Combine allergens into tags
+          isAvailable: true
+        });
+        addedItems.push(menuItem);
+      } catch (error) {
+        console.error(`Failed to add menu item ${item.name}:`, error);
+      }
+    }
+    
+    return {
+      items: addedItems,
+      message: `Successfully extracted and added ${addedItems.length} menu items: ${addedItems.map(i => i.name).join(', ')}`
+    };
+    
+  } catch (error) {
+    console.error("Menu extraction error:", error);
+    return {
+      items: [],
+      message: "Failed to extract menu items from image"
     };
   }
 }
