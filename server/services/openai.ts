@@ -323,7 +323,7 @@ export async function extractMenuItemsFromImage(
       messages: [
         {
           role: "system",
-          content: `Extract ALL menu items from this image with complete details. Return a JSON object with:
+          content: `Extract ALL menu items from this image with complete details. Return ONLY a valid JSON object (no markdown formatting) with:
           {
             "items": [
               {
@@ -339,7 +339,7 @@ export async function extractMenuItemsFromImage(
           }
           
           Categories should be: appetizers, salads, soups, mains, sides, desserts, drinks, specials
-          Extract every single visible item with its exact text.`
+          Extract every single visible item with its exact text. Return raw JSON only, no code blocks or markdown.`
         },
         {
           role: "user",
@@ -360,7 +360,34 @@ export async function extractMenuItemsFromImage(
       max_tokens: 2000,
     });
 
-    const result = JSON.parse(completion.choices[0].message.content || '{"items": [], "message": "No items found"}');
+    let content = completion.choices[0].message.content || '{"items": [], "message": "No items found"}';
+    
+    // Clean up the response - remove markdown code blocks and extra whitespace
+    content = content.trim();
+    if (content.includes('```json')) {
+      content = content.replace(/```json\n?/g, '').replace(/\n?```/g, '').trim();
+    }
+    if (content.includes('```')) {
+      content = content.replace(/```/g, '').trim();
+    }
+    
+    let result;
+    try {
+      result = JSON.parse(content);
+    } catch (parseError) {
+      console.error("JSON parse error, content:", content.substring(0, 200));
+      // Try to extract JSON from the content
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        try {
+          result = JSON.parse(jsonMatch[0]);
+        } catch {
+          result = { items: [], message: "Failed to parse menu extraction response" };
+        }
+      } else {
+        result = { items: [], message: "No valid JSON found in response" };
+      }
+    }
     
     // Add items to restaurant menu via storage
     const addedItems = [];
