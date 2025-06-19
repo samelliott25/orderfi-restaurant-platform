@@ -230,46 +230,51 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
   };
 
   const handleFileUpload = async (files: FileList | File[]) => {
-    const file = files[0];
-    if (!file) return;
+    if (!files || files.length === 0) return;
+
+    const fileArray = Array.from(files);
+    const totalSize = fileArray.reduce((sum, file) => sum + file.size, 0);
 
     // Add file upload message
     const uploadMessage: ChatMessage = {
       id: `upload-${Date.now()}`,
       type: 'user',
-      content: `Uploaded file: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`,
+      content: `Uploaded ${fileArray.length} file${fileArray.length > 1 ? 's' : ''}: ${fileArray.map(f => f.name).join(', ')} (${(totalSize / 1024).toFixed(1)} KB total)`,
       timestamp: new Date(),
     };
     setMessages(prev => [...prev, uploadMessage]);
 
-    // Process the file with AI
+    // Process the files with AI
     setIsLoading(true);
     
     try {
-      // Check if it's an image file
-      const isImage = file.type.startsWith('image/');
+      const imageFiles = fileArray.filter(file => file.type.startsWith('image/'));
+      const dataFiles = fileArray.filter(file => !file.type.startsWith('image/'));
       
-      if (isImage) {
-        // Handle image upload for AI analysis
+      if (imageFiles.length > 0) {
+        // Handle multiple image uploads
         const responseMessage: ChatMessage = {
           id: `ai-${Date.now()}`,
           type: 'assistant',
-          content: `I've received your image "${file.name}". I can analyze images for various purposes:
+          content: `I've received ${imageFiles.length} image${imageFiles.length > 1 ? 's' : ''}: ${imageFiles.map(f => f.name).join(', ')}. I can analyze these images for various purposes:
 
-🖼️ **Image Analysis Options**
-• Menu item extraction and pricing
-• Receipt or invoice data extraction
-• Visual content analysis
-• Document text recognition
-• Inventory or product identification
+🖼️ **Multi-Image Analysis Options**
+• Batch menu item extraction and pricing comparison
+• Multiple receipt or invoice processing
+• Visual content analysis across images
+• Document text recognition from multiple sources
+• Inventory comparison and product identification
+• Menu layout analysis and optimization suggestions
 
-What would you like me to analyze from this image? I can extract menu items, read receipts, analyze visual content, or help with other business-related image processing tasks.`,
+What would you like me to analyze from these images? I can process them individually or compare them for insights across your business operations.`,
           timestamp: new Date(),
         };
         setMessages(prev => [...prev, responseMessage]);
-      } else {
-        // Handle data file processing
-        const processedData = await DataProcessor.processFile(file);
+      }
+      
+      if (dataFiles.length > 0) {
+        // Handle data file processing (process first data file for now)
+        const processedData = await DataProcessor.processFile(dataFiles[0]);
         
         // Update dashboard with processed data
         if (onDataUpdate) {
@@ -280,7 +285,7 @@ What would you like me to analyze from this image? I can extract menu items, rea
         const responseMessage: ChatMessage = {
           id: `ai-${Date.now()}`,
           type: 'assistant',
-          content: `I've analyzed your ${file.name} file and extracted the following insights:
+          content: `I've analyzed your ${dataFiles[0].name} file and extracted the following insights:
 
 📊 **Sales Summary**
 • Total Orders: ${processedData.totalOrders}
@@ -293,7 +298,7 @@ What would you like me to analyze from this image? I can extract menu items, rea
 • Pending Orders: ${processedData.pendingOrders}
 • Orders per Hour: ${processedData.ordersPerHour.toFixed(1)}
 
-I've updated your dashboard with this real data. Is there anything specific you'd like me to analyze or any actions you'd like me to take based on these insights?`,
+I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can also process the remaining ${dataFiles.length - 1} data file${dataFiles.length > 2 ? 's' : ''} if needed.` : ''} Is there anything specific you'd like me to analyze?`,
           timestamp: new Date(),
         };
         setMessages(prev => [...prev, responseMessage]);
@@ -303,7 +308,7 @@ I've updated your dashboard with this real data. Is there anything specific you'
       const errorMessage: ChatMessage = {
         id: `error-${Date.now()}`,
         type: 'assistant',
-        content: `I encountered an issue processing your ${file.name} file. Please ensure it's a valid file format. For data files, I support CSV, JSON, and text files. For images, I support JPG, PNG, GIF, and WebP formats. Would you like to try uploading a different file?`,
+        content: `I encountered an issue processing your files. Please ensure they're valid file formats. For data files, I support CSV, JSON, and text files. For images, I support JPG, PNG, GIF, and WebP formats. Would you like to try uploading different files?`,
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -375,7 +380,7 @@ I've updated your dashboard with this real data. Is there anything specific you'
           <div className="text-center">
             <div className="text-3xl mb-2">📁</div>
             <p className="text-blue-600 font-medium">Drop files here to analyze</p>
-            <p className="text-blue-500 text-sm">Supports CSV, Excel, JSON, text files, and images</p>
+            <p className="text-blue-500 text-sm">Supports multiple CSV, Excel, JSON, text files, and images</p>
           </div>
         </div>
       )}
@@ -384,6 +389,7 @@ I've updated your dashboard with this real data. Is there anything specific you'
       <input
         ref={fileInputRef}
         type="file"
+        multiple
         className="hidden"
         accept=".csv,.xlsx,.xls,.json,.txt,.jpg,.jpeg,.png,.gif,.bmp,.webp"
         onChange={handleFileInputChange}
