@@ -29,6 +29,8 @@ interface ChatMessage {
   timestamp: Date;
   actions?: TaskAction[];
   status?: 'pending' | 'completed' | 'failed';
+  filePreviews?: string[];
+  fileNames?: string[];
 }
 
 interface TaskAction {
@@ -235,12 +237,29 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
     const fileArray = Array.from(files);
     const totalSize = fileArray.reduce((sum, file) => sum + file.size, 0);
 
-    // Add file upload message
+    // Create file previews
+    const filePreviews = await Promise.all(fileArray.map(async (file) => {
+      if (file.type.startsWith('image/')) {
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target?.result as string);
+          reader.readAsDataURL(file);
+        });
+      }
+      return null;
+    }));
+
+    // Add file upload message with thumbnails
+    const imageCount = filePreviews.filter(Boolean).length;
     const uploadMessage: ChatMessage = {
       id: `upload-${Date.now()}`,
       type: 'user',
-      content: `Uploaded ${fileArray.length} file${fileArray.length > 1 ? 's' : ''}: ${fileArray.map(f => f.name).join(', ')} (${(totalSize / 1024).toFixed(1)} KB total)`,
+      content: imageCount > 0 
+        ? `Uploaded ${fileArray.length} file${fileArray.length > 1 ? 's' : ''} (${(totalSize / 1024).toFixed(1)} KB total)`
+        : `Uploaded ${fileArray.length} file${fileArray.length > 1 ? 's' : ''}: ${fileArray.map(f => f.name).join(', ')} (${(totalSize / 1024).toFixed(1)} KB total)`,
       timestamp: new Date(),
+      filePreviews: filePreviews.filter(Boolean) as string[],
+      fileNames: fileArray.map(f => f.name)
     };
     setMessages(prev => [...prev, uploadMessage]);
 
@@ -437,6 +456,22 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
               style={message.type === 'assistant' ? { backgroundColor: '#fff0cc', color: '#654321' } : {}}>
                 <div className="flex items-start space-x-2">
                   <div className="flex-1">
+                    {/* File thumbnails for uploaded images */}
+                    {message.filePreviews && message.filePreviews.length > 0 && (
+                      <div className="mb-2 flex flex-wrap gap-2">
+                        {message.filePreviews.map((preview, index) => (
+                          <div key={index} className="relative">
+                            <img 
+                              src={preview} 
+                              alt={message.fileNames?.[index] || 'Uploaded file'}
+                              className="w-16 h-16 object-cover rounded border border-gray-200 shadow-sm"
+                            />
+                            <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 rounded transition-opacity cursor-pointer" 
+                                 title={message.fileNames?.[index] || 'Uploaded file'} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <p className="text-sm">{message.content}</p>
                     <div className="flex items-center justify-between mt-1">
                       <span className="text-xs opacity-70">
