@@ -20,6 +20,7 @@ import {
   Paperclip
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
+import mimiLogo from "@assets/Mimi dashboard logo_1750329007735.webp";
 
 interface ChatMessage {
   id: string;
@@ -366,8 +367,21 @@ I've updated your dashboard with this real data. Is there anything specific you'
       />
 
       {/* Chat Messages */}
-      <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-        <div className="space-y-4">
+      <ScrollArea className="flex-1 p-4 relative" ref={scrollAreaRef}>
+        {/* Background Logo */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 pointer-events-none"
+          style={{
+            height: '30%',
+            backgroundImage: `url(${mimiLogo})`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center bottom',
+            opacity: 0.4,
+            zIndex: 0
+          }}
+        />
+        <div className="space-y-4 relative z-10">
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-[85%] rounded-lg p-3 ${
