@@ -57,6 +57,8 @@ export const insertRestaurantSchema = createInsertSchema(restaurants).omit({
 
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({
   id: true,
+}).extend({
+  category: z.string().optional(), // Make category optional for auto-categorization
 });
 
 export const insertFaqSchema = createInsertSchema(faqs).omit({

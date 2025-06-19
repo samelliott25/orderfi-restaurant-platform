@@ -66,10 +66,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/restaurants/:id/menu", async (req, res) => {
     try {
       const restaurantId = parseInt(req.params.id);
-      const menuItemData = insertMenuItemSchema.parse({
-        ...req.body,
-        restaurantId,
-      });
+      
+      // Pre-assign category if not provided using AI categorization
+      const rawData = { ...req.body, restaurantId };
+      if (!rawData.category) {
+        rawData.category = menuCategorizationService.categorizeMenuItem(
+          rawData.name || "",
+          rawData.description || "",
+          rawData.price || "0"
+        );
+      }
+      
+      const menuItemData = insertMenuItemSchema.parse(rawData);
       
       // Create menu item with blockchain integration and proper categorization
       const result = await blockchainIntegrationService.createMenuItemWithBlockchain(menuItemData);
