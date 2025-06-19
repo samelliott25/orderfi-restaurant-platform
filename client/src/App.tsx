@@ -47,7 +47,6 @@ function Router() {
       <Route path="/admin/integrations" component={AdminIntegrationsPage} />
       <Route path="/retro" component={RetroChatPage} />
       <Route path="/customer" component={MobileChatPage} />
-      <Route path="/mobile-chat" component={MobileChatPage} />
       <Route path="/hybrid-chat" component={HybridChatPage} />
       <Route path="/mobile-app" component={MobileAppPage} />
       <Route path="/chatbot-primary" component={ChatbotPrimaryPage} />
