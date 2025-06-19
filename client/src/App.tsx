@@ -49,7 +49,7 @@ function Router() {
       <Route path="/customer" component={MobileChatPage} />
       <Route path="/hybrid-chat" component={HybridChatPage} />
       <Route path="/mobile-app" component={MobileAppPage} />
-      <Route path="/chatbot-primary" component={ChatbotPrimaryPage} />
+      <Route path="/mimi-order" component={ChatbotPrimaryPage} />
       <Route path="/legacy" component={CustomerPage} />
       <Route component={NotFound} />
     </Switch>
