@@ -207,7 +207,7 @@ export default function AdminAiTrainingPage() {
           </TabsList>
 
           <TabsContent value="service-flow" className="space-y-6">
-            <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+            <Card style={{ backgroundColor: '#f5e6d3', borderColor: '#8b795e' }}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2" style={{ color: '#654321' }}>
                   <Utensils className="h-5 w-5" />
@@ -236,8 +236,8 @@ export default function AdminAiTrainingPage() {
                 <div className="space-y-4">
                   {serviceSteps.map((step, index) => (
                     <Card key={step.id} className="border-2" style={{ 
-                      borderColor: step.enabled ? '#8b795e' : '#d1d5db',
-                      backgroundColor: step.enabled ? '#fffef7' : '#f9fafb'
+                      borderColor: step.enabled ? '#8b795e' : '#a0927d',
+                      backgroundColor: step.enabled ? '#f5e6d3' : '#e8dcc6'
                     }}>
                       <CardHeader className="pb-3">
                         <div className="flex items-center justify-between">
@@ -369,7 +369,7 @@ export default function AdminAiTrainingPage() {
           </TabsContent>
 
           <TabsContent value="personality" className="space-y-6">
-            <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+            <Card style={{ backgroundColor: '#f5e6d3', borderColor: '#8b795e' }}>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -497,7 +497,7 @@ export default function AdminAiTrainingPage() {
           </TabsContent>
 
           <TabsContent value="advanced" className="space-y-6">
-            <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+            <Card style={{ backgroundColor: '#f5e6d3', borderColor: '#8b795e' }}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2" style={{ color: '#654321' }}>
                   <Settings className="h-5 w-5" />
