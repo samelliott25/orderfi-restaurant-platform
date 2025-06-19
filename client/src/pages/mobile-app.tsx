@@ -146,7 +146,7 @@ export default function MobileAppPage() {
             type="text"
             placeholder="Search for food, restaurants..."
             className="w-full pl-10 pr-4 py-3 rounded-xl border bg-background"
-            style={{ borderColor: '#e5cf97', color: '#654321' }}
+            style={{ borderColor: '#e5cf97', color: '#8b795e' }}
           />
           <Button
             variant="ghost"
@@ -204,7 +204,7 @@ export default function MobileAppPage() {
 
       {/* Menu Items */}
       <div className="px-4 space-y-4">
-        <h3 className="font-bold text-lg" style={{ color: '#654321' }}>
+        <h3 className="font-bold text-lg" style={{ color: '#8b795e' }}>
           {selectedCategory === 'popular' ? 'Popular Items' : 
            selectedCategory === 'healthy' ? 'Healthy Options' :
            categories.find(c => c.id === selectedCategory)?.name || 'Menu Items'}

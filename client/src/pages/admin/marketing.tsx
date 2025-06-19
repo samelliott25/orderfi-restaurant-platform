@@ -5,7 +5,7 @@ export default function AdminMarketingPage() {
     <AdminLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold" style={{ color: '#654321' }}>Marketing & Loyalty</h1>
+          <h1 className="text-3xl font-bold" style={{ color: '#8b795e' }}>Marketing & Loyalty</h1>
           <p className="text-sm" style={{ color: '#8b795e' }}>Promotions, campaigns, QR codes, and customer loyalty programs</p>
         </div>
         

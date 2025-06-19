@@ -5,7 +5,7 @@ export default function AdminSettingsPage() {
     <AdminLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold" style={{ color: '#654321' }}>Settings & Configuration</h1>
+          <h1 className="text-3xl font-bold" style={{ color: '#8b795e' }}>Settings & Configuration</h1>
           <p className="text-sm" style={{ color: '#8b795e' }}>Restaurant settings, hours, branding, and system configuration</p>
         </div>
         

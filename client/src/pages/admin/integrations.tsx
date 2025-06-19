@@ -5,7 +5,7 @@ export default function AdminIntegrationsPage() {
     <AdminLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold" style={{ color: '#654321' }}>Integrations</h1>
+          <h1 className="text-3xl font-bold" style={{ color: '#8b795e' }}>Integrations</h1>
           <p className="text-sm" style={{ color: '#8b795e' }}>APIs, webhooks, and third-party synchronization</p>
         </div>
         

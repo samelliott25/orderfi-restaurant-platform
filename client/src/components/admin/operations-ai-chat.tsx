@@ -396,7 +396,7 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
             <Bot className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-sm lg:text-base font-semibold" style={{ color: '#654321' }}>Operations AI</h3>
+            <h3 className="text-sm lg:text-base font-semibold" style={{ color: '#8b795e' }}>Operations AI</h3>
             <p className="text-xs lg:text-sm" style={{ color: '#8b795e' }}>Autonomous Manager</p>
           </div>
         </div>
@@ -459,7 +459,7 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
                   ? 'bg-green-50 border border-green-200 text-green-800'
                   : ''
               }`}
-              style={message.type === 'assistant' ? { backgroundColor: '#fff0cc', color: '#654321' } : {}}>
+              style={message.type === 'assistant' ? { backgroundColor: '#fff0cc', color: '#8b795e' } : {}}>
                 <div className="flex items-start space-x-2">
                   <div className="flex-1">
                     {/* File thumbnails for uploaded images */}
@@ -523,7 +523,7 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
               key={index}
               onClick={() => handleSuggestedTask(task)}
               className="px-2 py-0.5 text-xs rounded hover:opacity-80"
-              style={{ backgroundColor: '#fff0cc', color: '#654321' }}
+              style={{ backgroundColor: '#fff0cc', color: '#8b795e' }}
               disabled={isLoading || activeTask !== null}
             >
               {task.title.split(' ')[0]}
@@ -556,7 +556,7 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             disabled={isLoading}
             className="text-sm flex-1 min-w-0"
-            style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97', color: '#654321' }}
+            style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97', color: '#8b795e' }}
           />
           <Button 
             onClick={handleSendMessage}

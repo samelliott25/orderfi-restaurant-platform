@@ -137,7 +137,7 @@ export function LiveSalesDashboard({ uploadedData }: LiveSalesDashboardProps) {
       {/* Today's Overview - Moved to top */}
       <Collapsible open={overviewOpen} onOpenChange={setOverviewOpen}>
         <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 rounded-lg border hover:opacity-80 transition-colors" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
-          <h2 className="text-xl font-semibold" style={{ color: '#654321' }}>Today's Overview</h2>
+          <h2 className="text-xl font-semibold" style={{ color: '#8b795e' }}>Today's Overview</h2>
           {overviewOpen ? <ChevronDown className="w-5 h-5" style={{ color: '#8b795e' }} /> : <ChevronRight className="w-5 h-5" style={{ color: '#8b795e' }} />}
         </CollapsibleTrigger>
         <CollapsibleContent>
@@ -151,7 +151,7 @@ export function LiveSalesDashboard({ uploadedData }: LiveSalesDashboardProps) {
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold" style={{ color: '#654321' }}>{todayStats.totalOrders}</span>
+            <span className="text-3xl font-bold" style={{ color: '#8b795e' }}>{todayStats.totalOrders}</span>
             <span className="text-sm font-medium" style={{ color: '#8b795e' }}>today</span>
           </div>
           <div className="flex items-center space-x-1 text-xs" style={{ color: '#8b795e' }}>
@@ -170,7 +170,7 @@ export function LiveSalesDashboard({ uploadedData }: LiveSalesDashboardProps) {
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold" style={{ color: '#654321' }}>${todayStats.totalRevenue.toFixed(0)}</span>
+            <span className="text-3xl font-bold" style={{ color: '#8b795e' }}>${todayStats.totalRevenue.toFixed(0)}</span>
             <span className="text-sm font-medium px-2 py-1 rounded-full" style={{ color: '#8b795e', backgroundColor: '#fff0cc' }}>+12.3%</span>
           </div>
           <div className="text-xs" style={{ color: '#8b795e' }}>
@@ -187,7 +187,7 @@ export function LiveSalesDashboard({ uploadedData }: LiveSalesDashboardProps) {
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold" style={{ color: '#654321' }}>{todayStats.completionRate}%</span>
+            <span className="text-3xl font-bold" style={{ color: '#8b795e' }}>{todayStats.completionRate}%</span>
             <span className="text-sm font-medium" style={{ color: '#8b795e' }}>success</span>
           </div>
           <div className="flex items-center space-x-3 text-xs" style={{ color: '#8b795e' }}>
@@ -206,7 +206,7 @@ export function LiveSalesDashboard({ uploadedData }: LiveSalesDashboardProps) {
             </div>
           </div>
           <div className="flex items-baseline space-x-2 mb-2">
-            <span className="text-3xl font-bold" style={{ color: '#654321' }}>2</span>
+            <span className="text-3xl font-bold" style={{ color: '#8b795e' }}>2</span>
             <span className="text-sm font-medium" style={{ color: '#8b795e' }}>active</span>
           </div>
           <div className="text-xs" style={{ color: '#8b795e' }}>
@@ -220,7 +220,7 @@ export function LiveSalesDashboard({ uploadedData }: LiveSalesDashboardProps) {
       {/* Order Queue and Details - Collapsible */}
       <Collapsible open={ordersOpen} onOpenChange={setOrdersOpen}>
         <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 rounded-lg border hover:opacity-80 transition-colors" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
-          <h2 className="text-xl font-semibold" style={{ color: '#654321' }}>Live Orders</h2>
+          <h2 className="text-xl font-semibold" style={{ color: '#8b795e' }}>Live Orders</h2>
           {ordersOpen ? <ChevronDown className="w-5 h-5" style={{ color: '#8b795e' }} /> : <ChevronRight className="w-5 h-5" style={{ color: '#8b795e' }} />}
         </CollapsibleTrigger>
         <CollapsibleContent>

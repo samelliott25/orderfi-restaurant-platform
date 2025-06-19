@@ -187,7 +187,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
                   className="group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:opacity-80"
                   style={{
                     backgroundColor: isActive ? '#8b795e' : 'transparent',
-                    color: isActive ? 'white' : '#654321'
+                    color: isActive ? 'white' : '#8b795e'
                   }}
                 >
                   <item.icon className="h-5 w-5 shrink-0" style={{ color: isActive ? 'white' : '#8b795e' }} />
@@ -212,7 +212,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
                   className="group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:opacity-80"
                   style={{
                     backgroundColor: isActive ? '#8b795e' : 'transparent',
-                    color: isActive ? 'white' : '#654321'
+                    color: isActive ? 'white' : '#8b795e'
                   }}
                 >
                   <item.icon className="h-5 w-5 shrink-0" style={{ color: isActive ? 'white' : '#8b795e' }} />
@@ -226,7 +226,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
 
       {/* Bottom Actions */}
       <div className="border-t p-4" style={{ borderColor: '#e5cf97' }}>
-        <Button asChild variant="ghost" className="w-full justify-start hover:opacity-80" style={{ color: '#654321' }}>
+        <Button asChild variant="ghost" className="w-full justify-start hover:opacity-80" style={{ color: '#8b795e' }}>
           <Link href="/mobile-chat">
             <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
             Log out

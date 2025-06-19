@@ -75,7 +75,7 @@ export default function AdminRewardsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#654321' }}>
+            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#8b795e' }}>
               $MIMI Rewards
             </h1>
             <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -87,7 +87,7 @@ export default function AdminRewardsPage() {
               variant="outline"
               onClick={copyWalletAddress}
               className="flex items-center gap-2"
-              style={{ borderColor: '#8b795e', color: '#654321' }}
+              style={{ borderColor: '#8b795e', color: '#8b795e' }}
             >
               {copied ? <CheckCircle className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               {walletAddress}
@@ -105,13 +105,13 @@ export default function AdminRewardsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: '#654321' }}>
+              <CardTitle className="text-sm font-medium" style={{ color: '#8b795e' }}>
                 Total Earned
               </CardTitle>
               <DollarSign className="h-4 w-4" style={{ color: '#8b795e' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: '#654321' }}>
+              <div className="text-2xl font-bold" style={{ color: '#8b795e' }}>
                 ${rewardData.totalEarned.toLocaleString()}
               </div>
               <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -122,13 +122,13 @@ export default function AdminRewardsPage() {
 
           <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: '#654321' }}>
+              <CardTitle className="text-sm font-medium" style={{ color: '#8b795e' }}>
                 This Month
               </CardTitle>
               <TrendingUp className="h-4 w-4" style={{ color: '#8b795e' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: '#654321' }}>
+              <div className="text-2xl font-bold" style={{ color: '#8b795e' }}>
                 ${rewardData.monthlyEarnings.toLocaleString()}
               </div>
               <p className="text-xs text-green-600">
@@ -139,13 +139,13 @@ export default function AdminRewardsPage() {
 
           <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: '#654321' }}>
+              <CardTitle className="text-sm font-medium" style={{ color: '#8b795e' }}>
                 MIMI Tokens
               </CardTitle>
               <Coins className="h-4 w-4" style={{ color: '#8b795e' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: '#654321' }}>
+              <div className="text-2xl font-bold" style={{ color: '#8b795e' }}>
                 {rewardData.mimiTokens.toLocaleString()}
               </div>
               <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -156,13 +156,13 @@ export default function AdminRewardsPage() {
 
           <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: '#654321' }}>
+              <CardTitle className="text-sm font-medium" style={{ color: '#8b795e' }}>
                 Network Share
               </CardTitle>
               <Users className="h-4 w-4" style={{ color: '#8b795e' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: '#654321' }}>
+              <div className="text-2xl font-bold" style={{ color: '#8b795e' }}>
                 ${rewardData.networkShare.toLocaleString()}
               </div>
               <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -184,7 +184,7 @@ export default function AdminRewardsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader>
-                  <CardTitle style={{ color: '#654321' }}>Monthly Earnings Trend</CardTitle>
+                  <CardTitle style={{ color: '#8b795e' }}>Monthly Earnings Trend</CardTitle>
                   <CardDescription style={{ color: '#8b795e' }}>
                     Your cryptocurrency earnings over the last 5 months
                   </CardDescription>
@@ -194,7 +194,7 @@ export default function AdminRewardsPage() {
                     {monthlyData.map((month, index) => (
                       <div key={month.month} className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 text-sm font-medium" style={{ color: '#654321' }}>
+                          <div className="w-8 text-sm font-medium" style={{ color: '#8b795e' }}>
                             {month.month}
                           </div>
                           <div className="flex-1">
@@ -204,7 +204,7 @@ export default function AdminRewardsPage() {
                             />
                           </div>
                         </div>
-                        <div className="text-sm font-medium" style={{ color: '#654321' }}>
+                        <div className="text-sm font-medium" style={{ color: '#8b795e' }}>
                           ${month.earnings}
                         </div>
                       </div>
@@ -215,7 +215,7 @@ export default function AdminRewardsPage() {
 
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader>
-                  <CardTitle style={{ color: '#654321' }}>Earning Sources</CardTitle>
+                  <CardTitle style={{ color: '#8b795e' }}>Earning Sources</CardTitle>
                   <CardDescription style={{ color: '#8b795e' }}>
                     Breakdown of your revenue streams
                   </CardDescription>
@@ -224,23 +224,23 @@ export default function AdminRewardsPage() {
                   <div className="flex items-center justify-between p-3 rounded-lg" style={{ backgroundColor: '#f8f9fa' }}>
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                      <span className="font-medium" style={{ color: '#654321' }}>Order Processing</span>
+                      <span className="font-medium" style={{ color: '#8b795e' }}>Order Processing</span>
                     </div>
-                    <span className="font-bold" style={{ color: '#654321' }}>$342.75</span>
+                    <span className="font-bold" style={{ color: '#8b795e' }}>$342.75</span>
                   </div>
                   <div className="flex items-center justify-between p-3 rounded-lg" style={{ backgroundColor: '#f8f9fa' }}>
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                      <span className="font-medium" style={{ color: '#654321' }}>Network Revenue Share</span>
+                      <span className="font-medium" style={{ color: '#8b795e' }}>Network Revenue Share</span>
                     </div>
-                    <span className="font-bold" style={{ color: '#654321' }}>$156.75</span>
+                    <span className="font-bold" style={{ color: '#8b795e' }}>$156.75</span>
                   </div>
                   <div className="flex items-center justify-between p-3 rounded-lg" style={{ backgroundColor: '#f8f9fa' }}>
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-                      <span className="font-medium" style={{ color: '#654321' }}>AI Training Contribution</span>
+                      <span className="font-medium" style={{ color: '#8b795e' }}>AI Training Contribution</span>
                     </div>
-                    <span className="font-bold" style={{ color: '#654321' }}>$85.50</span>
+                    <span className="font-bold" style={{ color: '#8b795e' }}>$85.50</span>
                   </div>
                 </CardContent>
               </Card>
@@ -250,7 +250,7 @@ export default function AdminRewardsPage() {
           <TabsContent value="network" className="space-y-6">
             <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
               <CardHeader>
-                <CardTitle style={{ color: '#654321' }}>MIMI Network Statistics</CardTitle>
+                <CardTitle style={{ color: '#8b795e' }}>MIMI Network Statistics</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
                   Global network performance and your contribution
                 </CardDescription>
@@ -258,25 +258,25 @@ export default function AdminRewardsPage() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div className="text-center">
-                    <div className="text-3xl font-bold mb-2" style={{ color: '#654321' }}>
+                    <div className="text-3xl font-bold mb-2" style={{ color: '#8b795e' }}>
                       {networkStats.totalRestaurants.toLocaleString()}
                     </div>
                     <p className="text-sm" style={{ color: '#8b795e' }}>Total Restaurants</p>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold mb-2" style={{ color: '#654321' }}>
+                    <div className="text-3xl font-bold mb-2" style={{ color: '#8b795e' }}>
                       {networkStats.totalOrders.toLocaleString()}
                     </div>
                     <p className="text-sm" style={{ color: '#8b795e' }}>Total Orders</p>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold mb-2" style={{ color: '#654321' }}>
+                    <div className="text-3xl font-bold mb-2" style={{ color: '#8b795e' }}>
                       ${(networkStats.networkRevenue / 1000000).toFixed(1)}M
                     </div>
                     <p className="text-sm" style={{ color: '#8b795e' }}>Network Revenue</p>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold mb-2" style={{ color: '#654321' }}>
+                    <div className="text-3xl font-bold mb-2" style={{ color: '#8b795e' }}>
                       {(networkStats.yourShare * 100).toFixed(3)}%
                     </div>
                     <p className="text-sm" style={{ color: '#8b795e' }}>Your Share</p>
@@ -284,7 +284,7 @@ export default function AdminRewardsPage() {
                 </div>
 
                 <div className="mt-8 p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa', border: '1px solid #e5cf97' }}>
-                  <h4 className="font-semibold mb-2" style={{ color: '#654321' }}>How Network Revenue Sharing Works</h4>
+                  <h4 className="font-semibold mb-2" style={{ color: '#8b795e' }}>How Network Revenue Sharing Works</h4>
                   <p className="text-sm leading-relaxed" style={{ color: '#8b795e' }}>
                     As a MIMI network participant, you earn a percentage of the total network revenue based on your restaurant's performance, 
                     order volume, customer satisfaction scores, and AI training data contributions. The more you engage with the platform, 
@@ -299,7 +299,7 @@ export default function AdminRewardsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader>
-                  <CardTitle style={{ color: '#654321' }}>Performance Bonuses</CardTitle>
+                  <CardTitle style={{ color: '#8b795e' }}>Performance Bonuses</CardTitle>
                   <CardDescription style={{ color: '#8b795e' }}>
                     Rewards for exceptional service and customer satisfaction
                   </CardDescription>
@@ -309,7 +309,7 @@ export default function AdminRewardsPage() {
                     <div className="flex items-center gap-3">
                       <Award className="h-5 w-5" style={{ color: '#8b795e' }} />
                       <div>
-                        <p className="font-medium" style={{ color: '#654321' }}>Customer Satisfaction</p>
+                        <p className="font-medium" style={{ color: '#8b795e' }}>Customer Satisfaction</p>
                         <p className="text-xs" style={{ color: '#8b795e' }}>4.8+ star rating</p>
                       </div>
                     </div>
@@ -319,7 +319,7 @@ export default function AdminRewardsPage() {
                     <div className="flex items-center gap-3">
                       <Clock className="h-5 w-5" style={{ color: '#8b795e' }} />
                       <div>
-                        <p className="font-medium" style={{ color: '#654321' }}>Fast Service</p>
+                        <p className="font-medium" style={{ color: '#8b795e' }}>Fast Service</p>
                         <p className="text-xs" style={{ color: '#8b795e' }}>Average under 5 min response</p>
                       </div>
                     </div>
@@ -330,14 +330,14 @@ export default function AdminRewardsPage() {
 
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader>
-                  <CardTitle style={{ color: '#654321' }}>Referral Program</CardTitle>
+                  <CardTitle style={{ color: '#8b795e' }}>Referral Program</CardTitle>
                   <CardDescription style={{ color: '#8b795e' }}>
                     Earn rewards for bringing new restaurants to MIMI
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="text-center p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa' }}>
-                    <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+                    <div className="text-2xl font-bold mb-1" style={{ color: '#8b795e' }}>
                       ${rewardData.referralBonus}
                     </div>
                     <p className="text-sm" style={{ color: '#8b795e' }}>Total Referral Earnings</p>
@@ -345,11 +345,11 @@ export default function AdminRewardsPage() {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span style={{ color: '#8b795e' }}>Restaurants Referred:</span>
-                      <span className="font-medium" style={{ color: '#654321' }}>5</span>
+                      <span className="font-medium" style={{ color: '#8b795e' }}>5</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span style={{ color: '#8b795e' }}>Bonus per Referral:</span>
-                      <span className="font-medium" style={{ color: '#654321' }}>$25.00</span>
+                      <span className="font-medium" style={{ color: '#8b795e' }}>$25.00</span>
                     </div>
                   </div>
                 </CardContent>
@@ -360,7 +360,7 @@ export default function AdminRewardsPage() {
           <TabsContent value="wallet" className="space-y-6">
             <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
               <CardHeader>
-                <CardTitle style={{ color: '#654321' }}>Crypto Wallet Integration</CardTitle>
+                <CardTitle style={{ color: '#8b795e' }}>Crypto Wallet Integration</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
                   Manage your MIMI tokens and cryptocurrency earnings
                 </CardDescription>
@@ -370,7 +370,7 @@ export default function AdminRewardsPage() {
                   <div className="flex items-center gap-3">
                     <Wallet className="h-6 w-6" style={{ color: '#8b795e' }} />
                     <div>
-                      <p className="font-medium" style={{ color: '#654321' }}>Connected Wallet</p>
+                      <p className="font-medium" style={{ color: '#8b795e' }}>Connected Wallet</p>
                       <p className="text-sm" style={{ color: '#8b795e' }}>{walletAddress}</p>
                     </div>
                   </div>
@@ -379,8 +379,8 @@ export default function AdminRewardsPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa' }}>
-                    <h4 className="font-semibold mb-2" style={{ color: '#654321' }}>MIMI Token Balance</h4>
-                    <div className="text-2xl font-bold" style={{ color: '#654321' }}>
+                    <h4 className="font-semibold mb-2" style={{ color: '#8b795e' }}>MIMI Token Balance</h4>
+                    <div className="text-2xl font-bold" style={{ color: '#8b795e' }}>
                       {rewardData.mimiTokens.toLocaleString()} MIMI
                     </div>
                     <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -388,8 +388,8 @@ export default function AdminRewardsPage() {
                     </p>
                   </div>
                   <div className="p-4 rounded-lg" style={{ backgroundColor: '#f8f9fa' }}>
-                    <h4 className="font-semibold mb-2" style={{ color: '#654321' }}>Available for Withdrawal</h4>
-                    <div className="text-2xl font-bold" style={{ color: '#654321' }}>
+                    <h4 className="font-semibold mb-2" style={{ color: '#8b795e' }}>Available for Withdrawal</h4>
+                    <div className="text-2xl font-bold" style={{ color: '#8b795e' }}>
                       ${rewardData.monthlyEarnings.toFixed(2)}
                     </div>
                     <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -403,7 +403,7 @@ export default function AdminRewardsPage() {
                     <Download className="h-4 w-4 mr-2" />
                     Withdraw Earnings
                   </Button>
-                  <Button variant="outline" className="flex-1" style={{ borderColor: '#8b795e', color: '#654321' }}>
+                  <Button variant="outline" className="flex-1" style={{ borderColor: '#8b795e', color: '#8b795e' }}>
                     <ExternalLink className="h-4 w-4 mr-2" />
                     View on Explorer
                   </Button>

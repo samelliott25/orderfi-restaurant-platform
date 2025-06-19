@@ -333,7 +333,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                   <ChefHat className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="font-bold text-lg" style={{ color: '#654321' }}>Mimi Waitress</h2>
+                  <h2 className="font-bold text-lg" style={{ color: '#8b795e' }}>Mimi Waitress</h2>
                   <p className="text-sm" style={{ color: '#8b795e' }}>Order Assistant</p>
                 </div>
               </div>
@@ -369,7 +369,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                     className={`whitespace-nowrap text-xs ${
                       selectedCategory === category.id 
                         ? 'bg-[#8b795e] text-white' 
-                        : 'border-[#8b795e] text-[#654321] bg-white'
+                        : 'border-[#8b795e] text-[#8b795e] bg-white'
                     }`}
                   >
                     <span className="mr-1">{category.icon}</span>
@@ -391,14 +391,14 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                     </div>
                   ) : message.type === 'bot' ? (
                     <div className="flex justify-start">
-                      <div className="max-w-[80%] bg-white p-3 rounded-2xl rounded-bl-sm border text-sm" style={{ borderColor: '#e5cf97', color: '#654321' }}>
+                      <div className="max-w-[80%] bg-white p-3 rounded-2xl rounded-bl-sm border text-sm" style={{ borderColor: '#e5cf97', color: '#8b795e' }}>
                         {message.content}
                       </div>
                     </div>
                   ) : message.type === 'menu' ? (
                     <div className="space-y-3">
                       <div className="flex justify-start">
-                        <div className="bg-white p-3 rounded-2xl rounded-bl-sm border text-sm" style={{ borderColor: '#e5cf97', color: '#654321' }}>
+                        <div className="bg-white p-3 rounded-2xl rounded-bl-sm border text-sm" style={{ borderColor: '#e5cf97', color: '#8b795e' }}>
                           {message.content}
                         </div>
                       </div>
@@ -427,10 +427,10 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                                   <div className="text-2xl">{item.image}</div>
                                   <div className="flex-1 min-w-0">
                                     <div className="flex items-start justify-between mb-1">
-                                      <h4 className="font-semibold text-sm truncate" style={{ color: '#654321' }}>
+                                      <h4 className="font-semibold text-sm truncate" style={{ color: '#8b795e' }}>
                                         {item.name}
                                       </h4>
-                                      <span className="font-bold text-sm ml-2" style={{ color: '#654321' }}>
+                                      <span className="font-bold text-sm ml-2" style={{ color: '#8b795e' }}>
                                         ${item.price}
                                       </span>
                                     </div>
@@ -482,7 +482,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
               <div className="p-3 border-t" style={{ borderColor: '#e5cf97' }}>
                 <div className="flex items-center justify-between p-3 rounded-lg bg-white border" style={{ borderColor: '#e5cf97' }}>
                   <div>
-                    <p className="font-semibold text-sm" style={{ color: '#654321' }}>
+                    <p className="font-semibold text-sm" style={{ color: '#8b795e' }}>
                       {getTotalItems()} items • ${getTotalPrice().toFixed(2)}
                     </p>
                   </div>

@@ -5,7 +5,7 @@ export default function AdminSecurityPage() {
     <AdminLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold" style={{ color: '#654321' }}>Security & Audit</h1>
+          <h1 className="text-3xl font-bold" style={{ color: '#8b795e' }}>Security & Audit</h1>
           <p className="text-sm" style={{ color: '#8b795e' }}>Security logs, access control, sessions, and audit trails</p>
         </div>
         
