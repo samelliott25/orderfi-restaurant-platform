@@ -51,9 +51,9 @@ export default function HomePage() {
                   backgroundColor: '#8b795e'
                 }}
               >
-                <Link href="/hybrid-chat">
+                <Link href="/mobile-app">
                   <UserCheck className="mr-2 h-5 w-5" />
-                  Interactive Menu
+                  Start Ordering
                 </Link>
               </Button>
               
@@ -67,9 +67,9 @@ export default function HomePage() {
                   backgroundColor: '#fff0cc'
                 }}
               >
-                <Link href="/mobile-chat">
+                <Link href="/hybrid-chat">
                   <User className="mr-2 h-5 w-5" />
-                  Chat Only
+                  Full Screen Menu
                 </Link>
               </Button>
             </div>

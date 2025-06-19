@@ -25,6 +25,7 @@ import AdminRewardsPage from "@/pages/admin/rewards";
 import AdminSecurityPage from "@/pages/admin/security";
 import AdminIntegrationsPage from "@/pages/admin/integrations";
 import HybridChatPage from "@/pages/hybrid-chat";
+import MobileAppPage from "@/pages/mobile-app";
 
 function Router() {
   return (
@@ -47,6 +48,7 @@ function Router() {
       <Route path="/customer" component={MobileChatPage} />
       <Route path="/mobile-chat" component={MobileChatPage} />
       <Route path="/hybrid-chat" component={HybridChatPage} />
+      <Route path="/mobile-app" component={MobileAppPage} />
       <Route path="/legacy" component={CustomerPage} />
       <Route component={NotFound} />
     </Switch>
