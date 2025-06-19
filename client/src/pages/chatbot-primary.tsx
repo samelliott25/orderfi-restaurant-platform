@@ -42,6 +42,7 @@ interface ChatMessage {
   type: 'user' | 'bot';
   content: string;
   timestamp: Date;
+  suggestedKeys?: string[];
 }
 
 export default function ChatbotPrimaryPage() {
@@ -49,8 +50,9 @@ export default function ChatbotPrimaryPage() {
     {
       id: '1',
       type: 'bot',
-      content: "Hey there! I'm Mimi, your personal food assistant 🍕 What are you in the mood for today? You can tell me what you're craving or check out our menu below!",
-      timestamp: new Date()
+      content: "Hey there! I'm Mimi, your personal food assistant 🍕 What are you in the mood for today?",
+      timestamp: new Date(),
+      suggestedKeys: ['Food', 'Drinks', 'Snacks', 'Desserts', 'Not Sure']
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
@@ -197,56 +199,81 @@ export default function ChatbotPrimaryPage() {
     setCurrentItemIndex(0);
   }, [selectedCategory]);
 
-  const handleSendMessage = () => {
-    if (!inputMessage.trim()) return;
+  const handleSendMessage = (message?: string) => {
+    const messageToSend = message || inputMessage;
+    if (!messageToSend.trim()) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       type: 'user',
-      content: inputMessage,
+      content: messageToSend,
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
 
-    // Enhanced bot responses
+    // Enhanced bot responses with suggested keys
     setTimeout(() => {
       let botResponse = "I'd love to help you with that! Let me suggest some options.";
       let suggestMenu = false;
+      let suggestedKeys: string[] = [];
       
-      if (inputMessage.toLowerCase().includes('pizza')) {
-        botResponse = "Great choice! We have amazing pizzas. Check out our Pepperoni or Margherita - both are customer favorites! 🍕";
+      if (messageToSend.toLowerCase().includes('pizza')) {
+        botResponse = "Great choice! We have amazing pizzas. Check out our Pepperoni or Margherita - both are customer favorites!";
         setSelectedCategory(0); // Pizza category
         suggestMenu = true;
-      } else if (inputMessage.toLowerCase().includes('burger')) {
-        botResponse = "Perfect! Our burgers are made fresh daily. The Classic Burger is our bestseller, but the Chicken Burger is great too! 🍔";
+        suggestedKeys = ['Show Menu', 'Other Options', 'Add to Cart'];
+      } else if (messageToSend.toLowerCase().includes('burger')) {
+        botResponse = "Perfect! Our burgers are made fresh daily. The Classic Burger is our bestseller, but the Chicken Burger is great too!";
         setSelectedCategory(1); // Burger category
         suggestMenu = true;
-      } else if (inputMessage.toLowerCase().includes('healthy') || inputMessage.toLowerCase().includes('salad')) {
-        botResponse = "Looking for something healthy? Our salads are fresh and delicious! The Caesar and Greek salads are both popular choices. 🥗";
+        suggestedKeys = ['Show Menu', 'Other Options', 'Add to Cart'];
+      } else if (messageToSend.toLowerCase().includes('healthy') || messageToSend.toLowerCase().includes('salad')) {
+        botResponse = "Looking for something healthy? Our salads are fresh and delicious! The Caesar and Greek salads are both popular choices.";
         setSelectedCategory(3); // Salad category
         suggestMenu = true;
-      } else if (inputMessage.toLowerCase().includes('dessert') || inputMessage.toLowerCase().includes('sweet')) {
-        botResponse = "Time for something sweet! Our Chocolate Cake is absolutely divine, and the Cheesecake is a classic favorite. 🍰";
+        suggestedKeys = ['Show Menu', 'Other Healthy Options', 'What Else?'];
+      } else if (messageToSend.toLowerCase().includes('dessert') || messageToSend.toLowerCase().includes('sweet')) {
+        botResponse = "Time for something sweet! Our Chocolate Cake is absolutely divine, and the Cheesecake is a classic favorite.";
         setSelectedCategory(4); // Dessert category
         suggestMenu = true;
-      } else if (inputMessage.toLowerCase().includes('appetizer') || inputMessage.toLowerCase().includes('starter')) {
-        botResponse = "Great way to start your meal! Our Buffalo Wings are super popular, and the Mozzarella Sticks are perfect for sharing. 🍗";
+        suggestedKeys = ['Show Menu', 'Other Desserts', 'Skip Dessert'];
+      } else if (messageToSend.toLowerCase().includes('appetizer') || messageToSend.toLowerCase().includes('starter') || messageToSend.toLowerCase().includes('snacks')) {
+        botResponse = "Great way to start your meal! Our Buffalo Wings are super popular, and the Mozzarella Sticks are perfect for sharing.";
         setSelectedCategory(2); // Appetizer category
         suggestMenu = true;
-      } else if (inputMessage.toLowerCase().includes('menu') || inputMessage.toLowerCase().includes('food')) {
-        botResponse = "I'd be happy to show you our menu! Tap the Menu button below to browse through all our delicious options. What type of food are you in the mood for?";
-        suggestMenu = true;
-      } else if (inputMessage.toLowerCase().includes('recommend') || inputMessage.toLowerCase().includes('popular')) {
-        botResponse = "Our most popular items are the Pepperoni Pizza, Classic Burger, and Buffalo Wings! All are customer favorites. Want to see them in the menu?";
-        suggestMenu = true;
+        suggestedKeys = ['Show Menu', 'Main Course', 'Just Snacks'];
+      } else if (messageToSend.toLowerCase().includes('drinks')) {
+        botResponse = "We have refreshing drinks to go with your meal! What would you like to eat along with your drink?";
+        suggestedKeys = ['Pizza', 'Burgers', 'Salads', 'Just Drinks'];
+      } else if (messageToSend.toLowerCase().includes('not sure')) {
+        botResponse = "No problem! Let me help you decide. What kind of experience are you looking for today?";
+        suggestedKeys = ['Something Quick', 'Comfort Food', 'Light & Healthy', 'Popular Items'];
+      } else if (messageToSend.toLowerCase().includes('menu') || messageToSend.toLowerCase().includes('food')) {
+        botResponse = "Perfect! What type of food sounds good to you right now?";
+        suggestedKeys = ['Pizza', 'Burgers', 'Salads', 'Appetizers', 'Desserts'];
+      } else if (messageToSend.toLowerCase().includes('recommend') || messageToSend.toLowerCase().includes('popular')) {
+        botResponse = "Our most popular items are the Pepperoni Pizza, Classic Burger, and Buffalo Wings! What sounds appealing?";
+        suggestedKeys = ['Pizza', 'Burgers', 'Wings', 'Show All Popular'];
+      } else if (messageToSend.toLowerCase().includes('something quick')) {
+        botResponse = "For quick options, I'd suggest our salads or appetizers - they're ready in 15-25 minutes!";
+        setSelectedCategory(3); // Start with salads
+        suggestedKeys = ['Show Salads', 'Show Appetizers', 'What Else?'];
+      } else if (messageToSend.toLowerCase().includes('comfort food')) {
+        botResponse = "Nothing beats comfort food! Our pizzas and burgers are perfect for that cozy feeling.";
+        suggestedKeys = ['Pizza', 'Burgers', 'Both Sound Good', 'Other Options'];
+      } else if (messageToSend.toLowerCase().includes('light') || messageToSend.toLowerCase().includes('healthy')) {
+        botResponse = "Great choice! Our salads are fresh and satisfying. The Greek Salad is especially popular.";
+        setSelectedCategory(3); // Salad category
+        suggestedKeys = ['Show Salads', 'Add Protein', 'Other Light Options'];
       }
 
       const botMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         type: 'bot',
         content: botResponse,
-        timestamp: new Date()
+        timestamp: new Date(),
+        suggestedKeys: suggestedKeys.length > 0 ? suggestedKeys : undefined
       };
 
       setMessages(prev => [...prev, botMessage]);
@@ -256,7 +283,7 @@ export default function ChatbotPrimaryPage() {
           const menuSuggestion: ChatMessage = {
             id: (Date.now() + 2).toString(),
             type: 'bot',
-            content: "👆 Tap the Menu button below to browse and swipe through our items!",
+            content: "Tap the Menu button below to browse and swipe through our items!",
             timestamp: new Date()
           };
           setMessages(prev => [...prev, menuSuggestion]);
@@ -343,8 +370,30 @@ export default function ChatbotPrimaryPage() {
                 </div>
               ) : (
                 <div className="flex justify-start">
-                  <div className="max-w-[80%] bg-white p-3 rounded-2xl rounded-bl-sm border" style={{ borderColor: '#e5cf97', color: '#654321' }}>
-                    {message.content}
+                  <div className="space-y-3">
+                    <div className="max-w-[80%] bg-white p-3 rounded-2xl rounded-bl-sm border" style={{ borderColor: '#e5cf97', color: '#654321' }}>
+                      {message.content}
+                    </div>
+                    
+                    {/* Suggested Keywords */}
+                    {message.suggestedKeys && (
+                      <div className="flex flex-wrap gap-2 max-w-[80%]">
+                        {message.suggestedKeys.map((key, index) => (
+                          <Button
+                            key={index}
+                            variant="outline"
+                            size="sm"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleSendMessage(key);
+                            }}
+                            className="text-xs px-3 py-1 border-[#8b795e] text-[#8b795e] bg-white hover:bg-[#8b795e] hover:text-white transition-colors"
+                          >
+                            {key}
+                          </Button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -536,11 +585,19 @@ export default function ChatbotPrimaryPage() {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             placeholder="Tell me what you're craving..."
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
             className="flex-1"
           />
           <Button 
-            onClick={handleSendMessage}
+            onClick={(e) => {
+              e.preventDefault();
+              handleSendMessage();
+            }}
             className="bg-[#8b795e] hover:bg-[#6d5d4f] text-white px-4"
           >
             <Send className="w-4 h-4" />
