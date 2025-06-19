@@ -392,6 +392,7 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
               </form>
             </DialogContent>
           </Dialog>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -535,7 +536,7 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
                                         <SelectValue />
                                       </SelectTrigger>
                                       <SelectContent>
-                                        {availableCategories.map((cat: any) => (
+                                        {(availableCategories as any[]).map((cat: any) => (
                                           <SelectItem key={cat.id} value={cat.name}>
                                             {cat.name}
                                           </SelectItem>
