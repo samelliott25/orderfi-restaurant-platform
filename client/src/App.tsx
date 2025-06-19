@@ -25,6 +25,7 @@ import AdminAnalyticsPage from "@/pages/admin/analytics";
 import AdminRewardsPage from "@/pages/admin/rewards";
 import AdminSecurityPage from "@/pages/admin/security";
 import AdminIntegrationsPage from "@/pages/admin/integrations";
+import AdminBlockchainPage from "@/pages/admin/blockchain";
 import HybridChatPage from "@/pages/hybrid-chat";
 import MobileAppPage from "@/pages/mobile-app";
 import ChatbotPrimaryPage from "@/pages/chatbot-primary";
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/admin/marketing" component={AdminMarketingPage} />
       <Route path="/admin/analytics" component={AdminAnalyticsPage} />
       <Route path="/admin/rewards" component={AdminRewardsPage} />
+      <Route path="/admin/blockchain" component={AdminBlockchainPage} />
       <Route path="/admin/settings" component={AdminSettingsPage} />
       <Route path="/admin/security" component={AdminSecurityPage} />
       <Route path="/admin/integrations" component={AdminIntegrationsPage} />

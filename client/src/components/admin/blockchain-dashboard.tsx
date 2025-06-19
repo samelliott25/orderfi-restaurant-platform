@@ -142,7 +142,7 @@ export function BlockchainDashboard({ restaurantId }: BlockchainDashboardProps) 
             <div className="flex items-center space-x-2">
               <Utensils className="h-8 w-8 text-green-500" />
               <div>
-                <p className="text-2xl font-bold">{statsLoading ? '-' : stats?.menuItemBlocks || 0}</p>
+                <p className="text-2xl font-bold">{statsLoading ? '-' : (stats?.menuItemBlocks || 0)}</p>
                 <p className="text-xs text-muted-foreground">Menu Items</p>
               </div>
             </div>

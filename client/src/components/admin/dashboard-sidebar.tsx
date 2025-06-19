@@ -84,6 +84,12 @@ const navigation = [
     description: "Crypto earnings, network revenue"
   },
   {
+    name: "Blockchain Database",
+    href: "/admin/blockchain",
+    icon: Database,
+    description: "Decentralized menu storage & verification"
+  },
+  {
     name: "Settings",
     href: "/admin/settings",
     icon: Settings,

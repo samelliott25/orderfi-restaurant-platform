@@ -39,6 +39,16 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
     queryKey: [`/api/restaurants/${restaurantId}/menu`],
   });
 
+  // Fetch categorized menu items
+  const { data: categorizedItems = {}, isLoading: categorizedLoading } = useQuery({
+    queryKey: [`/api/restaurants/${restaurantId}/menu/categorized`],
+  });
+
+  // Fetch available categories
+  const { data: availableCategories = [] } = useQuery({
+    queryKey: ['/api/menu/categories'],
+  });
+
   // Create menu item mutation
   const createMenuItemMutation = useMutation({
     mutationFn: (data: any) => restaurantApi.createMenuItem(restaurantId, data),
