@@ -20,49 +20,37 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   // Store scroll positions for each admin page
   const scrollPositions = useRef<{ [key: string]: number }>({});
 
-  // Save scroll position when leaving a page
+  // Handle scroll position preservation
   useEffect(() => {
-    const saveScrollPosition = () => {
-      if (scrollContainerRef.current && previousLocationRef.current) {
+    if (!location.startsWith('/admin')) return;
+
+    // Save scroll position when leaving a page
+    if (previousLocationRef.current && previousLocationRef.current !== location) {
+      if (scrollContainerRef.current) {
         scrollPositions.current[previousLocationRef.current] = scrollContainerRef.current.scrollTop;
       }
-    };
-
-    // Save current scroll position before navigation
-    if (previousLocationRef.current && previousLocationRef.current !== location) {
-      saveScrollPosition();
     }
 
-    // Restore scroll position for current page
-    if (scrollContainerRef.current && location.startsWith('/admin')) {
-      const savedPosition = scrollPositions.current[location] || 0;
-      
-      // Use setTimeout to ensure DOM is updated after navigation
-      setTimeout(() => {
-        if (scrollContainerRef.current) {
-          scrollContainerRef.current.scrollTop = savedPosition;
-        }
-      }, 0);
-    }
-
-    previousLocationRef.current = location;
-  }, [location]);
-
-  // Add scroll event listener to continuously save position
-  useEffect(() => {
-    const handleScroll = () => {
-      if (scrollContainerRef.current && location.startsWith('/admin')) {
-        scrollPositions.current[location] = scrollContainerRef.current.scrollTop;
+    // Restore scroll position after navigation
+    const restoreScroll = () => {
+      if (scrollContainerRef.current) {
+        const savedPosition = scrollPositions.current[location] || 0;
+        scrollContainerRef.current.scrollTop = savedPosition;
       }
     };
 
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
-      scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
-      return () => {
-        scrollContainer.removeEventListener('scroll', handleScroll);
-      };
-    }
+    // Use multiple attempts to ensure scroll restoration works
+    const timeouts = [
+      setTimeout(restoreScroll, 0),
+      setTimeout(restoreScroll, 10),
+      setTimeout(restoreScroll, 100)
+    ];
+
+    previousLocationRef.current = location;
+
+    return () => {
+      timeouts.forEach(clearTimeout);
+    };
   }, [location]);
 
   return (
@@ -84,8 +72,12 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         {/* Main Content - Scrollable */}
         <div 
           ref={scrollContainerRef}
-          className="flex-1 min-w-0 h-full overflow-y-auto"
-          style={{ scrollBehavior: 'auto' }}
+          className="flex-1 min-w-0 h-full overflow-y-auto admin-scroll-container"
+          onScroll={(e) => {
+            if (location.startsWith('/admin')) {
+              scrollPositions.current[location] = e.currentTarget.scrollTop;
+            }
+          }}
         >
           {children}
         </div>

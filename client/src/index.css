@@ -4,6 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent automatic scroll restoration */
+html {
+  scroll-behavior: auto;
+}
+
+/* Admin layout scroll container */
+.admin-scroll-container {
+  scroll-behavior: auto !important;
+}
+
 :root {
   /* Warm Cream Theme - #ffe6b0 */
   --background: 255 230 176; /* #ffe6b0 - Warm cream background */

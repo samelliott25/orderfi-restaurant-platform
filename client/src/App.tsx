@@ -22,6 +22,7 @@ import AdminPaymentsPage from "@/pages/admin/payments";
 import AdminMarketingPage from "@/pages/admin/marketing";
 import AdminAnalyticsPage from "@/pages/admin/analytics";
 import AdminSecurityPage from "@/pages/admin/security";
+import AdminIntegrationsPage from "@/pages/admin/integrations";
 
 function Router() {
   return (
@@ -38,6 +39,7 @@ function Router() {
       <Route path="/admin/analytics" component={AdminAnalyticsPage} />
       <Route path="/admin/settings" component={AdminSettingsPage} />
       <Route path="/admin/security" component={AdminSecurityPage} />
+      <Route path="/admin/integrations" component={AdminIntegrationsPage} />
       <Route path="/retro" component={RetroChatPage} />
       <Route path="/customer" component={MobileChatPage} />
       <Route path="/mobile-chat" component={MobileChatPage} />
