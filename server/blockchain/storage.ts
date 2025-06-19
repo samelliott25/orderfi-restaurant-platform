@@ -12,13 +12,13 @@ interface BlockchainRecord {
 
 interface MenuItemBlock extends BlockchainRecord {
   data: {
-    restaurantId: number;
+    restaurantId: number | null;
     name: string;
-    description: string;
+    description: string | null;
     price: string;
     category: string;
-    tags: string[];
-    isAvailable: boolean;
+    tags: string[] | null;
+    isAvailable: boolean | null;
     operation: 'CREATE' | 'UPDATE' | 'DELETE';
   };
 }
@@ -85,13 +85,13 @@ class BlockchainStorage {
 
     // Create blockchain record with proper type handling
     const blockData = {
-      restaurantId: menuItem.restaurantId || 1,
+      restaurantId: menuItem.restaurantId,
       name: menuItem.name,
-      description: menuItem.description || '',
+      description: menuItem.description,
       price: menuItem.price,
       category: menuItem.category,
-      tags: menuItem.tags || [],
-      isAvailable: menuItem.isAvailable !== null ? menuItem.isAvailable : true,
+      tags: menuItem.tags,
+      isAvailable: menuItem.isAvailable,
       operation: 'CREATE' as const
     };
 
@@ -120,13 +120,13 @@ class BlockchainStorage {
 
     // Create blockchain record with proper type handling
     const blockData = {
-      restaurantId: updatedItem.restaurantId || 1,
+      restaurantId: updatedItem.restaurantId,
       name: updatedItem.name,
-      description: updatedItem.description || '',
+      description: updatedItem.description,
       price: updatedItem.price,
       category: updatedItem.category,
-      tags: updatedItem.tags || [],
-      isAvailable: updatedItem.isAvailable !== null ? updatedItem.isAvailable : true,
+      tags: updatedItem.tags,
+      isAvailable: updatedItem.isAvailable,
       operation: 'UPDATE' as const
     };
 

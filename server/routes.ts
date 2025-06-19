@@ -68,9 +68,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...req.body,
         restaurantId,
       });
-      const menuItem = await storage.createMenuItem(menuItemData);
-      res.status(201).json(menuItem);
+      
+      // Create menu item with blockchain integration
+      const blockchainRecord = await blockchainStorage.createMenuItemBlock(menuItemData);
+      
+      // Get the created menu item from traditional storage
+      const menuItems = await storage.getMenuItems(restaurantId);
+      const menuItem = menuItems.find(item => item.name === menuItemData.name);
+      
+      console.log(`Menu item "${menuItemData.name}" created with blockchain hash: ${blockchainRecord.hash}`);
+      
+      res.status(201).json(menuItem || blockchainRecord.data);
     } catch (error) {
+      console.error("Menu item creation error:", error);
       res.status(400).json({ message: "Invalid menu item data" });
     }
   });
@@ -79,9 +89,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const id = parseInt(req.params.id);
       const updateData = insertMenuItemSchema.partial().parse(req.body);
-      const menuItem = await storage.updateMenuItem(id, updateData);
+      
+      // Update with blockchain integration
+      const blockchainRecord = await blockchainStorage.updateMenuItemBlock(id, updateData);
+      const menuItem = await storage.getMenuItem(id);
+      
+      console.log(`Menu item ${id} updated with blockchain hash: ${blockchainRecord.hash}`);
+      
       res.json(menuItem);
     } catch (error) {
+      console.error("Menu item update error:", error);
       res.status(400).json({ message: "Invalid menu item data" });
     }
   });
@@ -93,6 +110,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ message: "Failed to delete menu item" });
+    }
+  });
+
+  // Blockchain-specific endpoints
+  app.get("/api/blockchain/status", async (req, res) => {
+    try {
+      const chain = blockchainStorage.getChain();
+      const integrity = blockchainStorage.verifyChainIntegrity();
+      
+      res.json({
+        totalBlocks: chain.length,
+        integrity,
+        latestBlock: blockchainStorage.getLatestBlock(),
+        chainValid: integrity
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get blockchain status" });
+    }
+  });
+
+  app.get("/api/blockchain/export", async (req, res) => {
+    try {
+      const chainData = blockchainStorage.exportBlockchainData();
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Content-Disposition', 'attachment; filename="mimi-blockchain-export.json"');
+      res.send(chainData);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to export blockchain data" });
+    }
+  });
+
+  app.get("/api/blockchain/menu-item/:id/history", async (req, res) => {
+    try {
+      const menuItemId = parseInt(req.params.id);
+      const history = blockchainStorage.getMenuItemHistory(menuItemId);
+      res.json(history);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get menu item history" });
+    }
+  });
+
+  app.get("/api/blockchain/ipfs-ready", async (req, res) => {
+    try {
+      const ipfsData = await blockchainStorage.prepareForIPFS();
+      res.json({
+        message: "Blockchain data prepared for IPFS storage",
+        hash: ipfsData.hash,
+        dataSize: JSON.stringify(ipfsData.data).length,
+        ready: true
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to prepare IPFS data" });
     }
   });
 
