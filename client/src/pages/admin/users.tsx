@@ -239,7 +239,7 @@ export default function AdminUsersPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#654321' }}>
+            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#8b795e' }}>
               Staffing Costs & Management
             </h1>
             <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -247,7 +247,7 @@ export default function AdminUsersPage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline" style={{ borderColor: '#8b795e', color: '#654321' }}>
+            <Button variant="outline" style={{ borderColor: '#8b795e', color: '#8b795e' }}>
               <Download className="h-4 w-4 mr-2" />
               Export Schedule
             </Button>
@@ -260,7 +260,7 @@ export default function AdminUsersPage() {
               </DialogTrigger>
               <DialogContent style={{ backgroundColor: '#fff0cc' }}>
                 <DialogHeader>
-                  <DialogTitle style={{ color: '#654321' }}>Add New Staff Member</DialogTitle>
+                  <DialogTitle style={{ color: '#8b795e' }}>Add New Staff Member</DialogTitle>
                   <DialogDescription style={{ color: '#8b795e' }}>
                     Add a new team member to your restaurant staff
                   </DialogDescription>
@@ -268,17 +268,17 @@ export default function AdminUsersPage() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label style={{ color: '#654321' }}>Full Name</Label>
+                      <Label style={{ color: '#8b795e' }}>Full Name</Label>
                       <Input placeholder="Enter full name" />
                     </div>
                     <div>
-                      <Label style={{ color: '#654321' }}>Email</Label>
+                      <Label style={{ color: '#8b795e' }}>Email</Label>
                       <Input type="email" placeholder="email@restaurant.com" />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label style={{ color: '#654321' }}>Role</Label>
+                      <Label style={{ color: '#8b795e' }}>Role</Label>
                       <Select>
                         <SelectTrigger>
                           <SelectValue placeholder="Select role" />
@@ -295,7 +295,7 @@ export default function AdminUsersPage() {
                       </Select>
                     </div>
                     <div>
-                      <Label style={{ color: '#654321' }}>Department</Label>
+                      <Label style={{ color: '#8b795e' }}>Department</Label>
                       <Select>
                         <SelectTrigger>
                           <SelectValue placeholder="Select department" />
@@ -309,11 +309,11 @@ export default function AdminUsersPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label style={{ color: '#654321' }}>Phone</Label>
+                      <Label style={{ color: '#8b795e' }}>Phone</Label>
                       <Input placeholder="(555) 123-4567" />
                     </div>
                     <div>
-                      <Label style={{ color: '#654321' }}>Hourly Rate</Label>
+                      <Label style={{ color: '#8b795e' }}>Hourly Rate</Label>
                       <Input type="number" placeholder="15.00" />
                     </div>
                   </div>
@@ -338,12 +338,12 @@ export default function AdminUsersPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
+                  <CardTitle className="text-sm" style={{ color: '#8b795e' }}>
                     Monthly Labor Cost
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+                  <div className="text-2xl font-bold mb-1" style={{ color: '#8b795e' }}>
                     $18,425
                   </div>
                   <p className="text-xs text-green-600">
@@ -354,12 +354,12 @@ export default function AdminUsersPage() {
 
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
+                  <CardTitle className="text-sm" style={{ color: '#8b795e' }}>
                     Labor Cost %
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+                  <div className="text-2xl font-bold mb-1" style={{ color: '#8b795e' }}>
                     28.3%
                   </div>
                   <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -370,12 +370,12 @@ export default function AdminUsersPage() {
 
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
+                  <CardTitle className="text-sm" style={{ color: '#8b795e' }}>
                     Budget Remaining
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+                  <div className="text-2xl font-bold mb-1" style={{ color: '#8b795e' }}>
                     $3,250
                   </div>
                   <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -386,12 +386,12 @@ export default function AdminUsersPage() {
 
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm" style={{ color: '#654321' }}>
+                  <CardTitle className="text-sm" style={{ color: '#8b795e' }}>
                     Avg. Hourly Rate
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+                  <div className="text-2xl font-bold mb-1" style={{ color: '#8b795e' }}>
                     $18.85
                   </div>
                   <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -405,7 +405,7 @@ export default function AdminUsersPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader>
-                  <CardTitle style={{ color: '#654321' }}>Department Cost Breakdown</CardTitle>
+                  <CardTitle style={{ color: '#8b795e' }}>Department Cost Breakdown</CardTitle>
                   <CardDescription style={{ color: '#8b795e' }}>
                     Labor costs by FOH and BOH departments
                   </CardDescription>
@@ -414,21 +414,21 @@ export default function AdminUsersPage() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-3 rounded-lg" style={{ backgroundColor: '#e8f5e8', border: '1px solid #c8e6c8' }}>
                       <div>
-                        <div className="font-medium" style={{ color: '#654321' }}>Front of House (FOH)</div>
+                        <div className="font-medium" style={{ color: '#8b795e' }}>Front of House (FOH)</div>
                         <div className="text-sm" style={{ color: '#8b795e' }}>Servers, Hosts, Bartenders</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold" style={{ color: '#654321' }}>$11,200</div>
+                        <div className="font-bold" style={{ color: '#8b795e' }}>$11,200</div>
                         <div className="text-xs" style={{ color: '#8b795e' }}>60.8% of total</div>
                       </div>
                     </div>
                     <div className="flex items-center justify-between p-3 rounded-lg" style={{ backgroundColor: '#e8f0ff', border: '1px solid #c8e0ff' }}>
                       <div>
-                        <div className="font-medium" style={{ color: '#654321' }}>Back of House (BOH)</div>
+                        <div className="font-medium" style={{ color: '#8b795e' }}>Back of House (BOH)</div>
                         <div className="text-sm" style={{ color: '#8b795e' }}>Chefs, Line Cooks, Prep</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold" style={{ color: '#654321' }}>$7,225</div>
+                        <div className="font-bold" style={{ color: '#8b795e' }}>$7,225</div>
                         <div className="text-xs" style={{ color: '#8b795e' }}>39.2% of total</div>
                       </div>
                     </div>
@@ -438,7 +438,7 @@ export default function AdminUsersPage() {
 
               <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                 <CardHeader>
-                  <CardTitle style={{ color: '#654321' }}>Cost Trends</CardTitle>
+                  <CardTitle style={{ color: '#8b795e' }}>Cost Trends</CardTitle>
                   <CardDescription style={{ color: '#8b795e' }}>
                     Labor cost trends over the last 6 months
                   </CardDescription>
@@ -455,7 +455,7 @@ export default function AdminUsersPage() {
                     ].map((month, index) => (
                       <div key={month.month} className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 text-sm font-medium" style={{ color: '#654321' }}>
+                          <div className="w-8 text-sm font-medium" style={{ color: '#8b795e' }}>
                             {month.month}
                           </div>
                           <div className="flex-1">
@@ -468,7 +468,7 @@ export default function AdminUsersPage() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-sm font-medium" style={{ color: '#654321' }}>
+                          <div className="text-sm font-medium" style={{ color: '#8b795e' }}>
                             ${month.cost.toLocaleString()}
                           </div>
                           <div className={`text-xs ${month.change.startsWith('+') ? 'text-red-600' : 'text-green-600'}`}>
@@ -485,7 +485,7 @@ export default function AdminUsersPage() {
             {/* Budget Analysis */}
             <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
               <CardHeader>
-                <CardTitle style={{ color: '#654321' }}>Budget Analysis & Forecasting</CardTitle>
+                <CardTitle style={{ color: '#8b795e' }}>Budget Analysis & Forecasting</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
                   Monthly budget tracking and cost optimization insights
                 </CardDescription>
@@ -493,15 +493,15 @@ export default function AdminUsersPage() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-4">
-                    <h4 className="font-semibold" style={{ color: '#654321' }}>Budget Status</h4>
+                    <h4 className="font-semibold" style={{ color: '#8b795e' }}>Budget Status</h4>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span style={{ color: '#8b795e' }}>Monthly Budget:</span>
-                        <span className="font-medium" style={{ color: '#654321' }}>$21,675</span>
+                        <span className="font-medium" style={{ color: '#8b795e' }}>$21,675</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span style={{ color: '#8b795e' }}>Current Spend:</span>
-                        <span className="font-medium" style={{ color: '#654321' }}>$18,425</span>
+                        <span className="font-medium" style={{ color: '#8b795e' }}>$18,425</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span style={{ color: '#8b795e' }}>Remaining:</span>
@@ -518,26 +518,26 @@ export default function AdminUsersPage() {
                   </div>
 
                   <div className="space-y-4">
-                    <h4 className="font-semibold" style={{ color: '#654321' }}>Cost Optimization</h4>
+                    <h4 className="font-semibold" style={{ color: '#8b795e' }}>Cost Optimization</h4>
                     <div className="space-y-2">
                       <div className="flex items-start gap-2">
                         <div className="w-2 h-2 rounded-full bg-green-500 mt-2"></div>
                         <div>
-                          <p className="text-sm font-medium" style={{ color: '#654321' }}>Reduced overtime costs</p>
+                          <p className="text-sm font-medium" style={{ color: '#8b795e' }}>Reduced overtime costs</p>
                           <p className="text-xs" style={{ color: '#8b795e' }}>Saved $850 this month</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-2">
                         <div className="w-2 h-2 rounded-full bg-blue-500 mt-2"></div>
                         <div>
-                          <p className="text-sm font-medium" style={{ color: '#654321' }}>Optimized shift patterns</p>
+                          <p className="text-sm font-medium" style={{ color: '#8b795e' }}>Optimized shift patterns</p>
                           <p className="text-xs" style={{ color: '#8b795e' }}>Better coverage efficiency</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-2">
                         <div className="w-2 h-2 rounded-full bg-yellow-500 mt-2"></div>
                         <div>
-                          <p className="text-sm font-medium" style={{ color: '#654321' }}>Cross-training impact</p>
+                          <p className="text-sm font-medium" style={{ color: '#8b795e' }}>Cross-training impact</p>
                           <p className="text-xs" style={{ color: '#8b795e' }}>Reduced hiring needs</p>
                         </div>
                       </div>
@@ -545,10 +545,10 @@ export default function AdminUsersPage() {
                   </div>
 
                   <div className="space-y-4">
-                    <h4 className="font-semibold" style={{ color: '#654321' }}>Next Month Forecast</h4>
+                    <h4 className="font-semibold" style={{ color: '#8b795e' }}>Next Month Forecast</h4>
                     <div className="space-y-2">
                       <div className="p-3 rounded-lg" style={{ backgroundColor: '#f8f9fa' }}>
-                        <div className="text-lg font-bold mb-1" style={{ color: '#654321' }}>
+                        <div className="text-lg font-bold mb-1" style={{ color: '#8b795e' }}>
                           $19,200
                         </div>
                         <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -571,7 +571,7 @@ export default function AdminUsersPage() {
             {/* Staff Directory */}
             <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
               <CardHeader>
-                <CardTitle style={{ color: '#654321' }}>Staff Directory</CardTitle>
+                <CardTitle style={{ color: '#8b795e' }}>Staff Directory</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
                   Complete list of all restaurant staff members
                 </CardDescription>
@@ -589,7 +589,7 @@ export default function AdminUsersPage() {
                           {staff.name.split(' ').map(n => n[0]).join('')}
                         </div>
                         <div>
-                          <h3 className="font-semibold" style={{ color: '#654321' }}>
+                          <h3 className="font-semibold" style={{ color: '#8b795e' }}>
                             {staff.name}
                           </h3>
                           <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -609,7 +609,7 @@ export default function AdminUsersPage() {
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="text-right">
-                          <div className="font-semibold" style={{ color: '#654321' }}>
+                          <div className="font-semibold" style={{ color: '#8b795e' }}>
                             ${staff.hourlyRate}/hr
                           </div>
                           <div className="text-xs" style={{ color: '#8b795e' }}>
@@ -622,7 +622,7 @@ export default function AdminUsersPage() {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          style={{ borderColor: '#8b795e', color: '#654321' }}
+                          style={{ borderColor: '#8b795e', color: '#8b795e' }}
                         >
                           <Settings className="h-4 w-4" />
                         </Button>
@@ -638,7 +638,7 @@ export default function AdminUsersPage() {
             {/* WFM Integrations */}
             <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
               <CardHeader>
-                <CardTitle style={{ color: '#654321' }}>Workforce Management Integrations</CardTitle>
+                <CardTitle style={{ color: '#8b795e' }}>Workforce Management Integrations</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
                   Connect with external WFM apps to sync schedules, timesheets, and payroll
                 </CardDescription>
@@ -656,7 +656,7 @@ export default function AdminUsersPage() {
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-semibold" style={{ color: '#654321' }}>
+                          <h3 className="font-semibold" style={{ color: '#8b795e' }}>
                             {integration.name}
                           </h3>
                           {integration.connected ? (
@@ -680,7 +680,7 @@ export default function AdminUsersPage() {
                               key={idx} 
                               variant="outline" 
                               className="text-xs"
-                              style={{ borderColor: '#8b795e', color: '#654321' }}
+                              style={{ borderColor: '#8b795e', color: '#8b795e' }}
                             >
                               {feature}
                             </Badge>
@@ -694,7 +694,7 @@ export default function AdminUsersPage() {
                           <Button 
                             variant="outline" 
                             size="sm"
-                            style={{ borderColor: '#8b795e', color: '#654321' }}
+                            style={{ borderColor: '#8b795e', color: '#8b795e' }}
                           >
                             <Settings className="h-4 w-4 mr-2" />
                             Configure
@@ -702,7 +702,7 @@ export default function AdminUsersPage() {
                           <Button 
                             variant="outline" 
                             size="sm"
-                            style={{ borderColor: '#8b795e', color: '#654321' }}
+                            style={{ borderColor: '#8b795e', color: '#8b795e' }}
                           >
                             <Upload className="h-4 w-4 mr-2" />
                             Sync Now
@@ -720,7 +720,7 @@ export default function AdminUsersPage() {
                       <Button 
                         variant="outline" 
                         size="sm"
-                        style={{ borderColor: '#8b795e', color: '#654321' }}
+                        style={{ borderColor: '#8b795e', color: '#8b795e' }}
                       >
                         <ExternalLink className="h-4 w-4" />
                       </Button>
@@ -733,7 +733,7 @@ export default function AdminUsersPage() {
             {/* Integration Benefits */}
             <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
               <CardHeader>
-                <CardTitle style={{ color: '#654321' }}>Integration Benefits</CardTitle>
+                <CardTitle style={{ color: '#8b795e' }}>Integration Benefits</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
                   Why connect your workforce management tools
                 </CardDescription>
@@ -746,7 +746,7 @@ export default function AdminUsersPage() {
                         <CheckCircle className="h-4 w-4 text-green-600" />
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-1" style={{ color: '#654321' }}>
+                        <h4 className="font-semibold mb-1" style={{ color: '#8b795e' }}>
                           Automated Scheduling
                         </h4>
                         <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -759,7 +759,7 @@ export default function AdminUsersPage() {
                         <Clock className="h-4 w-4 text-blue-600" />
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-1" style={{ color: '#654321' }}>
+                        <h4 className="font-semibold mb-1" style={{ color: '#8b795e' }}>
                           Real-time Updates
                         </h4>
                         <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -774,7 +774,7 @@ export default function AdminUsersPage() {
                         <Users className="h-4 w-4 text-purple-600" />
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-1" style={{ color: '#654321' }}>
+                        <h4 className="font-semibold mb-1" style={{ color: '#8b795e' }}>
                           Staff Communication
                         </h4>
                         <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -787,7 +787,7 @@ export default function AdminUsersPage() {
                         <MapPin className="h-4 w-4 text-orange-600" />
                       </div>
                       <div>
-                        <h4 className="font-semibold mb-1" style={{ color: '#654321' }}>
+                        <h4 className="font-semibold mb-1" style={{ color: '#8b795e' }}>
                           Compliance Tracking
                         </h4>
                         <p className="text-sm" style={{ color: '#8b795e' }}>

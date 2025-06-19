@@ -237,7 +237,7 @@ export default function HybridChatPage() {
               <ChefHat className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-lg" style={{ color: '#654321' }}>Mimi Waitress</h1>
+              <h1 className="font-bold text-lg" style={{ color: '#8b795e' }}>Mimi Waitress</h1>
               <p className="text-sm" style={{ color: '#8b795e' }}>Interactive Menu Chat</p>
             </div>
           </div>
@@ -269,7 +269,7 @@ export default function HybridChatPage() {
               className={`whitespace-nowrap ${
                 selectedCategory === category.id 
                   ? 'bg-[#8b795e] text-white' 
-                  : 'border-[#8b795e] text-[#654321] bg-white'
+                  : 'border-[#8b795e] text-[#8b795e] bg-white'
               }`}
             >
               <span className="mr-2">{category.icon}</span>
@@ -293,14 +293,14 @@ export default function HybridChatPage() {
               ) : message.type === 'bot' ? (
                 <div className="flex justify-start">
                   <div className="max-w-xs bg-white p-3 rounded-lg border" style={{ borderColor: '#e5cf97' }}>
-                    <p style={{ color: '#654321' }}>{message.content}</p>
+                    <p style={{ color: '#8b795e' }}>{message.content}</p>
                   </div>
                 </div>
               ) : message.type === 'menu' ? (
                 <div className="space-y-4">
                   <div className="flex justify-start">
                     <div className="bg-white p-3 rounded-lg border" style={{ borderColor: '#e5cf97' }}>
-                      <p style={{ color: '#654321' }}>{message.content}</p>
+                      <p style={{ color: '#8b795e' }}>{message.content}</p>
                     </div>
                   </div>
                   
@@ -313,11 +313,11 @@ export default function HybridChatPage() {
                             <div className="text-4xl">{item.image}</div>
                             <div className="flex-1">
                               <div className="flex items-start justify-between mb-2">
-                                <h3 className="font-bold text-lg" style={{ color: '#654321' }}>
+                                <h3 className="font-bold text-lg" style={{ color: '#8b795e' }}>
                                   {item.name}
                                 </h3>
                                 <div className="text-right">
-                                  <p className="font-bold text-lg" style={{ color: '#654321' }}>
+                                  <p className="font-bold text-lg" style={{ color: '#8b795e' }}>
                                     ${item.price}
                                   </p>
                                 </div>
@@ -380,7 +380,7 @@ export default function HybridChatPage() {
             <div className="mb-4 p-3 rounded-lg bg-white border" style={{ borderColor: '#e5cf97' }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium" style={{ color: '#654321' }}>
+                  <p className="font-medium" style={{ color: '#8b795e' }}>
                     {getTotalItems()} items in cart
                   </p>
                   <p className="text-sm" style={{ color: '#8b795e' }}>

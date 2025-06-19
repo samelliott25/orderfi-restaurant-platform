@@ -183,7 +183,7 @@ export default function AdminAiTrainingPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#654321' }}>
+            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#8b795e' }}>
               AI Agent Training
             </h1>
             <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -209,7 +209,7 @@ export default function AdminAiTrainingPage() {
           <TabsContent value="service-flow" className="space-y-6">
             <Card style={{ backgroundColor: '#ffe6b0', borderColor: '#8b795e' }}>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2" style={{ color: '#654321' }}>
+                <CardTitle className="flex items-center gap-2" style={{ color: '#8b795e' }}>
                   <Utensils className="h-5 w-5" />
                   Table Service Sequence
                 </CardTitle>
@@ -219,14 +219,14 @@ export default function AdminAiTrainingPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold" style={{ color: '#654321' }}>
+                  <h3 className="text-lg font-semibold" style={{ color: '#8b795e' }}>
                     Service Steps ({serviceSteps.filter(s => s.enabled).length} active)
                   </h3>
                   <Button 
                     onClick={addNewStep}
                     variant="outline" 
                     size="sm"
-                    style={{ borderColor: '#8b795e', color: '#654321' }}
+                    style={{ borderColor: '#8b795e', color: '#8b795e' }}
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Step
@@ -255,7 +255,7 @@ export default function AdminAiTrainingPage() {
                                     className="font-semibold"
                                   />
                                 ) : (
-                                  <h4 className="font-semibold" style={{ color: '#654321' }}>
+                                  <h4 className="font-semibold" style={{ color: '#8b795e' }}>
                                     {step.name}
                                   </h4>
                                 )}
@@ -348,7 +348,7 @@ export default function AdminAiTrainingPage() {
                         ) : (
                           <div className="space-y-2">
                             <div className="p-3 rounded-lg" style={{ backgroundColor: '#f8f9fa', border: '1px solid #e5cf97' }}>
-                              <p className="text-sm leading-relaxed" style={{ color: '#654321' }}>
+                              <p className="text-sm leading-relaxed" style={{ color: '#8b795e' }}>
                                 "{step.message}"
                               </p>
                             </div>
@@ -373,7 +373,7 @@ export default function AdminAiTrainingPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="flex items-center gap-2" style={{ color: '#654321' }}>
+                    <CardTitle className="flex items-center gap-2" style={{ color: '#8b795e' }}>
                       <MessageCircle className="h-5 w-5" />
                       Chatbot Personality
                     </CardTitle>
@@ -385,7 +385,7 @@ export default function AdminAiTrainingPage() {
                     variant="outline"
                     size="sm"
                     onClick={() => setEditingPersonality(!editingPersonality)}
-                    style={{ borderColor: '#8b795e', color: '#654321' }}
+                    style={{ borderColor: '#8b795e', color: '#8b795e' }}
                   >
                     <Edit3 className="h-4 w-4 mr-2" />
                     {editingPersonality ? 'View' : 'Edit'}
@@ -395,7 +395,7 @@ export default function AdminAiTrainingPage() {
               <CardContent className="space-y-6">
                 <div className="grid gap-6">
                   <div>
-                    <Label className="text-base font-semibold" style={{ color: '#654321' }}>
+                    <Label className="text-base font-semibold" style={{ color: '#8b795e' }}>
                       Overall Tone
                     </Label>
                     {editingPersonality ? (
@@ -415,7 +415,7 @@ export default function AdminAiTrainingPage() {
                   <Separator />
 
                   <div>
-                    <Label className="text-base font-semibold" style={{ color: '#654321' }}>
+                    <Label className="text-base font-semibold" style={{ color: '#8b795e' }}>
                       Greeting Style
                     </Label>
                     {editingPersonality ? (
@@ -435,7 +435,7 @@ export default function AdminAiTrainingPage() {
                   <Separator />
 
                   <div>
-                    <Label className="text-base font-semibold" style={{ color: '#654321' }}>
+                    <Label className="text-base font-semibold" style={{ color: '#8b795e' }}>
                       Upselling Approach
                     </Label>
                     {editingPersonality ? (
@@ -455,7 +455,7 @@ export default function AdminAiTrainingPage() {
                   <Separator />
 
                   <div>
-                    <Label className="text-base font-semibold" style={{ color: '#654321' }}>
+                    <Label className="text-base font-semibold" style={{ color: '#8b795e' }}>
                       Problem Resolution
                     </Label>
                     {editingPersonality ? (
@@ -475,7 +475,7 @@ export default function AdminAiTrainingPage() {
                   <Separator />
 
                   <div>
-                    <Label className="text-base font-semibold" style={{ color: '#654321' }}>
+                    <Label className="text-base font-semibold" style={{ color: '#8b795e' }}>
                       Farewell Style
                     </Label>
                     {editingPersonality ? (
@@ -499,7 +499,7 @@ export default function AdminAiTrainingPage() {
           <TabsContent value="advanced" className="space-y-6">
             <Card style={{ backgroundColor: '#ffe6b0', borderColor: '#8b795e' }}>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2" style={{ color: '#654321' }}>
+                <CardTitle className="flex items-center gap-2" style={{ color: '#8b795e' }}>
                   <Settings className="h-5 w-5" />
                   Advanced Settings
                 </CardTitle>
@@ -510,7 +510,7 @@ export default function AdminAiTrainingPage() {
               <CardContent className="space-y-6">
                 <div className="text-center py-12">
                   <Settings className="h-12 w-12 mx-auto mb-4" style={{ color: '#8b795e' }} />
-                  <h3 className="text-lg font-semibold mb-2" style={{ color: '#654321' }}>
+                  <h3 className="text-lg font-semibold mb-2" style={{ color: '#8b795e' }}>
                     Advanced Configuration
                   </h3>
                   <p className="text-sm" style={{ color: '#8b795e' }}>

@@ -401,7 +401,7 @@ export default function ChatbotPrimaryPage() {
               <ChefHat className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-lg" style={{ color: '#654321' }}>Mimi Waitress</h1>
+              <h1 className="font-bold text-lg" style={{ color: '#8b795e' }}>Mimi Waitress</h1>
               <p className="text-sm" style={{ color: '#8b795e' }}>Your Food Assistant</p>
             </div>
           </div>
@@ -430,7 +430,7 @@ export default function ChatbotPrimaryPage() {
               ) : (
                 <div className="flex justify-start">
                   <div className="space-y-3">
-                    <div className="max-w-[80%] p-3 rounded-2xl rounded-bl-sm border" style={{ borderColor: '#8b795e', color: '#654321', backgroundColor: '#fff0cc' }}>
+                    <div className="max-w-[80%] p-3 rounded-2xl rounded-bl-sm border" style={{ borderColor: '#8b795e', color: '#8b795e', backgroundColor: '#fff0cc' }}>
                       {message.content}
                     </div>
                     
@@ -468,7 +468,7 @@ export default function ChatbotPrimaryPage() {
         <Button
           onClick={() => setIsMenuExpanded(!isMenuExpanded)}
           className="w-full border-2 shadow-lg flex items-center justify-center gap-2 py-3"
-          style={{ borderColor: '#8b795e', color: '#654321', backgroundColor: '#ffe6b0' }}
+          style={{ borderColor: '#8b795e', color: '#8b795e', backgroundColor: '#ffe6b0' }}
         >
           <Menu className="w-5 h-5" />
           <span className="font-semibold">Menu</span>
@@ -494,7 +494,7 @@ export default function ChatbotPrimaryPage() {
             {/* Menu Header */}
             <div className="p-4 border-b" style={{ borderColor: '#e5cf97' }}>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-bold text-xl" style={{ color: '#654321' }}>Menu</h2>
+                <h2 className="font-bold text-xl" style={{ color: '#8b795e' }}>Menu</h2>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -516,7 +516,7 @@ export default function ChatbotPrimaryPage() {
                     className={`whitespace-nowrap ${
                       selectedCategory === index 
                         ? 'bg-[#8b795e] text-white' 
-                        : 'border-[#8b795e] text-[#654321]'
+                        : 'border-[#8b795e] text-[#8b795e]'
                     }`}
                     style={selectedCategory !== index ? { backgroundColor: '#ffe6b0' } : undefined}
                   >
@@ -568,7 +568,7 @@ export default function ChatbotPrimaryPage() {
                     <CardContent className="p-6">
                       <div className="text-center mb-4">
                         <div className="text-6xl mb-3">{currentItem.image}</div>
-                        <h3 className="font-bold text-2xl mb-2" style={{ color: '#654321' }}>
+                        <h3 className="font-bold text-2xl mb-2" style={{ color: '#8b795e' }}>
                           {currentItem.name}
                         </h3>
                         <p className="text-lg font-bold" style={{ color: '#8b795e' }}>
@@ -576,7 +576,7 @@ export default function ChatbotPrimaryPage() {
                         </p>
                       </div>
                       
-                      <p className="text-center mb-4" style={{ color: '#654321' }}>
+                      <p className="text-center mb-4" style={{ color: '#8b795e' }}>
                         {currentItem.description}
                       </p>
                       
@@ -621,7 +621,7 @@ export default function ChatbotPrimaryPage() {
               <div className="p-4 border-t" style={{ borderColor: '#e5cf97' }}>
                 <div className="flex items-center justify-between p-3 rounded-lg" style={{ backgroundColor: '#fff0cc' }}>
                   <div>
-                    <p className="font-semibold" style={{ color: '#654321' }}>
+                    <p className="font-semibold" style={{ color: '#8b795e' }}>
                       {getTotalItems()} items in cart
                     </p>
                     <p className="text-sm" style={{ color: '#8b795e' }}>

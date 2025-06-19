@@ -8,7 +8,7 @@ export default function NotFound() {
         <CardContent className="pt-6">
           <div className="flex mb-4 gap-2">
             <AlertCircle className="h-8 w-8" style={{ color: '#8b795e' }} />
-            <h1 className="text-2xl font-bold" style={{ color: '#654321' }}>404 Page Not Found</h1>
+            <h1 className="text-2xl font-bold" style={{ color: '#8b795e' }}>404 Page Not Found</h1>
           </div>
 
           <p className="mt-4 text-sm" style={{ color: '#8b795e' }}>

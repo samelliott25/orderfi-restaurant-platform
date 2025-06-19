@@ -35,7 +35,7 @@ export default function HomePage() {
                   letterSpacing: '0.02em',
                   fontWeight: '400',
                   transform: 'rotate(-2deg)',
-                  color: '#654321'
+                  color: '#8b795e'
                 }}
               >
                 Ready to Order?
@@ -63,7 +63,7 @@ export default function HomePage() {
                 className="w-full py-3 text-lg font-semibold border-2 shadow-lg transition-all duration-200 transform hover:scale-105"
                 style={{ 
                   borderColor: '#8b795e',
-                  color: '#654321',
+                  color: '#8b795e',
                   backgroundColor: '#ffe6b0'
                 }}
               >

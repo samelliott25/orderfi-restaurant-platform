@@ -281,7 +281,7 @@ export default function AdminOrdersPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#654321' }}>
+            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#8b795e' }}>
               Orders Management
             </h1>
             <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -292,14 +292,14 @@ export default function AdminOrdersPage() {
             <Button 
               variant="outline" 
               onClick={() => setCurrentView(currentView === 'kvs' ? 'floor' : 'kvs')}
-              style={{ borderColor: '#8b795e', color: '#654321' }}
+              style={{ borderColor: '#8b795e', color: '#8b795e' }}
             >
               {currentView === 'kvs' ? <Grid3X3 className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}
               {currentView === 'kvs' ? 'Floor Plan' : 'Kitchen View'}
             </Button>
             <Button 
               variant="outline"
-              style={{ borderColor: '#8b795e', color: '#654321' }}
+              style={{ borderColor: '#8b795e', color: '#8b795e' }}
             >
               <RefreshCcw className="h-4 w-4 mr-2" />
               Refresh
@@ -317,12 +317,12 @@ export default function AdminOrdersPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm" style={{ color: '#654321' }}>
+              <CardTitle className="text-sm" style={{ color: '#8b795e' }}>
                 Active Orders
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+              <div className="text-2xl font-bold mb-1" style={{ color: '#8b795e' }}>
                 {orders.filter(o => o.status !== 'paid').length}
               </div>
               <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -333,12 +333,12 @@ export default function AdminOrdersPage() {
 
           <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm" style={{ color: '#654321' }}>
+              <CardTitle className="text-sm" style={{ color: '#8b795e' }}>
                 Average Wait Time
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+              <div className="text-2xl font-bold mb-1" style={{ color: '#8b795e' }}>
                 18 min
               </div>
               <p className="text-xs text-green-600">
@@ -349,12 +349,12 @@ export default function AdminOrdersPage() {
 
           <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm" style={{ color: '#654321' }}>
+              <CardTitle className="text-sm" style={{ color: '#8b795e' }}>
                 Orders Ready
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+              <div className="text-2xl font-bold mb-1" style={{ color: '#8b795e' }}>
                 {orders.filter(o => o.status === 'ready').length}
               </div>
               <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -365,12 +365,12 @@ export default function AdminOrdersPage() {
 
           <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm" style={{ color: '#654321' }}>
+              <CardTitle className="text-sm" style={{ color: '#8b795e' }}>
                 Revenue Today
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold mb-1" style={{ color: '#654321' }}>
+              <div className="text-2xl font-bold mb-1" style={{ color: '#8b795e' }}>
                 ${orders.reduce((sum, order) => sum + order.totalAmount, 0).toFixed(2)}
               </div>
               <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -384,7 +384,7 @@ export default function AdminOrdersPage() {
           <div className="space-y-6">
             {/* Kitchen Station Filter */}
             <div className="flex items-center gap-4">
-              <label className="text-sm font-medium" style={{ color: '#654321' }}>
+              <label className="text-sm font-medium" style={{ color: '#8b795e' }}>
                 Station:
               </label>
               <Select value={selectedStation} onValueChange={setSelectedStation}>
@@ -418,7 +418,7 @@ export default function AdminOrdersPage() {
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <div>
-                        <CardTitle className="text-lg" style={{ color: '#654321' }}>
+                        <CardTitle className="text-lg" style={{ color: '#8b795e' }}>
                           {order.tableNumber}
                         </CardTitle>
                         <CardDescription style={{ color: '#8b795e' }}>
@@ -445,7 +445,7 @@ export default function AdminOrdersPage() {
                         style={{ backgroundColor: '#f8f9fa', borderColor: '#e5cf97' }}
                       >
                         <div className="flex-1">
-                          <div className="font-medium text-sm" style={{ color: '#654321' }}>
+                          <div className="font-medium text-sm" style={{ color: '#8b795e' }}>
                             {item.quantity}x {item.name}
                           </div>
                           {item.modifications && (
@@ -486,7 +486,7 @@ export default function AdminOrdersPage() {
                         <Button 
                           size="sm" 
                           variant="outline"
-                          style={{ borderColor: '#8b795e', color: '#654321' }}
+                          style={{ borderColor: '#8b795e', color: '#8b795e' }}
                         >
                           <Bell className="h-3 w-3 mr-1" />
                           Alert
@@ -518,7 +518,7 @@ export default function AdminOrdersPage() {
                   <Card key={zone.id} style={{ backgroundColor: zone.color, borderColor: '#e5cf97' }}>
                     <CardContent className="p-3">
                       <div className="text-center">
-                        <h3 className="font-semibold text-sm" style={{ color: '#654321' }}>
+                        <h3 className="font-semibold text-sm" style={{ color: '#8b795e' }}>
                           {zone.name}
                         </h3>
                         <p className="text-xs" style={{ color: '#8b795e' }}>
@@ -537,7 +537,7 @@ export default function AdminOrdersPage() {
             {/* Floor Plan View */}
             <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
               <CardHeader>
-                <CardTitle style={{ color: '#654321' }}>Restaurant Floor Plan</CardTitle>
+                <CardTitle style={{ color: '#8b795e' }}>Restaurant Floor Plan</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
                   30 tables organized in 5 zones - Click any table for details and customer messaging
                 </CardDescription>
@@ -547,7 +547,7 @@ export default function AdminOrdersPage() {
                   {/* Zone Labels */}
                   {tableZones.map((zone) => (
                     <div key={`label-${zone.id}`} className="absolute font-semibold text-lg" style={{ 
-                      color: '#654321',
+                      color: '#8b795e',
                       left: zone.id <= 2 ? (zone.id === 1 ? '150px' : '500px') : 
                             zone.id <= 4 ? (zone.id === 3 ? '150px' : '500px') : '350px',
                       top: zone.id <= 2 ? '40px' : zone.id <= 4 ? '240px' : '440px'
@@ -580,7 +580,7 @@ export default function AdminOrdersPage() {
                         }}
                       >
                         <div className="text-center">
-                          <div className="font-bold text-sm" style={{ color: '#654321' }}>
+                          <div className="font-bold text-sm" style={{ color: '#8b795e' }}>
                             {table.number}
                           </div>
                           <div className="text-xs" style={{ color: '#8b795e' }}>
@@ -600,7 +600,7 @@ export default function AdminOrdersPage() {
                   
                   {/* Legends */}
                   <div className="absolute bottom-4 left-4 p-4 rounded-lg border" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
-                    <h4 className="font-semibold mb-2 text-sm" style={{ color: '#654321' }}>Table Status</h4>
+                    <h4 className="font-semibold mb-2 text-sm" style={{ color: '#8b795e' }}>Table Status</h4>
                     <div className="space-y-1 text-xs">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded border" style={{ backgroundColor: '#e8f5e8' }}></div>
@@ -622,7 +622,7 @@ export default function AdminOrdersPage() {
                   </div>
 
                   <div className="absolute bottom-4 right-4 p-4 rounded-lg border" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
-                    <h4 className="font-semibold mb-2 text-sm" style={{ color: '#654321' }}>Table Zones</h4>
+                    <h4 className="font-semibold mb-2 text-sm" style={{ color: '#8b795e' }}>Table Zones</h4>
                     <div className="space-y-1 text-xs">
                       {tableZones.map((zone) => (
                         <div key={zone.id} className="flex items-center gap-2">
@@ -642,7 +642,7 @@ export default function AdminOrdersPage() {
                 <DialogHeader>
                   <div className="flex items-center justify-between">
                     <div>
-                      <DialogTitle style={{ color: '#654321' }}>
+                      <DialogTitle style={{ color: '#8b795e' }}>
                         {selectedTable?.number} - Table Details
                       </DialogTitle>
                       <DialogDescription style={{ color: '#8b795e' }}>
@@ -659,12 +659,12 @@ export default function AdminOrdersPage() {
                   {/* Current Order */}
                   {getSelectedTableOrder() ? (
                     <div>
-                      <h3 className="font-semibold mb-3" style={{ color: '#654321' }}>Current Order</h3>
+                      <h3 className="font-semibold mb-3" style={{ color: '#8b795e' }}>Current Order</h3>
                       <Card style={{ backgroundColor: '#f8f9fa', borderColor: '#e5cf97' }}>
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between mb-3">
                             <div>
-                              <div className="font-medium" style={{ color: '#654321' }}>
+                              <div className="font-medium" style={{ color: '#8b795e' }}>
                                 {getSelectedTableOrder()?.customerName}
                               </div>
                               <div className="text-sm" style={{ color: '#8b795e' }}>
@@ -672,7 +672,7 @@ export default function AdminOrdersPage() {
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="font-bold" style={{ color: '#654321' }}>
+                              <div className="font-bold" style={{ color: '#8b795e' }}>
                                 ${getSelectedTableOrder()?.totalAmount.toFixed(2)}
                               </div>
                               <Badge className={getStatusColor(getSelectedTableOrder()?.status || '')}>
@@ -685,7 +685,7 @@ export default function AdminOrdersPage() {
                             {getSelectedTableOrder()?.items.map((item) => (
                               <div key={item.id} className="flex items-center justify-between p-2 rounded" style={{ backgroundColor: '#fff0cc' }}>
                                 <div>
-                                  <span className="font-medium" style={{ color: '#654321' }}>
+                                  <span className="font-medium" style={{ color: '#8b795e' }}>
                                     {item.quantity}x {item.name}
                                   </span>
                                   {item.modifications && (
@@ -724,7 +724,7 @@ export default function AdminOrdersPage() {
 
                   {/* Send Message */}
                   <div>
-                    <h3 className="font-semibold mb-3" style={{ color: '#654321' }}>Send Message to Table</h3>
+                    <h3 className="font-semibold mb-3" style={{ color: '#8b795e' }}>Send Message to Table</h3>
                     <div className="space-y-3">
                       <Textarea
                         placeholder="Type your message to the customer..."
@@ -744,7 +744,7 @@ export default function AdminOrdersPage() {
                         <Button 
                           variant="outline"
                           onClick={() => setShowTableDialog(false)}
-                          style={{ borderColor: '#8b795e', color: '#654321' }}
+                          style={{ borderColor: '#8b795e', color: '#8b795e' }}
                         >
                           <X className="h-4 w-4 mr-2" />
                           Close

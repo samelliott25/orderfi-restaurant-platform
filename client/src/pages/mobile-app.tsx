@@ -168,7 +168,7 @@ export default function MobileAppPage() {
                 <p className="text-sm opacity-90 mb-4">Free delivery on orders over $25</p>
                 <Button 
                   size="sm"
-                  className="bg-white text-[#654321] hover:bg-gray-100"
+                  className="bg-white text-[#8b795e] hover:bg-gray-100"
                 >
                   Order Now
                 </Button>
@@ -181,7 +181,7 @@ export default function MobileAppPage() {
 
       {/* Categories */}
       <div className="px-4 mb-4">
-        <h3 className="font-bold text-lg mb-3" style={{ color: '#654321' }}>Categories</h3>
+        <h3 className="font-bold text-lg mb-3" style={{ color: '#8b795e' }}>Categories</h3>
         <div className="flex gap-3 overflow-x-auto">
           {categories.map((category) => (
             <Button
@@ -192,7 +192,7 @@ export default function MobileAppPage() {
               className={`whitespace-nowrap ${
                 selectedCategory === category.id 
                   ? 'bg-[#8b795e] text-white' 
-                  : 'border-[#8b795e] text-[#654321] bg-white'
+                  : 'border-[#8b795e] text-[#8b795e] bg-white'
               }`}
             >
               <span className="mr-2">{category.icon}</span>
