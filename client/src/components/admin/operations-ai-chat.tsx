@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { VoiceInput } from "@/components/VoiceInput";
+import { DataProcessor, ProcessedData } from "@/services/dataProcessor";
 import { 
   Send, 
   Bot, 
@@ -60,7 +61,11 @@ const suggestedTasks = [
   }
 ];
 
-export function OperationsAiChat() {
+interface OperationsAiChatProps {
+  onDataUpdate?: (data: ProcessedData) => void;
+}
+
+export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -231,27 +236,56 @@ export function OperationsAiChat() {
     const uploadMessage: ChatMessage = {
       id: `upload-${Date.now()}`,
       type: 'user',
-      content: `Uploaded file: ${file.name} (${file.type})`,
+      content: `Uploaded file: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`,
       timestamp: new Date(),
     };
     setMessages(prev => [...prev, uploadMessage]);
 
-    // Simulate AI processing the file
+    // Process the file with AI
     setIsLoading(true);
     
-    setTimeout(() => {
+    try {
+      // Process the actual file data
+      const processedData = await DataProcessor.processFile(file);
+      
+      // Update dashboard with processed data
+      if (onDataUpdate) {
+        onDataUpdate(processedData);
+      }
+      
+      // Generate detailed AI response based on processed data
       const responseMessage: ChatMessage = {
         id: `ai-${Date.now()}`,
         type: 'assistant',
-        content: `I've analyzed your ${file.name} file. I'm now updating the dashboard with the data I found. This includes sales figures, order counts, and revenue metrics that I've extracted from your upload.`,
+        content: `I've analyzed your ${file.name} file and extracted the following insights:
+
+📊 **Sales Summary**
+• Total Orders: ${processedData.totalOrders}
+• Total Revenue: $${processedData.totalRevenue.toLocaleString()}
+• Average Order Value: $${processedData.averageOrderValue.toFixed(2)}
+• Completion Rate: ${processedData.completionRate.toFixed(1)}%
+
+📈 **Performance Metrics**
+• Completed Orders: ${processedData.completedOrders}
+• Pending Orders: ${processedData.pendingOrders}
+• Orders per Hour: ${processedData.ordersPerHour.toFixed(1)}
+
+I've updated your dashboard with this real data. Is there anything specific you'd like me to analyze or any actions you'd like me to take based on these insights?`,
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, responseMessage]);
-      setIsLoading(false);
       
-      // Trigger dashboard data update (this would normally parse the file)
-      // For now, we'll simulate updating the dashboard with new data
-    }, 2000);
+    } catch (error) {
+      const errorMessage: ChatMessage = {
+        id: `error-${Date.now()}`,
+        type: 'assistant',
+        content: `I encountered an issue processing your ${file.name} file. Please ensure it's a valid CSV, JSON, or text file with sales/order data. Would you like to try uploading a different file format?`,
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDragOver = (e: React.DragEvent) => {

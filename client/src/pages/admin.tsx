@@ -1,8 +1,15 @@
+import { useState } from "react";
 import { DashboardSidebar } from "@/components/admin/dashboard-sidebar";
 import { LiveSalesDashboard } from "@/components/admin/live-sales-dashboard";
 import { OperationsAiChat } from "@/components/admin/operations-ai-chat";
+import { ProcessedData } from "@/services/dataProcessor";
 
 export default function AdminPage() {
+  const [dashboardData, setDashboardData] = useState<ProcessedData | null>(null);
+
+  const handleDataUpdate = (data: ProcessedData) => {
+    setDashboardData(data);
+  };
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#ffe6b0' }}>
       {/* Mobile Layout - Vertical Stack */}
@@ -10,11 +17,11 @@ export default function AdminPage() {
         <DashboardSidebar />
         {/* Operations AI Chat - Always visible on mobile at top */}
         <div className="h-80 border-b border-border overflow-hidden flex flex-col">
-          <OperationsAiChat />
+          <OperationsAiChat onDataUpdate={handleDataUpdate} />
         </div>
         {/* Main Dashboard Content - Below chat on mobile */}
         <div className="overflow-auto">
-          <LiveSalesDashboard />
+          <LiveSalesDashboard uploadedData={dashboardData} />
         </div>
       </div>
 
@@ -27,12 +34,12 @@ export default function AdminPage() {
         
         {/* Main Dashboard Content - Scrollable */}
         <div className="flex-1 min-w-0 h-full overflow-y-auto">
-          <LiveSalesDashboard />
+          <LiveSalesDashboard uploadedData={dashboardData} />
         </div>
         
         {/* Operations AI Chat - Fixed Height */}
         <div className="w-80 flex-shrink-0 h-full relative z-10">
-          <OperationsAiChat />
+          <OperationsAiChat onDataUpdate={handleDataUpdate} />
         </div>
       </div>
     </div>
