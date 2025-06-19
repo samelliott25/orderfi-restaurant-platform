@@ -432,6 +432,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Project summary download route
+  app.get("/api/download/project-summary", (req, res) => {
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      
+      const htmlPath = path.join(process.cwd(), 'Mimi_Waitress_Project_Summary.html');
+      
+      if (!fs.existsSync(htmlPath)) {
+        return res.status(404).json({ message: "Project summary file not found" });
+      }
+      
+      res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Content-Disposition', 'attachment; filename="Mimi_Waitress_Project_Summary.html"');
+      
+      const fileStream = fs.createReadStream(htmlPath);
+      fileStream.pipe(res);
+    } catch (error) {
+      console.error("Download error:", error);
+      res.status(500).json({ message: "Failed to download file" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

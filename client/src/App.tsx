@@ -29,6 +29,7 @@ import AdminBlockchainPage from "@/pages/admin/blockchain";
 import HybridChatPage from "@/pages/hybrid-chat";
 import MobileAppPage from "@/pages/mobile-app";
 import ChatbotPrimaryPage from "@/pages/chatbot-primary";
+import { DownloadPage } from "@/pages/DownloadPage";
 
 function Router() {
   return (
@@ -53,6 +54,7 @@ function Router() {
       <Route path="/hybrid-chat" component={HybridChatPage} />
       <Route path="/mobile-app" component={MobileAppPage} />
       <Route path="/mimi-order" component={ChatbotPrimaryPage} />
+      <Route path="/download" component={DownloadPage} />
       <Route path="/legacy" component={CustomerPage} />
       <Route component={NotFound} />
     </Switch>
