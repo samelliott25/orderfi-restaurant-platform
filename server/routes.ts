@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { blockchainStorage } from "./blockchain/storage";
 import { processChatMessage, processOperationsAiMessage, processMenuImage, type ChatContext } from "./services/openai";
 import { 
   insertRestaurantSchema, 
