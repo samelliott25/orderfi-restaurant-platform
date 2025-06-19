@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import { useRef, useEffect } from "react";
 import { 
   BarChart3, 
   Menu, 
@@ -100,6 +101,44 @@ interface DashboardSidebarProps {
 
 export function DashboardSidebar({ className }: DashboardSidebarProps) {
   const [location] = useLocation();
+  const sidebarScrollRef = useRef<HTMLDivElement>(null);
+  const savedScrollPosition = useRef<number>(0);
+
+  // Preserve sidebar scroll position
+  useEffect(() => {
+    // Find the actual scrollable element within ScrollArea
+    const scrollElement = sidebarScrollRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
+    
+    if (scrollElement) {
+      // Restore position after navigation
+      const restorePosition = () => {
+        scrollElement.scrollTop = savedScrollPosition.current;
+      };
+      
+      setTimeout(restorePosition, 0);
+      setTimeout(restorePosition, 50);
+      setTimeout(restorePosition, 100);
+
+      // Add scroll event listener to continuously save position
+      const handleScroll = () => {
+        savedScrollPosition.current = scrollElement.scrollTop;
+      };
+
+      scrollElement.addEventListener('scroll', handleScroll, { passive: true });
+      
+      return () => {
+        scrollElement.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [location]);
+
+  // Save scroll position when scrolling
+  const handleSidebarScroll = () => {
+    const scrollElement = sidebarScrollRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
+    if (scrollElement) {
+      savedScrollPosition.current = scrollElement.scrollTop;
+    }
+  };
 
   const SidebarContent = () => (
     <div className="flex h-full flex-col border-r" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
@@ -112,7 +151,11 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       </div>
 
       {/* Navigation */}
-      <ScrollArea className="flex-1 px-4 py-6">
+      <ScrollArea 
+        className="flex-1 px-4 py-6"
+        ref={sidebarScrollRef}
+        onScroll={handleSidebarScroll}
+      >
         <div className="mb-4">
           <span className="text-xs font-medium uppercase tracking-wider px-3" style={{ color: '#8b795e' }}>General</span>
         </div>
