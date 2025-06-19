@@ -17,7 +17,6 @@ import {
   ChefHat
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const navigation = [
@@ -49,49 +48,49 @@ const navigation = [
     name: "Orders Management",
     href: "/admin/orders",
     icon: ShoppingCart,
-    description: "Queue, history, routing"
+    description: "Track, fulfill, customer service"
   },
   {
-    name: "Inventory Management", 
+    name: "Inventory Management",
     href: "/admin/inventory",
     icon: Package,
-    description: "Stock tracking, alerts"
+    description: "Stock levels, suppliers, alerts"
   },
   {
-    name: "Payments & Transactions",
+    name: "Payments & Billing",
     href: "/admin/payments",
     icon: CreditCard,
-    description: "Gateway, refunds, tips"
+    description: "Transactions, refunds, accounting"
   },
   {
-    name: "Marketing & Loyalty",
+    name: "Marketing & Promotions",
     href: "/admin/marketing",
     icon: Megaphone,
-    description: "Promos, campaigns, QR codes"
+    description: "Campaigns, discounts, loyalty"
   },
   {
     name: "Analytics & Reports",
     href: "/admin/analytics",
     icon: TrendingUp,
-    description: "Insights, heatmaps, trends"
+    description: "Performance metrics, insights"
   },
   {
-    name: "Settings & Config",
+    name: "Settings",
     href: "/admin/settings",
     icon: Settings,
-    description: "Restaurant, hours, branding"
+    description: "General configuration"
   },
   {
-    name: "Security & Audit",
+    name: "Security & Privacy",
     href: "/admin/security",
     icon: Shield,
-    description: "Logs, access, sessions"
+    description: "Data protection, compliance"
   },
   {
     name: "Integrations",
     href: "/admin/integrations",
     icon: Plug,
-    description: "APIs, webhooks, sync"
+    description: "Third-party connections"
   }
 ];
 
@@ -99,45 +98,47 @@ interface DashboardSidebarProps {
   className?: string;
 }
 
+const SIDEBAR_SCROLL_KEY = 'admin-sidebar-scroll-position';
+
 export function DashboardSidebar({ className }: DashboardSidebarProps) {
   const [location] = useLocation();
-  const sidebarScrollRef = useRef<HTMLDivElement>(null);
-  const savedScrollPosition = useRef<number>(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Preserve sidebar scroll position
+  // Save scroll position to localStorage
+  const saveScrollPosition = (scrollTop: number) => {
+    localStorage.setItem(SIDEBAR_SCROLL_KEY, scrollTop.toString());
+  };
+
+  // Get saved scroll position from localStorage
+  const getSavedScrollPosition = (): number => {
+    const saved = localStorage.getItem(SIDEBAR_SCROLL_KEY);
+    return saved ? parseInt(saved, 10) : 0;
+  };
+
+  // Restore scroll position after navigation
   useEffect(() => {
-    // Find the actual scrollable element within ScrollArea
-    const scrollElement = sidebarScrollRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
-    
-    if (scrollElement) {
-      // Restore position after navigation
-      const restorePosition = () => {
-        scrollElement.scrollTop = savedScrollPosition.current;
-      };
-      
-      setTimeout(restorePosition, 0);
-      setTimeout(restorePosition, 50);
-      setTimeout(restorePosition, 100);
+    const restoreScroll = () => {
+      if (scrollContainerRef.current) {
+        const savedPosition = getSavedScrollPosition();
+        scrollContainerRef.current.scrollTop = savedPosition;
+      }
+    };
 
-      // Add scroll event listener to continuously save position
-      const handleScroll = () => {
-        savedScrollPosition.current = scrollElement.scrollTop;
-      };
+    // Multiple attempts to restore scroll position
+    const timeouts = [0, 10, 50, 100, 200];
+    const timeoutIds = timeouts.map(delay => 
+      setTimeout(restoreScroll, delay)
+    );
 
-      scrollElement.addEventListener('scroll', handleScroll, { passive: true });
-      
-      return () => {
-        scrollElement.removeEventListener('scroll', handleScroll);
-      };
-    }
+    return () => {
+      timeoutIds.forEach(id => clearTimeout(id));
+    };
   }, [location]);
 
-  // Save scroll position when scrolling
-  const handleSidebarScroll = () => {
-    const scrollElement = sidebarScrollRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement;
-    if (scrollElement) {
-      savedScrollPosition.current = scrollElement.scrollTop;
-    }
+  // Handle scroll events to save position
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const scrollTop = e.currentTarget.scrollTop;
+    saveScrollPosition(scrollTop);
   };
 
   const SidebarContent = () => (
@@ -151,10 +152,10 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       </div>
 
       {/* Navigation */}
-      <ScrollArea 
-        className="flex-1 px-4 py-6"
-        ref={sidebarScrollRef}
-        onScroll={handleSidebarScroll}
+      <div 
+        className="flex-1 px-4 py-6 overflow-y-auto"
+        ref={scrollContainerRef}
+        onScroll={handleScroll}
       >
         <div className="mb-4">
           <span className="text-xs font-medium uppercase tracking-wider px-3" style={{ color: '#8b795e' }}>General</span>
@@ -205,7 +206,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
             );
           })}
         </nav>
-      </ScrollArea>
+      </div>
 
       {/* Bottom Actions */}
       <div className="border-t p-4" style={{ borderColor: '#e5cf97' }}>
