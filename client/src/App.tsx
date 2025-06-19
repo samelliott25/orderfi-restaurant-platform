@@ -21,6 +21,7 @@ import AdminInventoryPage from "@/pages/admin/inventory";
 import AdminPaymentsPage from "@/pages/admin/payments";
 import AdminMarketingPage from "@/pages/admin/marketing";
 import AdminAnalyticsPage from "@/pages/admin/analytics";
+import AdminRewardsPage from "@/pages/admin/rewards";
 import AdminSecurityPage from "@/pages/admin/security";
 import AdminIntegrationsPage from "@/pages/admin/integrations";
 
@@ -37,6 +38,7 @@ function Router() {
       <Route path="/admin/payments" component={AdminPaymentsPage} />
       <Route path="/admin/marketing" component={AdminMarketingPage} />
       <Route path="/admin/analytics" component={AdminAnalyticsPage} />
+      <Route path="/admin/rewards" component={AdminRewardsPage} />
       <Route path="/admin/settings" component={AdminSettingsPage} />
       <Route path="/admin/security" component={AdminSecurityPage} />
       <Route path="/admin/integrations" component={AdminIntegrationsPage} />

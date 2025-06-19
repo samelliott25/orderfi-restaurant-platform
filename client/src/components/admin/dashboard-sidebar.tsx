@@ -14,7 +14,8 @@ import {
   Shield, 
   Plug,
   Bot,
-  ChefHat
+  ChefHat,
+  DollarSign
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -73,6 +74,12 @@ const navigation = [
     href: "/admin/analytics",
     icon: TrendingUp,
     description: "Performance metrics, insights"
+  },
+  {
+    name: "$MIMI Rewards",
+    href: "/admin/rewards",
+    icon: DollarSign,
+    description: "Crypto earnings, network revenue"
   },
   {
     name: "Settings",
