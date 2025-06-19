@@ -500,7 +500,7 @@ export default function AdminAITrainingPage() {
           </TabsContent>
 
           <TabsContent value="advanced" className="space-y-6">
-            <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+            <Card style={{ backgroundColor: '#f5e6d3', borderColor: '#8b795e' }}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2" style={{ color: '#654321' }}>
                   <Settings className="h-5 w-5" />
