@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { 
   Clock, 
   ChefHat, 
@@ -17,7 +21,9 @@ import {
   Eye,
   Grid3X3,
   RefreshCcw,
-  Printer
+  Printer,
+  MessageSquare,
+  X
 } from "lucide-react";
 
 interface Order {
@@ -49,16 +55,27 @@ interface Table {
   status: 'available' | 'occupied' | 'needs-cleaning' | 'reserved';
   orderId?: string;
   position: { x: number; y: number };
+  waiterSection: number;
+}
+
+interface WaiterSection {
+  id: number;
+  name: string;
+  waiterName: string;
+  color: string;
 }
 
 export default function AdminOrdersPage() {
   const [currentView, setCurrentView] = useState<'kvs' | 'floor'>('kvs');
   const [selectedStation, setSelectedStation] = useState<string>('all');
+  const [selectedTable, setSelectedTable] = useState<Table | null>(null);
+  const [showTableDialog, setShowTableDialog] = useState(false);
+  const [messageText, setMessageText] = useState('');
 
   const [orders] = useState<Order[]>([
     {
       id: "ORD-001",
-      tableNumber: "T-12",
+      tableNumber: "T-2",
       customerName: "Smith Family",
       items: [
         { id: "1", name: "Caesar Salad", quantity: 2, status: "ready", station: "salad" },
@@ -74,7 +91,7 @@ export default function AdminOrdersPage() {
     },
     {
       id: "ORD-002",
-      tableNumber: "T-5",
+      tableNumber: "T-7",
       customerName: "Johnson",
       items: [
         { id: "4", name: "Margherita Pizza", quantity: 1, status: "preparing", station: "pizza" },
@@ -88,7 +105,7 @@ export default function AdminOrdersPage() {
     },
     {
       id: "ORD-003",
-      tableNumber: "T-8",
+      tableNumber: "T-10",
       customerName: "Davis Party",
       items: [
         { id: "6", name: "Buffalo Wings", quantity: 2, status: "ready", station: "fryer" },
@@ -100,22 +117,100 @@ export default function AdminOrdersPage() {
       estimatedTime: 0,
       priority: "urgent",
       totalAmount: 89.25
+    },
+    {
+      id: "ORD-004",
+      tableNumber: "T-15",
+      customerName: "Wilson",
+      items: [
+        { id: "9", name: "Fish & Chips", quantity: 1, status: "preparing", station: "fryer" },
+        { id: "10", name: "Garden Salad", quantity: 1, status: "ready", station: "salad" }
+      ],
+      status: "preparing",
+      orderTime: "8:15 PM",
+      estimatedTime: 6,
+      priority: "normal",
+      totalAmount: 28.50
+    },
+    {
+      id: "ORD-005",
+      tableNumber: "T-23",
+      customerName: "Martinez",
+      items: [
+        { id: "11", name: "Steak Dinner", quantity: 1, status: "preparing", station: "grill" },
+        { id: "12", name: "Red Wine", quantity: 1, status: "ready", station: "bar" }
+      ],
+      status: "preparing",
+      orderTime: "8:20 PM",
+      estimatedTime: 15,
+      priority: "normal",
+      totalAmount: 45.00
+    },
+    {
+      id: "ORD-006",
+      tableNumber: "T-27",
+      customerName: "Thompson Family",
+      items: [
+        { id: "13", name: "Family Pizza", quantity: 1, status: "preparing", station: "pizza" },
+        { id: "14", name: "Garlic Bread", quantity: 2, status: "ready", station: "pizza" },
+        { id: "15", name: "Soda", quantity: 4, status: "ready", station: "bar" }
+      ],
+      status: "preparing",
+      orderTime: "7:55 PM",
+      estimatedTime: 10,
+      priority: "normal",
+      totalAmount: 52.75
     }
   ]);
 
+  const [waiterSections] = useState<WaiterSection[]>([
+    { id: 1, name: "Section A", waiterName: "Sarah Johnson", color: "#e8f5e8" },
+    { id: 2, name: "Section B", waiterName: "Mike Chen", color: "#e8f0ff" },
+    { id: 3, name: "Section C", waiterName: "Emma Davis", color: "#fef3c7" },
+    { id: 4, name: "Section D", waiterName: "James Wilson", color: "#fee2e2" },
+    { id: 5, name: "Section E", waiterName: "Lisa Rodriguez", color: "#f3e8ff" }
+  ]);
+
   const [tables] = useState<Table[]>([
-    { id: "1", number: "T-1", seats: 2, status: "available", position: { x: 50, y: 100 } },
-    { id: "2", number: "T-2", seats: 4, status: "available", position: { x: 200, y: 100 } },
-    { id: "3", number: "T-3", seats: 2, status: "available", position: { x: 350, y: 100 } },
-    { id: "4", number: "T-4", seats: 6, status: "available", position: { x: 500, y: 100 } },
-    { id: "5", number: "T-5", seats: 4, status: "occupied", orderId: "ORD-002", position: { x: 100, y: 250 } },
-    { id: "6", number: "T-6", seats: 2, status: "available", position: { x: 300, y: 250 } },
-    { id: "7", number: "T-7", seats: 4, status: "needs-cleaning", position: { x: 450, y: 250 } },
-    { id: "8", number: "T-8", seats: 8, status: "occupied", orderId: "ORD-003", position: { x: 150, y: 400 } },
-    { id: "9", number: "T-9", seats: 2, status: "reserved", position: { x: 400, y: 400 } },
-    { id: "10", number: "T-10", seats: 4, status: "available", position: { x: 250, y: 550 } },
-    { id: "11", number: "T-11", seats: 6, status: "available", position: { x: 450, y: 550 } },
-    { id: "12", number: "T-12", seats: 4, status: "occupied", orderId: "ORD-001", position: { x: 50, y: 550 } }
+    // Section A (Sarah Johnson) - Tables 1-6
+    { id: "1", number: "T-1", seats: 2, status: "available", position: { x: 50, y: 80 }, waiterSection: 1 },
+    { id: "2", number: "T-2", seats: 4, status: "occupied", orderId: "ORD-001", position: { x: 150, y: 80 }, waiterSection: 1 },
+    { id: "3", number: "T-3", seats: 2, status: "available", position: { x: 250, y: 80 }, waiterSection: 1 },
+    { id: "4", number: "T-4", seats: 4, status: "needs-cleaning", position: { x: 50, y: 150 }, waiterSection: 1 },
+    { id: "5", number: "T-5", seats: 2, status: "reserved", position: { x: 150, y: 150 }, waiterSection: 1 },
+    { id: "6", number: "T-6", seats: 6, status: "available", position: { x: 250, y: 150 }, waiterSection: 1 },
+    
+    // Section B (Mike Chen) - Tables 7-12
+    { id: "7", number: "T-7", seats: 4, status: "occupied", orderId: "ORD-002", position: { x: 400, y: 80 }, waiterSection: 2 },
+    { id: "8", number: "T-8", seats: 2, status: "available", position: { x: 500, y: 80 }, waiterSection: 2 },
+    { id: "9", number: "T-9", seats: 4, status: "available", position: { x: 600, y: 80 }, waiterSection: 2 },
+    { id: "10", number: "T-10", seats: 6, status: "occupied", orderId: "ORD-003", position: { x: 400, y: 150 }, waiterSection: 2 },
+    { id: "11", number: "T-11", seats: 2, status: "available", position: { x: 500, y: 150 }, waiterSection: 2 },
+    { id: "12", number: "T-12", seats: 4, status: "available", position: { x: 600, y: 150 }, waiterSection: 2 },
+    
+    // Section C (Emma Davis) - Tables 13-18
+    { id: "13", number: "T-13", seats: 2, status: "available", position: { x: 50, y: 280 }, waiterSection: 3 },
+    { id: "14", number: "T-14", seats: 4, status: "available", position: { x: 150, y: 280 }, waiterSection: 3 },
+    { id: "15", number: "T-15", seats: 2, status: "occupied", position: { x: 250, y: 280 }, waiterSection: 3 },
+    { id: "16", number: "T-16", seats: 6, status: "available", position: { x: 50, y: 350 }, waiterSection: 3 },
+    { id: "17", number: "T-17", seats: 4, status: "needs-cleaning", position: { x: 150, y: 350 }, waiterSection: 3 },
+    { id: "18", number: "T-18", seats: 2, status: "available", position: { x: 250, y: 350 }, waiterSection: 3 },
+    
+    // Section D (James Wilson) - Tables 19-24
+    { id: "19", number: "T-19", seats: 4, status: "reserved", position: { x: 400, y: 280 }, waiterSection: 4 },
+    { id: "20", number: "T-20", seats: 2, status: "available", position: { x: 500, y: 280 }, waiterSection: 4 },
+    { id: "21", number: "T-21", seats: 4, status: "available", position: { x: 600, y: 280 }, waiterSection: 4 },
+    { id: "22", number: "T-22", seats: 6, status: "available", position: { x: 400, y: 350 }, waiterSection: 4 },
+    { id: "23", number: "T-23", seats: 2, status: "occupied", position: { x: 500, y: 350 }, waiterSection: 4 },
+    { id: "24", number: "T-24", seats: 4, status: "available", position: { x: 600, y: 350 }, waiterSection: 4 },
+    
+    // Section E (Lisa Rodriguez) - Tables 25-30
+    { id: "25", number: "T-25", seats: 2, status: "available", position: { x: 150, y: 480 }, waiterSection: 5 },
+    { id: "26", number: "T-26", seats: 4, status: "available", position: { x: 250, y: 480 }, waiterSection: 5 },
+    { id: "27", number: "T-27", seats: 6, status: "occupied", position: { x: 350, y: 480 }, waiterSection: 5 },
+    { id: "28", number: "T-28", seats: 2, status: "available", position: { x: 450, y: 480 }, waiterSection: 5 },
+    { id: "29", number: "T-29", seats: 4, status: "needs-cleaning", position: { x: 550, y: 480 }, waiterSection: 5 },
+    { id: "30", number: "T-30", seats: 2, status: "available", position: { x: 350, y: 550 }, waiterSection: 5 }
   ]);
 
   const getStatusColor = (status: string) => {
@@ -159,6 +254,28 @@ export default function AdminOrdersPage() {
     : orders.filter(order => 
         order.items.some(item => item.station === selectedStation)
       );
+
+  const handleTableClick = (table: Table) => {
+    setSelectedTable(table);
+    setShowTableDialog(true);
+  };
+
+  const handleSendMessage = () => {
+    // In a real app, this would send the message to the customer
+    console.log(`Sending message to ${selectedTable?.number}: ${messageText}`);
+    setMessageText('');
+    setShowTableDialog(false);
+  };
+
+  const getSelectedTableOrder = () => {
+    if (!selectedTable) return null;
+    return orders.find(order => order.id === selectedTable.orderId);
+  };
+
+  const getSectionColor = (sectionId: number) => {
+    const section = waiterSections.find(s => s.id === sectionId);
+    return section?.color || '#f3f4f6';
+  };
 
   return (
     <AdminLayout>
@@ -393,29 +510,74 @@ export default function AdminOrdersPage() {
           </div>
         ) : (
           <div className="space-y-6">
+            {/* Waiter Sections Overview */}
+            <div className="grid grid-cols-5 gap-4">
+              {waiterSections.map((section) => {
+                const sectionTables = tables.filter(t => t.waiterSection === section.id);
+                const occupiedTables = sectionTables.filter(t => t.status === 'occupied').length;
+                return (
+                  <Card key={section.id} style={{ backgroundColor: section.color, borderColor: '#e5cf97' }}>
+                    <CardContent className="p-3">
+                      <div className="text-center">
+                        <h3 className="font-semibold text-sm" style={{ color: '#654321' }}>
+                          {section.name}
+                        </h3>
+                        <p className="text-xs" style={{ color: '#8b795e' }}>
+                          {section.waiterName}
+                        </p>
+                        <p className="text-xs mt-1" style={{ color: '#8b795e' }}>
+                          {occupiedTables}/{sectionTables.length} occupied
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+
             {/* Floor Plan View */}
             <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
               <CardHeader>
                 <CardTitle style={{ color: '#654321' }}>Restaurant Floor Plan</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
-                  Interactive table layout with order status
+                  30 tables organized in 5 waiter sections - Click any table for details
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="relative w-full h-[600px] border rounded-lg overflow-hidden" style={{ backgroundColor: '#f8f9fa' }}>
+                <div className="relative w-full h-[700px] border rounded-lg overflow-hidden" style={{ backgroundColor: '#f8f9fa' }}>
+                  {/* Section Labels */}
+                  {waiterSections.map((section) => (
+                    <div key={`label-${section.id}`} className="absolute font-semibold text-lg" style={{ 
+                      color: '#654321',
+                      left: section.id <= 2 ? (section.id === 1 ? '150px' : '500px') : 
+                            section.id <= 4 ? (section.id === 3 ? '150px' : '500px') : '350px',
+                      top: section.id <= 2 ? '40px' : section.id <= 4 ? '240px' : '440px'
+                    }}>
+                      {section.name} - {section.waiterName}
+                    </div>
+                  ))}
+
                   {tables.map((table) => {
                     const tableOrder = orders.find(order => order.id === table.orderId);
+                    const sectionColor = getSectionColor(table.waiterSection);
+                    
                     return (
                       <div
                         key={table.id}
-                        className="absolute rounded-lg border-2 flex items-center justify-center cursor-pointer transition-all hover:scale-105"
+                        className="absolute rounded-lg border-2 flex items-center justify-center cursor-pointer transition-all hover:scale-110 hover:shadow-lg"
+                        onClick={() => handleTableClick(table)}
                         style={{
                           left: `${table.position.x}px`,
                           top: `${table.position.y}px`,
                           width: table.seats <= 2 ? '60px' : table.seats <= 4 ? '80px' : '100px',
                           height: table.seats <= 2 ? '60px' : table.seats <= 4 ? '80px' : '100px',
-                          backgroundColor: getTableStatusColor(table.status),
-                          borderColor: table.status === 'occupied' ? '#f59e0b' : '#d1d5db'
+                          backgroundColor: table.status === 'occupied' ? '#fef3c7' : 
+                                         table.status === 'needs-cleaning' ? '#fee2e2' :
+                                         table.status === 'reserved' ? '#e0e7ff' : sectionColor,
+                          borderColor: table.status === 'occupied' ? '#f59e0b' : 
+                                     table.status === 'needs-cleaning' ? '#ef4444' :
+                                     table.status === 'reserved' ? '#6366f1' : '#d1d5db',
+                          borderWidth: table.status === 'occupied' ? '3px' : '2px'
                         }}
                       >
                         <div className="text-center">
@@ -437,8 +599,8 @@ export default function AdminOrdersPage() {
                     );
                   })}
                   
-                  {/* Legend */}
-                  <div className="absolute bottom-4 right-4 p-4 rounded-lg border" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+                  {/* Legends */}
+                  <div className="absolute bottom-4 left-4 p-4 rounded-lg border" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
                     <h4 className="font-semibold mb-2 text-sm" style={{ color: '#654321' }}>Table Status</h4>
                     <div className="space-y-1 text-xs">
                       <div className="flex items-center gap-2">
@@ -459,9 +621,141 @@ export default function AdminOrdersPage() {
                       </div>
                     </div>
                   </div>
+
+                  <div className="absolute bottom-4 right-4 p-4 rounded-lg border" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+                    <h4 className="font-semibold mb-2 text-sm" style={{ color: '#654321' }}>Waiter Sections</h4>
+                    <div className="space-y-1 text-xs">
+                      {waiterSections.map((section) => (
+                        <div key={section.id} className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded border" style={{ backgroundColor: section.color }}></div>
+                          <span style={{ color: '#8b795e' }}>{section.name} - {section.waiterName}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
+
+            {/* Table Details Dialog */}
+            <Dialog open={showTableDialog} onOpenChange={setShowTableDialog}>
+              <DialogContent className="max-w-2xl" style={{ backgroundColor: '#fff0cc' }}>
+                <DialogHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <DialogTitle style={{ color: '#654321' }}>
+                        {selectedTable?.number} - Table Details
+                      </DialogTitle>
+                      <DialogDescription style={{ color: '#8b795e' }}>
+                        {selectedTable?.seats} seats • {waiterSections.find(s => s.id === selectedTable?.waiterSection)?.waiterName}
+                      </DialogDescription>
+                    </div>
+                    <Badge className={selectedTable ? getStatusColor(selectedTable.status) : ''}>
+                      {selectedTable?.status}
+                    </Badge>
+                  </div>
+                </DialogHeader>
+                
+                <div className="space-y-6">
+                  {/* Current Order */}
+                  {getSelectedTableOrder() ? (
+                    <div>
+                      <h3 className="font-semibold mb-3" style={{ color: '#654321' }}>Current Order</h3>
+                      <Card style={{ backgroundColor: '#f8f9fa', borderColor: '#e5cf97' }}>
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <div>
+                              <div className="font-medium" style={{ color: '#654321' }}>
+                                {getSelectedTableOrder()?.customerName}
+                              </div>
+                              <div className="text-sm" style={{ color: '#8b795e' }}>
+                                Order Time: {getSelectedTableOrder()?.orderTime}
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <div className="font-bold" style={{ color: '#654321' }}>
+                                ${getSelectedTableOrder()?.totalAmount.toFixed(2)}
+                              </div>
+                              <Badge className={getStatusColor(getSelectedTableOrder()?.status || '')}>
+                                {getSelectedTableOrder()?.status}
+                              </Badge>
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            {getSelectedTableOrder()?.items.map((item) => (
+                              <div key={item.id} className="flex items-center justify-between p-2 rounded" style={{ backgroundColor: '#fff0cc' }}>
+                                <div>
+                                  <span className="font-medium" style={{ color: '#654321' }}>
+                                    {item.quantity}x {item.name}
+                                  </span>
+                                  {item.modifications && (
+                                    <div className="text-xs" style={{ color: '#8b795e' }}>
+                                      {item.modifications}
+                                    </div>
+                                  )}
+                                </div>
+                                <Badge className={`text-xs ${getStatusColor(item.status)}`}>
+                                  {item.status}
+                                </Badge>
+                              </div>
+                            ))}
+                          </div>
+                          
+                          {getSelectedTableOrder()?.specialInstructions && (
+                            <div className="mt-3 p-2 rounded" style={{ backgroundColor: '#fef3c7', border: '1px solid #f59e0b' }}>
+                              <div className="flex items-start gap-2">
+                                <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5" />
+                                <div>
+                                  <div className="font-medium text-sm text-yellow-800">Special Instructions</div>
+                                  <div className="text-xs text-yellow-700">{getSelectedTableOrder()?.specialInstructions}</div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ) : (
+                    <div className="text-center p-8" style={{ color: '#8b795e' }}>
+                      <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                      <p>No active order for this table</p>
+                    </div>
+                  )}
+
+                  {/* Send Message */}
+                  <div>
+                    <h3 className="font-semibold mb-3" style={{ color: '#654321' }}>Send Message to Table</h3>
+                    <div className="space-y-3">
+                      <Textarea
+                        placeholder="Type your message to the customer..."
+                        value={messageText}
+                        onChange={(e) => setMessageText(e.target.value)}
+                        className="min-h-[100px]"
+                      />
+                      <div className="flex gap-2">
+                        <Button 
+                          className="flex-1 bg-[#8b795e] hover:bg-[#6d5d4f] text-white"
+                          onClick={handleSendMessage}
+                          disabled={!messageText.trim()}
+                        >
+                          <MessageSquare className="h-4 w-4 mr-2" />
+                          Send Message
+                        </Button>
+                        <Button 
+                          variant="outline"
+                          onClick={() => setShowTableDialog(false)}
+                          style={{ borderColor: '#8b795e', color: '#654321' }}
+                        >
+                          <X className="h-4 w-4 mr-2" />
+                          Close
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         )}
       </div>
