@@ -193,6 +193,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Menu duplicate confirmation endpoint
+  app.post("/api/restaurants/:id/menu/confirm-duplicates", async (req, res) => {
+    try {
+      const restaurantId = parseInt(req.params.id);
+      const { confirmedItems } = req.body;
+      
+      const addedItems = [];
+      for (const item of confirmedItems) {
+        try {
+          const properCategory = menuCategorizationService.categorizeMenuItem(
+            item.name,
+            item.description || "",
+            item.price || "0"
+          );
+          
+          const menuItem = await storage.createMenuItem({
+            restaurantId,
+            name: item.name,
+            description: item.description || "",
+            price: item.price || "0",
+            category: properCategory,
+            tags: [...(item.tags || []), ...(item.allergens || [])],
+            isAvailable: true
+          });
+          addedItems.push(menuItem);
+          
+          console.log(`Confirmed and added duplicate: "${item.name}" to category "${properCategory}"`);
+        } catch (error) {
+          console.error(`Failed to add confirmed duplicate ${item.name}:`, error);
+        }
+      }
+      
+      res.json({
+        message: `Successfully added ${addedItems.length} confirmed duplicate items`,
+        items: addedItems
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to add confirmed duplicates" });
+    }
+  });
+
   app.post("/api/restaurants/:id/menu/validate-categories", async (req, res) => {
     try {
       const restaurantId = parseInt(req.params.id);

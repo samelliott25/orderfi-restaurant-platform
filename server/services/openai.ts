@@ -315,7 +315,7 @@ Always be professional, autonomous, and action-oriented. For text-only requests,
 export async function extractMenuItemsFromImage(
   imageBuffer: Buffer,
   restaurantId: number
-): Promise<{ items: any[], message: string }> {
+): Promise<{ items: any[], message: string, duplicates?: any[] }> {
   try {
     const base64Image = imageBuffer.toString('base64');
     
@@ -390,10 +390,32 @@ export async function extractMenuItemsFromImage(
       }
     }
     
-    // Add items to restaurant menu via storage with proper categorization
+    // Check for duplicates and add items to restaurant menu
     const addedItems = [];
+    const duplicates = [];
+    const existingItems = await storage.getMenuItems(restaurantId);
+    
     for (const item of result.items || []) {
       try {
+        // Check for duplicates based on name similarity
+        const isDuplicate = existingItems.some(existing => 
+          existing.name.toLowerCase().trim() === item.name.toLowerCase().trim() ||
+          // Check for very similar names (fuzzy matching)
+          (existing.name.toLowerCase().includes(item.name.toLowerCase().slice(0, -1)) ||
+           item.name.toLowerCase().includes(existing.name.toLowerCase().slice(0, -1)))
+        );
+        
+        if (isDuplicate) {
+          duplicates.push({
+            new: item,
+            existing: existingItems.find(existing => 
+              existing.name.toLowerCase().includes(item.name.toLowerCase().slice(0, -2)) ||
+              item.name.toLowerCase().includes(existing.name.toLowerCase().slice(0, -2))
+            )
+          });
+          continue;
+        }
+        
         // Use the categorization service to ensure proper category assignment
         const properCategory = menuCategorizationService.categorizeMenuItem(
           item.name,
@@ -418,16 +440,32 @@ export async function extractMenuItemsFromImage(
       }
     }
     
+    // Build response message including duplicate information
+    let message = `Successfully extracted and added ${addedItems.length} menu items`;
+    if (addedItems.length > 0) {
+      message += `: ${addedItems.map(i => i.name).join(', ')}`;
+    }
+    
+    if (duplicates.length > 0) {
+      message += `\n\nFound ${duplicates.length} potential duplicate(s):`;
+      duplicates.forEach(dup => {
+        message += `\n- "${dup.new.name}" (similar to existing "${dup.existing?.name}")`;
+      });
+      message += `\n\nWould you like me to add these potential duplicates anyway? Please confirm which ones to add.`;
+    }
+    
     return {
       items: addedItems,
-      message: `Successfully extracted and added ${addedItems.length} menu items: ${addedItems.map(i => i.name).join(', ')}`
+      duplicates: duplicates,
+      message: message
     };
     
   } catch (error) {
     console.error("Menu extraction error:", error);
     return {
       items: [],
-      message: "Failed to extract menu items from image"
+      message: "Failed to extract menu items from image",
+      duplicates: []
     };
   }
 }
