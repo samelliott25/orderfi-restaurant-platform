@@ -1,0 +1,21 @@
+order_id,customer_name,status,total_amount,items_count,order_date,completion_time
+1001,John Smith,completed,45.50,3,2025-06-19,18
+1002,Sarah Johnson,completed,32.75,2,2025-06-19,15
+1003,Mike Davis,pending,67.20,4,2025-06-19,5
+1004,Lisa Wilson,completed,28.90,2,2025-06-19,12
+1005,Tom Brown,completed,51.25,3,2025-06-19,22
+1006,Emma Garcia,cancelled,39.80,2,2025-06-19,0
+1007,David Miller,completed,44.15,3,2025-06-19,16
+1008,Amy Taylor,pending,22.50,1,2025-06-19,8
+1009,Chris Anderson,completed,58.75,4,2025-06-19,19
+1010,Maria Rodriguez,completed,36.40,2,2025-06-19,14
+1011,James Wilson,completed,42.90,3,2025-06-19,17
+1012,Jennifer Lee,processing,31.60,2,2025-06-19,10
+1013,Robert Johnson,completed,48.20,3,2025-06-19,20
+1014,Linda Martinez,completed,25.85,1,2025-06-19,11
+1015,Kevin Thompson,pending,55.70,4,2025-06-19,3
+1016,Michelle Davis,completed,37.95,2,2025-06-19,13
+1017,Mark Garcia,completed,49.30,3,2025-06-19,21
+1018,Ashley Brown,cancelled,41.25,3,2025-06-19,0
+1019,Daniel Miller,completed,33.80,2,2025-06-19,15
+1020,Jessica Taylor,processing,52.15,3,2025-06-19,7

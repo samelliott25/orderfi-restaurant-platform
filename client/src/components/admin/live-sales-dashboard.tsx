@@ -39,7 +39,11 @@ interface LiveOrder {
   customerName?: string;
 }
 
-export function LiveSalesDashboard() {
+interface LiveSalesDashboardProps {
+  uploadedData?: ProcessedData | null;
+}
+
+export function LiveSalesDashboard({ uploadedData }: LiveSalesDashboardProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [liveOrders, setLiveOrders] = useState<LiveOrder[]>([]);
   const [todayStats, setTodayStats] = useState<OrderStats>({
@@ -52,6 +56,22 @@ export function LiveSalesDashboard() {
     completionRate: 89.4,
     ordersPerHour: 12.3
   });
+
+  // Update stats when uploaded data is available
+  useEffect(() => {
+    if (uploadedData) {
+      setTodayStats({
+        totalOrders: uploadedData.totalOrders,
+        completedOrders: uploadedData.completedOrders,
+        cancelledOrders: uploadedData.cancelledOrders,
+        pendingOrders: uploadedData.pendingOrders,
+        totalRevenue: uploadedData.totalRevenue,
+        averageOrderValue: uploadedData.averageOrderValue,
+        completionRate: uploadedData.completionRate,
+        ordersPerHour: uploadedData.ordersPerHour
+      });
+    }
+  }, [uploadedData]);
 
   // Collapsible section states
   const [overviewOpen, setOverviewOpen] = useState(true);
@@ -119,8 +139,17 @@ export function LiveSalesDashboard() {
         <div>
           <h1 className="text-3xl font-semibold text-foreground mb-3">Good morning, Chef</h1>
           <p className="text-muted-foreground text-base leading-relaxed max-w-2xl">
-            Welcome to your restaurant dashboard. You have 45 orders waiting for attention today with one live alert in your calendar.
+            {uploadedData ? 
+              'Dashboard updated with your uploaded data. Real-time metrics are now showing from your business files.' :
+              'Welcome to your restaurant dashboard. You have 45 orders waiting for attention today with one live alert in your calendar.'
+            }
           </p>
+          {uploadedData && (
+            <div className="mt-2 flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-sm font-medium text-green-600">Live data from uploaded files</span>
+            </div>
+          )}
         </div>
         <div className="flex items-center space-x-6">
           <button className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
