@@ -42,7 +42,7 @@ export default function HomePage() {
               </div>
             </div>
             
-            {/* Ordering Options */}
+            {/* Authentication Options */}
             <div className="flex flex-col space-y-3 w-full max-w-xs">
               <Button
                 asChild
@@ -53,7 +53,7 @@ export default function HomePage() {
               >
                 <Link href="/chatbot-primary">
                   <UserCheck className="mr-2 h-5 w-5" />
-                  Chat with Mimi
+                  Sign In / Sign Up
                 </Link>
               </Button>
               
@@ -67,9 +67,9 @@ export default function HomePage() {
                   backgroundColor: '#fff0cc'
                 }}
               >
-                <Link href="/mobile-app">
+                <Link href="/chatbot-primary">
                   <User className="mr-2 h-5 w-5" />
-                  Browse Menu
+                  Order as Guest
                 </Link>
               </Button>
             </div>
