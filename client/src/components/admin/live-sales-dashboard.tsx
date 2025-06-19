@@ -134,35 +134,7 @@ export function LiveSalesDashboard({ uploadedData }: LiveSalesDashboardProps) {
 
   return (
     <div className="p-8 space-y-6" style={{ backgroundColor: '#ffe6b0' }}>
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-semibold text-foreground mb-3">Good morning, Chef</h1>
-          <p className="text-muted-foreground text-base leading-relaxed max-w-2xl">
-            {uploadedData ? 
-              'Dashboard updated with your uploaded data. Real-time metrics are now showing from your business files.' :
-              'Welcome to your restaurant dashboard. You have 45 orders waiting for attention today with one live alert in your calendar.'
-            }
-          </p>
-          {uploadedData && (
-            <div className="mt-2 flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium text-green-600">Live data from uploaded files</span>
-            </div>
-          )}
-        </div>
-        <div className="flex items-center space-x-6">
-          <button className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            View all
-          </button>
-          <div className="flex items-center space-x-2 bg-accent/10 px-3 py-2 rounded-full">
-            <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-accent">Live</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Key Metrics - Collapsible */}
+      {/* Today's Overview - Moved to top */}
       <Collapsible open={overviewOpen} onOpenChange={setOverviewOpen}>
         <CollapsibleTrigger className="flex items-center justify-between w-full text-left p-4 rounded-lg border hover:opacity-80 transition-colors" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
           <h2 className="text-xl font-semibold" style={{ color: '#654321' }}>Today's Overview</h2>
