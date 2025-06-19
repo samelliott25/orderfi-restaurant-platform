@@ -55,13 +55,12 @@ interface Table {
   status: 'available' | 'occupied' | 'needs-cleaning' | 'reserved';
   orderId?: string;
   position: { x: number; y: number };
-  waiterSection: number;
+  zone: number;
 }
 
-interface WaiterSection {
+interface TableZone {
   id: number;
   name: string;
-  waiterName: string;
   color: string;
 }
 
@@ -163,54 +162,54 @@ export default function AdminOrdersPage() {
     }
   ]);
 
-  const [waiterSections] = useState<WaiterSection[]>([
-    { id: 1, name: "Section A", waiterName: "Sarah Johnson", color: "#e8f5e8" },
-    { id: 2, name: "Section B", waiterName: "Mike Chen", color: "#e8f0ff" },
-    { id: 3, name: "Section C", waiterName: "Emma Davis", color: "#fef3c7" },
-    { id: 4, name: "Section D", waiterName: "James Wilson", color: "#fee2e2" },
-    { id: 5, name: "Section E", waiterName: "Lisa Rodriguez", color: "#f3e8ff" }
+  const [tableZones] = useState<TableZone[]>([
+    { id: 1, name: "Zone 1", color: "#e8f5e8" },
+    { id: 2, name: "Zone 2", color: "#e8f0ff" },
+    { id: 3, name: "Zone 3", color: "#fef3c7" },
+    { id: 4, name: "Zone 4", color: "#fee2e2" },
+    { id: 5, name: "Zone 5", color: "#f3e8ff" }
   ]);
 
   const [tables] = useState<Table[]>([
-    // Section A (Sarah Johnson) - Tables 1-6
-    { id: "1", number: "T-1", seats: 2, status: "available", position: { x: 50, y: 80 }, waiterSection: 1 },
-    { id: "2", number: "T-2", seats: 4, status: "occupied", orderId: "ORD-001", position: { x: 150, y: 80 }, waiterSection: 1 },
-    { id: "3", number: "T-3", seats: 2, status: "available", position: { x: 250, y: 80 }, waiterSection: 1 },
-    { id: "4", number: "T-4", seats: 4, status: "needs-cleaning", position: { x: 50, y: 150 }, waiterSection: 1 },
-    { id: "5", number: "T-5", seats: 2, status: "reserved", position: { x: 150, y: 150 }, waiterSection: 1 },
-    { id: "6", number: "T-6", seats: 6, status: "available", position: { x: 250, y: 150 }, waiterSection: 1 },
+    // Zone 1 - Tables 1-6
+    { id: "1", number: "T-1", seats: 2, status: "available", position: { x: 50, y: 80 }, zone: 1 },
+    { id: "2", number: "T-2", seats: 4, status: "occupied", orderId: "ORD-001", position: { x: 150, y: 80 }, zone: 1 },
+    { id: "3", number: "T-3", seats: 2, status: "available", position: { x: 250, y: 80 }, zone: 1 },
+    { id: "4", number: "T-4", seats: 4, status: "needs-cleaning", position: { x: 50, y: 150 }, zone: 1 },
+    { id: "5", number: "T-5", seats: 2, status: "reserved", position: { x: 150, y: 150 }, zone: 1 },
+    { id: "6", number: "T-6", seats: 6, status: "available", position: { x: 250, y: 150 }, zone: 1 },
     
-    // Section B (Mike Chen) - Tables 7-12
-    { id: "7", number: "T-7", seats: 4, status: "occupied", orderId: "ORD-002", position: { x: 400, y: 80 }, waiterSection: 2 },
-    { id: "8", number: "T-8", seats: 2, status: "available", position: { x: 500, y: 80 }, waiterSection: 2 },
-    { id: "9", number: "T-9", seats: 4, status: "available", position: { x: 600, y: 80 }, waiterSection: 2 },
-    { id: "10", number: "T-10", seats: 6, status: "occupied", orderId: "ORD-003", position: { x: 400, y: 150 }, waiterSection: 2 },
-    { id: "11", number: "T-11", seats: 2, status: "available", position: { x: 500, y: 150 }, waiterSection: 2 },
-    { id: "12", number: "T-12", seats: 4, status: "available", position: { x: 600, y: 150 }, waiterSection: 2 },
+    // Zone 2 - Tables 7-12
+    { id: "7", number: "T-7", seats: 4, status: "occupied", orderId: "ORD-002", position: { x: 400, y: 80 }, zone: 2 },
+    { id: "8", number: "T-8", seats: 2, status: "available", position: { x: 500, y: 80 }, zone: 2 },
+    { id: "9", number: "T-9", seats: 4, status: "available", position: { x: 600, y: 80 }, zone: 2 },
+    { id: "10", number: "T-10", seats: 6, status: "occupied", orderId: "ORD-003", position: { x: 400, y: 150 }, zone: 2 },
+    { id: "11", number: "T-11", seats: 2, status: "available", position: { x: 500, y: 150 }, zone: 2 },
+    { id: "12", number: "T-12", seats: 4, status: "available", position: { x: 600, y: 150 }, zone: 2 },
     
-    // Section C (Emma Davis) - Tables 13-18
-    { id: "13", number: "T-13", seats: 2, status: "available", position: { x: 50, y: 280 }, waiterSection: 3 },
-    { id: "14", number: "T-14", seats: 4, status: "available", position: { x: 150, y: 280 }, waiterSection: 3 },
-    { id: "15", number: "T-15", seats: 2, status: "occupied", position: { x: 250, y: 280 }, waiterSection: 3 },
-    { id: "16", number: "T-16", seats: 6, status: "available", position: { x: 50, y: 350 }, waiterSection: 3 },
-    { id: "17", number: "T-17", seats: 4, status: "needs-cleaning", position: { x: 150, y: 350 }, waiterSection: 3 },
-    { id: "18", number: "T-18", seats: 2, status: "available", position: { x: 250, y: 350 }, waiterSection: 3 },
+    // Zone 3 - Tables 13-18
+    { id: "13", number: "T-13", seats: 2, status: "available", position: { x: 50, y: 280 }, zone: 3 },
+    { id: "14", number: "T-14", seats: 4, status: "available", position: { x: 150, y: 280 }, zone: 3 },
+    { id: "15", number: "T-15", seats: 2, status: "occupied", position: { x: 250, y: 280 }, zone: 3 },
+    { id: "16", number: "T-16", seats: 6, status: "available", position: { x: 50, y: 350 }, zone: 3 },
+    { id: "17", number: "T-17", seats: 4, status: "needs-cleaning", position: { x: 150, y: 350 }, zone: 3 },
+    { id: "18", number: "T-18", seats: 2, status: "available", position: { x: 250, y: 350 }, zone: 3 },
     
-    // Section D (James Wilson) - Tables 19-24
-    { id: "19", number: "T-19", seats: 4, status: "reserved", position: { x: 400, y: 280 }, waiterSection: 4 },
-    { id: "20", number: "T-20", seats: 2, status: "available", position: { x: 500, y: 280 }, waiterSection: 4 },
-    { id: "21", number: "T-21", seats: 4, status: "available", position: { x: 600, y: 280 }, waiterSection: 4 },
-    { id: "22", number: "T-22", seats: 6, status: "available", position: { x: 400, y: 350 }, waiterSection: 4 },
-    { id: "23", number: "T-23", seats: 2, status: "occupied", position: { x: 500, y: 350 }, waiterSection: 4 },
-    { id: "24", number: "T-24", seats: 4, status: "available", position: { x: 600, y: 350 }, waiterSection: 4 },
+    // Zone 4 - Tables 19-24
+    { id: "19", number: "T-19", seats: 4, status: "reserved", position: { x: 400, y: 280 }, zone: 4 },
+    { id: "20", number: "T-20", seats: 2, status: "available", position: { x: 500, y: 280 }, zone: 4 },
+    { id: "21", number: "T-21", seats: 4, status: "available", position: { x: 600, y: 280 }, zone: 4 },
+    { id: "22", number: "T-22", seats: 6, status: "available", position: { x: 400, y: 350 }, zone: 4 },
+    { id: "23", number: "T-23", seats: 2, status: "occupied", position: { x: 500, y: 350 }, zone: 4 },
+    { id: "24", number: "T-24", seats: 4, status: "available", position: { x: 600, y: 350 }, zone: 4 },
     
-    // Section E (Lisa Rodriguez) - Tables 25-30
-    { id: "25", number: "T-25", seats: 2, status: "available", position: { x: 150, y: 480 }, waiterSection: 5 },
-    { id: "26", number: "T-26", seats: 4, status: "available", position: { x: 250, y: 480 }, waiterSection: 5 },
-    { id: "27", number: "T-27", seats: 6, status: "occupied", position: { x: 350, y: 480 }, waiterSection: 5 },
-    { id: "28", number: "T-28", seats: 2, status: "available", position: { x: 450, y: 480 }, waiterSection: 5 },
-    { id: "29", number: "T-29", seats: 4, status: "needs-cleaning", position: { x: 550, y: 480 }, waiterSection: 5 },
-    { id: "30", number: "T-30", seats: 2, status: "available", position: { x: 350, y: 550 }, waiterSection: 5 }
+    // Zone 5 - Tables 25-30
+    { id: "25", number: "T-25", seats: 2, status: "available", position: { x: 150, y: 480 }, zone: 5 },
+    { id: "26", number: "T-26", seats: 4, status: "available", position: { x: 250, y: 480 }, zone: 5 },
+    { id: "27", number: "T-27", seats: 6, status: "occupied", position: { x: 350, y: 480 }, zone: 5 },
+    { id: "28", number: "T-28", seats: 2, status: "available", position: { x: 450, y: 480 }, zone: 5 },
+    { id: "29", number: "T-29", seats: 4, status: "needs-cleaning", position: { x: 550, y: 480 }, zone: 5 },
+    { id: "30", number: "T-30", seats: 2, status: "available", position: { x: 350, y: 550 }, zone: 5 }
   ]);
 
   const getStatusColor = (status: string) => {
@@ -272,9 +271,9 @@ export default function AdminOrdersPage() {
     return orders.find(order => order.id === selectedTable.orderId);
   };
 
-  const getSectionColor = (sectionId: number) => {
-    const section = waiterSections.find(s => s.id === sectionId);
-    return section?.color || '#f3f4f6';
+  const getZoneColor = (zoneId: number) => {
+    const zone = tableZones.find(z => z.id === zoneId);
+    return zone?.color || '#f3f4f6';
   };
 
   return (
@@ -510,23 +509,23 @@ export default function AdminOrdersPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Waiter Sections Overview */}
+            {/* Table Zones Overview */}
             <div className="grid grid-cols-5 gap-4">
-              {waiterSections.map((section) => {
-                const sectionTables = tables.filter(t => t.waiterSection === section.id);
-                const occupiedTables = sectionTables.filter(t => t.status === 'occupied').length;
+              {tableZones.map((zone) => {
+                const zoneTables = tables.filter(t => t.zone === zone.id);
+                const occupiedTables = zoneTables.filter(t => t.status === 'occupied').length;
                 return (
-                  <Card key={section.id} style={{ backgroundColor: section.color, borderColor: '#e5cf97' }}>
+                  <Card key={zone.id} style={{ backgroundColor: zone.color, borderColor: '#e5cf97' }}>
                     <CardContent className="p-3">
                       <div className="text-center">
                         <h3 className="font-semibold text-sm" style={{ color: '#654321' }}>
-                          {section.name}
+                          {zone.name}
                         </h3>
                         <p className="text-xs" style={{ color: '#8b795e' }}>
-                          {section.waiterName}
+                          Automated Service
                         </p>
                         <p className="text-xs mt-1" style={{ color: '#8b795e' }}>
-                          {occupiedTables}/{sectionTables.length} occupied
+                          {occupiedTables}/{zoneTables.length} occupied
                         </p>
                       </div>
                     </CardContent>
@@ -540,26 +539,26 @@ export default function AdminOrdersPage() {
               <CardHeader>
                 <CardTitle style={{ color: '#654321' }}>Restaurant Floor Plan</CardTitle>
                 <CardDescription style={{ color: '#8b795e' }}>
-                  30 tables organized in 5 waiter sections - Click any table for details
+                  30 tables organized in 5 zones - Click any table for details and customer messaging
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="relative w-full h-[700px] border rounded-lg overflow-hidden" style={{ backgroundColor: '#f8f9fa' }}>
-                  {/* Section Labels */}
-                  {waiterSections.map((section) => (
-                    <div key={`label-${section.id}`} className="absolute font-semibold text-lg" style={{ 
+                  {/* Zone Labels */}
+                  {tableZones.map((zone) => (
+                    <div key={`label-${zone.id}`} className="absolute font-semibold text-lg" style={{ 
                       color: '#654321',
-                      left: section.id <= 2 ? (section.id === 1 ? '150px' : '500px') : 
-                            section.id <= 4 ? (section.id === 3 ? '150px' : '500px') : '350px',
-                      top: section.id <= 2 ? '40px' : section.id <= 4 ? '240px' : '440px'
+                      left: zone.id <= 2 ? (zone.id === 1 ? '150px' : '500px') : 
+                            zone.id <= 4 ? (zone.id === 3 ? '150px' : '500px') : '350px',
+                      top: zone.id <= 2 ? '40px' : zone.id <= 4 ? '240px' : '440px'
                     }}>
-                      {section.name} - {section.waiterName}
+                      {zone.name} - Automated Service
                     </div>
                   ))}
 
                   {tables.map((table) => {
                     const tableOrder = orders.find(order => order.id === table.orderId);
-                    const sectionColor = getSectionColor(table.waiterSection);
+                    const zoneColor = getZoneColor(table.zone);
                     
                     return (
                       <div
@@ -573,7 +572,7 @@ export default function AdminOrdersPage() {
                           height: table.seats <= 2 ? '60px' : table.seats <= 4 ? '80px' : '100px',
                           backgroundColor: table.status === 'occupied' ? '#fef3c7' : 
                                          table.status === 'needs-cleaning' ? '#fee2e2' :
-                                         table.status === 'reserved' ? '#e0e7ff' : sectionColor,
+                                         table.status === 'reserved' ? '#e0e7ff' : zoneColor,
                           borderColor: table.status === 'occupied' ? '#f59e0b' : 
                                      table.status === 'needs-cleaning' ? '#ef4444' :
                                      table.status === 'reserved' ? '#6366f1' : '#d1d5db',
@@ -623,12 +622,12 @@ export default function AdminOrdersPage() {
                   </div>
 
                   <div className="absolute bottom-4 right-4 p-4 rounded-lg border" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
-                    <h4 className="font-semibold mb-2 text-sm" style={{ color: '#654321' }}>Waiter Sections</h4>
+                    <h4 className="font-semibold mb-2 text-sm" style={{ color: '#654321' }}>Table Zones</h4>
                     <div className="space-y-1 text-xs">
-                      {waiterSections.map((section) => (
-                        <div key={section.id} className="flex items-center gap-2">
-                          <div className="w-3 h-3 rounded border" style={{ backgroundColor: section.color }}></div>
-                          <span style={{ color: '#8b795e' }}>{section.name} - {section.waiterName}</span>
+                      {tableZones.map((zone) => (
+                        <div key={zone.id} className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded border" style={{ backgroundColor: zone.color }}></div>
+                          <span style={{ color: '#8b795e' }}>{zone.name} - Automated Service</span>
                         </div>
                       ))}
                     </div>
@@ -647,7 +646,7 @@ export default function AdminOrdersPage() {
                         {selectedTable?.number} - Table Details
                       </DialogTitle>
                       <DialogDescription style={{ color: '#8b795e' }}>
-                        {selectedTable?.seats} seats • {waiterSections.find(s => s.id === selectedTable?.waiterSection)?.waiterName}
+                        {selectedTable?.seats} seats • {tableZones.find(z => z.id === selectedTable?.zone)?.name} • Automated Service
                       </DialogDescription>
                     </div>
                     <Badge className={selectedTable ? getStatusColor(selectedTable.status) : ''}>
