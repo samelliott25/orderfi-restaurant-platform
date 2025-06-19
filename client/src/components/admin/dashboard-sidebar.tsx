@@ -152,11 +152,11 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
   const SidebarContent = () => (
     <div className="flex h-full flex-col border-r" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
       {/* Logo */}
-      <div className="flex h-16 items-center px-6 border-b" style={{ borderColor: '#e5cf97' }}>
+      <div className="flex h-16 items-center justify-center px-6 border-b" style={{ borderColor: '#e5cf97' }}>
         <img 
           src={mimiDashboardLogo} 
           alt="Mimi Dashboard" 
-          className="h-10 w-auto"
+          className="h-20 w-auto"
         />
       </div>
 
