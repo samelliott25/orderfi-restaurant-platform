@@ -15,7 +15,8 @@ import {
   Clock,
   CheckCircle,
   AlertCircle,
-  Loader2
+  Loader2,
+  Paperclip
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -279,7 +280,13 @@ export function OperationsAiChat() {
   };
 
   return (
-    <div className="w-full h-full border-l flex flex-col overflow-hidden" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
+    <div 
+      className={`w-full h-full border-l flex flex-col overflow-hidden transition-all duration-200 ${isDragOver ? 'ring-2 ring-blue-400 ring-opacity-50' : ''}`} 
+      style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
       {/* Header */}
       <div className="p-4 lg:p-6 border-b flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
         <div className="flex items-center space-x-3">
@@ -303,6 +310,26 @@ export function OperationsAiChat() {
           </div>
         )}
       </div>
+
+      {/* Drop Zone Overlay */}
+      {isDragOver && (
+        <div className="absolute inset-0 bg-blue-50 bg-opacity-90 flex items-center justify-center z-50 border-2 border-dashed border-blue-400">
+          <div className="text-center">
+            <div className="text-3xl mb-2">📁</div>
+            <p className="text-blue-600 font-medium">Drop files here to analyze</p>
+            <p className="text-blue-500 text-sm">Supports CSV, Excel, JSON, and text files</p>
+          </div>
+        </div>
+      )}
+
+      {/* Hidden File Input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        accept=".csv,.xlsx,.xls,.json,.txt"
+        onChange={handleFileInputChange}
+      />
 
       {/* Chat Messages */}
       <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
@@ -380,10 +407,20 @@ export function OperationsAiChat() {
             onTranscript={(text) => setInput(text)}
             disabled={isLoading}
           />
+          <Button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isLoading}
+            size="sm"
+            variant="outline"
+            className="flex-shrink-0"
+            style={{ borderColor: '#8b795e', color: '#8b795e', backgroundColor: '#fff0cc' }}
+          >
+            <Paperclip className="w-4 h-4" />
+          </Button>
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask Mimi..."
+            placeholder="Ask Mimi or drop files here..."
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             disabled={isLoading}
             className="text-sm flex-1 min-w-0"
