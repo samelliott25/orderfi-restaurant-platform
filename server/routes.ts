@@ -433,10 +433,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Project summary download route
-  app.get("/api/download/project-summary", (req, res) => {
+  app.get("/api/download/project-summary", async (req, res) => {
     try {
-      const fs = require('fs');
-      const path = require('path');
+      const fs = await import('fs');
+      const path = await import('path');
       
       const htmlPath = path.join(process.cwd(), 'Mimi_Waitress_Project_Summary.html');
       
