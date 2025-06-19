@@ -56,46 +56,48 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   }, [location]);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#ffe6b0' }}>
-      {/* Mobile Layout - Vertical Stack */}
-      <div className="lg:hidden">
-        {/* Mobile Sidebar - Hamburger menu */}
-        <DashboardSidebar />
-        {/* Operations AI Chat - Always visible on mobile at top */}
-        <div className="h-80 border-b border-border overflow-hidden flex flex-col">
-          <OperationsAiChat onDataUpdate={handleDataUpdate} />
-        </div>
-        {/* Main Content - Below chat on mobile */}
-        <div className="overflow-auto p-6">
-          {children}
-        </div>
-      </div>
-
-      {/* Desktop Layout - Horizontal Flex */}
-      <div className="hidden lg:flex h-screen">
-        {/* Left Sidebar - Fixed Width */}
-        <div className="w-64 flex-shrink-0 h-full">
+    <OperationsAiProvider>
+      <div className="min-h-screen" style={{ backgroundColor: '#ffe6b0' }}>
+        {/* Mobile Layout - Vertical Stack */}
+        <div className="lg:hidden">
+          {/* Mobile Sidebar - Hamburger menu */}
           <DashboardSidebar />
+          {/* Operations AI Chat - Always visible on mobile at top */}
+          <div className="h-80 border-b border-border overflow-hidden flex flex-col">
+            <OperationsAiChat onDataUpdate={handleDataUpdate} />
+          </div>
+          {/* Main Content - Below chat on mobile */}
+          <div className="overflow-auto p-6">
+            {children}
+          </div>
         </div>
-        
-        {/* Main Content - Scrollable */}
-        <div 
-          ref={scrollContainerRef}
-          className="flex-1 min-w-0 h-full overflow-y-auto admin-scroll-container p-6"
-          onScroll={(e) => {
-            if (location.startsWith('/admin')) {
-              scrollPositions.current[location] = e.currentTarget.scrollTop;
-            }
-          }}
-        >
-          {children}
+
+        {/* Desktop Layout - Horizontal Flex */}
+        <div className="hidden lg:flex h-screen">
+          {/* Left Sidebar - Fixed Width */}
+          <div className="w-64 flex-shrink-0 h-full">
+            <DashboardSidebar />
+          </div>
+          
+          {/* Main Content - Scrollable */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex-1 min-w-0 h-full overflow-y-auto admin-scroll-container p-6"
+            onScroll={(e) => {
+              if (location.startsWith('/admin')) {
+                scrollPositions.current[location] = e.currentTarget.scrollTop;
+              }
+            }}
+          >
+            {children}
+          </div>
+          
+          {/* Operations AI Chat - Fixed Height, Always Visible */}
+          <div className="w-80 flex-shrink-0 h-full relative z-10">
+            <OperationsAiChat onDataUpdate={handleDataUpdate} />
+          </div>
         </div>
-        
-        {/* Operations AI Chat - Fixed Height, Always Visible */}
-        <div className="w-80 flex-shrink-0 h-full relative z-10">
-          <OperationsAiChat onDataUpdate={handleDataUpdate} />
-        </div>
-      </div>
     </div>
+    </OperationsAiProvider>
   );
 }
