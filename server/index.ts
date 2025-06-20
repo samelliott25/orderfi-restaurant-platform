@@ -1,10 +1,20 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { metricsMiddleware, getMetricsHandler, getHealthHandler } from "./monitoring/metrics";
+import { sanitizeInput, requestLogger, corsOptions } from "./middleware/security";
 
 const app = express();
-app.use(express.json());
+
+// Security and monitoring middleware
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: false }));
+app.use(sanitizeInput);
+app.use(metricsMiddleware);
+
+// Monitoring endpoints
+app.get("/metrics", getMetricsHandler);
+app.get("/health", getHealthHandler);
 
 app.use((req, res, next) => {
   const start = Date.now();
