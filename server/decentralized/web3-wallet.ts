@@ -5,7 +5,7 @@ export interface WalletConnection {
   address: string;
   chainId: number;
   network: 'base' | 'polygon';
-  walletType: 'metamask' | 'walletconnect' | 'coinbase';
+  walletType: 'metamask' | 'walletconnect' | 'coinbase' | 'phantom';
   isConnected: boolean;
   balance: {
     eth: string;
@@ -46,6 +46,15 @@ export class Web3WalletService {
   async connectWallet(walletType: string, networkPreference: 'base' | 'polygon'): Promise<WalletConnection> {
     const config = this.networkConfig[networkPreference];
     
+    // Handle Phantom wallet specific setup
+    if (walletType === 'phantom') {
+      // Phantom requires Ethereum provider initialization for EVM chains
+      const phantomSetup = await this.setupPhantomEthereumProvider(networkPreference);
+      if (!phantomSetup.success) {
+        throw new Error('Phantom wallet setup failed for Ethereum networks');
+      }
+    }
+    
     // Simulate wallet connection response
     const connection: WalletConnection = {
       address: `0x${Math.random().toString(16).substring(2, 42)}`,
@@ -54,13 +63,13 @@ export class Web3WalletService {
       walletType: walletType as any,
       isConnected: true,
       balance: {
-        eth: '0.05',
-        usdc: '150.00'
+        eth: walletType === 'phantom' ? '0.03' : '0.05', // Phantom typically has lower ETH balance
+        usdc: walletType === 'phantom' ? '125.00' : '150.00'
       }
     };
 
     this.connections.set(connection.address, connection);
-    console.log('Wallet connected:', connection);
+    console.log(`${walletType} wallet connected:`, connection);
     
     return connection;
   }
@@ -215,12 +224,81 @@ export class Web3WalletService {
     return [];
   }
 
+  private async setupPhantomEthereumProvider(network: 'base' | 'polygon'): Promise<{ success: boolean; message?: string }> {
+    try {
+      const config = this.networkConfig[network as keyof typeof this.networkConfig];
+      
+      // Phantom wallet setup for Ethereum-compatible chains
+      const phantomConfig = {
+        chainId: `0x${config.chainId.toString(16)}`, // Convert to hex
+        chainName: config.name,
+        rpcUrls: [config.rpcUrl],
+        nativeCurrency: {
+          name: network === 'base' ? 'Ethereum' : 'MATIC',
+          symbol: network === 'base' ? 'ETH' : 'MATIC',
+          decimals: 18
+        },
+        blockExplorerUrls: [config.blockExplorer]
+      };
+
+      console.log('Setting up Phantom for EVM network:', phantomConfig);
+      
+      // In production, this would use window.phantom.ethereum.request
+      // to add/switch to the network
+      return { success: true };
+    } catch (error) {
+      console.error('Phantom EVM setup failed:', error);
+      return { 
+        success: false, 
+        message: 'Failed to configure Phantom for Ethereum networks' 
+      };
+    }
+  }
+
+  async addPhantomNetwork(network: 'base' | 'polygon'): Promise<boolean> {
+    const config = this.networkConfig[network as keyof typeof this.networkConfig];
+    
+    const networkParams = {
+      chainId: `0x${config.chainId.toString(16)}`,
+      chainName: config.name,
+      rpcUrls: [config.rpcUrl],
+      nativeCurrency: {
+        name: network === 'base' ? 'Ethereum' : 'MATIC',
+        symbol: network === 'base' ? 'ETH' : 'MATIC',
+        decimals: 18
+      },
+      blockExplorerUrls: [config.blockExplorer]
+    };
+
+    console.log(`Adding ${config.name} network to Phantom wallet:`, networkParams);
+    return true;
+  }
+
+  async getPhantomCapabilities(): Promise<{ 
+    ethereum: boolean; 
+    solana: boolean; 
+    supportedNetworks: string[] 
+  }> {
+    return {
+      ethereum: true, // Phantom supports Ethereum through ethereum provider
+      solana: true,   // Native Solana support
+      supportedNetworks: ['base', 'polygon', 'ethereum', 'solana']
+    };
+  }
+
   disconnectWallet(walletAddress: string): boolean {
     const connection = this.connections.get(walletAddress);
     if (connection) {
       connection.isConnected = false;
+      
+      // Special cleanup for Phantom wallet
+      if (connection.walletType === 'phantom') {
+        console.log('Performing Phantom-specific cleanup');
+        // In production, this would clear Phantom's connection state
+      }
+      
       this.connections.delete(walletAddress);
-      console.log('Wallet disconnected:', walletAddress);
+      console.log(`${connection.walletType} wallet disconnected:`, walletAddress);
       return true;
     }
     return false;

@@ -180,6 +180,27 @@ export function registerDecentralizedRoutes(app: Express): void {
     }
   });
 
+  app.post("/api/decentralized/wallet/phantom/add-network", async (req, res) => {
+    try {
+      const { network } = req.body;
+      const success = await web3Wallet.addPhantomNetwork(network);
+      res.json({ success });
+    } catch (error) {
+      console.error("Phantom network addition error:", error);
+      res.status(500).json({ message: "Failed to add network to Phantom" });
+    }
+  });
+
+  app.get("/api/decentralized/wallet/phantom/capabilities", async (req, res) => {
+    try {
+      const capabilities = await web3Wallet.getPhantomCapabilities();
+      res.json(capabilities);
+    } catch (error) {
+      console.error("Phantom capabilities error:", error);
+      res.status(500).json({ message: "Failed to get Phantom capabilities" });
+    }
+  });
+
   app.post("/api/decentralized/wallet/payment", async (req, res) => {
     try {
       const { walletAddress, restaurantAddress, amount, orderId } = req.body;

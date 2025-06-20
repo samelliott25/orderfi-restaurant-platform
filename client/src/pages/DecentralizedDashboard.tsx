@@ -55,22 +55,22 @@ export function DecentralizedDashboard() {
     }
   };
 
-  const connectWallet = async () => {
+  const connectWallet = async (walletType: string = 'metamask') => {
     try {
       const response = await fetch('/api/decentralized/wallet/connect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          walletType: 'metamask',
+          walletType,
           networkPreference: selectedNetwork
         })
       });
       
       const connection = await response.json();
       setWalletConnected(true);
-      console.log('Wallet connected:', connection);
+      console.log(`${walletType} wallet connected:`, connection);
     } catch (error) {
-      console.error('Wallet connection failed:', error);
+      console.error(`${walletType} connection failed:`, error);
     }
   };
 
@@ -358,9 +358,36 @@ export function DecentralizedDashboard() {
                   </div>
 
                   {!walletConnected ? (
-                    <Button onClick={connectWallet} className="w-full bg-[#8b795e] hover:bg-[#6d5d4a]">
-                      Connect Wallet
-                    </Button>
+                    <div className="space-y-2">
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button 
+                          onClick={async () => await connectWallet('metamask')} 
+                          className="bg-[#8b795e] hover:bg-[#6d5d4a] text-xs"
+                        >
+                          MetaMask
+                        </Button>
+                        <Button 
+                          onClick={async () => await connectWallet('phantom')} 
+                          className="bg-purple-600 hover:bg-purple-700 text-xs"
+                        >
+                          Phantom
+                        </Button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button 
+                          onClick={async () => await connectWallet('coinbase')} 
+                          className="bg-blue-600 hover:bg-blue-700 text-xs"
+                        >
+                          Coinbase
+                        </Button>
+                        <Button 
+                          onClick={async () => await connectWallet('walletconnect')} 
+                          className="bg-orange-600 hover:bg-orange-700 text-xs"
+                        >
+                          WalletConnect
+                        </Button>
+                      </div>
+                    </div>
                   ) : (
                     <div className="text-center p-3 bg-green-50 border border-green-200 rounded-lg">
                       <div className="text-sm text-green-800">Wallet Connected</div>
@@ -370,7 +397,14 @@ export function DecentralizedDashboard() {
                 </div>
 
                 <div className="bg-[#ffe6b0]/50 p-4 rounded-lg">
-                  <h4 className="font-medium text-[#8b795e] mb-2">Payment Features:</h4>
+                  <h4 className="font-medium text-[#8b795e] mb-2">Supported Wallets:</h4>
+                  <div className="grid grid-cols-2 gap-2 text-sm text-[#8b795e]/70">
+                    <div>• MetaMask</div>
+                    <div>• Phantom</div>
+                    <div>• Coinbase Wallet</div>
+                    <div>• WalletConnect</div>
+                  </div>
+                  <h4 className="font-medium text-[#8b795e] mb-2 mt-3">Payment Features:</h4>
                   <ul className="text-sm text-[#8b795e]/70 space-y-1">
                     <li>• Instant USDC settlements</li>
                     <li>• Low transaction fees on Base</li>
