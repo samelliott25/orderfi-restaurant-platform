@@ -507,6 +507,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Import and register decentralized routes
+  const { registerDecentralizedRoutes } = await import("./routes/decentralized");
+  registerDecentralizedRoutes(app);
+
   const httpServer = createServer(app);
   return httpServer;
 }

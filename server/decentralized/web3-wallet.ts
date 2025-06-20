@@ -134,7 +134,7 @@ export class Web3WalletService {
       return false;
     }
 
-    const config = this.networkConfig[connection.network];
+    const config = this.networkConfig[connection.network as keyof typeof this.networkConfig];
     
     // Generate parameters for adding USDC token to wallet
     const tokenData = {
