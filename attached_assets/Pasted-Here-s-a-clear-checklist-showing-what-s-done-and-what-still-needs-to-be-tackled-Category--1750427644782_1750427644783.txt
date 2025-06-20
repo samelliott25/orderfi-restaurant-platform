@@ -1,0 +1,47 @@
+Here’s a clear checklist showing what’s ✅ done and what still needs to be 🔲 tackled:
+
+| Category                           | Task                                                       | Completed? | To Do? |
+| ---------------------------------- | ---------------------------------------------------------- | :--------: | :----: |
+| **Core Stack Installed**           | React + Tailwind UI on frontend                            |      ✅     |        |
+|                                    | Express + TypeScript backend                               |      ✅     |        |
+|                                    | Shared types, configs & linting                            |      ✅     |        |
+| **AI & Chat**                      | GPT-4o natural-language integration                        |      ✅     |        |
+|                                    | Vision API for menu-photo analysis                         |      ✅     |        |
+|                                    | Voice input (speech-to-text) integration                   |      ✅     |        |
+| **Feature Set**                    | Menu CRUD, inventory, promotions & loyalty modules         |      ✅     |        |
+|                                    | Admin pages (orders dashboard, reports, user mgmt)         |      ✅     |        |
+|                                    | Real-time WebSocket order-status updates                   |      ✅     |        |
+|                                    | PDF receipt & report generation                            |      ✅     |        |
+| **Blockchain Layer**               | Immutable on-chain menu & order records                    |      ✅     |        |
+|                                    | Merkle-tree hashing & SHA-256                              |      ✅     |        |
+|                                    | IPFS/Arweave compatibility for assets                      |      ✅     |        |
+| **Mobile & UX**                    | Responsive/mobile-first layouts & PWA support              |      ✅     |        |
+|                                    | Swipe-to-order & drag-and-drop image uploads               |      ✅     |        |
+|                                    | Comic-style theming (cream #ffe6b0)                        |      ✅     |        |
+| **AI “Admin Assistant”**           | Context persistence across pages                           |      ✅     |        |
+|                                    | Automated BI reports & task automations                    |      ✅     |        |
+| **Production Deployment & DevOps** | Containerize (Docker images for client, server, AI worker) |            |   🔲   |
+|                                    | CI/CD pipelines (GitHub Actions, Vercel/Replit)            |            |   🔲   |
+|                                    | SSL, domain setup & load-balancer configuration            |            |   🔲   |
+| **Decentralized Hosting**          | Deploy on Akash Network or Virtuals.io nodes               |            |   🔲   |
+|                                    | Integrate AI-agent host as decentralized service           |            |   🔲   |
+|                                    | Configure IPFS pinning nodes for static assets             |            |   🔲   |
+| **Smart Contract Finalization**    | Audit & verify on public testnet                           |            |   🔲   |
+|                                    | Deploy loyalty/reward & payment-splitter contracts live    |            |   🔲   |
+|                                    | Integrate on-chain wallet flows (MetaMask, WalletConnect)  |            |   🔲   |
+| **Security & Compliance**          | Pen-test backend APIs & smart contracts                    |            |   🔲   |
+|                                    | Rate-limiting, input sanitization & secrets management     |            |   🔲   |
+|                                    | Data-privacy (GDPR/PIPA) review                            |            |   🔲   |
+| **End-to-End Testing & QA**        | Automated unit, integration & e2e test suites              |            |   🔲   |
+|                                    | Load-testing WebSocket/order pipeline                      |            |   🔲   |
+|                                    | User Acceptance Testing (staff & F\&F run-through)         |            |   🔲   |
+| **Monitoring & Analytics**         | Deploy Prometheus/Grafana or hosted equivalent             |            |   🔲   |
+|                                    | On-chain transaction monitoring & alerting                 |            |   🔲   |
+|                                    | Frontend error reporting (Sentry, LogRocket)               |            |   🔲   |
+| **Documentation & Training**       | Staff user guide & quick-start manual                      |            |   🔲   |
+|                                    | Developer docs (API reference, deployment steps)           |            |   🔲   |
+|                                    | In-app tooltips / onboarding flow                          |            |   🔲   |
+
+---
+
+**Next step:** Pick the top 2–3 🔲 items you want to tackle first (e.g. containerization, CI/CD, testnet audit) and we’ll drill into how to get them done.

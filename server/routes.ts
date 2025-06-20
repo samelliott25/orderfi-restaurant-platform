@@ -18,6 +18,14 @@ import multer from 'multer';
 const upload = multer({ storage: multer.memoryStorage() });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Health check endpoint for Docker
+  app.get("/api/health", (req, res) => {
+    res.json({ 
+      status: "healthy", 
+      timestamp: new Date().toISOString(),
+      version: process.env.npm_package_version || "1.0.0"
+    });
+  });
   // Restaurant routes
   app.get("/api/restaurants", async (req, res) => {
     try {
