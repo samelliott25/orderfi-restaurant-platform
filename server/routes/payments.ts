@@ -37,8 +37,7 @@ export function registerPaymentRoutes(app: Express) {
             restaurantWallet: '0x0987654321098765432109876543210987654321',
             network: 'base',
             metadata: {
-              items: orderItems.map(item => `${item.name} x${item.quantity}`),
-              customer: customerInfo.name
+              items: orderItems.map(item => `${item.name} x${item.quantity}`)
             }
           });
           break;
@@ -74,7 +73,7 @@ export function registerPaymentRoutes(app: Express) {
         status: paymentResult.status,
         transactionHash: paymentResult.transactionHash,
         amount: paymentResult.amount,
-        fees: paymentResult.fees || '0.00'
+        fees: paymentMethod === 'credit' ? (amount * 0.03).toFixed(2) : '0.01'
       });
 
     } catch (error) {

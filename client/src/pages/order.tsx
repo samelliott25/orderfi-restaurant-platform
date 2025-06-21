@@ -107,7 +107,7 @@ export default function OrderPage() {
     onSuccess: (paymentResult) => {
       setOrderStatus('processing');
       // Create the order after successful payment
-      createOrderMutation.mutate({
+      const orderData = {
         restaurantId: 1,
         customerName: customerInfo.name,
         customerPhone: customerInfo.phone,
@@ -121,7 +121,9 @@ export default function OrderPage() {
         paymentMethod,
         paymentId: paymentResult.paymentId,
         total: calculateTotal()
-      });
+      };
+      
+      createOrderMutation.mutate(orderData);
     }
   });
 

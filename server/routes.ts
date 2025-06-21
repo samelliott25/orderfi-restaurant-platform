@@ -404,6 +404,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const orderData = insertOrderSchema.parse(req.body);
       const order = await storage.createOrder(orderData);
+      
+      // Process rewards for completed order
+      if (orderData.paymentMethod && orderData.total) {
+        try {
+          const customerId = `cust_${orderData.customerPhone?.replace(/\D/g, '') || Date.now()}`;
+          
+          const rewardResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/rewards/earn`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              customerId,
+              customerName: orderData.customerName,
+              customerEmail: orderData.customerEmail || '',
+              orderId: order.id.toString(),
+              orderAmount: parseFloat(orderData.total),
+              paymentMethod: orderData.paymentMethod
+            })
+          });
+          
+          if (rewardResponse.ok) {
+            const rewardData = await rewardResponse.json();
+            console.log(`Customer ${orderData.customerName} earned ${rewardData.tokensEarned} MIMI tokens`);
+          }
+        } catch (rewardError) {
+          console.error('Reward processing failed:', rewardError);
+          // Don't fail the order if rewards fail
+        }
+      }
+      
       res.status(201).json(order);
     } catch (error) {
       res.status(400).json({ message: "Invalid order data" });
@@ -471,6 +500,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   const { registerPaymentRoutes } = await import("./routes/payments");
   registerPaymentRoutes(app);
+
+  const { registerRewardRoutes } = await import("./routes/rewards");
+  registerRewardRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;
