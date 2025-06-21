@@ -86,7 +86,7 @@ export default function AdminPage() {
 
         {/* Wallet Connection */}
         {!walletConnected && (
-          <Card className="glass border-glow hover-lift">
+          <Card className="bg-white border-glow hover-lift shadow-modern">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-800">
                 <Wallet className="h-5 w-5" />
@@ -106,7 +106,7 @@ export default function AdminPage() {
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="glass shadow-modern hover-lift border-modern">
+          <Card className="bg-white shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">USDC Revenue</CardTitle>
               <DollarSign className="h-4 w-4 text-[#8b795e]" />
@@ -117,7 +117,7 @@ export default function AdminPage() {
             </CardContent>
           </Card>
 
-          <Card className="glass shadow-modern hover-lift border-modern">
+          <Card className="bg-white shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">Fee Savings</CardTitle>
               <TrendingUp className="h-4 w-4 text-green-600" />
@@ -128,7 +128,7 @@ export default function AdminPage() {
             </CardContent>
           </Card>
 
-          <Card className="glass shadow-modern hover-lift border-modern">
+          <Card className="bg-white shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">Orders Today</CardTitle>
               <ShoppingCart className="h-4 w-4 text-[#8b795e]" />
@@ -139,7 +139,7 @@ export default function AdminPage() {
             </CardContent>
           </Card>
 
-          <Card className="glass shadow-modern hover-lift border-modern">
+          <Card className="bg-white shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">$MIMI Tokens</CardTitle>
               <Users className="h-4 w-4 text-purple-600" />
@@ -150,7 +150,7 @@ export default function AdminPage() {
             </CardContent>
           </Card>
 
-          <Card className="glass shadow-modern hover-lift border-modern">
+          <Card className="bg-white shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">Blockchain Blocks</CardTitle>
               <Database className="h-4 w-4 text-blue-600" />
@@ -161,7 +161,7 @@ export default function AdminPage() {
             </CardContent>
           </Card>
 
-          <Card className="glass shadow-modern hover-lift border-modern">
+          <Card className="bg-white shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">Network Status</CardTitle>
               <div className="h-4 w-4 bg-green-500 rounded-full animate-pulse" />
@@ -174,7 +174,7 @@ export default function AdminPage() {
         </div>
 
         {/* Quick Actions */}
-        <Card className="glass shadow-modern hover-lift border-modern">
+        <Card className="bg-white shadow-modern hover-lift border-modern">
           <CardHeader>
             <CardTitle className="text-gradient">Quick Actions</CardTitle>
           </CardHeader>
@@ -197,7 +197,7 @@ export default function AdminPage() {
         </Card>
 
         {/* Value Proposition */}
-        <Card className="gradient-bg-card shadow-modern-lg border-glow">
+        <Card className="bg-white shadow-modern-lg border-glow">
           <CardHeader>
             <CardTitle className="text-gradient text-xl">Why Web3 Restaurant Operations?</CardTitle>
           </CardHeader>
