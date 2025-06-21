@@ -465,9 +465,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
 
 
-  // Import and register decentralized routes
+  // Import and register routes
   const { registerDecentralizedRoutes } = await import("./routes/decentralized");
   registerDecentralizedRoutes(app);
+
+  const { registerPaymentRoutes } = await import("./routes/payments");
+  registerPaymentRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;
