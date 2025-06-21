@@ -1,61 +1,71 @@
-# Mimi Waitress: Phased Development Strategy
+# Mimi Waitress: Blockchain-First Phased Development Strategy
 
-## Phase 1: MVP - Traditional SaaS Foundation (Weeks 1-8)
-**Goal: Get paying customers with basic AI ordering system**
+## Phase 1: Web3-Native MVP (Weeks 1-8)
+**Goal: Prove blockchain restaurant concept with early adopters**
 
-### Core Features Only
-- **AI Chat Interface**: Simple text-based ordering with GPT-4
-- **Menu Management**: Basic CRUD operations for restaurant owners
-- **Order Processing**: Simple order queue and status updates
-- **Payment Integration**: Traditional Stripe/Square payments
-- **Admin Dashboard**: Basic analytics and order management
+### Core Blockchain Features (Keep)
+- **Web3 Wallet Integration**: MetaMask, Phantom for customer payments
+- **USDC Payments**: Base network for sub-penny transaction fees
+- **Blockchain Orders**: Immutable order history and verification
+- **Basic Token Rewards**: $MIMI tokens for customer loyalty
+- **AI Chat Interface**: GPT-4 powered ordering with crypto payments
 
-### Removed for MVP
-- ❌ Blockchain storage (use PostgreSQL)
-- ❌ Web3 wallets (traditional auth)
-- ❌ USDC payments (standard credit cards)
-- ❌ Token rewards (traditional loyalty points)
-- ❌ Decentralized hosting (standard cloud)
-- ❌ Voice input (text only)
-- ❌ Image recognition (manual menu entry)
+### Simplified for Speed
+- **Single Chain Focus**: Base network only (add Polygon later)
+- **Basic Admin Dashboard**: Core restaurant management
+- **Essential Menu Management**: CRUD operations with blockchain backup
+- **Streamlined Onboarding**: Focus on crypto-forward restaurants
+
+### Unique Value Proposition
+- **Zero credit card fees** (save restaurants 3% immediately)
+- **Instant settlement** (no 2-3 day payment delays)
+- **Tamper-proof reviews** (blockchain-verified customer feedback)
+- **Customer data ownership** (restaurants own their customer relationships)
+
+### Target Market
+- **Crypto-accepting restaurants** (already Web3 native)
+- **High-volume quick service** (benefit most from fee savings)
+- **Tech-forward independents** (early adopters willing to try new tech)
 
 ### Business Model
-- **Monthly SaaS subscription**: $99-299/month per location
-- **Transaction fee**: 1.5% (vs 3% credit card + platform fees)
-- **Focus**: Independent restaurants and small chains
+- **Transaction fee**: 0.5% (vs 3% credit cards + 15-30% delivery apps)
+- **Token economics**: Revenue from $MIMI trading fees
+- **Premium features**: $99/month for advanced analytics
 
 ### Success Metrics
-- 10 paying restaurant customers
-- $10K monthly recurring revenue
-- 95% order accuracy
-- <3 second AI response time
+- 5 crypto-forward restaurant customers
+- $25K USDC transaction volume monthly
+- 500 active wallet users
+- 99% order accuracy with blockchain verification
 
 ---
 
-## Phase 2: Web3 Integration (Weeks 9-20)
-**Goal: Add blockchain payments and basic tokenomics**
+## Phase 2: Scale & Enhance (Weeks 9-20)
+**Goal: Add advanced features while scaling Web3 adoption**
 
 ### New Features
-- **Web3 Wallets**: MetaMask integration for payments
-- **USDC Payments**: Base network for low fees
-- **Basic Token Rewards**: Simple ERC-20 $MIMI token
-- **Blockchain Orders**: Store order data on-chain
-- **Customer Wallets**: Web3 onboarding for diners
+- **Multi-Chain Support**: Add Polygon for lower-fee options
+- **Voice Ordering**: Speech-to-text integration
+- **Image Recognition**: Menu photo analysis and uploads
+- **Advanced Tokenomics**: Staking rewards and referral bonuses
+- **Restaurant Network**: Cross-location token usage
 
 ### Enhanced Features
-- **Voice Ordering**: Add speech-to-text
-- **Multi-language**: Support 5 major languages
-- **Advanced Analytics**: On-chain transaction data
+- **Multi-language Support**: 5 major languages
+- **Advanced Analytics**: Real-time blockchain transaction data
+- **Loyalty Automation**: Smart contract-based reward distribution
+- **Mobile PWA**: App-like experience for customers
 
-### Business Model Addition
-- **Token Transaction Fees**: 0.5% of token trades
-- **Premium Web3 Features**: $50/month addon
+### Business Model Expansion
+- **Multi-chain fees**: Revenue from Polygon transactions
+- **Staking rewards**: 8% APY for $MIMI token holders
+- **White-label licensing**: $500/month per custom deployment
 
 ### Success Metrics
-- 50 restaurant customers (mix of traditional + Web3)
+- 25 restaurant customers across 2 chains
+- $100K USDC transaction volume monthly
+- 2,500 active wallet users
 - $50K monthly recurring revenue
-- 1,000 active wallet users
-- $100K USDC transaction volume
 
 ---
 
@@ -117,19 +127,19 @@
 
 ## Immediate Action Plan (Next 2 Weeks)
 
-### Week 1: Strip Down to MVP
-1. **Remove blockchain components** from current build
-2. **Add PostgreSQL database** for traditional storage
-3. **Integrate Stripe payments** for credit card processing
-4. **Simplify admin dashboard** to core features only
-5. **Create pricing page** and onboarding flow
+### Week 1: Focus Phase 1 Features
+1. **Simplify Web3 onboarding** - Single MetaMask connection flow
+2. **Streamline USDC payments** - Base network only, remove multi-chain complexity
+3. **Polish admin dashboard** - Focus on order management and analytics
+4. **Create restaurant onboarding** - Web3-native signup flow
+5. **Deploy testnet version** for crypto restaurant trials
 
-### Week 2: Customer Validation
-1. **Deploy MVP version** to production
-2. **Launch beta program** with 5 local restaurants
-3. **Gather feedback** on core ordering flow
-4. **Iterate based on usage** patterns
-5. **Prepare sales materials** for Phase 1
+### Week 2: Target Crypto-Forward Restaurants
+1. **Identify crypto-accepting restaurants** in your area
+2. **Create compelling demo** showing fee savings vs traditional payment
+3. **Launch pilot program** with 3-5 Web3-native establishments
+4. **Gather blockchain-specific feedback** on payment flow
+5. **Document real-world transaction data** for case studies
 
 ### Technical Debt Strategy
 - **Keep Web3 code** in separate branches
