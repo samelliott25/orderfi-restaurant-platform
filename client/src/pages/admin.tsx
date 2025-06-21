@@ -64,23 +64,29 @@ export default function AdminPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6 space-y-6">
+      <div className="admin-bg pattern-dots">
+        <div className="container-modern p-6 space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-[#8b795e]">Web3 Restaurant Dashboard</h1>
-            <p className="text-[#8b795e]/70">Blockchain-powered ordering and payments</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Badge variant={walletConnected ? "default" : "secondary"} className="bg-[#8b795e]">
-              {walletConnected ? "Wallet Connected" : "Wallet Disconnected"}
-            </Badge>
+        <div className="glass-dark rounded-2xl p-6 shadow-modern-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gradient mb-2">Web3 Restaurant Dashboard</h1>
+              <p className="text-[#8b795e]/70">Blockchain-powered ordering and payments</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-full ${walletConnected ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+                <Badge variant={walletConnected ? "default" : "secondary"} className={`${walletConnected ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-500'} border-0`}>
+                  {walletConnected ? "Wallet Connected" : "Wallet Disconnected"}
+                </Badge>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Wallet Connection */}
         {!walletConnected && (
-          <Card className="border-orange-200 bg-orange-50">
+          <Card className="glass border-glow hover-lift">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-800">
                 <Wallet className="h-5 w-5" />
@@ -91,7 +97,7 @@ export default function AdminPage() {
               <p className="text-orange-700 mb-4">
                 Connect your Web3 wallet to start accepting USDC payments and earning fee savings.
               </p>
-              <Button onClick={connectWallet} className="bg-[#8b795e] hover:bg-[#6d5d4a]">
+              <Button onClick={connectWallet} className="gradient-bg-secondary text-white hover:opacity-90 transition-opacity">
                 Connect MetaMask
               </Button>
             </CardContent>
@@ -100,18 +106,18 @@ export default function AdminPage() {
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
+          <Card className="glass shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">USDC Revenue</CardTitle>
               <DollarSign className="h-4 w-4 text-[#8b795e]" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-[#8b795e]">${usdcBalance}</div>
+              <div className="text-2xl font-bold text-gradient">${usdcBalance}</div>
               <p className="text-xs text-[#8b795e]/70">Instant settlement, zero fees</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">Fee Savings</CardTitle>
               <TrendingUp className="h-4 w-4 text-green-600" />
@@ -122,18 +128,18 @@ export default function AdminPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">Orders Today</CardTitle>
               <ShoppingCart className="h-4 w-4 text-[#8b795e]" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-[#8b795e]">{totalOrders}</div>
+              <div className="text-2xl font-bold text-gradient">{totalOrders}</div>
               <p className="text-xs text-[#8b795e]/70">AI-processed orders</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">$MIMI Tokens</CardTitle>
               <Users className="h-4 w-4 text-purple-600" />
@@ -144,7 +150,7 @@ export default function AdminPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">Blockchain Blocks</CardTitle>
               <Database className="h-4 w-4 text-blue-600" />
@@ -155,10 +161,10 @@ export default function AdminPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass shadow-modern hover-lift border-modern">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-[#8b795e]">Network Status</CardTitle>
-              <div className="h-4 w-4 bg-green-500 rounded-full" />
+              <div className="h-4 w-4 bg-green-500 rounded-full animate-pulse" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">Online</div>
@@ -168,21 +174,21 @@ export default function AdminPage() {
         </div>
 
         {/* Quick Actions */}
-        <Card>
+        <Card className="glass shadow-modern hover-lift border-modern">
           <CardHeader>
-            <CardTitle className="text-[#8b795e]">Quick Actions</CardTitle>
+            <CardTitle className="text-gradient">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 transition-colors">
                 <ShoppingCart className="h-4 w-4" />
                 View Recent Orders
               </Button>
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 transition-colors">
                 <DollarSign className="h-4 w-4" />
                 Check USDC Balance
               </Button>
-              <Button variant="outline" className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2 border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 transition-colors">
                 <Database className="h-4 w-4" />
                 Blockchain Backup
               </Button>
@@ -191,31 +197,44 @@ export default function AdminPage() {
         </Card>
 
         {/* Value Proposition */}
-        <Card className="bg-[#ffe6b0]/20">
+        <Card className="gradient-bg-card shadow-modern-lg border-glow">
           <CardHeader>
-            <CardTitle className="text-[#8b795e]">Why Web3 Restaurant Operations?</CardTitle>
+            <CardTitle className="text-gradient text-xl">Why Web3 Restaurant Operations?</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-[#8b795e]/80">
-              <div>
-                <h4 className="font-medium text-[#8b795e] mb-2">Zero Payment Fees</h4>
-                <p>USDC payments on Base network cost less than $0.01 vs 3% credit card fees</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+              <div className="space-y-2">
+                <h4 className="font-semibold text-[#8b795e] mb-2 flex items-center gap-2">
+                  <DollarSign className="h-4 w-4 text-green-600" />
+                  Zero Payment Fees
+                </h4>
+                <p className="text-[#8b795e]/80">USDC payments on Base network cost less than $0.01 vs 3% credit card fees</p>
               </div>
-              <div>
-                <h4 className="font-medium text-[#8b795e] mb-2">Instant Settlement</h4>
-                <p>Receive payments immediately instead of waiting 2-3 days for bank transfers</p>
+              <div className="space-y-2">
+                <h4 className="font-semibold text-[#8b795e] mb-2 flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-blue-600" />
+                  Instant Settlement
+                </h4>
+                <p className="text-[#8b795e]/80">Receive payments immediately instead of waiting 2-3 days for bank transfers</p>
               </div>
-              <div>
-                <h4 className="font-medium text-[#8b795e] mb-2">Customer Ownership</h4>
-                <p>Own your customer data - no platform can deplatform or change terms</p>
+              <div className="space-y-2">
+                <h4 className="font-semibold text-[#8b795e] mb-2 flex items-center gap-2">
+                  <Users className="h-4 w-4 text-purple-600" />
+                  Customer Ownership
+                </h4>
+                <p className="text-[#8b795e]/80">Own your customer data - no platform can deplatform or change terms</p>
               </div>
-              <div>
-                <h4 className="font-medium text-[#8b795e] mb-2">Global Reach</h4>
-                <p>Accept payments from any Web3 wallet worldwide without banking restrictions</p>
+              <div className="space-y-2">
+                <h4 className="font-semibold text-[#8b795e] mb-2 flex items-center gap-2">
+                  <Database className="h-4 w-4 text-orange-600" />
+                  Global Reach
+                </h4>
+                <p className="text-[#8b795e]/80">Accept payments from any Web3 wallet worldwide without banking restrictions</p>
               </div>
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
     </AdminLayout>
   );
