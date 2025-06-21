@@ -35,10 +35,14 @@ export const orders = pgTable("orders", {
   restaurantId: integer("restaurant_id").references(() => restaurants.id),
   customerName: text("customer_name"),
   customerEmail: text("customer_email"),
+  customerPhone: text("customer_phone"),
+  tableNumber: text("table_number"),
   items: text("items").notNull(), // JSON string of order items
   subtotal: decimal("subtotal", { precision: 10, scale: 2 }).notNull(),
   tax: decimal("tax", { precision: 10, scale: 2 }).notNull(),
   total: decimal("total", { precision: 10, scale: 2 }).notNull(),
+  paymentMethod: text("payment_method"), // 'usdc', 'credit', 'cash'
+  paymentId: text("payment_id"),
   status: text("status").default("pending"),
   createdAt: timestamp("created_at").defaultNow(),
 });

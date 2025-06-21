@@ -44,7 +44,7 @@ export default function AdminPage() {
       setWalletConnected(walletData.wallet?.connected || false);
       setUsdcBalance(paymentsData.totalUsdcRevenue?.toFixed(2) || "0.00");
       setFeeSavings(paymentsData.totalFeesSaved?.toFixed(2) || "0.00");
-      setTotalOrders(paymentsData.transactionCount || ordersData?.length || 0);
+      setTotalOrders(Number(paymentsData.transactionCount) || ordersData?.length || 0);
       setMimiTokensEarned(rewardsData.totalTokensIssued?.toLocaleString() || "0");
       setBlockchainBlocks(blockchainData.totalBlocks || 1);
       
