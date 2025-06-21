@@ -24,88 +24,40 @@ import mimiDashboardLogo from "@assets/mimidashboardtext_1750333406399.webp";
 
 const navigation = [
   {
-    name: "Live Sales Dashboard",
+    name: "Dashboard",
     href: "/admin",
     icon: BarChart3,
-    description: "Real-time sales & order tracking"
+    description: "Orders & Web3 payments overview"
   },
   {
     name: "Menu Management", 
     href: "/admin/menu",
     icon: ChefHat,
-    description: "Items, categories, modifiers"
+    description: "Blockchain-backed menu items"
   },
   {
-    name: "AI Agent Training",
-    href: "/admin/ai-training", 
-    icon: Bot,
-    description: "Voice, FAQs, upsell logic"
-  },
-  {
-    name: "User & Staff Management",
-    href: "/admin/users",
-    icon: Users,
-    description: "Roles, permissions, schedules"
-  },
-  {
-    name: "Orders Management",
+    name: "Orders",
     href: "/admin/orders",
     icon: ShoppingCart,
-    description: "Track, fulfill, customer service"
+    description: "USDC orders & fulfillment"
   },
   {
-    name: "Inventory Management",
-    href: "/admin/inventory",
-    icon: Package,
-    description: "Stock levels, suppliers, alerts"
-  },
-  {
-    name: "Payments & Billing",
+    name: "Web3 Payments",
     href: "/admin/payments",
     icon: CreditCard,
-    description: "Transactions, refunds, accounting"
-  },
-  {
-    name: "Marketing & Promotions",
-    href: "/admin/marketing",
-    icon: Megaphone,
-    description: "Campaigns, discounts, loyalty"
-  },
-  {
-    name: "Analytics & Reports",
-    href: "/admin/analytics",
-    icon: TrendingUp,
-    description: "Performance metrics, insights"
+    description: "USDC transactions & fee savings"
   },
   {
     name: "$MIMI Rewards",
     href: "/admin/rewards",
     icon: DollarSign,
-    description: "Crypto earnings, network revenue"
+    description: "Token rewards & customer loyalty"
   },
   {
-    name: "Blockchain Database",
+    name: "Blockchain Storage",
     href: "/admin/blockchain",
     icon: Database,
-    description: "Decentralized menu storage & verification"
-  },
-  {
-    name: "Settings",
-    href: "/admin/settings",
-    icon: Settings,
-    description: "General configuration"
-  },
-  {
-    name: "Security & Privacy",
-    href: "/admin/security",
-    icon: Shield,
-    description: "Data protection, compliance"
-  },
-  {
-    name: "Integrations",
-    href: "/admin/integrations",
-    icon: Plug,
-    description: "Third-party connections"
+    description: "Decentralized data verification"
   }
 ];
 
