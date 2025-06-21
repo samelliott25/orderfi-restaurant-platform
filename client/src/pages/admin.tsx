@@ -67,7 +67,7 @@ export default function AdminPage() {
       <div className="admin-bg pattern-dots">
         <div className="container-modern p-6 space-y-6">
         {/* Header */}
-        <div className="glass-dark rounded-2xl p-6 shadow-modern-lg">
+        <div className="bg-white rounded-2xl p-6 shadow-modern-lg border border-[#8b795e]/10">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gradient mb-2">Web3 Restaurant Dashboard</h1>
