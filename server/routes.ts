@@ -463,57 +463,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Virtuals.io integration endpoints
-  app.post("/api/virtuals/webhook", async (req, res) => {
-    try {
-      const { platform, message } = req.body;
-      
-      if (!platform || !message) {
-        return res.status(400).json({ message: "Missing platform or message data" });
-      }
 
-      const { virtualsIntegration } = await import("./services/virtuals-integration");
-      const response = await virtualsIntegration.processVirtualsMessage(message);
-      
-      res.json(response);
-    } catch (error) {
-      console.error("Virtuals webhook error:", error);
-      res.status(500).json({ message: "Failed to process message" });
-    }
-  });
-
-  app.post("/api/virtuals/twitter", async (req, res) => {
-    try {
-      const { twitterAdapter } = await import("./platforms/twitter-adapter");
-      await twitterAdapter.handleWebhook(req.body);
-      res.json({ status: "processed" });
-    } catch (error) {
-      console.error("Twitter webhook error:", error);
-      res.status(500).json({ message: "Failed to process Twitter webhook" });
-    }
-  });
-
-  app.post("/api/virtuals/discord", async (req, res) => {
-    try {
-      const { discordAdapter } = await import("./platforms/discord-adapter");
-      await discordAdapter.handleMessage(req.body);
-      res.json({ status: "processed" });
-    } catch (error) {
-      console.error("Discord webhook error:", error);
-      res.status(500).json({ message: "Failed to process Discord message" });
-    }
-  });
-
-  app.get("/api/virtuals/metrics", async (req, res) => {
-    try {
-      const { virtualsIntegration } = await import("./services/virtuals-integration");
-      const metrics = await virtualsIntegration.getAgentMetrics();
-      res.json(metrics);
-    } catch (error) {
-      console.error("Metrics error:", error);
-      res.status(500).json({ message: "Failed to get metrics" });
-    }
-  });
 
   // Import and register decentralized routes
   const { registerDecentralizedRoutes } = await import("./routes/decentralized");

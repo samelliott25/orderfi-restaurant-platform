@@ -23,8 +23,8 @@
 | **Production Deployment & DevOps** | Containerize (Docker images for client, server, AI worker) |   ✅   | **NEW** - Multi-stage Dockerfile, docker-compose, nginx |
 |                                    | CI/CD pipelines (GitHub Actions, Vercel/Replit)            |   ✅   | **NEW** - GitHub Actions workflow with staging/prod |
 |                                    | SSL, domain setup & load-balancer configuration            |   ✅   | **NEW** - Nginx reverse proxy with security headers |
-| **Decentralized Hosting**          | Deploy on Akash Network or Virtuals.io nodes               |   ✅   | **NEW** - Akash deployment.yaml configuration |
-|                                    | Integrate AI-agent host as decentralized service           |   ✅   | **NEW** - Virtuals.io + Akash compute integration |
+| **Decentralized Hosting**          | Deploy on Akash Network for decentralized compute          |   ✅   | **NEW** - Akash deployment.yaml configuration |
+|                                    | Integrate AI-agent host as decentralized service           |   ✅   | **NEW** - Akash compute integration |
 |                                    | Configure IPFS pinning nodes for static assets             |   ✅   | **NEW** - IPFS storage service implemented |
 | **Smart Contract Finalization**    | Audit & verify on public testnet                           |   ✅   | **NEW** - MimiRewards.sol + deployment scripts |
 |                                    | Deploy loyalty/reward & payment-splitter contracts live    |   ✅   | **NEW** - Hardhat config for Base/Polygon |

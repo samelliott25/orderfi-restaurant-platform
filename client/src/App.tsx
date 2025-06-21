@@ -30,7 +30,7 @@ import HybridChatPage from "@/pages/hybrid-chat";
 import MobileAppPage from "@/pages/mobile-app";
 import ChatbotPrimaryPage from "@/pages/chatbot-primary";
 import { DownloadPage } from "@/pages/DownloadPage";
-import { VirtualsIntegrationPage } from "@/pages/VirtualsIntegrationPage";
+
 import { DecentralizedDashboard } from "@/pages/DecentralizedDashboard";
 
 function Router() {
@@ -57,7 +57,7 @@ function Router() {
       <Route path="/mobile-app" component={MobileAppPage} />
       <Route path="/mimi-order" component={ChatbotPrimaryPage} />
       <Route path="/download" component={DownloadPage} />
-      <Route path="/virtuals" component={VirtualsIntegrationPage} />
+
       <Route path="/decentralized" component={DecentralizedDashboard} />
       <Route path="/legacy" component={CustomerPage} />
       <Route component={NotFound} />
