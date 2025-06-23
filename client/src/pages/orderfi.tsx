@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { OrderFiInterface } from "@/components/OrderFiInterface";
+import { SimpleOrderFi } from "@/components/SimpleOrderFi";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { QrCode, Smartphone, Zap } from "lucide-react";
@@ -9,7 +9,7 @@ import { QrCode, Smartphone, Zap } from "lucide-react";
 export default function OrderFiPage() {
   const [restaurantId] = useState(1);
   
-  // Get menu items for the swipe interface
+  // Get menu items for the interface
   const { data: menuItems = [], isLoading } = useQuery({
     queryKey: ['/api/menu-items', restaurantId],
   });
@@ -36,9 +36,9 @@ export default function OrderFiPage() {
     <div className="min-h-screen">
       {/* Mobile-first OrderFi interface */}
       <div className="max-w-md mx-auto">
-        <OrderFiInterface 
-          restaurantName={restaurant?.name || "Mimi's Restaurant"}
-          menuItems={menuItems}
+        <SimpleOrderFi 
+          restaurantName={(restaurant as any)?.name || "Mimi's Restaurant"}
+          menuItems={Array.isArray(menuItems) ? menuItems : []}
         />
       </div>
 
