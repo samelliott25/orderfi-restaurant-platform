@@ -5,59 +5,38 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
 import HomePage from "@/pages/home";
-import AdminPage from "@/pages/admin";
-import CustomerPage from "@/pages/customer";
-import MobileChatPage from "@/pages/mobile-chat";
-import RetroChatPage from "@/pages/retro-chat";
-import NotFound from "@/pages/not-found";
-import OrderPage from "@/pages/order";
-import AutomationPage from "@/pages/automation";
-import RestaurantPage from "@/pages/restaurant";
 import RestaurantDashboard from "@/pages/dashboard";
-import ControlCenter from "@/pages/control-center";
 import Web3DappPage from "@/pages/web3-dapp";
 import OrderFiPage from "@/pages/orderfi";
+import NotFound from "@/pages/not-found";
 
-// Admin module pages
-import MenuPage from "@/pages/menu";
+// Keep only essential admin pages for dashboard integration
 import AdminMenuPage from "@/pages/admin/menu";
 import AdminOrdersPage from "@/pages/admin/orders";
 import AdminPaymentsPage from "@/pages/admin/payments";
 import AdminRewardsPage from "@/pages/admin/rewards";
 import AdminBlockchainPage from "@/pages/admin/blockchain";
-import HybridChatPage from "@/pages/hybrid-chat";
-import MobileAppPage from "@/pages/mobile-app";
-import ChatbotPrimaryPage from "@/pages/chatbot-primary";
-import { DownloadPage } from "@/pages/DownloadPage";
-
-import { DecentralizedDashboard } from "@/pages/DecentralizedDashboard";
 
 function Router() {
   return (
     <Switch>
+      {/* Main Application Routes */}
       <Route path="/" component={HomePage} />
-      <Route path="/admin" component={AdminPage} />
+      
+      {/* Customer-Facing Mobile Interface */}
+      <Route path="/orderfi" component={OrderFiPage} />
+      <Route path="/web3-order" component={Web3DappPage} />
+      
+      {/* Back Office Dashboard */}
+      <Route path="/dashboard" component={RestaurantDashboard} />
+      
+      {/* Admin Pages (accessed through dashboard) */}
       <Route path="/admin/menu" component={AdminMenuPage} />
       <Route path="/admin/orders" component={AdminOrdersPage} />
       <Route path="/admin/payments" component={AdminPaymentsPage} />
       <Route path="/admin/rewards" component={AdminRewardsPage} />
       <Route path="/admin/blockchain" component={AdminBlockchainPage} />
-      <Route path="/retro" component={RetroChatPage} />
-      <Route path="/customer" component={MobileChatPage} />
-      <Route path="/hybrid-chat" component={HybridChatPage} />
-      <Route path="/mobile-app" component={MobileAppPage} />
-      <Route path="/mimi-order" component={ChatbotPrimaryPage} />
-      <Route path="/download" component={DownloadPage} />
-
-      <Route path="/decentralized" component={DecentralizedDashboard} />
-      <Route path="/order" component={OrderPage} />
-      <Route path="/automation" component={AutomationPage} />
-      <Route path="/restaurant" component={RestaurantPage} />
-      <Route path="/dashboard" component={RestaurantDashboard} />
-      <Route path="/web3-order" component={Web3DappPage} />
-      <Route path="/control" component={ControlCenter} />
-      <Route path="/orderfi" component={OrderFiPage} />
-      <Route path="/legacy" component={CustomerPage} />
+      
       <Route component={NotFound} />
     </Switch>
   );

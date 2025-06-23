@@ -38,30 +38,30 @@ export default function HomePage() {
                   color: '#8b795e'
                 }}
               >
-                Choose Your Experience
+                Choose Your Interface
               </div>
               <p className="text-sm text-[#8b795e]/70 mb-4">
-                Web3 dApp or Traditional Interface
+                Customer Experience or Restaurant Operations
               </p>
             </div>
             
-            {/* Core Interface Options */}
-            <div className="flex flex-col space-y-3 w-full max-w-xs">
+            {/* Streamlined Interface Options */}
+            <div className="flex flex-col space-y-4 w-full max-w-xs">
               <Button
-                onClick={() => window.location.href = '/web3-order'}
-                className="w-full py-3 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform hover:scale-105 hover:opacity-90"
+                onClick={() => window.location.href = '/orderfi'}
+                className="w-full py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform hover:scale-105 hover:opacity-90"
                 style={{ 
                   backgroundColor: '#8b795e'
                 }}
               >
                 <UserCheck className="mr-2 h-5 w-5" />
-                Web3 dApp Ordering
+                Customer Ordering
               </Button>
               
               <Button
-                onClick={() => window.location.href = '/restaurant'}
+                onClick={() => window.location.href = '/dashboard'}
                 variant="outline"
-                className="w-full py-3 text-lg font-semibold border-2 shadow-lg transition-all duration-200 transform hover:scale-105"
+                className="w-full py-4 text-lg font-semibold border-2 shadow-lg transition-all duration-200 transform hover:scale-105"
                 style={{ 
                   borderColor: '#8b795e',
                   color: '#8b795e',
@@ -69,16 +69,16 @@ export default function HomePage() {
                 }}
               >
                 <User className="mr-2 h-5 w-5" />
-                Traditional Ordering
+                Restaurant Dashboard
               </Button>
 
               <div className="text-center pt-2">
                 <Button
-                  onClick={() => window.location.href = '/dashboard'}
+                  onClick={() => window.location.href = '/web3-order'}
                   variant="ghost"
                   className="text-sm text-[#8b795e]/70 hover:text-[#8b795e]"
                 >
-                  Restaurant Back Office Dashboard →
+                  Web3 Advanced Features →
                 </Button>
               </div>
             </div>
