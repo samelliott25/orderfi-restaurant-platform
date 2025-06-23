@@ -38,25 +38,28 @@ export default function HomePage() {
                   color: '#8b795e'
                 }}
               >
-                Ready to Order?
+                Choose Your Experience
               </div>
+              <p className="text-sm text-[#8b795e]/70 mb-4">
+                Web3 dApp or Traditional Interface
+              </p>
             </div>
             
             {/* Core Interface Options */}
             <div className="flex flex-col space-y-3 w-full max-w-xs">
               <Button
-                onClick={() => window.location.href = '/restaurant'}
+                onClick={() => window.location.href = '/web3-order'}
                 className="w-full py-3 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform hover:scale-105 hover:opacity-90"
                 style={{ 
                   backgroundColor: '#8b795e'
                 }}
               >
                 <UserCheck className="mr-2 h-5 w-5" />
-                Customer Ordering
+                Web3 dApp Ordering
               </Button>
               
               <Button
-                onClick={() => window.location.href = '/control'}
+                onClick={() => window.location.href = '/restaurant'}
                 variant="outline"
                 className="w-full py-3 text-lg font-semibold border-2 shadow-lg transition-all duration-200 transform hover:scale-105"
                 style={{ 
@@ -66,8 +69,18 @@ export default function HomePage() {
                 }}
               >
                 <User className="mr-2 h-5 w-5" />
-                Restaurant Control
+                Traditional Ordering
               </Button>
+
+              <div className="text-center pt-2">
+                <Button
+                  onClick={() => window.location.href = '/control'}
+                  variant="ghost"
+                  className="text-sm text-[#8b795e]/70 hover:text-[#8b795e]"
+                >
+                  Restaurant Control Center →
+                </Button>
+              </div>
             </div>
           </div>
         </div>
