@@ -13,6 +13,7 @@ import NotFound from "@/pages/not-found";
 import OrderPage from "@/pages/order";
 import AutomationPage from "@/pages/automation";
 import RestaurantPage from "@/pages/restaurant";
+import RestaurantDashboard from "@/pages/dashboard";
 import ControlCenter from "@/pages/control-center";
 import Web3DappPage from "@/pages/web3-dapp";
 import OrderFiPage from "@/pages/orderfi";
@@ -52,6 +53,7 @@ function Router() {
       <Route path="/order" component={OrderPage} />
       <Route path="/automation" component={AutomationPage} />
       <Route path="/restaurant" component={RestaurantPage} />
+      <Route path="/dashboard" component={RestaurantDashboard} />
       <Route path="/web3-order" component={Web3DappPage} />
       <Route path="/control" component={ControlCenter} />
       <Route path="/orderfi" component={OrderFiPage} />
