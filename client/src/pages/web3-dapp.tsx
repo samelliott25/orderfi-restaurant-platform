@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useWallet } from "@/hooks/useWallet";
+import { VoiceGuideOverlay } from "@/components/VoiceGuideOverlay";
 import { 
   Wallet, 
   ShoppingCart, 
@@ -17,7 +18,8 @@ import {
   Minus,
   DollarSign,
   Loader2,
-  CheckCircle
+  CheckCircle,
+  HelpCircle
 } from "lucide-react";
 
 // True Web3 dApp ordering - DEX-style interface for food
@@ -29,6 +31,7 @@ export default function Web3DappPage() {
   const [cart, setCart] = useState<any[]>([]);
   const [transactionHash, setTransactionHash] = useState('');
   const [orderStatus, setOrderStatus] = useState<'idle' | 'pending' | 'confirming' | 'confirmed'>('idle');
+  const [showTutorial, setShowTutorial] = useState(false);
 
   // Get menu items from API
   const { data: menuItems = [], isLoading: menuLoading } = useQuery({
@@ -160,7 +163,7 @@ export default function Web3DappPage() {
     return (
       <div className="min-h-screen admin-bg">
         <div className="container-modern max-w-4xl mx-auto p-6">
-          <div className="bg-white rounded-2xl p-8 shadow-modern-lg border border-[#8b795e]/10 mb-8">
+          <div className="bg-white rounded-2xl p-8 shadow-modern-lg border border-[#8b795e]/10 mb-8 wallet-section">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-gradient mb-4">Web3 Food Ordering dApp</h1>
               <p className="text-[#8b795e]/70 mb-6">
@@ -178,6 +181,14 @@ export default function Web3DappPage() {
                   MIMI Rewards
                 </Badge>
               </div>
+              <Button
+                onClick={() => setShowTutorial(true)}
+                variant="outline"
+                className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
+              >
+                <HelpCircle className="h-4 w-4 mr-2" />
+                Start Voice Tutorial
+              </Button>
             </div>
           </div>
 
@@ -188,7 +199,7 @@ export default function Web3DappPage() {
                 Connect Wallet
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 wallet-buttons">
               <Button
                 onClick={() => handleConnect('metamask')}
                 disabled={wallet.isConnecting}
@@ -257,7 +268,16 @@ export default function Web3DappPage() {
             </div>
             
             <div className="flex items-center gap-4">
-              <div className="text-right">
+              <Button
+                onClick={() => setShowTutorial(true)}
+                variant="outline"
+                size="sm"
+                className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
+              >
+                <HelpCircle className="h-4 w-4 mr-2" />
+                Voice Tutorial
+              </Button>
+              <div className="text-right wallet-info">
                 <p className="text-sm text-[#8b795e]/70">Connected Wallet</p>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -286,7 +306,7 @@ export default function Web3DappPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Menu Selection */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl p-6 shadow-modern border border-[#8b795e]/10">
+            <div className="bg-white rounded-2xl p-6 shadow-modern border border-[#8b795e]/10 menu-section">
               <h2 className="text-xl font-bold text-gradient mb-6">Select Items</h2>
               
               {menuLoading ? (
@@ -299,7 +319,7 @@ export default function Web3DappPage() {
                   ))}
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-4 menu-items">
                   {(Array.isArray(menuItems) ? menuItems : []).map((item: any) => (
                     <div key={item.id} className="border border-[#8b795e]/10 rounded-lg p-4 hover:bg-[#ffe6b0]/5 transition-colors">
                       <div className="flex items-center justify-between">
@@ -330,7 +350,7 @@ export default function Web3DappPage() {
 
           {/* Order Summary & Transaction */}
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-modern border border-[#8b795e]/10">
+            <div className="bg-white rounded-2xl p-6 shadow-modern border border-[#8b795e]/10 order-summary">
               <h3 className="text-lg font-bold text-gradient mb-4 flex items-center gap-2">
                 <ShoppingCart className="h-5 w-5" />
                 Order Summary
@@ -387,7 +407,7 @@ export default function Web3DappPage() {
                       <span className="text-[#8b795e]/70">Protocol Fee (0.01%)</span>
                       <span className="text-[#8b795e]">${calculateOrder().protocolFee}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className="flex justify-between text-sm rewards-section">
                       <span className="text-green-600">MIMI Rewards</span>
                       <span className="text-green-600">+{calculateOrder().mimiRewards}</span>
                     </div>
@@ -401,7 +421,7 @@ export default function Web3DappPage() {
                   <Button
                     onClick={submitOrder}
                     disabled={orderStatus !== 'idle' || parseFloat(wallet.balance) < parseFloat(calculateOrder().total)}
-                    className="w-full gradient-bg text-white"
+                    className="w-full gradient-bg text-white place-order-button"
                     size="lg"
                   >
                     {orderStatus === 'pending' && (
