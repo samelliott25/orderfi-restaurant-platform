@@ -10,14 +10,16 @@ export default function OrderFiPage() {
   const [restaurantId] = useState(1);
   
   // Get menu items for the interface
-  const { data: menuItems = [], isLoading } = useQuery({
-    queryKey: ['/api/menu-items', restaurantId],
+  const { data: menuItems = [], isLoading: menuLoading } = useQuery({
+    queryKey: [`/api/restaurants/${restaurantId}/menu`],
   });
 
   // Get restaurant info
-  const { data: restaurant } = useQuery({
+  const { data: restaurant, isLoading: restaurantLoading } = useQuery({
     queryKey: ['/api/restaurants', restaurantId],
   });
+
+  const isLoading = menuLoading || restaurantLoading;
 
   if (isLoading) {
     return (
@@ -25,7 +27,7 @@ export default function OrderFiPage() {
         <Card className="w-full max-w-md">
           <CardContent className="p-6 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto mb-4"></div>
-            <p>Loading menu...</p>
+            <p>Loading delicious menu...</p>
           </CardContent>
         </Card>
       </div>
