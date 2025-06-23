@@ -401,10 +401,25 @@ export default function RestaurantDashboard() {
       </div>
 
       {/* AI Operations Assistant */}
-      <OperationsAiChat 
-        isOpen={showAiAssistant}
-        onToggle={() => setShowAiAssistant(!showAiAssistant)}
-      />
+      {showAiAssistant && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full h-[600px] flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="text-lg font-semibold">AI Operations Assistant</h3>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setShowAiAssistant(false)}
+              >
+                ×
+              </Button>
+            </div>
+            <div className="flex-1 p-4">
+              <OperationsAiChat />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

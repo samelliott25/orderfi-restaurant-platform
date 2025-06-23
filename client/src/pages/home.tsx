@@ -74,11 +74,11 @@ export default function HomePage() {
 
               <div className="text-center pt-2">
                 <Button
-                  onClick={() => window.location.href = '/control'}
+                  onClick={() => window.location.href = '/dashboard'}
                   variant="ghost"
                   className="text-sm text-[#8b795e]/70 hover:text-[#8b795e]"
                 >
-                  Restaurant Control Center →
+                  Restaurant Back Office Dashboard →
                 </Button>
               </div>
             </div>
