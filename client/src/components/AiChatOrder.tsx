@@ -378,7 +378,7 @@ Current conversation context: The customer just said "${userMessage}"`
                   
                   {/* Show clickable menu items mentioned in the message */}
                   {message.role === 'assistant' && (() => {
-                    const { foundItems } = parseMessageContent(message.content);
+                    const foundItems = findMenuItemsInMessage(message.content);
                     return foundItems.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-2">
                         {foundItems.map((item, index) => (
