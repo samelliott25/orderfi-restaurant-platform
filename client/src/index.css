@@ -97,16 +97,21 @@
   border-radius: 12px;
 }
 
-/* Dialog overlay customization - reduced opacity */
-[data-radix-dialog-overlay] {
-  background-color: rgba(0, 0, 0, 0.2) !important;
-  backdrop-filter: blur(2px) !important;
+/* Dialog overlay customization - minimal opacity */
+[data-radix-dialog-overlay],
+.fixed.inset-0.z-50.bg-background\/80 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  backdrop-filter: none !important;
 }
 
-/* Dialog content styling for better visibility with light overlay */
-[data-radix-dialog-content] {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+/* Dialog content styling - solid opaque background */
+[data-radix-dialog-content],
+.dialog-content {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(139, 121, 94, 0.2) !important;
+  opacity: 1 !important;
 }
 
 .border-glow {

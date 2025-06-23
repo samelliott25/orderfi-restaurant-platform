@@ -408,7 +408,7 @@ export default function RestaurantDashboard() {
 
       {/* Quick Action Popups */}
       <Dialog open={activePopup === 'menu'} onOpenChange={() => setActivePopup(null)}>
-        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader>
             <DialogTitle>Menu Management</DialogTitle>
           </DialogHeader>
@@ -467,7 +467,7 @@ export default function RestaurantDashboard() {
       </Dialog>
 
       <Dialog open={activePopup === 'orders'} onOpenChange={() => setActivePopup(null)}>
-        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader>
             <DialogTitle>Order Management</DialogTitle>
           </DialogHeader>
@@ -532,7 +532,7 @@ export default function RestaurantDashboard() {
       </Dialog>
 
       <Dialog open={activePopup === 'automation'} onOpenChange={() => setActivePopup(null)}>
-        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader>
             <DialogTitle>Automation Workflows</DialogTitle>
           </DialogHeader>
