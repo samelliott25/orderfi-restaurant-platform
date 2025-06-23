@@ -13,6 +13,7 @@ import {
   insertChatMessageSchema 
 } from "@shared/schema";
 import multer from 'multer';
+import ttsRouter from "./routes/tts.js";
 
 // Configure multer for image uploads
 const upload = multer({ storage: multer.memoryStorage() });
@@ -530,6 +531,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   const { registerAutomationRoutes } = await import("./routes/automation");
   registerAutomationRoutes(app);
+
+  // Register TTS routes
+  app.use("/api/tts", ttsRouter);
 
   const httpServer = createServer(app);
   return httpServer;

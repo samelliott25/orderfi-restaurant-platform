@@ -39,18 +39,71 @@ export function useVoiceGuide(): UseVoiceGuideReturn {
 
   const currentStep = steps[currentStepIndex] || null;
 
-  const speak = (text: string) => {
-    if (!hasSpeechSupport || isMuted) return;
+  const speak = async (text: string) => {
+    if (isMuted) return;
 
-    // Cancel any ongoing speech
-    window.speechSynthesis.cancel();
+    // Cancel any ongoing speech - try both methods
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+    if (utteranceRef.current) {
+      utteranceRef.current = null;
+    }
+
+    setIsPlaying(true);
+
+    try {
+      // Use OpenAI TTS for natural voice
+      const response = await fetch('/api/tts/speech', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text }),
+      });
+
+      if (response.ok) {
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        
+        audio.onended = () => {
+          setIsPlaying(false);
+          URL.revokeObjectURL(audioUrl);
+          handleStepComplete();
+        };
+        
+        audio.onerror = () => {
+          setIsPlaying(false);
+          URL.revokeObjectURL(audioUrl);
+          // Fallback to browser TTS if OpenAI fails
+          fallbackSpeak(text);
+        };
+
+        await audio.play();
+      } else {
+        // Fallback to browser TTS if API fails
+        fallbackSpeak(text);
+      }
+    } catch (error) {
+      console.log('TTS API unavailable, using browser fallback');
+      fallbackSpeak(text);
+    }
+  };
+
+  const fallbackSpeak = (text: string) => {
+    if (!hasSpeechSupport) {
+      setIsPlaying(false);
+      handleStepComplete();
+      return;
+    }
 
     const utterance = new SpeechSynthesisUtterance(text);
     
     // Mimi's waitress voice settings - warm and friendly
-    utterance.rate = 0.82;  // Slower, more conversational pace
-    utterance.pitch = 1.25; // Higher pitch for feminine, friendly tone
-    utterance.volume = 0.9; // Clear and confident
+    utterance.rate = 0.82;
+    utterance.pitch = 1.25;
+    utterance.volume = 0.9;
 
     // Find the best female voice available
     const voices = window.speechSynthesis.getVoices();
@@ -60,8 +113,7 @@ export function useVoiceGuide(): UseVoiceGuideReturn {
       voice.name.toLowerCase().includes('victoria') ||
       voice.name.toLowerCase().includes('zira') ||
       voice.name.toLowerCase().includes('female') ||
-      (voice.name.toLowerCase().includes('google') && voice.name.toLowerCase().includes('us')) ||
-      (voice.name.toLowerCase().includes('microsoft') && voice.name.toLowerCase().includes('zira'))
+      (voice.name.toLowerCase().includes('google') && voice.name.toLowerCase().includes('us'))
     ) || voices.find(voice => voice.lang.startsWith('en-US'));
     
     if (femaleVoice) {
@@ -73,7 +125,10 @@ export function useVoiceGuide(): UseVoiceGuideReturn {
       setIsPlaying(false);
       handleStepComplete();
     };
-    utterance.onerror = () => setIsPlaying(false);
+    utterance.onerror = () => {
+      setIsPlaying(false);
+      handleStepComplete();
+    };
 
     utteranceRef.current = utterance;
     window.speechSynthesis.speak(utterance);
@@ -102,9 +157,9 @@ export function useVoiceGuide(): UseVoiceGuideReturn {
     setIsActive(true);
     
     // Start first step after a brief delay
-    setTimeout(() => {
+    setTimeout(async () => {
       if (tutorialSteps[0]) {
-        speak(tutorialSteps[0].instruction);
+        await speak(tutorialSteps[0].instruction);
       }
     }, 500);
   };
@@ -133,17 +188,19 @@ export function useVoiceGuide(): UseVoiceGuideReturn {
         clearTimeout(timeoutRef.current);
       }
       
-      setTimeout(() => {
+      setTimeout(async () => {
         if (steps[newIndex]) {
-          speak(steps[newIndex].instruction);
+          await speak(steps[newIndex].instruction);
         }
       }, 500);
     } else {
       // Tutorial complete
-      speak("And that's a wrap, sweetie! You're now a pro at Web3 ordering! I'm so proud of you for learning something completely new. Go ahead and order some delicious food - you've earned it! Thanks for letting me be your guide today!");
-      setTimeout(() => {
-        stopTutorial();
-      }, 4000);
+      const completionMessage = "And that's a wrap, sweetie! You're now a pro at Web3 ordering! I'm so proud of you for learning something completely new. Go ahead and order some delicious food - you've earned it! Thanks for letting me be your guide today!";
+      speak(completionMessage).then(() => {
+        setTimeout(() => {
+          stopTutorial();
+        }, 2000);
+      });
     }
   };
 
@@ -156,9 +213,9 @@ export function useVoiceGuide(): UseVoiceGuideReturn {
         clearTimeout(timeoutRef.current);
       }
       
-      setTimeout(() => {
+      setTimeout(async () => {
         if (steps[newIndex]) {
-          speak(steps[newIndex].instruction);
+          await speak(steps[newIndex].instruction);
         }
       }, 500);
     }
@@ -172,9 +229,9 @@ export function useVoiceGuide(): UseVoiceGuideReturn {
         clearTimeout(timeoutRef.current);
       }
       
-      setTimeout(() => {
+      setTimeout(async () => {
         if (steps[index]) {
-          speak(steps[index].instruction);
+          await speak(steps[index].instruction);
         }
       }, 500);
     }
