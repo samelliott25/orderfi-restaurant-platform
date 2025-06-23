@@ -535,6 +535,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register TTS routes
   app.use("/api/tts", ttsRouter);
 
+  // Register customer chat routes
+  const customerChatRouter = await import("./routes/customer-chat.js");
+  app.use("/api/customer-chat", customerChatRouter.default);
+
   const httpServer = createServer(app);
   return httpServer;
 }

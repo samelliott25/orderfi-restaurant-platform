@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useWallet } from "@/hooks/useWallet";
 import { VoiceGuideOverlay } from "@/components/VoiceGuideOverlay";
+import { CustomerAiChat } from "@/components/CustomerAiChat";
 import { 
   Wallet, 
   ShoppingCart, 
@@ -32,6 +33,7 @@ export default function Web3DappPage() {
   const [transactionHash, setTransactionHash] = useState('');
   const [orderStatus, setOrderStatus] = useState<'idle' | 'pending' | 'confirming' | 'confirmed'>('idle');
   const [showTutorial, setShowTutorial] = useState(false);
+  const [showAiChat, setShowAiChat] = useState(false);
 
   // Get menu items from API
   const { data: menuItems = [], isLoading: menuLoading } = useQuery({
@@ -492,6 +494,14 @@ export default function Web3DappPage() {
       <VoiceGuideOverlay 
         isVisible={showTutorial} 
         onClose={() => setShowTutorial(false)} 
+      />
+
+      {/* AI Chat Assistant */}
+      <CustomerAiChat 
+        isOpen={showAiChat}
+        onToggle={() => setShowAiChat(!showAiChat)}
+        onAddToCart={addToCart}
+        currentCart={cart}
       />
     </div>
   );
