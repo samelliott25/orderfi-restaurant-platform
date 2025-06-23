@@ -565,7 +565,7 @@ export default function RestaurantDashboard() {
       </Dialog>
 
       <Dialog open={activePopup === 'blockchain'} onOpenChange={() => setActivePopup(null)}>
-        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader>
             <DialogTitle>Blockchain Operations</DialogTitle>
           </DialogHeader>
