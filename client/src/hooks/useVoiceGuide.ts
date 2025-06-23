@@ -46,19 +46,26 @@ export function useVoiceGuide(): UseVoiceGuideReturn {
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
-    utterance.volume = 0.8;
+    
+    // Mimi's waitress voice settings - warm and friendly
+    utterance.rate = 0.82;  // Slower, more conversational pace
+    utterance.pitch = 1.25; // Higher pitch for feminine, friendly tone
+    utterance.volume = 0.9; // Clear and confident
 
-    // Use a friendly voice if available
+    // Find the best female voice available
     const voices = window.speechSynthesis.getVoices();
-    const preferredVoice = voices.find(voice => 
-      voice.name.includes('Google') || 
-      voice.name.includes('Microsoft') ||
-      voice.lang.includes('en-US')
-    );
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
+    const femaleVoice = voices.find(voice => 
+      voice.name.toLowerCase().includes('samantha') ||
+      voice.name.toLowerCase().includes('karen') ||
+      voice.name.toLowerCase().includes('victoria') ||
+      voice.name.toLowerCase().includes('zira') ||
+      voice.name.toLowerCase().includes('female') ||
+      (voice.name.toLowerCase().includes('google') && voice.name.toLowerCase().includes('us')) ||
+      (voice.name.toLowerCase().includes('microsoft') && voice.name.toLowerCase().includes('zira'))
+    ) || voices.find(voice => voice.lang.startsWith('en-US'));
+    
+    if (femaleVoice) {
+      utterance.voice = femaleVoice;
     }
 
     utterance.onstart = () => setIsPlaying(true);
@@ -133,10 +140,10 @@ export function useVoiceGuide(): UseVoiceGuideReturn {
       }, 500);
     } else {
       // Tutorial complete
-      speak("Tutorial complete! You're now ready to order food on the blockchain. Enjoy your Web3 dining experience!");
+      speak("And that's a wrap, sweetie! You're now a pro at Web3 ordering! I'm so proud of you for learning something completely new. Go ahead and order some delicious food - you've earned it! Thanks for letting me be your guide today!");
       setTimeout(() => {
         stopTutorial();
-      }, 3000);
+      }, 4000);
     }
   };
 

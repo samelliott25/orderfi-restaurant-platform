@@ -40,93 +40,93 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
 
   const [highlightElement, setHighlightElement] = useState<string | null>(null);
 
-  // Web3 Restaurant Tutorial Steps
+  // Web3 Restaurant Tutorial Steps - Mimi's Friendly Guide
   const tutorialSteps: VoiceGuideStep[] = [
     {
       id: 'welcome',
       title: 'Welcome to Web3 Ordering',
-      instruction: 'Welcome to the Web3 restaurant ordering experience! This tutorial will guide you through placing your first blockchain-based food order. Let\'s start by understanding what makes this different from traditional ordering.',
-      duration: 4000
+      instruction: 'Hi there! I\'m Mimi, your friendly digital waitress! Welcome to our special Web3 restaurant where you can pay with cryptocurrency. I\'m so excited to help you place your first blockchain food order - it\'s going to be amazing!',
+      duration: 5000
     },
     {
       id: 'wallet-intro',
       title: 'Wallet Connection',
-      instruction: 'First, you need to connect your Web3 wallet. This is like logging into a traditional app, but instead of a username and password, you use your cryptocurrency wallet. Your wallet stores your digital money and identity.',
+      instruction: 'Alright sweetie, first things first - we need to connect your crypto wallet! Think of it like your digital purse that holds your cryptocurrency instead of regular money. Don\'t worry, I\'ll walk you through everything step by step!',
       highlight: '.wallet-section',
       duration: 5000
     },
     {
       id: 'wallet-connect',
       title: 'Connect Your Wallet',
-      instruction: 'Click on one of the wallet options to connect. MetaMask is the most popular choice. Don\'t worry - this is completely safe and you control what permissions to grant.',
+      instruction: 'Go ahead and click on one of those wallet buttons, honey! MetaMask is super popular and easy to use. It\'s completely safe - you\'re in control of everything. Just like choosing which credit card to use, but way cooler!',
       highlight: '.wallet-buttons',
       waitForAction: true
     },
     {
       id: 'balance-explain',
       title: 'Understanding Your Balance',
-      instruction: 'Great! Your wallet is now connected. You can see your USDC balance in the top right. USDC is a stable cryptocurrency that equals one US dollar. This is what you\'ll use to pay for food.',
+      instruction: 'Fantastic! Your wallet is all connected now! See that USDC balance up there? That\'s your digital dollars - each USDC equals exactly one real dollar. This is what you\'ll use to pay for your delicious meal today!',
       highlight: '.wallet-info',
       duration: 5000
     },
     {
       id: 'menu-browse',
       title: 'Browse the Menu',
-      instruction: 'Now let\'s browse the menu. Each item shows the price in dollars and the MIMI token rewards you\'ll earn. MIMI tokens are loyalty points that give you discounts on future orders.',
+      instruction: 'Now comes the fun part - let\'s look at our amazing menu! Each dish shows the price and the MIMI tokens you\'ll earn. Those MIMI tokens are like loyalty points, but better - they\'re real cryptocurrency rewards just for eating here!',
       highlight: '.menu-section',
-      duration: 4000
+      duration: 5000
     },
     {
       id: 'add-items',
       title: 'Add Items to Cart',
-      instruction: 'Click the plus button to add items to your cart. Try adding a few items you\'d like to order. Notice how the order total updates automatically.',
+      instruction: 'Go ahead and click the plus button on anything that looks good to you! Our chef makes everything fresh and delicious. Watch how your order total updates automatically - it\'s like magic, but with math!',
       highlight: '.menu-items',
       waitForAction: true
     },
     {
       id: 'order-summary',
       title: 'Review Order Summary',
-      instruction: 'Perfect! Look at your order summary on the right. You can see the subtotal, network fee, and protocol fee. The total network fee is just 0.001 USDC - much lower than credit card fees.',
+      instruction: 'Perfect choices! Look at your order summary over there - you can see exactly what you\'re getting and what it costs. That tiny network fee? It\'s just 0.001 USDC - way cheaper than those sneaky credit card fees!',
       highlight: '.order-summary',
       duration: 5000
     },
     {
       id: 'fees-explanation',
       title: 'Understanding Web3 Fees',
-      instruction: 'Traditional credit cards charge restaurants 3% in fees. With Web3, you only pay a tiny network fee and 0.01% protocol fee. This saves money for both you and the restaurant!',
+      instruction: 'Here\'s something cool - regular restaurants pay 3% in credit card fees, but with our Web3 system, you only pay a tiny blockchain fee and 0.01% to us. That means more money stays with you and the restaurant. Everyone wins!',
       duration: 5000
     },
     {
       id: 'rewards-explanation',
       title: 'MIMI Token Rewards',
-      instruction: 'Notice the MIMI tokens you\'ll earn. These are loyalty tokens that automatically accumulate in your wallet. Use them for discounts, special menu items, or exclusive restaurant events.',
+      instruction: 'See those green MIMI tokens you\'re earning? They automatically go into your wallet and you can use them for discounts, special menu items, or exclusive events! It\'s like getting paid to eat delicious food - how awesome is that?',
       highlight: '.rewards-section',
       duration: 5000
     },
     {
       id: 'place-order',
       title: 'Place Your Order',
-      instruction: 'When you\'re ready, click the Place Order button. This will create a blockchain transaction that processes your payment and sends your order to the kitchen simultaneously.',
+      instruction: 'Alright honey, when you\'re ready to submit your order, just click that "Place Order" button! This sends your payment and order to the kitchen all at once through the blockchain. It\'s like magic, but with food!',
       highlight: '.place-order-button',
       waitForAction: true
     },
     {
       id: 'transaction-process',
       title: 'Transaction Processing',
-      instruction: 'Your transaction is now being processed on the blockchain. This usually takes 1-3 seconds. You\'ll get a transaction hash that proves your order is recorded permanently.',
+      instruction: 'Your order is zipping through the blockchain right now! This usually takes just 1 to 3 seconds. You\'ll get a special transaction number that proves your order is locked in forever - pretty cool, right?',
       duration: 4000
     },
     {
       id: 'confirmation',
       title: 'Order Confirmed',
-      instruction: 'Congratulations! Your order is confirmed on the blockchain. The kitchen has been automatically notified, and your MIMI tokens have been credited to your wallet.',
+      instruction: 'Congratulations, you did it! Your order is officially confirmed on the blockchain! The kitchen has been notified automatically, and your MIMI tokens are already in your wallet. You\'re amazing!',
       duration: 4000
     },
     {
       id: 'benefits-recap',
       title: 'Web3 Benefits Recap',
-      instruction: 'You just experienced the future of restaurant ordering: instant settlement, lower fees, automatic rewards, and permanent transaction records. No middlemen, no hidden fees, just pure efficiency.',
-      duration: 5000
+      instruction: 'You just experienced the future of dining! Instant payments, super low fees, automatic rewards, and a permanent record of your order. No middlemen taking cuts, no hidden fees - just you, great food, and cutting-edge technology. Welcome to the future, and thanks for dining with us!',
+      duration: 6000
     }
   ];
 
