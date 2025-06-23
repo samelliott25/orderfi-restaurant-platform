@@ -11,6 +11,7 @@ import MobileChatPage from "@/pages/mobile-chat";
 import RetroChatPage from "@/pages/retro-chat";
 import NotFound from "@/pages/not-found";
 import OrderPage from "@/pages/order";
+import AutomationPage from "@/pages/automation";
 
 // Admin module pages
 import MenuPage from "@/pages/menu";
@@ -45,6 +46,7 @@ function Router() {
 
       <Route path="/decentralized" component={DecentralizedDashboard} />
       <Route path="/order" component={OrderPage} />
+      <Route path="/automation" component={AutomationPage} />
       <Route path="/legacy" component={CustomerPage} />
       <Route component={NotFound} />
     </Switch>

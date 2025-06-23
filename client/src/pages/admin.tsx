@@ -196,18 +196,30 @@ export default function AdminPage() {
             <CardTitle className="text-gradient">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button variant="outline" className="flex items-center gap-2 border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 transition-colors">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2 border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 transition-colors"
+                onClick={() => window.location.href = '/order'}
+              >
                 <ShoppingCart className="h-4 w-4" />
-                View Recent Orders
+                Customer Ordering
+              </Button>
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2 border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 transition-colors"
+                onClick={() => window.location.href = '/automation'}
+              >
+                <Settings className="h-4 w-4" />
+                Workflow Automation
               </Button>
               <Button variant="outline" className="flex items-center gap-2 border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 transition-colors">
                 <DollarSign className="h-4 w-4" />
-                Check USDC Balance
+                USDC Analytics
               </Button>
               <Button variant="outline" className="flex items-center gap-2 border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 transition-colors">
                 <Database className="h-4 w-4" />
-                Blockchain Backup
+                Blockchain Explorer
               </Button>
             </div>
           </CardContent>
