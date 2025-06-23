@@ -404,7 +404,7 @@ Current conversation context: The customer just said "${userMessage}"`
                               ? part.content
                               : (
                                 <button
-                                  onClick={() => handleMenuItemClick(part.item)}
+                                  onClick={() => handleMenuItemClick((part as any).item)}
                                   className="inline-block mx-1 px-2 py-1 bg-orange-100 text-orange-800 rounded-md hover:bg-orange-200 transition-colors font-medium text-sm border border-orange-300"
                                 >
                                   {part.content}
