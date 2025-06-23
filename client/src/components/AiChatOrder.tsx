@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { 
   Send, 
   Mic, 
@@ -16,7 +17,9 @@ import {
   Bot,
   User,
   Clock,
-  DollarSign
+  DollarSign,
+  Eye,
+  X
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -42,15 +45,17 @@ interface CartItem {
   specialInstructions?: string;
 }
 
+interface MenuItem {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  category: string;
+}
+
 interface AiChatOrderProps {
   restaurantName: string;
-  menuItems: Array<{
-    id: number;
-    name: string;
-    description: string;
-    price: string;
-    category: string;
-  }>;
+  menuItems: MenuItem[];
 }
 
 export function AiChatOrder({ restaurantName, menuItems }: AiChatOrderProps) {
@@ -70,6 +75,7 @@ What are you in the mood for today? I can recommend dishes, tell you about our s
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedMenuItem, setSelectedMenuItem] = useState<MenuItem | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -79,6 +85,62 @@ What are you in the mood for today? I can recommend dishes, tell you about our s
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Parse AI message content to identify menu items and make them clickable
+  const parseMessageContent = (content: string): Array<{type: 'text', content: string} | {type: 'menuItem', content: string, item: MenuItem}> => {
+    const parts: Array<{type: 'text', content: string} | {type: 'menuItem', content: string, item: MenuItem}> = [];
+    let lastIndex = 0;
+    
+    // Find menu item names in the message
+    menuItems.forEach(item => {
+      const regex = new RegExp(`\\b${item.name}\\b`, 'gi');
+      let match;
+      
+      while ((match = regex.exec(content)) !== null) {
+        // Add text before the menu item
+        if (match.index > lastIndex) {
+          parts.push({
+            type: 'text',
+            content: content.slice(lastIndex, match.index)
+          });
+        }
+        
+        // Add the clickable menu item
+        parts.push({
+          type: 'menuItem',
+          content: match[0],
+          item: item
+        });
+        
+        lastIndex = regex.lastIndex;
+      }
+    });
+    
+    // Add remaining text
+    if (lastIndex < content.length) {
+      parts.push({
+        type: 'text',
+        content: content.slice(lastIndex)
+      });
+    }
+    
+    return parts.length > 0 ? parts : [{ type: 'text', content }];
+  };
+
+  const handleMenuItemClick = (item: MenuItem) => {
+    setSelectedMenuItem(item);
+  };
+
+  const addMenuItemToCart = (item: MenuItem, quantity: number = 1) => {
+    const cartItem: CartItem = {
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: quantity
+    };
+    addToCart(cartItem);
+    setSelectedMenuItem(null);
+  };
 
   // Process AI response and extract order items
   const processAiResponse = async (userMessage: string): Promise<string> => {
@@ -334,7 +396,26 @@ Current conversation context: The customer just said "${userMessage}"`
                   <Bot className="h-5 w-5 text-orange-500 mt-0.5 flex-shrink-0" />
                 )}
                 <div className="flex-1">
-                  <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  <div className="text-sm">
+                    {message.role === 'assistant' 
+                      ? parseMessageContent(message.content).map((part, index) => (
+                          <span key={index}>
+                            {part.type === 'text' 
+                              ? part.content
+                              : (
+                                <button
+                                  onClick={() => handleMenuItemClick(part.item)}
+                                  className="inline-block mx-1 px-2 py-1 bg-orange-100 text-orange-800 rounded-md hover:bg-orange-200 transition-colors font-medium text-sm border border-orange-300"
+                                >
+                                  {part.content}
+                                </button>
+                              )
+                            }
+                          </span>
+                        ))
+                      : <span className="whitespace-pre-wrap">{message.content}</span>
+                    }
+                  </div>
                   <p className={`text-xs mt-1 ${
                     message.role === 'user' ? 'text-orange-100' : 'text-gray-500'
                   }`}>
@@ -459,6 +540,70 @@ Current conversation context: The customer just said "${userMessage}"`
           </Button>
         </div>
       </div>
+
+      {/* Menu Item Detail Popup */}
+      <Dialog open={!!selectedMenuItem} onOpenChange={() => setSelectedMenuItem(null)}>
+        <DialogContent className="max-w-md bg-white">
+          <DialogHeader>
+            <DialogTitle className="flex items-center justify-between">
+              <span>{selectedMenuItem?.name}</span>
+              <Badge variant="outline" className="text-orange-600 border-orange-300">
+                ${selectedMenuItem?.price}
+              </Badge>
+            </DialogTitle>
+          </DialogHeader>
+          {selectedMenuItem && (
+            <div className="space-y-4">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Description</p>
+                <p className="text-sm">{selectedMenuItem.description}</p>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <Badge variant="secondary" className="text-xs">
+                  {selectedMenuItem.category}
+                </Badge>
+                <div className="text-lg font-semibold text-orange-600">
+                  ${selectedMenuItem.price}
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="flex space-x-2">
+                <Button
+                  onClick={() => addMenuItemToCart(selectedMenuItem, 1)}
+                  className="flex-1 bg-orange-500 hover:bg-orange-600"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add to Cart
+                </Button>
+                <Button
+                  onClick={() => setSelectedMenuItem(null)}
+                  variant="outline"
+                  className="border-gray-300"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <div className="text-center">
+                <Button
+                  onClick={() => {
+                    setSelectedMenuItem(null);
+                    setInputMessage(`Tell me more about the ${selectedMenuItem.name}`);
+                  }}
+                  variant="ghost"
+                  size="sm"
+                  className="text-orange-600 hover:text-orange-700"
+                >
+                  Ask Mimi about this item
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
