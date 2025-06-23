@@ -14,7 +14,7 @@ import OrderPage from "@/pages/order";
 import AutomationPage from "@/pages/automation";
 import RestaurantPage from "@/pages/restaurant";
 import ControlCenter from "@/pages/control-center";
-import Web3RestaurantPage from "@/pages/web3-restaurant";
+import Web3DappPage from "@/pages/web3-dapp";
 
 // Admin module pages
 import MenuPage from "@/pages/menu";
@@ -51,7 +51,7 @@ function Router() {
       <Route path="/order" component={OrderPage} />
       <Route path="/automation" component={AutomationPage} />
       <Route path="/restaurant" component={RestaurantPage} />
-      <Route path="/web3-order" component={Web3RestaurantPage} />
+      <Route path="/web3-order" component={Web3DappPage} />
       <Route path="/control" component={ControlCenter} />
       <Route path="/legacy" component={CustomerPage} />
       <Route component={NotFound} />
