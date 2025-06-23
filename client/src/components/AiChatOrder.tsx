@@ -86,45 +86,21 @@ What are you in the mood for today? I can recommend dishes, tell you about our s
     scrollToBottom();
   }, [messages]);
 
-  // Parse AI message content to identify menu items and make them clickable
-  const parseMessageContent = (content: string): Array<{type: 'text', content: string} | {type: 'menuItem', content: string, item: MenuItem}> => {
-    const parts: Array<{type: 'text', content: string} | {type: 'menuItem', content: string, item: MenuItem}> = [];
-    let lastIndex = 0;
+  // Find menu items mentioned in AI messages
+  const findMenuItemsInMessage = (content: string): MenuItem[] => {
+    const foundItems: MenuItem[] = [];
     
-    // Find menu item names in the message
     menuItems.forEach(item => {
       const regex = new RegExp(`\\b${item.name}\\b`, 'gi');
-      let match;
-      
-      while ((match = regex.exec(content)) !== null) {
-        // Add text before the menu item
-        if (match.index > lastIndex) {
-          parts.push({
-            type: 'text',
-            content: content.slice(lastIndex, match.index)
-          });
-        }
-        
-        // Add the clickable menu item
-        parts.push({
-          type: 'menuItem',
-          content: match[0],
-          item: item
-        });
-        
-        lastIndex = regex.lastIndex;
+      if (regex.test(content)) {
+        foundItems.push(item);
       }
     });
     
-    // Add remaining text
-    if (lastIndex < content.length) {
-      parts.push({
-        type: 'text',
-        content: content.slice(lastIndex)
-      });
-    }
-    
-    return parts.length > 0 ? parts : [{ type: 'text', content }];
+    // Remove duplicates
+    return foundItems.filter((item, index, self) => 
+      index === self.findIndex(i => i.id === item.id)
+    );
   };
 
   const handleMenuItemClick = (item: MenuItem) => {
@@ -385,7 +361,7 @@ Current conversation context: The customer just said "${userMessage}"`
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-xs lg:max-w-sm px-4 py-3 rounded-lg ${
+              className={`max-w-[280px] sm:max-w-sm px-4 py-3 rounded-lg ${
                 message.role === 'user'
                   ? 'bg-orange-500 text-white ml-auto'
                   : 'bg-white text-gray-800 shadow-sm border'
@@ -396,27 +372,30 @@ Current conversation context: The customer just said "${userMessage}"`
                   <Bot className="h-5 w-5 text-orange-500 mt-0.5 flex-shrink-0" />
                 )}
                 <div className="flex-1">
-                  <div className="text-sm">
-                    {message.role === 'assistant' 
-                      ? parseMessageContent(message.content).map((part, index) => (
-                          <span key={index}>
-                            {part.type === 'text' 
-                              ? part.content
-                              : (
-                                <button
-                                  onClick={() => handleMenuItemClick((part as any).item)}
-                                  className="inline-block mx-1 px-2 py-1 bg-orange-100 text-orange-800 rounded-md hover:bg-orange-200 transition-colors font-medium text-sm border border-orange-300"
-                                >
-                                  {part.content}
-                                </button>
-                              )
-                            }
-                          </span>
-                        ))
-                      : <span className="whitespace-pre-wrap">{message.content}</span>
-                    }
+                  <div className="text-sm leading-relaxed">
+                    <span className="whitespace-pre-wrap">{message.content}</span>
                   </div>
-                  <p className={`text-xs mt-1 ${
+                  
+                  {/* Show clickable menu items mentioned in the message */}
+                  {message.role === 'assistant' && (() => {
+                    const { foundItems } = parseMessageContent(message.content);
+                    return foundItems.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {foundItems.map((item, index) => (
+                          <button
+                            key={`${item.id}-${index}`}
+                            onClick={() => handleMenuItemClick(item)}
+                            className="inline-flex items-center px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs hover:bg-orange-200 transition-colors border border-orange-300"
+                          >
+                            <Eye className="h-3 w-3 mr-1" />
+                            {item.name}
+                          </button>
+                        ))}
+                      </div>
+                    );
+                  })()}
+                  
+                  <p className={`text-xs mt-2 ${
                     message.role === 'user' ? 'text-orange-100' : 'text-gray-500'
                   }`}>
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
