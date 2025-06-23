@@ -97,6 +97,18 @@
   border-radius: 12px;
 }
 
+/* Dialog overlay customization - reduced opacity */
+[data-radix-dialog-overlay] {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(2px) !important;
+}
+
+/* Dialog content styling for better visibility with light overlay */
+[data-radix-dialog-content] {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
 .border-glow {
   border: 1px solid rgba(139, 121, 94, 0.2);
   box-shadow: 0 0 20px rgba(139, 121, 94, 0.08);
