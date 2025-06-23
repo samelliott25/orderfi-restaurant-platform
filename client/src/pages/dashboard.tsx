@@ -4,9 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { OperationsAiChat } from "@/components/admin/operations-ai-chat";
-import { Link } from "wouter";
 import { 
   DollarSign, 
   Clock, 
@@ -41,6 +43,8 @@ export default function RestaurantDashboard() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("overview");
   const [showAiAssistant, setShowAiAssistant] = useState(false);
+  const [activePopup, setActivePopup] = useState<'menu' | 'orders' | 'automation' | 'blockchain' | null>(null);
+  const [newMenuItem, setNewMenuItem] = useState({ name: '', description: '', price: '', category: '' });
   const [realTimeStats, setRealTimeStats] = useState({
     ordersToday: 47,
     revenue: 1247.50,
@@ -176,30 +180,38 @@ export default function RestaurantDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <Link href="/admin/menu">
-                    <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
-                      <Menu className="h-6 w-6" />
-                      <span className="text-sm">Manage Menu</span>
-                    </Button>
-                  </Link>
-                  <Link href="/admin/orders">
-                    <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
-                      <Clock className="h-6 w-6" />
-                      <span className="text-sm">View Orders</span>
-                    </Button>
-                  </Link>
-                  <Link href="/automation">
-                    <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
-                      <Zap className="h-6 w-6" />
-                      <span className="text-sm">Automation</span>
-                    </Button>
-                  </Link>
-                  <Link href="/admin/blockchain">
-                    <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
-                      <Database className="h-6 w-6" />
-                      <span className="text-sm">Blockchain</span>
-                    </Button>
-                  </Link>
+                  <Button 
+                    variant="outline" 
+                    className="w-full h-20 flex flex-col gap-2"
+                    onClick={() => setActivePopup('menu')}
+                  >
+                    <Menu className="h-6 w-6" />
+                    <span className="text-sm">Manage Menu</span>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="w-full h-20 flex flex-col gap-2"
+                    onClick={() => setActivePopup('orders')}
+                  >
+                    <Clock className="h-6 w-6" />
+                    <span className="text-sm">View Orders</span>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="w-full h-20 flex flex-col gap-2"
+                    onClick={() => setActivePopup('automation')}
+                  >
+                    <Zap className="h-6 w-6" />
+                    <span className="text-sm">Automation</span>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="w-full h-20 flex flex-col gap-2"
+                    onClick={() => setActivePopup('blockchain')}
+                  >
+                    <Database className="h-6 w-6" />
+                    <span className="text-sm">Blockchain</span>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -275,9 +287,7 @@ export default function RestaurantDashboard() {
                 <div className="text-center py-8">
                   <Clock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600 mb-4">Advanced order management interface</p>
-                  <Link href="/admin/orders">
-                    <Button>Open Order Manager</Button>
-                  </Link>
+                  <Button onClick={() => setActivePopup('orders')}>Open Order Manager</Button>
                 </div>
               </CardContent>
             </Card>
@@ -317,9 +327,7 @@ export default function RestaurantDashboard() {
                 <div className="text-center py-8">
                   <Menu className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600 mb-4">Manage your restaurant menu items</p>
-                  <Link href="/admin/menu">
-                    <Button>Open Menu Manager</Button>
-                  </Link>
+                  <Button onClick={() => setActivePopup('menu')}>Open Menu Manager</Button>
                 </div>
               </CardContent>
             </Card>
@@ -336,12 +344,12 @@ export default function RestaurantDashboard() {
                   <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600 mb-4">Detailed analytics and reporting</p>
                   <div className="flex gap-4 justify-center">
-                    <Link href="/admin/payments">
-                      <Button variant="outline">Revenue Reports</Button>
-                    </Link>
-                    <Link href="/admin/rewards">
-                      <Button variant="outline">Customer Insights</Button>
-                    </Link>
+                    <Button variant="outline" onClick={() => toast({ title: "Analytics", description: "Revenue reports coming soon" })}>
+                      Revenue Reports
+                    </Button>
+                    <Button variant="outline" onClick={() => toast({ title: "Analytics", description: "Customer insights coming soon" })}>
+                      Customer Insights
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -359,12 +367,12 @@ export default function RestaurantDashboard() {
                   <Database className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600 mb-4">Manage Web3 features and blockchain operations</p>
                   <div className="flex gap-4 justify-center">
-                    <Link href="/admin/blockchain">
-                      <Button>Blockchain Dashboard</Button>
-                    </Link>
-                    <Link href="/decentralized">
-                      <Button variant="outline">Decentralized Services</Button>
-                    </Link>
+                    <Button onClick={() => setActivePopup('blockchain')}>
+                      Blockchain Dashboard
+                    </Button>
+                    <Button variant="outline" onClick={() => toast({ title: "Blockchain", description: "Decentralized services active" })}>
+                      Decentralized Services
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -382,16 +390,14 @@ export default function RestaurantDashboard() {
                   <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600 mb-4">Configure restaurant operations</p>
                   <div className="flex gap-4 justify-center">
-                    <Button variant="outline">
+                    <Button variant="outline" onClick={() => toast({ title: "Settings", description: "General settings coming soon" })}>
                       <Settings className="h-4 w-4 mr-2" />
                       General Settings
                     </Button>
-                    <Link href="/automation">
-                      <Button variant="outline">
-                        <Zap className="h-4 w-4 mr-2" />
-                        Automation
-                      </Button>
-                    </Link>
+                    <Button variant="outline" onClick={() => setActivePopup('automation')}>
+                      <Zap className="h-4 w-4 mr-2" />
+                      Automation
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -399,6 +405,223 @@ export default function RestaurantDashboard() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Quick Action Popups */}
+      <Dialog open={activePopup === 'menu'} onOpenChange={() => setActivePopup(null)}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Menu Management</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Add New Menu Item</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Input 
+                  placeholder="Item name"
+                  value={newMenuItem.name}
+                  onChange={(e) => setNewMenuItem({...newMenuItem, name: e.target.value})}
+                />
+                <Textarea 
+                  placeholder="Description"
+                  value={newMenuItem.description}
+                  onChange={(e) => setNewMenuItem({...newMenuItem, description: e.target.value})}
+                />
+                <Input 
+                  placeholder="Price"
+                  type="number"
+                  value={newMenuItem.price}
+                  onChange={(e) => setNewMenuItem({...newMenuItem, price: e.target.value})}
+                />
+                <Input 
+                  placeholder="Category"
+                  value={newMenuItem.category}
+                  onChange={(e) => setNewMenuItem({...newMenuItem, category: e.target.value})}
+                />
+                <Button onClick={() => toast({ title: "Menu Item", description: "Item would be added to menu" })}>
+                  Add Item
+                </Button>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Current Menu Items</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2 max-h-[400px] overflow-y-auto">
+                  {Array.isArray(menuItems) && menuItems.slice(0, 5).map((item: any, index) => (
+                    <div key={index} className="flex justify-between items-center p-2 border rounded">
+                      <div>
+                        <p className="font-medium">{item.name}</p>
+                        <p className="text-sm text-gray-500">${item.price}</p>
+                      </div>
+                      <Badge>{item.category}</Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={activePopup === 'orders'} onOpenChange={() => setActivePopup(null)}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Order Management</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card>
+                <CardContent className="p-4 text-center">
+                  <Clock className="h-8 w-8 text-blue-500 mx-auto mb-2" />
+                  <p className="text-2xl font-bold">{realTimeStats.pendingOrders}</p>
+                  <p className="text-sm text-gray-600">Pending Orders</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4 text-center">
+                  <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-2" />
+                  <p className="text-2xl font-bold">{realTimeStats.ordersToday}</p>
+                  <p className="text-sm text-gray-600">Completed Today</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4 text-center">
+                  <Users className="h-8 w-8 text-purple-500 mx-auto mb-2" />
+                  <p className="text-2xl font-bold">{realTimeStats.activeCustomers}</p>
+                  <p className="text-sm text-gray-600">Active Customers</p>
+                </CardContent>
+              </Card>
+            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Orders</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {[
+                    { id: "#1247", customer: "Sarah M.", items: "2x Classic Burger", amount: "$32.50", status: "Preparing" },
+                    { id: "#1246", customer: "Mike R.", items: "1x Pizza Margherita", amount: "$18.75", status: "Ready" },
+                    { id: "#1245", customer: "Alex K.", items: "3x BBQ Wings", amount: "$45.20", status: "Completed" }
+                  ].map((order, index) => (
+                    <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-4">
+                          <div>
+                            <p className="font-medium">{order.id}</p>
+                            <p className="text-sm text-gray-500">{order.customer}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm">{order.items}</p>
+                            <p className="text-sm font-medium">{order.amount}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <Badge variant={order.status === 'Completed' ? 'default' : order.status === 'Ready' ? 'secondary' : 'outline'}>
+                        {order.status}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={activePopup === 'automation'} onOpenChange={() => setActivePopup(null)}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Automation Workflows</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { name: "Order Notifications", status: "Active", description: "SMS alerts for new orders" },
+                { name: "Inventory Tracking", status: "Active", description: "Auto-update stock levels" },
+                { name: "Customer Feedback", status: "Paused", description: "Follow-up emails post-meal" },
+                { name: "Payment Processing", status: "Active", description: "Automated USDC settlements" }
+              ].map((workflow, index) => (
+                <Card key={index}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium">{workflow.name}</h4>
+                      <Badge variant={workflow.status === 'Active' ? 'default' : 'secondary'}>
+                        {workflow.status}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-600">{workflow.description}</p>
+                    <Button size="sm" variant="outline" className="mt-2">
+                      Configure
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={activePopup === 'blockchain'} onOpenChange={() => setActivePopup(null)}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Blockchain Operations</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Transaction Status</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span>Network</span>
+                      <Badge className="bg-green-100 text-green-800">Base Mainnet</Badge>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Gas Price</span>
+                      <span>0.001 ETH</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Confirmations</span>
+                      <span>12/12</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>USDC Balance</span>
+                      <span className="font-medium">$1,247.50</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Recent Transactions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {[
+                      { type: "Payment", amount: "+$32.50", time: "2 min ago" },
+                      { type: "Payment", amount: "+$18.75", time: "5 min ago" },
+                      { type: "Payment", amount: "+$45.20", time: "8 min ago" }
+                    ].map((tx, index) => (
+                      <div key={index} className="flex justify-between items-center py-2 border-b">
+                        <div>
+                          <p className="text-sm font-medium">{tx.type}</p>
+                          <p className="text-xs text-gray-500">{tx.time}</p>
+                        </div>
+                        <span className="text-green-600 font-medium">{tx.amount}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* AI Operations Assistant */}
       {showAiAssistant && (
