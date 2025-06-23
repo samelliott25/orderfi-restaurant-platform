@@ -487,6 +487,12 @@ export default function Web3DappPage() {
           </div>
         </div>
       </div>
+
+      {/* Voice Tutorial Overlay */}
+      <VoiceGuideOverlay 
+        isVisible={showTutorial} 
+        onClose={() => setShowTutorial(false)} 
+      />
     </div>
   );
 }

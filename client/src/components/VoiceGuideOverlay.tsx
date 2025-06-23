@@ -298,34 +298,7 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
         </Card>
       </div>
 
-      {/* Highlight styles */}
-      <style jsx global>{`
-        .tutorial-highlight {
-          position: relative;
-          z-index: 45;
-        }
-        
-        .tutorial-highlight::before {
-          content: '';
-          position: absolute;
-          inset: -4px;
-          background: linear-gradient(45deg, #8b795e, #a08d6b);
-          border-radius: 12px;
-          z-index: -1;
-          animation: pulse-highlight 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse-highlight {
-          0%, 100% {
-            opacity: 0.5;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.8;
-            transform: scale(1.02);
-          }
-        }
-      `}</style>
+
     </>
   );
 }
