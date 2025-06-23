@@ -20,7 +20,9 @@ import {
   DollarSign,
   Loader2,
   CheckCircle,
-  HelpCircle
+  HelpCircle,
+  Bot,
+  MessageCircle
 } from "lucide-react";
 
 // True Web3 dApp ordering - DEX-style interface for food
@@ -183,14 +185,24 @@ export default function Web3DappPage() {
                   MIMI Rewards
                 </Badge>
               </div>
-              <Button
-                onClick={() => setShowTutorial(true)}
-                variant="outline"
-                className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
-              >
-                <HelpCircle className="h-4 w-4 mr-2" />
-                Start Voice Tutorial
-              </Button>
+              <div className="flex gap-4 justify-center">
+                <Button
+                  onClick={() => setShowTutorial(true)}
+                  variant="outline"
+                  className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
+                >
+                  <HelpCircle className="h-4 w-4 mr-2" />
+                  Start Voice Tutorial
+                </Button>
+                <Button
+                  onClick={() => setShowAiChat(true)}
+                  variant="outline"
+                  className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
+                >
+                  <Bot className="h-4 w-4 mr-2" />
+                  Chat with Mimi AI
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -278,6 +290,15 @@ export default function Web3DappPage() {
               >
                 <HelpCircle className="h-4 w-4 mr-2" />
                 Voice Tutorial
+              </Button>
+              <Button
+                onClick={() => setShowAiChat(true)}
+                variant="outline"
+                size="sm"
+                className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
+              >
+                <MessageCircle className="h-4 w-4 mr-2" />
+                Ask Mimi AI
               </Button>
               <div className="text-right wallet-info">
                 <p className="text-sm text-[#8b795e]/70">Connected Wallet</p>

@@ -154,10 +154,21 @@ export default function RestaurantPage() {
               <h1 className="text-3xl font-bold text-gradient mb-2">Mimi's Restaurant</h1>
               <p className="text-[#8b795e]/70">Web3-native dining experience • Instant USDC payments • Zero fees</p>
             </div>
-            <Badge className="bg-green-100 text-green-800 border-green-200">
-              <Zap className="h-3 w-3 mr-1" />
-              Live Kitchen
-            </Badge>
+            <div className="flex items-center gap-4">
+              <Button
+                onClick={() => setShowAiAssistant(true)}
+                variant="outline"
+                size="sm"
+                className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
+              >
+                <Bot className="h-4 w-4 mr-2" />
+                Operations AI
+              </Button>
+              <Badge className="bg-green-100 text-green-800 border-green-200">
+                <Zap className="h-3 w-3 mr-1" />
+                Live Kitchen
+              </Badge>
+            </div>
           </div>
         </div>
 
