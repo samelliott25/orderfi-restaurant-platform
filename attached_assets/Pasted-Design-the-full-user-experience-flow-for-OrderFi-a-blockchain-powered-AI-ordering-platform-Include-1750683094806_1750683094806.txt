@@ -1,0 +1,109 @@
+Design the full user experience flow for OrderFi, a blockchain-powered AI ordering platform. Include both customer and restaurant owner perspectives.
+
+The platform should feel intuitive, fast, and intelligent — powered by a conversational AI assistant that takes orders, manages upsells, and builds rapport. It must also be mobile-first and Web3-native, integrating crypto payments and tokenized loyalty.
+
+👨‍🍳 Restaurant Owner Journey
+1. Onboarding
+Sign up with email or connect Web3 wallet
+
+Add restaurant details (name, address, cuisine, hours)
+
+Upload menu as image or spreadsheet
+
+OrderFi AI parses and categorizes items using NLP + Vision
+
+2. Menu Optimization
+AI suggests:
+
+Better item names
+
+Ideal prices (based on trends or margin)
+
+Categories (e.g., drinks, mains, desserts)
+
+Option to approve or edit suggestions
+
+3. Go Live
+Owner receives a QR code & shortlink to place on tables
+
+Real-time order notifications sent via dashboard or mobile alert
+
+Can enable or disable kitchen printer integration
+
+4. Monitor Orders & Feedback
+View live order feed and fulfillment status
+
+See AI-generated summaries (e.g., “Top 3 sellers today”, “Frequent order combos”)
+
+Customer feedback is automatically parsed and sentiment-tagged
+
+5. Loyalty & Payments
+See token-based reward metrics (e.g., $ORDER token earned per order)
+
+Receive settlements in stablecoins (USDC or native token)
+
+Optional integration with POS or accounting software
+
+👩‍🍳 Why Restaurant Owners Come Back:
+Real-time sales analytics
+
+Tokenized customer loyalty = cheaper return rates
+
+Set-and-forget AI assistant upselling 24/7
+
+Lower fees (0.5% vs 3% card processors)
+
+Fun brand experience + less staffing pressure
+
+🍽️ Customer Journey
+1. Discovery
+Sees QR code on table or via link
+
+Scans and lands in chat UI with Mimi (or OrderFi AI)
+
+Greeted conversationally:
+
+“Hey there, want to start with a drink?”
+
+"Swipe right if you're thirsty!" (fun swipe-to-confirm UX)
+
+2. Ordering Experience
+AI takes order naturally with visual menu prompts
+
+User can ask questions (“Is the burger gluten-free?”)
+
+Can save favorites or dietary preferences
+
+Can pay using:
+
+Crypto wallet (e.g., Base, ETH, USDC)
+
+Credit card (optional)
+
+Earns $ORDER token for each purchase
+
+3. Post-Order Engagement
+Notified when order is ready or delivered to table
+
+Gets upsell prompt: “Want to try dessert? Your table neighbor loved it.”
+
+Tipped in tokens for giving feedback
+
+4. Loyalty Loop
+Token wallet tied to repeat visits
+
+Leaderboard: “Top 10 foodies at [Restaurant Name]”
+
+Rewards unlock based on visit frequency (NFT badges, free items)
+
+🔁 Why Customers Come Back:
+Friendly, fast ordering with AI that remembers them
+
+Swipe UX = effortless actions
+
+Earn-and-burn loyalty system with token rewards
+
+Gamified leaderboard, badges, and crypto cashback
+
+No need to wait for staff to order or pay
+

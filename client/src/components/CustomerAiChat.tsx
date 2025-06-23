@@ -39,16 +39,24 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize with welcome message
+  // Initialize with welcome message - OrderFi style
   useEffect(() => {
     if (messages.length === 0) {
-      const welcomeMessage: ChatMessage = {
-        id: "welcome",
-        type: "assistant",
-        content: "Hi there! I'm Mimi, your AI dining assistant! I can help you explore our menu, make recommendations based on your preferences, answer questions about ingredients, and help you place the perfect order. What can I help you with today?",
-        timestamp: new Date()
-      };
-      setMessages([welcomeMessage]);
+      const welcomeMessages: ChatMessage[] = [
+        {
+          id: "welcome",
+          type: "assistant",
+          content: "Hey there! 👋 I'm Mimi, your AI ordering assistant. Want to start with a drink?",
+          timestamp: new Date()
+        },
+        {
+          id: "welcome-2",
+          type: "assistant", 
+          content: "I can help you discover our menu, answer questions about ingredients, and even remember your favorites for next time. What sounds good to you today?",
+          timestamp: new Date()
+        }
+      ];
+      setMessages(welcomeMessages);
     }
   }, []);
 
