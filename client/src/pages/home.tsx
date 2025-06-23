@@ -42,23 +42,21 @@ export default function HomePage() {
               </div>
             </div>
             
-            {/* Authentication Options */}
+            {/* Core Interface Options */}
             <div className="flex flex-col space-y-3 w-full max-w-xs">
               <Button
-                asChild
+                onClick={() => window.location.href = '/restaurant'}
                 className="w-full py-3 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform hover:scale-105 hover:opacity-90"
                 style={{ 
                   backgroundColor: '#8b795e'
                 }}
               >
-                <Link href="/mimi-order">
-                  <UserCheck className="mr-2 h-5 w-5" />
-                  Sign In / Sign Up
-                </Link>
+                <UserCheck className="mr-2 h-5 w-5" />
+                Customer Ordering
               </Button>
               
               <Button
-                asChild
+                onClick={() => window.location.href = '/control'}
                 variant="outline"
                 className="w-full py-3 text-lg font-semibold border-2 shadow-lg transition-all duration-200 transform hover:scale-105"
                 style={{ 
@@ -67,10 +65,8 @@ export default function HomePage() {
                   backgroundColor: '#ffe6b0'
                 }}
               >
-                <Link href="/mimi-order">
-                  <User className="mr-2 h-5 w-5" />
-                  Order as Guest
-                </Link>
+                <User className="mr-2 h-5 w-5" />
+                Restaurant Control
               </Button>
             </div>
           </div>

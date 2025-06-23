@@ -12,6 +12,8 @@ import RetroChatPage from "@/pages/retro-chat";
 import NotFound from "@/pages/not-found";
 import OrderPage from "@/pages/order";
 import AutomationPage from "@/pages/automation";
+import RestaurantPage from "@/pages/restaurant";
+import ControlCenter from "@/pages/control-center";
 
 // Admin module pages
 import MenuPage from "@/pages/menu";
@@ -47,6 +49,8 @@ function Router() {
       <Route path="/decentralized" component={DecentralizedDashboard} />
       <Route path="/order" component={OrderPage} />
       <Route path="/automation" component={AutomationPage} />
+      <Route path="/restaurant" component={RestaurantPage} />
+      <Route path="/control" component={ControlCenter} />
       <Route path="/legacy" component={CustomerPage} />
       <Route component={NotFound} />
     </Switch>
