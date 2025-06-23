@@ -405,9 +405,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const orderData = insertOrderSchema.parse(req.body);
       const order = await storage.createOrder(orderData);
       
-      // Process rewards for completed order
-      if (orderData.paymentMethod && orderData.total) {
-        try {
+      // Trigger automation workflows
+      try {
+        const { workflowManager } = await import("./automation/workflow-manager");
+        
+        // Trigger order confirmation workflow
+        workflowManager.triggerWorkflow('/api/automation/webhooks/order-created', {
+          orderId: order.id.toString(),
+          customerName: orderData.customerName,
+          customerEmail: orderData.customerEmail,
+          tableNumber: orderData.tableNumber,
+          items: orderData.items,
+          total: orderData.total,
+          orderItems: JSON.parse(orderData.items || '[]')
+        });
+        
+        // Process rewards and trigger payment workflow if payment method exists
+        if (orderData.paymentMethod && orderData.total) {
           const customerId = `cust_${orderData.customerPhone?.replace(/\D/g, '') || Date.now()}`;
           
           const rewardResponse = await fetch(`http://localhost:${process.env.PORT || 5000}/api/rewards/earn`, {
@@ -426,11 +440,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
           if (rewardResponse.ok) {
             const rewardData = await rewardResponse.json();
             console.log(`Customer ${orderData.customerName} earned ${rewardData.tokensEarned} MIMI tokens`);
+            
+            // Trigger payment confirmation workflow
+            workflowManager.triggerWorkflow('/api/automation/webhooks/payment-confirmed', {
+              paymentId: orderData.paymentId || `payment_${order.id}`,
+              orderId: order.id.toString(),
+              amount: orderData.total,
+              paymentMethod: orderData.paymentMethod,
+              customerId,
+              customerEmail: orderData.customerEmail
+            });
           }
-        } catch (rewardError) {
-          console.error('Reward processing failed:', rewardError);
-          // Don't fail the order if rewards fail
         }
+      } catch (automationError) {
+        console.error('Automation workflow failed:', automationError);
+        // Don't fail the order if automation fails
       }
       
       res.status(201).json(order);
@@ -503,6 +527,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   const { registerRewardRoutes } = await import("./routes/rewards");
   registerRewardRoutes(app);
+
+  const { registerAutomationRoutes } = await import("./routes/automation");
+  registerAutomationRoutes(app);
 
   const httpServer = createServer(app);
   return httpServer;
