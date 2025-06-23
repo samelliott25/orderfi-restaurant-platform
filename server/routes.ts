@@ -301,6 +301,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // AI Chat endpoint for conversational ordering
+  app.post("/api/chat", async (req, res) => {
+    try {
+      const { messages } = req.body;
+      
+      if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ error: "Messages array is required" });
+      }
+
+      // Use OpenAI for intelligent responses
+      const openai = new (await import('openai')).default({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages: messages,
+        max_tokens: 500,
+        temperature: 0.7,
+      });
+
+      const response = completion.choices[0]?.message?.content || "I'm having trouble processing that. Could you try again?";
+
+      // Store the conversation
+      const lastUserMessage = messages.filter(m => m.role === 'user').pop();
+      if (lastUserMessage) {
+        await storage.createChatMessage({
+          sessionId: 'ai-chat-' + Date.now(),
+          message: lastUserMessage.content,
+          isUser: false,
+          timestamp: new Date().toISOString()
+        });
+      }
+
+      res.json({ response });
+    } catch (error) {
+      console.error('Chat error:', error);
+      
+      // Fallback to simple responses if OpenAI fails
+      const fallbackResponses = [
+        "I'm having some technical difficulties with my AI processing. Let me help you browse our menu directly, or you can tell me specifically what you'd like to order!",
+        "My AI is taking a quick break! I can still help you - what type of food are you in the mood for today?",
+        "Technical hiccup on my end! Tell me what sounds good and I'll do my best to help you order.",
+      ];
+      
+      const fallbackResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      res.json({ response: fallbackResponse });
+    }
+  });
+
   // Chat routes
   app.post("/api/chat", async (req, res) => {
     try {
