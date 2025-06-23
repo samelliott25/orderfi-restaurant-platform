@@ -8,6 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { OperationsAiChat } from "@/components/admin/operations-ai-chat";
+import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
 import { 
   DollarSign, 
   Clock, 
@@ -21,7 +23,9 @@ import {
   CheckCircle,
   AlertCircle,
   Star,
-  Zap
+  Zap,
+  Bot,
+  MessageCircle
 } from "lucide-react";
 
 // Core ordering interface - zero friction, intelligent defaults
@@ -36,6 +40,7 @@ export default function RestaurantPage() {
   });
   const [paymentMethod, setPaymentMethod] = useState<'usdc' | 'card' | 'cash'>('usdc');
   const [orderSubmitted, setOrderSubmitted] = useState(false);
+  const [showAiAssistant, setShowAiAssistant] = useState(false);
 
   // Get menu items - intelligent categorization
   const { data: menuItems = [], isLoading: menuLoading } = useQuery({
@@ -427,6 +432,49 @@ export default function RestaurantPage() {
             )}
           </div>
         </div>
+
+        {/* AI Assistant Toggle */}
+        <Button
+          onClick={() => setShowAiAssistant(!showAiAssistant)}
+          className="fixed bottom-6 left-6 h-14 w-14 rounded-full gradient-bg text-white shadow-lg hover:shadow-xl transition-all duration-300"
+          size="sm"
+        >
+          <Bot className="h-6 w-6" />
+        </Button>
+
+        {/* Operations AI Assistant */}
+        {showAiAssistant && (
+          <div className="fixed bottom-24 left-6 w-96 z-40">
+            <OperationsAiProvider>
+              <Card className="shadow-2xl border-[#8b795e]/20">
+                <CardHeader className="pb-3 bg-gradient-to-r from-[#8b795e] to-[#a08d6b] text-white rounded-t-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                        <Bot className="h-4 w-4 text-[#8b795e]" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-sm font-medium">Operations AI</CardTitle>
+                        <p className="text-xs text-white/80">Business assistant</p>
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => setShowAiAssistant(false)}
+                      variant="ghost"
+                      size="sm"
+                      className="text-white/80 hover:text-white hover:bg-white/10 h-8 w-8 p-0"
+                    >
+                      ×
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0 h-96">
+                  <OperationsAiChat />
+                </CardContent>
+              </Card>
+            </OperationsAiProvider>
+          </div>
+        )}
       </div>
     </div>
   );
