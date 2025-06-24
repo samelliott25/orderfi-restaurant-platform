@@ -305,11 +305,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // AI Chat endpoint for conversational ordering
   app.post("/api/chat", async (req, res) => {
     try {
-      const { messages } = req.body;
+      // Support both formats for flexibility
+      const { message, messages, restaurantId = 1, sessionId = 'default-session', conversationHistory = [] } = req.body;
       
-      if (!messages || !Array.isArray(messages)) {
-        return res.status(400).json({ error: "Messages array is required" });
+      let userMessage = message;
+      
+      // If messages array is provided (OpenAI format), extract the last user message
+      if (messages && Array.isArray(messages)) {
+        const lastUserMsg = messages.filter(m => m.role === 'user').pop();
+        userMessage = lastUserMsg?.content || '';
       }
+      
+      if (!userMessage) {
+        return res.status(400).json({ error: "Message is required" });
+      }
+
+      // Get restaurant context
+      const restaurant = await storage.getRestaurant(restaurantId);
+      const menuItems = await storage.getMenuItems(restaurantId);
+      
+      // Build system prompt with healthy options emphasis
+      const systemPrompt = `You are Mimi, a friendly AI restaurant ordering assistant at ${restaurant?.name || 'our restaurant'}. 
+
+AVAILABLE MENU ITEMS:
+${menuItems.map(item => `- ${item.name}: ${item.description} - $${item.price} (${item.category})`).join('\n')}
+
+INSTRUCTIONS:
+1. Be conversational, enthusiastic, and helpful
+2. When customers ask about "healthy" options, specifically recommend:
+   - ${menuItems.filter(item => item.category.includes('Salad') || item.description?.toLowerCase().includes('fresh') || item.description?.toLowerCase().includes('grilled')).map(item => item.name).join(', ')} 
+   - Lighter dishes and grilled proteins over fried options
+3. When customers express interest in items, provide details and ask follow-up questions
+4. Always suggest complementary items (appetizers, sides, drinks)
+5. Ask about dietary restrictions, allergies, or preferences
+6. Be enthusiastic about food recommendations but keep responses concise
+
+Customer's message: "${userMessage}"
+
+Respond conversationally as Mimi and help with their order.`;
 
       // Use OpenAI for intelligent responses
       const openai = new (await import('openai')).default({
@@ -318,98 +351,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const completion = await openai.chat.completions.create({
         model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-        messages: messages,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userMessage }
+        ],
         max_tokens: 500,
         temperature: 0.7,
       });
 
       const response = completion.choices[0]?.message?.content || "I'm having trouble processing that. Could you try again?";
 
-      // Store the conversation
-      const lastUserMessage = messages.filter(m => m.role === 'user').pop();
-      if (lastUserMessage) {
-        await storage.createChatMessage({
-          sessionId: 'ai-chat-' + Date.now(),
-          message: lastUserMessage.content,
-          isUser: false,
-          timestamp: new Date().toISOString()
-        });
-      }
-
-      res.json({ response });
-    } catch (error) {
-      console.error('Chat error:', error);
-      
-      // Fallback to simple responses if OpenAI fails
-      const fallbackResponses = [
-        "I'm having some technical difficulties with my AI processing. Let me help you browse our menu directly, or you can tell me specifically what you'd like to order!",
-        "My AI is taking a quick break! I can still help you - what type of food are you in the mood for today?",
-        "Technical hiccup on my end! Tell me what sounds good and I'll do my best to help you order.",
-      ];
-      
-      const fallbackResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-      res.json({ response: fallbackResponse });
-    }
-  });
-
-  // Chat routes
-  app.post("/api/chat", async (req, res) => {
-    try {
-      const { message, restaurantId, sessionId, conversationHistory = [] } = req.body;
-      
-      if (!message || !restaurantId || !sessionId) {
-        return res.status(400).json({ message: "Missing required fields" });
-      }
-
-      // Get restaurant context
-      const restaurant = await storage.getRestaurant(restaurantId);
-      if (!restaurant) {
-        return res.status(404).json({ message: "Restaurant not found" });
-      }
-
-      const menuItems = await storage.getMenuItems(restaurantId);
-      const faqs = await storage.getFAQs(restaurantId);
-
-      const context: ChatContext = {
-        restaurantName: restaurant.name,
-        restaurantDescription: restaurant.description || "",
-        tone: restaurant.tone || "friendly",
-        welcomeMessage: restaurant.welcomeMessage || "",
-        menuItems: menuItems.map(item => ({
-          id: item.id,
-          name: item.name,
-          description: item.description || "",
-          price: item.price,
-          category: item.category,
-          tags: item.tags || [],
-        })),
-        faqs: faqs.map(faq => ({
-          question: faq.question,
-          answer: faq.answer,
-        })),
-      };
-
-      // Store user message
-      await storage.createChatMessage({
-        sessionId,
-        message,
-        isUser: true,
+      res.json({ 
+        message: response,
+        response: response // Support both formats
       });
-
-      // Process with OpenAI
-      const response = await processChatMessage(message, context, [], conversationHistory);
-
-      // Store AI response
-      await storage.createChatMessage({
-        sessionId,
-        message: response.message,
-        isUser: false,
-      });
-
-      res.json(response);
+      
     } catch (error) {
       console.error("Chat error:", error);
-      res.status(500).json({ message: "Failed to process chat message" });
+      
+      // Fallback response for healthy options
+      const fallbackResponses = {
+        'healthy': "For healthy options, I'd recommend our Craft Caesar Salad - fresh romaine with house-made croutons and parmesan for $12! We also have grilled proteins available. What type of healthy meal are you in the mood for?",
+        'default': "I'm having some technical difficulties with my AI processing. Let me help you browse our menu directly, or you can tell me specifically what you'd like to order!"
+      };
+      
+      const userMessage = req.body.message || req.body.messages?.filter(m => m.role === 'user').pop()?.content || '';
+      const isHealthyQuery = userMessage.toLowerCase().includes('healthy');
+      const fallbackResponse = isHealthyQuery ? fallbackResponses.healthy : fallbackResponses.default;
+      
+      res.json({ 
+        message: fallbackResponse,
+        response: fallbackResponse 
+      });
     }
   });
 
