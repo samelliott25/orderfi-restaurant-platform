@@ -117,12 +117,17 @@ export function VoiceInput({ onVoiceInput, onVoiceResponse, isProcessing }: Voic
     }
   };
 
-  // Auto-speak AI responses
+  // Auto-speak AI responses when new response text is available
   useEffect(() => {
-    if (onVoiceResponse && !isSpeaking) {
-      // This would be called from the parent component when AI responds
+    if (onVoiceResponse) {
+      // Set up effect to speak responses - will be triggered by parent
     }
-  }, [onVoiceResponse, isSpeaking]);
+  }, [onVoiceResponse]);
+
+  // Expose speak function through ref or effect
+  const speakText = (text: string) => {
+    speakResponse(text);
+  };
 
   if (!isSupported) {
     return (
