@@ -40,11 +40,12 @@
 - **Storage**: Abstracted interface supporting both memory and database
 
 ### 🔍 Recent Changes (Last Session)
-- Fixed AI chat formatting issues preventing proper display
-- Simplified menu item parsing to avoid layout problems
-- Implemented clickable menu suggestions below AI messages
-- Enhanced popup dialogs for menu item details
-- Improved message readability and spacing
+- ✅ Fixed chatbot "healthy ordering" issue with duplicate API endpoints
+- ✅ Implemented AI training service with contextual prompts and customer psychology
+- ✅ Added conversation memory system to track dietary preferences and allergies
+- ✅ Enhanced response quality with personality and menu-specific recommendations
+- ✅ Increased AI temperature and token limits for more natural conversations
+- ✅ System now remembers customer preferences across the conversation session
 
 ### 🎯 Development Schedule (Next 7 Days)
 

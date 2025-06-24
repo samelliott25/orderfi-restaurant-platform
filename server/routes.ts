@@ -324,25 +324,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const restaurant = await storage.getRestaurant(restaurantId);
       const menuItems = await storage.getMenuItems(restaurantId);
       
-      // Build system prompt with healthy options emphasis
-      const systemPrompt = `You are Mimi, a friendly AI restaurant ordering assistant at ${restaurant?.name || 'our restaurant'}. 
-
-AVAILABLE MENU ITEMS:
-${menuItems.map(item => `- ${item.name}: ${item.description} - $${item.price} (${item.category})`).join('\n')}
-
-INSTRUCTIONS:
-1. Be conversational, enthusiastic, and helpful
-2. When customers ask about "healthy" options, specifically recommend:
-   - ${menuItems.filter(item => item.category.includes('Salad') || item.description?.toLowerCase().includes('fresh') || item.description?.toLowerCase().includes('grilled')).map(item => item.name).join(', ')} 
-   - Lighter dishes and grilled proteins over fried options
-3. When customers express interest in items, provide details and ask follow-up questions
-4. Always suggest complementary items (appetizers, sides, drinks)
-5. Ask about dietary restrictions, allergies, or preferences
-6. Be enthusiastic about food recommendations but keep responses concise
-
-Customer's message: "${userMessage}"
-
-Respond conversationally as Mimi and help with their order.`;
+      // Use AI training service and conversation memory for better responses
+      const { aiTrainingService } = await import("../services/ai-training");
+      const { conversationMemory } = await import("../services/conversation-memory");
+      
+      // Get conversation context
+      const contextualHistory = conversationMemory.getContextualHistory(sessionId);
+      const recentMessages = conversationMemory.getRecentHistory(sessionId);
+      
+      // Generate enhanced prompt with memory
+      let enhancedPrompt = await aiTrainingService.generateContextualPrompt(userMessage, restaurantId);
+      
+      if (contextualHistory) {
+        enhancedPrompt += `\n\nCUSTOMER CONTEXT FROM CONVERSATION:\n${contextualHistory}`;
+      }
+      
+      // Add conversation history
+      const conversationMessages = [
+        { role: 'system' as const, content: enhancedPrompt },
+        ...recentMessages.map(msg => ({ role: msg.role as 'user' | 'assistant', content: msg.content })),
+        { role: 'user' as const, content: userMessage }
+      ];
 
       // Use OpenAI for intelligent responses
       const openai = new (await import('openai')).default({
@@ -351,15 +353,18 @@ Respond conversationally as Mimi and help with their order.`;
 
       const completion = await openai.chat.completions.create({
         model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userMessage }
-        ],
-        max_tokens: 500,
-        temperature: 0.7,
+        messages: conversationMessages,
+        max_tokens: 600,
+        temperature: 0.8, // Slightly higher for more personality
       });
+      
+      // Store conversation in memory
+      conversationMemory.addMessage(sessionId, 'user', userMessage);
 
       const response = completion.choices[0]?.message?.content || "I'm having trouble processing that. Could you try again?";
+      
+      // Store AI response in memory
+      conversationMemory.addMessage(sessionId, 'assistant', response);
 
       res.json({ 
         message: response,
