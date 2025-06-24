@@ -1,124 +1,75 @@
-import { useState, useRef, useEffect } from 'react';
-import { Mic, MicOff, Volume2 } from 'lucide-react';
-
-// Type definitions for Web Speech API
-interface SpeechRecognitionEvent extends Event {
-  resultIndex: number;
-  results: SpeechRecognitionResultList;
-}
-
-interface SpeechRecognitionErrorEvent extends Event {
-  error: string;
-  message: string;
-}
-
-interface SpeechRecognitionResult {
-  isFinal: boolean;
-  0: SpeechRecognitionAlternative;
-}
-
-interface SpeechRecognitionAlternative {
-  transcript: string;
-  confidence: number;
-}
-
-interface SpeechRecognitionResultList {
-  length: number;
-  [index: number]: SpeechRecognitionResult;
-}
-
-interface ISpeechRecognition extends EventTarget {
-  continuous: boolean;
-  interimResults: boolean;
-  lang: string;
-  start(): void;
-  stop(): void;
-  onstart: ((this: ISpeechRecognition, ev: Event) => any) | null;
-  onresult: ((this: ISpeechRecognition, ev: SpeechRecognitionEvent) => any) | null;
-  onerror: ((this: ISpeechRecognition, ev: SpeechRecognitionErrorEvent) => any) | null;
-  onend: ((this: ISpeechRecognition, ev: Event) => any) | null;
-}
+import { useState, useEffect, useRef } from 'react';
+import { Mic, MicOff, Volume2, VolumeX } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface VoiceInputProps {
-  onTranscript: (text: string) => void;
-  onStartListening?: () => void;
-  onStopListening?: () => void;
-  disabled?: boolean;
+  onVoiceInput: (text: string) => void;
+  onVoiceResponse?: (text: string) => void;
+  isProcessing?: boolean;
 }
 
-export function VoiceInput({ 
-  onTranscript, 
-  onStartListening, 
-  onStopListening, 
-  disabled = false 
-}: VoiceInputProps) {
+export function VoiceInput({ onVoiceInput, onVoiceResponse, isProcessing }: VoiceInputProps) {
   const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
-  const [transcript, setTranscript] = useState('');
-  const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const synthRef = useRef<SpeechSynthesis | null>(null);
 
   useEffect(() => {
-    // Check if Web Speech API is supported
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    // Check for browser support
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechSynthesis = window.speechSynthesis;
     
-    if (SpeechRecognition) {
+    if (SpeechRecognition && SpeechSynthesis) {
       setIsSupported(true);
       
-      const recognition = new SpeechRecognition() as ISpeechRecognition;
-      recognition.continuous = true;
-      recognition.interimResults = true;
+      // Initialize speech recognition
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
       recognition.lang = 'en-US';
-
+      
       recognition.onstart = () => {
         setIsListening(true);
-        onStartListening?.();
       };
-
-      recognition.onresult = (event: SpeechRecognitionEvent) => {
-        let finalTranscript = '';
-        let interimTranscript = '';
-
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript;
-          } else {
-            interimTranscript += transcript;
-          }
-        }
-
-        setTranscript(interimTranscript);
-        
-        if (finalTranscript) {
-          onTranscript(finalTranscript.trim());
-          setTranscript('');
-        }
-      };
-
-      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-        console.error('Speech recognition error:', event.error);
-        setIsListening(false);
-        onStopListening?.();
-      };
-
+      
       recognition.onend = () => {
         setIsListening(false);
-        onStopListening?.();
-        setTranscript('');
       };
-
+      
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        onVoiceInput(transcript);
+        setIsListening(false);
+      };
+      
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+      };
+      
       recognitionRef.current = recognition;
+      synthRef.current = SpeechSynthesis;
     }
-
+    
     return () => {
       if (recognitionRef.current) {
-        recognitionRef.current.stop();
+        recognitionRef.current.abort();
+      }
+      if (synthRef.current) {
+        synthRef.current.cancel();
       }
     };
-  }, [onTranscript, onStartListening, onStopListening]);
+  }, [onVoiceInput]);
 
   const startListening = () => {
-    if (recognitionRef.current && !isListening && !disabled) {
+    if (recognitionRef.current && !isListening && !isProcessing) {
+      // Stop any ongoing speech
+      if (synthRef.current) {
+        synthRef.current.cancel();
+        setIsSpeaking(false);
+      }
+      
       recognitionRef.current.start();
     }
   };
@@ -129,48 +80,111 @@ export function VoiceInput({
     }
   };
 
-  const toggleListening = () => {
-    if (isListening) {
-      stopListening();
-    } else {
-      startListening();
+  const speakResponse = (text: string) => {
+    if (synthRef.current && text) {
+      // Cancel any ongoing speech
+      synthRef.current.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+      utterance.pitch = 1.0;
+      utterance.volume = 0.8;
+      
+      utterance.onstart = () => {
+        setIsSpeaking(true);
+      };
+      
+      utterance.onend = () => {
+        setIsSpeaking(false);
+      };
+      
+      utterance.onerror = () => {
+        setIsSpeaking(false);
+      };
+      
+      synthRef.current.speak(utterance);
+      
+      if (onVoiceResponse) {
+        onVoiceResponse(text);
+      }
     }
   };
 
+  const toggleSpeech = () => {
+    if (isSpeaking) {
+      synthRef.current?.cancel();
+      setIsSpeaking(false);
+    }
+  };
+
+  // Auto-speak AI responses
+  useEffect(() => {
+    if (onVoiceResponse && !isSpeaking) {
+      // This would be called from the parent component when AI responds
+    }
+  }, [onVoiceResponse, isSpeaking]);
+
   if (!isSupported) {
-    return null; // Don't show the button if voice input isn't supported
+    return (
+      <div className="text-xs text-gray-500 text-center p-2">
+        Voice input not supported in this browser
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col items-center">
-      {/* Voice Input Button */}
-      <button
-        onClick={toggleListening}
-        disabled={disabled}
-        className="p-3 rounded-full transition-all duration-200 text-white hover:bg-blue-600 shadow-md hover:shadow-lg bg-[#f9be39]"
-        aria-label={isListening ? 'Stop recording' : 'Start voice input'}
+    <div className="flex items-center justify-center space-x-2 p-2">
+      <Button
+        variant={isListening ? "default" : "outline"}
+        size="sm"
+        onClick={isListening ? stopListening : startListening}
+        disabled={isProcessing}
+        className={`transition-all duration-200 ${
+          isListening 
+            ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
+            : 'hover:bg-orange-50'
+        }`}
       >
-        {isListening ? <MicOff size={24} /> : <Mic size={24} />}
-      </button>
-      {/* Live Transcript Display */}
-      {transcript && (
-        <div className="mt-2 p-3 bg-gray-100 rounded-lg border border-gray-300 max-w-xs">
-          <div className="flex items-center mb-1">
-            <Volume2 size={16} className="text-blue-500 mr-1" />
-            <span className="text-sm text-gray-600">Listening...</span>
-          </div>
-          <p className="text-sm text-gray-800 italic">"{transcript}"</p>
+        {isListening ? (
+          <>
+            <MicOff className="h-4 w-4 mr-1" />
+            Stop
+          </>
+        ) : (
+          <>
+            <Mic className="h-4 w-4 mr-1" />
+            Speak
+          </>
+        )}
+      </Button>
+
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={toggleSpeech}
+        disabled={!isSpeaking}
+        className={`transition-all duration-200 ${
+          isSpeaking ? 'text-orange-600' : 'text-gray-400'
+        }`}
+      >
+        {isSpeaking ? (
+          <Volume2 className="h-4 w-4" />
+        ) : (
+          <VolumeX className="h-4 w-4" />
+        )}
+      </Button>
+
+      {isListening && (
+        <div className="text-xs text-orange-600 animate-pulse">
+          Listening...
         </div>
       )}
-
+      
+      {isSpeaking && (
+        <div className="text-xs text-orange-600 animate-pulse">
+          Speaking...
+        </div>
+      )}
     </div>
   );
-}
-
-// Extend the Window interface for TypeScript
-declare global {
-  interface Window {
-    SpeechRecognition: any;
-    webkitSpeechRecognition: any;
-  }
 }

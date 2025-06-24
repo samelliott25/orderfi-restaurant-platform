@@ -369,6 +369,16 @@ export class MemStorage implements IStorage {
     );
   }
 
+  async updateOrder(id: number, updateData: Partial<InsertOrder>): Promise<Order> {
+    const existing = this.orders.get(id);
+    if (!existing) {
+      throw new Error(`Order with id ${id} not found`);
+    }
+    const updated: Order = { ...existing, ...updateData };
+    this.orders.set(id, updated);
+    return updated;
+  }
+
   // Chat message methods
   async getChatMessages(sessionId: string): Promise<ChatMessage[]> {
     return Array.from(this.chatMessages.values()).filter(
