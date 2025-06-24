@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import ordersRouter from "./routes/orders";
 import { blockchainStorage } from "./blockchain/storage";
 import { blockchainIntegrationService } from "./services/blockchain-integration";
 import { menuCategorizationService } from "./services/menu-categorization";

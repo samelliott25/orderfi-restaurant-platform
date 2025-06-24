@@ -108,6 +108,14 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(orders).where(eq(orders.restaurantId, restaurantId));
   }
 
+  async updateOrder(id: number, order: Partial<InsertOrder>): Promise<Order> {
+    const result = await db.update(orders)
+      .set(order)
+      .where(eq(orders.id, id))
+      .returning();
+    return result[0];
+  }
+
   // Chat message methods
   async getChatMessages(sessionId: string): Promise<ChatMessage[]> {
     return await db.select().from(chatMessages).where(eq(chatMessages.sessionId, sessionId));

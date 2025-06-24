@@ -39,6 +39,7 @@ export interface IStorage {
   createOrder(order: InsertOrder): Promise<Order>;
   getOrder(id: number): Promise<Order | undefined>;
   getOrdersByRestaurant(restaurantId: number): Promise<Order[]>;
+  updateOrder(id: number, order: Partial<InsertOrder>): Promise<Order>;
 
   // Chat message methods
   getChatMessages(sessionId: string): Promise<ChatMessage[]>;
