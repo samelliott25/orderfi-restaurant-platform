@@ -578,7 +578,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   registerPaymentRoutes(app);
 
   const { registerRewardRoutes } = await import("./routes/rewards");
-  registerRewardRoutes(app);
+  // Rewards routes
+  const rewardsRouter = (await import("./routes/rewards")).default;
+  app.use("/api/rewards", rewardsRouter);
 
   const { registerAutomationRoutes } = await import("./routes/automation");
   registerAutomationRoutes(app);

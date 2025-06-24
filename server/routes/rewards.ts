@@ -1,329 +1,244 @@
-import { Express } from "express";
-import { z } from "zod";
+import { Router } from 'express';
+import { z } from 'zod';
 
-interface CustomerReward {
+const router = Router();
+
+// In-memory token balances (would be in database in production)
+const tokenBalances = new Map<string, {
   customerId: string;
-  customerName: string;
-  customerEmail: string;
-  totalOrders: number;
-  totalSpent: number;
-  mimiTokensEarned: number;
-  mimiTokensRedeemed: number;
-  currentBalance: number;
-  tier: 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
-  joinDate: number;
-  lastOrderDate: number;
-}
+  balance: number;
+  totalEarned: number;
+  totalRedeemed: number;
+  tier: string;
+  transactions: Array<{
+    id: string;
+    type: 'earned' | 'redeemed';
+    amount: number;
+    description: string;
+    timestamp: Date;
+    orderId?: string;
+  }>;
+}>();
 
-interface RewardTransaction {
-  id: string;
-  customerId: string;
-  type: 'earned' | 'redeemed';
-  amount: number;
-  orderId?: string;
-  description: string;
-  timestamp: number;
-}
+// Earn tokens from order
+router.post('/earn', async (req, res) => {
+  try {
+    const { 
+      customerId, 
+      customerName, 
+      customerEmail, 
+      orderId, 
+      orderAmount, 
+      paymentMethod 
+    } = req.body;
 
-// In-memory storage for demo
-const customerRewards = new Map<string, CustomerReward>();
-const rewardTransactions: RewardTransaction[] = [];
-
-// Initialize with sample data
-const sampleCustomers: CustomerReward[] = [
-  {
-    customerId: "cust_001",
-    customerName: "Alice Johnson",
-    customerEmail: "alice@example.com",
-    totalOrders: 15,
-    totalSpent: 487.50,
-    mimiTokensEarned: 975,
-    mimiTokensRedeemed: 200,
-    currentBalance: 775,
-    tier: 'Gold',
-    joinDate: Date.now() - (90 * 24 * 60 * 60 * 1000), // 90 days ago
-    lastOrderDate: Date.now() - (2 * 24 * 60 * 60 * 1000) // 2 days ago
-  },
-  {
-    customerId: "cust_002", 
-    customerName: "Bob Smith",
-    customerEmail: "bob@example.com",
-    totalOrders: 8,
-    totalSpent: 234.25,
-    mimiTokensEarned: 468,
-    mimiTokensRedeemed: 100,
-    currentBalance: 368,
-    tier: 'Silver',
-    joinDate: Date.now() - (45 * 24 * 60 * 60 * 1000),
-    lastOrderDate: Date.now() - (7 * 24 * 60 * 60 * 1000)
-  }
-];
-
-sampleCustomers.forEach(customer => {
-  customerRewards.set(customer.customerId, customer);
-});
-
-const earnRewardsSchema = z.object({
-  customerId: z.string(),
-  customerName: z.string(),
-  customerEmail: z.string(),
-  orderId: z.string(),
-  orderAmount: z.number().positive(),
-  paymentMethod: z.enum(['usdc', 'credit', 'cash'])
-});
-
-const redeemRewardsSchema = z.object({
-  customerId: z.string(),
-  tokensToRedeem: z.number().positive(),
-  orderId: z.string().optional()
-});
-
-function calculateTier(totalSpent: number): CustomerReward['tier'] {
-  if (totalSpent >= 1000) return 'Platinum';
-  if (totalSpent >= 500) return 'Gold';
-  if (totalSpent >= 200) return 'Silver';
-  return 'Bronze';
-}
-
-function calculateTokensEarned(orderAmount: number, paymentMethod: string, tier: string): number {
-  let baseRate = 2; // 2 tokens per dollar spent
-  
-  // Bonus for USDC payments
-  if (paymentMethod === 'usdc') {
-    baseRate = 3; // 3 tokens per dollar for Web3 payments
-  }
-  
-  // Tier multipliers
-  const tierMultipliers = {
-    'Bronze': 1.0,
-    'Silver': 1.2,
-    'Gold': 1.5,
-    'Platinum': 2.0
-  };
-  
-  return Math.floor(orderAmount * baseRate * tierMultipliers[tier as keyof typeof tierMultipliers]);
-}
-
-export function registerRewardRoutes(app: Express) {
-  // Get customer rewards profile
-  app.get("/api/rewards/customer/:customerId", (req, res) => {
-    try {
-      const { customerId } = req.params;
-      const customer = customerRewards.get(customerId);
-      
-      if (!customer) {
-        return res.status(404).json({ error: "Customer not found" });
-      }
-      
-      const recentTransactions = rewardTransactions
-        .filter(t => t.customerId === customerId)
-        .sort((a, b) => b.timestamp - a.timestamp)
-        .slice(0, 10);
-      
-      res.json({
-        ...customer,
-        recentTransactions,
-        tierBenefits: {
-          [customer.tier]: {
-            tokenMultiplier: customer.tier === 'Bronze' ? 1.0 : 
-                           customer.tier === 'Silver' ? 1.2 :
-                           customer.tier === 'Gold' ? 1.5 : 2.0,
-            specialOffers: customer.tier === 'Platinum' ? ['Free delivery', 'Priority support'] :
-                          customer.tier === 'Gold' ? ['10% birthday discount'] :
-                          customer.tier === 'Silver' ? ['5% monthly special'] : []
-          }
-        }
-      });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch customer rewards" });
+    if (!customerId || !orderAmount) {
+      return res.status(400).json({ error: 'Customer ID and order amount required' });
     }
-  });
 
-  // Earn rewards for completed order
-  app.post("/api/rewards/earn", (req, res) => {
-    try {
-      const { customerId, customerName, customerEmail, orderId, orderAmount, paymentMethod } = 
-        earnRewardsSchema.parse(req.body);
-      
-      let customer = customerRewards.get(customerId);
-      
-      if (!customer) {
-        // Create new customer
-        customer = {
-          customerId,
-          customerName,
-          customerEmail,
-          totalOrders: 0,
-          totalSpent: 0,
-          mimiTokensEarned: 0,
-          mimiTokensRedeemed: 0,
-          currentBalance: 0,
-          tier: 'Bronze',
-          joinDate: Date.now(),
-          lastOrderDate: Date.now()
-        };
-      }
-      
-      // Update customer stats
-      customer.totalOrders += 1;
-      customer.totalSpent += orderAmount;
-      customer.lastOrderDate = Date.now();
-      customer.tier = calculateTier(customer.totalSpent);
-      
-      // Calculate tokens earned
-      const tokensEarned = calculateTokensEarned(orderAmount, paymentMethod, customer.tier);
-      customer.mimiTokensEarned += tokensEarned;
-      customer.currentBalance += tokensEarned;
-      
-      // Save customer
-      customerRewards.set(customerId, customer);
-      
-      // Record transaction
-      const transaction: RewardTransaction = {
-        id: `txn_${Date.now()}`,
+    // Calculate tokens earned
+    let baseTokens = Math.floor(orderAmount * 2); // 2 tokens per dollar
+    let bonusTokens = 0;
+    
+    // Bonus for crypto payments
+    if (paymentMethod === 'usdc') {
+      bonusTokens = Math.floor(orderAmount * 2); // Double tokens for crypto
+    }
+    
+    const totalTokens = baseTokens + bonusTokens;
+
+    // Get or create customer balance
+    let customerBalance = tokenBalances.get(customerId);
+    if (!customerBalance) {
+      customerBalance = {
         customerId,
-        type: 'earned',
-        amount: tokensEarned,
-        orderId,
-        description: `Earned ${tokensEarned} MIMI tokens for $${orderAmount.toFixed(2)} order (${paymentMethod.toUpperCase()})`,
-        timestamp: Date.now()
+        balance: 0,
+        totalEarned: 0,
+        totalRedeemed: 0,
+        tier: 'Bronze',
+        transactions: []
       };
-      
-      rewardTransactions.push(transaction);
-      
-      res.json({
-        success: true,
-        tokensEarned,
-        newBalance: customer.currentBalance,
-        tier: customer.tier,
-        transaction
-      });
-      
-    } catch (error) {
-      console.error('Earn rewards error:', error);
-      res.status(400).json({ error: "Invalid reward data" });
     }
-  });
 
-  // Redeem rewards
-  app.post("/api/rewards/redeem", (req, res) => {
+    // Update balance
+    customerBalance.balance += totalTokens;
+    customerBalance.totalEarned += totalTokens;
+
+    // Update tier based on total earned
+    const tiers = [
+      { name: 'Bronze', minTokens: 0 },
+      { name: 'Silver', minTokens: 500 },
+      { name: 'Gold', minTokens: 1500 },
+      { name: 'Platinum', minTokens: 5000 }
+    ];
+    
+    customerBalance.tier = tiers
+      .slice()
+      .reverse()
+      .find(tier => customerBalance!.totalEarned >= tier.minTokens)?.name || 'Bronze';
+
+    // Add transaction record
+    customerBalance.transactions.push({
+      id: `tx_${Date.now()}`,
+      type: 'earned',
+      amount: totalTokens,
+      description: `Order #${orderId} - ${paymentMethod === 'usdc' ? 'Crypto Bonus' : 'Standard'} Earning`,
+      timestamp: new Date(),
+      orderId
+    });
+
+    // Store updated balance
+    tokenBalances.set(customerId, customerBalance);
+
+    // Store in blockchain for transparency
     try {
-      const { customerId, tokensToRedeem, orderId } = redeemRewardsSchema.parse(req.body);
-      
-      const customer = customerRewards.get(customerId);
-      if (!customer) {
-        return res.status(404).json({ error: "Customer not found" });
-      }
-      
-      if (customer.currentBalance < tokensToRedeem) {
-        return res.status(400).json({ error: "Insufficient token balance" });
-      }
-      
-      // Update customer balance
-      customer.mimiTokensRedeemed += tokensToRedeem;
-      customer.currentBalance -= tokensToRedeem;
-      customerRewards.set(customerId, customer);
-      
-      // Record transaction
-      const transaction: RewardTransaction = {
-        id: `txn_${Date.now()}`,
+      const { blockchainStorage } = await import("../blockchain/storage");
+      await blockchainStorage.createMenuItemBlock({
+        type: 'REWARD_TRANSACTION',
         customerId,
-        type: 'redeemed',
-        amount: tokensToRedeem,
         orderId,
-        description: `Redeemed ${tokensToRedeem} MIMI tokens for discount`,
-        timestamp: Date.now()
-      };
-      
-      rewardTransactions.push(transaction);
-      
-      // Calculate dollar value (100 tokens = $1)
-      const dollarValue = tokensToRedeem / 100;
-      
-      res.json({
-        success: true,
-        tokensRedeemed: tokensToRedeem,
-        dollarValue: dollarValue.toFixed(2),
-        newBalance: customer.currentBalance,
-        transaction
+        tokensEarned: totalTokens,
+        paymentMethod,
+        timestamp: new Date().toISOString()
       });
-      
-    } catch (error) {
-      console.error('Redeem rewards error:', error);
-      res.status(400).json({ error: "Invalid redemption data" });
+    } catch (blockchainError) {
+      console.error('Blockchain storage error:', blockchainError);
     }
-  });
 
-  // Get all customers (for admin dashboard)
-  app.get("/api/rewards/customers", (req, res) => {
-    try {
-      const customers = Array.from(customerRewards.values())
-        .sort((a, b) => b.totalSpent - a.totalSpent);
-      
-      const stats = {
-        totalCustomers: customers.length,
-        totalTokensIssued: customers.reduce((sum, c) => sum + c.mimiTokensEarned, 0),
-        totalTokensRedeemed: customers.reduce((sum, c) => sum + c.mimiTokensRedeemed, 0),
-        averageTokensPerCustomer: customers.length > 0 ? 
-          customers.reduce((sum, c) => sum + c.currentBalance, 0) / customers.length : 0,
-        tierDistribution: {
-          Bronze: customers.filter(c => c.tier === 'Bronze').length,
-          Silver: customers.filter(c => c.tier === 'Silver').length,
-          Gold: customers.filter(c => c.tier === 'Gold').length,
-          Platinum: customers.filter(c => c.tier === 'Platinum').length
-        }
-      };
-      
-      res.json({
-        customers: customers.slice(0, 50), // Limit to 50 for performance
-        stats
-      });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch customers" });
-    }
-  });
+    res.json({
+      success: true,
+      tokensEarned: totalTokens,
+      newBalance: customerBalance.balance,
+      tier: customerBalance.tier,
+      breakdown: {
+        baseTokens,
+        bonusTokens,
+        reason: paymentMethod === 'usdc' ? 'Crypto payment bonus' : 'Standard earning'
+      }
+    });
 
-  // Get reward stats for dashboard
-  app.get("/api/rewards/stats", (req, res) => {
-    try {
-      const customers = Array.from(customerRewards.values());
-      const now = Date.now();
-      const thirtyDaysAgo = now - (30 * 24 * 60 * 60 * 1000);
-      
-      const recentTransactions = rewardTransactions.filter(t => t.timestamp > thirtyDaysAgo);
-      
-      res.json({
-        totalCustomers: customers.length,
-        activeCustomers: customers.filter(c => c.lastOrderDate > thirtyDaysAgo).length,
-        totalTokensIssued: customers.reduce((sum, c) => sum + c.mimiTokensEarned, 0),
-        totalTokensRedeemed: customers.reduce((sum, c) => sum + c.mimiTokensRedeemed, 0),
-        totalTokensOutstanding: customers.reduce((sum, c) => sum + c.currentBalance, 0),
-        recentActivity: {
-          tokensEarned: recentTransactions
-            .filter(t => t.type === 'earned')
-            .reduce((sum, t) => sum + t.amount, 0),
-          tokensRedeemed: recentTransactions
-            .filter(t => t.type === 'redeemed')
-            .reduce((sum, t) => sum + t.amount, 0)
-        },
-        tierDistribution: {
-          Bronze: customers.filter(c => c.tier === 'Bronze').length,
-          Silver: customers.filter(c => c.tier === 'Silver').length,
-          Gold: customers.filter(c => c.tier === 'Gold').length,
-          Platinum: customers.filter(c => c.tier === 'Platinum').length
-        },
-        topCustomers: customers
-          .sort((a, b) => b.totalSpent - a.totalSpent)
-          .slice(0, 5)
-          .map(c => ({
-            name: c.customerName,
-            totalSpent: c.totalSpent,
-            tier: c.tier,
-            tokensEarned: c.mimiTokensEarned
-          }))
-      });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch reward stats" });
+  } catch (error) {
+    console.error('Token earning error:', error);
+    res.status(500).json({ error: 'Failed to process token earning' });
+  }
+});
+
+// Get customer token balance
+router.get('/balance/:customerId', async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    
+    const customerBalance = tokenBalances.get(customerId);
+    if (!customerBalance) {
+      return res.status(404).json({ error: 'Customer not found' });
     }
-  });
-}
+
+    res.json(customerBalance);
+  } catch (error) {
+    console.error('Balance retrieval error:', error);
+    res.status(500).json({ error: 'Failed to retrieve balance' });
+  }
+});
+
+// Redeem tokens for rewards
+router.post('/redeem', async (req, res) => {
+  try {
+    const { customerId, rewardId, cost } = req.body;
+
+    if (!customerId || !rewardId || !cost) {
+      return res.status(400).json({ error: 'Customer ID, reward ID, and cost required' });
+    }
+
+    const customerBalance = tokenBalances.get(customerId);
+    if (!customerBalance) {
+      return res.status(404).json({ error: 'Customer not found' });
+    }
+
+    if (customerBalance.balance < cost) {
+      return res.status(400).json({ error: 'Insufficient token balance' });
+    }
+
+    // Deduct tokens
+    customerBalance.balance -= cost;
+    customerBalance.totalRedeemed += cost;
+
+    // Add transaction record
+    customerBalance.transactions.push({
+      id: `tx_${Date.now()}`,
+      type: 'redeemed',
+      amount: cost,
+      description: `Redeemed reward: ${rewardId}`,
+      timestamp: new Date()
+    });
+
+    // Store updated balance
+    tokenBalances.set(customerId, customerBalance);
+
+    // Store redemption in blockchain
+    try {
+      const { blockchainStorage } = await import("../blockchain/storage");
+      await blockchainStorage.createMenuItemBlock({
+        type: 'REWARD_REDEMPTION',
+        customerId,
+        rewardId,
+        tokensRedeemed: cost,
+        timestamp: new Date().toISOString()
+      });
+    } catch (blockchainError) {
+      console.error('Blockchain storage error:', blockchainError);
+    }
+
+    res.json({
+      success: true,
+      tokensRedeemed: cost,
+      newBalance: customerBalance.balance,
+      rewardId
+    });
+
+  } catch (error) {
+    console.error('Token redemption error:', error);
+    res.status(500).json({ error: 'Failed to process token redemption' });
+  }
+});
+
+// Get customer transaction history
+router.get('/transactions/:customerId', async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    
+    const customerBalance = tokenBalances.get(customerId);
+    if (!customerBalance) {
+      return res.status(404).json({ error: 'Customer not found' });
+    }
+
+    const transactions = customerBalance.transactions
+      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+      .slice(0, 50); // Last 50 transactions
+
+    res.json({ transactions });
+  } catch (error) {
+    console.error('Transaction history error:', error);
+    res.status(500).json({ error: 'Failed to retrieve transaction history' });
+  }
+});
+
+// Get leaderboard (top token earners)
+router.get('/leaderboard', async (req, res) => {
+  try {
+    const leaderboard = Array.from(tokenBalances.values())
+      .sort((a, b) => b.totalEarned - a.totalEarned)
+      .slice(0, 10)
+      .map(customer => ({
+        customerId: customer.customerId,
+        totalEarned: customer.totalEarned,
+        tier: customer.tier
+      }));
+
+    res.json({ leaderboard });
+  } catch (error) {
+    console.error('Leaderboard error:', error);
+    res.status(500).json({ error: 'Failed to retrieve leaderboard' });
+  }
+});
+
+export default router;
