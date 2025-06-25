@@ -56,10 +56,8 @@ export default function OrderFiPage() {
 
   const handleChatMessage = (message: string) => {
     setShowQuickActions(false); // Hide quick actions after first interaction
-    const chatComponent = document.querySelector('[data-ai-chat]') as any;
-    if (chatComponent && chatComponent.sendMessage) {
-      chatComponent.sendMessage(message);
-    }
+    // Store the message to be passed to AiChatOrder component
+    setChatMessage(message);
   };
 
   const handleSearch = async (query: string) => {
@@ -177,6 +175,8 @@ export default function OrderFiPage() {
               restaurantId={restaurantId}
               menuItems={menuItems}
               restaurant={restaurant}
+              externalMessage={chatMessage}
+              onMessageProcessed={() => setChatMessage('')}
             />
           </div>
         )}

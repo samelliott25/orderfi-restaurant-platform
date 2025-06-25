@@ -57,23 +57,25 @@ interface AiChatOrderProps {
   restaurantId: number;
   menuItems: MenuItem[];
   restaurant: any;
+  externalMessage?: string;
+  onMessageProcessed?: () => void;
 }
 
-export function AiChatOrder({ restaurantId, menuItems, restaurant }: AiChatOrderProps) {
+export function AiChatOrder({ restaurantId, menuItems, restaurant, externalMessage, onMessageProcessed }: AiChatOrderProps) {
   const restaurantName = restaurant?.name || "Restaurant";
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
-  // Expose sendMessage function for external access
+  // Handle external messages
   useEffect(() => {
-    const element = document.querySelector('[data-ai-chat]') as any;
-    if (element) {
-      element.sendMessage = (message: string) => {
-        setInputMessage(message);
-        handleSendMessage();
-      };
+    if (externalMessage && externalMessage.trim()) {
+      setInputMessage(externalMessage);
+      handleSendMessage(externalMessage);
+      if (onMessageProcessed) {
+        onMessageProcessed();
+      }
     }
-  }, []);
+  }, [externalMessage]);
   
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
