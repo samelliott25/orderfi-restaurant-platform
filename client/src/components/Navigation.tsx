@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useWallet } from "@/hooks/useWallet";
+import { WalletConnectDialog } from "@/components/WalletConnectDialog";
 import { 
   Home, 
   MessageCircle, 
@@ -85,18 +87,43 @@ export function HamburgerMenu() {
           
           {/* Footer */}
           <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-            {/* Wallet Login Button */}
-            <Button
-              className="w-full mb-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300 transform hover:scale-105"
-              size="lg"
-              onClick={() => {
-                // TODO: Implement wallet connection logic
-                console.log('Connect wallet clicked');
-              }}
-            >
-              <Wallet className="h-5 w-5 mr-2" />
-              Connect Wallet
-            </Button>
+            {/* Wallet Connection Button */}
+            {!isConnected ? (
+              <WalletConnectDialog>
+                <Button
+                  className="w-full mb-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300 transform hover:scale-105"
+                  size="lg"
+                  disabled={isConnecting}
+                >
+                  <Wallet className="h-5 w-5 mr-2" />
+                  {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+                </Button>
+              </WalletConnectDialog>
+            ) : (
+              <div className="mb-3">
+                <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                  <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                    <Wallet className="h-4 w-4 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-green-900 dark:text-green-100">
+                      Wallet Connected
+                    </p>
+                    <p className="text-xs text-green-600 dark:text-green-400 truncate">
+                      {walletInfo?.address.slice(0, 6)}...{walletInfo?.address.slice(-4)}
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={disconnect}
+                  className="w-full mt-2 border-red-200 text-red-600 hover:bg-red-50"
+                >
+                  Disconnect
+                </Button>
+              </div>
+            )}
             
             <div className="flex items-center justify-between">
               <Button variant="ghost" size="sm" className="gap-2">
