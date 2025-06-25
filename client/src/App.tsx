@@ -4,7 +4,7 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
-import { BottomNavigation, HamburgerMenu, SearchBar } from "@/components/Navigation";
+import { HamburgerMenu, SearchBar } from "@/components/Navigation";
 import HomePage from "@/pages/home";
 import RestaurantDashboard from "@/pages/dashboard";
 import Web3DappPage from "@/pages/web3-dapp";
@@ -33,12 +33,10 @@ function AppLayout({ children }: { children: React.ReactNode }) {
         </>
       )}
       
-      {/* Main content with padding for fixed navigation, except on home page */}
-      <main className={!hideNavigation ? "pb-20 pt-20 h-screen overflow-auto" : "h-screen"}>
+      {/* Main content with padding only for top navigation */}
+      <main className={!hideNavigation ? "pt-20 h-screen overflow-auto" : "h-screen"}>
         {children}
       </main>
-      
-      {!hideNavigation && <BottomNavigation />}
     </div>
   );
 }

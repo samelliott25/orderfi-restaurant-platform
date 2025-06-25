@@ -15,12 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const navigationItems = [
-  { path: "/", label: "Home", icon: Home },
-  { path: "/orderfi", label: "Order", icon: MessageCircle },
-  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/web3-order", label: "Rewards", icon: Coins },
-];
+
 
 const menuItems = [
   { path: "/", label: "Home", icon: Home },
@@ -32,38 +27,7 @@ const menuItems = [
   { path: "/admin/payments", label: "Payments", icon: User },
 ];
 
-export function BottomNavigation() {
-  const [location] = useLocation();
 
-  return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 safe-area-pb">
-      <div className="flex items-center justify-around py-2 px-4">
-        {navigationItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = location === item.path;
-          
-          return (
-            <Link key={item.path} href={item.path}>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "flex flex-col items-center gap-1 p-2 h-auto min-w-0",
-                  isActive 
-                    ? "text-blue-600 dark:text-blue-400" 
-                    : "text-gray-600 dark:text-gray-400"
-                )}
-              >
-                <Icon className="h-5 w-5" />
-                <span className="text-xs font-medium">{item.label}</span>
-              </Button>
-            </Link>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
 
 export function HamburgerMenu() {
   const [open, setOpen] = useState(false);
