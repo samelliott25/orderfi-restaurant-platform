@@ -5,9 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
 import { lazy, Suspense } from "react";
+import OrderFiPage from "@/pages/orderfi";
 import RestaurantDashboard from "@/pages/dashboard";
 import Web3DappPage from "@/pages/web3-dapp";
-import OrderFiPage from "@/pages/orderfi";
 import NotFound from "@/pages/not-found";
 import AdminDashboard from "./pages/AdminDashboard";
 
