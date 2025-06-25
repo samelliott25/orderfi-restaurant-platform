@@ -8,11 +8,13 @@ interface WalletConnectDialogProps {
   children: React.ReactNode;
 }
 
+type WalletType = 'metamask' | 'coinbase' | 'phantom' | 'walletconnect';
+
 export function WalletConnectDialog({ children }: WalletConnectDialogProps) {
   const [open, setOpen] = useState(false);
   const { connect, isConnecting } = useWallet();
 
-  const handleConnect = async () => {
+  const handleConnect = async (walletType: WalletType) => {
     try {
       await connect();
       setOpen(false);
@@ -21,18 +23,55 @@ export function WalletConnectDialog({ children }: WalletConnectDialogProps) {
     }
   };
 
-  const installMetaMask = () => {
-    window.open('https://metamask.io/download/', '_blank');
+  const installWallet = (walletType: WalletType) => {
+    const urls = {
+      metamask: 'https://metamask.io/download/',
+      coinbase: 'https://www.coinbase.com/wallet',
+      phantom: 'https://phantom.app/',
+      walletconnect: 'https://walletconnect.com/'
+    };
+    window.open(urls[walletType], '_blank');
   };
 
-  const isMetaMaskInstalled = typeof window !== 'undefined' && typeof window.ethereum !== 'undefined';
+  const walletOptions = [
+    {
+      id: 'metamask' as WalletType,
+      name: 'MetaMask',
+      description: 'Most popular Ethereum wallet',
+      installed: typeof window !== 'undefined' && typeof window.ethereum?.isMetaMask !== 'undefined',
+      icon: '🦊'
+    },
+    {
+      id: 'coinbase' as WalletType,
+      name: 'Coinbase Wallet',
+      description: 'Built by Coinbase exchange',
+      installed: typeof window !== 'undefined' && typeof window.ethereum?.isCoinbaseWallet !== 'undefined',
+      icon: '🔵'
+    },
+    {
+      id: 'phantom' as WalletType,
+      name: 'Phantom',
+      description: 'Solana & Ethereum wallet',
+      installed: typeof window !== 'undefined' && typeof window.solana?.isPhantom !== 'undefined',
+      icon: '👻'
+    },
+    {
+      id: 'walletconnect' as WalletType,
+      name: 'WalletConnect',
+      description: 'Connect any mobile wallet',
+      installed: true, // WalletConnect doesn't require installation
+      icon: '🔗'
+    }
+  ];
+
+  const hasAnyWallet = walletOptions.some(wallet => wallet.installed);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg sm:max-w-md bg-[#fcfcfc]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Wallet className="h-5 w-5" />
@@ -41,7 +80,7 @@ export function WalletConnectDialog({ children }: WalletConnectDialogProps) {
         </DialogHeader>
         
         <div className="space-y-4">
-          {!isMetaMaskInstalled ? (
+          {!hasAnyWallet ? (
             <div className="text-center space-y-4">
               <div className="flex justify-center">
                 <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
@@ -49,15 +88,24 @@ export function WalletConnectDialog({ children }: WalletConnectDialogProps) {
                 </div>
               </div>
               <div>
-                <h3 className="font-medium text-gray-900">MetaMask Required</h3>
+                <h3 className="font-medium text-gray-900">Wallet Required</h3>
                 <p className="text-sm text-gray-600 mt-1">
-                  You need MetaMask to connect your wallet and use OrderFi Ai's Web3 features.
+                  You need a Web3 wallet to connect and use OrderFi Ai's blockchain features.
                 </p>
               </div>
-              <Button onClick={installMetaMask} className="w-full gap-2">
-                <ExternalLink className="h-4 w-4" />
-                Install MetaMask
-              </Button>
+              <div className="grid grid-cols-2 gap-2">
+                {walletOptions.slice(0, 4).map((wallet) => (
+                  <Button 
+                    key={wallet.id}
+                    onClick={() => installWallet(wallet.id)} 
+                    variant="outline" 
+                    className="h-auto p-3 flex flex-col gap-1"
+                  >
+                    <div className="text-lg">{wallet.icon}</div>
+                    <div className="text-xs font-medium">{wallet.name}</div>
+                  </Button>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="space-y-4">
@@ -67,9 +115,9 @@ export function WalletConnectDialog({ children }: WalletConnectDialogProps) {
                     <Wallet className="h-8 w-8 text-white" />
                   </div>
                 </div>
-                <h3 className="font-medium text-gray-900">Connect MetaMask</h3>
+                <h3 className="font-medium text-gray-900">Connect Your Wallet</h3>
                 <p className="text-sm text-gray-600 mt-1">
-                  Connect your MetaMask wallet to access OrderFi Ai's blockchain features and token rewards.
+                  Choose your preferred wallet to access OrderFi Ai's blockchain features and token rewards.
                 </p>
               </div>
 
@@ -83,13 +131,30 @@ export function WalletConnectDialog({ children }: WalletConnectDialogProps) {
                 </ul>
               </div>
 
-              <Button 
-                onClick={handleConnect} 
-                disabled={isConnecting}
-                className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
-              >
-                {isConnecting ? 'Connecting...' : 'Connect MetaMask'}
-              </Button>
+              <div className="space-y-2">
+                {walletOptions.map((wallet) => (
+                  <Button
+                    key={wallet.id}
+                    onClick={() => wallet.installed ? handleConnect(wallet.id) : installWallet(wallet.id)}
+                    disabled={isConnecting}
+                    variant={wallet.installed ? "default" : "outline"}
+                    className={`w-full justify-start gap-3 h-auto p-4 ${
+                      wallet.installed 
+                        ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white' 
+                        : 'border-gray-200 hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className="text-xl">{wallet.icon}</div>
+                    <div className="flex-1 text-left">
+                      <div className="font-medium">{wallet.name}</div>
+                      <div className={`text-xs ${wallet.installed ? 'text-white/80' : 'text-gray-500'}`}>
+                        {wallet.installed ? wallet.description : 'Click to install'}
+                      </div>
+                    </div>
+                    {!wallet.installed && <ExternalLink className="h-4 w-4" />}
+                  </Button>
+                ))}
+              </div>
             </div>
           )}
         </div>

@@ -150,6 +150,12 @@ declare global {
       on: (event: string, callback: (data: any) => void) => void;
       removeListener: (event: string, callback: (data: any) => void) => void;
       isMetaMask?: boolean;
+      isCoinbaseWallet?: boolean;
+    };
+    solana?: {
+      isPhantom?: boolean;
+      connect: () => Promise<{ publicKey: { toString: () => string } }>;
+      disconnect: () => Promise<void>;
     };
   }
 }
