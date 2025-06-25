@@ -4,33 +4,21 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
-import { lazy, Suspense } from "react";
 import OrderFiPage from "@/pages/orderfi";
 import RestaurantDashboard from "@/pages/dashboard";
 import Web3DappPage from "@/pages/web3-dapp";
 import NotFound from "@/pages/not-found";
-import AdminDashboard from "./pages/AdminDashboard";
-
-const RestaurantOnboarding = lazy(() => import("./pages/RestaurantOnboarding"));
 
 function Router() {
   return (
     <Switch>
-      {/* Platform Admin Dashboard */}
-      <Route path="/" component={AdminDashboard} />
-      <Route path="/onboard">
-        <Suspense fallback={<div>Loading...</div>}>
-          <RestaurantOnboarding />
-        </Suspense>
-      </Route>
-      
-      {/* Restaurant-specific routes */}
-      <Route path="/dashboard/:slug?" component={RestaurantDashboard} />
-      <Route path="/:restaurantSlug" component={OrderFiPage} />
-      
-      {/* Legacy routes for backward compatibility */}
+      {/* Customer-Facing Mobile Interface */}
+      <Route path="/" component={OrderFiPage} />
       <Route path="/orderfi" component={OrderFiPage} />
       <Route path="/web3-order" component={Web3DappPage} />
+      
+      {/* Restaurant Dashboard */}
+      <Route path="/dashboard" component={RestaurantDashboard} />
       
       <Route component={NotFound} />
     </Switch>
