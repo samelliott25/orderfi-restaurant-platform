@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 export default function HomePage() {
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center p-4 overflow-hidden bg-white">
+    <div className="h-screen flex flex-col items-center justify-center p-4 overflow-hidden" style={{ backgroundColor: '#fcfcfc' }}>
       {/* Main Container - Centered Vertically */}
       <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
         
