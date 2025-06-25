@@ -49,6 +49,7 @@
 - ✅ Fixed scrolling behavior - background stays fixed while conversation scrolls
 - ✅ Moved hamburger menu icon from top-left to top-right position
 - ✅ Updated sidebar header from "Mimi Waitress" to "OrderFi AI"
+- ✅ Enhanced "Enter DApp" button with advanced animations (gradient shimmer, ripple effect, click animations)
 
 ### 🎯 Development Schedule (Next 7 Days)
 
