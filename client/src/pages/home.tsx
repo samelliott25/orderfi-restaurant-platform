@@ -22,19 +22,8 @@ export default function HomePage() {
           </div>
         </div>
         
-        {/* Title and Description */}
+        {/* Logo spacing */}
         <div className="text-center space-y-2">
-          <h1 
-            className="text-xl sm:text-2xl md:text-3xl font-bold font-heading"
-            style={{ 
-              letterSpacing: '0.02em',
-              fontWeight: '400',
-              transform: 'rotate(-2deg)',
-              color: '#8b795e'
-            }}
-          >
-            Welcome to Mimi Waitress
-          </h1>
           <p className="text-xs sm:text-sm text-[#8b795e]/70 px-4">
             AI-Powered Restaurant Platform with Blockchain Rewards
           </p>
@@ -53,9 +42,7 @@ export default function HomePage() {
             Enter DApp
           </Button>
           
-          <p className="text-center text-xs text-[#8b795e]/60">
-            Use navigation menu for restaurant dashboard
-          </p>
+
         </div>
       </div>
     </div>

@@ -51,7 +51,7 @@ export default function HybridChatPage() {
     {
       id: '1',
       type: 'bot',
-      content: "Welcome to Mimi Waitress! 🍕 I'm here to help you discover delicious food. You can browse our menu below or tell me what you're craving!",
+      content: "🍕 I'm here to help you discover delicious food. You can browse our menu below or tell me what you're craving!",
       timestamp: new Date()
     }
   ]);
