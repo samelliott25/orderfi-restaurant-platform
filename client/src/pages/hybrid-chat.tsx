@@ -228,16 +228,16 @@ export default function HybridChatPage() {
   const getTotalPrice = () => cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#fff0cc' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#fcfcfc' }}>
       {/* Header */}
-      <div className="sticky top-0 z-10 p-4 border-b" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+      <div className="sticky top-0 z-10 p-4 border-b" style={{ backgroundColor: '#fcfcfc', borderColor: '#e5cf97' }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-[#8b795e] flex items-center justify-center">
               <ChefHat className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-lg" style={{ color: '#8b795e' }}>Mimi Waitress</h1>
+              <h1 className="font-bold text-lg" style={{ color: '#8b795e' }}>OrderFi AI</h1>
               <p className="text-sm" style={{ color: '#8b795e' }}>Interactive Menu Chat</p>
             </div>
           </div>

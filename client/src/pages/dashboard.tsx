@@ -86,7 +86,7 @@ export default function RestaurantDashboard() {
           <div className="flex justify-between items-center py-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Restaurant Dashboard</h1>
-              <p className="text-sm text-gray-600">{(restaurant as any)?.name || "Mimi's Restaurant"} • Back Office Command Center</p>
+              <p className="text-sm text-gray-600">{(restaurant as any)?.name || "OrderFi AI Restaurant"} • Back Office Command Center</p>
             </div>
             <div className="flex items-center gap-4">
               <Badge variant="outline" className="bg-green-50 text-green-700">

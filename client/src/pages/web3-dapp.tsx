@@ -165,7 +165,7 @@ export default function Web3DappPage() {
   // Show wallet connection screen if not connected
   if (!wallet.connected) {
     return (
-      <div className="min-h-screen admin-bg">
+      <div className="min-h-screen" style={{ backgroundColor: '#fcfcfc' }}>
         <div className="container-modern max-w-4xl mx-auto p-6">
           <div className="bg-white rounded-2xl p-8 shadow-modern-lg border border-[#8b795e]/10 mb-8 wallet-section">
             <div className="text-center">
@@ -200,7 +200,7 @@ export default function Web3DappPage() {
                   className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
                 >
                   <Bot className="h-4 w-4 mr-2" />
-                  Chat with Mimi AI
+                  Chat with OrderFi AI
                 </Button>
               </div>
             </div>
@@ -267,7 +267,7 @@ export default function Web3DappPage() {
 
   // Main dApp interface (wallet connected) - DEX-style layout
   return (
-    <div className="min-h-screen admin-bg">
+    <div className="min-h-screen" style={{ backgroundColor: '#fcfcfc' }}>
       <div className="container-modern max-w-7xl mx-auto p-6">
         {/* Header with wallet info - DEX style */}
         <div className="bg-white rounded-2xl p-6 shadow-modern-lg border border-[#8b795e]/10 mb-6">
@@ -298,7 +298,7 @@ export default function Web3DappPage() {
                 className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
-                Ask Mimi AI
+                Ask OrderFi AI
               </Button>
               <div className="text-right wallet-info">
                 <p className="text-sm text-[#8b795e]/70">Connected Wallet</p>

@@ -60,7 +60,7 @@ export default function OrderFiPage() {
         <Card className="w-full max-w-md">
           <CardContent className="p-6 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto mb-4"></div>
-            <p>Loading Mimi AI Assistant...</p>
+            <p>Loading OrderFi AI Assistant...</p>
           </CardContent>
         </Card>
       </div>
