@@ -54,9 +54,41 @@ export default function OrderFiPage() {
     }
   };
 
-  // Remove the loading state to let the home page transition handle it
+  // Show gradient overlay during loading instead of blank screen
   if (isLoading) {
-    return null;
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-r from-orange-500 via-red-500 to-pink-500">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
+        
+        <div className="relative z-10 text-center text-white">
+          <div className="text-5xl font-bold mb-4 animate-bounce font-heading">
+            OrderFi
+          </div>
+          <div className="text-xl animate-pulse">
+            Loading AI Assistant...
+          </div>
+        </div>
+        
+        {/* Morphing circles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(5)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full bg-white/20 animate-ping"
+              style={{
+                width: `${(i + 1) * 100}px`,
+                height: `${(i + 1) * 100}px`,
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                animationDelay: `${i * 200}ms`,
+                animationDuration: '2s'
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (

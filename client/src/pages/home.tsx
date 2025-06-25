@@ -10,10 +10,10 @@ export default function HomePage() {
     setIsClicked(true);
     setShowTransition(true);
     
-    // Navigate after smooth transition - extend time to ensure page loads
+    // Navigate after smooth transition - extend time to cover loading
     setTimeout(() => {
       window.location.href = '/orderfi';
-    }, 2000);
+    }, 3000);
   };
 
   return (
