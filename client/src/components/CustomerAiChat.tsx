@@ -46,7 +46,7 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
         {
           id: "welcome",
           type: "assistant",
-          content: "Hey there! 👋 I'm Mimi, your AI ordering assistant. Want to start with a drink?",
+          content: "Hey there! 👋 I'm your OrderFi AI assistant. Want to start with a drink?",
           timestamp: new Date()
         },
         {

@@ -120,7 +120,7 @@ export default function OrderFiPage() {
                 className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
               >
                 <Bot className="h-4 w-4 mr-2" />
-                Chat with Mimi AI
+                Chat with OrderFi AI
               </Button>
               <Button
                 variant="outline"

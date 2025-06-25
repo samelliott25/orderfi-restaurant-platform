@@ -14,7 +14,7 @@ export function IntegratedChatSearch({
   onSendMessage, 
   onSearch, 
   isLoading = false,
-  placeholder = "Ask Mimi or search menu..."
+  placeholder = "Ask OrderFi AI or search menu..."
 }: IntegratedChatSearchProps) {
   const [input, setInput] = useState("");
   const [mode, setMode] = useState<"chat" | "search">("chat");

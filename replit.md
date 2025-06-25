@@ -1,7 +1,7 @@
-# Mimi Waitress - Project Status Report
+# OrderFi AI - Project Status Report
 
 ## Project Overview
-**Mimi Waitress** is a blockchain-first AI restaurant platform with two main sections:
+**OrderFi AI** is a blockchain-first AI restaurant platform with two main sections:
 1. **Customer OrderFi Interface** - Mobile-first ordering with AI chatbot as primary experience
 2. **Restaurant Dashboard** - Back office management with AI Operations Agent
 
@@ -115,4 +115,10 @@
 - Responsive design with Tailwind CSS utilities
 
 ---
+### ✅ Latest Updates
+- Replaced all "Mimi Waitress" references with "OrderFi AI" branding
+- Applied #fcfcfc background color consistently across all pages
+- Updated logo from Mimi video to OrderFi animated logo (MP4)
+- Applied "Playwrite Australia Victoria" font to all headings
+
 *Last Updated: June 25, 2025*
