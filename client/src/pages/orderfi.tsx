@@ -81,7 +81,22 @@ export default function OrderFiPage() {
     }
   };
 
+  const getTimeBasedGreeting = () => {
+    const hour = currentTime.getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
+  };
 
+  const getMealContext = () => {
+    const hour = currentTime.getHours();
+    if (hour >= 6 && hour < 11) return { meal: "breakfast", emoji: "🌅", color: "from-yellow-400 to-orange-500" };
+    if (hour >= 11 && hour < 16) return { meal: "lunch", emoji: "☀️", color: "from-blue-400 to-cyan-500" };
+    if (hour >= 16 && hour < 20) return { meal: "dinner", emoji: "🌆", color: "from-purple-400 to-pink-500" };
+    return { meal: "late night", emoji: "🌙", color: "from-indigo-400 to-purple-500" };
+  };
+
+  const mealContext = getMealContext();
 
   return (
     <div className="fixed inset-0 flex flex-col" style={{ backgroundColor: '#fcfcfc' }}>
