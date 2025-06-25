@@ -45,14 +45,11 @@ export function HamburgerMenu() {
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>
-      
       <SheetContent side="left" className="w-80 p-0 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800">
         <div className="flex flex-col h-full bg-white dark:bg-gray-900">
           {/* Header */}
           <div className="p-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              OrderFi Ai
-            </h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">OrderFi </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               AI Restaurant Platform
             </p>
