@@ -81,10 +81,10 @@ export function HamburgerMenu() {
         </Button>
       </SheetTrigger>
       
-      <SheetContent side="left" className="w-80 p-0">
-        <div className="flex flex-col h-full">
+      <SheetContent side="left" className="w-80 p-0 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800">
+        <div className="flex flex-col h-full bg-white dark:bg-gray-900">
           {/* Header */}
-          <div className="p-6 border-b border-gray-200 dark:border-gray-800">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">
               Mimi Waitress
             </h2>
@@ -94,7 +94,7 @@ export function HamburgerMenu() {
           </div>
           
           {/* Navigation Items */}
-          <div className="flex-1 p-4">
+          <div className="flex-1 p-4 bg-white dark:bg-gray-900">
             <nav className="space-y-2">
               {menuItems.map((item) => {
                 const Icon = item.icon;
@@ -122,7 +122,7 @@ export function HamburgerMenu() {
           </div>
           
           {/* Footer */}
-          <div className="p-4 border-t border-gray-200 dark:border-gray-800">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
             <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                 <User className="h-4 w-4 text-white" />
