@@ -21,8 +21,8 @@ import AdminBlockchainPage from "@/pages/admin/blockchain";
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   
-  // Hide navigation on certain pages for full-screen experience
-  const hideNavigation = ['/not-found'].includes(location);
+  // Hide navigation on home page and certain other pages for full-screen experience
+  const hideNavigation = ['/', '/not-found'].includes(location);
   
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -33,8 +33,8 @@ function AppLayout({ children }: { children: React.ReactNode }) {
         </>
       )}
       
-      {/* Main content with padding for fixed navigation */}
-      <main className={!hideNavigation ? "pb-20 pt-20" : ""}>
+      {/* Main content with padding for fixed navigation, except on home page */}
+      <main className={!hideNavigation ? "pb-20 pt-20 h-screen overflow-auto" : "h-screen"}>
         {children}
       </main>
       
