@@ -29,7 +29,7 @@ import {
 export default function Web3DappPage() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { wallet, connectWallet, disconnectWallet } = useWallet();
+  const { isConnected, walletInfo, isConnecting, connect, disconnect } = useWallet();
   
   const [cart, setCart] = useState<any[]>([]);
   const [transactionHash, setTransactionHash] = useState('');
@@ -43,9 +43,9 @@ export default function Web3DappPage() {
   });
 
   // Handle wallet connection
-  const handleConnect = async (walletType: string) => {
+  const handleConnect = async () => {
     try {
-      await connectWallet(walletType);
+      await connect();
       toast({
         title: "Wallet Connected",
         description: "Ready to order food on-chain",
@@ -59,11 +59,15 @@ export default function Web3DappPage() {
     }
   };
 
-  const handleDisconnect = () => {
-    disconnectWallet();
-    setCart([]);
-    setTransactionHash('');
-    setOrderStatus('idle');
+  const handleDisconnect = async () => {
+    try {
+      await disconnect();
+      setCart([]);
+      setTransactionHash('');
+      setOrderStatus('idle');
+    } catch (error) {
+      console.error('Disconnect error:', error);
+    }
   };
 
   const addToCart = (item: any) => {
@@ -163,7 +167,7 @@ export default function Web3DappPage() {
   };
 
   // Show wallet connection screen if not connected
-  if (!wallet.connected) {
+  if (!isConnected) {
     return (
       <div className="min-h-screen" style={{ backgroundColor: '#fcfcfc' }}>
         <div className="container-modern max-w-4xl mx-auto p-6">
@@ -200,7 +204,7 @@ export default function Web3DappPage() {
                   className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
                 >
                   <Bot className="h-4 w-4 mr-2" />
-                  Chat with OrderFi AI
+                  Chat with OrderFi Ai
                 </Button>
               </div>
             </div>
@@ -230,8 +234,8 @@ export default function Web3DappPage() {
               </Button>
 
               <Button
-                onClick={() => handleConnect('coinbase')}
-                disabled={wallet.isConnecting}
+                onClick={handleConnect}
+                disabled={isConnecting}
                 className="w-full flex items-center justify-between p-4 border border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 bg-white text-[#8b795e]"
                 variant="outline"
               >
@@ -241,12 +245,12 @@ export default function Web3DappPage() {
                   </div>
                   <span>Coinbase Wallet</span>
                 </div>
-                {wallet.isConnecting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
+                {isConnecting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
               </Button>
 
               <Button
-                onClick={() => handleConnect('walletconnect')}
-                disabled={wallet.isConnecting}
+                onClick={handleConnect}
+                disabled={isConnecting}
                 className="w-full flex items-center justify-between p-4 border border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 bg-white text-[#8b795e]"
                 variant="outline"
               >
@@ -256,7 +260,7 @@ export default function Web3DappPage() {
                   </div>
                   <span>WalletConnect</span>
                 </div>
-                {wallet.isConnecting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
+                {isConnecting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
               </Button>
             </CardContent>
           </Card>
@@ -275,9 +279,9 @@ export default function Web3DappPage() {
             <div>
               <h1 className="text-3xl font-bold text-gradient mb-2">Food Ordering dApp</h1>
               <div className="flex items-center gap-4 text-sm text-[#8b795e]/70">
-                <span>Network: {wallet.network}</span>
+                <span>Network: {walletInfo?.network || 'Unknown'}</span>
                 <span>•</span>
-                <span>USDC Balance: ${wallet.balance}</span>
+                <span>Balance: {walletInfo?.balance || '0'} ETH</span>
               </div>
             </div>
             
