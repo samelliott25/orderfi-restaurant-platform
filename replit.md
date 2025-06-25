@@ -51,6 +51,7 @@
 - ✅ Updated sidebar header from "Mimi Waitress" to "OrderFi AI"
 - ✅ Enhanced "Enter DApp" button with advanced animations (gradient shimmer, ripple effect, click animations)
 - ✅ Added sleek gradient transition overlay with morphing circles and OrderFi branding
+- ✅ Removed duplicate loading screen, extended transition time for smooth page loading
 
 ### 🎯 Development Schedule (Next 7 Days)
 
