@@ -145,7 +145,7 @@ export default function OrderFiPage() {
                 className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
               >
                 <Bot className="h-4 w-4 mr-2" />
-                Chat with OrderFi AI
+                Chat with OrderFi Ai
               </Button>
               <Button
                 variant="outline"
@@ -180,7 +180,7 @@ export default function OrderFiPage() {
             onSendMessage={handleChatMessage}
             onSearch={handleSearch}
             isLoading={isSearching}
-            placeholder="Ask OrderFi AI or search menu..."
+            placeholder="Ask OrderFi Ai or search menu..."
           />
         </div>
       </div>

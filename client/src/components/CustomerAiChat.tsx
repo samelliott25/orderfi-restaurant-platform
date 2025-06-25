@@ -46,7 +46,7 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
         {
           id: "welcome",
           type: "assistant",
-          content: "Hey there! 👋 I'm your OrderFi AI assistant. Want to start with a drink?",
+          content: "Hey there! 👋 I'm your OrderFi Ai assistant. Want to start with a drink?",
           timestamp: new Date()
         },
         {
@@ -155,7 +155,7 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
               <img src={mimiLogo} alt="Mimi" className="w-6 h-6 rounded-full" />
             </div>
             <div>
-              <CardTitle className="text-sm font-medium">OrderFi AI Assistant</CardTitle>
+              <CardTitle className="text-sm font-medium">OrderFi Ai Assistant</CardTitle>
               <p className="text-xs text-white/80">Your dining companion</p>
             </div>
           </div>

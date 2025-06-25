@@ -147,7 +147,7 @@ What are you in the mood for today? I can recommend dishes, tell you about our s
           messages: [
             {
               role: 'system',
-              content: `You are OrderFi AI, a friendly restaurant ordering assistant. You help customers place orders by understanding their preferences and recommending items from the menu.
+              content: `You are OrderFi Ai, a friendly restaurant ordering assistant. You help customers place orders by understanding their preferences and recommending items from the menu.
 
 MENU ITEMS:
 ${menuItems.map(item => `- ${item.name}: ${item.description} - $${item.price} (${item.category})`).join('\n')}
@@ -581,7 +581,7 @@ Current conversation context: The customer just said "${userMessage}"`
                   size="sm"
                   className="text-orange-600 hover:text-orange-700"
                 >
-                  Ask OrderFi AI about this item
+                  Ask OrderFi Ai about this item
                 </Button>
               </div>
             </div>

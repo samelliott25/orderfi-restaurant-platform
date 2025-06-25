@@ -421,7 +421,7 @@ export function SimpleOrderFi({ restaurantName, menuItems }: SimpleOrderFiProps)
           variant="outline"
           className="w-full border-orange-200 text-orange-700 hover:bg-orange-50"
         >
-          💬 Chat with OrderFi AI
+          💬 Chat with OrderFi Ai
         </Button>
       </div>
 

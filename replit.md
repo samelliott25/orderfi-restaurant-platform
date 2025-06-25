@@ -1,7 +1,7 @@
 # OrderFi AI - Project Status Report
 
 ## Project Overview
-**OrderFi AI** is a blockchain-first AI restaurant platform with two main sections:
+**OrderFi Ai** is a blockchain-first AI restaurant platform with two main sections:
 1. **Customer OrderFi Interface** - Mobile-first ordering with AI chatbot as primary experience
 2. **Restaurant Dashboard** - Back office management with AI Operations Agent
 
@@ -48,7 +48,8 @@
 - ✅ Removed "Mimi AI Assistant" header from /orderfi page to maximize screen length
 - ✅ Fixed scrolling behavior - background stays fixed while conversation scrolls
 - ✅ Moved hamburger menu icon from top-left to top-right position
-- ✅ Updated sidebar header from "Mimi Waitress" to "OrderFi AI"
+- ✅ Updated sidebar header from "Mimi Waitress" to "OrderFi Ai"
+- ✅ Fixed capitalization throughout app to use "OrderFi Ai" with lowercase "i"
 - ✅ Enhanced "Enter DApp" button with advanced animations (gradient shimmer, ripple effect, click animations)
 - ✅ Added sleek gradient transition overlay with morphing circles and OrderFi branding
 - ✅ Removed duplicate loading screen, extended transition time for smooth page loading
@@ -112,14 +113,14 @@
 
 ### 💡 User Preferences
 - Prioritize customer mobile experience over back office
-- OrderFi AI chatbot should be primary ordering method, not menu browsing
+- OrderFi Ai chatbot should be primary ordering method, not menu browsing
 - Keep UI clean and simple with mobile-first approach
 - Focus on core functionality over complex features
 - Consistent #fcfcfc background across all pages
 - "Playwrite Australia Victoria" font for all headings
 
 ## Technical Notes
-- Using OpenAI GPT-4o (latest model) for OrderFi AI responses
+- Using OpenAI GPT-4o (latest model) for OrderFi Ai responses
 - Menu items dynamically parsed from AI messages
 - Chat state managed with React hooks
 - Responsive design with Tailwind CSS utilities
