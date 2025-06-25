@@ -97,7 +97,7 @@ export class AkashComputeService {
       },
       profiles: {
         compute: {
-          "mimi-ai": {
+          "orderfi-ai": {
             resources: {
               cpu: {
                 units: "4.0"
