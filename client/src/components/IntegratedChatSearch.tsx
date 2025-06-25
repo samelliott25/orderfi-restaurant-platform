@@ -85,36 +85,36 @@ export function IntegratedChatSearch({
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      {/* Mode Switcher */}
-      <div className="flex justify-center mb-3">
-        <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+      {/* Compact Mode Switcher */}
+      <div className="flex justify-center mb-2">
+        <div className="flex bg-gray-100 dark:bg-gray-800 rounded-full p-1">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setMode("chat")}
             className={cn(
-              "px-4 py-2 text-sm font-medium rounded-md transition-all",
+              "px-3 py-1 text-xs font-medium rounded-full transition-all",
               mode === "chat"
                 ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
                 : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             )}
           >
-            <MessageCircle className="h-4 w-4 mr-2" />
-            Chat with Mimi
+            <MessageCircle className="h-3 w-3 mr-1" />
+            Chat
           </Button>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setMode("search")}
             className={cn(
-              "px-4 py-2 text-sm font-medium rounded-md transition-all",
+              "px-3 py-1 text-xs font-medium rounded-full transition-all",
               mode === "search"
                 ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
                 : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             )}
           >
-            <Search className="h-4 w-4 mr-2" />
-            Search Menu
+            <Search className="h-3 w-3 mr-1" />
+            Search
           </Button>
         </div>
       </div>
@@ -139,10 +139,10 @@ export function IntegratedChatSearch({
             onChange={handleInputChange}
             placeholder={
               mode === "chat" 
-                ? "Ask Mimi: 'I want something healthy' or use voice..." 
-                : "Search menu items, prices, ingredients..."
+                ? "Ask Mimi anything..." 
+                : "Search menu..."
             }
-            className="w-full pl-12 pr-24 py-4 text-base bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full pl-12 pr-20 py-3 text-sm bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
             disabled={isLoading || isListening}
           />
 
@@ -203,23 +203,23 @@ export function IntegratedChatSearch({
         )}
       </form>
 
-      {/* Quick Suggestions */}
-      <div className="mt-4 flex flex-wrap gap-2 justify-center">
+      {/* Compact Quick Suggestions */}
+      <div className="mt-2 flex flex-wrap gap-1 justify-center">
         {mode === "chat" ? (
           <>
             <Button
               variant="outline"
               size="sm"
               onClick={() => setInput("I want something healthy")}
-              className="text-xs px-3 py-1 rounded-full"
+              className="text-xs px-2 py-1 rounded-full h-6"
             >
-              Healthy options
+              Healthy
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={() => setInput("What's your best burger?")}
-              className="text-xs px-3 py-1 rounded-full"
+              className="text-xs px-2 py-1 rounded-full h-6"
             >
               Best burger
             </Button>
@@ -227,7 +227,7 @@ export function IntegratedChatSearch({
               variant="outline"
               size="sm"
               onClick={() => setInput("Surprise me!")}
-              className="text-xs px-3 py-1 rounded-full"
+              className="text-xs px-2 py-1 rounded-full h-6"
             >
               Surprise me
             </Button>
@@ -238,7 +238,7 @@ export function IntegratedChatSearch({
               variant="outline"
               size="sm"
               onClick={() => setInput("vegetarian")}
-              className="text-xs px-3 py-1 rounded-full"
+              className="text-xs px-2 py-1 rounded-full h-6"
             >
               Vegetarian
             </Button>
@@ -246,7 +246,7 @@ export function IntegratedChatSearch({
               variant="outline"
               size="sm"
               onClick={() => setInput("under $15")}
-              className="text-xs px-3 py-1 rounded-full"
+              className="text-xs px-2 py-1 rounded-full h-6"
             >
               Under $15
             </Button>
@@ -254,7 +254,7 @@ export function IntegratedChatSearch({
               variant="outline"
               size="sm"
               onClick={() => setInput("gluten free")}
-              className="text-xs px-3 py-1 rounded-full"
+              className="text-xs px-2 py-1 rounded-full h-6"
             >
               Gluten free
             </Button>

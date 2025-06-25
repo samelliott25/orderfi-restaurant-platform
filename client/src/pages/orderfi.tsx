@@ -68,19 +68,8 @@ export default function OrderFiPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
-      {/* Integrated Chat/Search Interface */}
-      <div className="sticky top-20 z-30 bg-gradient-to-br from-orange-50 to-red-50 p-4 border-b border-orange-200">
-        <IntegratedChatSearch
-          onSendMessage={handleChatMessage}
-          onSearch={handleSearch}
-          isLoading={isSearching}
-          placeholder="Ask Mimi or search menu..."
-        />
-      </div>
-
-      {/* Main Content Area */}
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 pb-32">
+      <div className="max-w-4xl mx-auto p-4">
         
         {/* Search Results Display */}
         {searchResults.length > 0 && (
@@ -145,64 +134,30 @@ export default function OrderFiPage() {
           </div>
         )}
 
-        {/* Primary AI Chat Interface */}
-        {orderingMode === 'chat' && (
-          <div className="relative">
+        {/* Chat Interface - Default Mode */}
+        {searchResults.length === 0 && (
+          <div data-ai-chat>
             <AiChatOrder 
-              restaurantName={(restaurant as any)?.name || "Mimi's Restaurant"}
-              menuItems={Array.isArray(menuItems) ? menuItems : []}
+              restaurantId={restaurantId}
+              menuItems={menuItems}
+              restaurant={restaurant}
             />
-            
-            {/* Secondary option to browse menu */}
-            <div className="absolute top-4 right-4">
-              <Button
-                onClick={() => setOrderingMode('browse')}
-                variant="outline"
-                size="sm"
-                className="bg-white/90 backdrop-blur-sm border-orange-300 text-orange-600 hover:bg-orange-50"
-              >
-                <Grid3X3 className="h-3 w-3 mr-1" />
-                Browse
-              </Button>
-            </div>
           </div>
         )}
+        
+      </div>
 
-        {/* Secondary Browse Interface */}
-        {orderingMode === 'browse' && (
-          <SimpleOrderFi 
-            restaurantName={(restaurant as any)?.name || "Mimi's Restaurant"}
-            menuItems={Array.isArray(menuItems) ? menuItems : []}
+      {/* Bottom Integrated Chat/Search Interface */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg safe-area-pb">
+        <div className="p-4">
+          <IntegratedChatSearch
+            onSendMessage={handleChatMessage}
+            onSearch={handleSearch}
+            isLoading={isSearching}
+            placeholder="Ask Mimi or search menu..."
           />
-        )}
-      </div>
-
-      {/* Desktop QR code display for table placement */}
-      <div className="hidden lg:block fixed top-4 right-4 bg-white p-4 rounded-lg shadow-lg border">
-        <div className="text-center space-y-3">
-          <QrCode className="h-16 w-16 mx-auto text-gray-600" />
-          <p className="text-sm font-medium">Scan to Order</p>
-          <p className="text-xs text-gray-500">AI Assistant Ready</p>
         </div>
       </div>
-
-      {/* Bottom token rewards indicator */}
-      <div className="hidden lg:block fixed bottom-4 right-4 bg-orange-500 text-white p-3 rounded-lg shadow-lg">
-        <div className="flex items-center space-x-2">
-          <Zap className="h-5 w-5" />
-          <span className="text-sm font-medium">Earn tokens with each order!</span>
-        </div>
-      </div>
-
-      {/* AI Mode indicator for desktop */}
-      {orderingMode === 'chat' && (
-        <div className="hidden lg:block fixed bottom-4 left-4 bg-white border-2 border-orange-500 text-orange-600 p-3 rounded-lg shadow-lg">
-          <div className="flex items-center space-x-2">
-            <Bot className="h-5 w-5" />
-            <span className="text-sm font-medium">AI Assistant Active</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
