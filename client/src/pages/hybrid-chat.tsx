@@ -258,7 +258,7 @@ export default function HybridChatPage() {
       </div>
 
       {/* Category Tabs */}
-      <div className="sticky top-[88px] z-10 p-4 border-b" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+      <div className="sticky top-[88px] z-10 p-4 border-b" style={{ backgroundColor: '#fcfcfc', borderColor: '#e5cf97' }}>
         <div className="flex gap-2 overflow-x-auto">
           {categories.map((category) => (
             <Button

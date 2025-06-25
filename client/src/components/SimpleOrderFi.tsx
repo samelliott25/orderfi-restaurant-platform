@@ -143,7 +143,7 @@ export function SimpleOrderFi({ restaurantName, menuItems }: SimpleOrderFiProps)
 
   if (!menuItems || menuItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#fcfcfc' }}>
         <Card className="w-full max-w-md">
           <CardContent className="p-6 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto mb-4"></div>
@@ -155,9 +155,9 @@ export function SimpleOrderFi({ restaurantName, menuItems }: SimpleOrderFiProps)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#fcfcfc' }}>
       {/* Header with loyalty stats */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="shadow-sm border-b" style={{ backgroundColor: '#fcfcfc' }}>
         <div className="max-w-md mx-auto p-4">
           <div className="flex items-center justify-between">
             <div>
