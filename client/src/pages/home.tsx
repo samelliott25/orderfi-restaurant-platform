@@ -1,4 +1,4 @@
-import orderFiLogo from "@assets/20250625_2213_Elegant Logo Animation_loop_01jykg3kywe6yadwjhwn5nypcx_1750853752703.gif";
+import orderFiLogo from "@assets/20250625_2213_Elegant Logo Animation_loop_01jykg3kywe6yadwjhwn5nypcx_1750853921628.mp4";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
@@ -11,9 +11,12 @@ export default function HomePage() {
         {/* OrderFi Logo - Responsive Size */}
         <div className="relative w-60 h-40 sm:w-72 sm:h-48 md:w-80 md:h-56">
           <div className="flex items-center justify-center w-full h-full">
-            <img 
+            <video 
               src={orderFiLogo}
-              alt="OrderFi Logo"
+              autoPlay
+              loop
+              muted
+              playsInline
               className="w-full h-full object-contain"
             />
           </div>
