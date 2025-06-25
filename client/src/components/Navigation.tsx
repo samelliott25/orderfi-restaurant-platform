@@ -120,6 +120,12 @@ export function HamburgerMenu() {
 
 export function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [location] = useLocation();
+  
+  // Hide search bar on OrderFi page since it has integrated chat/search
+  if (location === '/orderfi') {
+    return null;
+  }
   
   return (
     <div className="fixed top-4 right-4 left-16 z-40">

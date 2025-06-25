@@ -54,13 +54,27 @@ interface MenuItem {
 }
 
 interface AiChatOrderProps {
-  restaurantName: string;
+  restaurantId: number;
   menuItems: MenuItem[];
+  restaurant: any;
 }
 
-export function AiChatOrder({ restaurantName, menuItems }: AiChatOrderProps) {
+export function AiChatOrder({ restaurantId, menuItems, restaurant }: AiChatOrderProps) {
+  const restaurantName = restaurant?.name || "Restaurant";
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  
+  // Expose sendMessage function for external access
+  useEffect(() => {
+    const element = document.querySelector('[data-ai-chat]') as any;
+    if (element) {
+      element.sendMessage = (message: string) => {
+        setInputMessage(message);
+        handleSendMessage();
+      };
+    }
+  }, []);
+  
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
@@ -492,8 +506,8 @@ Current conversation context: The customer just said "${userMessage}"`
         </div>
       )}
 
-      {/* Input Area */}
-      <div className="bg-white border-t p-4">
+      {/* Input Area - Hidden since integrated with top search/chat bar */}
+      <div className="bg-white border-t p-4" style={{ display: 'none' }}>
         <div className="flex space-x-2">
           <Input
             value={inputMessage}
