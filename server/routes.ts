@@ -325,8 +325,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const menuItems = await storage.getMenuItems(restaurantId);
       
       // Use AI training service and conversation memory for better responses
-      const { aiTrainingService } = await import("../services/ai-training");
-      const { conversationMemory } = await import("../services/conversation-memory");
+      const { aiTrainingService } = await import("./services/ai-training");
+      const { conversationMemory } = await import("./services/conversation-memory");
       
       // Get conversation context
       const contextualHistory = conversationMemory.getContextualHistory(sessionId);
