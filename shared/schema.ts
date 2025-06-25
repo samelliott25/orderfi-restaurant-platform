@@ -1,38 +1,15 @@
-import { pgTable, text, serial, integer, boolean, decimal, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, decimal, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const restaurants = pgTable("restaurants", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  slug: text("slug").notNull().unique(),
   description: text("description"),
-  address: text("address"),
-  phone: text("phone"),
-  email: text("email"),
-  website: text("website"),
-  cuisine: text("cuisine"),
-  priceRange: text("price_range"),
-  rating: decimal("rating", { precision: 2, scale: 1 }),
-  isActive: boolean("is_active").default(true),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-
-  // AI and customization settings
+  cuisineType: text("cuisine_type"),
   tone: text("tone").default("friendly"),
   welcomeMessage: text("welcome_message"),
-  aiPersonality: text("ai_personality"),
-  customBranding: jsonb("custom_branding"),
-  
-  // Business settings
-  businessHours: jsonb("business_hours"),
-  orderSettings: jsonb("order_settings"),
-  paymentMethods: text("payment_methods").array(),
-  
-  // Owner/Admin info
-  ownerId: text("owner_id"),
-  contactEmail: text("contact_email"),
-  timezone: text("timezone").default("America/New_York"),
+  isActive: boolean("is_active").default(true),
 });
 
 export const menuItems = pgTable("menu_items", {
