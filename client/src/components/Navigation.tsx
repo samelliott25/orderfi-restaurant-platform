@@ -50,7 +50,7 @@ export function HamburgerMenu() {
           {/* Header */}
           <div className="p-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              Mimi Waitress
+              OrderFi AI
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               AI Restaurant Platform

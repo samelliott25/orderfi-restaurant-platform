@@ -48,6 +48,7 @@
 - ✅ Removed "Mimi AI Assistant" header from /orderfi page to maximize screen length
 - ✅ Fixed scrolling behavior - background stays fixed while conversation scrolls
 - ✅ Moved hamburger menu icon from top-left to top-right position
+- ✅ Updated sidebar header from "Mimi Waitress" to "OrderFi AI"
 
 ### 🎯 Development Schedule (Next 7 Days)
 
