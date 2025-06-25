@@ -4,167 +4,56 @@ import { useState } from "react";
 
 export default function HomePage() {
   const [isClicked, setIsClicked] = useState(false);
-  const [showBlockchainOverlay, setShowBlockchainOverlay] = useState(false);
+  const [showTransition, setShowTransition] = useState(false);
 
   const handleDAppClick = () => {
     setIsClicked(true);
-    setShowBlockchainOverlay(true);
+    setShowTransition(true);
     
-    // Navigate after the blockchain animation
+    // Navigate after smooth transition
     setTimeout(() => {
       window.location.href = '/orderfi';
-    }, 2000);
+    }, 1200);
   };
 
   return (
     <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden" style={{ backgroundColor: '#fcfcfc' }}>
       
-      {/* Blockchain Spider Web Overlay */}
-      {showBlockchainOverlay && (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center">
-          <div className="relative w-full h-full flex items-center justify-center">
-            {/* Animated blockchain network */}
-            <svg 
-              className="absolute inset-0 w-full h-full animate-pulse"
-              viewBox="0 0 1200 800"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Spider web grid lines */}
-              <defs>
-                <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
-                  <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="1"/>
-                </pattern>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-              </defs>
-              
-              {/* Background grid */}
-              <rect width="100%" height="100%" fill="url(#grid)" />
-              
-              {/* Network nodes */}
-              {[...Array(12)].map((_, i) => {
-                const angle = (i * 30) * Math.PI / 180;
-                const radius = 200 + (i % 3) * 80;
-                const x = 600 + Math.cos(angle) * radius;
-                const y = 400 + Math.sin(angle) * radius;
-                
-                return (
-                  <g key={i}>
-                    {/* Connection lines */}
-                    <line 
-                      x1="600" y1="400" 
-                      x2={x} y2={y}
-                      stroke="rgba(59, 130, 246, 0.6)" 
-                      strokeWidth="2"
-                      className="animate-pulse"
-                      style={{ 
-                        animationDelay: `${i * 100}ms`,
-                        animationDuration: '2s'
-                      }}
-                    />
-                    
-                    {/* Animated nodes */}
-                    <circle 
-                      cx={x} 
-                      cy={y} 
-                      r="8"
-                      fill="rgba(59, 130, 246, 0.8)"
-                      stroke="rgba(147, 197, 253, 1)"
-                      strokeWidth="2"
-                      filter="url(#glow)"
-                      className="animate-ping"
-                      style={{ 
-                        animationDelay: `${i * 150}ms`,
-                        animationDuration: '1.5s'
-                      }}
-                    />
-                  </g>
-                );
-              })}
-              
-              {/* Central hub */}
-              <circle 
-                cx="600" 
-                cy="400" 
-                r="20"
-                fill="rgba(34, 197, 94, 0.8)"
-                stroke="rgba(134, 239, 172, 1)"
-                strokeWidth="3"
-                filter="url(#glow)"
-                className="animate-pulse"
-              />
-              
-              {/* Floating blockchain blocks */}
-              {[...Array(6)].map((_, i) => {
-                const x = 200 + i * 160;
-                const y = 100 + (i % 2) * 600;
-                
-                return (
-                  <g key={`block-${i}`}>
-                    <rect 
-                      x={x} 
-                      y={y} 
-                      width="40" 
-                      height="40"
-                      fill="rgba(168, 85, 247, 0.7)"
-                      stroke="rgba(196, 181, 253, 1)"
-                      strokeWidth="2"
-                      rx="4"
-                      filter="url(#glow)"
-                      className="animate-bounce"
-                      style={{ 
-                        animationDelay: `${i * 200}ms`,
-                        animationDuration: '2s'
-                      }}
-                    />
-                    
-                    {/* Block chain connections */}
-                    {i < 5 && (
-                      <line 
-                        x1={x + 40} y1={y + 20}
-                        x2={x + 120} y2={y + (i % 2 === 0 ? 620 : -600) + 20}
-                        stroke="rgba(168, 85, 247, 0.5)" 
-                        strokeWidth="3"
-                        strokeDasharray="5,5"
-                        className="animate-pulse"
-                        style={{ 
-                          animationDelay: `${i * 100}ms`
-                        }}
-                      />
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
-            
-            {/* Loading text */}
-            <div className="relative z-10 text-center text-white">
-              <div className="text-4xl font-bold mb-4 animate-pulse">
-                Entering OrderFi Network
-              </div>
-              <div className="text-lg text-blue-300 animate-bounce">
-                Connecting to blockchain...
-              </div>
-              
-              {/* Loading dots */}
-              <div className="flex justify-center mt-6 space-x-2">
-                {[...Array(3)].map((_, i) => (
-                  <div 
-                    key={i}
-                    className="w-3 h-3 bg-blue-400 rounded-full animate-bounce"
-                    style={{ 
-                      animationDelay: `${i * 200}ms`,
-                      animationDuration: '1s'
-                    }}
-                  />
-                ))}
-              </div>
+      {/* Sleek Transition Overlay */}
+      {showTransition && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Animated gradient sweep */}
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 animate-pulse">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40" />
+          </div>
+          
+          {/* Center content */}
+          <div className="relative z-10 text-center text-white">
+            <div className="text-5xl font-bold mb-4 animate-bounce font-heading">
+              OrderFi
             </div>
+            <div className="text-xl animate-pulse">
+              Launching AI Assistant...
+            </div>
+          </div>
+          
+          {/* Morphing circles */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full bg-white/20 animate-ping"
+                style={{
+                  width: `${(i + 1) * 100}px`,
+                  height: `${(i + 1) * 100}px`,
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  animationDelay: `${i * 200}ms`,
+                  animationDuration: '2s'
+                }}
+              />
+            ))}
           </div>
         </div>
       )}
