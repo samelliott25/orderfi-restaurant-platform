@@ -176,7 +176,7 @@ export default function RestaurantDashboard() {
             {/* Quick Actions */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
+                <CardTitle className="font-heading">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

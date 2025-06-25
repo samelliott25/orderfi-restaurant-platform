@@ -24,10 +24,9 @@ export default function HomePage() {
         
         {/* Title and Description */}
         <div className="text-center space-y-2">
-          <div 
-            className="text-xl sm:text-2xl md:text-3xl font-bold"
+          <h1 
+            className="text-xl sm:text-2xl md:text-3xl font-bold font-heading"
             style={{ 
-              fontFamily: 'Permanent Marker, cursive',
               letterSpacing: '0.02em',
               fontWeight: '400',
               transform: 'rotate(-2deg)',
@@ -35,7 +34,7 @@ export default function HomePage() {
             }}
           >
             Welcome to Mimi Waitress
-          </div>
+          </h1>
           <p className="text-xs sm:text-sm text-[#8b795e]/70 px-4">
             AI-Powered Restaurant Platform with Blockchain Rewards
           </p>

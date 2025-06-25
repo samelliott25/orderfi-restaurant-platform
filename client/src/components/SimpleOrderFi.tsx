@@ -147,7 +147,7 @@ export function SimpleOrderFi({ restaurantName, menuItems }: SimpleOrderFiProps)
         <Card className="w-full max-w-md">
           <CardContent className="p-6 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto mb-4"></div>
-            <p>Loading delicious menu...</p>
+            <p className="font-heading">Loading delicious menu...</p>
           </CardContent>
         </Card>
       </div>
@@ -228,7 +228,7 @@ export function SimpleOrderFi({ restaurantName, menuItems }: SimpleOrderFiProps)
             
             <div className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-lg font-bold">{currentItem.name}</h3>
+                <h3 className="text-lg font-bold font-heading">{currentItem.name}</h3>
                 <Badge variant="outline" className="bg-green-50 text-green-700">
                   ${currentItem.price}
                 </Badge>
