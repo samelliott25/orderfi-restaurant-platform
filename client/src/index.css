@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Safe area padding for mobile devices */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.safe-area-pt {
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+/* Smooth transitions for navigation */
+.nav-transition {
+  transition: all 0.2s ease-in-out;
+}
+
 /* Modern gradient backgrounds */
 .gradient-bg-primary {
   background: linear-gradient(135deg, #ffe6b0 0%, #f5d992 50%, #e8cc7a 100%);
