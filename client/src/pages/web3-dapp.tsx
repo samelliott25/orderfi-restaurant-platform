@@ -106,7 +106,7 @@ export default function Web3DappPage() {
 
   // Submit order as blockchain transaction
   const submitOrder = async () => {
-    if (!wallet.connected || cart.length === 0) return;
+    if (!isConnected || cart.length === 0) return;
     
     setOrderStatus('pending');
     
@@ -119,7 +119,7 @@ export default function Web3DappPage() {
       const orderData = {
         restaurantId: 1,
         customerName: 'Web3 User',
-        walletAddress: wallet.address,
+        walletAddress: walletInfo?.address || '',
         items: JSON.stringify(cart),
         total: calculateOrder().total,
         paymentMethod: 'usdc',
@@ -219,8 +219,8 @@ export default function Web3DappPage() {
             </CardHeader>
             <CardContent className="space-y-4 wallet-buttons">
               <Button
-                onClick={() => handleConnect('metamask')}
-                disabled={wallet.isConnecting}
+                onClick={handleConnect}
+                disabled={isConnecting}
                 className="w-full flex items-center justify-between p-4 border border-[#8b795e]/20 hover:bg-[#ffe6b0]/10 bg-white text-[#8b795e]"
                 variant="outline"
               >
@@ -230,7 +230,7 @@ export default function Web3DappPage() {
                   </div>
                   <span>MetaMask</span>
                 </div>
-                {wallet.isConnecting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
+                {isConnecting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
               </Button>
 
               <Button
@@ -308,11 +308,11 @@ export default function Web3DappPage() {
                 <p className="text-sm text-[#8b795e]/70">Connected Wallet</p>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="font-mono text-sm">{formatAddress(wallet.address)}</span>
+                  <span className="font-mono text-sm">{walletInfo?.address ? formatAddress(walletInfo.address) : 'Not connected'}</span>
                   <Button
                     size="sm"
                     variant="ghost"
-                    onClick={() => navigator.clipboard.writeText(wallet.address)}
+                    onClick={() => walletInfo?.address && navigator.clipboard.writeText(walletInfo.address)}
                   >
                     <Copy className="h-3 w-3" />
                   </Button>
@@ -447,7 +447,7 @@ export default function Web3DappPage() {
                   {/* Submit Transaction */}
                   <Button
                     onClick={submitOrder}
-                    disabled={orderStatus !== 'idle' || parseFloat(wallet.balance) < parseFloat(calculateOrder().total)}
+                    disabled={orderStatus !== 'idle' || parseFloat(walletInfo?.balance || '0') < parseFloat(calculateOrder().total)}
                     className="w-full gradient-bg text-white place-order-button"
                     size="lg"
                   >
@@ -502,7 +502,7 @@ export default function Web3DappPage() {
                   )}
 
                   {/* Insufficient Balance Warning */}
-                  {parseFloat(wallet.balance) < parseFloat(calculateOrder().total) && (
+                  {parseFloat(walletInfo?.balance || '0') < parseFloat(calculateOrder().total) && (
                     <div className="bg-red-50 rounded-lg p-3 flex items-center gap-2">
                       <AlertCircle className="h-4 w-4 text-red-600" />
                       <span className="text-sm text-red-800">Insufficient USDC balance</span>
