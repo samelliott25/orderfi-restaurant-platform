@@ -9,9 +9,10 @@ import {
   Coins, 
   Menu,
   Search,
-  User,
+  Wallet,
   Settings,
-  HelpCircle
+  HelpCircle,
+  CreditCard
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +25,7 @@ const menuItems = [
   { path: "/web3-order", label: "Token Rewards", icon: Coins },
   { path: "/admin/menu", label: "Menu Management", icon: Settings },
   { path: "/admin/orders", label: "Order History", icon: Search },
-  { path: "/admin/payments", label: "Payments", icon: User },
+  { path: "/admin/payments", label: "Payments", icon: CreditCard },
 ];
 
 
@@ -87,21 +88,20 @@ export function HamburgerMenu() {
           
           {/* Footer */}
           <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-            <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <User className="h-4 w-4 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 dark:text-white">
-                  Restaurant Admin
-                </p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  Loose Moose
-                </p>
-              </div>
-            </div>
+            {/* Wallet Login Button */}
+            <Button
+              className="w-full mb-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300 transform hover:scale-105"
+              size="lg"
+              onClick={() => {
+                // TODO: Implement wallet connection logic
+                console.log('Connect wallet clicked');
+              }}
+            >
+              <Wallet className="h-5 w-5 mr-2" />
+              Connect Wallet
+            </Button>
             
-            <div className="flex items-center justify-between mt-3">
+            <div className="flex items-center justify-between">
               <Button variant="ghost" size="sm" className="gap-2">
                 <HelpCircle className="h-4 w-4" />
                 Help
