@@ -38,16 +38,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/restaurants/:id", async (req, res) => {
+  app.get("/api/restaurants/:identifier", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      const restaurant = await storage.getRestaurant(id);
+      const identifier = req.params.identifier;
+      let restaurant;
+      
+      // Check if identifier is numeric (ID) or string (slug)
+      if (/^\d+$/.test(identifier)) {
+        restaurant = await storage.getRestaurant(parseInt(identifier));
+      } else {
+        // Import restaurant management service
+        const { restaurantManagement } = await import("./services/restaurant-management");
+        restaurant = await restaurantManagement.getRestaurantBySlug(identifier);
+      }
+      
       if (!restaurant) {
         return res.status(404).json({ message: "Restaurant not found" });
       }
       res.json(restaurant);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch restaurant" });
+    }
+  });
+
+  // Restaurant onboarding
+  app.post("/api/restaurants/onboard", async (req, res) => {
+    try {
+      const { restaurantManagement } = await import("./services/restaurant-management");
+      const restaurant = await restaurantManagement.onboardRestaurant(req.body);
+      res.status(201).json(restaurant);
+    } catch (error) {
+      console.error("Restaurant onboarding error:", error);
+      res.status(400).json({ message: "Failed to onboard restaurant" });
+    }
+  });
+
+  // Restaurant analytics
+  app.get("/api/restaurants/:id/analytics", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const days = parseInt(req.query.days as string) || 30;
+      const { restaurantManagement } = await import("./services/restaurant-management");
+      const analytics = await restaurantManagement.getRestaurantAnalytics(id, days);
+      res.json(analytics);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch analytics" });
+    }
+  });
+
+  // Admin: Get all restaurants with stats
+  app.get("/api/admin/restaurants", async (req, res) => {
+    try {
+      const { restaurantManagement } = await import("./services/restaurant-management");
+      const restaurants = await restaurantManagement.getAllRestaurantsWithStats();
+      res.json(restaurants);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch restaurant stats" });
+    }
+  });
+
+  // Toggle restaurant status
+  app.patch("/api/restaurants/:id/toggle-status", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { restaurantManagement } = await import("./services/restaurant-management");
+      const restaurant = await restaurantManagement.toggleRestaurantStatus(id);
+      res.json(restaurant);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to toggle restaurant status" });
     }
   });
 
