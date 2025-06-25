@@ -126,6 +126,7 @@
 - Focus on core functionality over complex features
 - Consistent #fcfcfc background across all pages
 - "Playwrite Australia Victoria" font for all headings
+- AI responses should be concise and direct (under 3 sentences)
 
 ## Technical Notes
 - Using OpenAI GPT-4o (latest model) for OrderFi Ai responses

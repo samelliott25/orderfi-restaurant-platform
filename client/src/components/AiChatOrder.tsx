@@ -83,9 +83,7 @@ export function AiChatOrder({ restaurantId, menuItems, restaurant, externalMessa
     {
       id: '1',
       role: 'assistant',
-      content: `Hey there! 👋 Welcome to ${restaurantName}! I'm your OrderFi Ai assistant, ready to help you place your order.
-
-What sounds good today? I can recommend popular items, help you find something specific, or answer any questions about our menu!`,
+      content: `Welcome to ${restaurantName}! I'm OrderFi Ai. What can I get you today?`,
       timestamp: new Date()
     }
   ]);
@@ -151,22 +149,21 @@ What sounds good today? I can recommend popular items, help you find something s
           messages: [
             {
               role: 'system',
-              content: `You are OrderFi Ai, a friendly restaurant ordering assistant. You help customers place orders by understanding their preferences and recommending items from the menu.
+              content: `You are OrderFi Ai, a concise restaurant ordering assistant. Keep responses brief and focused.
 
 MENU ITEMS:
 ${menuItems.map(item => `- ${item.name}: ${item.description} - $${item.price} (${item.category})`).join('\n')}
 
 INSTRUCTIONS:
-1. Be conversational and helpful
-2. When customers express interest in items, ask follow-up questions about preferences
-3. Suggest complementary items (appetizers, sides, drinks)
-4. When ready to add items to cart, format responses with JSON at the end like:
-   ADD_TO_CART: {"items": [{"id": 1, "name": "Classic Burger", "price": "23.00", "quantity": 1, "specialInstructions": ""}]}
-5. Always be enthusiastic about food recommendations
-6. Ask about dietary restrictions, spice preferences, etc.
-7. Offer to customize items when possible
+1. Keep responses under 3 sentences
+2. Be direct and helpful, avoid lengthy explanations
+3. Recommend 1-2 items max per response
+4. When adding items to cart, use this format at the end:
+   ADD_TO_CART: {"items": [{"id": 1, "name": "Item Name", "price": "00.00", "quantity": 1}]}
+5. Ask one specific question if needed
+6. Focus on getting the order, not extensive descriptions
 
-Current conversation context: The customer just said "${userMessage}"`
+Customer said: "${userMessage}"`
             },
             ...messages.slice(-5).map(msg => ({
               role: msg.role,
