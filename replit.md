@@ -45,6 +45,9 @@
 - ✅ Removed "Welcome to Mimi Waitress" and navigation instruction text for cleaner design
 - ✅ Changed background color to #fcfcfc across all pages for consistent styling
 - ✅ Updated home page with white/light gray theme to match OrderFi branding
+- ✅ Removed "Mimi AI Assistant" header from /orderfi page to maximize screen length
+- ✅ Fixed scrolling behavior - background stays fixed while conversation scrolls
+- ✅ Moved hamburger menu icon from top-left to top-right position
 
 ### 🎯 Development Schedule (Next 7 Days)
 
