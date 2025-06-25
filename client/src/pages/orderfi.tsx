@@ -74,12 +74,12 @@ export default function OrderFiPage() {
         {/* Search Results Display */}
         {searchResults.length > 0 && (
           <div className="p-4">
-            <h3 className="text-lg font-semibold mb-4">Search Results ({searchResults.length} items)</h3>
+            <h3 className="text-lg font-semibold mb-4 font-heading">Search Results ({searchResults.length} items)</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {searchResults.map((item: any) => (
                 <Card key={item.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-4">
-                    <h4 className="font-semibold text-gray-900">{item.name}</h4>
+                    <h4 className="font-semibold text-gray-900 font-heading">{item.name}</h4>
                     <p className="text-sm text-gray-600 mt-1">{item.description}</p>
                     <div className="flex justify-between items-center mt-3">
                       <span className="text-lg font-bold text-orange-600">${item.price}</span>
@@ -109,7 +109,7 @@ export default function OrderFiPage() {
         {orderingMode === 'browse' && searchResults.length === 0 && (
           <div className="bg-white border-b p-4">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold">Choose Your Experience</h2>
+              <h2 className="text-lg font-semibold font-heading">Choose Your Experience</h2>
               <Badge variant="outline" className="text-orange-600 border-orange-300">
                 Browse Mode
               </Badge>

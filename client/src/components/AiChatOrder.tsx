@@ -445,7 +445,7 @@ Current conversation context: The customer just said "${userMessage}"`
         <div className="bg-white border-t p-4">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-medium">Your Order</h3>
+              <h3 className="font-medium font-heading">Your Order</h3>
               <Badge variant="outline">${calculateTotal().toFixed(2)}</Badge>
             </div>
             <div className="space-y-2 max-h-32 overflow-y-auto">
