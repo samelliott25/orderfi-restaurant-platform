@@ -1,7 +1,5 @@
-import { Link } from "wouter";
 import mimiVideo from "@assets/20250618_2023_Retro Waitress Spin_simple_compose_01jy190he3fbbafrrzzfgz9784_1750242597851.mp4";
 import { Button } from "@/components/ui/button";
-import { User, UserCheck } from "lucide-react";
 
 export default function HomePage() {
 
@@ -24,10 +22,10 @@ export default function HomePage() {
           </div>
         </div>
         
-        {/* Sign-in Options Below Logo Container */}
+        {/* Single Enter DApp Button */}
         <div className="mt-8 sm:mt-12 md:mt-16">
           <div className="flex flex-col items-center justify-center space-y-4 px-4">
-            <div className="text-center mb-4">
+            <div className="text-center mb-6">
               <div 
                 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2"
                 style={{ 
@@ -38,49 +36,29 @@ export default function HomePage() {
                   color: '#8b795e'
                 }}
               >
-                Choose Your Interface
+                Welcome to Mimi Waitress
               </div>
               <p className="text-sm text-[#8b795e]/70 mb-4">
-                Customer Experience or Restaurant Operations
+                AI-Powered Restaurant Platform with Blockchain Rewards
               </p>
             </div>
             
-            {/* Streamlined Interface Options */}
-            <div className="flex flex-col space-y-4 w-full max-w-xs">
+            {/* Single DApp Entry Button */}
+            <div className="w-full max-w-xs">
               <Button
                 onClick={() => window.location.href = '/orderfi'}
-                className="w-full py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform hover:scale-105 hover:opacity-90"
+                className="w-full py-6 text-xl font-bold text-white shadow-xl transition-all duration-300 transform hover:scale-110 hover:shadow-2xl"
                 style={{ 
-                  backgroundColor: '#8b795e'
+                  backgroundColor: '#8b795e',
+                  borderRadius: '16px'
                 }}
               >
-                <UserCheck className="mr-2 h-5 w-5" />
-                Customer Ordering
+                Enter DApp
               </Button>
               
-              <Button
-                onClick={() => window.location.href = '/dashboard'}
-                variant="outline"
-                className="w-full py-4 text-lg font-semibold border-2 shadow-lg transition-all duration-200 transform hover:scale-105"
-                style={{ 
-                  borderColor: '#8b795e',
-                  color: '#8b795e',
-                  backgroundColor: '#ffe6b0'
-                }}
-              >
-                <User className="mr-2 h-5 w-5" />
-                Restaurant Dashboard
-              </Button>
-
-              <div className="text-center pt-2">
-                <Button
-                  onClick={() => window.location.href = '/web3-order'}
-                  variant="ghost"
-                  className="text-sm text-[#8b795e]/70 hover:text-[#8b795e]"
-                >
-                  Web3 Advanced Features →
-                </Button>
-              </div>
+              <p className="text-center text-xs text-[#8b795e]/60 mt-3">
+                Use navigation menu for restaurant dashboard
+              </p>
             </div>
           </div>
         </div>
