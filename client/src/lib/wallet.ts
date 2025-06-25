@@ -1,4 +1,5 @@
-import { ethers } from 'ethers';
+// Simple wallet connection without ethers for now
+// import { ethers } from 'ethers';
 
 export interface WalletInfo {
   address: string;
@@ -8,9 +9,6 @@ export interface WalletInfo {
 }
 
 export class WalletManager {
-  private provider: ethers.BrowserProvider | null = null;
-  private signer: ethers.JsonRpcSigner | null = null;
-
   async connectWallet(): Promise<WalletInfo | null> {
     try {
       // Check if MetaMask is installed
@@ -19,22 +17,28 @@ export class WalletManager {
       }
 
       // Request account access
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      
+      if (!accounts || accounts.length === 0) {
+        throw new Error('No accounts found');
+      }
 
-      // Create provider and signer
-      this.provider = new ethers.BrowserProvider(window.ethereum);
-      this.signer = await this.provider.getSigner();
-
-      // Get wallet info
-      const address = await this.signer.getAddress();
-      const balance = await this.provider.getBalance(address);
-      const network = await this.provider.getNetwork();
+      const address = accounts[0];
+      
+      // Get chain ID
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      
+      // Get balance (simplified)
+      const balance = await window.ethereum.request({
+        method: 'eth_getBalance',
+        params: [address, 'latest']
+      });
 
       const walletInfo: WalletInfo = {
         address,
-        balance: ethers.formatEther(balance),
-        network: network.name,
-        chainId: Number(network.chainId)
+        balance: (parseInt(balance, 16) / Math.pow(10, 18)).toFixed(4), // Convert wei to ETH
+        network: this.getNetworkName(parseInt(chainId, 16)),
+        chainId: parseInt(chainId, 16)
       };
 
       // Store wallet info in localStorage
@@ -48,9 +52,19 @@ export class WalletManager {
     }
   }
 
+  private getNetworkName(chainId: number): string {
+    const networks: { [key: number]: string } = {
+      1: 'Ethereum Mainnet',
+      5: 'Goerli Testnet',
+      137: 'Polygon',
+      80001: 'Mumbai Testnet',
+      8453: 'Base',
+      84531: 'Base Goerli'
+    };
+    return networks[chainId] || `Unknown (${chainId})`;
+  }
+
   async disconnectWallet(): Promise<void> {
-    this.provider = null;
-    this.signer = null;
     localStorage.removeItem('walletConnected');
     localStorage.removeItem('walletAddress');
   }
@@ -83,30 +97,45 @@ export class WalletManager {
   }
 
   async getBalance(address?: string): Promise<string> {
-    if (!this.provider) {
+    if (!window.ethereum) {
       throw new Error('Wallet not connected');
     }
 
-    const targetAddress = address || await this.signer?.getAddress();
+    const targetAddress = address || this.getConnectedAddress();
     if (!targetAddress) {
       throw new Error('No address available');
     }
 
-    const balance = await this.provider.getBalance(targetAddress);
-    return ethers.formatEther(balance);
+    const balance = await window.ethereum.request({
+      method: 'eth_getBalance',
+      params: [targetAddress, 'latest']
+    });
+
+    return (parseInt(balance, 16) / Math.pow(10, 18)).toFixed(4);
   }
 
   async sendTransaction(to: string, amount: string): Promise<string> {
-    if (!this.signer) {
+    if (!window.ethereum) {
       throw new Error('Wallet not connected');
     }
 
-    const tx = await this.signer.sendTransaction({
-      to,
-      value: ethers.parseEther(amount)
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    if (!accounts || accounts.length === 0) {
+      throw new Error('No accounts found');
+    }
+
+    const amountInWei = Math.floor(parseFloat(amount) * Math.pow(10, 18)).toString(16);
+
+    const txHash = await window.ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [{
+        from: accounts[0],
+        to: to,
+        value: '0x' + amountInWei
+      }]
     });
 
-    return tx.hash;
+    return txHash;
   }
 }
 

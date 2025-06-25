@@ -35,6 +35,7 @@ const menuItems = [
 export function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const [location] = useLocation();
+  const { isConnected, walletInfo, isConnecting, connect, disconnect } = useWallet();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
