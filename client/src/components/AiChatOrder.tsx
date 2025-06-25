@@ -69,11 +69,13 @@ export function AiChatOrder({ restaurantId, menuItems, restaurant, externalMessa
   // Handle external messages
   useEffect(() => {
     if (externalMessage && externalMessage.trim()) {
-      setInputMessage(externalMessage);
-      handleSendMessage(externalMessage);
-      if (onMessageProcessed) {
-        onMessageProcessed();
-      }
+      const sendExternalMessage = async () => {
+        await handleSendMessage(externalMessage);
+        if (onMessageProcessed) {
+          onMessageProcessed();
+        }
+      };
+      sendExternalMessage();
     }
   }, [externalMessage]);
   
@@ -245,21 +247,24 @@ Current conversation context: The customer just said "${userMessage}"`
     setCart(prev => prev.filter(item => item.id !== id));
   };
 
-  const handleSendMessage = async () => {
-    if (!inputMessage.trim()) return;
+  const handleSendMessage = async (messageOverride?: string) => {
+    const messageToSend = messageOverride || inputMessage;
+    if (!messageToSend.trim()) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
-      content: inputMessage,
+      content: messageToSend,
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
-    setInputMessage("");
+    if (!messageOverride) {
+      setInputMessage("");
+    }
 
     // Get AI response
-    const aiResponse = await processAiResponse(inputMessage);
+    const aiResponse = await processAiResponse(messageToSend);
     
     const assistantMessage: ChatMessage = {
       id: (Date.now() + 1).toString(),
