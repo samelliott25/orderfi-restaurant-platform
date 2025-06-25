@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AiChatOrder } from "@/components/AiChatOrder";
 import { SimpleOrderFi } from "@/components/SimpleOrderFi";
@@ -6,14 +6,17 @@ import { IntegratedChatSearch } from "@/components/IntegratedChatSearch";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { QrCode, Smartphone, Zap, MessageSquare, Grid3X3, Bot } from "lucide-react";
+import { QrCode, Smartphone, Zap, MessageSquare, Grid3X3, Bot, Sparkles, TrendingUp, Clock, Users } from "lucide-react";
 
-// OrderFi - AI-first conversational ordering experience
+// OrderFi - AI-first conversational ordering experience with modern UX innovations
 export default function OrderFiPage() {
   const [restaurantId] = useState(1);
   const [orderingMode, setOrderingMode] = useState<'chat' | 'browse'>('chat');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [showQuickActions, setShowQuickActions] = useState(true);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
   
   // Get menu items for the interface (load in background)
   const { data: menuItems = [] } = useQuery({
@@ -27,8 +30,32 @@ export default function OrderFiPage() {
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
   });
 
+  // Real-time clock for contextual ordering
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Generate contextual AI suggestions based on time and popular items
+  useEffect(() => {
+    const hour = currentTime.getHours();
+    let suggestions: string[] = [];
+    
+    if (hour >= 6 && hour < 11) {
+      suggestions = ["What's good for breakfast?", "Something quick and energizing", "Coffee and pastry combo"];
+    } else if (hour >= 11 && hour < 16) {
+      suggestions = ["Lunch specials today?", "Something light and fresh", "Popular lunch items"];
+    } else if (hour >= 16 && hour < 20) {
+      suggestions = ["What's trending for dinner?", "Comfort food recommendations", "Share plates for groups"];
+    } else {
+      suggestions = ["Late night favorites?", "Quick bites", "Something satisfying"];
+    }
+    
+    setAiSuggestions(suggestions);
+  }, [currentTime]);
+
   const handleChatMessage = (message: string) => {
-    // Pass message to AiChatOrder component
+    setShowQuickActions(false); // Hide quick actions after first interaction
     const chatComponent = document.querySelector('[data-ai-chat]') as any;
     if (chatComponent && chatComponent.sendMessage) {
       chatComponent.sendMessage(message);
@@ -126,7 +153,11 @@ export default function OrderFiPage() {
 
         {/* Chat Interface - Default Mode */}
         {searchResults.length === 0 && (
-          <div data-ai-chat>
+          <div 
+            data-ai-chat 
+            className={`transition-all duration-500 ${showQuickActions ? 'mt-80' : 'mt-0'}`}
+            style={{ paddingTop: showQuickActions ? '0' : '20px' }}
+          >
             <AiChatOrder 
               restaurantId={restaurantId}
               menuItems={menuItems}
@@ -138,15 +169,64 @@ export default function OrderFiPage() {
         </div>
       </div>
 
-      {/* Bottom Integrated Chat/Search Interface */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg safe-area-pb">
+      {/* Enhanced Bottom Chat Interface */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200/50 shadow-2xl safe-area-pb">
         <div className="p-4">
+          {/* Voice Wave Animation when listening */}
+          <div className="mb-2 flex justify-center">
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-1 bg-gradient-to-t from-orange-400 to-red-500 rounded-full transition-all duration-300"
+                  style={{
+                    height: isSearching ? `${8 + Math.sin(Date.now() / 200 + i) * 4}px` : '4px',
+                    animationDelay: `${i * 100}ms`
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
           <IntegratedChatSearch
             onSendMessage={handleChatMessage}
             onSearch={handleSearch}
             isLoading={isSearching}
-            placeholder="Ask OrderFi Ai or search menu..."
+            placeholder={`${getTimeBasedGreeting()}, what sounds good for ${mealContext.meal}?`}
           />
+
+          {/* Quick Action Pills */}
+          {!showQuickActions && (
+            <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleChatMessage("What's popular right now?")}
+                className="whitespace-nowrap bg-orange-50 text-orange-700 hover:bg-orange-100"
+              >
+                <TrendingUp className="h-3 w-3 mr-1" />
+                What's Popular
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleChatMessage("Show me something quick")}
+                className="whitespace-nowrap bg-blue-50 text-blue-700 hover:bg-blue-100"
+              >
+                <Zap className="h-3 w-3 mr-1" />
+                Quick Bites
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowQuickActions(true)}
+                className="whitespace-nowrap bg-purple-50 text-purple-700 hover:bg-purple-100"
+              >
+                <Sparkles className="h-3 w-3 mr-1" />
+                More Ideas
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
