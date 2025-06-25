@@ -79,9 +79,9 @@ export function AiChatOrder({ restaurantId, menuItems, restaurant }: AiChatOrder
     {
       id: '1',
       role: 'assistant',
-      content: `Hi! I'm Mimi, your AI ordering assistant at ${restaurantName}. I'm here to help you create the perfect meal! 
+      content: `Hey there! 👋 Welcome to ${restaurantName}! I'm your OrderFi Ai assistant, ready to help you place your order.
 
-What are you in the mood for today? I can recommend dishes, tell you about our specials, or help you build a complete meal. Just tell me what sounds good!`,
+What sounds good today? I can recommend popular items, help you find something specific, or answer any questions about our menu!`,
       timestamp: new Date()
     }
   ]);
