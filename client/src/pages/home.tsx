@@ -21,11 +21,9 @@ export default function HomePage() {
       
       {/* Sleek Transition Overlay */}
       {showTransition && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Animated gradient sweep */}
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 animate-pulse">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40" />
-          </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-r from-orange-500 via-red-500 to-pink-500">
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
           
           {/* Center content */}
           <div className="relative z-10 text-center text-white">
@@ -57,69 +55,71 @@ export default function HomePage() {
           </div>
         </div>
       )}
-      {/* Main Container - Centered Vertically */}
-      <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
-        
-        {/* OrderFi Logo - Responsive Size (25% larger) */}
-        <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80">
-          <div className="flex items-center justify-center w-full h-full">
-            <video 
-              src={orderFiLogo}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-contain"
-            />
-          </div>
-        </div>
-        
-        {/* Logo spacing */}
-        <div className="text-center space-y-2">
-          <p className="text-xs sm:text-sm text-gray-600 px-4">
-            AI-Powered Restaurant Platform with Blockchain Rewards
-          </p>
-        </div>
-        
-        {/* Single DApp Entry Button */}
-        <div className="w-full max-w-xs space-y-2">
-          <Button
-            onClick={handleDAppClick}
-            className={`
-              relative overflow-hidden w-full py-4 sm:py-6 text-lg sm:text-xl font-bold text-white 
-              shadow-xl transition-all duration-300 transform rounded-xl
-              bg-gradient-to-r from-black to-gray-900 
-              hover:from-gray-800 hover:to-black
-              hover:scale-105 hover:shadow-2xl hover:shadow-black/50
-              active:scale-95 active:shadow-lg
-              ${isClicked ? 'animate-pulse scale-95' : ''}
-              before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent 
-              before:via-white/20 before:to-transparent before:-translate-x-full 
-              hover:before:translate-x-full before:transition-transform before:duration-700
-            `}
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              Enter DApp
-              <svg 
-                className={`w-5 h-5 transition-transform duration-300 ${isClicked ? 'translate-x-1' : ''}`}
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </span>
-            
-            {/* Ripple effect */}
-            <div className={`
-              absolute inset-0 rounded-xl transition-opacity duration-300
-              ${isClicked ? 'animate-ping bg-white/30' : 'opacity-0'}
-            `} />
-          </Button>
+      
+      {/* Main Container - Only visible when not transitioning */}
+      {!showTransition && (
+        <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
           
-
+          {/* OrderFi Logo - Responsive Size (25% larger) */}
+          <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80">
+            <div className="flex items-center justify-center w-full h-full">
+              <video 
+                src={orderFiLogo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+          
+          {/* Logo spacing */}
+          <div className="text-center space-y-2">
+            <p className="text-xs sm:text-sm text-gray-600 px-4">
+              AI-Powered Restaurant Platform with Blockchain Rewards
+            </p>
+          </div>
+          
+          {/* Single DApp Entry Button */}
+          <div className="w-full max-w-xs space-y-2">
+            <Button
+              onClick={handleDAppClick}
+              className={`
+                relative overflow-hidden w-full py-4 sm:py-6 text-lg sm:text-xl font-bold text-white 
+                shadow-xl transition-all duration-300 transform rounded-xl
+                bg-gradient-to-r from-black to-gray-900 
+                hover:from-gray-800 hover:to-black
+                hover:scale-105 hover:shadow-2xl hover:shadow-black/50
+                active:scale-95 active:shadow-lg
+                ${isClicked ? 'animate-pulse scale-95' : ''}
+                before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent 
+                before:via-white/20 before:to-transparent before:-translate-x-full 
+                hover:before:translate-x-full before:transition-transform before:duration-700
+              `}
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Enter DApp
+                <svg 
+                  className={`w-5 h-5 transition-transform duration-300 ${isClicked ? 'translate-x-1' : ''}`}
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+              
+              {/* Ripple effect */}
+              <div className={`
+                absolute inset-0 rounded-xl transition-opacity duration-300
+                ${isClicked ? 'animate-ping bg-white/30' : 'opacity-0'}
+              `} />
+            </Button>
+          </div>
+          
         </div>
-      </div>
+      )}
     </div>
   );
 }
