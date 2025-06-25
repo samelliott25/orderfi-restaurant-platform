@@ -104,15 +104,19 @@
 
 ### 💡 User Preferences
 - Prioritize customer mobile experience over back office
-- AI chatbot should be primary ordering method, not menu browsing
+- OrderFi AI chatbot should be primary ordering method, not menu browsing
 - Keep UI clean and simple with mobile-first approach
 - Focus on core functionality over complex features
+- Consistent #fcfcfc background across all pages
+- "Playwrite Australia Victoria" font for all headings
 
 ## Technical Notes
-- Using OpenAI GPT-4o (latest model) for AI responses
+- Using OpenAI GPT-4o (latest model) for OrderFi AI responses
 - Menu items dynamically parsed from AI messages
 - Chat state managed with React hooks
 - Responsive design with Tailwind CSS utilities
+- Consistent #fcfcfc background color across all pages
+- "Playwrite Australia Victoria" font for all headings
 
 ---
 ### ✅ Latest Updates

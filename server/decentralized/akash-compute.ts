@@ -41,11 +41,11 @@ export class AkashComputeService {
   }
 
   async deployAIService(): Promise<AkashDeployment> {
-    // SDL (Stack Definition Language) for Mimi AI service
+    // SDL (Stack Definition Language) for OrderFi AI service
     const serviceDefinition = {
       version: "2.0",
       services: {
-        "mimi-ai": {
+        "orderfi-ai": {
           image: "nvidia/pytorch:23.08-py3", // GPU-enabled container
           expose: [
             {
@@ -119,7 +119,7 @@ export class AkashComputeService {
         placement: {
           akash: {
             pricing: {
-              "mimi-ai": {
+              "orderfi-ai": {
                 denom: "uakt",
                 amount: 1000
               }
@@ -128,9 +128,9 @@ export class AkashComputeService {
         }
       },
       deployment: {
-        "mimi-ai": {
+        "orderfi-ai": {
           akash: {
-            profile: "mimi-ai",
+            profile: "orderfi-ai",
             count: 1
           }
         }
