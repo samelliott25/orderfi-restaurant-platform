@@ -8,8 +8,8 @@ export default function HomePage() {
       {/* Main Container - Centered Vertically */}
       <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
         
-        {/* OrderFi Logo - Responsive Size */}
-        <div className="relative w-60 h-40 sm:w-72 sm:h-48 md:w-80 md:h-56">
+        {/* OrderFi Logo - Responsive Size (25% larger) */}
+        <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80">
           <div className="flex items-center justify-center w-full h-full">
             <video 
               src={orderFiLogo}
