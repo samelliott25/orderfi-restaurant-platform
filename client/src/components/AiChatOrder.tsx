@@ -347,25 +347,16 @@ Current conversation context: The customer just said "${userMessage}"`
   });
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-orange-50 to-red-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Bot className="h-8 w-8 text-orange-500" />
-            <div>
-              <h1 className="text-lg font-semibold">Mimi AI Assistant</h1>
-              <p className="text-sm text-gray-600">{restaurantName}</p>
-            </div>
-          </div>
-          {cart.length > 0 && (
-            <Badge variant="secondary" className="bg-orange-100 text-orange-800">
-              <ShoppingCart className="h-4 w-4 mr-1" />
-              {cart.reduce((sum, item) => sum + item.quantity, 0)} items
-            </Badge>
-          )}
+    <div className="flex flex-col h-full" style={{ backgroundColor: '#fcfcfc' }}>
+      {/* Shopping Cart Badge - Floating */}
+      {cart.length > 0 && (
+        <div className="absolute top-4 right-4 z-10">
+          <Badge variant="secondary" className="bg-orange-100 text-orange-800">
+            <ShoppingCart className="h-4 w-4 mr-1" />
+            {cart.reduce((sum, item) => sum + item.quantity, 0)} items
+          </Badge>
         </div>
-      </div>
+      )}
 
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -590,7 +581,7 @@ Current conversation context: The customer just said "${userMessage}"`
                   size="sm"
                   className="text-orange-600 hover:text-orange-700"
                 >
-                  Ask Mimi about this item
+                  Ask OrderFi AI about this item
                 </Button>
               </div>
             </div>

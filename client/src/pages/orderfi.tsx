@@ -68,10 +68,11 @@ export default function OrderFiPage() {
   }
 
   return (
-    <div className="min-h-screen pb-32" style={{ backgroundColor: '#fcfcfc' }}>
-      <div className="max-w-4xl mx-auto p-4">
-        
-        {/* Search Results Display */}
+    <div className="fixed inset-0 flex flex-col" style={{ backgroundColor: '#fcfcfc' }}>
+      <div className="flex-1 overflow-hidden">
+        <div className="max-w-4xl mx-auto p-4 h-full overflow-y-auto pb-32">
+          
+          {/* Search Results Display */}
         {searchResults.length > 0 && (
           <div className="p-4">
             <h3 className="text-lg font-semibold mb-4 font-heading">Search Results ({searchResults.length} items)</h3>
@@ -144,7 +145,8 @@ export default function OrderFiPage() {
             />
           </div>
         )}
-        
+          
+        </div>
       </div>
 
       {/* Bottom Integrated Chat/Search Interface */}
@@ -154,7 +156,7 @@ export default function OrderFiPage() {
             onSendMessage={handleChatMessage}
             onSearch={handleSearch}
             isLoading={isSearching}
-            placeholder="Ask Mimi or search menu..."
+            placeholder="Ask OrderFi AI or search menu..."
           />
         </div>
       </div>
