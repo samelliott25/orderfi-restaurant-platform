@@ -1,6 +1,9 @@
 import { Router, Request, Response } from 'express';
 import { z } from 'zod';
 import { kitchenPrinterService, OrderData } from '../services/kitchen-printer';
+import { usbPrinterService } from '../services/usb-printer';
+import { cloudPrinterService } from '../services/cloud-printer';
+import { printerDriverManager } from '../services/printer-driver-manager';
 
 const router = Router();
 
@@ -272,6 +275,159 @@ router.get('/status', (req: Request, res: Response) => {
     res.json(status);
   } catch (error) {
     res.status(500).json({ error: 'Failed to get printer status' });
+  }
+});
+
+// Discover USB printers
+router.get('/discover/usb', async (req: Request, res: Response) => {
+  try {
+    const usbPrinters = await usbPrinterService.discoverUSBPrinters();
+    
+    res.json({
+      message: `Found ${usbPrinters.length} USB printers`,
+      printers: usbPrinters
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to discover USB printers' });
+  }
+});
+
+// Get cloud printers from configured services
+router.post('/discover/cloud', async (req: Request, res: Response) => {
+  try {
+    const { services } = req.body; // Array of { service: string, apiKey: string }
+    
+    if (!Array.isArray(services)) {
+      return res.status(400).json({ error: 'Services array is required' });
+    }
+    
+    const cloudPrinters = await cloudPrinterService.getAllCloudPrinters(services);
+    
+    res.json({
+      message: `Found ${cloudPrinters.length} cloud printers`,
+      printers: cloudPrinters
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to discover cloud printers' });
+  }
+});
+
+// Test cloud service connection
+router.post('/test/cloud', async (req: Request, res: Response) => {
+  try {
+    const { service, apiKey } = req.body;
+    
+    if (!service || !apiKey) {
+      return res.status(400).json({ error: 'Service and API key are required' });
+    }
+    
+    const isValid = await cloudPrinterService.testCloudConnection(service, apiKey);
+    
+    if (isValid) {
+      res.json({ message: 'Cloud service connection successful', service });
+    } else {
+      res.status(400).json({ error: 'Invalid API key or service unavailable', service });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Cloud service test failed' });
+  }
+});
+
+// Get available printer drivers
+router.get('/drivers', (req: Request, res: Response) => {
+  try {
+    const drivers = Array.from(printerDriverManager.getAvailableDrivers().entries()).map(([id, info]) => ({
+      id,
+      ...info
+    }));
+    
+    res.json({ drivers });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get driver information' });
+  }
+});
+
+// Install printer driver
+router.post('/drivers/:driverId/install', async (req: Request, res: Response) => {
+  try {
+    const { driverId } = req.params;
+    
+    const success = await printerDriverManager.installDriver(driverId);
+    
+    if (success) {
+      res.json({ message: 'Driver installed successfully', driverId });
+    } else {
+      res.status(500).json({ error: 'Driver installation failed', driverId });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Driver installation error occurred' });
+  }
+});
+
+// Auto-configure USB printer
+router.post('/configure/usb', async (req: Request, res: Response) => {
+  try {
+    const { vendorId, productId, devicePath } = req.body;
+    
+    if (!vendorId || !productId || !devicePath) {
+      return res.status(400).json({ error: 'Vendor ID, Product ID, and device path are required' });
+    }
+    
+    const configured = await printerDriverManager.autoConfigurePrinter(vendorId, productId, devicePath);
+    
+    if (configured) {
+      res.json({ 
+        message: 'USB printer configured successfully',
+        vendorId,
+        productId,
+        devicePath
+      });
+    } else {
+      res.status(500).json({ error: 'USB printer configuration failed' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'USB configuration error occurred' });
+  }
+});
+
+// Test USB printer connection
+router.post('/test/usb', async (req: Request, res: Response) => {
+  try {
+    const { devicePath } = req.body;
+    
+    if (!devicePath) {
+      return res.status(400).json({ error: 'Device path is required' });
+    }
+    
+    const success = await usbPrinterService.testUSBConnection(devicePath);
+    
+    if (success) {
+      res.json({ message: 'USB printer test successful', devicePath });
+    } else {
+      res.status(500).json({ error: 'USB printer test failed', devicePath });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'USB test error occurred' });
+  }
+});
+
+// Get supported printer models for reference
+router.get('/models', (req: Request, res: Response) => {
+  try {
+    const usbModels = usbPrinterService.getSupportedModels();
+    const cloudServices = cloudPrinterService.getSupportedServices();
+    
+    res.json({
+      usb: usbModels,
+      cloud: cloudServices,
+      network: [
+        { manufacturer: 'Epson', models: ['TM-T88VI', 'TM-T88VII', 'TM-U220'] },
+        { manufacturer: 'Star', models: ['TSP143III', 'SP700'] },
+        { manufacturer: 'Bixolon', models: ['SRP-350III', 'SRP-Q300'] }
+      ]
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get supported models' });
   }
 });
 
