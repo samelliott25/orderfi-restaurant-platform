@@ -34,7 +34,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
       )}
       
       {/* Main content with padding only for top navigation */}
-      <main className={!hideNavigation ? "pt-20 h-screen overflow-auto" : "h-screen"}>
+      <main className={!hideNavigation ? "pt-20 h-screen overflow-auto" : "h-screen"} style={{ backgroundColor: '#fcfcfc' }}>
         {children}
       </main>
     </div>

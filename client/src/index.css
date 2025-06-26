@@ -6,6 +6,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent white screen flashes */
+html, body, #root {
+  background-color: #fcfcfc !important;
+}
+
 /* Safe area padding for mobile devices */
 .safe-area-pb {
   padding-bottom: env(safe-area-inset-bottom, 0);
