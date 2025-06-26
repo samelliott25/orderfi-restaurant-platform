@@ -33,39 +33,44 @@ export default function OrderFiLogo({ className = "" }: { className?: string }) 
         />
         
         {/* Main OrderFi text with advanced animation */}
-        <h1 
-          className="text-6xl md:text-7xl lg:text-8xl font-heading relative z-10"
-          style={{
-            fontWeight: '400',
-            letterSpacing: '-0.02em',
-            lineHeight: '1.1',
-            background: `linear-gradient(90deg, 
-              transparent 0%, 
-              transparent ${Math.max(0, (animationPhase - 1) * 25)}%, 
-              #1f2937 ${Math.max(5, (animationPhase - 1) * 25 + 10)}%, 
-              #1f2937 100%)`,
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            opacity: animationPhase >= 1 ? 1 : 0,
-            transform: `translateY(${animationPhase >= 1 ? '0px' : '20px'}) scale(${animationPhase >= 4 ? 1 : 0.98})`,
-            transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-            textShadow: animationPhase >= 4 ? '0 2px 20px rgba(245, 158, 11, 0.3)' : 'none',
-            filter: `blur(${animationPhase >= 3 ? 0 : 1}px)`
-          }}
-        >
-          OrderFi
-        </h1>
+        <div className="relative overflow-hidden">
+          <h1 
+            className="text-6xl md:text-7xl lg:text-8xl font-heading text-gray-900 relative z-10"
+            style={{
+              fontWeight: '400',
+              letterSpacing: '-0.02em',
+              lineHeight: '1.1',
+              opacity: animationPhase >= 1 ? 1 : 0,
+              transform: `translateY(${animationPhase >= 1 ? '0px' : '20px'}) scale(${animationPhase >= 4 ? 1 : 0.98})`,
+              transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+              textShadow: animationPhase >= 4 ? '0 2px 20px rgba(245, 158, 11, 0.3)' : 'none',
+              filter: `blur(${animationPhase >= 3 ? 0 : 1}px)`
+            }}
+          >
+            OrderFi
+          </h1>
+          
+          {/* Animated reveal overlay */}
+          <div 
+            className="absolute inset-0 bg-white z-20"
+            style={{
+              width: `${100 - Math.max(0, (animationPhase - 1) * 33)}%`,
+              transition: 'width 1.5s cubic-bezier(0.4, 0, 0.2, 1)',
+              right: 0,
+              opacity: animationPhase >= 1 ? 1 : 0
+            }}
+          />
+        </div>
 
         {/* Elegant writing cursor */}
         <div 
-          className={`absolute top-1/2 h-16 w-0.5 bg-gradient-to-b from-orange-400 to-orange-600 rounded-full ${
+          className={`absolute top-1/2 h-16 w-0.5 bg-gradient-to-b from-orange-400 to-orange-600 rounded-full z-30 ${
             animationPhase >= 1 && animationPhase < 4 ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
-            left: `${Math.min(100, animationPhase * 25)}%`,
+            left: `${Math.min(95, (animationPhase - 0.5) * 30)}%`,
             transform: 'translateY(-50%)',
-            transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+            transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
             boxShadow: '0 0 20px rgba(245, 158, 11, 0.6)'
           }}
         />
