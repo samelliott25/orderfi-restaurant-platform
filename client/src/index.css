@@ -138,6 +138,23 @@ html, body, #root {
   border-radius: 12px;
 }
 
+/* Fix translucent dropdown menus - make them fully opaque */
+[data-radix-select-content],
+[data-radix-popover-content],
+[data-radix-dropdown-menu-content],
+[data-radix-context-menu-content] {
+  background-color: white !important;
+  backdrop-filter: none !important;
+}
+
+/* Ensure all Select components have opaque backgrounds */
+.select-content,
+[role="listbox"],
+[role="menu"] {
+  background-color: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+}
+
 /* OrderFi Logo Animations */
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out both;
