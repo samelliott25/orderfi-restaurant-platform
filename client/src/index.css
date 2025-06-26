@@ -154,27 +154,42 @@ html, body, #root {
   }
 }
 
-/* OrderFi Logo Handwriting Animation */
-.orderfi-logo-animation {
-  opacity: 0;
+/* OrderFi Logo Advanced Handwriting Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-5px);
+  }
 }
 
-@keyframes orderfi-write-in {
+@keyframes write-shimmer {
   0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.8);
-  }
-  30% {
-    opacity: 0.3;
-    transform: translateY(15px) scale(0.9);
-  }
-  60% {
-    opacity: 0.7;
-    transform: translateY(5px) scale(0.95);
+    background-position: -200% 0;
   }
   100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Smooth writing cursor animation */
+@keyframes cursor-blink {
+  0%, 50% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+  }
+  51%, 100% {
+    opacity: 0.3;
+  }
+}
+
+/* Modern glow effect */
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.5));
   }
 }
 
