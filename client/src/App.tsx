@@ -24,6 +24,9 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   // Hide navigation on home page and certain other pages for full-screen experience
   const hideNavigation = ['/', '/not-found'].includes(location);
   
+  // Remove top padding for dashboard to push heading to very top
+  const isDashboard = location === '/dashboard';
+  
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#fcfcfc' }}>
       {!hideNavigation && (
@@ -34,7 +37,13 @@ function AppLayout({ children }: { children: React.ReactNode }) {
       )}
       
       {/* Main content with padding only for top navigation */}
-      <main className={!hideNavigation ? "pt-20 h-screen overflow-auto" : "h-screen"} style={{ backgroundColor: '#fcfcfc' }}>
+      <main className={
+        !hideNavigation 
+          ? isDashboard 
+            ? "pt-0 h-screen overflow-auto" 
+            : "pt-20 h-screen overflow-auto" 
+          : "h-screen"
+      } style={{ backgroundColor: '#fcfcfc' }}>
         {children}
       </main>
     </div>
