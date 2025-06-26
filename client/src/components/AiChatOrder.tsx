@@ -380,9 +380,7 @@ Customer said: "${userMessage}"`
                 {message.role === 'assistant' && (
                   <div className="h-5 w-5 mt-0.5 flex-shrink-0">
                     <svg viewBox="0 0 24 24" className="w-full h-full text-orange-500" fill="currentColor">
-                      <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" stroke="currentColor" strokeWidth="1" fill="none"/>
-                      <path d="M12 6L14 10L18 12L14 14L12 18L10 14L6 12L10 10L12 6Z" fill="currentColor" opacity="0.3"/>
-                      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                     </svg>
                   </div>
                 )}
@@ -430,9 +428,7 @@ Customer said: "${userMessage}"`
               <div className="flex items-center space-x-2">
                 <div className="h-5 w-5">
                   <svg viewBox="0 0 24 24" className="w-full h-full text-orange-500" fill="currentColor">
-                    <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" stroke="currentColor" strokeWidth="1" fill="none"/>
-                    <path d="M12 6L14 10L18 12L14 14L12 18L10 14L6 12L10 10L12 6Z" fill="currentColor" opacity="0.3"/>
-                    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                   </svg>
                 </div>
                 <div className="flex space-x-1">
