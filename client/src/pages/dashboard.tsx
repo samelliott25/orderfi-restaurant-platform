@@ -81,11 +81,11 @@ export default function RestaurantDashboard() {
     <div className="min-h-screen pb-32" style={{ backgroundColor: '#fcfcfc' }}>
       {/* Header */}
       <div className="shadow-sm border-b" style={{ backgroundColor: '#fcfcfc' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Restaurant Dashboard</h1>
-              <p className="text-sm text-gray-600">{(restaurant as any)?.name || "OrderFi AI Restaurant"} • Back Office Command Center</p>
+              <h1 className="text-3xl font-bold text-gray-900 font-heading">Dashboard</h1>
+              <p className="text-sm text-gray-600">Command Center</p>
             </div>
             <div className="flex items-center gap-4">
               <Badge variant="outline" className="bg-green-50 text-green-700">
@@ -97,7 +97,7 @@ export default function RestaurantDashboard() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">Overview</TabsTrigger>
