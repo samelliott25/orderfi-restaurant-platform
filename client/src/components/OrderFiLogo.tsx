@@ -26,7 +26,7 @@ export default function OrderFiLogo({ className = "" }: { className?: string }) 
             maxHeight: '200px'
           }}
         >
-          <source src="/attached_assets/20250625_2213_Elegant Logo Animation_loop_01jykg3kywe6yadwjhwn5nypcx_1750933286114.mp4" type="video/mp4" />
+          <source src="/logo-animation.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
