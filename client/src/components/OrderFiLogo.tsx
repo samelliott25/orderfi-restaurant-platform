@@ -1,50 +1,158 @@
+
 import { useEffect, useState } from 'react';
 
 export default function OrderFiLogo({ className = "" }: { className?: string }) {
-  const [visibleLetters, setVisibleLetters] = useState(0);
-  const letters = ['O', 'r', 'd', 'e', 'r', 'F', 'i'];
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    letters.forEach((_, index) => {
-      setTimeout(() => {
-        setVisibleLetters(index + 1);
-      }, index * 400 + 800); // Start after 800ms, then 400ms between letters
-    });
+    // Start animation after component mounts
+    const timer = setTimeout(() => {
+      setIsAnimating(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <div className="relative">
-        <h1 
-          className="text-6xl md:text-7xl lg:text-8xl font-heading text-gray-900 relative"
-          style={{
-            fontWeight: '400',
-            letterSpacing: '-0.08em',
-            lineHeight: '1.1'
-          }}
+        <svg
+          width="400"
+          height="120"
+          viewBox="0 0 400 120"
+          className="text-6xl md:text-7xl lg:text-8xl"
+          style={{ filter: 'drop-shadow(0 4px 8px rgba(139, 121, 94, 0.2))' }}
         >
-          {letters.map((letter, index) => (
-            <span
-              key={index}
-              className={`inline-block relative handwriting-reveal ${
-                index < visibleLetters 
-                  ? 'opacity-100 transform translate-y-0 scale-100' 
-                  : 'opacity-0 transform translate-y-2 scale-95'
-              }`}
-              style={{
-                transition: 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                transitionDelay: `${index * 80}ms`,
-                filter: index < visibleLetters ? 'blur(0px)' : 'blur(0.5px)',
-                animationDelay: `${index * 400 + 800}ms`
-              }}
-            >
-              {letter}
-            </span>
-          ))}
+          {/* OrderFi handwritten text paths */}
+          <g fill="none" stroke="#8b795e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            {/* O */}
+            <path
+              d="M 20 60 Q 20 30 40 30 Q 60 30 60 60 Q 60 90 40 90 Q 20 90 20 60"
+              className={`handwrite-path ${isAnimating ? 'animate-draw' : ''}`}
+              style={{ animationDelay: '0s', animationDuration: '0.8s' }}
+            />
+            
+            {/* r */}
+            <path
+              d="M 75 90 L 75 45 Q 75 35 85 35 Q 95 35 95 45"
+              className={`handwrite-path ${isAnimating ? 'animate-draw' : ''}`}
+              style={{ animationDelay: '0.3s', animationDuration: '0.6s' }}
+            />
+            
+            {/* d */}
+            <path
+              d="M 130 90 Q 110 90 110 70 Q 110 50 130 50 Q 150 50 150 70 L 150 30 L 150 90"
+              className={`handwrite-path ${isAnimating ? 'animate-draw' : ''}`}
+              style={{ animationDelay: '0.6s', animationDuration: '0.8s' }}
+            />
+            
+            {/* e */}
+            <path
+              d="M 185 70 L 165 70 Q 165 50 185 50 Q 205 50 205 70 Q 205 90 185 90 Q 165 90 165 70"
+              className={`handwrite-path ${isAnimating ? 'animate-draw' : ''}`}
+              style={{ animationDelay: '0.9s', animationDuration: '0.7s' }}
+            />
+            
+            {/* r */}
+            <path
+              d="M 220 90 L 220 45 Q 220 35 230 35 Q 240 35 240 45"
+              className={`handwrite-path ${isAnimating ? 'animate-draw' : ''}`}
+              style={{ animationDelay: '1.2s', animationDuration: '0.6s' }}
+            />
+            
+            {/* F */}
+            <path
+              d="M 265 30 L 265 90 M 265 30 L 285 30 M 265 60 L 280 60"
+              className={`handwrite-path ${isAnimating ? 'animate-draw' : ''}`}
+              style={{ animationDelay: '1.5s', animationDuration: '0.8s' }}
+            />
+            
+            {/* i */}
+            <path
+              d="M 305 50 L 305 90 M 305 35 L 305 40"
+              className={`handwrite-path ${isAnimating ? 'animate-draw' : ''}`}
+              style={{ animationDelay: '1.8s', animationDuration: '0.5s' }}
+            />
+            
+            {/* Decorative underline */}
+            <path
+              d="M 20 100 Q 200 95 380 100"
+              className={`handwrite-path ${isAnimating ? 'animate-draw' : ''}`}
+              style={{ animationDelay: '2.3s', animationDuration: '1.2s' }}
+              strokeWidth="2"
+              opacity="0.6"
+            />
+          </g>
           
           {/* Subtle glow effect */}
-          <div className="absolute inset-0 -z-10 opacity-20 blur-2xl bg-gradient-to-r from-amber-300 via-orange-300 to-amber-400" />
-        </h1>
+          <g className="opacity-30">
+            <path
+              d="M 20 60 Q 20 30 40 30 Q 60 30 60 60 Q 60 90 40 90 Q 20 90 20 60"
+              fill="none"
+              stroke="url(#glow)"
+              strokeWidth="6"
+              className={`${isAnimating ? 'animate-glow' : ''}`}
+              style={{ animationDelay: '0s' }}
+            />
+            <path
+              d="M 75 90 L 75 45 Q 75 35 85 35 Q 95 35 95 45"
+              fill="none"
+              stroke="url(#glow)"
+              strokeWidth="6"
+              className={`${isAnimating ? 'animate-glow' : ''}`}
+              style={{ animationDelay: '0.3s' }}
+            />
+            <path
+              d="M 130 90 Q 110 90 110 70 Q 110 50 130 50 Q 150 50 150 70 L 150 30 L 150 90"
+              fill="none"
+              stroke="url(#glow)"
+              strokeWidth="6"
+              className={`${isAnimating ? 'animate-glow' : ''}`}
+              style={{ animationDelay: '0.6s' }}
+            />
+            <path
+              d="M 185 70 L 165 70 Q 165 50 185 50 Q 205 50 205 70 Q 205 90 185 90 Q 165 90 165 70"
+              fill="none"
+              stroke="url(#glow)"
+              strokeWidth="6"
+              className={`${isAnimating ? 'animate-glow' : ''}`}
+              style={{ animationDelay: '0.9s' }}
+            />
+            <path
+              d="M 220 90 L 220 45 Q 220 35 230 35 Q 240 35 240 45"
+              fill="none"
+              stroke="url(#glow)"
+              strokeWidth="6"
+              className={`${isAnimating ? 'animate-glow' : ''}`}
+              style={{ animationDelay: '1.2s' }}
+            />
+            <path
+              d="M 265 30 L 265 90 M 265 30 L 285 30 M 265 60 L 280 60"
+              fill="none"
+              stroke="url(#glow)"
+              strokeWidth="6"
+              className={`${isAnimating ? 'animate-glow' : ''}`}
+              style={{ animationDelay: '1.5s' }}
+            />
+            <path
+              d="M 305 50 L 305 90 M 305 35 L 305 40"
+              fill="none"
+              stroke="url(#glow)"
+              strokeWidth="6"
+              className={`${isAnimating ? 'animate-glow' : ''}`}
+              style={{ animationDelay: '1.8s' }}
+            />
+          </g>
+          
+          {/* Gradient definitions */}
+          <defs>
+            <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="#fbbf24" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.8" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
     </div>
   );

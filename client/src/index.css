@@ -207,6 +207,49 @@ html, body, #root {
   }
 }
 
+/* SVG Path Drawing Animation */
+.handwrite-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  opacity: 0;
+}
+
+.animate-draw {
+  animation: draw-path forwards cubic-bezier(0.2, 0, 0.2, 1);
+  opacity: 1;
+}
+
+.animate-glow {
+  animation: glow-fade 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes draw-path {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes glow-fade {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
 /* Handwriting reveal class */
 .handwriting-reveal {
   animation: handwriting-flow 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
