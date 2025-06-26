@@ -437,6 +437,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const orderData = insertOrderSchema.parse(req.body);
       const order = await storage.createOrder(orderData);
       
+      // Print order to kitchen
+      try {
+        const orderForPrinting = {
+          id: order.id.toString(),
+          customerName: orderData.customerName ?? undefined,
+          items: JSON.parse(orderData.items || '[]').map((item: any) => ({
+            name: item.name || 'Unknown Item',
+            quantity: item.quantity || 1,
+            specialInstructions: item.specialInstructions,
+            price: parseFloat(item.price || '0')
+          })),
+          total: parseFloat(orderData.total || '0'),
+          orderTime: new Date(),
+          tableNumber: orderData.tableNumber ?? undefined,
+          orderType: 'dine-in' as const
+        };
+
+        const printSuccess = await kitchenPrinterService.printOrder(orderForPrinting);
+        if (printSuccess) {
+          console.log(`Order ${order.id} printed to kitchen successfully`);
+        } else {
+          console.log(`Warning: Failed to print order ${order.id} to kitchen`);
+        }
+      } catch (printError) {
+        console.error('Kitchen printing failed:', printError);
+      }
+
       // Trigger automation workflows
       try {
         const { workflowManager } = await import("./automation/workflow-manager");
@@ -570,6 +597,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register customer chat routes
   const customerChatRouter = await import("./routes/customer-chat.js");
   app.use("/api/customer-chat", customerChatRouter.default);
+
+  // Register kitchen printing routes
+  app.use("/api/kitchen-printing", kitchenPrintingRouter);
 
   const httpServer = createServer(app);
   return httpServer;
