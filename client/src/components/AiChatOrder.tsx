@@ -83,7 +83,7 @@ export function AiChatOrder({ restaurantId, menuItems, restaurant, externalMessa
     {
       id: '1',
       role: 'assistant',
-      content: `Welcome to ${restaurantName}! I'm OrderFi Ai. What can I get you today?`,
+      content: `Welcome to ${restaurantName || 'our restaurant'}! I'm OrderFi Ai. What can I get you today?`,
       timestamp: new Date()
     }
   ]);

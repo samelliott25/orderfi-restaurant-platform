@@ -109,17 +109,7 @@ export default function OrderFiPage() {
 
 
 
-  // Show loading state while data is still loading
-  if (menuLoading || restaurantLoading || !Array.isArray(menuItems) || menuItems.length === 0) {
-    return (
-      <div className="h-screen flex items-center justify-center" style={{ backgroundColor: '#fcfcfc' }}>
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading OrderFi Ai...</p>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="fixed inset-0 flex flex-col" style={{ backgroundColor: '#fcfcfc' }}>
