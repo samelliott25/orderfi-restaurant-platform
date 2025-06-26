@@ -10,6 +10,7 @@ import RestaurantDashboard from "@/pages/dashboard";
 import Web3DappPage from "@/pages/web3-dapp";
 import OrderFiPage from "@/pages/orderfi";
 import TokenRewardsPage from "@/pages/tokenrewards";
+import KitchenPrintingPage from "@/pages/kitchen-printing";
 import NotFound from "@/pages/not-found";
 
 // Keep only essential admin pages for dashboard integration
@@ -61,6 +62,7 @@ function Router() {
         {/* Customer-Facing Mobile Interface */}
         <Route path="/orderfi" component={OrderFiPage} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
+        <Route path="/kitchen-printing" component={KitchenPrintingPage} />
         <Route path="/web3-order" component={Web3DappPage} />
         
         {/* Back Office Dashboard */}

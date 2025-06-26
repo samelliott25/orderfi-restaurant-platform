@@ -2,9 +2,11 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import ordersRouter from "./routes/orders";
+import kitchenPrintingRouter from "./routes/kitchen-printing";
 import { blockchainStorage } from "./blockchain/storage";
 import { blockchainIntegrationService } from "./services/blockchain-integration";
 import { menuCategorizationService } from "./services/menu-categorization";
+import { kitchenPrinterService } from "./services/kitchen-printer";
 import { processChatMessage, processOperationsAiMessage, processMenuImage, type ChatContext } from "./services/openai";
 import { 
   insertRestaurantSchema, 
