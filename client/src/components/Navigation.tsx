@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useWallet } from "@/hooks/useWallet";
 import { WalletConnectDialog } from "@/components/WalletConnectDialog";
+import { SettingsDialog } from "@/components/SettingsDialog";
 import { 
   Home, 
   MessageCircle, 
@@ -131,7 +132,12 @@ export function HamburgerMenu() {
                 <HelpCircle className="h-4 w-4" />
                 Help
               </Button>
-              <Button variant="ghost" size="sm" className="gap-2">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="gap-2"
+                onClick={() => setShowSettings(true)}
+              >
                 <Settings className="h-4 w-4" />
                 Settings
               </Button>
