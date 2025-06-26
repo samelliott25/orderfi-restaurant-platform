@@ -1,20 +1,40 @@
 import orderFiLogo from "@assets/20250625_2213_Elegant Logo Animation_loop_01jykg3kywe6yadwjhwn5nypcx_1750853921628.mp4";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export default function HomePage() {
   const [isClicked, setIsClicked] = useState(false);
   const [showTransition, setShowTransition] = useState(false);
 
+  // Preload data for OrderFi page
+  const { data: menuItems, isLoading: menuLoading } = useQuery({
+    queryKey: [`/api/restaurants/1/menu`],
+    enabled: showTransition, // Only fetch when user clicks enter app
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: restaurants, isLoading: restaurantLoading } = useQuery({
+    queryKey: ['/api/restaurants'],
+    enabled: showTransition,
+    staleTime: 5 * 60 * 1000,
+  });
+
   const handleDAppClick = () => {
     setIsClicked(true);
     setShowTransition(true);
-    
-    // Navigate after smooth transition - reduced timing
-    setTimeout(() => {
-      window.location.href = '/orderfi';
-    }, 1500);
   };
+
+  // Navigate when data is ready
+  useEffect(() => {
+    if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
+      // Small delay to ensure smooth transition
+      const timer = setTimeout(() => {
+        window.location.href = '/orderfi';
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants]);
 
   return (
     <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden" style={{ backgroundColor: '#fcfcfc' }}>
@@ -31,7 +51,7 @@ export default function HomePage() {
               OrderFi
             </div>
             <div className="text-xl animate-pulse">
-              Launching AI Assistant...
+              {menuLoading || restaurantLoading ? 'Loading restaurant data...' : 'Launching AI Assistant...'}
             </div>
           </div>
           
