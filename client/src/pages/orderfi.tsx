@@ -6,7 +6,7 @@ import { IntegratedChatSearch } from "@/components/IntegratedChatSearch";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { QrCode, Smartphone, Zap, MessageSquare, Grid3X3, Bot, Sparkles, TrendingUp, Clock, Users } from "lucide-react";
+import { QrCode, Smartphone, Zap, MessageSquare, Grid3X3, Bot, Sparkles, TrendingUp, Clock, Users, Search, Coffee, Sun, Moon } from "lucide-react";
 
 // OrderFi - AI-first conversational ordering experience with modern UX innovations
 export default function OrderFiPage() {
