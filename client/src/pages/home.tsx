@@ -109,9 +109,9 @@ export default function HomePage() {
               className={`
                 relative overflow-hidden w-full py-4 sm:py-6 text-lg sm:text-xl font-bold text-white 
                 shadow-xl transition-all duration-300 transform rounded-xl
-                bg-gradient-to-r from-black to-gray-900 
-                hover:from-gray-800 hover:to-black
-                hover:scale-105 hover:shadow-2xl hover:shadow-black/50
+                bg-gradient-to-r from-orange-500 via-red-500 to-pink-500
+                hover:from-orange-600 hover:via-red-600 hover:to-pink-600
+                hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/50
                 active:scale-95 active:shadow-lg
                 ${isClicked ? 'animate-pulse scale-95' : ''}
                 before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent 
