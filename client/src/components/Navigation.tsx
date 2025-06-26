@@ -144,28 +144,6 @@ export function HamburgerMenu() {
 }
 
 export function SearchBar() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [location] = useLocation();
-  
-  // Hide search bar on OrderFi page since it has integrated chat/search
-  if (location === '/orderfi') {
-    return null;
-  }
-  
-  return (
-    <div className="fixed top-4 right-4 left-16 z-40">
-      <div className="max-w-md ml-auto">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search menu, orders, settings..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-sm bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-        </div>
-      </div>
-    </div>
-  );
+  // Search functionality moved to bottom chat interfaces on OrderFi and Dashboard pages
+  return null;
 }
