@@ -146,5 +146,7 @@
 - Added AI diamond icon to "Enter DApp" button for consistent branding
 - Connected Operations AI input to functional chat system in dashboard
 - Created comprehensive Settings dialog with voice, notifications, AI, privacy, and ordering preferences
+- Fixed translucent dropdown menus throughout app with solid white backgrounds
+- Redirected Token Rewards navigation from non-existent /web3-order to /orderfi page for integrated experience
 
 *Last Updated: June 26, 2025*
