@@ -18,6 +18,7 @@ export default function OrderFiPage() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
   const [chatMessage, setChatMessage] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState("");
   
   // Get menu items for the interface (load in background)
   const { data: menuItems = [], isLoading: menuLoading } = useQuery({
