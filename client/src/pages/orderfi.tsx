@@ -63,11 +63,19 @@ export default function OrderFiPage() {
     } else if (hour >= 16 && hour < 20) {
       suggestions = ["What's trending for dinner?", "Comfort food recommendations", "Share plates for groups"];
     } else {
-      suggestions = ["Late night favorites?", "Quick bites", "Something satisfying"];
+      suggestions = ["Late night favorites?", "Something satisfying", "Quick bites available"];
+    }
+    
+    // Add popular items from menu if available
+    if (menuItems && Array.isArray(menuItems) && menuItems.length > 0) {
+      const popularCategories = [...new Set(menuItems.slice(0, 3).map((item: any) => item.category))];
+      if (popularCategories[0]) {
+        suggestions.push(`What's in ${popularCategories[0]}?`);
+      }
     }
     
     setAiSuggestions(suggestions);
-  }, [currentTime]);
+  }, [currentTime, menuItems]);
 
   const handleChatMessage = (message: string) => {
     setShowQuickActions(false); // Hide quick actions after first interaction
