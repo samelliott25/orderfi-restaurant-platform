@@ -378,7 +378,13 @@ Customer said: "${userMessage}"`
             >
               <div className="flex items-start space-x-2">
                 {message.role === 'assistant' && (
-                  <Diamond className="h-5 w-5 text-orange-500 mt-0.5 flex-shrink-0" />
+                  <div className="h-5 w-5 mt-0.5 flex-shrink-0">
+                    <svg viewBox="0 0 24 24" className="w-full h-full text-orange-500" fill="currentColor">
+                      <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" stroke="currentColor" strokeWidth="1" fill="none"/>
+                      <path d="M12 6L14 10L18 12L14 14L12 18L10 14L6 12L10 10L12 6Z" fill="currentColor" opacity="0.3"/>
+                      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                    </svg>
+                  </div>
                 )}
                 <div className="flex-1">
                   <div className="text-sm leading-relaxed">
@@ -422,7 +428,13 @@ Customer said: "${userMessage}"`
           <div className="flex justify-start">
             <div className="bg-white px-4 py-3 rounded-lg shadow-sm border max-w-xs">
               <div className="flex items-center space-x-2">
-                <Diamond className="h-5 w-5 text-orange-500" />
+                <div className="h-5 w-5">
+                  <svg viewBox="0 0 24 24" className="w-full h-full text-orange-500" fill="currentColor">
+                    <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" stroke="currentColor" strokeWidth="1" fill="none"/>
+                    <path d="M12 6L14 10L18 12L14 14L12 18L10 14L6 12L10 10L12 6Z" fill="currentColor" opacity="0.3"/>
+                    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                  </svg>
+                </div>
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce"></div>
                   <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
