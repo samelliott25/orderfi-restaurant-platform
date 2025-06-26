@@ -1,96 +1,45 @@
 import { useEffect, useState } from 'react';
 
 export default function OrderFiLogo({ className = "" }: { className?: string }) {
-  const [animationPhase, setAnimationPhase] = useState(0);
+  const [visibleLetters, setVisibleLetters] = useState(0);
+  const letters = ['O', 'r', 'd', 'e', 'r', 'F', 'i'];
 
   useEffect(() => {
-    const phases = [
-      { delay: 0, phase: 1 },     // Start writing
-      { delay: 800, phase: 2 },   // Continue writing
-      { delay: 1600, phase: 3 },  // Finish writing
-      { delay: 2200, phase: 4 },  // Final reveal
-    ];
-
-    phases.forEach(({ delay, phase }) => {
-      setTimeout(() => setAnimationPhase(phase), delay);
+    letters.forEach((_, index) => {
+      setTimeout(() => {
+        setVisibleLetters(index + 1);
+      }, index * 200 + 500); // Start after 500ms, then 200ms between letters
     });
   }, []);
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
-      <div className="relative overflow-hidden">
-        {/* Background stroke animation */}
-        <div 
-          className="absolute inset-0 opacity-20"
+      <div className="relative">
+        <h1 
+          className="text-6xl md:text-7xl lg:text-8xl font-heading text-gray-900"
           style={{
-            background: 'linear-gradient(90deg, transparent 0%, #f59e0b 50%, transparent 100%)',
-            transform: `translateX(${animationPhase >= 1 ? '0%' : '-100%'})`,
-            transition: 'transform 2s cubic-bezier(0.4, 0, 0.2, 1)',
-            height: '4px',
-            top: '50%',
-            borderRadius: '2px'
+            fontWeight: '400',
+            letterSpacing: '-0.02em',
+            lineHeight: '1.1'
           }}
-        />
-        
-        {/* Main OrderFi text with advanced animation */}
-        <div className="relative overflow-hidden">
-          <h1 
-            className="text-6xl md:text-7xl lg:text-8xl font-heading text-gray-900 relative z-10"
-            style={{
-              fontWeight: '400',
-              letterSpacing: '-0.02em',
-              lineHeight: '1.1',
-              opacity: animationPhase >= 1 ? 1 : 0,
-              transform: `translateY(${animationPhase >= 1 ? '0px' : '20px'}) scale(${animationPhase >= 4 ? 1 : 0.98})`,
-              transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-              textShadow: animationPhase >= 4 ? '0 2px 20px rgba(245, 158, 11, 0.3)' : 'none',
-              filter: `blur(${animationPhase >= 3 ? 0 : 1}px)`
-            }}
-          >
-            OrderFi
-          </h1>
-          
-          {/* Animated reveal overlay */}
-          <div 
-            className="absolute inset-0 bg-white z-20"
-            style={{
-              width: `${100 - Math.max(0, (animationPhase - 1) * 33)}%`,
-              transition: 'width 1.5s cubic-bezier(0.4, 0, 0.2, 1)',
-              right: 0,
-              opacity: animationPhase >= 1 ? 1 : 0
-            }}
-          />
-        </div>
-
-        {/* Elegant writing cursor */}
-        <div 
-          className={`absolute top-1/2 h-16 w-0.5 bg-gradient-to-b from-orange-400 to-orange-600 rounded-full z-30 ${
-            animationPhase >= 1 && animationPhase < 4 ? 'opacity-100' : 'opacity-0'
-          }`}
-          style={{
-            left: `${Math.min(95, (animationPhase - 0.5) * 30)}%`,
-            transform: 'translateY(-50%)',
-            transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-            boxShadow: '0 0 20px rgba(245, 158, 11, 0.6)'
-          }}
-        />
-
-        {/* Subtle particle effects */}
-        {[...Array(3)].map((_, i) => (
-          <div
-            key={i}
-            className={`absolute w-1 h-1 bg-orange-400 rounded-full ${
-              animationPhase >= 3 ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{
-              left: `${20 + i * 25}%`,
-              top: `${30 + i * 10}%`,
-              transform: `translate(-50%, -50%) scale(${animationPhase >= 4 ? 0 : 1})`,
-              transition: `all 0.8s cubic-bezier(0.4, 0, 0.2, 1) ${0.5 + i * 0.2}s`,
-              animation: animationPhase >= 3 ? `float ${2 + i * 0.5}s ease-in-out infinite` : 'none'
-            }}
-          />
-        ))}
+        >
+          {letters.map((letter, index) => (
+            <span
+              key={index}
+              className={`inline-block transition-all duration-700 ease-out ${
+                index < visibleLetters 
+                  ? 'opacity-100 transform translate-y-0 scale-100' 
+                  : 'opacity-0 transform translate-y-8 scale-75'
+              }`}
+              style={{
+                transitionDelay: `${index * 100}ms`,
+                filter: index < visibleLetters ? 'blur(0px)' : 'blur(2px)'
+              }}
+            >
+              {letter}
+            </span>
+          ))}
+        </h1>
       </div>
     </div>
   );
