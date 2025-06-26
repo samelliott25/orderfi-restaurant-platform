@@ -173,13 +173,46 @@ html, body, #root {
   }
 }
 
-/* Smooth writing cursor animation */
-@keyframes cursor-blink {
+/* Handwritten letter animation */
+@keyframes handwrite-letter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.8) rotate(-2deg);
+    filter: blur(2px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-2px) scale(1.05) rotate(1deg);
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+    filter: blur(0px);
+  }
+}
+
+/* Writing cursor animation */
+@keyframes writing-cursor {
   0%, 50% {
     opacity: 1;
+    transform: scaleY(1);
   }
   51%, 100% {
     opacity: 0.3;
+    transform: scaleY(0.8);
+  }
+}
+
+/* Handwritten underline effect */
+@keyframes handwritten-underline {
+  0% {
+    width: 0%;
+    transform: translateX(-100%) skewX(-5deg);
+  }
+  100% {
+    width: 100%;
+    transform: translateX(0%) skewX(0deg);
   }
 }
 
@@ -191,6 +224,24 @@ html, body, #root {
   50% {
     filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.5));
   }
+}
+
+/* Handwritten letter class */
+.handwritten-letter {
+  animation: handwrite-letter 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Writing cursor class */
+.writing-cursor {
+  animation: writing-cursor 1s ease-in-out infinite;
+  color: rgba(245, 158, 11, 0.8);
+  font-weight: 300;
+}
+
+/* Handwritten underline class */
+.handwritten-underline {
+  animation: handwritten-underline 1.2s ease-out 0.5s forwards;
+  transform-origin: left center;
 }
 
 /* Dialog overlay customization - minimal opacity */
