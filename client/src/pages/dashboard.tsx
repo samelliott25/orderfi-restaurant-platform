@@ -23,7 +23,6 @@ import {
   AlertCircle,
   Star,
   Zap,
-  Bot,
   MessageCircle,
   Menu,
   Database,
@@ -93,13 +92,6 @@ export default function RestaurantDashboard() {
                 <Activity className="h-3 w-3 mr-1" />
                 Live
               </Badge>
-              <Button
-                onClick={() => setShowAiAssistant(true)}
-                className="bg-orange-500 hover:bg-orange-600"
-              >
-                <Bot className="h-4 w-4 mr-2" />
-                AI Assistant
-              </Button>
             </div>
           </div>
         </div>
