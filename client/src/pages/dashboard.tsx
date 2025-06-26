@@ -82,7 +82,7 @@ export default function RestaurantDashboard() {
       {/* Header */}
       <div className="shadow-sm border-b" style={{ backgroundColor: '#fcfcfc' }}>
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex justify-between items-center pt-4 pb-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 font-heading">Dashboard</h1>
               <p className="text-sm text-gray-600">Command Center</p>
