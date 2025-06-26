@@ -423,30 +423,30 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
       />
 
       {/* Operations AI Content */}
-      <div className="flex-1 p-6 flex items-center justify-center">
+      <div className="flex-1 p-6 flex items-center justify-center bg-gradient-to-br from-orange-50 to-red-50">
         <div className="text-center max-w-md">
-          <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
             <Bot className="w-8 h-8 text-white" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Operations AI Assistant</h3>
-          <p className="text-gray-600 text-sm mb-4">
+          <h3 className="text-lg font-semibold text-orange-800 mb-2">Operations AI Assistant</h3>
+          <p className="text-orange-700 text-sm mb-4">
             Upload files, analyze data, manage menu items, and get insights about your restaurant operations.
           </p>
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-orange-600">
             Drag and drop files or use the attachment button below to get started.
           </div>
         </div>
       </div>
 
       {/* Simplified Input for Dialog Mode */}
-      <div className="p-4 border-t bg-white">
+      <div className="p-4 border-t bg-orange-50">
         <div className="flex space-x-2 items-center">
           <Button
             onClick={() => fileInputRef.current?.click()}
             disabled={isLoading}
             size="sm"
             variant="outline"
-            className="flex-shrink-0"
+            className="flex-shrink-0 border-orange-200 text-orange-700 hover:bg-orange-100"
           >
             <Paperclip className="w-4 h-4" />
           </Button>
@@ -456,12 +456,13 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
             placeholder="Ask Operations AI or drop files here..."
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             disabled={isLoading}
-            className="text-sm flex-1 min-w-0"
+            className="text-sm flex-1 min-w-0 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
           />
           <Button 
             onClick={handleSendMessage}
             disabled={isLoading || !input.trim()}
             size="sm"
+            className="bg-orange-500 hover:bg-orange-600 text-white"
           >
             <Send className="w-4 h-4" />
           </Button>
