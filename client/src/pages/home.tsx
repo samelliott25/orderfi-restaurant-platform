@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import OrderFiLogo from "@/components/OrderFiLogo";
+import logoVideo from "@assets/20250625_2213_Elegant Logo Animation_loop_01jykg3kywe6yadwjhwn5nypcx_1750853921628.mp4";
 
 export default function HomePage() {
   const [isClicked, setIsClicked] = useState(false);
@@ -80,9 +80,19 @@ export default function HomePage() {
       {!showTransition && (
         <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
           
-          {/* OrderFi Logo - Lightweight CSS Animation */}
+          {/* OrderFi Logo - Original MP4 Video */}
           <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80">
-            <OrderFiLogo className="w-full h-full" />
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-contain"
+              style={{ filter: 'brightness(1.1)' }}
+            >
+              <source src={logoVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
           
           {/* Logo spacing */}
