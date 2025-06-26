@@ -84,7 +84,7 @@ export default function RestaurantDashboard() {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center pt-0 pb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 font-heading">Dashboard</h1>
+              <h1 className="text-3xl font-bold text-gray-900 font-heading pt-[0px] pb-[0px] mt-[10px] mb-[10px]">Dashboard</h1>
               <div className="flex items-center gap-2 mt-1">
                 <p className="text-sm text-gray-600">Command Center</p>
                 <Badge variant="outline" className="bg-green-50 text-green-700 text-xs">
