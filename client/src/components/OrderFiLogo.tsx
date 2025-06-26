@@ -15,12 +15,13 @@ export default function OrderFiLogo({ className = "" }: { className?: string }) 
         <div className={`text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 transition-all duration-1000 ${
           isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
         }`}
+        className="font-heading"
         style={{
-          fontFamily: '"Playwrite AU VIC", "Dancing Script", cursive',
           background: 'linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
+          color: '#f59e0b', // Fallback color
           filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.1))'
         }}>
           <span className="inline-block animate-fade-in-up" style={{ animationDelay: '0ms' }}>O</span>
@@ -55,8 +56,7 @@ export default function OrderFiLogo({ className = "" }: { className?: string }) 
             zIndex: -1
           }}
         >
-          <div className="text-6xl md:text-7xl lg:text-8xl font-bold text-transparent"
-            style={{ fontFamily: '"Playwrite AU VIC", "Dancing Script", cursive' }}>
+          <div className="text-6xl md:text-7xl lg:text-8xl font-bold text-transparent font-heading">
             OrderFi
           </div>
         </div>
