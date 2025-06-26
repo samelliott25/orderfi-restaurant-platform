@@ -1,51 +1,29 @@
 import { useEffect, useState } from 'react';
 
 export default function OrderFiLogo({ className = "" }: { className?: string }) {
-  const [visibleLetters, setVisibleLetters] = useState(0);
-  const letters = ['O', 'r', 'd', 'e', 'r', 'F', 'i'];
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setVisibleLetters(prev => {
-        if (prev < letters.length) {
-          return prev + 1;
-        }
-        clearInterval(timer);
-        return prev;
-      });
-    }, 300); // Each letter appears after 300ms
-
-    return () => clearInterval(timer);
-  }, [letters.length]);
+    // Start animation after component mounts
+    const timer = setTimeout(() => setAnimate(true), 200);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <div className="relative">
-        {/* Animated handwritten OrderFi text */}
+        {/* Animated handwritten OrderFi text with joined letters */}
         <h1 
-          className="text-6xl md:text-7xl lg:text-8xl font-heading text-gray-900"
+          className={`text-6xl md:text-7xl lg:text-8xl font-heading text-gray-900 ${
+            animate ? 'animate-write-in' : 'opacity-0'
+          }`}
           style={{
             fontWeight: '400',
-            letterSpacing: '0.02em',
+            letterSpacing: '-0.02em', // Negative spacing to join letters
             lineHeight: '1.1'
           }}
         >
-          {letters.map((letter, index) => (
-            <span
-              key={index}
-              className={`inline-block transition-all duration-500 ease-out ${
-                index < visibleLetters 
-                  ? 'opacity-100 transform translate-y-0' 
-                  : 'opacity-0 transform translate-y-2'
-              }`}
-              style={{
-                animationDelay: `${index * 300}ms`,
-                transitionDelay: `${index * 100}ms`
-              }}
-            >
-              {letter}
-            </span>
-          ))}
+          OrderFi
         </h1>
       </div>
     </div>
