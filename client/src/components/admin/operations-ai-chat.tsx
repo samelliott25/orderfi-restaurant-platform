@@ -424,19 +424,7 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
 
       {/* Chat Messages */}
       <ScrollArea className="flex-1 p-4 relative" ref={scrollAreaRef}>
-        {/* Background Logo */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 pointer-events-none"
-          style={{
-            height: '60%',
-            backgroundImage: `url(${mimiLogo})`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center bottom',
-            opacity: 0.4,
-            zIndex: 0
-          }}
-        />
+
         <div className="space-y-4 relative z-10">
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -447,7 +435,7 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
                   ? 'bg-green-50 border border-green-200 text-green-800'
                   : ''
               }`}
-              style={message.type === 'assistant' ? { backgroundColor: '#fff0cc', color: '#8b795e' } : {}}>
+              style={message.type === 'assistant' ? { backgroundColor: '#f8f9fa', color: '#374151', border: '1px solid #e5e7eb' } : {}}>
                 <div className="flex items-start space-x-2">
                   <div className="flex-1">
                     {/* File thumbnails for uploaded images */}
@@ -494,7 +482,7 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
               <div className="bg-gray-100 rounded-lg p-3">
                 <div className="flex items-center space-x-2">
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-sm text-gray-600">Mimi is thinking...</span>
+                  <span className="text-sm text-gray-600">Operations AI is thinking...</span>
                 </div>
               </div>
             </div>
@@ -502,56 +490,30 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
         </div>
       </ScrollArea>
 
-      {/* Quick Actions */}
-      <div className="px-3 py-2 border-t flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
-        <h4 className="text-xs font-medium mb-1" style={{ color: '#8b795e' }}>Quick Actions</h4>
-        <div className="flex flex-wrap gap-1">
-          {suggestedTasks.slice(0, 3).map((task, index) => (
-            <button
-              key={index}
-              onClick={() => handleSuggestedTask(task)}
-              className="px-2 py-0.5 text-xs rounded hover:opacity-80"
-              style={{ backgroundColor: '#fff0cc', color: '#8b795e' }}
-              disabled={isLoading || activeTask !== null}
-            >
-              {task.title.split(' ')[0]}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Input */}
-      <div className="p-3 border-t flex-shrink-0" style={{ borderColor: '#e5cf97', backgroundColor: '#ffe6b0' }}>
+      {/* Simplified Input for Dialog Mode */}
+      <div className="p-4 border-t bg-white">
         <div className="flex space-x-2 items-center">
-          <VoiceInput
-            onTranscript={(text) => setInput(text)}
-            disabled={isLoading}
-          />
           <Button
             onClick={() => fileInputRef.current?.click()}
             disabled={isLoading}
             size="sm"
             variant="outline"
             className="flex-shrink-0"
-            style={{ borderColor: '#8b795e', color: '#8b795e', backgroundColor: '#fff0cc' }}
           >
             <Paperclip className="w-4 h-4" />
           </Button>
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask Mimi or drop files here..."
+            placeholder="Ask Operations AI or drop files here..."
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             disabled={isLoading}
             className="text-sm flex-1 min-w-0"
-            style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97', color: '#8b795e' }}
           />
           <Button 
             onClick={handleSendMessage}
             disabled={isLoading || !input.trim()}
             size="sm"
-            className="flex-shrink-0"
-            style={{ backgroundColor: '#8b795e', color: 'white' }}
           >
             <Send className="w-4 h-4" />
           </Button>
