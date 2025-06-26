@@ -389,29 +389,17 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      {/* Header */}
-      <div className="p-4 lg:p-6 border-b flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#8b795e' }}>
-            <Bot className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
-          </div>
-          <div>
-            <h3 className="text-sm lg:text-base font-semibold" style={{ color: '#8b795e' }}>Operations AI</h3>
-            <p className="text-xs lg:text-sm" style={{ color: '#8b795e' }}>Autonomous Manager</p>
+      {/* Active Task Display */}
+      {activeTask && (
+        <div className="p-3 bg-primary/5 border-b border-primary/20">
+          <div className="flex items-center space-x-2">
+            <Loader2 className="w-4 h-4 text-primary animate-spin" />
+            <span className="text-sm text-foreground font-medium">
+              {activeTask.description}
+            </span>
           </div>
         </div>
-        
-        {activeTask && (
-          <div className="mt-4 p-3 bg-primary/5 rounded-xl border border-primary/20">
-            <div className="flex items-center space-x-2">
-              <Loader2 className="w-4 h-4 text-primary animate-spin" />
-              <span className="text-sm text-foreground font-medium">
-                {activeTask.description}
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* Drop Zone Overlay */}
       {isDragOver && (
