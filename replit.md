@@ -138,7 +138,8 @@
 ### ✅ Latest Updates
 - Replaced all "Mimi Waitress" references with "OrderFi AI" branding
 - Applied #fcfcfc background color consistently across all pages
-- Updated logo from Mimi video to OrderFi animated logo (MP4)
+- Restored original MP4 logo video on home screen after CSS animation experiment
 - Applied "Playwrite Australia Victoria" font to all headings
+- Created OrderFiLogo component with handwritten animation (available for future use)
 
-*Last Updated: June 25, 2025*
+*Last Updated: June 26, 2025*
