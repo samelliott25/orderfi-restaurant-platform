@@ -399,7 +399,30 @@ export function SettingsDialog({ isOpen, onClose }: SettingsDialogProps) {
             Cancel
           </Button>
           <div className="space-x-2">
-            <Button variant="outline" onClick={() => setSettings({})}>
+            <Button variant="outline" onClick={() => setSettings({
+              voiceEnabled: true,
+              voiceSpeed: "normal",
+              soundEffects: true,
+              orderUpdates: true,
+              promotions: true,
+              loyaltyRewards: true,
+              emailNotifications: true,
+              darkMode: false,
+              language: "en",
+              currency: "USD",
+              fontSize: "medium",
+              dataCollection: true,
+              locationTracking: false,
+              analyticsSharing: true,
+              autoSave: true,
+              quickReorder: true,
+              defaultTip: "18",
+              paymentMethod: "card",
+              aiPersonality: "friendly",
+              aiSuggestions: true,
+              voiceInteraction: true,
+              aiMemory: true
+            })}>
               Reset to Defaults
             </Button>
             <Button className="bg-orange-500 hover:bg-orange-600" onClick={onClose}>

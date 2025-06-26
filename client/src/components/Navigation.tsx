@@ -35,10 +35,12 @@ const menuItems = [
 
 export function HamburgerMenu() {
   const [open, setOpen] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [location] = useLocation();
   const { isConnected, walletInfo, isConnecting, connect, disconnect } = useWallet();
 
   return (
+    <>
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button 
@@ -146,6 +148,12 @@ export function HamburgerMenu() {
         </div>
       </SheetContent>
     </Sheet>
+    
+    <SettingsDialog 
+      isOpen={showSettings} 
+      onClose={() => setShowSettings(false)} 
+    />
+    </>
   );
 }
 
