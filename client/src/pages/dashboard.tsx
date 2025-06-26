@@ -79,7 +79,7 @@ export default function RestaurantDashboard() {
     : "0.00";
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#fcfcfc' }}>
+    <div className="min-h-screen pb-32" style={{ backgroundColor: '#fcfcfc' }}>
       {/* Header */}
       <div className="shadow-sm border-b" style={{ backgroundColor: '#fcfcfc' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -623,26 +623,86 @@ export default function RestaurantDashboard() {
         </DialogContent>
       </Dialog>
 
-      {/* AI Operations Assistant */}
-      {showAiAssistant && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full h-[600px] flex flex-col">
-            <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="text-lg font-semibold">AI Operations Assistant</h3>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => setShowAiAssistant(false)}
-              >
-                ×
-              </Button>
-            </div>
-            <div className="flex-1 p-4">
-              <OperationsAiChat />
+      {/* Bottom Chat Interface - Same as OrderFi */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200/50 shadow-2xl safe-area-pb">
+        <div className="p-4">
+          {/* Voice Wave Animation */}
+          <div className="mb-2 flex justify-center">
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-1 bg-gradient-to-t from-orange-400 to-red-500 rounded-full transition-all duration-300"
+                  style={{
+                    height: showAiAssistant ? `${8 + Math.sin(Date.now() / 200 + i) * 4}px` : '4px',
+                    animationDelay: `${i * 100}ms`
+                  }}
+                />
+              ))}
             </div>
           </div>
+
+          {/* Operations AI Chat Interface */}
+          <div className="mb-3">
+            <div className="relative">
+              <MessageCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Ask Operations AI about orders, menu, analytics..."
+                className="w-full pl-10 pr-4 py-3 text-sm bg-white/90 backdrop-blur-sm border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                onFocus={() => setShowAiAssistant(true)}
+                readOnly
+              />
+            </div>
+          </div>
+
+          {/* Quick Action Pills */}
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setActivePopup('orders')}
+              className="whitespace-nowrap bg-orange-50 text-orange-700 hover:bg-orange-100"
+            >
+              <Clock className="h-3 w-3 mr-1" />
+              View Orders
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setActivePopup('menu')}
+              className="whitespace-nowrap bg-blue-50 text-blue-700 hover:bg-blue-100"
+            >
+              <Menu className="h-3 w-3 mr-1" />
+              Manage Menu
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setActivePopup('automation')}
+              className="whitespace-nowrap bg-purple-50 text-purple-700 hover:bg-purple-100"
+            >
+              <Zap className="h-3 w-3 mr-1" />
+              Automation
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setActivePopup('blockchain')}
+              className="whitespace-nowrap bg-green-50 text-green-700 hover:bg-green-100"
+            >
+              <Database className="h-3 w-3 mr-1" />
+              Blockchain
+            </Button>
+          </div>
         </div>
-      )}
+      </div>
+
+      {/* AI Operations Assistant Dialog */}
+      <OperationsAiChat 
+        isOpen={showAiAssistant} 
+        onClose={() => setShowAiAssistant(false)} 
+      />
     </div>
   );
 }
