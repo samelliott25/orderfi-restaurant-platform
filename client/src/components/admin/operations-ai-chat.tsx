@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useOperationsAi } from "@/contexts/OperationsAiContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { Badge } from "@/components/ui/badge";
 import { VoiceInput } from "@/components/VoiceInput";
 import { DataProcessor, ProcessedData } from "@/services/dataProcessor";
@@ -422,73 +422,21 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
         onChange={handleFileInputChange}
       />
 
-      {/* Chat Messages */}
-      <ScrollArea className="flex-1 p-4 relative" ref={scrollAreaRef}>
-
-        <div className="space-y-4 relative z-10">
-          {messages.map((message) => (
-            <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[85%] rounded-lg p-3 ${
-                message.type === 'user' 
-                  ? 'bg-blue-500 text-white' 
-                  : message.type === 'system'
-                  ? 'bg-green-50 border border-green-200 text-green-800'
-                  : ''
-              }`}
-              style={message.type === 'assistant' ? { backgroundColor: '#f8f9fa', color: '#374151', border: '1px solid #e5e7eb' } : {}}>
-                <div className="flex items-start space-x-2">
-                  <div className="flex-1">
-                    {/* File thumbnails for uploaded images */}
-                    {message.filePreviews && message.filePreviews.length > 0 && (
-                      <div className="mb-2 flex flex-wrap gap-2">
-                        {message.filePreviews.map((preview, index) => (
-                          <div key={index} className="relative">
-                            <img 
-                              src={preview} 
-                              alt={message.fileNames?.[index] || 'Uploaded file'}
-                              className="w-16 h-16 object-cover rounded border border-gray-200 shadow-sm"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 rounded transition-opacity cursor-pointer" 
-                                 title={message.fileNames?.[index] || 'Uploaded file'} />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    <p className="text-sm">{message.content}</p>
-                    <div className="flex items-center justify-between mt-1">
-                      <span className="text-xs opacity-70">
-                        {message.timestamp.toLocaleTimeString()}
-                      </span>
-                      {getStatusIcon(message.status)}
-                    </div>
-                  </div>
-                </div>
-                
-                {message.actions && message.actions.length > 0 && (
-                  <div className="mt-2 space-y-1">
-                    {message.actions.map((action, index) => (
-                      <Badge key={`${action.id}-${index}`} variant="outline" className="text-xs">
-                        {action.description}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-          
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-gray-100 rounded-lg p-3">
-                <div className="flex items-center space-x-2">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-sm text-gray-600">Operations AI is thinking...</span>
-                </div>
-              </div>
-            </div>
-          )}
+      {/* Operations AI Content */}
+      <div className="flex-1 p-6 flex items-center justify-center">
+        <div className="text-center max-w-md">
+          <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Bot className="w-8 h-8 text-white" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">Operations AI Assistant</h3>
+          <p className="text-gray-600 text-sm mb-4">
+            Upload files, analyze data, manage menu items, and get insights about your restaurant operations.
+          </p>
+          <div className="text-xs text-gray-500">
+            Drag and drop files or use the attachment button below to get started.
+          </div>
         </div>
-      </ScrollArea>
+      </div>
 
       {/* Simplified Input for Dialog Mode */}
       <div className="p-4 border-t bg-white">
