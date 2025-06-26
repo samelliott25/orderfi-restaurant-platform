@@ -147,6 +147,6 @@
 - Connected Operations AI input to functional chat system in dashboard
 - Created comprehensive Settings dialog with voice, notifications, AI, privacy, and ordering preferences
 - Fixed translucent dropdown menus throughout app with solid white backgrounds
-- Removed redundant Token Rewards navigation item since rewards are integrated into main ordering flow
+- Kept Token Rewards navigation button but redirected from non-existent /web3-order to /orderfi page
 
 *Last Updated: June 26, 2025*
