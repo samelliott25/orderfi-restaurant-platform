@@ -16,7 +16,7 @@ export default function OrderFiLogo({ className = "" }: { className?: string }) 
           isVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
         }`}
         style={{
-          fontFamily: '"Dancing Script", "Brush Script MT", cursive',
+          fontFamily: '"Playwrite AU VIC", "Dancing Script", cursive',
           background: 'linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
@@ -56,7 +56,7 @@ export default function OrderFiLogo({ className = "" }: { className?: string }) 
           }}
         >
           <div className="text-6xl md:text-7xl lg:text-8xl font-bold text-transparent"
-            style={{ fontFamily: '"Dancing Script", "Brush Script MT", cursive' }}>
+            style={{ fontFamily: '"Playwrite AU VIC", "Dancing Script", cursive' }}>
             OrderFi
           </div>
         </div>
