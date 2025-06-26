@@ -1,7 +1,7 @@
-import orderFiLogo from "@assets/20250625_2213_Elegant Logo Animation_loop_01jykg3kywe6yadwjhwn5nypcx_1750853921628.mp4";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import OrderFiLogo from "@/components/OrderFiLogo";
 
 export default function HomePage() {
   const [isClicked, setIsClicked] = useState(false);
@@ -80,18 +80,9 @@ export default function HomePage() {
       {!showTransition && (
         <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
           
-          {/* OrderFi Logo - Responsive Size (25% larger) */}
+          {/* OrderFi Logo - Lightweight CSS Animation */}
           <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80">
-            <div className="flex items-center justify-center w-full h-full">
-              <video 
-                src={orderFiLogo}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <OrderFiLogo className="w-full h-full" />
           </div>
           
           {/* Logo spacing */}

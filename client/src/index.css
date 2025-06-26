@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One:wght@400&family=Comfortaa:wght@300;400;700&family=Lobster:wght@400&family=Kalam:wght@400;700&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Allura&family=Seaweed+Script&family=Permanent+Marker&family=Satisfy&family=Molle:ital@1&family=Rancho:wght@400&family=Dongle:wght@300;400;700&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC:wght@100..400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -135,6 +136,22 @@ html, body, #root {
 .border-modern {
   border: 1px solid rgba(139, 121, 94, 0.15);
   border-radius: 12px;
+}
+
+/* OrderFi Logo Animations */
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Dialog overlay customization - minimal opacity */
