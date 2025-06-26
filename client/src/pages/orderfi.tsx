@@ -18,18 +18,32 @@ export default function OrderFiPage() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
   const [chatMessage, setChatMessage] = useState<string>('');
+  const [isInitializing, setIsInitializing] = useState(true);
   
   // Get menu items for the interface (load in background)
-  const { data: menuItems = [] } = useQuery({
+  const { data: menuItems = [], isLoading: menuLoading } = useQuery({
     queryKey: [`/api/restaurants/${restaurantId}/menu`],
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
   });
 
-  // Get restaurant info (load in background)
-  const { data: restaurant } = useQuery({
-    queryKey: ['/api/restaurants', restaurantId],
+  // Get restaurant data for interface
+  const { data: restaurants = [], isLoading: restaurantLoading } = useQuery({
+    queryKey: ['/api/restaurants'],
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
   });
+
+  const restaurant = Array.isArray(restaurants) ? restaurants.find((r: any) => r.id === restaurantId) : null;
+  
+  // Control initialization state to prevent white screen
+  useEffect(() => {
+    if (!menuLoading && !restaurantLoading && Array.isArray(menuItems) && menuItems.length > 0) {
+      // Add a small delay to ensure smooth transition
+      const timer = setTimeout(() => {
+        setIsInitializing(false);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [menuLoading, restaurantLoading, menuItems]);
 
   // Real-time clock for contextual ordering
   useEffect(() => {
@@ -65,12 +79,12 @@ export default function OrderFiPage() {
     setIsSearching(true);
     try {
       // Filter menu items based on search query
-      const filtered = menuItems.filter((item: any) =>
+      const filtered = Array.isArray(menuItems) ? menuItems.filter((item: any) =>
         item.name.toLowerCase().includes(query.toLowerCase()) ||
         item.description?.toLowerCase().includes(query.toLowerCase()) ||
         item.category?.toLowerCase().includes(query.toLowerCase()) ||
         item.tags?.some((tag: string) => tag.toLowerCase().includes(query.toLowerCase()))
-      );
+      ) : [];
       setSearchResults(filtered);
       setOrderingMode('browse'); // Switch to browse mode to show results
     } catch (error) {
@@ -96,6 +110,46 @@ export default function OrderFiPage() {
   };
 
   const mealContext = getMealContext();
+
+  // Show loading screen while initializing
+  if (isInitializing) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 animate-gradient-xy"></div>
+        
+        {/* Morphing background shapes */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/20 rounded-full blur-2xl animate-bounce"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/15 rounded-full blur-xl animate-ping"></div>
+        </div>
+        
+        {/* Loading content */}
+        <div className="relative z-10 text-center">
+          <div className="mb-8">
+            <video 
+              autoPlay 
+              muted 
+              loop 
+              className="w-32 h-32 mx-auto rounded-2xl shadow-2xl"
+            >
+              <source src="/attached_assets/20250625_2213_Elegant Logo Animation_loop_01jykg3kywe6yadwjhwn5nypcx_1750853921628.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <h2 className="text-4xl font-bold text-white mb-4" style={{ fontFamily: 'Playwrite Australia Victoria, cursive' }}>
+            OrderFi Ai
+          </h2>
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+            <div className="w-3 h-3 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="w-3 h-3 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          </div>
+          <p className="text-white/80 text-lg">Initializing your AI ordering experience...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 flex flex-col" style={{ backgroundColor: '#fcfcfc' }}>
@@ -174,7 +228,7 @@ export default function OrderFiPage() {
           >
             <AiChatOrder 
               restaurantId={restaurantId}
-              menuItems={menuItems}
+              menuItems={Array.isArray(menuItems) ? menuItems : []}
               restaurant={restaurant}
               externalMessage={chatMessage}
               onMessageProcessed={() => setChatMessage('')}
