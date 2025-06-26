@@ -1,5 +1,7 @@
 import { createSocket } from 'dgram';
 import { Socket } from 'net';
+import { usbPrinterService } from './usb-printer';
+import { cloudPrinterService } from './cloud-printer';
 
 export interface PrinterConfig {
   id: string;
@@ -210,7 +212,7 @@ export class KitchenPrinterService {
     });
   }
 
-  // Cloud printing integration (PrintNode example)
+  // Enhanced cloud printing integration
   private async printToCloudService(printer: PrinterConfig, orderData: OrderData): Promise<boolean> {
     if (!printer.apiKey) {
       console.error('Cloud printer missing API key');
@@ -218,25 +220,9 @@ export class KitchenPrinterService {
     }
 
     try {
-      // Example PrintNode integration
-      const printContent = this.generatePlainTextReceipt(orderData);
-      
-      const response = await fetch('https://api.printnode.com/printjobs', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Basic ${Buffer.from(printer.apiKey + ':').toString('base64')}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          printerId: printer.id,
-          title: `Kitchen Order ${orderData.id}`,
-          contentType: 'text/plain',
-          content: printContent,
-          source: 'OrderFi Kitchen'
-        })
-      });
-
-      return response.ok;
+      // Determine cloud service type from model or default to PrintNode
+      const service = printer.model.toLowerCase().includes('ezeep') ? 'ezeep' : 'printnode';
+      return await cloudPrinterService.printToCloud(service, printer.apiKey, printer.id, orderData);
     } catch (error) {
       console.error(`Cloud printing error for ${printer.name}:`, error);
       return false;
@@ -302,11 +288,11 @@ export class KitchenPrinterService {
 
     try {
       let success = false;
+      const escposData = this.generateESCPOSCommands(orderData);
 
       switch (targetPrinter.connectionType) {
         case 'ethernet':
         case 'wifi':
-          const escposData = this.generateESCPOSCommands(orderData);
           success = await this.printToNetworkPrinter(targetPrinter, escposData);
           break;
 
@@ -315,9 +301,12 @@ export class KitchenPrinterService {
           break;
 
         case 'usb':
-          // USB printing would require platform-specific drivers
-          console.log('USB printing not yet implemented');
-          success = false;
+          if (targetPrinter.ipAddress) { // Using ipAddress as devicePath for USB
+            success = await usbPrinterService.printToUSB(targetPrinter.ipAddress, escposData);
+          } else {
+            console.error('USB printer missing device path');
+            success = false;
+          }
           break;
 
         default:
