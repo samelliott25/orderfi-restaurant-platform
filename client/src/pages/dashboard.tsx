@@ -34,7 +34,8 @@ import {
   BarChart3,
   Globe,
   Shield,
-  Coins
+  Coins,
+  Send
 } from "lucide-react";
 
 export default function RestaurantDashboard() {
@@ -42,6 +43,15 @@ export default function RestaurantDashboard() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("overview");
   const [showAiAssistant, setShowAiAssistant] = useState(false);
+  const [aiInput, setAiInput] = useState("");
+  
+  const handleAiSubmit = () => {
+    if (aiInput.trim()) {
+      setShowAiAssistant(true);
+      // Pass the input to the Operations AI component
+      setAiInput("");
+    }
+  };
   const [activePopup, setActivePopup] = useState<'menu' | 'orders' | 'automation' | 'blockchain' | null>(null);
   const [newMenuItem, setNewMenuItem] = useState({ name: '', description: '', price: '', category: '' });
   const [realTimeStats, setRealTimeStats] = useState({
@@ -633,14 +643,32 @@ export default function RestaurantDashboard() {
           {/* Operations AI Chat Interface */}
           <div className="mb-3">
             <div className="relative">
-              <MessageCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <div className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2">
+                <svg viewBox="0 0 24 24" className="w-full h-full text-gray-400" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+              </div>
               <input
                 type="text"
+                value={aiInput}
+                onChange={(e) => setAiInput(e.target.value)}
                 placeholder="Ask Operations AI about orders, menu, analytics..."
-                className="w-full pl-10 pr-4 py-3 text-sm bg-white/90 backdrop-blur-sm border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                onFocus={() => setShowAiAssistant(true)}
-                readOnly
+                className="w-full pl-10 pr-16 py-3 text-sm bg-white/90 backdrop-blur-sm border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && aiInput.trim()) {
+                    handleAiSubmit();
+                  }
+                }}
               />
+              {aiInput.trim() && (
+                <Button
+                  size="sm"
+                  onClick={handleAiSubmit}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 bg-orange-500 hover:bg-orange-600"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              )}
             </div>
           </div>
 
@@ -685,11 +713,27 @@ export default function RestaurantDashboard() {
           </div>
         </div>
       </div>
-      {/* AI Operations Assistant Dialog */}
-      <OperationsAiChat 
-        isOpen={showAiAssistant} 
-        onClose={() => setShowAiAssistant(false)} 
-      />
+      {/* AI Operations Assistant */}
+      {showAiAssistant && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg w-full max-w-4xl h-[80vh] max-h-[600px] flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-lg font-semibold">Operations AI Assistant</h2>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowAiAssistant(false)}
+                className="h-8 w-8 p-0"
+              >
+                ×
+              </Button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <OperationsAiChat />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
