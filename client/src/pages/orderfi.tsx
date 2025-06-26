@@ -6,7 +6,7 @@ import { IntegratedChatSearch } from "@/components/IntegratedChatSearch";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { QrCode, Smartphone, Zap, MessageSquare, Grid3X3, Bot, Sparkles, TrendingUp, Clock, Users, Search, Coffee, Sun, Moon } from "lucide-react";
+import { QrCode, Smartphone, Zap, MessageSquare, Grid3X3, Bot, Sparkles, TrendingUp, Clock, Users, Coffee, Sun, Moon } from "lucide-react";
 
 // OrderFi - AI-first conversational ordering experience with modern UX innovations
 export default function OrderFiPage() {
@@ -18,7 +18,7 @@ export default function OrderFiPage() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
   const [chatMessage, setChatMessage] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState("");
+
   
   // Get menu items for the interface (load in background)
   const { data: menuItems = [], isLoading: menuLoading } = useQuery({
@@ -216,25 +216,6 @@ export default function OrderFiPage() {
                   }}
                 />
               ))}
-            </div>
-          </div>
-
-          {/* Search Input - moved from top navigation */}
-          <div className="mb-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search menu, orders, settings..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter' && searchQuery.trim()) {
-                    handleSearch(searchQuery);
-                  }
-                }}
-                className="w-full pl-10 pr-4 py-3 text-sm bg-white/90 backdrop-blur-sm border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              />
             </div>
           </div>
 
