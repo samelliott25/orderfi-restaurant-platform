@@ -378,7 +378,7 @@ Customer said: "${userMessage}"`
             >
               <div className="flex items-start space-x-2">
                 {message.role === 'assistant' && (
-                  <Bot className="h-5 w-5 text-orange-500 mt-0.5 flex-shrink-0" />
+                  <Diamond className="h-5 w-5 text-orange-500 mt-0.5 flex-shrink-0" />
                 )}
                 <div className="flex-1">
                   <div className="text-sm leading-relaxed">
@@ -422,7 +422,7 @@ Customer said: "${userMessage}"`
           <div className="flex justify-start">
             <div className="bg-white px-4 py-3 rounded-lg shadow-sm border max-w-xs">
               <div className="flex items-center space-x-2">
-                <Bot className="h-5 w-5 text-orange-500" />
+                <Diamond className="h-5 w-5 text-orange-500" />
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce"></div>
                   <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
