@@ -154,6 +154,22 @@ html, body, #root {
   }
 }
 
+/* Handwriting effect */
+.writing-animation {
+  animation: writeIn 0.6s ease-out forwards;
+}
+
+@keyframes writeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* Dialog overlay customization - minimal opacity */
 [data-radix-dialog-overlay],
 .fixed.inset-0.z-50.bg-background\/80 {
