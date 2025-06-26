@@ -84,7 +84,7 @@ export default function RestaurantDashboard() {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center pt-0 pb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 font-heading">Dashboard</h1>
+              <h1 className="text-3xl font-bold text-gray-900 font-heading pt-[0px] pb-[0px] mt-[10px] mb-[10px]">Dashboard</h1>
               <p className="text-sm text-gray-600">Command Center</p>
             </div>
             <div className="flex items-center gap-4">
@@ -96,7 +96,6 @@ export default function RestaurantDashboard() {
           </div>
         </div>
       </div>
-
       <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-6">
@@ -397,7 +396,6 @@ export default function RestaurantDashboard() {
           </TabsContent>
         </Tabs>
       </div>
-
       {/* Quick Action Popups */}
       <Dialog open={activePopup === 'menu'} onOpenChange={() => setActivePopup(null)}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-white">
@@ -457,7 +455,6 @@ export default function RestaurantDashboard() {
           </div>
         </DialogContent>
       </Dialog>
-
       <Dialog open={activePopup === 'orders'} onOpenChange={() => setActivePopup(null)}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader>
@@ -522,7 +519,6 @@ export default function RestaurantDashboard() {
           </div>
         </DialogContent>
       </Dialog>
-
       <Dialog open={activePopup === 'automation'} onOpenChange={() => setActivePopup(null)}>
         <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader>
@@ -555,7 +551,6 @@ export default function RestaurantDashboard() {
           </div>
         </DialogContent>
       </Dialog>
-
       <Dialog open={activePopup === 'blockchain'} onOpenChange={() => setActivePopup(null)}>
         <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader>
@@ -614,7 +609,6 @@ export default function RestaurantDashboard() {
           </div>
         </DialogContent>
       </Dialog>
-
       {/* Bottom Chat Interface - Same as OrderFi */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200/50 shadow-2xl safe-area-pb">
         <div className="p-4">
@@ -689,7 +683,6 @@ export default function RestaurantDashboard() {
           </div>
         </div>
       </div>
-
       {/* AI Operations Assistant Dialog */}
       <OperationsAiChat 
         isOpen={showAiAssistant} 
