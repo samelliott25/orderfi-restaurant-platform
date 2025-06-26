@@ -25,7 +25,7 @@ const menuItems = [
   { id: "home", path: "/", label: "Home", icon: Home },
   { id: "orderfi", path: "/orderfi", label: "Order with AI", icon: MessageCircle },
   { id: "dashboard", path: "/dashboard", label: "Restaurant Dashboard", icon: LayoutDashboard },
-  { id: "rewards", path: "/orderfi", label: "Token Rewards", icon: Coins },
+  { id: "rewards", path: "/tokenrewards", label: "Token Rewards", icon: Coins },
   { id: "menu", path: "/admin/menu", label: "Menu Management", icon: Settings },
   { id: "orders", path: "/admin/orders", label: "Order History", icon: Search },
   { id: "payments", path: "/admin/payments", label: "Payments", icon: CreditCard },
