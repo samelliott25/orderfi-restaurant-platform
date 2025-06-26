@@ -14,7 +14,7 @@ import {
   Trash2, 
   Plus, 
   Minus,
-  Bot,
+  Diamond,
   User,
   Clock,
   DollarSign,
