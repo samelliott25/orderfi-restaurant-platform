@@ -169,5 +169,7 @@
 - Floating interface provides clean main content area while keeping AI assistant readily accessible
 - Updated color theme to match loading screen gradient: from-orange-500 via-red-500 to-pink-500
 - Applied gradient consistently across all interactive elements, buttons, and branding
+- Repositioned AI chatbot icon to center of bottom navigation bar for improved accessibility
+- AI chat now expands from central navigation button instead of floating corner icon
 
 *Last Updated: June 27, 2025*

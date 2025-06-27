@@ -369,7 +369,7 @@ export default function OrderFiNew() {
       </ScrollArea>
 
       {/* Floating AI Chat Interface */}
-      {isChatExpanded ? (
+      {isChatExpanded && (
         <div className="fixed top-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
           {/* Chat Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-100">
@@ -478,19 +478,11 @@ export default function OrderFiNew() {
             </div>
           </div>
         </div>
-      ) : (
-        /* Floating Diamond Icon */
-        <Button
-          onClick={() => setIsChatExpanded(true)}
-          className="fixed top-20 right-4 w-14 h-14 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-2xl z-50 transform rotate-45"
-        >
-          <Sparkles className="h-6 w-6 transform -rotate-45" />
-        </Button>
       )}
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
-        <div className="flex items-center justify-around py-3">
+        <div className="relative flex items-center justify-around py-3">
           <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500">
             <Home className="h-4 w-4 text-orange-500" />
             <span className="text-xs">Home</span>
@@ -499,10 +491,15 @@ export default function OrderFiNew() {
             <Menu className="h-4 w-4" />
             <span className="text-xs">Menu</span>
           </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 text-gray-400">
-            <ShoppingCart className="h-4 w-4" />
-            <span className="text-xs">Cart</span>
+          
+          {/* AI Chatbot Icon - Center of navbar */}
+          <Button
+            onClick={() => setIsChatExpanded(true)}
+            className="absolute left-1/2 transform -translate-x-1/2 -top-6 w-12 h-12 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-lg z-50"
+          >
+            <Sparkles className="h-5 w-5" />
           </Button>
+          
           <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 text-gray-400">
             <Calendar className="h-4 w-4" />
             <span className="text-xs">Orders</span>
