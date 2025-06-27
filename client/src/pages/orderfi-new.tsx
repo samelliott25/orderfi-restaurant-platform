@@ -68,6 +68,7 @@ export default function OrderFiNew() {
   const [isListening, setIsListening] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [availableTokens] = useState(1250);
+  const [isChatExpanded, setIsChatExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -260,101 +261,8 @@ export default function OrderFiNew() {
         </div>
       </div>
 
-      {/* Chat Input - Moved to top */}
-      <div className="p-4 bg-white border-b border-gray-100">
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-          <span className="text-sm font-medium">AI Assistant</span>
-          <Badge className="bg-green-100 text-green-800 text-xs">Online</Badge>
-        </div>
-        <div className="flex items-center gap-3 bg-gray-50 rounded-full px-4 py-2">
-          <Button
-            size="sm"
-            variant="ghost"
-            className={`p-2 rounded-full ${isListening ? 'bg-red-100 text-red-600' : 'hover:bg-gray-200'}`}
-            onClick={handleVoiceToggle}
-          >
-            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-          </Button>
-          <Input
-            value={currentMessage}
-            onChange={(e) => setCurrentMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Type your message..."
-            className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
-          />
-          <Button
-            size="sm"
-            className="bg-[#FF6B35] hover:bg-[#FF5722] text-white p-2 rounded-full"
-            onClick={handleSendMessage}
-            disabled={!currentMessage.trim() || isLoading}
-          >
-            <Send className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
-
-      <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 260px)' }}>
+      <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 140px)' }}>
         <div className="space-y-4 py-4">
-          {/* Chat Messages - Matching design exactly */}
-          <div className="space-y-3 mb-6">
-            {messages.map((message) => (
-              <div key={message.id}>
-                {message.role === 'assistant' ? (
-                  <div className="flex gap-2">
-                    <div className="w-8 h-8 bg-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0">
-                      <Sparkles className="h-4 w-4 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="bg-white rounded-lg px-3 py-2 shadow-sm border border-gray-100">
-                        <p className="text-sm text-gray-800">{message.content}</p>
-                      </div>
-                      {message.menuItems && message.menuItems.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {message.menuItems.map((item, index) => (
-                            <Button
-                              key={index}
-                              size="sm"
-                              variant="outline"
-                              className="text-xs h-6 bg-white border-gray-200"
-                            >
-                              {item}
-                            </Button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex gap-2 justify-end items-start">
-                    <div className="bg-[#FF6B35] text-white rounded-full px-4 py-2 max-w-[70%]">
-                      <p className="text-sm">{message.content}</p>
-                    </div>
-                    <Avatar className="w-8 h-8 flex-shrink-0">
-                      <AvatarFallback className="bg-gray-600 text-white">
-                        <User className="h-4 w-4" />
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                )}
-              </div>
-            ))}
-            
-            {isLoading && (
-              <div className="flex gap-2">
-                <div className="w-8 h-8 bg-[#FF6B35] rounded-full flex items-center justify-center">
-                  <Sparkles className="h-4 w-4 text-white animate-pulse" />
-                </div>
-                <div className="bg-white rounded-lg px-3 py-2 shadow-sm border border-gray-100">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
 
           {/* Quick Actions */}
           <div>
@@ -459,6 +367,126 @@ export default function OrderFiNew() {
           <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
+
+      {/* Floating AI Chat Interface */}
+      {isChatExpanded ? (
+        <div className="fixed bottom-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
+          {/* Chat Header */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-100">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span className="text-sm font-medium">AI Assistant</span>
+              <Badge className="bg-green-100 text-green-800 text-xs">Online</Badge>
+            </div>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setIsChatExpanded(false)}
+              className="p-1 h-6 w-6"
+            >
+              ×
+            </Button>
+          </div>
+          
+          {/* Chat Messages */}
+          <div className="h-80 overflow-y-auto p-4 space-y-3">
+            {messages.map((message) => (
+              <div key={message.id}>
+                {message.role === 'assistant' ? (
+                  <div className="flex gap-2">
+                    <div className="w-6 h-6 bg-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="h-3 w-3 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="bg-gray-50 rounded-lg px-3 py-2">
+                        <p className="text-xs text-gray-800">{message.content}</p>
+                      </div>
+                      {message.menuItems && message.menuItems.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {message.menuItems.map((item, index) => (
+                            <Button
+                              key={index}
+                              size="sm"
+                              variant="outline"
+                              className="text-xs h-5 px-2"
+                            >
+                              {item}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 justify-end items-start">
+                    <div className="bg-[#FF6B35] text-white rounded-lg px-3 py-2 max-w-[70%]">
+                      <p className="text-xs">{message.content}</p>
+                    </div>
+                    <Avatar className="w-6 h-6 flex-shrink-0">
+                      <AvatarFallback className="bg-gray-600 text-white text-xs">
+                        <User className="h-3 w-3" />
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                )}
+              </div>
+            ))}
+            
+            {isLoading && (
+              <div className="flex gap-2">
+                <div className="w-6 h-6 bg-[#FF6B35] rounded-full flex items-center justify-center">
+                  <Sparkles className="h-3 w-3 text-white animate-pulse" />
+                </div>
+                <div className="bg-gray-50 rounded-lg px-3 py-2">
+                  <div className="flex gap-1">
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+          
+          {/* Chat Input */}
+          <div className="p-4 border-t border-gray-100">
+            <div className="flex items-center gap-2 bg-gray-50 rounded-full px-3 py-2">
+              <Button
+                size="sm"
+                variant="ghost"
+                className={`p-1 rounded-full ${isListening ? 'bg-red-100 text-red-600' : 'hover:bg-gray-200'}`}
+                onClick={handleVoiceToggle}
+              >
+                {isListening ? <MicOff className="h-3 w-3" /> : <Mic className="h-3 w-3" />}
+              </Button>
+              <Input
+                value={currentMessage}
+                onChange={(e) => setCurrentMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Type your message..."
+                className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-sm"
+              />
+              <Button
+                size="sm"
+                className="bg-[#FF6B35] hover:bg-[#FF5722] text-white p-1 rounded-full"
+                onClick={handleSendMessage}
+                disabled={!currentMessage.trim() || isLoading}
+              >
+                <Send className="h-3 w-3" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Floating Diamond Icon */
+        <Button
+          onClick={() => setIsChatExpanded(true)}
+          className="fixed bottom-20 right-4 w-14 h-14 bg-[#FF6B35] hover:bg-[#FF5722] text-white rounded-full shadow-2xl z-50 transform rotate-45"
+        >
+          <Sparkles className="h-6 w-6 transform -rotate-45" />
+        </Button>
+      )}
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
