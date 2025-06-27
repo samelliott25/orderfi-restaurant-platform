@@ -171,5 +171,8 @@
 - Applied gradient consistently across all interactive elements, buttons, and branding
 - Repositioned AI chatbot icon to center of bottom navigation bar for improved accessibility
 - AI chat now expands from central navigation button instead of floating corner icon
+- Added functional navigation to all bottom navigation buttons (Home, Menu, Orders, Rewards)
+- Changed chat close button to minimize button (−) that preserves conversation history
+- Added hover effects to navigation buttons for better user feedback
 
 *Last Updated: June 27, 2025*
