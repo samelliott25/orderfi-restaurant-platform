@@ -241,7 +241,7 @@ export default function OrderFiNew() {
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-white border-b border-gray-100">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#FF6B35] rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center">
             <Sparkles className="h-5 w-5 text-white" />
           </div>
           <div>
@@ -293,9 +293,9 @@ export default function OrderFiNew() {
                       <div className="flex-1">
                         <h4 className="font-semibold text-sm">{special.name}</h4>
                         <p className="text-xs text-gray-600 mt-1">{special.description}</p>
-                        <p className="text-[#FF6B35] font-bold text-sm mt-2">${special.price}</p>
+                        <p className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 font-bold text-sm mt-2">${special.price}</p>
                       </div>
-                      <Button size="sm" className="bg-[#FF6B35] hover:bg-[#FF5722] text-white">
+                      <Button size="sm" className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white">
                         <Plus className="h-3 w-3 mr-1" />
                         Add
                       </Button>
@@ -308,7 +308,7 @@ export default function OrderFiNew() {
 
           {/* Token Rewards */}
           <div className="mt-8">
-            <Card className="bg-gradient-to-r from-[#FF6B35] to-[#FF5722] text-white border-0">
+            <Card className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -394,7 +394,7 @@ export default function OrderFiNew() {
               <div key={message.id}>
                 {message.role === 'assistant' ? (
                   <div className="flex gap-2">
-                    <div className="w-6 h-6 bg-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-6 h-6 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
                       <Sparkles className="h-3 w-3 text-white" />
                     </div>
                     <div className="flex-1">
@@ -419,7 +419,7 @@ export default function OrderFiNew() {
                   </div>
                 ) : (
                   <div className="flex gap-2 justify-end items-start">
-                    <div className="bg-[#FF6B35] text-white rounded-lg px-3 py-2 max-w-[70%]">
+                    <div className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white rounded-lg px-3 py-2 max-w-[70%]">
                       <p className="text-xs">{message.content}</p>
                     </div>
                     <Avatar className="w-6 h-6 flex-shrink-0">
@@ -434,7 +434,7 @@ export default function OrderFiNew() {
             
             {isLoading && (
               <div className="flex gap-2">
-                <div className="w-6 h-6 bg-[#FF6B35] rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center">
                   <Sparkles className="h-3 w-3 text-white animate-pulse" />
                 </div>
                 <div className="bg-gray-50 rounded-lg px-3 py-2">
@@ -469,7 +469,7 @@ export default function OrderFiNew() {
               />
               <Button
                 size="sm"
-                className="bg-[#FF6B35] hover:bg-[#FF5722] text-white p-1 rounded-full"
+                className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white p-1 rounded-full"
                 onClick={handleSendMessage}
                 disabled={!currentMessage.trim() || isLoading}
               >
@@ -482,7 +482,7 @@ export default function OrderFiNew() {
         /* Floating Diamond Icon */
         <Button
           onClick={() => setIsChatExpanded(true)}
-          className="fixed top-20 right-4 w-14 h-14 bg-[#FF6B35] hover:bg-[#FF5722] text-white rounded-full shadow-2xl z-50 transform rotate-45"
+          className="fixed top-20 right-4 w-14 h-14 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-2xl z-50 transform rotate-45"
         >
           <Sparkles className="h-6 w-6 transform -rotate-45" />
         </Button>
@@ -491,8 +491,8 @@ export default function OrderFiNew() {
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
         <div className="flex items-center justify-around py-3">
-          <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 text-[#FF6B35]">
-            <Home className="h-4 w-4" />
+          <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500">
+            <Home className="h-4 w-4 text-orange-500" />
             <span className="text-xs">Home</span>
           </Button>
           <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 text-gray-400">
