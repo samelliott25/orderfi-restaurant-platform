@@ -179,6 +179,8 @@ async function runFullTest() {
     { name: 'Health Check', test: testHealthEndpoint },
     { name: 'AI Chat', test: testChatEndpoint },
     { name: 'Deployment Monitor', test: testDeploymentStatus },
+    { name: 'Multi-Provider Failover', test: testMultiProviderFailover },
+    { name: 'Rollup Batching', test: testRollupBatching },
     { name: 'Token Rewards', test: testRewardsEndpoint },
     { name: 'Kitchen Printing', test: testKitchenPrinting }
   ];
