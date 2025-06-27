@@ -24,7 +24,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   
   // Hide navigation on home page and certain other pages for full-screen experience
-  const hideNavigation = ['/', '/not-found'].includes(location);
+  const hideNavigation = ['/', '/not-found', '/orderfi'].includes(location);
   
   // Remove top padding for dashboard to push heading to very top
   const isDashboard = location === '/dashboard';
