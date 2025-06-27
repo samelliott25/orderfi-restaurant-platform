@@ -260,15 +260,42 @@ export default function OrderFiNew() {
         </div>
       </div>
 
-      <ScrollArea className="flex-1 px-4 pb-32" style={{ height: 'calc(100vh - 200px)' }}>
-        <div className="space-y-4 py-4">
-          {/* AI Status */}
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-sm font-medium">AI Assistant</span>
-            <Badge className="bg-green-100 text-green-800 text-xs">Online</Badge>
-          </div>
+      {/* Chat Input - Moved to top */}
+      <div className="p-4 bg-white border-b border-gray-100">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          <span className="text-sm font-medium">AI Assistant</span>
+          <Badge className="bg-green-100 text-green-800 text-xs">Online</Badge>
+        </div>
+        <div className="flex items-center gap-3 bg-gray-50 rounded-full px-4 py-2">
+          <Button
+            size="sm"
+            variant="ghost"
+            className={`p-2 rounded-full ${isListening ? 'bg-red-100 text-red-600' : 'hover:bg-gray-200'}`}
+            onClick={handleVoiceToggle}
+          >
+            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+          </Button>
+          <Input
+            value={currentMessage}
+            onChange={(e) => setCurrentMessage(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type your message..."
+            className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+          />
+          <Button
+            size="sm"
+            className="bg-[#FF6B35] hover:bg-[#FF5722] text-white p-2 rounded-full"
+            onClick={handleSendMessage}
+            disabled={!currentMessage.trim() || isLoading}
+          >
+            <Send className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
 
+      <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 260px)' }}>
+        <div className="space-y-4 py-4">
           {/* Chat Messages */}
           <div className="space-y-4">
             {messages.map((message) => (
@@ -430,37 +457,7 @@ export default function OrderFiNew() {
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
-        {/* Chat Input */}
-        <div className="p-4 border-b border-gray-100">
-          <div className="flex items-center gap-3 bg-gray-50 rounded-full px-4 py-2">
-            <Button
-              size="sm"
-              variant="ghost"
-              className={`p-2 rounded-full ${isListening ? 'bg-red-100 text-red-600' : 'hover:bg-gray-200'}`}
-              onClick={handleVoiceToggle}
-            >
-              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-            </Button>
-            <Input
-              value={currentMessage}
-              onChange={(e) => setCurrentMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
-              className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
-            />
-            <Button
-              size="sm"
-              className="bg-[#FF6B35] hover:bg-[#FF5722] text-white p-2 rounded-full"
-              onClick={handleSendMessage}
-              disabled={!currentMessage.trim() || isLoading}
-            >
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Navigation Tabs */}
-        <div className="flex items-center justify-around py-2">
+        <div className="flex items-center justify-around py-3">
           <Button variant="ghost" size="sm" className="flex flex-col items-center gap-1 text-[#FF6B35]">
             <Home className="h-4 w-4" />
             <span className="text-xs">Home</span>
