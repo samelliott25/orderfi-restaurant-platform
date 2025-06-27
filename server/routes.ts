@@ -7,7 +7,7 @@ import { blockchainStorage } from "./blockchain/storage";
 import { blockchainIntegrationService } from "./services/blockchain-integration";
 import { menuCategorizationService } from "./services/menu-categorization";
 import { kitchenPrinterService } from "./services/kitchen-printer";
-import { processChatMessage, processOperationsAiMessage, processMenuImage, type ChatContext } from "./services/openai";
+import { processChatMessage, processOperationsAiMessage, type ChatContext } from "./services/akash-chat";
 import { 
   insertRestaurantSchema, 
   insertMenuItemSchema, 
@@ -348,25 +348,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         { role: 'user' as const, content: userMessage }
       ];
 
-      // Use OpenAI for intelligent responses
-      const openai = new (await import('openai')).default({
-        apiKey: process.env.OPENAI_API_KEY,
-      });
-
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-        messages: conversationMessages,
+      // Use Akash Chat for intelligent responses
+      const akashChatService = new (await import('./services/akash-chat')).AkashChatService();
+      
+      const response = await akashChatService.makeRequest(conversationMessages, {
         max_tokens: 600,
-        temperature: 0.8, // Slightly higher for more personality
+        temperature: 0.8
       });
       
       // Store conversation in memory
       conversationMemory.addMessage(sessionId, 'user', userMessage);
-
-      const response = completion.choices[0]?.message?.content || "I'm having trouble processing that. Could you try again?";
-      
-      // Store AI response in memory
-      conversationMemory.addMessage(sessionId, 'assistant', response);
+      conversationMemory.addMessage(sessionId, 'assistant', response || "I'm having trouble processing that. Could you try again?");
 
       res.json({ 
         message: response,
