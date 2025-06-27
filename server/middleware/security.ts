@@ -1,116 +1,161 @@
 import { Request, Response, NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
-import helmet from 'helmet';
-import cors from 'cors';
+import { z } from 'zod';
 
-// Rate limiting configurations
-export const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: {
-    error: 'Too many requests from this IP, please try again later.',
-    retryAfter: '15 minutes'
-  },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+// Input validation middleware
+export function validateRequest(schema: z.ZodSchema) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const validated = schema.parse(req.body);
+      req.body = validated;
+      next();
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: error.errors.map(err => ({
+            field: err.path.join('.'),
+            message: err.message
+          }))
+        });
+      }
+      next(error);
+    }
+  };
+}
 
-export const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 login attempts per windowMs
-  message: {
-    error: 'Too many authentication attempts, please try again later.',
-    retryAfter: '15 minutes'
-  },
-  skipSuccessfulRequests: true,
-});
-
-export const orderLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 10, // limit each IP to 10 orders per minute
-  message: {
-    error: 'Order rate limit exceeded, please slow down.',
-    retryAfter: '1 minute'
-  },
-});
-
-export const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://mimi.restaurant', 'https://app.mimi.restaurant']
-    : ['http://localhost:3000', 'http://localhost:5000'],
-  credentials: true,
-  optionsSuccessStatus: 200,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+// Enhanced rate limiting for different endpoints
+export const createRateLimit = (windowMs: number, max: number, message?: string) => {
+  return rateLimit({
+    windowMs,
+    max,
+    message: message || 'Too many requests, please try again later',
+    standardHeaders: true,
+    legacyHeaders: false,
+    handler: (req, res) => {
+      res.status(429).json({
+        error: 'Rate limit exceeded',
+        retryAfter: Math.ceil(windowMs / 1000)
+      });
+    }
+  });
 };
 
-// Input sanitization middleware
-export const sanitizeInput = (req: Request, res: Response, next: NextFunction) => {
-  const sanitize = (obj: any): any => {
-    if (typeof obj === 'string') {
-      return obj.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-    }
-    if (typeof obj === 'object' && obj !== null) {
-      for (const key in obj) {
-        obj[key] = sanitize(obj[key]);
-      }
-    }
-    return obj;
-  };
+// API key validation middleware
+export function validateApiKey(req: Request, res: Response, next: NextFunction) {
+  const apiKey = req.header('X-API-Key') || req.header('Authorization')?.replace('Bearer ', '');
+  
+  if (!apiKey) {
+    return res.status(401).json({ error: 'API key required' });
+  }
 
-  if (req.body) {
-    req.body = sanitize(req.body);
-  }
-  if (req.query) {
-    req.query = sanitize(req.query);
-  }
-  if (req.params) {
-    req.params = sanitize(req.params);
+  // In production, validate against stored API keys
+  if (process.env.NODE_ENV === 'production' && !isValidApiKey(apiKey)) {
+    return res.status(401).json({ error: 'Invalid API key' });
   }
 
   next();
-};
+}
+
+function isValidApiKey(key: string): boolean {
+  // Implement actual API key validation logic
+  const validKeys = process.env.VALID_API_KEYS?.split(',') || [];
+  return validKeys.includes(key);
+}
+
+// Security headers middleware
+export function securityHeaders(req: Request, res: Response, next: NextFunction) {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+}
 
 // Request logging middleware
-export const requestLogger = (req: Request, res: Response, next: NextFunction) => {
+export function requestLogger(req: Request, res: Response, next: NextFunction) {
   const start = Date.now();
   
   res.on('finish', () => {
     const duration = Date.now() - start;
     const logData = {
+      timestamp: new Date().toISOString(),
       method: req.method,
       url: req.url,
       status: res.statusCode,
-      duration: `${duration}ms`,
-      userAgent: req.get('User-Agent'),
+      duration,
       ip: req.ip,
-      timestamp: new Date().toISOString(),
+      userAgent: req.get('User-Agent'),
+      contentLength: res.get('Content-Length')
     };
     
-    if (res.statusCode >= 400) {
-      console.error('Request error:', logData);
+    // Log to structured logging system in production
+    if (process.env.NODE_ENV === 'production') {
+      console.log(JSON.stringify(logData));
     } else {
-      console.log('Request:', logData);
+      console.log(`${req.method} ${req.url} ${res.statusCode} - ${duration}ms`);
     }
   });
   
   next();
-};
+}
 
 // Error handling middleware
-export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error('Application error:', {
+export function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
+  const timestamp = new Date().toISOString();
+  const errorId = Math.random().toString(36).substr(2, 9);
+  
+  // Log error details
+  console.error(`[${timestamp}] Error ${errorId}:`, {
     error: err.message,
     stack: err.stack,
     url: req.url,
     method: req.method,
-    timestamp: new Date().toISOString(),
+    body: req.body,
+    headers: req.headers
   });
 
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  
-  res.status(err.status || 500).json({
-    error: isDevelopment ? err.message : 'Internal server error',
-    ...(isDevelopment && { stack: err.stack }),
+  // Send appropriate error response
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({
+      error: 'Validation failed',
+      errorId,
+      details: err.details
+    });
+  }
+
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({
+      error: 'Unauthorized access',
+      errorId
+    });
+  }
+
+  if (err.name === 'NotFoundError') {
+    return res.status(404).json({
+      error: 'Resource not found',
+      errorId
+    });
+  }
+
+  // Generic server error
+  res.status(500).json({
+    error: process.env.NODE_ENV === 'production' 
+      ? 'Internal server error' 
+      : err.message,
+    errorId
   });
-};
+}
+
+// Input sanitization for text fields
+export function sanitizeInput(input: string): string {
+  if (typeof input !== 'string') return '';
+  
+  return input
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+\s*=/gi, '')
+    .trim()
+    .slice(0, 10000); // Limit input length
+}

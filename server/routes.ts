@@ -17,11 +17,25 @@ import {
 } from "@shared/schema";
 import multer from 'multer';
 import ttsRouter from "./routes/tts.js";
+import { validateRequest, createRateLimit, securityHeaders, requestLogger, errorHandler } from "./middleware/security.js";
+import { cacheManager } from "./services/cache-manager.js";
 
 // Configure multer for image uploads
 const upload = multer({ storage: multer.memoryStorage() });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Apply security middleware
+  app.use(securityHeaders);
+  app.use(requestLogger);
+
+  // Apply rate limiting
+  app.use("/api/", createRateLimit(15 * 60 * 1000, 100)); // 100 requests per 15 minutes
+  app.use("/api/chat", createRateLimit(60 * 1000, 10)); // 10 chat requests per minute
+  app.use("/api/orders", createRateLimit(60 * 1000, 20)); // 20 order requests per minute
+
+  // Warm cache on startup
+  await cacheManager.warmCache();
+
   // Health check endpoint for Docker
   app.get("/api/health", (req, res) => {
     res.json({ 
@@ -664,6 +678,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(status);
     } catch (error) {
       res.status(500).json({ error: "Failed to get provider status" });
+    }
+  });
+
+  // Performance monitoring endpoints
+  app.get("/api/performance/cache", async (req, res) => {
+    try {
+      const stats = cacheManager.getStats();
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get cache stats" });
+    }
+  });
+
+  app.post("/api/performance/cache/clear", async (req, res) => {
+    try {
+      cacheManager.clear();
+      res.json({ message: "Cache cleared successfully" });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to clear cache" });
     }
   });
 
