@@ -296,51 +296,56 @@ export default function OrderFiNew() {
 
       <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 260px)' }}>
         <div className="space-y-4 py-4">
-          {/* Chat Messages - At the very top */}
-          <div className="space-y-4 mb-6">
+          {/* Chat Messages - Matching design exactly */}
+          <div className="space-y-3 mb-6">
             {messages.map((message) => (
-              <div key={message.id} className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                {message.role === 'assistant' && (
-                  <div className="w-8 h-8 bg-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="h-4 w-4 text-white" />
-                  </div>
-                )}
-                <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                  message.role === 'user' 
-                    ? 'bg-[#FF6B35] text-white' 
-                    : 'bg-white border border-gray-100 shadow-sm'
-                }`}>
-                  <p className="text-sm">{message.content}</p>
-                  {message.menuItems && message.menuItems.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {message.menuItems.map((item, index) => (
-                        <Button
-                          key={index}
-                          size="sm"
-                          variant="outline"
-                          className="text-xs h-6"
-                        >
-                          {item}
-                        </Button>
-                      ))}
+              <div key={message.id}>
+                {message.role === 'assistant' ? (
+                  <div className="flex gap-2">
+                    <div className="w-8 h-8 bg-[#FF6B35] rounded-full flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="h-4 w-4 text-white" />
                     </div>
-                  )}
-                </div>
-                {message.role === 'user' && (
-                  <Avatar className="w-8 h-8 flex-shrink-0">
-                    <AvatarFallback className="bg-gray-100">
-                      <User className="h-4 w-4" />
-                    </AvatarFallback>
-                  </Avatar>
+                    <div className="flex-1">
+                      <div className="bg-white rounded-lg px-3 py-2 shadow-sm border border-gray-100">
+                        <p className="text-sm text-gray-800">{message.content}</p>
+                      </div>
+                      {message.menuItems && message.menuItems.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {message.menuItems.map((item, index) => (
+                            <Button
+                              key={index}
+                              size="sm"
+                              variant="outline"
+                              className="text-xs h-6 bg-white border-gray-200"
+                            >
+                              {item}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 justify-end items-start">
+                    <div className="bg-[#FF6B35] text-white rounded-full px-4 py-2 max-w-[70%]">
+                      <p className="text-sm">{message.content}</p>
+                    </div>
+                    <Avatar className="w-8 h-8 flex-shrink-0">
+                      <AvatarFallback className="bg-gray-600 text-white">
+                        <User className="h-4 w-4" />
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
                 )}
               </div>
             ))}
+            
             {isLoading && (
-              <div className="flex gap-3 justify-start">
+              <div className="flex gap-2">
                 <div className="w-8 h-8 bg-[#FF6B35] rounded-full flex items-center justify-center">
                   <Sparkles className="h-4 w-4 text-white animate-pulse" />
                 </div>
-                <div className="bg-white border border-gray-100 shadow-sm rounded-2xl px-4 py-3">
+                <div className="bg-white rounded-lg px-3 py-2 shadow-sm border border-gray-100">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
