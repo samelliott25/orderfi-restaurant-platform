@@ -349,7 +349,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       ];
 
       // Use Akash Chat for intelligent responses
-      const akashChatService = new (await import('./services/akash-chat')).AkashChatService();
+      const { akashChatService } = await import('./services/akash-chat');
       
       const response = await akashChatService.makeRequest(conversationMessages, {
         max_tokens: 600,
@@ -374,7 +374,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         'default': "I'm having some technical difficulties with my AI processing. Let me help you browse our menu directly, or you can tell me specifically what you'd like to order!"
       };
       
-      const userMessage = req.body.message || req.body.messages?.filter(m => m.role === 'user').pop()?.content || '';
+      const userMessage = req.body.message || req.body.messages?.filter((m: any) => m.role === 'user').pop()?.content || '';
       const isHealthyQuery = userMessage.toLowerCase().includes('healthy');
       const fallbackResponse = isHealthyQuery ? fallbackResponses.healthy : fallbackResponses.default;
       
@@ -415,7 +415,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "No image file provided" });
       }
 
-      const menuItems = await processMenuImage(req.file.buffer);
+      // Note: processMenuImage function removed as part of Akash Chat migration
+      // TODO: Implement menu image processing with Akash Chat if needed
+      const menuItems: any[] = [];
       res.json({ menuItems });
     } catch (error) {
       console.error("Menu processing error:", error);

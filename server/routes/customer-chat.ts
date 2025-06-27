@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { processChatMessage, type ChatContext } from '../services/openai';
+import { processChatMessage, type ChatContext } from '../services/akash-chat';
 import { storage } from '../storage';
 
 const router = Router();

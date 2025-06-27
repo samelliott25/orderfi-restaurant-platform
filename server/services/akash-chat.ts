@@ -62,7 +62,7 @@ class AkashChatService {
 
   constructor() {
     this.apiKey = process.env.AKASH_API_KEY || '';
-    this.baseUrl = 'https://chatapi.akash.network/v1'; // Adjust based on actual Akash Chat API endpoint
+    this.baseUrl = process.env.AKASH_API_ENDPOINT || 'https://chatapi.akash.network/v1';
   }
 
   async makeRequest(messages: any[], options: any = {}) {
