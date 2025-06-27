@@ -321,8 +321,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // AI Chat endpoint for conversational ordering
   app.post("/api/chat", async (req, res) => {
     try {
-      // Support both formats for flexibility
-      const { message, messages, restaurantId = 1, sessionId = 'default-session', conversationHistory = [] } = req.body;
+      // Support both formats for flexibility with language detection
+      const { message, messages, restaurantId = 1, sessionId = 'default-session', conversationHistory = [], language } = req.body;
       
       let userMessage = message;
       
