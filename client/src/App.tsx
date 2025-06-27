@@ -8,7 +8,7 @@ import { HamburgerMenu, SearchBar } from "@/components/Navigation";
 import HomePage from "@/pages/home";
 import RestaurantDashboard from "@/pages/dashboard";
 import Web3DappPage from "@/pages/web3-dapp";
-import OrderFiPage from "@/pages/orderfi";
+import OrderFiNew from "@/pages/orderfi-new";
 import TokenRewardsPage from "@/pages/tokenrewards";
 import KitchenPrintingPage from "@/pages/kitchen-printing";
 import NotFound from "@/pages/not-found";
@@ -60,7 +60,7 @@ function Router() {
         <Route path="/" component={HomePage} />
         
         {/* Customer-Facing Mobile Interface */}
-        <Route path="/orderfi" component={OrderFiPage} />
+        <Route path="/orderfi" component={OrderFiNew} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
         <Route path="/kitchen-printing" component={KitchenPrintingPage} />
         <Route path="/web3-order" component={Web3DappPage} />
