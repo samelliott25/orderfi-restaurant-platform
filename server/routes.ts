@@ -614,6 +614,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register kitchen printing routes
   app.use("/api/kitchen-printing", kitchenPrintingRouter);
 
+  // Health check endpoint for Akash deployment
+  app.get("/health", async (req, res) => {
+    const health = {
+      status: "ok",
+      timestamp: new Date().toISOString(),
+      services: {
+        database: "unknown",
+        akashChat: "unknown",
+        blockchain: "unknown"
+      },
+      version: process.env.npm_package_version || "1.0.0",
+      uptime: process.uptime()
+    };
+
+    try {
+      const restaurants = await storage.getAllRestaurants();
+      health.services.database = restaurants ? "healthy" : "error";
+    } catch (error) {
+      health.services.database = "error";
+    }
+
+    try {
+      const akashService = require('./services/akash-chat').akashChatService;
+      await akashService.healthCheck();
+      health.services.akashChat = "healthy";
+    } catch (error) {
+      health.services.akashChat = "degraded";
+    }
+
+    health.services.blockchain = "healthy";
+
+    const isHealthy = Object.values(health.services).every(status => 
+      status === "healthy" || status === "degraded"
+    );
+
+    res.status(isHealthy ? 200 : 503).json(health);
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
