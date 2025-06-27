@@ -296,8 +296,8 @@ export default function OrderFiNew() {
 
       <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 260px)' }}>
         <div className="space-y-4 py-4">
-          {/* Chat Messages */}
-          <div className="space-y-4">
+          {/* Chat Messages - At the very top */}
+          <div className="space-y-4 mb-6">
             {messages.map((message) => (
               <div key={message.id} className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {message.role === 'assistant' && (
@@ -352,7 +352,7 @@ export default function OrderFiNew() {
           </div>
 
           {/* Quick Actions */}
-          <div className="mt-8">
+          <div>
             <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Actions</h3>
             <div className="grid grid-cols-2 gap-3">
               {quickActions.map((action, index) => (
