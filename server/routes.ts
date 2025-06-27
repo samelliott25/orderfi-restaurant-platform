@@ -348,21 +348,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
         { role: 'user' as const, content: userMessage }
       ];
 
-      // Use Akash Chat for intelligent responses
-      const { akashChatService } = await import('./services/akash-chat');
+      // Use customer chat service with Akash Chat integration
+      const restaurantData = await storage.getRestaurant(restaurantId);
+      const menuItemsData = await storage.getMenuItems(restaurantId);
+      const faqsData = await storage.getFAQs(restaurantId);
       
-      const response = await akashChatService.makeRequest(conversationMessages, {
-        max_tokens: 600,
-        temperature: 0.8
-      });
+      const chatContext = {
+        restaurantName: restaurantData?.name || "Our Restaurant",
+        restaurantDescription: restaurantData?.description || "A delightful dining experience",
+        tone: "friendly and helpful",
+        welcomeMessage: "Hi! I'm OrderFi AI. How can I help you today?",
+        menuItems: menuItemsData.map(item => ({
+          id: item.id,
+          name: item.name,
+          description: item.description || "",
+          price: item.price,
+          category: item.category,
+          tags: item.tags || []
+        })),
+        faqs: faqsData.map(faq => ({
+          question: faq.question,
+          answer: faq.answer
+        }))
+      };
+
+      const chatResponse = await processChatMessage(userMessage, chatContext, [], []);
       
       // Store conversation in memory
       conversationMemory.addMessage(sessionId, 'user', userMessage);
-      conversationMemory.addMessage(sessionId, 'assistant', response || "I'm having trouble processing that. Could you try again?");
+      conversationMemory.addMessage(sessionId, 'assistant', chatResponse.message);
 
       res.json({ 
-        message: response,
-        response: response // Support both formats
+        message: chatResponse.message,
+        response: chatResponse.message,
+        menuItems: chatResponse.suggestedItems?.map(item => item.name) || []
       });
       
     } catch (error) {
