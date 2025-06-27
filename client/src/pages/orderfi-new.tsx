@@ -370,7 +370,7 @@ export default function OrderFiNew() {
 
       {/* Floating AI Chat Interface */}
       {isChatExpanded ? (
-        <div className="fixed bottom-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
+        <div className="fixed top-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
           {/* Chat Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-100">
             <div className="flex items-center gap-2">
@@ -482,7 +482,7 @@ export default function OrderFiNew() {
         /* Floating Diamond Icon */
         <Button
           onClick={() => setIsChatExpanded(true)}
-          className="fixed bottom-20 right-4 w-14 h-14 bg-[#FF6B35] hover:bg-[#FF5722] text-white rounded-full shadow-2xl z-50 transform rotate-45"
+          className="fixed top-20 right-4 w-14 h-14 bg-[#FF6B35] hover:bg-[#FF5722] text-white rounded-full shadow-2xl z-50 transform rotate-45"
         >
           <Sparkles className="h-6 w-6 transform -rotate-45" />
         </Button>
