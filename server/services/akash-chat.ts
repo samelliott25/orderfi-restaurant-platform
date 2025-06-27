@@ -62,32 +62,92 @@ class AkashChatService {
 
   constructor() {
     this.apiKey = process.env.AKASH_API_KEY || '';
-    this.baseUrl = process.env.AKASH_API_ENDPOINT || 'https://chatapi.akash.network/v1';
+    
+    // Handle different endpoint configurations
+    let endpoint = process.env.AKASH_API_ENDPOINT || '';
+    
+    // If endpoint looks like an API key, use it as the API key and construct a default endpoint
+    if (endpoint.startsWith('sk-') || endpoint.length < 20 || !endpoint.includes('.')) {
+      if (endpoint.startsWith('sk-') && !this.apiKey) {
+        this.apiKey = endpoint;
+      }
+      // Use a common Akash provider endpoint structure
+      this.baseUrl = 'https://api.akash.network/v1';
+    } else {
+      this.baseUrl = endpoint;
+    }
+    
+    console.log('Akash Chat initialized with endpoint:', this.baseUrl);
   }
 
   async makeRequest(messages: any[], options: any = {}) {
-    const response = await fetch(`${this.baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.apiKey}`,
-      },
-      body: JSON.stringify({
-        model: options.model || 'llama-3.1-8b', // Default Akash model
-        messages,
-        max_tokens: options.max_tokens || 1000,
-        temperature: options.temperature || 0.7,
-        stream: false,
-        ...(options.response_format && { response_format: options.response_format })
-      }),
-    });
+    try {
+      // Validate API configuration
+      if (!this.apiKey) {
+        throw new Error('Akash API key not configured');
+      }
 
-    if (!response.ok) {
-      throw new Error(`Akash API error: ${response.status} ${response.statusText}`);
+      if (!this.baseUrl || this.baseUrl.startsWith('sk-') || this.baseUrl.length < 10) {
+        throw new Error('Invalid Akash API endpoint configuration');
+      }
+
+      let endpoint = this.baseUrl;
+      
+      // Ensure endpoint has proper protocol
+      if (!endpoint.startsWith('http')) {
+        endpoint = `https://${endpoint}`;
+      }
+      
+      // Ensure endpoint has proper path for chat completions
+      if (!endpoint.includes('/chat/completions')) {
+        if (endpoint.includes('/v1')) {
+          if (!endpoint.endsWith('/chat/completions')) {
+            endpoint = endpoint.replace('/v1', '/v1/chat/completions');
+          }
+        } else {
+          endpoint = endpoint.endsWith('/') ? `${endpoint}v1/chat/completions` : `${endpoint}/v1/chat/completions`;
+        }
+      }
+
+      console.log('Making request to Akash endpoint:', endpoint.substring(0, 50) + '...');
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`,
+        },
+        body: JSON.stringify({
+          model: options.model || 'llama-3.1-8b',
+          messages,
+          max_tokens: options.max_tokens || 1000,
+          temperature: options.temperature || 0.7,
+          stream: false,
+          ...(options.response_format && { response_format: options.response_format })
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Akash API error response:', errorText);
+        throw new Error(`Akash API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const content = data.choices?.[0]?.message?.content || data.content || '';
+      
+      if (!content) {
+        console.warn('No content received from Akash API, response:', JSON.stringify(data, null, 2));
+        throw new Error('No content returned from Akash API');
+      }
+
+      return content;
+
+    } catch (error) {
+      console.error('Akash Chat API error:', error);
+      // Re-throw to be handled by the calling function
+      throw error;
     }
-
-    const data = await response.json();
-    return data.choices[0]?.message?.content || '';
   }
 
   async processChatMessage(
