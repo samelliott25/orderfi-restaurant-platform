@@ -652,6 +652,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.status(isHealthy ? 200 : 503).json(health);
   });
 
+  // Deployment monitoring endpoint
+  app.get("/api/deployment/status", async (req, res) => {
+    try {
+      const { deploymentMonitor } = await import("./services/deployment-monitor");
+      const deploymentHealth = await deploymentMonitor.getDeploymentHealth();
+      res.json(deploymentHealth);
+    } catch (error) {
+      res.status(500).json({ 
+        status: 'error', 
+        message: 'Failed to get deployment status' 
+      });
+    }
+  });
+
+  // Provider migration endpoint
+  app.post("/api/deployment/migrate", async (req, res) => {
+    try {
+      const { fromProvider, toProvider } = req.body;
+      const { deploymentMonitor } = await import("./services/deployment-monitor");
+      const success = await deploymentMonitor.migrateProvider(fromProvider, toProvider);
+      res.json({ success, message: success ? 'Migration completed' : 'Migration failed' });
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Migration request failed' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
