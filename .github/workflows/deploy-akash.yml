@@ -1,0 +1,195 @@
+name: Deploy to Akash Network
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+  AKASH_VERSION: '0.28.0'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: orderfi_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: TypeScript check
+      run: npm run check
+    
+    - name: Run security audit
+      run: npm audit --audit-level moderate
+    
+    - name: Test API endpoints
+      run: |
+        npm run dev &
+        sleep 10
+        node production-test.js
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/orderfi_test
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        AKASH_API_KEY: ${{ secrets.AKASH_API_KEY }}
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build application
+      run: npm run build
+    
+    - name: Build Docker image
+      run: |
+        docker build -t orderfi-ai:${{ github.sha }} .
+        docker tag orderfi-ai:${{ github.sha }} orderfi-ai:latest
+    
+    - name: Test Docker image
+      run: |
+        docker run -d -p 5000:5000 --name test-container \
+          -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+          -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
+          orderfi-ai:latest
+        sleep 15
+        curl -f http://localhost:5000/api/health || exit 1
+        docker stop test-container
+
+  deploy-akash:
+    needs: [test, build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install Akash CLI
+      run: |
+        curl -sSL https://raw.githubusercontent.com/akash-network/provider/main/install.sh | sh
+        sudo mv ./bin/provider-services /usr/local/bin/akash
+    
+    - name: Configure Akash wallet
+      run: |
+        echo "${{ secrets.AKASH_WALLET_MNEMONIC }}" | akash keys add deployer --recover
+      env:
+        AKASH_KEYRING_BACKEND: test
+    
+    - name: Create deployment
+      run: |
+        export AKASH_NODE=${{ secrets.AKASH_NODE }}
+        export AKASH_CHAIN_ID=${{ secrets.AKASH_CHAIN_ID }}
+        export AKASH_KEYRING_BACKEND=test
+        export AKASH_GAS_PRICES=0.025uakt
+        export AKASH_GAS_ADJUSTMENT=1.5
+        
+        # Deploy using the deploy manifest
+        akash tx deployment create deploy-akash.yaml \
+          --from deployer \
+          --node $AKASH_NODE \
+          --chain-id $AKASH_CHAIN_ID \
+          --gas-prices $AKASH_GAS_PRICES \
+          --gas-adjustment $AKASH_GAS_ADJUSTMENT \
+          --broadcast-mode block \
+          --yes
+    
+    - name: Monitor deployment
+      run: |
+        # Wait for deployment to be active
+        sleep 60
+        
+        # Get deployment status
+        akash query deployment list --owner $(akash keys show deployer -a)
+        
+        # Test the deployed service
+        DEPLOYMENT_URL=$(akash provider lease-status --from deployer | grep -o 'https://[^"]*')
+        if [ ! -z "$DEPLOYMENT_URL" ]; then
+          curl -f $DEPLOYMENT_URL/api/health || echo "Health check failed"
+        fi
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run Trivy security scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+    
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  performance-test:
+    needs: deploy-akash
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install k6
+      run: |
+        sudo gpg -k
+        sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+        echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+        sudo apt-get update
+        sudo apt-get install k6
+    
+    - name: Run load tests
+      run: |
+        k6 run - <<EOF
+        import http from 'k6/http';
+        import { check } from 'k6';
+        
+        export let options = {
+          stages: [
+            { duration: '1m', target: 10 },
+            { duration: '2m', target: 50 },
+            { duration: '1m', target: 0 },
+          ],
+        };
+        
+        export default function() {
+          let response = http.get('${{ secrets.DEPLOYMENT_URL }}/api/health');
+          check(response, {
+            'status is 200': (r) => r.status === 200,
+            'response time < 500ms': (r) => r.timings.duration < 500,
+          });
+        }
+        EOF

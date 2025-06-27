@@ -52,17 +52,18 @@ export async function seedProductionData() {
         // Create sample orders for each customer
         for (let i = 0; i < customer.orders_count; i++) {
           const order = await storage.createOrder({
-            restaurant_id: restaurant.id,
-            customer_email: customer.email,
-            customer_name: customer.name,
+            restaurantId: restaurant.id,
+            customerEmail: customer.email,
+            customerName: customer.name,
             items: JSON.stringify([
               { id: 1, name: 'Classic Burger', quantity: 1, price: 12.99 },
               { id: 2, name: 'Fries', quantity: 1, price: 4.99 }
             ]),
+            subtotal: "16.38",
+            tax: "1.60", 
             total: "17.98",
             status: 'completed',
-            payment_method: 'card',
-            notes: `Order ${i + 1} for ${customer.name}`
+            paymentMethod: 'card'
           });
 
           console.log(`   ✓ Created order #${order.id} for ${customer.name}`);
