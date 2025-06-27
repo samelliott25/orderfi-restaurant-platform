@@ -2,113 +2,143 @@
 
 ## Overview
 
-OrderFi AI is a blockchain-first, decentralized restaurant platform that revolutionizes dining experiences through conversational AI and Web3 infrastructure. The platform has achieved production-grade readiness with 99.2% uptime, comprehensive security implementation, and 65% performance improvements. It serves as a complete restaurant management solution with AI-powered ordering, blockchain-based loyalty rewards, and decentralized hosting capabilities.
+OrderFi AI is a blockchain-first, decentralized restaurant platform that revolutionizes dining experiences through conversational AI and Web3 infrastructure. The platform combines a React frontend with Express.js backend, PostgreSQL database with Drizzle ORM, and integrates smart contracts for token rewards. The system features AI-powered conversational ordering, kitchen printing systems, multi-language support, and decentralized Web3 payments using USDC.
 
 ## System Architecture
 
 ### Frontend Architecture
-- **Framework**: React 18 with TypeScript for type safety
-- **Styling**: Tailwind CSS with custom design system (cream #ffe6b0 theme)
-- **State Management**: TanStack Query for server state, React hooks for local state
-- **UI Components**: shadcn/ui with Radix UI primitives (40+ components)
-- **Mobile Experience**: PWA-ready responsive design with touch optimization
-- **Voice Integration**: Web Speech API for hands-free ordering with 92% accuracy
-- **Real-time Features**: WebSocket connections for live order updates
+- **Framework**: React 18 with TypeScript and Vite build system
+- **Styling**: Tailwind CSS with shadcn/ui component library (New York variant)
+- **State Management**: TanStack Query for server state management
+- **UI Components**: Comprehensive shadcn/ui integration with 40+ Radix UI components
+- **Routing**: Wouter for lightweight client-side routing
+- **Design System**: Custom cream-themed (#ffe6b0) design with retro aesthetic
 
 ### Backend Architecture
 - **Runtime**: Node.js with Express.js framework
-- **Language**: TypeScript for full-stack type safety
-- **Database**: PostgreSQL with Drizzle ORM for type-safe queries
-- **AI Integration**: OpenAI GPT-4o for conversational ordering with 94% intent recognition
-- **Caching**: Intelligent LRU cache with 87% hit rate and TTL support
-- **Security**: Comprehensive middleware stack with rate limiting, input validation, and XSS protection
-- **Performance**: API response times optimized to 42ms average (65% improvement)
+- **Language**: TypeScript with ES modules
+- **Database**: PostgreSQL with Drizzle ORM for type-safe database operations
+- **AI Integration**: OpenAI GPT-4o for conversational ordering and operations assistance
+- **Authentication**: API key-based authentication with rate limiting
+- **Monitoring**: Custom metrics collection and health check endpoints
 
 ### Blockchain Infrastructure
-- **Smart Contracts**: Hardhat framework with Solidity for token rewards
-- **Networks**: Multi-chain support (Base primary, Polygon secondary)
-- **Token System**: MIMI rewards with multi-tier loyalty (Bronze/Silver/Gold/Platinum)
-- **Wallet Integration**: MetaMask, Phantom, Coinbase, WalletConnect support
-- **Gas Optimization**: Rollup batch processing reducing costs by 70-85%
+- **Smart Contracts**: Hardhat development environment with Solidity contracts
+- **Networks**: Multi-chain support (Base, Polygon, Ethereum)
+- **Token System**: MIMI rewards contract with tiered loyalty system
+- **Payment Processing**: USDC integration for crypto-native payments
+- **Deployment**: Automated deployment scripts with verification
 
 ## Key Components
 
-### Customer Interface (OrderFi)
-- **Conversational AI Ordering**: Primary interaction through GPT-4o chatbot
-- **Voice-First Experience**: Speech-to-text and text-to-speech capabilities
-- **Dynamic Menu Generation**: AI-mentioned items appear as clickable buttons
-- **Shopping Cart**: Real-time order management with AI-guided checkout
-- **Token Rewards**: Transparent blockchain-based loyalty system
-- **Mobile-First Design**: Progressive Web App with offline capability
+### AI Chat System
+- **Conversational Ordering**: GPT-4o powered chat for natural language menu interactions
+- **Context Awareness**: Maintains conversation history and customer preferences
+- **Menu Categorization**: Automated categorization service for menu items
+- **Multi-language Support**: Detection and support for English, Spanish, Portuguese, French
+- **Voice Integration**: Text-to-speech using OpenAI's TTS API
 
-### Restaurant Dashboard
-- **Live Order Management**: Real-time order queue with kitchen display integration
-- **Operations AI Assistant**: Image processing for menu uploads and business intelligence
-- **Menu Management**: CRUD operations with AI categorization
-- **Analytics Dashboard**: Live sales metrics and performance monitoring
-- **Kitchen Printing**: ESC/POS thermal printer integration
-- **Staff Management**: Role-based access and permissions
+### Kitchen Operations
+- **Order Management**: Real-time order processing and status tracking
+- **Kitchen Printing**: Support for thermal, impact, and cloud printers
+- **Printer Drivers**: Comprehensive driver management for Epson, Star, Bixolon printers
+- **Cloud Printing**: Integration with PrintNode, Google Cloud Print, ezeep Blue
+- **USB Support**: Direct USB printer communication with device discovery
 
-### AI Systems
-- **Customer AI (Mimi)**: Contextual conversation memory, dietary preference tracking
-- **Operations AI**: Menu image analysis, automated workflow processing
-- **Training System**: Customer psychology understanding, intent analysis
-- **Voice Processing**: Real-time speech recognition with ambient noise filtering
+### Blockchain Integration
+- **Smart Contracts**: MimiRewards contract for token-based loyalty system
+- **Wallet Integration**: Support for MetaMask, WalletConnect, Coinbase Wallet
+- **Decentralized Storage**: IPFS integration for menu data and order history
+- **Batch Processing**: Rollup batch processor for gas optimization
+- **Multi-Provider**: Akash Network integration for decentralized compute
+
+### Restaurant Management
+- **Menu Management**: CRUD operations with AI-powered categorization
+- **Order Tracking**: Real-time order status and kitchen display integration
+- **Analytics**: Performance metrics and business intelligence
+- **Staff Management**: Role-based access control and permissions
 
 ## Data Flow
 
-1. **Customer Interaction**: Voice/text input → AI processing → Menu suggestions
-2. **Order Processing**: Cart management → Payment processing → Kitchen notification
-3. **Blockchain Recording**: Order completion → Token reward calculation → Smart contract execution
-4. **Restaurant Operations**: Order fulfillment → Status updates → Analytics recording
-5. **Loyalty System**: Purchase tracking → Tier advancement → Reward distribution
+### Order Processing Flow
+1. Customer initiates conversation through AI chat interface
+2. AI processes natural language input and suggests menu items
+3. Items are added to cart with real-time price calculation
+4. Order is submitted and stored in PostgreSQL database
+5. Kitchen receives order through thermal printer or KDS
+6. Order status updates are tracked and communicated back to customer
+7. Token rewards are calculated and distributed via smart contract
+
+### Payment Processing Flow
+1. Customer selects payment method (USDC, credit card, cash)
+2. For crypto payments, Web3 wallet connection is established
+3. USDC payment is processed on selected network (Base/Polygon)
+4. Transaction is confirmed on blockchain
+5. Order is marked as paid and sent to kitchen
+6. Receipt is generated and customer receives confirmation
+
+### Data Storage Flow
+1. Menu items and orders are stored in PostgreSQL via Drizzle ORM
+2. Chat conversations are cached for context awareness
+3. Critical data is backed up to IPFS for decentralization
+4. Blockchain records are maintained for token transactions
+5. Analytics data is aggregated for business insights
 
 ## External Dependencies
 
 ### AI Services
-- **OpenAI GPT-4o**: Primary conversational AI engine
-- **Anthropic Claude**: Backup AI provider for failover
+- **OpenAI**: GPT-4o for chat, TTS for voice synthesis
+- **Anthropic**: Alternative AI provider configuration
 
-### Blockchain Infrastructure
-- **Base Network**: Primary blockchain for low-fee transactions
-- **Polygon**: Secondary network for additional functionality
-- **Neon Database**: PostgreSQL hosting with serverless capabilities
-
-### Third-Party Integrations
-- **SendGrid**: Email delivery service
-- **Akash Network**: Decentralized compute hosting (78% cost reduction)
-- **IPFS/Filecoin**: Distributed storage for assets
-- **Web3 Wallets**: MetaMask, Phantom, Coinbase, WalletConnect
-
-### Development Tools
-- **Drizzle Kit**: Database migrations and schema management
+### Blockchain Services
 - **Hardhat**: Smart contract development and deployment
-- **Vite**: Frontend build tool with hot module replacement
+- **Ethers.js**: Blockchain interaction library
+- **OpenZeppelin**: Security-audited contract templates
+
+### Database & Storage
+- **Neon**: Serverless PostgreSQL hosting
+- **Drizzle ORM**: Type-safe database operations
+- **IPFS**: Decentralized file storage
+
+### Payment Processing
+- **Circle API**: USDC payment processing
+- **Base Network**: Primary blockchain for transactions
+- **Polygon**: Secondary network for lower fees
+
+### Printing Services
+- **ESC/POS**: Thermal printer communication protocol
+- **PrintNode**: Cloud printing service
+- **USB Drivers**: Direct printer hardware communication
 
 ## Deployment Strategy
 
-### Decentralized Hosting
-- **Primary**: Akash Network deployment for censorship resistance
-- **Backup**: Traditional cloud providers for redundancy
-- **Cost Optimization**: 78% reduction compared to AWS/GCP
-- **Uptime**: Multi-provider failover achieving 99.2% availability
+### Development Environment
+- **Local Development**: Vite dev server with HMR
+- **Database**: Local PostgreSQL or Neon development instance
+- **Blockchain**: Hardhat local network for testing
 
-### Production Infrastructure
-- **Containerization**: Docker multi-stage builds optimized for production
-- **Load Balancing**: Nginx reverse proxy with security headers
-- **Database**: PostgreSQL with connection pooling and query optimization
-- **Monitoring**: Prometheus metrics with health check endpoints
-- **Security**: HTTPS, HSTS, rate limiting, input sanitization
+### Production Deployment
+- **Application**: Express.js server serving built React app
+- **Database**: Neon PostgreSQL with connection pooling
+- **Smart Contracts**: Deployed to Base mainnet
+- **Monitoring**: Health checks and metrics collection
+- **Scaling**: Ready for containerization with Docker
 
-### CI/CD Pipeline
-- **Version Control**: Git-based deployment with automated testing
-- **Environments**: Development, staging, and production separation
-- **Health Checks**: Automated deployment verification
-- **Rollback**: Automated rollback on deployment failures
+### Infrastructure Components
+- **Build Process**: Vite for frontend, esbuild for backend bundling
+- **Package Management**: npm with lockfile for reproducible builds
+- **Configuration**: Environment-based configuration with TypeScript
+- **Testing**: Production testing suite with automated health checks
 
 ## Changelog
+
+```
+Changelog:
 - June 27, 2025. Initial setup
+```
 
 ## User Preferences
 
+```
 Preferred communication style: Simple, everyday language.
+```
