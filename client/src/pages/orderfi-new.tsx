@@ -382,9 +382,10 @@ export default function OrderFiNew() {
               size="sm"
               variant="ghost"
               onClick={() => setIsChatExpanded(false)}
-              className="p-1 h-6 w-6"
+              className="p-1 h-6 w-6 hover:bg-gray-100"
+              title="Minimize chat"
             >
-              ×
+              <span className="text-lg leading-none">−</span>
             </Button>
           </div>
           
