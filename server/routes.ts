@@ -614,6 +614,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register kitchen printing routes
   app.use("/api/kitchen-printing", kitchenPrintingRouter);
 
+  // Web3 Storage routes
+  app.post("/api/web3-storage/upload", upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file provided" });
+      }
+      
+      const { web3Storage } = await import("./services/web3-storage");
+      const tempPath = `/tmp/${req.file.originalname}`;
+      require('fs').writeFileSync(tempPath, req.file.buffer);
+      
+      const result = await web3Storage.uploadFile(tempPath, req.file.originalname);
+      require('fs').unlinkSync(tempPath);
+      
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: "Upload failed" });
+    }
+  });
+
+  // Rollup batch processing routes
+  app.get("/api/rollup/batches/:restaurantId", async (req, res) => {
+    try {
+      const { rollupBatchProcessor } = await import("./services/rollup-batch-processor");
+      const restaurantId = parseInt(req.params.restaurantId);
+      const batches = rollupBatchProcessor.getRestaurantBatches(restaurantId);
+      res.json({ batches });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get batches" });
+    }
+  });
+
+  app.get("/api/rollup/metrics", async (req, res) => {
+    try {
+      const { rollupBatchProcessor } = await import("./services/rollup-batch-processor");
+      const metrics = rollupBatchProcessor.getMetrics();
+      res.json(metrics);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get metrics" });
+    }
+  });
+
+  // Multi-provider failover routes
+  app.get("/api/deployment/providers", async (req, res) => {
+    try {
+      const { multiProviderFailover } = await import("./services/multi-provider-failover");
+      const status = multiProviderFailover.getProviderStatus();
+      res.json(status);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get provider status" });
+    }
+  });
+
   // Health check endpoint for Akash deployment
   app.get("/health", async (req, res) => {
     const health = {

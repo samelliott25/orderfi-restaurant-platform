@@ -112,6 +112,39 @@ async function testDeploymentStatus() {
   }
 }
 
+async function testMultiProviderFailover() {
+  console.log('Testing multi-provider failover...');
+  try {
+    const response = await makeRequest('/api/deployment/providers');
+    console.log(`✅ Provider status: ${response.status}`);
+    if (response.data.providers) {
+      console.log(`   Active providers: ${response.data.providers.filter(p => p.status === 'active').length}`);
+      console.log(`   Health score: ${(response.data.healthScore * 100).toFixed(1)}%`);
+    }
+    return response.status === 200;
+  } catch (error) {
+    console.log(`❌ Provider status failed: ${error.message}`);
+    return false;
+  }
+}
+
+async function testRollupBatching() {
+  console.log('Testing rollup batch processing...');
+  try {
+    const response = await makeRequest('/api/rollup/metrics');
+    console.log(`✅ Rollup metrics: ${response.status}`);
+    if (response.data.totalBatches !== undefined) {
+      console.log(`   Total batches: ${response.data.totalBatches}`);
+      console.log(`   Pending orders: ${response.data.pendingOrders}`);
+      console.log(`   Gas savings: ${response.data.gasSavings} wei`);
+    }
+    return response.status === 200;
+  } catch (error) {
+    console.log(`❌ Rollup metrics failed: ${error.message}`);
+    return false;
+  }
+}
+
 async function testRewardsEndpoint() {
   console.log('Testing rewards endpoint...');
   try {

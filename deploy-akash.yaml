@@ -8,7 +8,7 @@ services:
       - "sh"
       - "-c"
       - |
-        apk add --no-cache git
+        apk add --no-cache git curl
         git clone https://github.com/replit/orderfi-ai.git /app || echo "Using existing code"
         cd /app
         npm install
@@ -20,6 +20,12 @@ services:
       - DATABASE_URL=postgresql://orderfi:secure_password@orderfi-db:5432/orderfi
       - AKASH_API_ENDPOINT=https://chatapi.akash.network/v1
       - BLOCKCHAIN_NETWORK=base
+      - BASE_RPC_URL=https://mainnet.base.org
+      - WEB3_STORAGE_TOKEN=
+      - TABLELAND_PRIVATE_KEY=
+      - ENABLE_ROLLUP_BATCHING=true
+      - ENABLE_MULTI_PROVIDER_FAILOVER=true
+      - IPFS_GATEWAY=https://w3s.link/ipfs/
     expose:
       - port: 3000
         as: 80
@@ -27,13 +33,14 @@ services:
           - global: true
         accept:
           - orderfi.akash.network
+          - orderfi-backup.akash.network
     resources:
       cpu:
-        units: 1
+        units: 2
       memory:
-        size: 1Gi
+        size: 2Gi
       storage:
-        size: 5Gi
+        size: 10Gi
 
   orderfi-db:
     image: postgres:15-alpine
