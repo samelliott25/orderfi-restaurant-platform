@@ -71,8 +71,8 @@ class AkashChatService {
       if (endpoint.startsWith('sk-') && !this.apiKey) {
         this.apiKey = endpoint;
       }
-      // Use a common Akash provider endpoint structure
-      this.baseUrl = 'https://api.akash.network/v1';
+      // Use the correct Akash Chat API endpoint
+      this.baseUrl = 'https://chatapi.akash.network/v1';
     } else {
       this.baseUrl = endpoint;
     }
@@ -98,14 +98,16 @@ class AkashChatService {
         endpoint = `https://${endpoint}`;
       }
       
-      // Ensure endpoint has proper path for chat completions
+      // Try different endpoint structures for Akash Chat API
       if (!endpoint.includes('/chat/completions')) {
-        if (endpoint.includes('/v1')) {
-          if (!endpoint.endsWith('/chat/completions')) {
-            endpoint = endpoint.replace('/v1', '/v1/chat/completions');
-          }
+        // First try without /v1 prefix (many Akash providers use direct paths)
+        if (endpoint.endsWith('/v1')) {
+          endpoint = endpoint.replace('/v1', '/chat/completions');
+        } else if (endpoint.includes('/v1')) {
+          endpoint = endpoint.replace('/v1', '/v1/chat/completions');
         } else {
-          endpoint = endpoint.endsWith('/') ? `${endpoint}v1/chat/completions` : `${endpoint}/v1/chat/completions`;
+          // Try direct /chat/completions path first
+          endpoint = endpoint.endsWith('/') ? `${endpoint}chat/completions` : `${endpoint}/chat/completions`;
         }
       }
 
@@ -197,10 +199,62 @@ Be concise, helpful, and get straight to the point. Maximum 15 words per respons
       };
     } catch (error) {
       console.error("Akash Chat API error:", error);
+      
+      // Intelligent fallback based on user message content
+      const suggestedItems = this.getSuggestedItems(userMessage, context.menuItems);
+      
+      return this.generateIntelligentFallback(userMessage, context, suggestedItems);
+    }
+  }
+
+  private generateIntelligentFallback(
+    userMessage: string, 
+    context: ChatContext, 
+    suggestedItems: any[]
+  ): ChatResponse {
+    const message = userMessage.toLowerCase();
+    
+    // Greeting responses
+    if (message.includes('hi') || message.includes('hello') || message.includes('hey')) {
       return {
-        message: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment, or feel free to browse our menu directly.",
+        message: `Hi! Welcome to ${context.restaurantName}. What can I get you today?`,
+        suggestedItems: suggestedItems.length > 0 ? suggestedItems : context.menuItems.slice(0, 2)
       };
     }
+    
+    // Recommendation requests
+    if (message.includes('recommend') || message.includes('suggest') || message.includes('best') || message.includes('popular')) {
+      const popular = context.menuItems.filter(item => item.tags.includes('popular')).slice(0, 2);
+      return {
+        message: "Try our popular items - they're customer favorites!",
+        suggestedItems: popular.length > 0 ? popular : context.menuItems.slice(0, 2)
+      };
+    }
+    
+    // Menu browsing
+    if (message.includes('menu') || message.includes('options') || message.includes('have')) {
+      return {
+        message: "Here are some of our menu highlights:",
+        suggestedItems: context.menuItems.slice(0, 3)
+      };
+    }
+    
+    // Dietary preferences
+    if (message.includes('vegetarian') || message.includes('vegan')) {
+      const vegOptions = context.menuItems.filter(item => 
+        item.tags.includes('vegetarian') || item.tags.includes('vegan')
+      );
+      return {
+        message: "Here are our vegetarian options:",
+        suggestedItems: vegOptions.length > 0 ? vegOptions.slice(0, 2) : undefined
+      };
+    }
+    
+    // Default helpful response
+    return {
+      message: "I'm here to help you order! What would you like to try?",
+      suggestedItems: suggestedItems.length > 0 ? suggestedItems : context.menuItems.slice(0, 2)
+    };
   }
 
   async processOperationsAiMessage(
