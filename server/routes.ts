@@ -555,6 +555,24 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // Customer order history endpoint
+  app.get("/api/orders/customer/:customerId", async (req, res) => {
+    try {
+      const { customerId } = req.params;
+      const orders = await storage.getOrdersByCustomer(customerId);
+      
+      // Sort by most recent first
+      const sortedOrders = orders.sort((a, b) => 
+        new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+      );
+      
+      res.json(sortedOrders);
+    } catch (error) {
+      console.error('Failed to fetch customer orders:', error);
+      res.status(500).json({ message: "Failed to fetch customer orders" });
+    }
+  });
+
   // Payment simulation route
   app.post("/api/payment/create-checkout", async (req, res) => {
     try {
