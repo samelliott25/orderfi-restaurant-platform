@@ -3,6 +3,8 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import ordersRouter from "./routes/orders";
 import kitchenPrintingRouter from "./routes/kitchen-printing";
+import { paymentEngine } from "./services/payment-engine";
+import { rewardEngine } from "./services/reward-engine";
 import { blockchainStorage } from "./blockchain/storage";
 import { blockchainIntegrationService } from "./services/blockchain-integration";
 import { menuCategorizationService } from "./services/menu-categorization";

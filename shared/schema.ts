@@ -43,6 +43,7 @@ export const orders = pgTable("orders", {
   total: decimal("total", { precision: 10, scale: 2 }).notNull(),
   paymentMethod: text("payment_method"), // 'usdc', 'credit', 'cash'
   paymentId: text("payment_id"),
+  transactionId: text("transaction_id"),
   status: text("status").default("pending"),
   createdAt: timestamp("created_at").defaultNow(),
 });

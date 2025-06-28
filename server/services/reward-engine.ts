@@ -107,7 +107,7 @@ export class RewardEngine {
   async getBatchRewardsForMinting(): Promise<{ customerId: string; totalRewards: number; orders: number[] }[]> {
     const customerRewards = new Map<string, { total: number; orders: number[] }>();
 
-    for (const [key, reward] of this.pendingRewards) {
+    Array.from(this.pendingRewards.entries()).forEach(([key, reward]) => {
       const [customerId, orderIdStr] = key.split('-');
       const orderId = parseInt(orderIdStr);
 
@@ -118,7 +118,7 @@ export class RewardEngine {
       const customerData = customerRewards.get(customerId)!;
       customerData.total += reward.totalReward;
       customerData.orders.push(orderId);
-    }
+    });
 
     return Array.from(customerRewards.entries()).map(([customerId, data]) => ({
       customerId,
