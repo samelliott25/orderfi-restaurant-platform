@@ -23,7 +23,7 @@ import { cacheManager } from "./services/cache-manager.js";
 // Configure multer for image uploads
 const upload = multer({ storage: multer.memoryStorage() });
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Express): Promise<void> {
   // Apply security middleware
   app.use(securityHeaders);
   app.use(requestLogger);
@@ -764,6 +764,5 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  const httpServer = createServer(app);
-  return httpServer;
+  // Routes registered successfully
 }

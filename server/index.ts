@@ -2,7 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { metricsMiddleware, getMetricsHandler, getHealthHandler } from "./monitoring/metrics";
-import { sanitizeInput, requestLogger, corsOptions } from "./middleware/security";
+import { sanitizeInput, requestLogger } from "./middleware/security";
 
 const app = express();
 
@@ -47,43 +47,47 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = await registerRoutes(app);
+  try {
+    // Register routes first
+    await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
 
-    res.status(status).json({ message });
-    throw err;
-  });
+      res.status(status).json({ message });
+      console.error('Server error:', err);
+    });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
+    // Create HTTP server from Express app
+    const { createServer } = await import('http');
+    const server = createServer(app);
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  
-  const startServer = () => {
+    // Setup Vite or static serving
+    if (app.get("env") === "development") {
+      await setupVite(app, server);
+    } else {
+      serveStatic(app);
+    }
+
+    // Start the server
+    const port = 5000;
+    
     server.listen(port, "0.0.0.0", () => {
-      log(`serving on port ${port}`);
+      log(`✓ Server successfully bound to port ${port}`);
+      log(`✓ App available at http://localhost:${port}`);
     }).on('error', (err: any) => {
+      console.error('Server startup error:', err);
       if (err.code === 'EADDRINUSE') {
         log(`Port ${port} is busy, attempting to kill existing processes...`);
-        // Force close any existing connections
         process.exit(1);
       } else {
         throw err;
       }
     });
-  };
 
-  startServer();
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
 })();
