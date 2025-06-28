@@ -112,11 +112,9 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
     <div className="flex h-full flex-col border-r" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
       {/* Logo */}
       <div className="flex h-16 items-center justify-center px-6 border-b" style={{ borderColor: '#e5cf97' }}>
-        <img 
-          src={mimiDashboardLogo} 
-          alt="Mimi Dashboard" 
-          className="h-20 w-auto"
-        />
+        <div className="text-2xl font-bold text-[#8b795e]">
+          OrderFi Admin
+        </div>
       </div>
 
       {/* Navigation */}
