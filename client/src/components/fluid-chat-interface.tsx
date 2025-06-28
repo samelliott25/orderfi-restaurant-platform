@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { chatApi } from "@/lib/api";
 import { Bot, User, Send, Sparkles, Zap } from "lucide-react";
-// VoiceInput temporarily removed for compatibility
+import { VoiceInput } from "./voice-input";
 import { TypingText } from "./TypingText";
 // Images will be rendered as placeholders for now
 
@@ -278,7 +278,18 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
       {/* Input Area */}
       <div className="p-4 border-t-2 border-white bg-background relative z-10">
           <form onSubmit={handleSendMessage} className="flex space-x-2">
-            {/* Voice Input - Simplified for now */}
+            <VoiceInput
+              onVoiceInput={(text: string) => {
+                setInputValue(text);
+                // Auto-send voice messages after a brief delay
+                setTimeout(() => {
+                  if (text.trim()) {
+                    handleSendMessage(new Event('submit') as any);
+                  }
+                }, 500);
+              }}
+              isProcessing={sendMessageMutation.isPending}
+            />
             
             <div className="flex-1 relative">
               <Input

@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- June 28, 2025. Implemented critical payment flow and rewards system
+  - Added PaymentEngine with Stripe, crypto, and cash payment support
+  - Created RewardEngine with tier-based loyalty system (Bronze/Silver/Gold/Platinum)
+  - Built payment API routes (/api/payments/*) and rewards API (/api/rewards/*)
+  - Implemented PaymentFlow and RewardsDashboard frontend components
+  - Added comprehensive token minting and claiming functionality
 - June 27, 2025. Initial setup
 ```
 
