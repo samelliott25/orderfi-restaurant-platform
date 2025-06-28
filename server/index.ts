@@ -72,10 +72,7 @@ app.use((req, res, next) => {
   const port = 5000;
   
   const startServer = () => {
-    server.listen({
-      port,
-      host: "0.0.0.0",
-    }, () => {
+    server.listen(port, "0.0.0.0", () => {
       log(`serving on port ${port}`);
     }).on('error', (err: any) => {
       if (err.code === 'EADDRINUSE') {
