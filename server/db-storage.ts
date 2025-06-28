@@ -108,6 +108,10 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(orders).where(eq(orders.restaurantId, restaurantId));
   }
 
+  async getOrdersByCustomer(customerId: string): Promise<Order[]> {
+    return await db.select().from(orders).where(eq(orders.customerName, customerId));
+  }
+
   async updateOrder(id: number, order: Partial<InsertOrder>): Promise<Order> {
     const result = await db.update(orders)
       .set(order)
