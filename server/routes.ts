@@ -24,15 +24,6 @@ import { cacheManager } from "./services/cache-manager.js";
 const upload = multer({ storage: multer.memoryStorage() });
 
 export async function registerRoutes(app: Express): Promise<void> {
-  // Apply security middleware
-  app.use(securityHeaders);
-  app.use(requestLogger);
-
-  // Apply rate limiting
-  app.use("/api/", createRateLimit(15 * 60 * 1000, 100)); // 100 requests per 15 minutes
-  app.use("/api/chat", createRateLimit(60 * 1000, 10)); // 10 chat requests per minute
-  app.use("/api/orders", createRateLimit(60 * 1000, 20)); // 20 order requests per minute
-
   // Warm cache on startup
   await cacheManager.warmCache();
 

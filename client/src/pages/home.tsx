@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import logoVideo from "@assets/20250625_2213_Elegant Logo Animation_loop_01jykg3kywe6yadwjhwn5nypcx_1750853921628.mp4";
 
 export default function HomePage() {
   const [isClicked, setIsClicked] = useState(false);
@@ -80,19 +79,16 @@ export default function HomePage() {
       {!showTransition && (
         <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
           
-          {/* OrderFi Logo - Original MP4 Video */}
-          <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-contain"
-              style={{ filter: 'brightness(1.1)' }}
-            >
-              <source src={logoVideo} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+          {/* OrderFi Logo - Animated SVG */}
+          <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80 flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse">
+                OrderFi
+              </div>
+              <div className="text-lg md:text-xl text-gray-600 mt-2 animate-fade-in">
+                AI Restaurant Platform
+              </div>
+            </div>
           </div>
           
           {/* Logo spacing */}
