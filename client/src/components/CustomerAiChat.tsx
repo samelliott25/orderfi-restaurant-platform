@@ -14,7 +14,7 @@ import {
   Minimize2,
   Maximize2
 } from "lucide-react";
-import mimiLogo from "@assets/Mimi dashboard logo_1750329007735.webp";
+// Logo will be rendered as text for now
 
 interface ChatMessage {
   id: string;
@@ -152,7 +152,7 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-              <img src={mimiLogo} alt="Mimi" className="w-6 h-6 rounded-full" />
+              <Bot className="w-4 h-4 text-[#8b795e]" />
             </div>
             <div>
               <CardTitle className="text-sm font-medium">OrderFi Ai Assistant</CardTitle>

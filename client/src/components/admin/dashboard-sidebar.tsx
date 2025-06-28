@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import mimiDashboardLogo from "@assets/mimidashboardtext_1750333406399.webp";
+// Logo will be rendered as text for now
 
 const navigation = [
   {

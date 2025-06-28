@@ -8,8 +8,7 @@ import { chatApi } from "@/lib/api";
 import { Bot, User, Send, Sparkles, Zap } from "lucide-react";
 import { VoiceInput } from "./VoiceInput";
 import { TypingText } from "./TypingText";
-import mimiWaitressImage from "@assets/dbca6733-e706-480e-8432-a4e8c2b9ae7f_1750162558763.png";
-import batmanMimiImage from "@assets/618f6653-3952-4528-96d7-6a46294b334d_1750163671450.png";
+// Images will be rendered as placeholders for now
 
 interface ChatMessage {
   id: string;
@@ -166,13 +165,16 @@ export function FluidChatInterface({ restaurantId, welcomeMessage }: FluidChatIn
         <div 
           className="absolute bottom-4 bg-no-repeat bg-center bg-contain opacity-30 logo-pulse-chat"
           style={{ 
-            backgroundImage: `url(${userChoiceType === 'anonymous' ? batmanMimiImage : mimiWaitressImage})`,
             backgroundSize: 'contain',
             width: '480px',
             height: '480px',
             left: '50%'
           }}
-        />
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="text-6xl font-bold text-gray-300">AI</div>
+          </div>
+        </div>
       </div>
 
       {/* Chat Messages - Constrained to top 50% */}

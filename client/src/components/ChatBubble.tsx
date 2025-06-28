@@ -1,4 +1,4 @@
-import mimiLogo from "@assets/5ff63cd3-a67c-49ab-a371-14b12a36506d_1750080680868.png";
+// Logo will be rendered as text for now
 
 interface ChatBubbleProps {
   message: string;
@@ -17,11 +17,9 @@ export function ChatBubble({ message, isUser = false, timestamp }: ChatBubblePro
         {/* Avatar */}
         {!isUser && (
           <div className="flex-shrink-0 w-12 h-12 rounded-full bg-background border-3 border-green-700 p-1 retro-shadow">
-            <img 
-              src={mimiLogo} 
-              alt="Mimi" 
-              className="w-full h-full object-contain"
-            />
+            <div className="w-full h-full bg-[#8b795e] rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-xs">AI</span>
+            </div>
           </div>
         )}
         
