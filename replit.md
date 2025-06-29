@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- June 29, 2025. Font customization and completed comprehensive feature set
+  - Changed OrderFi title font to "Playwrite Aus Vic" for distinctive branding
+  - Added Google Fonts integration for custom typography
+  - Completed all high-priority features: payment system, rewards, voice input, user profiles
+  - Implemented restaurant admin dashboard and analytics
+  - Added customer order history and fast reorder functionality
 - June 28, 2025. Implemented critical payment flow and rewards system
   - Added PaymentEngine with Stripe, crypto, and cash payment support
   - Created RewardEngine with tier-based loyalty system (Bronze/Silver/Gold/Platinum)

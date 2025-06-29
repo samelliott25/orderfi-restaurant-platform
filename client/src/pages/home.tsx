@@ -82,7 +82,7 @@ export default function HomePage() {
           {/* OrderFi Logo - Animated SVG */}
           <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse">
+              <div className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse" style={{ fontFamily: 'Playwrite Aus Vic, cursive' }}>
                 OrderFi
               </div>
               <div className="text-lg md:text-xl text-gray-600 mt-2 animate-fade-in">
