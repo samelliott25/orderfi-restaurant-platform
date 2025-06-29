@@ -2,6 +2,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC:wght@100..400&display=swap');
 
+/* Custom font class for OrderFi logo */
+.playwrite-font {
+  font-family: "Playwrite AU VIC", cursive !important;
+}
 
 @tailwind base;
 @tailwind components;
