@@ -37,7 +37,6 @@ export default function HomePage() {
 
   return (
     <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden" style={{ backgroundColor: '#fcfcfc' }}>
-      
       {/* Sleek Transition Overlay */}
       {showTransition && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-r from-orange-500 via-red-500 to-pink-500">
@@ -74,7 +73,6 @@ export default function HomePage() {
           </div>
         </div>
       )}
-      
       {/* Main Container - Only visible when not transitioning */}
       {!showTransition && (
         <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
@@ -82,7 +80,7 @@ export default function HomePage() {
           {/* OrderFi Logo - Animated SVG */}
           <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse" style={{ fontFamily: '"Playwrite AU VIC", cursive' }}>
+              <div className="md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse text-[88px]" style={{ fontFamily: '"Playwrite AU VIC", cursive' }}>
                 OrderFi
               </div>
               <div className="text-lg md:text-xl text-gray-600 mt-2 animate-fade-in">
