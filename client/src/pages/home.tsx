@@ -83,9 +83,7 @@ export default function HomePage() {
               <div className="md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse text-[88px] playwrite-font pl-[10px] pr-[10px] pt-[20px] pb-[20px]">
                 OrderFi
               </div>
-              <div className="text-lg md:text-xl text-gray-600 mt-2 animate-fade-in">
-                AI Restaurant Platform
-              </div>
+              
             </div>
           </div>
           
