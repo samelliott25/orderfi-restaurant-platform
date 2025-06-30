@@ -262,28 +262,28 @@ export default function OrderFiNew() {
           <div className="w-10 h-10 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center overflow-hidden ai-cosmic-glow relative">
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Stars positioned across entire icon surface */}
-              <div className="absolute inset-0 w-full h-full pointer-events-none">
+              <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
                 {/* Left side */}
-                <svg className="w-0.5 h-0.5 absolute ai-cascade-1" style={{ top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
-                <svg className="w-0.5 h-1 absolute ai-cascade-2" style={{ top: '75%', left: '20%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
                 {/* Center */}
-                <svg className="w-0.5 h-1 absolute ai-cascade-3" style={{ top: '10%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-1 h-1 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
-                <svg className="w-1 h-0.5 absolute ai-cascade-4" style={{ top: '70%', left: '55%', transform: 'rotate(-15deg)', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-1 h-1 absolute ai-cascade-4" style={{ top: '65%', left: '52%', transform: 'rotate(-15deg)', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="white">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
                 {/* Right side */}
-                <svg className="w-0.5 h-0.5 absolute ai-cascade-1" style={{ top: '40%', left: '85%', transform: 'rotate(89deg)', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '35%', left: '82%', transform: 'rotate(89deg)', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="white">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
-                <svg className="w-1 h-0.5 absolute ai-cascade-2" style={{ top: '90%', left: '80%', transform: 'rotate(178deg)', animationDelay: '3.1s' }} viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '85%', left: '78%', transform: 'rotate(178deg)', animationDelay: '3.1s' }} viewBox="0 0 24 24" fill="white">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
               </div>
