@@ -520,10 +520,10 @@ export default function OrderFiNew() {
             <div className="relative w-full h-full">
               {/* Scattered stars across the entire button */}
               <div className="absolute inset-0 pointer-events-none">
-                {/* Left side cascade - different sizes and unique timing */}
+                {/* Completely random stars - sizes, rotations, positions */}
                 <svg 
-                  className="w-2 h-2 absolute ai-cascade-1"
-                  style={{ top: '15%', left: '5%' }}
+                  className="w-3 h-1 absolute ai-cascade-1"
+                  style={{ top: '12%', left: '7%', transform: 'rotate(47deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -531,8 +531,8 @@ export default function OrderFiNew() {
                 </svg>
                 
                 <svg 
-                  className="w-1 h-1 absolute ai-cascade-2"
-                  style={{ top: '35%', left: '10%' }}
+                  className="w-0.5 h-2 absolute ai-cascade-2"
+                  style={{ top: '33%', left: '18%', transform: 'rotate(-83deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -540,8 +540,8 @@ export default function OrderFiNew() {
                 </svg>
                 
                 <svg 
-                  className="w-1.5 h-1.5 absolute ai-cascade-3"
-                  style={{ top: '65%', left: '8%' }}
+                  className="w-2.5 h-0.5 absolute ai-cascade-3"
+                  style={{ top: '68%', left: '3%', transform: 'rotate(156deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -549,18 +549,8 @@ export default function OrderFiNew() {
                 </svg>
                 
                 <svg 
-                  className="w-1 h-1 absolute ai-cascade-4"
-                  style={{ top: '85%', left: '15%' }}
-                  viewBox="0 0 24 24" 
-                  fill="currentColor"
-                >
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                
-                {/* Right side scatter - varied positions */}
-                <svg 
-                  className="w-1 h-1 absolute ai-cascade-5"
-                  style={{ top: '8%', left: '78%' }}
+                  className="w-1 h-3 absolute ai-cascade-4"
+                  style={{ top: '89%', left: '22%', transform: 'rotate(22deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -568,8 +558,8 @@ export default function OrderFiNew() {
                 </svg>
                 
                 <svg 
-                  className="w-1.5 h-1.5 absolute ai-cascade-6"
-                  style={{ top: '42%', left: '88%' }}
+                  className="w-0.5 h-0.5 absolute ai-cascade-5"
+                  style={{ top: '3%', left: '73%', transform: 'rotate(234deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -577,18 +567,45 @@ export default function OrderFiNew() {
                 </svg>
                 
                 <svg 
-                  className="w-1 h-1 absolute ai-cascade-7"
-                  style={{ top: '75%', left: '82%' }}
+                  className="w-2 h-2.5 absolute ai-cascade-6"
+                  style={{ top: '38%', left: '91%', transform: 'rotate(-67deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
-                {/* Center accent stars */}
                 <svg 
-                  className="w-1 h-1 absolute ai-cascade-8"
-                  style={{ top: '28%', left: '48%' }}
+                  className="w-1.5 h-0.5 absolute ai-cascade-7"
+                  style={{ top: '77%', left: '84%', transform: 'rotate(98deg)' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                <svg 
+                  className="w-3.5 h-1 absolute ai-cascade-8"
+                  style={{ top: '26%', left: '44%', transform: 'rotate(-134deg)' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Extra chaotic stars */}
+                <svg 
+                  className="w-0.5 h-1.5 absolute ai-cascade-1"
+                  style={{ top: '55%', left: '59%', transform: 'rotate(311deg)', animationDelay: '3.2s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                <svg 
+                  className="w-2 h-0.5 absolute ai-cascade-3"
+                  style={{ top: '18%', left: '36%', transform: 'rotate(45deg)', animationDelay: '1.7s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
