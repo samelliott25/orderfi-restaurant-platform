@@ -4,6 +4,7 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
+import { ThemeProvider } from "@/components/theme-provider";
 import { HamburgerMenu, SearchBar } from "@/components/Navigation";
 import HomePage from "@/pages/home";
 import RestaurantDashboard from "@/pages/dashboard";
@@ -83,14 +84,16 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <OperationsAiProvider>
-          <Toaster />
-          <Router />
-        </OperationsAiProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <ThemeProvider defaultTheme="light">
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <OperationsAiProvider>
+            <Toaster />
+            <Router />
+          </OperationsAiProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 

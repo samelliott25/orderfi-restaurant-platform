@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function HomePage() {
   const [isClicked, setIsClicked] = useState(false);
@@ -36,7 +37,11 @@ export default function HomePage() {
   }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants]);
 
   return (
-    <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden" style={{ backgroundColor: '#fcfcfc' }}>
+    <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden bg-background">
+      {/* Theme Toggle - Top Right */}
+      <div className="absolute top-4 right-4 z-40">
+        <ThemeToggle />
+      </div>
       {/* Sleek Transition Overlay */}
       {showTransition && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-r from-orange-500 via-red-500 to-pink-500">
