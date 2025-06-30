@@ -323,10 +323,10 @@ html.dark .dark-mode-button:hover {
 /* Subtle floating animation for AI button */
 @keyframes gentleFloat {
   0%, 100% { 
-    transform: translateY(0px); 
+    transform: translate(-50%, 0px); 
   }
   50% { 
-    transform: translateY(-2px); 
+    transform: translate(-50%, -2px); 
   }
 }
 
