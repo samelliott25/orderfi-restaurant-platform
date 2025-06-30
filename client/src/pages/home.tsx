@@ -51,9 +51,9 @@ export default function HomePage() {
           {/* Center content - positioned exactly like home page */}
           <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-lg space-y-6">
             {/* OrderFi Logo - Same container as home page */}
-            <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80 flex items-center justify-center">
+            <div className="relative w-72 h-44 sm:w-80 sm:h-52 md:w-96 md:h-64 flex items-center justify-center">
               <div className="text-center">
-                <div className="md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce text-[88px] playwrite-font pl-[10px] pr-[10px] pt-[20px] pb-[20px] gentle-glow">
+                <div className="text-6xl sm:text-7xl md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
                   OrderFi
                 </div>
               </div>
@@ -92,9 +92,9 @@ export default function HomePage() {
         <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
           
           {/* OrderFi Logo - Animated SVG */}
-          <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80 flex items-center justify-center">
+          <div className="relative w-72 h-44 sm:w-80 sm:h-52 md:w-96 md:h-64 flex items-center justify-center">
             <div className="text-center">
-              <div className="md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse text-[88px] playwrite-font pl-[10px] pr-[10px] pt-[20px] pb-[20px] gentle-glow">
+              <div className="text-6xl sm:text-7xl md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font px-4 py-6 gentle-glow">
                 OrderFi
               </div>
               
