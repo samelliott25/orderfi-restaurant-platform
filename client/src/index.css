@@ -41,24 +41,24 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --background: 220 13% 9%;
+    --foreground: 0 0% 100%;
+    --card: 220 13% 9%;
+    --card-foreground: 0 0% 100%;
+    --popover: 220 13% 9%;
+    --popover-foreground: 0 0% 100%;
     --primary: 25 100% 65%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --secondary: 220 13% 12%;
+    --secondary-foreground: 210 9% 78%;
+    --muted: 220 13% 12%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 220 13% 12%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --border: 220 13% 20%;
+    --input: 220 13% 12%;
     --ring: 25 100% 65%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -89,8 +89,8 @@ html.dark,
 html.dark body, 
 html.dark #root,
 html.dark .bg-background {
-  background-color: hsl(240 10% 3.9%) !important;
-  color: hsl(0 0% 98%) !important;
+  background-color: hsl(220 13% 9%) !important;
+  color: hsl(0 0% 100%) !important;
 }
 
 html.light, 
@@ -102,9 +102,12 @@ html.light .bg-background {
 }
 
 /* Ensure text elements also follow theme */
-html.dark .text-foreground,
+html.dark .text-foreground {
+  color: hsl(0 0% 100%) !important;
+}
+
 html.dark .text-muted-foreground {
-  color: hsl(0 0% 98%) !important;
+  color: hsl(215 20% 65%) !important;
 }
 
 html.light .text-foreground,
@@ -291,8 +294,9 @@ html, body, #root {
 [data-radix-popover-content],
 [data-radix-dropdown-menu-content],
 [data-radix-context-menu-content] {
-  background-color: hsl(var(--background)) !important;
-  color: hsl(var(--foreground)) !important;
+  background-color: hsl(var(--popover)) !important;
+  color: hsl(var(--popover-foreground)) !important;
+  border: 1px solid hsl(var(--border)) !important;
   backdrop-filter: none !important;
 }
 
@@ -300,8 +304,8 @@ html, body, #root {
 .select-content,
 [role="listbox"],
 [role="menu"] {
-  background-color: hsl(var(--background)) !important;
-  color: hsl(var(--foreground)) !important;
+  background-color: hsl(var(--popover)) !important;
+  color: hsl(var(--popover-foreground)) !important;
   border: 1px solid hsl(var(--border)) !important;
 }
 
