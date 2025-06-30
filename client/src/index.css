@@ -72,16 +72,24 @@
   }
 
   /* Magical sparkles animation for AI chatbot button */
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.2; transform: scale(0.7) rotate(0deg); }
-    50% { opacity: 0.8; transform: scale(1.1) rotate(180deg); }
+  @keyframes orbit-clockwise {
+    0% { transform: rotate(0deg) translateX(18px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(18px) rotate(-360deg); }
   }
 
-  @keyframes stardust {
-    0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
-    25% { opacity: 0.6; }
-    75% { opacity: 0.6; }
-    100% { transform: translateY(-25px) rotate(360deg); opacity: 0; }
+  @keyframes orbit-counter-clockwise {
+    0% { transform: rotate(0deg) translateX(14px) rotate(0deg); }
+    100% { transform: rotate(-360deg) translateX(14px) rotate(360deg); }
+  }
+
+  @keyframes orbit-slow {
+    0% { transform: rotate(0deg) translateX(22px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(22px) rotate(-360deg); }
+  }
+
+  @keyframes twinkle-orbit {
+    0%, 100% { opacity: 0.4; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
   }
 
   @keyframes cosmic-glow {
@@ -89,11 +97,10 @@
     50% { box-shadow: 0 0 25px rgba(249, 115, 22, 0.6), 0 0 50px rgba(239, 68, 68, 0.4), 0 0 75px rgba(236, 72, 153, 0.3); }
   }
 
-  .ai-sparkle-1 { animation: twinkle 3s ease-in-out infinite; }
-  .ai-sparkle-2 { animation: twinkle 3.5s ease-in-out infinite 0.7s; }
-  .ai-sparkle-3 { animation: twinkle 4s ease-in-out infinite 1.4s; }
-  .ai-sparkle-4 { animation: twinkle 4.5s ease-in-out infinite 2.1s; }
-  .ai-stardust { animation: stardust 6s ease-in-out infinite; }
+  .ai-orbit-1 { animation: orbit-clockwise 8s linear infinite, twinkle-orbit 2s ease-in-out infinite; }
+  .ai-orbit-2 { animation: orbit-counter-clockwise 10s linear infinite, twinkle-orbit 2.5s ease-in-out infinite 0.5s; }
+  .ai-orbit-3 { animation: orbit-slow 12s linear infinite, twinkle-orbit 3s ease-in-out infinite 1s; }
+  .ai-orbit-4 { animation: orbit-clockwise 6s linear infinite, twinkle-orbit 1.8s ease-in-out infinite 1.5s; }
   .ai-cosmic-glow { animation: cosmic-glow 4s ease-in-out infinite; }
 
   :root {

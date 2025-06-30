@@ -510,18 +510,30 @@ export default function OrderFiNew() {
             className="absolute left-1/2 transform -translate-x-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-xl z-50 overflow-hidden ai-cosmic-glow"
           >
             <div className="relative w-full h-full flex items-center justify-center">
-              {/* Main central sparkle that rotates slowly */}
-              <Sparkles className="h-6 w-6 animate-spin" style={{ animationDuration: '8s' }} />
+              {/* Central star that pulses gently */}
+              <Sparkles className="h-6 w-6 animate-pulse" style={{ animationDuration: '3s' }} />
               
-              {/* Moving sparkles spread out to avoid overlap */}
-              <div className="absolute inset-0">
-                <Sparkles className="h-2 w-2 absolute top-0 left-1 ai-sparkle-1" />
-                <Sparkles className="h-2 w-2 absolute top-1 right-0 ai-sparkle-2" />
-                <Sparkles className="h-2 w-2 absolute bottom-1 left-0 ai-sparkle-3" />
-                <Sparkles className="h-2 w-2 absolute bottom-0 right-1 ai-sparkle-4" />
-                <Sparkles className="h-1 w-1 absolute top-2 left-1/2 ai-stardust" />
-                <Sparkles className="h-1 w-1 absolute top-1/2 right-2 ai-stardust" style={{ animationDelay: '2s' }} />
-                <Sparkles className="h-1 w-1 absolute bottom-2 left-1/2 ai-stardust" style={{ animationDelay: '4s' }} />
+              {/* Orbiting sparkles at different distances and speeds */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                {/* Inner orbit - fast */}
+                <div className="ai-orbit-4">
+                  <Sparkles className="h-2 w-2" />
+                </div>
+                
+                {/* Medium orbit - moderate speed */}
+                <div className="ai-orbit-1">
+                  <Sparkles className="h-2 w-2" />
+                </div>
+                
+                {/* Outer orbit - counter-clockwise */}
+                <div className="ai-orbit-2">
+                  <Sparkles className="h-1.5 w-1.5" />
+                </div>
+                
+                {/* Outermost orbit - slowest */}
+                <div className="ai-orbit-3">
+                  <Sparkles className="h-1 w-1" />
+                </div>
               </div>
             </div>
           </Button>
