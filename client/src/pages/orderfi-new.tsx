@@ -84,10 +84,10 @@ export default function OrderFiNew() {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }, 100);
     
-    // Trigger fade-in animation after a brief delay
+    // Trigger fade-in animation immediately to prevent white screen flash
     setTimeout(() => {
       setIsPageLoaded(true);
-    }, 150);
+    }, 50);
   }, []);
 
   // Get menu items and restaurant data
