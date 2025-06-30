@@ -61,7 +61,7 @@
     padding: 0;
   }
 
-  /* Seamless transition overlay system */
+  /* Seamless transition overlay system with enhanced effects */
   .page-transition-overlay {
     position: fixed;
     top: 0;
@@ -72,11 +72,33 @@
     z-index: 9999;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .page-transition-overlay.active {
     opacity: 1;
+  }
+
+  .page-transition-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+      transparent 30%, 
+      rgba(255,255,255,0.1) 50%, 
+      transparent 70%);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
 
   /* Override app background after page loads */

@@ -30,13 +30,16 @@ export default function HomePage() {
     if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
       // Wait for keyhole animation to complete then navigate smoothly
       const timer = setTimeout(() => {
-        // Add transition class to prevent white flash
-        document.body.classList.add('page-transition');
+        // Activate transition overlay to prevent white flash
+        const overlay = document.getElementById('page-transition-overlay');
+        if (overlay) {
+          overlay.classList.add('active');
+        }
         
         // Navigate after brief delay to allow transition overlay
         setTimeout(() => {
           window.location.href = '/orderfi';
-        }, 150);
+        }, 200);
       }, 1200);
       return () => clearTimeout(timer);
     }

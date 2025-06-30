@@ -76,10 +76,16 @@ export default function OrderFiNew() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Scroll to top when page loads and trigger fade-in
+  // Initialize page and remove transition overlay
   useEffect(() => {
     // Immediately remove transition overlay to prevent white flash
-    document.body.classList.remove('page-transition');
+    const overlay = document.getElementById('page-transition-overlay');
+    if (overlay) {
+      overlay.classList.remove('active');
+    }
+    
+    // Ensure proper background is set for orderfi page
+    document.body.classList.add('app-loaded');
     
     // Force scroll to top immediately and after a delay to override other scroll effects
     window.scrollTo({ top: 0, behavior: 'instant' });
