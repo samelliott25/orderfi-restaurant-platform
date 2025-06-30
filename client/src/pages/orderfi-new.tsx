@@ -611,6 +611,61 @@ export default function OrderFiNew() {
                 >
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
+                
+                {/* Left side concentration - filling the 30% gap */}
+                <svg 
+                  className="w-1.5 h-0.5 absolute ai-cascade-2"
+                  style={{ top: '8%', left: '12%', transform: 'rotate(72deg)', animationDelay: '0.9s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                <svg 
+                  className="w-0.5 h-2.5 absolute ai-cascade-4"
+                  style={{ top: '25%', left: '6%', transform: 'rotate(-45deg)', animationDelay: '2.1s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                <svg 
+                  className="w-2.5 h-1 absolute ai-cascade-1"
+                  style={{ top: '42%', left: '4%', transform: 'rotate(189deg)', animationDelay: '3.8s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                <svg 
+                  className="w-1 h-1.5 absolute ai-cascade-3"
+                  style={{ top: '58%', left: '14%', transform: 'rotate(267deg)', animationDelay: '1.3s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                <svg 
+                  className="w-0.5 h-3 absolute ai-cascade-2"
+                  style={{ top: '78%', left: '9%', transform: 'rotate(33deg)', animationDelay: '2.9s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                <svg 
+                  className="w-3 h-0.5 absolute ai-cascade-4"
+                  style={{ top: '95%', left: '2%', transform: 'rotate(-156deg)', animationDelay: '0.5s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
               </div>
             </div>
           </Button>
