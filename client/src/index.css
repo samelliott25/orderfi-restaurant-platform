@@ -298,6 +298,28 @@ html.dark .dark-mode-button:hover {
   padding-top: env(safe-area-inset-top, 0);
 }
 
+/* Unique cascade animation - stars light up in sequence from left to right */
+@keyframes cascadeGlow {
+  0%, 85%, 100% { 
+    opacity: 0.3; 
+    transform: scale(0.8); 
+  }
+  15% { 
+    opacity: 1; 
+    transform: scale(1.2); 
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+}
+
+.ai-cascade-1 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 0s; }
+.ai-cascade-2 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 0.4s; }
+.ai-cascade-3 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 0.8s; }
+.ai-cascade-4 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 1.2s; }
+.ai-cascade-5 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 1.6s; }
+.ai-cascade-6 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 2s; }
+.ai-cascade-7 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 2.4s; }
+.ai-cascade-8 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 2.8s; }
+
 /* Smooth transitions for navigation */
 .nav-transition {
   transition: all 0.2s ease-in-out;

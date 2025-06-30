@@ -520,60 +520,75 @@ export default function OrderFiNew() {
             <div className="relative w-full h-full">
               {/* Scattered stars across the entire button */}
               <div className="absolute inset-0 pointer-events-none">
-                {/* Star 1 - top left corner */}
+                {/* Left side cascade - different sizes and unique timing */}
                 <svg 
-                  className="w-1 h-1 absolute ai-sparkle-1"
-                  style={{ top: '8%', left: '8%' }}
+                  className="w-2 h-2 absolute ai-cascade-1"
+                  style={{ top: '15%', left: '5%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
-                {/* Star 2 - top right corner */}
                 <svg 
-                  className="w-1 h-1 absolute ai-sparkle-2"
-                  style={{ top: '12%', left: '85%' }}
+                  className="w-1 h-1 absolute ai-cascade-2"
+                  style={{ top: '35%', left: '10%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
-                {/* Star 3 - middle left */}
                 <svg 
-                  className="w-1.5 h-1.5 absolute ai-sparkle-3"
-                  style={{ top: '50%', left: '15%' }}
+                  className="w-1.5 h-1.5 absolute ai-cascade-3"
+                  style={{ top: '65%', left: '8%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
-                {/* Star 4 - middle right */}
                 <svg 
-                  className="w-1 h-1 absolute ai-sparkle-4"
-                  style={{ top: '45%', left: '80%' }}
+                  className="w-1 h-1 absolute ai-cascade-4"
+                  style={{ top: '85%', left: '15%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
-                {/* Star 5 - bottom left corner */}
+                {/* Right side scatter - varied positions */}
                 <svg 
-                  className="w-1 h-1 absolute ai-sparkle-1"
-                  style={{ top: '88%', left: '12%', animationDelay: '1.5s' }}
+                  className="w-1 h-1 absolute ai-cascade-5"
+                  style={{ top: '8%', left: '78%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
-                {/* Star 6 - bottom right corner */}
                 <svg 
-                  className="w-1 h-1 absolute ai-sparkle-2"
-                  style={{ top: '85%', left: '88%', animationDelay: '2s' }}
+                  className="w-1.5 h-1.5 absolute ai-cascade-6"
+                  style={{ top: '42%', left: '88%' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                <svg 
+                  className="w-1 h-1 absolute ai-cascade-7"
+                  style={{ top: '75%', left: '82%' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Center accent stars */}
+                <svg 
+                  className="w-1 h-1 absolute ai-cascade-8"
+                  style={{ top: '28%', left: '48%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
