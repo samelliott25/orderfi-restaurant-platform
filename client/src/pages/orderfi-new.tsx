@@ -379,24 +379,32 @@ export default function OrderFiNew() {
           <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
+      {/* Chat Backdrop */}
+      {isChatExpanded && (
+        <div 
+          className="fixed inset-0 bg-black/30 backdrop-blur-md z-40"
+          onClick={() => setIsChatExpanded(false)}
+        />
+      )}
+
       {/* Floating AI Chat Interface */}
       {isChatExpanded && (
-        <div className="fixed top-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
+        <div className="fixed top-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-2xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm">
           {/* Chat Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-100">
+          <div className="flex items-center justify-between p-4 border-b border-white/20">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span className="text-sm font-medium">AI Assistant</span>
-              <Badge className="bg-green-100 text-green-800 text-xs">Online</Badge>
+              <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+              <span className="text-sm font-medium text-white">AI Assistant</span>
+              <Badge className="bg-white/20 text-white text-xs border-white/30">Online</Badge>
             </div>
             <Button
               size="sm"
               variant="ghost"
               onClick={() => setIsChatExpanded(false)}
-              className="p-1 h-6 w-6 hover:bg-gray-100"
+              className="p-1 h-6 w-6 hover:bg-white/20 text-white"
               title="Minimize chat"
             >
-              <span className="text-lg leading-none">−</span>
+              <span className="text-lg leading-none">×</span>
             </Button>
           </div>
           
@@ -410,8 +418,8 @@ export default function OrderFiNew() {
                       <Sparkles className="h-3 w-3 text-white" />
                     </div>
                     <div className="flex-1">
-                      <div className="bg-muted/50 rounded-lg px-3 py-2">
-                        <p className="text-xs text-foreground">{message.content}</p>
+                      <div className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2">
+                        <p className="text-xs text-white">{message.content}</p>
                       </div>
                       {message.menuItems && message.menuItems.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-2">
@@ -420,7 +428,7 @@ export default function OrderFiNew() {
                               key={index}
                               size="sm"
                               variant="outline"
-                              className="text-xs h-5 px-2"
+                              className="text-xs h-5 px-2 bg-white/10 border-white/30 text-white hover:bg-white/20"
                             >
                               {item}
                             </Button>
@@ -431,11 +439,11 @@ export default function OrderFiNew() {
                   </div>
                 ) : (
                   <div className="flex gap-2 justify-end items-start">
-                    <div className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white rounded-lg px-3 py-2 max-w-[70%]">
+                    <div className="bg-white/30 backdrop-blur-sm text-white rounded-lg px-3 py-2 max-w-[70%]">
                       <p className="text-xs">{message.content}</p>
                     </div>
                     <Avatar className="w-6 h-6 flex-shrink-0">
-                      <AvatarFallback className="bg-muted text-foreground text-xs">
+                      <AvatarFallback className="bg-white/20 text-white text-xs">
                         <User className="h-3 w-3" />
                       </AvatarFallback>
                     </Avatar>
@@ -462,12 +470,12 @@ export default function OrderFiNew() {
           </div>
           
           {/* Chat Input */}
-          <div className="p-4 border-t border-gray-100">
-            <div className="flex items-center gap-2 bg-gray-50 rounded-full px-3 py-2">
+          <div className="p-4 border-t border-white/20">
+            <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-2">
               <Button
                 size="sm"
                 variant="ghost"
-                className={`p-1 rounded-full ${isListening ? 'bg-red-100 text-red-600' : 'hover:bg-gray-200'}`}
+                className={`p-1 rounded-full text-white ${isListening ? 'bg-red-400/30 text-red-200' : 'hover:bg-white/20'}`}
                 onClick={handleVoiceToggle}
               >
                 {isListening ? <MicOff className="h-3 w-3" /> : <Mic className="h-3 w-3" />}
@@ -477,11 +485,11 @@ export default function OrderFiNew() {
                 onChange={(e) => setCurrentMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
-                className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-sm"
+                className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-sm text-white placeholder:text-white/70"
               />
               <Button
                 size="sm"
-                className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white p-1 rounded-full"
+                className="bg-white/30 hover:bg-white/40 text-white p-1 rounded-full backdrop-blur-sm"
                 onClick={handleSendMessage}
                 disabled={!currentMessage.trim() || isLoading}
               >
