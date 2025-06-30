@@ -94,7 +94,7 @@ export default function HomePage() {
           
           {/* Logo spacing */}
           <div className="text-center space-y-2">
-            <p className="text-xs sm:text-sm text-gray-600 px-4">
+            <p className="text-xs sm:text-sm text-muted-foreground px-4">
               AI-Powered Restaurant Platform with Blockchain Rewards
             </p>
           </div>

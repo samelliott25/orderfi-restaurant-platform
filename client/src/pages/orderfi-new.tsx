@@ -251,9 +251,9 @@ export default function OrderFiNew() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fcfcfc]">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-white border-b border-gray-100">
+      <div className="flex items-center justify-between p-4 bg-card border-b border-border">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center">
             <Sparkles className="h-5 w-5 text-white" />
@@ -262,13 +262,13 @@ export default function OrderFiNew() {
             <h1 className="font-semibold text-lg" style={{ fontFamily: 'Playwrite Australia Victoria' }}>
               OrderFi AI
             </h1>
-            <p className="text-sm text-gray-500">Smart Restaurant Assistant</p>
+            <p className="text-sm text-muted-foreground">Smart Restaurant Assistant</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Bell className="h-5 w-5 text-gray-400" />
+          <Bell className="h-5 w-5 text-muted-foreground" />
           <Avatar className="w-8 h-8">
-            <AvatarFallback className="bg-gray-100">
+            <AvatarFallback className="bg-muted">
               <User className="h-4 w-4" />
             </AvatarFallback>
           </Avatar>
@@ -276,20 +276,20 @@ export default function OrderFiNew() {
       </div>
 
       {/* Quick Actions - Now at the top */}
-      <div className="px-4 py-3 border-b border-gray-100">
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Actions</h3>
+      <div className="px-4 py-3 border-b border-border">
+        <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
         <div className="grid grid-cols-2 gap-3">
           {quickActions.map((action, index) => (
             <Button
               key={index}
               variant="outline"
-              className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-white to-gray-50 border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100 hover:scale-105 transition-all duration-200 active:scale-95"
+              className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100 hover:scale-105 transition-all duration-200 active:scale-95"
               onClick={action.action}
             >
               <div className="text-orange-500 scale-110">
                 {action.icon}
               </div>
-              <span className="text-xs font-semibold text-gray-700">{action.label}</span>
+              <span className="text-xs font-semibold text-foreground">{action.label}</span>
             </Button>
           ))}
         </div>
@@ -300,15 +300,15 @@ export default function OrderFiNew() {
 
           {/* Today's Specials */}
           <div className="mt-8">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">Today's Specials</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-3">Today's Specials</h3>
             <div className="space-y-3">
               {todaysSpecials.map((special) => (
-                <Card key={special.id} className="border-gray-200">
+                <Card key={special.id} className="border-border">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <h4 className="font-semibold text-sm">{special.name}</h4>
-                        <p className="text-xs text-gray-600 mt-1">{special.description}</p>
+                        <h4 className="font-semibold text-sm text-foreground">{special.name}</h4>
+                        <p className="text-xs text-muted-foreground mt-1">{special.description}</p>
                         <p className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 font-bold text-sm mt-2">${special.price}</p>
                       </div>
                       <Button size="sm" className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white">
@@ -347,15 +347,15 @@ export default function OrderFiNew() {
 
           {/* Recent Orders */}
           <div className="mt-8">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">Recent Orders</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-3">Recent Orders</h3>
             <div className="space-y-3">
               {recentOrders.map((order) => (
-                <Card key={order.id} className="border-gray-200">
+                <Card key={order.id} className="border-border">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-sm">Order {order.id}</span>
+                          <span className="font-semibold text-sm text-foreground">Order {order.id}</span>
                           <Badge 
                             className={`text-xs ${
                               order.status === 'delivered' 
@@ -369,10 +369,10 @@ export default function OrderFiNew() {
                              order.status === 'in-progress' ? 'In Progress' : 'Preparing'}
                           </Badge>
                         </div>
-                        <p className="text-xs text-gray-600 mt-1">{order.items}</p>
-                        <p className="font-bold text-sm mt-2">${order.total}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{order.items}</p>
+                        <p className="font-bold text-sm mt-2 text-foreground">${order.total}</p>
                       </div>
-                      <span className="text-xs text-gray-500">{order.date}</span>
+                      <span className="text-xs text-muted-foreground">{order.date}</span>
                     </div>
                   </CardContent>
                 </Card>
