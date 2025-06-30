@@ -41,24 +41,24 @@
   }
 
   .dark {
-    --background: 220 13% 9%;
+    --background: 220 23% 9%;
     --foreground: 0 0% 100%;
-    --card: 220 13% 9%;
+    --card: 220 23% 9%;
     --card-foreground: 0 0% 100%;
-    --popover: 220 13% 9%;
+    --popover: 220 23% 9%;
     --popover-foreground: 0 0% 100%;
     --primary: 25 100% 65%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 13% 12%;
-    --secondary-foreground: 210 9% 78%;
-    --muted: 220 13% 12%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 220 13% 12%;
+    --secondary: 220 17% 15%;
+    --secondary-foreground: 210 20% 78%;
+    --muted: 220 17% 15%;
+    --muted-foreground: 220 9% 65%;
+    --accent: 220 17% 15%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 20%;
-    --input: 220 13% 12%;
+    --border: 220 13% 21%;
+    --input: 220 17% 15%;
     --ring: 25 100% 65%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -84,13 +84,24 @@ html, body, #root {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Force dark mode styles with higher specificity */
+/* Force dark mode styles with higher specificity - using sidebar gray colors */
 html.dark, 
 html.dark body, 
 html.dark #root,
-html.dark .bg-background {
-  background-color: hsl(220 13% 9%) !important;
-  color: hsl(0 0% 100%) !important;
+html.dark .bg-background,
+html.dark .bg-card {
+  background-color: rgb(17, 24, 39) !important; /* gray-900 */
+  color: rgb(255, 255, 255) !important;
+}
+
+html.dark .bg-muted,
+html.dark .bg-secondary {
+  background-color: rgb(31, 41, 55) !important; /* gray-800 */
+}
+
+html.dark .border-border,
+html.dark .border {
+  border-color: rgb(55, 65, 81) !important; /* gray-700 */
 }
 
 html.light, 
@@ -101,13 +112,21 @@ html.light .bg-background {
   color: hsl(240 10% 3.9%) !important;
 }
 
-/* Ensure text elements also follow theme */
+/* Ensure text elements follow sidebar gray theme */
 html.dark .text-foreground {
-  color: hsl(0 0% 100%) !important;
+  color: rgb(255, 255, 255) !important; /* white */
 }
 
 html.dark .text-muted-foreground {
-  color: hsl(215 20% 65%) !important;
+  color: rgb(156, 163, 175) !important; /* gray-400 */
+}
+
+html.dark .text-gray-700 {
+  color: rgb(209, 213, 219) !important; /* gray-300 in dark mode */
+}
+
+html.dark .text-gray-600 {
+  color: rgb(156, 163, 175) !important; /* gray-400 in dark mode */
 }
 
 html.light .text-foreground,
@@ -289,24 +308,43 @@ html, body, #root {
   border-radius: 12px;
 }
 
-/* Fix translucent dropdown menus - make them fully opaque */
-[data-radix-select-content],
-[data-radix-popover-content],
-[data-radix-dropdown-menu-content],
-[data-radix-context-menu-content] {
-  background-color: hsl(var(--popover)) !important;
-  color: hsl(var(--popover-foreground)) !important;
-  border: 1px solid hsl(var(--border)) !important;
+/* Fix translucent dropdown menus - use sidebar gray theme */
+html.dark [data-radix-select-content],
+html.dark [data-radix-popover-content],
+html.dark [data-radix-dropdown-menu-content],
+html.dark [data-radix-context-menu-content] {
+  background-color: rgb(17, 24, 39) !important; /* gray-900 */
+  color: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(55, 65, 81) !important; /* gray-700 */
   backdrop-filter: none !important;
 }
 
-/* Ensure all Select components have opaque backgrounds */
-.select-content,
-[role="listbox"],
-[role="menu"] {
-  background-color: hsl(var(--popover)) !important;
-  color: hsl(var(--popover-foreground)) !important;
-  border: 1px solid hsl(var(--border)) !important;
+/* Light mode dropdown styling */
+html.light [data-radix-select-content],
+html.light [data-radix-popover-content],
+html.light [data-radix-dropdown-menu-content],
+html.light [data-radix-context-menu-content] {
+  background-color: white !important;
+  color: hsl(240 10% 3.9%) !important;
+  border: 1px solid hsl(240 5.9% 90%) !important;
+  backdrop-filter: none !important;
+}
+
+/* Ensure all Select components follow theme */
+html.dark .select-content,
+html.dark [role="listbox"],
+html.dark [role="menu"] {
+  background-color: rgb(17, 24, 39) !important;
+  color: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(55, 65, 81) !important;
+}
+
+html.light .select-content,
+html.light [role="listbox"],
+html.light [role="menu"] {
+  background-color: white !important;
+  color: hsl(240 10% 3.9%) !important;
+  border: 1px solid hsl(240 5.9% 90%) !important;
 }
 
 /* OrderFi Logo Animations */
