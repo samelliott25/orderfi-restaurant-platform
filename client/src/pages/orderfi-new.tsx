@@ -407,8 +407,8 @@ export default function OrderFiNew() {
                       <Sparkles className="h-3 w-3 text-white" />
                     </div>
                     <div className="flex-1">
-                      <div className="bg-gray-50 rounded-lg px-3 py-2">
-                        <p className="text-xs text-gray-800">{message.content}</p>
+                      <div className="bg-muted/50 rounded-lg px-3 py-2">
+                        <p className="text-xs text-foreground">{message.content}</p>
                       </div>
                       {message.menuItems && message.menuItems.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-2">
@@ -432,7 +432,7 @@ export default function OrderFiNew() {
                       <p className="text-xs">{message.content}</p>
                     </div>
                     <Avatar className="w-6 h-6 flex-shrink-0">
-                      <AvatarFallback className="bg-gray-600 text-white text-xs">
+                      <AvatarFallback className="bg-muted text-foreground text-xs">
                         <User className="h-3 w-3" />
                       </AvatarFallback>
                     </Avatar>
@@ -446,11 +446,11 @@ export default function OrderFiNew() {
                 <div className="w-6 h-6 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center">
                   <Sparkles className="h-3 w-3 text-white animate-pulse" />
                 </div>
-                <div className="bg-gray-50 rounded-lg px-3 py-2">
+                <div className="bg-muted/50 rounded-lg px-3 py-2">
                   <div className="flex gap-1">
-                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                   </div>
                 </div>
               </div>
