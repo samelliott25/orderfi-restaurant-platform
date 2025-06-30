@@ -55,15 +55,14 @@
 
 @layer base {
   html, body, #root {
-    background-color: hsl(var(--background)) !important;
+    background: linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%) !important;
     min-height: 100vh;
     margin: 0;
     padding: 0;
   }
 
-  /* Prevent white flash during navigation */
-  body::before {
-    content: '';
+  /* Seamless transition overlay system */
+  .page-transition-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -73,11 +72,16 @@
     z-index: 9999;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
   }
 
-  body.page-transition::before {
+  .page-transition-overlay.active {
     opacity: 1;
+  }
+
+  /* Override app background after page loads */
+  .app-loaded {
+    background: hsl(var(--background)) !important;
   }
 
   :root {

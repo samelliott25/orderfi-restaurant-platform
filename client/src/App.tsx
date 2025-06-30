@@ -14,6 +14,7 @@ import OrderFiSimple from "./pages/orderfi-simple";
 import TokenRewardsPage from "@/pages/tokenrewards";
 import KitchenPrintingPage from "@/pages/kitchen-printing";
 import NotFound from "@/pages/not-found";
+import { useEffect, useState } from "react";
 
 // Keep only essential admin pages for dashboard integration
 import AdminMenuPage from "@/pages/admin/menu";
@@ -24,9 +25,19 @@ import AdminBlockchainPage from "@/pages/admin/blockchain";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
+  const [isAppLoaded, setIsAppLoaded] = useState(false);
   
   // Hide navigation on home page and certain other pages for full-screen experience
   const hideNavigation = ['/', '/not-found', '/orderfi'].includes(location);
+
+  // Set app loaded state and change background after initial render
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAppLoaded(true);
+      document.body.classList.add('app-loaded');
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
   
   // Remove top padding for dashboard to push heading to very top
   const isDashboard = location === '/dashboard';

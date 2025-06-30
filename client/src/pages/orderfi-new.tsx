@@ -76,21 +76,19 @@ export default function OrderFiNew() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Handle page load transition seamlessly
+  // Scroll to top when page loads and trigger fade-in
   useEffect(() => {
     // Immediately remove transition overlay to prevent white flash
     document.body.classList.remove('page-transition');
     
-    // Force scroll to top
+    // Force scroll to top immediately and after a delay to override other scroll effects
     window.scrollTo({ top: 0, behavior: 'instant' });
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 100);
     
-    // Hide loading screen and show content after brief delay to ensure smooth transition
-    const timer = setTimeout(() => {
-      setShowLoadingScreen(false);
-      setIsPageLoaded(true);
-    }, 300);
-    
-    return () => clearTimeout(timer);
+    // Trigger fade-in animation immediately to prevent white screen flash
+    setIsPageLoaded(true);
   }, []);
 
   // Get menu items and restaurant data
@@ -261,34 +259,9 @@ export default function OrderFiNew() {
   };
 
   return (
-    <>
-      {/* Loading Screen - matches home page transition */}
-      {showLoadingScreen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-r from-orange-500 via-red-500 to-pink-500">
-          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
-          
-          <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-lg space-y-6">
-            <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
-                  OrderFi
-                </div>
-              </div>
-            </div>
-            
-            <div className="text-center">
-              <div className="text-xl text-white animate-pulse">
-                Loading your AI assistant...
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Main Page Content */}
-      <div className={`min-h-screen bg-background transition-opacity duration-500 ease-in-out ${
-        isPageLoaded ? 'opacity-100' : 'opacity-0'
-      }`}>
+    <div className={`min-h-screen bg-background transition-opacity duration-700 ease-in-out ${
+      isPageLoaded ? 'opacity-100' : 'opacity-0'
+    }`}>
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-card border-b border-border">
         <div className="flex items-center gap-3">
@@ -556,7 +529,6 @@ export default function OrderFiNew() {
           </Button>
         </div>
       </div>
-      </div>
-    </>
+    </div>
   );
 }
