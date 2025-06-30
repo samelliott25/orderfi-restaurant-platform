@@ -48,13 +48,22 @@ export default function HomePage() {
           {/* Overlay gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
           
-          {/* Center content */}
-          <div className="relative z-10 text-center text-white">
-            <div className="text-5xl font-bold mb-4 animate-bounce font-heading gentle-glow">
-              OrderFi
+          {/* Center content - positioned exactly like home page */}
+          <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-lg space-y-6">
+            {/* OrderFi Logo - Same container as home page */}
+            <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80 flex items-center justify-center">
+              <div className="text-center">
+                <div className="md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce text-[88px] playwrite-font pl-[10px] pr-[10px] pt-[20px] pb-[20px] gentle-glow">
+                  OrderFi
+                </div>
+              </div>
             </div>
-            <div className="text-xl animate-pulse">
-              {menuLoading || restaurantLoading ? 'Loading restaurant data...' : 'Launching AI Assistant...'}
+            
+            {/* Loading text below logo */}
+            <div className="text-center">
+              <div className="text-xl text-white animate-pulse">
+                {menuLoading || restaurantLoading ? 'Loading restaurant data...' : 'Launching AI Assistant...'}
+              </div>
             </div>
           </div>
           
