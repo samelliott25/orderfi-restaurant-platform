@@ -510,18 +510,18 @@ export default function OrderFiNew() {
             className="absolute left-1/2 transform -translate-x-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-xl z-50 overflow-hidden ai-cosmic-glow"
           >
             <div className="relative w-full h-full flex items-center justify-center">
-              {/* Main central sparkle that rotates */}
-              <Sparkles className="h-7 w-7 animate-spin" style={{ animationDuration: '4s' }} />
+              {/* Main central sparkle that rotates slowly */}
+              <Sparkles className="h-6 w-6 animate-spin" style={{ animationDuration: '8s' }} />
               
-              {/* Moving sparkles that create the "stars moving through sky" effect */}
+              {/* Moving sparkles spread out to avoid overlap */}
               <div className="absolute inset-0">
-                <Sparkles className="h-3 w-3 absolute top-1 left-2 ai-sparkle-1" />
-                <Sparkles className="h-2 w-2 absolute top-3 right-2 ai-sparkle-2" />
-                <Sparkles className="h-2 w-2 absolute bottom-3 left-3 ai-sparkle-3" />
-                <Sparkles className="h-3 w-3 absolute bottom-1 right-1 ai-sparkle-4" />
-                <Sparkles className="h-1 w-1 absolute top-1/2 left-1 ai-stardust" />
-                <Sparkles className="h-1 w-1 absolute top-1/3 right-1/3 ai-stardust" style={{ animationDelay: '1s' }} />
-                <Sparkles className="h-1 w-1 absolute bottom-1/3 left-1/2 ai-stardust" style={{ animationDelay: '2s' }} />
+                <Sparkles className="h-2 w-2 absolute top-0 left-1 ai-sparkle-1" />
+                <Sparkles className="h-2 w-2 absolute top-1 right-0 ai-sparkle-2" />
+                <Sparkles className="h-2 w-2 absolute bottom-1 left-0 ai-sparkle-3" />
+                <Sparkles className="h-2 w-2 absolute bottom-0 right-1 ai-sparkle-4" />
+                <Sparkles className="h-1 w-1 absolute top-2 left-1/2 ai-stardust" />
+                <Sparkles className="h-1 w-1 absolute top-1/2 right-2 ai-stardust" style={{ animationDelay: '2s' }} />
+                <Sparkles className="h-1 w-1 absolute bottom-2 left-1/2 ai-stardust" style={{ animationDelay: '4s' }} />
               </div>
             </div>
           </Button>
