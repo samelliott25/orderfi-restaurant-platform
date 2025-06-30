@@ -31,7 +31,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const isDashboard = location === '/dashboard';
   
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#fcfcfc' }}>
+    <div className="min-h-screen bg-background">
       {!hideNavigation && (
         <>
           <HamburgerMenu />

@@ -37,7 +37,7 @@ export default function HomePage() {
   }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants]);
 
   return (
-    <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden bg-background">
+    <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden bg-background text-foreground">
       {/* Theme Toggle - Top Right */}
       <div className="absolute top-4 right-4 z-40">
         <ThemeToggle />
