@@ -275,28 +275,28 @@ export default function OrderFiNew() {
         </div>
       </div>
 
-      {/* Quick Actions - Now at the top */}
-      <div className="px-4 py-3 border-b border-border">
-        <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
-        <div className="grid grid-cols-2 gap-3">
-          {quickActions.map((action, index) => (
-            <Button
-              key={index}
-              variant="outline"
-              className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100 hover:scale-105 transition-all duration-200 active:scale-95"
-              onClick={action.action}
-            >
-              <div className="text-orange-500 scale-110">
-                {action.icon}
-              </div>
-              <span className="text-xs font-semibold text-foreground">{action.label}</span>
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 200px)' }}>
+      <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 140px)' }}>
         <div className="space-y-4 py-4">
+
+          {/* Quick Actions */}
+          <div>
+            <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
+            <div className="grid grid-cols-2 gap-3">
+              {quickActions.map((action, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100 hover:scale-105 transition-all duration-200 active:scale-95"
+                  onClick={action.action}
+                >
+                  <div className="text-orange-500 scale-110">
+                    {action.icon}
+                  </div>
+                  <span className="text-xs font-semibold text-foreground">{action.label}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
 
           {/* Today's Specials */}
           <div className="mt-8">
