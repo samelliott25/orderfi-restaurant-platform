@@ -489,7 +489,7 @@ export default function OrderFiNew() {
         </div>
       )}
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
+      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border">
         <div className="relative flex items-center justify-around py-3">
           <Button 
             variant="ghost" 
@@ -499,15 +499,6 @@ export default function OrderFiNew() {
           >
             <Home className="h-4 w-4 text-orange-500" />
             <span className="text-xs">Home</span>
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex flex-col items-center gap-1 text-gray-400 hover:text-orange-500"
-            onClick={() => setLocation('/dashboard')}
-          >
-            <Menu className="h-4 w-4" />
-            <span className="text-xs">Menu</span>
           </Button>
           
           {/* AI Chatbot Icon - Center of navbar */}
@@ -521,20 +512,11 @@ export default function OrderFiNew() {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="flex flex-col items-center gap-1 text-gray-400 hover:text-orange-500"
+            className="flex flex-col items-center gap-1 text-muted-foreground hover:text-orange-500"
             onClick={() => setLocation('/dashboard')}
           >
             <Calendar className="h-4 w-4" />
             <span className="text-xs">Orders</span>
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex flex-col items-center gap-1 text-gray-400 hover:text-orange-500"
-            onClick={() => setLocation('/tokenrewards')}
-          >
-            <Gift className="h-4 w-4" />
-            <span className="text-xs">Rewards</span>
           </Button>
         </div>
       </div>
