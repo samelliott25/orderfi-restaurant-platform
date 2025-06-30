@@ -389,7 +389,7 @@ export default function OrderFiNew() {
 
       {/* Floating AI Chat Interface */}
       {isChatExpanded && (
-        <div className="fixed top-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-2xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm">
+        <div className="fixed inset-4 md:inset-8 lg:inset-12 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-3xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300 flex flex-col">
           {/* Chat Header */}
           <div className="flex items-center justify-between p-4 border-b border-white/20">
             <div className="flex items-center gap-2">
@@ -409,7 +409,7 @@ export default function OrderFiNew() {
           </div>
           
           {/* Chat Messages */}
-          <div className="h-80 overflow-y-auto p-4 space-y-3">
+          <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {messages.map((message) => (
               <div key={message.id}>
                 {message.role === 'assistant' ? (
@@ -470,7 +470,7 @@ export default function OrderFiNew() {
           </div>
           
           {/* Chat Input */}
-          <div className="p-4 border-t border-white/20">
+          <div className="p-6 border-t border-white/20">
             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-2">
               <Button
                 size="sm"
