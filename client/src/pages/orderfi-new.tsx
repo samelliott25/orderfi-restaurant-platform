@@ -74,9 +74,13 @@ export default function OrderFiNew() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Scroll to top when page loads
+  // Scroll to top when page loads and prevent auto-scroll to bottom
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Force scroll to top immediately and after a delay to override other scroll effects
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 100);
   }, []);
 
   // Get menu items and restaurant data
@@ -153,8 +157,11 @@ export default function OrderFiNew() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Only scroll to bottom when new messages are added by user interaction, not on page load
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 1) { // Only scroll if there are user messages (more than just the initial AI greeting)
+      scrollToBottom();
+    }
   }, [messages]);
 
   const handleSendMessage = async () => {
