@@ -308,18 +308,20 @@ export default function OrderFiNew() {
           {/* Quick Actions */}
           <div>
             <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-4 overflow-hidden">
+            <div className="grid grid-cols-2 gap-3">
               {quickActions.map((action, index) => (
                 <Button
                   key={index}
                   variant="outline"
-                  className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100/60 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200 active:scale-95 overflow-hidden"
+                  className="relative flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 transition-all duration-200 active:scale-95 overflow-hidden group"
                   onClick={action.action}
                 >
-                  <div className="text-orange-500 scale-110">
+                  {/* Internal glow overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-orange-500/0 group-hover:from-orange-400/10 group-hover:to-orange-500/15 transition-all duration-300 rounded-md"></div>
+                  <div className="relative z-10 text-orange-500 scale-110 group-hover:text-orange-600 transition-colors duration-200">
                     {action.icon}
                   </div>
-                  <span className="text-xs font-semibold text-foreground">{action.label}</span>
+                  <span className="relative z-10 text-xs font-semibold text-foreground group-hover:text-orange-700 transition-colors duration-200">{action.label}</span>
                 </Button>
               ))}
             </div>
