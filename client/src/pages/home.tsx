@@ -51,9 +51,9 @@ export default function HomePage() {
           {/* Center content - positioned exactly like home page */}
           <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-lg space-y-6">
             {/* OrderFi Logo - Same container as home page */}
-            <div className="relative w-72 h-44 sm:w-80 sm:h-52 md:w-96 md:h-64 flex items-center justify-center">
+            <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
               <div className="text-center">
-                <div className="text-6xl sm:text-7xl md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
+                <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
                   OrderFi
                 </div>
               </div>
@@ -92,9 +92,9 @@ export default function HomePage() {
         <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
           
           {/* OrderFi Logo - Animated SVG */}
-          <div className="relative w-72 h-44 sm:w-80 sm:h-52 md:w-96 md:h-64 flex items-center justify-center">
+          <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-6xl sm:text-7xl md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font px-4 py-6 gentle-glow">
+              <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font px-4 py-6 gentle-glow">
                 OrderFi
               </div>
               
