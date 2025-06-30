@@ -576,7 +576,7 @@ export default function OrderFiNew() {
                 </svg>
               </div>
               {/* Center letter O in same font as logo */}
-              <span className="text-white text-2xl font-bold relative z-10" style={{ fontFamily: 'Playwrite Australia Victoria' }}>O</span>
+              <span className="text-white text-2xl font-bold relative z-10" style={{ fontFamily: 'Playwrite AU VIC' }}>O</span>
             </div>
           </Button>
           
