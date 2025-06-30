@@ -522,8 +522,8 @@ export default function OrderFiNew() {
               <div className="absolute inset-0 pointer-events-none">
                 {/* Star 1 - top left */}
                 <svg 
-                  className="w-2 h-2 absolute ai-sparkle-1"
-                  style={{ top: '12%', left: '15%' }}
+                  className="w-1.5 h-1.5 absolute ai-sparkle-1"
+                  style={{ top: '15%', left: '18%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -532,28 +532,28 @@ export default function OrderFiNew() {
                 
                 {/* Star 2 - top right */}
                 <svg 
-                  className="w-1.5 h-1.5 absolute ai-sparkle-2"
-                  style={{ top: '8%', left: '75%' }}
+                  className="w-1 h-1 absolute ai-sparkle-2"
+                  style={{ top: '10%', left: '72%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
-                {/* Star 3 - center left */}
+                {/* Star 3 - left side */}
                 <svg 
                   className="w-1 h-1 absolute ai-sparkle-3"
-                  style={{ top: '45%', left: '8%' }}
+                  style={{ top: '42%', left: '12%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 
-                {/* Star 4 - center right */}
+                {/* Star 4 - right side */}
                 <svg 
                   className="w-1.5 h-1.5 absolute ai-sparkle-4"
-                  style={{ top: '52%', left: '85%' }}
+                  style={{ top: '48%', left: '78%' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -563,7 +563,7 @@ export default function OrderFiNew() {
                 {/* Star 5 - bottom left */}
                 <svg 
                   className="w-1 h-1 absolute ai-sparkle-1"
-                  style={{ top: '82%', left: '20%', animationDelay: '1.5s' }}
+                  style={{ top: '75%', left: '22%', animationDelay: '1.5s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -572,8 +572,8 @@ export default function OrderFiNew() {
                 
                 {/* Star 6 - bottom right */}
                 <svg 
-                  className="w-2 h-2 absolute ai-sparkle-2"
-                  style={{ top: '88%', left: '70%', animationDelay: '2s' }}
+                  className="w-1 h-1 absolute ai-sparkle-2"
+                  style={{ top: '82%', left: '68%', animationDelay: '2s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -583,7 +583,7 @@ export default function OrderFiNew() {
                 {/* Star 7 - upper center */}
                 <svg 
                   className="w-1 h-1 absolute ai-sparkle-3"
-                  style={{ top: '25%', left: '50%', animationDelay: '0.8s' }}
+                  style={{ top: '28%', left: '45%', animationDelay: '0.8s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -592,28 +592,8 @@ export default function OrderFiNew() {
                 
                 {/* Star 8 - lower center */}
                 <svg 
-                  className="w-1.5 h-1.5 absolute ai-sparkle-4"
-                  style={{ top: '65%', left: '45%', animationDelay: '2.3s' }}
-                  viewBox="0 0 24 24" 
-                  fill="currentColor"
-                >
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                
-                {/* Star 9 - mid left */}
-                <svg 
-                  className="w-1 h-1 absolute ai-sparkle-1"
-                  style={{ top: '35%', left: '25%', animationDelay: '1.2s' }}
-                  viewBox="0 0 24 24" 
-                  fill="currentColor"
-                >
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                
-                {/* Star 10 - mid right */}
-                <svg 
-                  className="w-1 h-1 absolute ai-sparkle-2"
-                  style={{ top: '38%', left: '68%', animationDelay: '1.8s' }}
+                  className="w-1 h-1 absolute ai-sparkle-4"
+                  style={{ top: '62%', left: '38%', animationDelay: '2.3s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
