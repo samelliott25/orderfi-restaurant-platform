@@ -48,7 +48,7 @@ export function HamburgerMenu() {
         <Button 
           variant="ghost" 
           size="sm" 
-          className="fixed top-4 right-4 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border border-gray-200 dark:border-gray-800 shadow-sm"
+          className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:bg-muted"
         >
           <Menu className="h-5 w-5" />
         </Button>

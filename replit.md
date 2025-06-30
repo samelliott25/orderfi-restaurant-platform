@@ -134,6 +134,13 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- June 30, 2025. Dark mode implementation and UI improvements
+  - Implemented comprehensive dark mode system with theme toggle on home page
+  - Added smooth theme transitions with 0.3s ease animations
+  - Updated all components to use semantic color tokens for proper dark mode support
+  - Fixed /orderfi page scroll behavior to load at top instead of auto-scrolling to bottom
+  - Enhanced Quick Actions with orange gradient styling and hover animations
+  - Maintained orange gradient branding consistency across both light and dark themes
 - June 29, 2025. Font customization and AI POS MVP completion
   - Changed OrderFi title font to "Playwrite AU VIC" for distinctive branding
   - Removed subtitle element for cleaner logo presentation

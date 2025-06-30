@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
+import { HamburgerMenu } from '@/components/Navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -266,12 +267,7 @@ export default function OrderFiNew() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Bell className="h-5 w-5 text-muted-foreground" />
-          <Avatar className="w-8 h-8">
-            <AvatarFallback className="bg-muted">
-              <User className="h-4 w-4" />
-            </AvatarFallback>
-          </Avatar>
+          <HamburgerMenu />
         </div>
       </div>
 
