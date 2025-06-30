@@ -313,7 +313,7 @@ export default function OrderFiNew() {
                 <Button
                   key={index}
                   variant="outline"
-                  className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100 hover:scale-105 transition-all duration-200 active:scale-95"
+                  className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:shadow-md hover:shadow-orange-100/50 hover:scale-105 transition-all duration-200 active:scale-95"
                   onClick={action.action}
                 >
                   <div className="text-orange-500 scale-110">
