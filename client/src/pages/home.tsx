@@ -28,10 +28,9 @@ export default function HomePage() {
   // Navigate when data is ready
   useEffect(() => {
     if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
-      // Small delay to ensure smooth transition, then navigate with window.location for immediate transition
+      // Small delay to ensure smooth transition
       const timer = setTimeout(() => {
-        // Use location assign to prevent white screen flash
-        window.location.assign('/orderfi');
+        window.location.href = '/orderfi';
       }, 1000);
       return () => clearTimeout(timer);
     }

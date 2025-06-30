@@ -85,9 +85,7 @@ export default function OrderFiNew() {
     }, 100);
     
     // Trigger fade-in animation immediately to prevent white screen flash
-    setTimeout(() => {
-      setIsPageLoaded(true);
-    }, 50);
+    setIsPageLoaded(true);
   }, []);
 
   // Get menu items and restaurant data

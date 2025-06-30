@@ -12,6 +12,10 @@
 @tailwind utilities;
 
 @layer base {
+  html, body {
+    background-color: hsl(var(--background)) !important;
+  }
+
   :root {
     --background: 0 0% 98.8%;
     --foreground: 240 10% 3.9%;
