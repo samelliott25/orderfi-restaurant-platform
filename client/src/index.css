@@ -80,7 +80,36 @@
 /* Prevent white screen flashes and support dark mode */
 html, body, #root {
   background-color: hsl(var(--background)) !important;
-  transition: background-color 0.3s ease;
+  color: hsl(var(--foreground)) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Force dark mode styles with higher specificity */
+html.dark, 
+html.dark body, 
+html.dark #root,
+html.dark .bg-background {
+  background-color: hsl(240 10% 3.9%) !important;
+  color: hsl(0 0% 98%) !important;
+}
+
+html.light, 
+html.light body, 
+html.light #root,
+html.light .bg-background {
+  background-color: hsl(0 0% 98.8%) !important;
+  color: hsl(240 10% 3.9%) !important;
+}
+
+/* Ensure text elements also follow theme */
+html.dark .text-foreground,
+html.dark .text-muted-foreground {
+  color: hsl(0 0% 98%) !important;
+}
+
+html.light .text-foreground,
+html.light .text-muted-foreground {
+  color: hsl(240 10% 3.9%) !important;
 }
 
 /* Safe area padding for mobile devices */
