@@ -129,26 +129,35 @@ html.dark .gentle-glow:hover {
   transition: text-shadow 0.3s ease;
 }
 
-/* Dark mode button styling - dark background with white text and glow */
+/* Dark mode button styling - dark background with white text and colorful glow */
 html.dark .dark-mode-button {
   background: linear-gradient(135deg, hsl(240 10% 15%) 0%, hsl(240 5% 20%) 100%) !important;
   color: hsl(0 0% 98%) !important;
-  border: 1px solid rgba(255, 107, 53, 0.3) !important;
+  border: 1px solid rgba(255, 107, 53, 0.4) !important;
   text-shadow: 
-    0 2px 12px rgba(255, 107, 53, 0.5),
-    0 0 20px rgba(255, 107, 53, 0.3),
-    0 0 30px rgba(255, 107, 53, 0.2);
+    0 1px 8px rgba(255, 107, 53, 0.6),
+    0 0 15px rgba(255, 20, 147, 0.4),
+    0 0 25px rgba(255, 165, 0, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(255, 107, 53, 0.2),
+    0 0 25px rgba(255, 20, 147, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
 html.dark .dark-mode-button:hover {
   background: linear-gradient(135deg, hsl(240 10% 18%) 0%, hsl(240 5% 25%) 100%) !important;
-  border: 1px solid rgba(255, 107, 53, 0.5) !important;
+  border: 1px solid rgba(255, 107, 53, 0.6) !important;
   color: hsl(0 0% 98%) !important;
   text-shadow: 
-    0 2px 16px rgba(255, 107, 53, 0.6),
-    0 0 25px rgba(255, 107, 53, 0.4),
-    0 0 35px rgba(255, 107, 53, 0.25);
-  box-shadow: 0 0 20px rgba(255, 107, 53, 0.2) !important;
+    0 1px 12px rgba(255, 107, 53, 0.7),
+    0 0 20px rgba(255, 20, 147, 0.5),
+    0 0 30px rgba(255, 165, 0, 0.4);
+  box-shadow: 
+    0 6px 20px rgba(255, 107, 53, 0.3),
+    0 0 35px rgba(255, 20, 147, 0.2),
+    0 0 50px rgba(255, 165, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-1px) !important;
 }
 
 /* Safe area padding for mobile devices */
