@@ -334,6 +334,23 @@ html.dark .dark-mode-button:hover {
   animation: gentleFloat 3s ease-in-out infinite;
 }
 
+/* Pulse animation for center star icon */
+@keyframes starPulse {
+  0%, 100% { 
+    opacity: 0.8; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.1); 
+    filter: drop-shadow(0 0 6px currentColor);
+  }
+}
+
+.ai-star-pulse {
+  animation: starPulse 2s ease-in-out infinite;
+}
+
 /* Smooth transitions for navigation */
 .nav-transition {
   transition: all 0.2s ease-in-out;
