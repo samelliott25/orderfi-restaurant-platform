@@ -55,55 +55,20 @@
 
 @layer base {
   html, body, #root {
-    background: linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%) !important;
+    background-color: hsl(var(--background));
     min-height: 100vh;
     margin: 0;
     padding: 0;
   }
 
-  /* Seamless transition overlay system with enhanced effects */
-  .page-transition-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%);
-    z-index: 9999;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* Prevent flash of unstyled content */
+  body {
+    transition: none !important;
   }
 
-  .page-transition-overlay.active {
-    opacity: 1;
-  }
-
-  .page-transition-overlay::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, 
-      transparent 30%, 
-      rgba(255,255,255,0.1) 50%, 
-      transparent 70%);
-    animation: shimmer 2s infinite;
-  }
-
-  @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-
-  /* Override app background after page loads */
-  .app-loaded {
-    background: hsl(var(--background)) !important;
+  /* Ensure app content respects theme */
+  .min-h-screen {
+    background-color: hsl(var(--background));
   }
 
   :root {

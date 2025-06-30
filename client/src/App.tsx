@@ -43,30 +43,25 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const isDashboard = location === '/dashboard';
   
   return (
-    <>
-      {/* Transition overlay for seamless navigation */}
-      <div className="page-transition-overlay" id="page-transition-overlay" />
+    <div className="min-h-screen bg-background">
+      {!hideNavigation && (
+        <>
+          <HamburgerMenu />
+          <SearchBar />
+        </>
+      )}
       
-      <div className="min-h-screen bg-background">
-        {!hideNavigation && (
-          <>
-            <HamburgerMenu />
-            <SearchBar />
-          </>
-        )}
-        
-        {/* Main content with padding only for top navigation */}
-        <main className={
-          !hideNavigation 
-            ? isDashboard 
-              ? "pt-0 h-screen overflow-auto" 
-              : "pt-20 h-screen overflow-auto" 
-            : "h-screen"
-        } style={{ backgroundColor: '#fcfcfc' }}>
-          {children}
-        </main>
-      </div>
-    </>
+      {/* Main content with padding only for top navigation */}
+      <main className={
+        !hideNavigation 
+          ? isDashboard 
+            ? "pt-0 h-screen overflow-auto" 
+            : "pt-20 h-screen overflow-auto" 
+          : "h-screen"
+      } style={{ backgroundColor: '#fcfcfc' }}>
+        {children}
+      </main>
+    </div>
   );
 }
 

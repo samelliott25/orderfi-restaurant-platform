@@ -76,24 +76,12 @@ export default function OrderFiNew() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Initialize page and remove transition overlay
+  // Initialize page on load
   useEffect(() => {
-    // Immediately remove transition overlay to prevent white flash
-    const overlay = document.getElementById('page-transition-overlay');
-    if (overlay) {
-      overlay.classList.remove('active');
-    }
-    
-    // Ensure proper background is set for orderfi page
-    document.body.classList.add('app-loaded');
-    
-    // Force scroll to top immediately and after a delay to override other scroll effects
+    // Force scroll to top immediately
     window.scrollTo({ top: 0, behavior: 'instant' });
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }, 100);
     
-    // Trigger fade-in animation immediately to prevent white screen flash
+    // Trigger fade-in animation
     setIsPageLoaded(true);
   }, []);
 

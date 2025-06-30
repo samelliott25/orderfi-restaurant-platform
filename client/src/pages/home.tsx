@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function HomePage() {
   const [isClicked, setIsClicked] = useState(false);
   const [showTransition, setShowTransition] = useState(false);
+  const [location, setLocation] = useLocation();
 
   // Preload data for OrderFi page
   const { data: menuItems, isLoading: menuLoading } = useQuery({
@@ -25,25 +27,16 @@ export default function HomePage() {
     setShowTransition(true);
   };
 
-  // Navigate when data is ready with seamless transition
+  // Navigate when data is ready using wouter for SPA navigation
   useEffect(() => {
     if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
-      // Wait for keyhole animation to complete then navigate smoothly
+      // Wait for keyhole animation to complete then navigate using SPA routing
       const timer = setTimeout(() => {
-        // Activate transition overlay to prevent white flash
-        const overlay = document.getElementById('page-transition-overlay');
-        if (overlay) {
-          overlay.classList.add('active');
-        }
-        
-        // Navigate after brief delay to allow transition overlay
-        setTimeout(() => {
-          window.location.href = '/orderfi';
-        }, 200);
+        setLocation('/orderfi');
       }, 1200);
       return () => clearTimeout(timer);
     }
-  }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants]);
+  }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants, setLocation]);
 
   return (
     <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden bg-background text-foreground">
