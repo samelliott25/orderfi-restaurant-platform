@@ -113,6 +113,10 @@
   .ai-orbit-4 { animation: orbit-clockwise 6s linear infinite, twinkle-orbit 1.8s ease-in-out infinite 1.5s; }
   .ai-orbit-small { animation: orbit-small 7s linear infinite, twinkle-orbit 2.2s ease-in-out infinite; }
   .ai-orbit-tiny { animation: orbit-tiny 9s linear infinite, twinkle-orbit 2.8s ease-in-out infinite 0.8s; }
+  .ai-sparkle-1 { animation: twinkle-orbit 3s ease-in-out infinite; }
+  .ai-sparkle-2 { animation: twinkle-orbit 3.5s ease-in-out infinite 0.7s; }
+  .ai-sparkle-3 { animation: twinkle-orbit 4s ease-in-out infinite 1.4s; }
+  .ai-sparkle-4 { animation: twinkle-orbit 4.5s ease-in-out infinite 2.1s; }
   .ai-cosmic-glow { animation: cosmic-glow 4s ease-in-out infinite; }
 
   :root {
