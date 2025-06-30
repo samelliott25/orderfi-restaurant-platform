@@ -517,9 +517,9 @@ export default function OrderFiNew() {
             onClick={() => setIsChatExpanded(true)}
             className="absolute left-1/2 transform -translate-x-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-xl z-50 overflow-hidden ai-cosmic-glow"
           >
-            <div className="relative w-full h-full">
-              {/* Scattered stars covering entire button */}
-              <div className="absolute inset-0 pointer-events-none">
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Stars positioned across entire button surface */}
+              <div className="absolute inset-0 w-full h-full pointer-events-none">
                 {/* Left third: 8-30% */}
                 <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '15%', left: '8%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
