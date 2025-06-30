@@ -320,6 +320,20 @@ html.dark .dark-mode-button:hover {
 .ai-cascade-7 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 2.4s; }
 .ai-cascade-8 { animation: cascadeGlow 4s ease-in-out infinite; animation-delay: 2.8s; }
 
+/* Subtle floating animation for AI button */
+@keyframes gentleFloat {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-2px); 
+  }
+}
+
+.ai-gentle-float {
+  animation: gentleFloat 3s ease-in-out infinite;
+}
+
 /* Smooth transitions for navigation */
 .nav-transition {
   transition: all 0.2s ease-in-out;
