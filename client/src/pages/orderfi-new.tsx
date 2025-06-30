@@ -500,7 +500,7 @@ export default function OrderFiNew() {
         </div>
       )}
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border">
+      <div className="fixed bottom-0 left-0 right-0">
         <div className="relative flex items-center justify-around py-3">
           <Button 
             variant="ghost" 
