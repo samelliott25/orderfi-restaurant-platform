@@ -308,12 +308,12 @@ export default function OrderFiNew() {
           {/* Quick Actions */}
           <div>
             <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-3 overflow-hidden">
+            <div className="grid grid-cols-2 gap-4 overflow-hidden">
               {quickActions.map((action, index) => (
                 <Button
                   key={index}
                   variant="outline"
-                  className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50/30 transition-all duration-200"
+                  className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100/60 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200 active:scale-95 overflow-hidden"
                   onClick={action.action}
                 >
                   <div className="text-orange-500 scale-110">
