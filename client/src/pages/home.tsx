@@ -132,65 +132,77 @@ export default function HomePage() {
               `}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
-                <div className="relative w-6 h-5 flex items-center justify-start pl-1">
-                  {/* Scattered stars on the left side */}
-                  <div className="absolute inset-0">
-                    {/* Star 1 - top left */}
-                    <svg 
-                      className="w-1 h-1 absolute top-0 left-0 ai-sparkle-1"
-                      viewBox="0 0 24 24" 
-                      fill="currentColor"
-                    >
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    
-                    {/* Star 2 - mid left */}
-                    <svg 
-                      className="w-1.5 h-1.5 absolute top-1/2 left-0 ai-sparkle-2"
-                      viewBox="0 0 24 24" 
-                      fill="currentColor"
-                    >
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    
-                    {/* Star 3 - bottom left */}
-                    <svg 
-                      className="w-1 h-1 absolute bottom-0 left-1 ai-sparkle-3"
-                      viewBox="0 0 24 24" 
-                      fill="currentColor"
-                    >
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    
-                    {/* Star 4 - top center-left */}
-                    <svg 
-                      className="w-0.5 h-0.5 absolute top-0 left-2 ai-sparkle-4"
-                      viewBox="0 0 24 24" 
-                      fill="currentColor"
-                    >
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    
-                    {/* Star 5 - center left */}
-                    <svg 
-                      className="w-1 h-1 absolute top-1/3 left-1 ai-sparkle-1"
-                      style={{ animationDelay: '1s' }}
-                      viewBox="0 0 24 24" 
-                      fill="currentColor"
-                    >
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    
-                    {/* Star 6 - bottom center-left */}
-                    <svg 
-                      className="w-0.5 h-0.5 absolute bottom-1 left-2 ai-sparkle-2"
-                      style={{ animationDelay: '2s' }}
-                      viewBox="0 0 24 24" 
-                      fill="currentColor"
-                    >
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                  </div>
+                {/* Scattered stars positioned randomly across the left side of the text */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {/* Star 1 - top far left */}
+                  <svg 
+                    className="w-1 h-1 absolute ai-sparkle-1"
+                    style={{ top: '15%', left: '8%' }}
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  
+                  {/* Star 2 - mid-high left */}
+                  <svg 
+                    className="w-0.5 h-0.5 absolute ai-sparkle-2"
+                    style={{ top: '35%', left: '15%' }}
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  
+                  {/* Star 3 - center left */}
+                  <svg 
+                    className="w-1 h-1 absolute ai-sparkle-3"
+                    style={{ top: '55%', left: '5%' }}
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  
+                  {/* Star 4 - bottom left */}
+                  <svg 
+                    className="w-0.5 h-0.5 absolute ai-sparkle-4"
+                    style={{ top: '78%', left: '12%' }}
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  
+                  {/* Star 5 - top center-left */}
+                  <svg 
+                    className="w-0.5 h-0.5 absolute ai-sparkle-1"
+                    style={{ top: '25%', left: '22%', animationDelay: '1.5s' }}
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  
+                  {/* Star 6 - mid-low left */}
+                  <svg 
+                    className="w-1 h-1 absolute ai-sparkle-2"
+                    style={{ top: '68%', left: '20%', animationDelay: '2.5s' }}
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  
+                  {/* Star 7 - high center-left */}
+                  <svg 
+                    className="w-0.5 h-0.5 absolute ai-sparkle-3"
+                    style={{ top: '10%', left: '18%', animationDelay: '0.8s' }}
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
                 </div>
                 Enter DApp
                 <svg 
