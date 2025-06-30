@@ -44,16 +44,16 @@ export default function HomePage() {
       </div>
       {/* Sleek Transition Overlay */}
       {showTransition && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-r from-orange-500 via-red-500 to-pink-500">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 dark:from-gray-900 dark:via-slate-800 dark:to-gray-900">
           {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30 dark:from-orange-500/20 dark:via-red-500/30 dark:to-pink-500/20" />
           
           {/* Center content */}
           <div className="relative z-10 text-center text-white">
-            <div className="text-5xl font-bold mb-4 animate-bounce font-heading">
+            <div className="text-5xl font-bold mb-4 animate-bounce font-heading gentle-glow">
               OrderFi
             </div>
-            <div className="text-xl animate-pulse">
+            <div className="text-xl animate-pulse dark:gentle-glow">
               {menuLoading || restaurantLoading ? 'Loading restaurant data...' : 'Launching AI Assistant...'}
             </div>
           </div>
@@ -63,7 +63,7 @@ export default function HomePage() {
             {[...Array(5)].map((_, i) => (
               <div
                 key={i}
-                className="absolute rounded-full bg-white/20 animate-ping"
+                className="absolute rounded-full bg-white/20 dark:bg-orange-500/30 animate-ping"
                 style={{
                   width: `${(i + 1) * 100}px`,
                   height: `${(i + 1) * 100}px`,
