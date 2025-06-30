@@ -25,13 +25,19 @@ export default function HomePage() {
     setShowTransition(true);
   };
 
-  // Navigate when data is ready
+  // Navigate when data is ready with seamless transition
   useEffect(() => {
     if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
-      // Wait for keyhole animation to complete then navigate
+      // Wait for keyhole animation to complete then navigate smoothly
       const timer = setTimeout(() => {
-        window.location.href = '/orderfi';
-      }, 1200); // Wait for animation to complete
+        // Add transition class to prevent white flash
+        document.body.classList.add('page-transition');
+        
+        // Navigate after brief delay to allow transition overlay
+        setTimeout(() => {
+          window.location.href = '/orderfi';
+        }, 150);
+      }, 1200);
       return () => clearTimeout(timer);
     }
   }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants]);
