@@ -25,31 +25,13 @@ export default function HomePage() {
     setShowTransition(true);
   };
 
-  // Navigate when data is ready - wait for page turn animation to complete
+  // Navigate when data is ready
   useEffect(() => {
     if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
-      // Wait for page turn animation to complete (1.2s) then navigate
+      // Wait for keyhole animation to complete (1s) then stay on loading screen longer
       const timer = setTimeout(() => {
-        // Create a pre-loader for the next page to ensure it's ready
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = '/orderfi';
-        document.body.appendChild(iframe);
-        
-        iframe.onload = () => {
-          // Page is fully loaded, now navigate
-          document.body.removeChild(iframe);
-          window.location.href = '/orderfi';
-        };
-        
-        // Fallback navigation if iframe fails
-        setTimeout(() => {
-          if (document.body.contains(iframe)) {
-            document.body.removeChild(iframe);
-            window.location.href = '/orderfi';
-          }
-        }, 2000);
-      }, 1200);
+        window.location.href = '/orderfi';
+      }, 2500); // Extended time to ensure transition completes
       return () => clearTimeout(timer);
     }
   }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants]);
@@ -60,54 +42,51 @@ export default function HomePage() {
       <div className="absolute top-4 right-4 z-40">
         <ThemeToggle />
       </div>
-      {/* Page Turn Transition Effect */}
+      {/* Keyhole Reveal Transition */}
       {showTransition && (
-        <div className="fixed inset-0 z-50 overflow-hidden">
-          {/* Page turn animation container */}
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 animate-page-turn origin-left">
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Background with keyhole reveal animation */}
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 animate-keyhole-reveal">
             {/* Overlay gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
-            
-            {/* Shadow effect for page turn */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent opacity-50" />
-            
-            {/* Center content - positioned exactly like home page */}
-            <div className="relative z-10 flex flex-col items-center justify-center w-full h-full space-y-6">
-              {/* OrderFi Logo - Same container as home page */}
-              <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
-                    OrderFi
-                  </div>
-                </div>
-              </div>
-              
-              {/* Loading text below logo */}
+          </div>
+          
+          {/* Center content - positioned exactly like home page */}
+          <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-lg space-y-6">
+            {/* OrderFi Logo - Same container as home page */}
+            <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
               <div className="text-center">
-                <div className="text-xl text-white animate-pulse">
-                  {menuLoading || restaurantLoading ? 'Loading restaurant data...' : 'Launching AI Assistant...'}
+                <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
+                  OrderFi
                 </div>
               </div>
             </div>
             
-            {/* Morphing circles */}
-            <div className="absolute inset-0 overflow-hidden">
-              {[...Array(5)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute rounded-full bg-white/20 animate-ping"
-                  style={{
-                    width: `${(i + 1) * 100}px`,
-                    height: `${(i + 1) * 100}px`,
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    animationDelay: `${i * 200}ms`,
-                    animationDuration: '2s'
-                  }}
-                />
-              ))}
+            {/* Loading text below logo */}
+            <div className="text-center">
+              <div className="text-xl text-white animate-pulse">
+                {menuLoading || restaurantLoading ? 'Loading restaurant data...' : 'Launching AI Assistant...'}
+              </div>
             </div>
+          </div>
+          
+          {/* Morphing circles */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full bg-white/20 animate-ping"
+                style={{
+                  width: `${(i + 1) * 100}px`,
+                  height: `${(i + 1) * 100}px`,
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  animationDelay: `${i * 200}ms`,
+                  animationDuration: '2s'
+                }}
+              />
+            ))}
           </div>
         </div>
       )}
