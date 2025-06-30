@@ -72,16 +72,22 @@ export default function OrderFiNew() {
   const [isLoading, setIsLoading] = useState(false);
   const [availableTokens] = useState(1250);
   const [isChatExpanded, setIsChatExpanded] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Scroll to top when page loads and prevent auto-scroll to bottom
+  // Scroll to top when page loads and trigger fade-in
   useEffect(() => {
     // Force scroll to top immediately and after a delay to override other scroll effects
     window.scrollTo({ top: 0, behavior: 'instant' });
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }, 100);
+    
+    // Trigger fade-in animation after a brief delay
+    setTimeout(() => {
+      setIsPageLoaded(true);
+    }, 150);
   }, []);
 
   // Get menu items and restaurant data
@@ -252,7 +258,9 @@ export default function OrderFiNew() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background transition-opacity duration-700 ease-in-out ${
+      isPageLoaded ? 'opacity-100' : 'opacity-0'
+    }`}>
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-card border-b border-border">
         <div className="flex items-center gap-3">
