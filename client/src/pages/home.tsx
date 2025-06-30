@@ -85,7 +85,7 @@ export default function HomePage() {
           {/* OrderFi Logo - Animated SVG */}
           <div className="relative w-80 h-52 sm:w-96 sm:h-64 md:w-[26rem] md:h-80 flex items-center justify-center">
             <div className="text-center">
-              <div className="md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse text-[88px] playwrite-font pl-[10px] pr-[10px] pt-[20px] pb-[20px]">
+              <div className="md:text-8xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse text-[88px] playwrite-font pl-[10px] pr-[10px] pt-[20px] pb-[20px] neon-glow">
                 OrderFi
               </div>
               
