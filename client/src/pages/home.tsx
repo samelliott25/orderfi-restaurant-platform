@@ -28,10 +28,10 @@ export default function HomePage() {
   // Navigate when data is ready
   useEffect(() => {
     if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
-      // Wait for keyhole animation to complete (1s) then stay on loading screen longer
+      // Wait for keyhole animation to complete then navigate
       const timer = setTimeout(() => {
-        window.location.href = '/orderfi';
-      }, 2500); // Extended time to ensure transition completes
+        window.location.href = '/orderfi-simple';
+      }, 1200); // Wait for animation to complete
       return () => clearTimeout(timer);
     }
   }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants]);

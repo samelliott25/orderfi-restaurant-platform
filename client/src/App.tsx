@@ -10,6 +10,7 @@ import HomePage from "@/pages/home";
 import RestaurantDashboard from "@/pages/dashboard";
 import Web3DappPage from "@/pages/web3-dapp";
 import OrderFiNew from "@/pages/orderfi-new";
+import OrderFiSimple from "./pages/orderfi-simple";
 import TokenRewardsPage from "@/pages/tokenrewards";
 import KitchenPrintingPage from "@/pages/kitchen-printing";
 import NotFound from "@/pages/not-found";
@@ -62,6 +63,7 @@ function Router() {
         
         {/* Customer-Facing Mobile Interface */}
         <Route path="/orderfi" component={OrderFiNew} />
+        <Route path="/orderfi-simple" component={OrderFiSimple} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
         <Route path="/kitchen-printing" component={KitchenPrintingPage} />
         <Route path="/web3-order" component={Web3DappPage} />
