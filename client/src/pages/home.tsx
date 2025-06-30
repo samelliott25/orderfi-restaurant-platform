@@ -110,6 +110,7 @@ export default function HomePage() {
                 hover:from-orange-600 hover:via-red-600 hover:to-pink-600
                 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/50
                 active:scale-95 active:shadow-lg
+                dark-mode-button
                 ${isClicked ? 'animate-pulse scale-95' : ''}
                 before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent 
                 before:via-white/20 before:to-transparent before:-translate-x-full 
