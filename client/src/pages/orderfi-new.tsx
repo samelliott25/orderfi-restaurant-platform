@@ -511,28 +511,59 @@ export default function OrderFiNew() {
           >
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Central star that pulses gently */}
-              <Sparkles className="h-6 w-6 animate-pulse" style={{ animationDuration: '3s' }} />
+              <svg 
+                className="w-6 h-6 animate-pulse" 
+                style={{ animationDuration: '3s' }}
+                viewBox="0 0 24 24" 
+                fill="currentColor"
+              >
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
               
               {/* Orbiting sparkles at different distances and speeds */}
               <div className="absolute inset-0 flex items-center justify-center">
                 {/* Inner orbit - fast */}
                 <div className="ai-orbit-4">
-                  <Sparkles className="h-2 w-2" />
+                  <svg 
+                    className="w-2 h-2"
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
                 </div>
                 
                 {/* Medium orbit - moderate speed */}
                 <div className="ai-orbit-1">
-                  <Sparkles className="h-2 w-2" />
+                  <svg 
+                    className="w-2 h-2"
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
                 </div>
                 
                 {/* Outer orbit - counter-clockwise */}
                 <div className="ai-orbit-2">
-                  <Sparkles className="h-1.5 w-1.5" />
+                  <svg 
+                    className="w-1.5 h-1.5"
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
                 </div>
                 
                 {/* Outermost orbit - slowest */}
                 <div className="ai-orbit-3">
-                  <Sparkles className="h-1 w-1" />
+                  <svg 
+                    className="w-1 h-1"
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
                 </div>
               </div>
             </div>
