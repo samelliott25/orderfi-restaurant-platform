@@ -30,7 +30,7 @@ export default function HomePage() {
     if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
       // Wait for keyhole animation to complete then navigate
       const timer = setTimeout(() => {
-        window.location.href = '/orderfi-simple';
+        window.location.href = '/orderfi';
       }, 1200); // Wait for animation to complete
       return () => clearTimeout(timer);
     }
