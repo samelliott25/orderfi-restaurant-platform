@@ -260,9 +260,7 @@ export default function OrderFiNew() {
             <Sparkles className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h1 className="font-semibold text-lg" style={{ fontFamily: 'Playwrite Australia Victoria' }}>
-              OrderFi AI
-            </h1>
+            <h1 className="font-semibold text-lg" style={{ fontFamily: 'Playwrite Australia Victoria' }}>OrderFi </h1>
             <p className="text-sm text-muted-foreground">Smart Restaurant Assistant</p>
           </div>
         </div>
@@ -270,7 +268,6 @@ export default function OrderFiNew() {
           <HamburgerMenu />
         </div>
       </div>
-
       <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 140px)' }}>
         <div className="space-y-4 py-4">
 
@@ -379,7 +376,6 @@ export default function OrderFiNew() {
           <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
-
       {/* Floating AI Chat Interface */}
       {isChatExpanded && (
         <div className="fixed top-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
@@ -492,7 +488,6 @@ export default function OrderFiNew() {
           </div>
         </div>
       )}
-
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
         <div className="relative flex items-center justify-around py-3">
