@@ -132,13 +132,42 @@ export default function HomePage() {
               `}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
-                <svg 
-                  className="w-5 h-5" 
-                  viewBox="0 0 24 24" 
-                  fill="currentColor"
-                >
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
+                <div className="relative w-5 h-5 flex items-center justify-center">
+                  {/* Central star that pulses gently */}
+                  <svg 
+                    className="w-4 h-4 animate-pulse" 
+                    style={{ animationDuration: '3s' }}
+                    viewBox="0 0 24 24" 
+                    fill="currentColor"
+                  >
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  
+                  {/* Orbiting sparkles at different distances and speeds */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    {/* Inner orbit - fast */}
+                    <div className="ai-orbit-small">
+                      <svg 
+                        className="w-1 h-1"
+                        viewBox="0 0 24 24" 
+                        fill="currentColor"
+                      >
+                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                      </svg>
+                    </div>
+                    
+                    {/* Outer orbit - counter-clockwise */}
+                    <div className="ai-orbit-tiny">
+                      <svg 
+                        className="w-0.5 h-0.5"
+                        viewBox="0 0 24 24" 
+                        fill="currentColor"
+                      >
+                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
                 Enter DApp
                 <svg 
                   className={`w-5 h-5 transition-transform duration-300 ${isClicked ? 'translate-x-1' : ''}`}

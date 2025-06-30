@@ -87,6 +87,16 @@
     100% { transform: rotate(360deg) translateX(22px) rotate(-360deg); }
   }
 
+  @keyframes orbit-small {
+    0% { transform: rotate(0deg) translateX(8px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(8px) rotate(-360deg); }
+  }
+
+  @keyframes orbit-tiny {
+    0% { transform: rotate(0deg) translateX(6px) rotate(0deg); }
+    100% { transform: rotate(-360deg) translateX(6px) rotate(360deg); }
+  }
+
   @keyframes twinkle-orbit {
     0%, 100% { opacity: 0.4; transform: scale(0.8); }
     50% { opacity: 1; transform: scale(1.2); }
@@ -101,6 +111,8 @@
   .ai-orbit-2 { animation: orbit-counter-clockwise 10s linear infinite, twinkle-orbit 2.5s ease-in-out infinite 0.5s; }
   .ai-orbit-3 { animation: orbit-slow 12s linear infinite, twinkle-orbit 3s ease-in-out infinite 1s; }
   .ai-orbit-4 { animation: orbit-clockwise 6s linear infinite, twinkle-orbit 1.8s ease-in-out infinite 1.5s; }
+  .ai-orbit-small { animation: orbit-small 7s linear infinite, twinkle-orbit 2.2s ease-in-out infinite; }
+  .ai-orbit-tiny { animation: orbit-tiny 9s linear infinite, twinkle-orbit 2.8s ease-in-out infinite 0.8s; }
   .ai-cosmic-glow { animation: cosmic-glow 4s ease-in-out infinite; }
 
   :root {
