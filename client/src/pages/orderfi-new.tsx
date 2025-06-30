@@ -253,7 +253,7 @@ export default function OrderFiNew() {
   };
 
   return (
-    <div className={`min-h-screen bg-background transition-opacity duration-700 ease-in-out ${
+    <div className={`min-h-screen bg-background transition-opacity duration-700 ease-in-out overflow-x-hidden ${
       isPageLoaded ? 'opacity-100' : 'opacity-0'
     }`}>
       {/* Header */}
@@ -302,7 +302,7 @@ export default function OrderFiNew() {
           <HamburgerMenu />
         </div>
       </div>
-      <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 140px)' }}>
+      <ScrollArea className="flex-1 px-4 pb-20 border-none" style={{ height: 'calc(100vh - 140px)' }}>
         <div className="space-y-4 py-4">
 
           {/* Quick Actions */}
