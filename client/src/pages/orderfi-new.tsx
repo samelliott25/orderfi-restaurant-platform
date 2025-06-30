@@ -509,62 +509,108 @@ export default function OrderFiNew() {
             onClick={() => setIsChatExpanded(true)}
             className="absolute left-1/2 transform -translate-x-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-xl z-50 overflow-hidden ai-cosmic-glow"
           >
-            <div className="relative w-full h-full flex items-center justify-center">
-              {/* Central star that pulses gently */}
-              <svg 
-                className="w-6 h-6 animate-pulse" 
-                style={{ animationDuration: '3s' }}
-                viewBox="0 0 24 24" 
-                fill="currentColor"
-              >
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              
-              {/* Orbiting sparkles at different distances and speeds */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                {/* Inner orbit - fast */}
-                <div className="ai-orbit-4">
-                  <svg 
-                    className="w-2 h-2"
-                    viewBox="0 0 24 24" 
-                    fill="currentColor"
-                  >
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                </div>
+            <div className="relative w-full h-full">
+              {/* Scattered stars across the entire button */}
+              <div className="absolute inset-0 pointer-events-none">
+                {/* Star 1 - top left */}
+                <svg 
+                  className="w-2 h-2 absolute ai-sparkle-1"
+                  style={{ top: '12%', left: '15%' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
                 
-                {/* Medium orbit - moderate speed */}
-                <div className="ai-orbit-1">
-                  <svg 
-                    className="w-2 h-2"
-                    viewBox="0 0 24 24" 
-                    fill="currentColor"
-                  >
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                </div>
+                {/* Star 2 - top right */}
+                <svg 
+                  className="w-1.5 h-1.5 absolute ai-sparkle-2"
+                  style={{ top: '8%', left: '75%' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
                 
-                {/* Outer orbit - counter-clockwise */}
-                <div className="ai-orbit-2">
-                  <svg 
-                    className="w-1.5 h-1.5"
-                    viewBox="0 0 24 24" 
-                    fill="currentColor"
-                  >
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                </div>
+                {/* Star 3 - center left */}
+                <svg 
+                  className="w-1 h-1 absolute ai-sparkle-3"
+                  style={{ top: '45%', left: '8%' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
                 
-                {/* Outermost orbit - slowest */}
-                <div className="ai-orbit-3">
-                  <svg 
-                    className="w-1 h-1"
-                    viewBox="0 0 24 24" 
-                    fill="currentColor"
-                  >
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                </div>
+                {/* Star 4 - center right */}
+                <svg 
+                  className="w-1.5 h-1.5 absolute ai-sparkle-4"
+                  style={{ top: '52%', left: '85%' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Star 5 - bottom left */}
+                <svg 
+                  className="w-1 h-1 absolute ai-sparkle-1"
+                  style={{ top: '82%', left: '20%', animationDelay: '1.5s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Star 6 - bottom right */}
+                <svg 
+                  className="w-2 h-2 absolute ai-sparkle-2"
+                  style={{ top: '88%', left: '70%', animationDelay: '2s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Star 7 - upper center */}
+                <svg 
+                  className="w-1 h-1 absolute ai-sparkle-3"
+                  style={{ top: '25%', left: '50%', animationDelay: '0.8s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Star 8 - lower center */}
+                <svg 
+                  className="w-1.5 h-1.5 absolute ai-sparkle-4"
+                  style={{ top: '65%', left: '45%', animationDelay: '2.3s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Star 9 - mid left */}
+                <svg 
+                  className="w-1 h-1 absolute ai-sparkle-1"
+                  style={{ top: '35%', left: '25%', animationDelay: '1.2s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Star 10 - mid right */}
+                <svg 
+                  className="w-1 h-1 absolute ai-sparkle-2"
+                  style={{ top: '38%', left: '68%', animationDelay: '1.8s' }}
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
               </div>
             </div>
           </Button>
