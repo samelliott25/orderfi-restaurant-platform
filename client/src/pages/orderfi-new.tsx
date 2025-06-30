@@ -303,17 +303,17 @@ export default function OrderFiNew() {
         </div>
       </div>
       <ScrollArea className="flex-1 px-4 pb-20 border-none" style={{ height: 'calc(100vh - 140px)' }}>
-        <div className="space-y-4 py-4">
+        <div className="space-y-4 py-4 pr-2">
 
           {/* Quick Actions */}
           <div>
             <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 overflow-hidden">
               {quickActions.map((action, index) => (
                 <Button
                   key={index}
                   variant="outline"
-                  className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:shadow-md hover:shadow-orange-100/50 hover:scale-105 transition-all duration-200 active:scale-95"
+                  className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 hover:bg-orange-50/30 transition-all duration-200"
                   onClick={action.action}
                 >
                   <div className="text-orange-500 scale-110">
