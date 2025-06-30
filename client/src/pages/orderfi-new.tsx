@@ -520,10 +520,10 @@ export default function OrderFiNew() {
             <div className="relative w-full h-full">
               {/* Scattered stars across the entire button */}
               <div className="absolute inset-0 pointer-events-none">
-                {/* EXTREME LEFT EDGE - 0-15% */}
+                {/* LEFT THIRD DISTRIBUTION - spread across 0-30% horizontally */}
                 <svg 
                   className="w-1.5 h-0.5 absolute ai-cascade-1"
-                  style={{ top: '5%', left: '0%', transform: 'rotate(47deg)' }}
+                  style={{ top: '8%', left: '5%', transform: 'rotate(47deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -532,7 +532,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-0.5 h-2.5 absolute ai-cascade-2"
-                  style={{ top: '18%', left: '2%', transform: 'rotate(-83deg)' }}
+                  style={{ top: '22%', left: '18%', transform: 'rotate(-83deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -541,7 +541,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-2.5 h-1 absolute ai-cascade-3"
-                  style={{ top: '35%', left: '1%', transform: 'rotate(156deg)' }}
+                  style={{ top: '35%', left: '8%', transform: 'rotate(156deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -550,7 +550,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-1 h-3 absolute ai-cascade-4"
-                  style={{ top: '55%', left: '4%', transform: 'rotate(22deg)' }}
+                  style={{ top: '52%', left: '25%', transform: 'rotate(22deg)' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -559,7 +559,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-3 h-0.5 absolute ai-cascade-1"
-                  style={{ top: '72%', left: '0%', transform: 'rotate(234deg)', animationDelay: '3.1s' }}
+                  style={{ top: '68%', left: '12%', transform: 'rotate(234deg)', animationDelay: '3.1s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -568,7 +568,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-0.5 h-1.5 absolute ai-cascade-2"
-                  style={{ top: '88%', left: '6%', transform: 'rotate(-45deg)', animationDelay: '1.9s' }}
+                  style={{ top: '82%', left: '28%', transform: 'rotate(-45deg)', animationDelay: '1.9s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -577,7 +577,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-2 h-2 absolute ai-cascade-3"
-                  style={{ top: '12%', left: '8%', transform: 'rotate(156deg)', animationDelay: '2.7s' }}
+                  style={{ top: '15%', left: '22%', transform: 'rotate(156deg)', animationDelay: '2.7s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -586,7 +586,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-1.5 h-3.5 absolute ai-cascade-4"
-                  style={{ top: '42%', left: '11%', transform: 'rotate(89deg)', animationDelay: '0.3s' }}
+                  style={{ top: '45%', left: '15%', transform: 'rotate(89deg)', animationDelay: '0.3s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -595,7 +595,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-0.5 h-0.5 absolute ai-cascade-1"
-                  style={{ top: '65%', left: '14%', transform: 'rotate(-134deg)', animationDelay: '3.5s' }}
+                  style={{ top: '62%', left: '6%', transform: 'rotate(-134deg)', animationDelay: '3.5s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -604,7 +604,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-4 h-1 absolute ai-cascade-2"
-                  style={{ top: '95%', left: '3%', transform: 'rotate(267deg)', animationDelay: '1.1s' }}
+                  style={{ top: '92%', left: '19%', transform: 'rotate(267deg)', animationDelay: '1.1s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -613,7 +613,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-1 h-2.5 absolute ai-cascade-3"
-                  style={{ top: '28%', left: '9%', transform: 'rotate(45deg)', animationDelay: '2.2s' }}
+                  style={{ top: '28%', left: '11%', transform: 'rotate(45deg)', animationDelay: '2.2s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -622,7 +622,7 @@ export default function OrderFiNew() {
                 
                 <svg 
                   className="w-2.5 h-2.5 absolute ai-cascade-4"
-                  style={{ top: '78%', left: '12%', transform: 'rotate(-67deg)', animationDelay: '0.8s' }}
+                  style={{ top: '75%', left: '24%', transform: 'rotate(-67deg)', animationDelay: '0.8s' }}
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
