@@ -112,45 +112,18 @@ html.light .text-muted-foreground {
   color: hsl(240 10% 3.9%) !important;
 }
 
-/* Neon glow effect for OrderFi logo in dark mode */
-html.dark .neon-glow {
+/* Gentle shadow effect for OrderFi logo in dark mode */
+html.dark .gentle-glow {
   text-shadow: 
-    0 0 5px #ff6b35,
-    0 0 10px #ff6b35,
-    0 0 20px #ff6b35,
-    0 0 40px #ff6b35,
-    0 0 80px #ff6b35;
-  animation: neon-flicker 2s infinite alternate;
+    0 2px 8px rgba(255, 107, 53, 0.3),
+    0 0 12px rgba(255, 107, 53, 0.2);
 }
 
-@keyframes neon-flicker {
-  0%, 18%, 22%, 25%, 53%, 57%, 100% {
-    text-shadow: 
-      0 0 5px #ff6b35,
-      0 0 10px #ff6b35,
-      0 0 20px #ff6b35,
-      0 0 40px #ff6b35,
-      0 0 80px #ff6b35;
-  }
-  20%, 24%, 55% {
-    text-shadow: 
-      0 0 2px #ff6b35,
-      0 0 5px #ff6b35,
-      0 0 8px #ff6b35,
-      0 0 12px #ff6b35,
-      0 0 20px #ff6b35;
-  }
-}
-
-/* Enhanced glow for dark mode hover state */
-html.dark .neon-glow:hover {
+/* Subtle hover enhancement */
+html.dark .gentle-glow:hover {
   text-shadow: 
-    0 0 8px #ff6b35,
-    0 0 15px #ff6b35,
-    0 0 25px #ff6b35,
-    0 0 50px #ff6b35,
-    0 0 100px #ff6b35,
-    0 0 150px #ff6b35;
+    0 2px 12px rgba(255, 107, 53, 0.4),
+    0 0 18px rgba(255, 107, 53, 0.25);
   transition: text-shadow 0.3s ease;
 }
 
