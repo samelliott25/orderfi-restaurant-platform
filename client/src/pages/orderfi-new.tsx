@@ -74,6 +74,11 @@ export default function OrderFiNew() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Get menu items and restaurant data
   const { data: menuItems = [] } = useQuery({
     queryKey: [`/api/restaurants/${restaurantId}/menu`],
@@ -274,11 +279,13 @@ export default function OrderFiNew() {
                 <Button
                   key={index}
                   variant="outline"
-                  className="flex flex-col items-center gap-2 h-16 bg-white border-gray-200 hover:bg-gray-50"
+                  className="flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-white to-gray-50 border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-100 hover:scale-105 transition-all duration-200 active:scale-95"
                   onClick={action.action}
                 >
-                  {action.icon}
-                  <span className="text-xs font-medium">{action.label}</span>
+                  <div className="text-orange-500 scale-110">
+                    {action.icon}
+                  </div>
+                  <span className="text-xs font-semibold text-gray-700">{action.label}</span>
                 </Button>
               ))}
             </div>
