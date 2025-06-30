@@ -36,7 +36,7 @@ export default function HomePage() {
       }, 1200);
       return () => clearTimeout(timer);
     }
-  }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants, setLocation]);
+  }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants]);
 
   return (
     <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden bg-background text-foreground">
