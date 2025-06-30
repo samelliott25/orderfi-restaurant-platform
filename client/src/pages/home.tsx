@@ -132,96 +132,13 @@ export default function HomePage() {
               `}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
-                {/* Stars scattered across the entire button */}
-                <div className="absolute inset-0 pointer-events-none opacity-40">
-                  {/* Row 1 - Top */}
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-1" style={{ top: '8%', left: '5%' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-1 h-1 absolute ai-sparkle-2" style={{ top: '12%', left: '18%', animationDelay: '0.5s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-3" style={{ top: '6%', left: '35%', animationDelay: '1.2s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-4" style={{ top: '15%', left: '52%', animationDelay: '2.1s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-1 h-1 absolute ai-sparkle-1" style={{ top: '10%', left: '72%', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-2" style={{ top: '18%', left: '88%', animationDelay: '1.7s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-
-                  {/* Row 2 - Middle-Top */}
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-3" style={{ top: '30%', left: '8%', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-4" style={{ top: '25%', left: '25%', animationDelay: '0.3s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-1 h-1 absolute ai-sparkle-1" style={{ top: '32%', left: '45%', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-2" style={{ top: '28%', left: '68%', animationDelay: '1.1s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-3" style={{ top: '35%', left: '85%', animationDelay: '0.7s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-
-                  {/* Row 3 - Middle */}
-                  <svg className="w-1 h-1 absolute ai-sparkle-4" style={{ top: '48%', left: '12%', animationDelay: '1.9s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-1" style={{ top: '55%', left: '28%', animationDelay: '0.4s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-2" style={{ top: '45%', left: '62%', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-1 h-1 absolute ai-sparkle-3" style={{ top: '52%', left: '78%', animationDelay: '1.3s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-
-                  {/* Row 4 - Middle-Bottom */}
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-4" style={{ top: '68%', left: '15%', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-1" style={{ top: '72%', left: '32%', animationDelay: '2.7s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-1 h-1 absolute ai-sparkle-2" style={{ top: '65%', left: '48%', animationDelay: '1.6s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-3" style={{ top: '75%', left: '66%', animationDelay: '0.6s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-4" style={{ top: '70%', left: '82%', animationDelay: '2.2s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-
-                  {/* Row 5 - Bottom */}
-                  <svg className="w-1 h-1 absolute ai-sparkle-1" style={{ top: '88%', left: '10%', animationDelay: '1.4s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-2" style={{ top: '85%', left: '22%', animationDelay: '0.2s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-3" style={{ top: '92%', left: '40%', animationDelay: '2.8s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-4" style={{ top: '90%', left: '58%', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-1 h-1 absolute ai-sparkle-1" style={{ top: '86%', left: '75%', animationDelay: '0.1s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                  <svg className="w-0.5 h-0.5 absolute ai-sparkle-2" style={{ top: '94%', left: '90%', animationDelay: '2.4s' }} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                  </svg>
-                </div>
+                <svg 
+                  className="w-4 h-4 ai-sparkle-1" 
+                  viewBox="0 0 24 24" 
+                  fill="currentColor"
+                >
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
                 Enter DApp
                 <svg 
                   className={`w-5 h-5 transition-transform duration-300 ${isClicked ? 'translate-x-1' : ''}`}
