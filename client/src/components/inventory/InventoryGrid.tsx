@@ -159,7 +159,7 @@ export function InventoryGrid({ items, onItemClick, onToggleAvailability }: Inve
                     <div className="flex justify-between items-center pt-2 border-t">
                       <div className="flex items-center gap-2">
                         <Switch
-                          checked={item.isAvailable || false}
+                          checked={Boolean(item.isAvailable)}
                           onCheckedChange={(checked) => onToggleAvailability(item.id, checked)}
                           onClick={(e) => e.stopPropagation()}
                         />
@@ -254,7 +254,7 @@ export function InventoryGrid({ items, onItemClick, onToggleAvailability }: Inve
                       
                       <div className="flex items-center gap-2">
                         <Switch
-                          checked={item.isAvailable || false}
+                          checked={Boolean(item.isAvailable)}
                           onCheckedChange={(checked) => onToggleAvailability(item.id, checked)}
                           onClick={(e) => e.stopPropagation()}
                         />

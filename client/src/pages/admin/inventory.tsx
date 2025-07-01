@@ -74,8 +74,19 @@ export default function AdminInventoryPage() {
     setTimeout(() => setIsListening(false), 3000);
   };
 
+  // Handle item selection and actions
+  const handleItemClick = (item: MenuItem) => {
+    console.log("Edit item:", item);
+    // TODO: Open edit dialog
+  };
+
+  const handleToggleAvailability = async (itemId: number, available: boolean) => {
+    console.log("Toggle availability:", itemId, available);
+    // TODO: Implement API call to update availability
+  };
+
   return (
-    <StandardLayout title="Inventory Management" subtitle="Professional inventory system with AI voice commands">
+    <StandardLayout title="Inventory Management" subtitle="Best-in-class database visualization with AI voice commands">
       <div className="space-y-6">
         {/* Professional POS-style Dashboard Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -192,124 +203,247 @@ export default function AdminInventoryPage() {
           </CardHeader>
         </Card>
 
-        {/* Professional Data Table (Similar to Lightspeed/Toast/Square) */}
-        <Card>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12">
-                    <input type="checkbox" className="rounded" />
-                  </TableHead>
-                  <TableHead>Item Name</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Cost</TableHead>
-                  <TableHead>Margin</TableHead>
-                  <TableHead>Stock</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Popularity</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={10} className="text-center py-8">
-                      Loading inventory...
-                    </TableCell>
-                  </TableRow>
-                ) : filteredItems.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={10} className="text-center py-8">
-                      No items found matching your filters
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredItems.map((item: MenuItem) => {
-                    const price = parseFloat(item.price);
-                    const cost = parseFloat(item.costPrice || '0');
-                    const margin = cost > 0 ? ((price - cost) / price * 100) : 0;
-                    const isLowStock = item.trackInventory && 
-                      item.currentStock !== null && 
-                      item.currentStock <= (item.lowStockThreshold || 5);
+        {/* Best-in-Class Database Visualization - Multiple View Options */}
+        <Tabs defaultValue="visual" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="visual" className="flex items-center gap-2">
+              <Grid className="h-4 w-4" />
+              Visual Cards
+            </TabsTrigger>
+            <TabsTrigger value="table" className="flex items-center gap-2">
+              <Table2 className="h-4 w-4" />
+              Data Table
+            </TabsTrigger>
+            <TabsTrigger value="kanban" className="flex items-center gap-2">
+              <Layers className="h-4 w-4" />
+              Category Boards
+            </TabsTrigger>
+          </TabsList>
 
-                    return (
-                      <TableRow key={item.id}>
-                        <TableCell>
-                          <input type="checkbox" className="rounded" />
-                        </TableCell>
-                        <TableCell>
-                          <div>
-                            <div className="font-medium">{item.name}</div>
-                            <div className="text-sm text-muted-foreground truncate max-w-xs">
-                              {item.description}
-                            </div>
-                            {item.aliases && item.aliases.length > 0 && (
-                              <div className="text-xs text-blue-600 mt-1">
-                                Also: {item.aliases.slice(0, 2).join(', ')}
-                              </div>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{item.category}</Badge>
-                        </TableCell>
-                        <TableCell>${price.toFixed(2)}</TableCell>
-                        <TableCell>${cost.toFixed(2)}</TableCell>
-                        <TableCell>
-                          <span className={margin > 50 ? "text-green-600" : margin > 30 ? "text-yellow-600" : "text-red-600"}>
-                            {margin.toFixed(1)}%
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          {item.trackInventory ? (
-                            <div className="flex items-center gap-2">
-                              <span className={isLowStock ? "text-red-600 font-medium" : ""}>
-                                {item.currentStock || 0}
-                              </span>
-                              {isLowStock && <AlertTriangle className="h-4 w-4 text-red-500" />}
-                            </div>
-                          ) : (
-                            <span className="text-muted-foreground">Not tracked</span>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            {item.isAvailable ? (
-                              <Eye className="h-4 w-4 text-green-500" />
-                            ) : (
-                              <EyeOff className="h-4 w-4 text-red-500" />
-                            )}
-                            <Badge variant={item.isAvailable ? "default" : "secondary"}>
-                              {item.isAvailable ? "Available" : "Hidden"}
-                            </Badge>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            <div className="w-12 bg-gray-200 rounded-full h-2">
-                              <div 
-                                className="bg-blue-500 h-2 rounded-full" 
-                                style={{ width: `${Math.min((item.popularityScore || 0), 100)}%` }}
-                              />
-                            </div>
-                            <span className="text-sm">{item.popularityScore || 0}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="ghost" size="sm">
-                            <Edit2 className="h-4 w-4" />
-                          </Button>
+          {/* Visual Cards View - Best for Product Overview */}
+          <TabsContent value="visual" className="mt-6">
+            {isLoading ? (
+              <div className="text-center py-8">Loading inventory...</div>
+            ) : (
+              <InventoryGrid 
+                items={filteredItems}
+                onItemClick={handleItemClick}
+                onToggleAvailability={handleToggleAvailability}
+              />
+            )}
+          </TabsContent>
+
+          {/* Traditional Table View - Best for Detailed Analysis */}
+          <TabsContent value="table" className="mt-6">
+            <Card>
+              <CardContent className="p-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-12">
+                        <input type="checkbox" className="rounded" />
+                      </TableHead>
+                      <TableHead>Item Name</TableHead>
+                      <TableHead>Category</TableHead>
+                      <TableHead>Price</TableHead>
+                      <TableHead>Cost</TableHead>
+                      <TableHead>Margin</TableHead>
+                      <TableHead>Stock</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Popularity</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {isLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={10} className="text-center py-8">
+                          Loading inventory...
                         </TableCell>
                       </TableRow>
-                    );
-                  })
-                )}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                    ) : filteredItems.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={10} className="text-center py-8">
+                          No items found matching your filters
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      filteredItems.map((item: MenuItem) => {
+                        const price = parseFloat(item.price);
+                        const cost = parseFloat(item.costPrice || '0');
+                        const margin = cost > 0 ? ((price - cost) / price * 100) : 0;
+                        const isLowStock = item.trackInventory && 
+                          item.currentStock !== null && 
+                          item.currentStock <= (item.lowStockThreshold || 5);
+
+                        return (
+                          <TableRow key={item.id}>
+                            <TableCell>
+                              <input type="checkbox" className="rounded" />
+                            </TableCell>
+                            <TableCell>
+                              <div>
+                                <div className="font-medium">{item.name}</div>
+                                <div className="text-sm text-muted-foreground truncate max-w-xs">
+                                  {item.description}
+                                </div>
+                                {item.aliases && item.aliases.length > 0 && (
+                                  <div className="text-xs text-blue-600 mt-1">
+                                    Also: {item.aliases.slice(0, 2).join(', ')}
+                                  </div>
+                                )}
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant="outline">{item.category}</Badge>
+                            </TableCell>
+                            <TableCell>${price.toFixed(2)}</TableCell>
+                            <TableCell>${cost.toFixed(2)}</TableCell>
+                            <TableCell>
+                              <span className={margin > 50 ? "text-green-600" : margin > 30 ? "text-yellow-600" : "text-red-600"}>
+                                {margin.toFixed(1)}%
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              {item.trackInventory ? (
+                                <div className="flex items-center gap-2">
+                                  <span className={isLowStock ? "text-red-600 font-medium" : ""}>
+                                    {item.currentStock || 0}
+                                  </span>
+                                  {isLowStock && <AlertTriangle className="h-4 w-4 text-red-500" />}
+                                </div>
+                              ) : (
+                                <span className="text-muted-foreground">Not tracked</span>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-2">
+                                {item.isAvailable ? (
+                                  <Eye className="h-4 w-4 text-green-500" />
+                                ) : (
+                                  <EyeOff className="h-4 w-4 text-red-500" />
+                                )}
+                                <Badge variant={item.isAvailable ? "default" : "secondary"}>
+                                  {item.isAvailable ? "Available" : "Hidden"}
+                                </Badge>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-1">
+                                <div className="w-12 bg-gray-200 rounded-full h-2">
+                                  <div 
+                                    className="bg-blue-500 h-2 rounded-full" 
+                                    style={{ width: `${Math.min((item.popularityScore || 0), 100)}%` }}
+                                  />
+                                </div>
+                                <span className="text-sm">{item.popularityScore || 0}</span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Button variant="ghost" size="sm" onClick={() => handleItemClick(item)}>
+                                <Edit2 className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    )}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Kanban Category View - Best for Menu Organization */}
+          <TabsContent value="kanban" className="mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+              {categories.map((category: string) => {
+                const categoryItems = filteredItems.filter((item: MenuItem) => item.category === category);
+                const lowStockCount = categoryItems.filter((item: MenuItem) => 
+                  item.trackInventory && 
+                  item.currentStock !== null && 
+                  item.currentStock <= (item.lowStockThreshold || 5)
+                ).length;
+
+                return (
+                  <Card key={category} className="h-fit">
+                    <CardHeader>
+                      <div className="flex justify-between items-center">
+                        <CardTitle className="text-lg">{category}</CardTitle>
+                        <div className="flex items-center gap-2">
+                          <Badge variant="secondary">
+                            {categoryItems.length} items
+                          </Badge>
+                          {lowStockCount > 0 && (
+                            <Badge variant="destructive">
+                              {lowStockCount} low stock
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {categoryItems.slice(0, 5).map((item: MenuItem) => {
+                        const price = parseFloat(item.price);
+                        const isLowStock = item.trackInventory && 
+                          item.currentStock !== null && 
+                          item.currentStock <= (item.lowStockThreshold || 5);
+
+                        return (
+                          <div 
+                            key={item.id}
+                            className={`p-3 border rounded-lg cursor-pointer hover:shadow-md transition-all ${
+                              !item.isAvailable ? 'opacity-60' : ''
+                            } ${isLowStock ? 'border-red-200 bg-red-50' : ''}`}
+                            onClick={() => handleItemClick(item)}
+                          >
+                            <div className="flex justify-between items-start mb-2">
+                              <h4 className="font-medium">{item.name}</h4>
+                              <div className="flex items-center gap-1">
+                                <span className="font-bold text-green-600">${price.toFixed(2)}</span>
+                                {isLowStock && <AlertTriangle className="h-4 w-4 text-red-500" />}
+                              </div>
+                            </div>
+                            {item.description && (
+                              <p className="text-sm text-muted-foreground mb-2">
+                                {item.description.slice(0, 60)}...
+                              </p>
+                            )}
+                            <div className="flex justify-between items-center">
+                              <div className="flex items-center gap-2">
+                                {item.isAvailable ? (
+                                  <Eye className="h-3 w-3 text-green-500" />
+                                ) : (
+                                  <EyeOff className="h-3 w-3 text-gray-400" />
+                                )}
+                                {item.trackInventory && (
+                                  <span className={`text-xs ${isLowStock ? 'text-red-600' : ''}`}>
+                                    Stock: {item.currentStock || 0}
+                                  </span>
+                                )}
+                              </div>
+                              {item.popularityScore && item.popularityScore > 0 && (
+                                <div className="flex items-center gap-1">
+                                  <Star className="h-3 w-3 text-yellow-500" />
+                                  <span className="text-xs">{item.popularityScore}</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                      {categoryItems.length > 5 && (
+                        <Button variant="outline" size="sm" className="w-full">
+                          View all {categoryItems.length} {category.toLowerCase()} items
+                        </Button>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </TabsContent>
+        </Tabs>
 
         {/* AI Voice Commands Help */}
         {isListening && (
