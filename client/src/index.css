@@ -52,12 +52,12 @@
 /* Chat gradient themes */
 .chat-gradient-light {
   background: linear-gradient(135deg, #fb923c 0%, #ffffff 100%) !important;
-  transition: background 0.3s ease;
+  background-color: #00ff00 !important; /* Temporary green for testing */
 }
 
 .chat-gradient-dark {
   background: linear-gradient(135deg, #fb923c 0%, #0f172a 100%) !important;
-  transition: background 0.3s ease;
+  background-color: #ff00ff !important; /* Temporary magenta for testing */
 }
 
 @tailwind base;
