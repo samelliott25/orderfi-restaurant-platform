@@ -775,5 +775,127 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // AI Verbal Reporting endpoints
+  app.post("/api/ai/report", async (req, res) => {
+    try {
+      const { query, restaurantId, sessionId } = req.body;
+      
+      if (!query || !restaurantId) {
+        return res.status(400).json({ message: "Query and restaurant ID are required" });
+      }
+
+      // Process natural language query using AI
+      const response = await processOperationsAiMessage(
+        `Generate a verbal report for this query: "${query}". Base your analysis on the restaurant's current data and provide insights in a conversational format.`,
+        { 
+          restaurantId, 
+          reportType: 'verbal_analytics',
+          originalQuery: query
+        }
+      );
+
+      // Save the query and response for learning
+      if (sessionId) {
+        try {
+          // TODO: Implement query logging to reportingQueries table
+          console.log(`Verbal report query logged: ${query}`);
+        } catch (logError) {
+          console.error("Failed to log query:", logError);
+        }
+      }
+
+      res.json({
+        verbalReport: response.message,
+        queryProcessed: query,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("AI reporting error:", error);
+      res.status(500).json({ 
+        message: "I'm having trouble generating that report. Please try rephrasing your question or ask for a specific metric like 'show today's sales' or 'what are our top selling items'." 
+      });
+    }
+  });
+
+  // AI Menu Management endpoint
+  app.post("/api/ai/menu-management", async (req, res) => {
+    try {
+      const { command, restaurantId, sessionId } = req.body;
+      
+      if (!command || !restaurantId) {
+        return res.status(400).json({ message: "Command and restaurant ID are required" });
+      }
+
+      // Process menu management command
+      const response = await processOperationsAiMessage(
+        `Process this menu management request: "${command}". If this involves changing prices, availability, or menu items, provide a clear confirmation of what will be changed and ask for approval.`,
+        { 
+          restaurantId, 
+          actionType: 'menu_management',
+          originalCommand: command
+        }
+      );
+
+      res.json({
+        aiResponse: response.message,
+        commandProcessed: command,
+        requiresConfirmation: response.requiresConfirmation || false,
+        proposedChanges: response.proposedChanges || null,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("AI menu management error:", error);
+      res.status(500).json({ 
+        message: "I'm having trouble with that menu command. Please try saying something like 'make the burger $15' or 'mark the fish as sold out'." 
+      });
+    }
+  });
+
+  // AI Sales Analytics endpoint
+  app.get("/api/ai/analytics/:restaurantId", async (req, res) => {
+    try {
+      const restaurantId = parseInt(req.params.restaurantId);
+      const { period = 'today', metric = 'overview' } = req.query;
+
+      // Get actual sales data from orders
+      const orders = await storage.getOrdersByRestaurant(restaurantId);
+      const menuItems = await storage.getMenuItems(restaurantId);
+
+      // Generate analytics report
+      const analyticsPrompt = `Generate a verbal analytics report for restaurant ${restaurantId}. 
+        Period: ${period}
+        Metric focus: ${metric}
+        
+        Current data:
+        - Total orders: ${orders.length}
+        - Menu items: ${menuItems.length}
+        
+        Provide insights in a conversational format suitable for a restaurant manager.`;
+
+      const response = await processOperationsAiMessage(analyticsPrompt, {
+        restaurantId,
+        reportType: 'analytics',
+        period,
+        metric
+      });
+
+      res.json({
+        verbalAnalytics: response.message,
+        dataPoints: {
+          totalOrders: orders.length,
+          menuItems: menuItems.length,
+          period,
+          metric
+        },
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("AI analytics error:", error);
+      res.status(500).json({ 
+        message: "I'm having trouble generating analytics. Please try asking for specific metrics like 'show me today's performance' or 'what are my best sellers'." 
+      });
+    }
+  });
+
   // Routes registered successfully
 }
