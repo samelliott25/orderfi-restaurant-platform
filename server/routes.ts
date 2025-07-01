@@ -786,12 +786,8 @@ export async function registerRoutes(app: Express): Promise<void> {
 
       // Process natural language query using AI
       const response = await processOperationsAiMessage(
-        `Generate a verbal report for this query: "${query}". Base your analysis on the restaurant's current data and provide insights in a conversational format.`,
-        { 
-          restaurantId, 
-          reportType: 'verbal_analytics',
-          originalQuery: query
-        }
+        `Generate a verbal report for this query: "${query}". Restaurant ID: ${restaurantId}. Base your analysis on the restaurant's current data and provide insights in a conversational format.`,
+        "verbal_analytics"
       );
 
       // Save the query and response for learning
@@ -828,19 +824,15 @@ export async function registerRoutes(app: Express): Promise<void> {
 
       // Process menu management command
       const response = await processOperationsAiMessage(
-        `Process this menu management request: "${command}". If this involves changing prices, availability, or menu items, provide a clear confirmation of what will be changed and ask for approval.`,
-        { 
-          restaurantId, 
-          actionType: 'menu_management',
-          originalCommand: command
-        }
+        `Process this menu management request: "${command}". Restaurant ID: ${restaurantId}. If this involves changing prices, availability, or menu items, provide a clear confirmation of what will be changed and ask for approval.`,
+        "menu_management"
       );
 
       res.json({
         aiResponse: response.message,
         commandProcessed: command,
-        requiresConfirmation: response.requiresConfirmation || false,
-        proposedChanges: response.proposedChanges || null,
+        requiresConfirmation: false, // Default to false since this property doesn't exist in OperationsAiResponse
+        proposedChanges: null, // Default to null since this property doesn't exist in OperationsAiResponse
         timestamp: new Date().toISOString()
       });
     } catch (error) {
@@ -872,12 +864,7 @@ export async function registerRoutes(app: Express): Promise<void> {
         
         Provide insights in a conversational format suitable for a restaurant manager.`;
 
-      const response = await processOperationsAiMessage(analyticsPrompt, {
-        restaurantId,
-        reportType: 'analytics',
-        period,
-        metric
-      });
+      const response = await processOperationsAiMessage(analyticsPrompt, "analytics");
 
       res.json({
         verbalAnalytics: response.message,
