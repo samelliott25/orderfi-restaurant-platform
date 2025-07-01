@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { StandardLayout } from "@/components/StandardLayout";
+import { InventoryGrid } from "@/components/inventory/InventoryGrid";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Search, 
   Filter, 
@@ -23,7 +21,10 @@ import {
   BarChart3,
   Mic,
   Eye,
-  EyeOff
+  EyeOff,
+  Grid,
+  Table2,
+  Layers
 } from "lucide-react";
 import type { MenuItem } from "@shared/schema";
 
