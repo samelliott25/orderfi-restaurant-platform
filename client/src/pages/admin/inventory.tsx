@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { StandardLayout } from "@/components/StandardLayout";
 import { InventoryGrid } from "@/components/inventory/InventoryGrid";
-import { ThemeSelector, inventoryThemes, type InventoryTheme } from "@/components/inventory/ThemeSelector";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Search, 
-  Filter, 
   Plus, 
   Edit2, 
   AlertTriangle, 
@@ -36,7 +34,6 @@ export default function AdminInventoryPage() {
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [isListening, setIsListening] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState<InventoryTheme>(inventoryThemes[0]); // OrderFi Classic
 
   // Fetch menu items for restaurant ID 1
   const { data: menuItems = [], isLoading } = useQuery({
@@ -44,7 +41,7 @@ export default function AdminInventoryPage() {
     queryFn: () => fetch('/api/menu-items/1').then(res => res.json())
   });
 
-  // Professional POS-style metrics
+  // Strategic color-coded metrics
   const totalItems = menuItems.length;
   const availableItems = menuItems.filter((item: MenuItem) => item.isAvailable).length;
   const lowStockItems = menuItems.filter((item: MenuItem) => 
@@ -54,7 +51,7 @@ export default function AdminInventoryPage() {
     sum + (parseFloat(item.price) * (item.currentStock || 0)), 0
   );
 
-  // Filter items based on search and filters (like Lightspeed)
+  // Filter items based on search and filters
   const filteredItems = menuItems.filter((item: MenuItem) => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          item.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -70,113 +67,85 @@ export default function AdminInventoryPage() {
   menuItems.forEach((item: MenuItem) => categorySet.add(item.category));
   const categories = Array.from(categorySet);
 
-  // AI Voice Command Handler
+  // Voice command handler
   const handleVoiceCommand = async () => {
     setIsListening(true);
-    // TODO: Implement speech recognition for inventory commands
     setTimeout(() => setIsListening(false), 3000);
   };
 
-  // Handle item selection and actions
+  // Item interaction handlers
   const handleItemClick = (item: MenuItem) => {
     console.log("Edit item:", item);
-    // TODO: Open edit dialog
   };
 
   const handleToggleAvailability = async (itemId: number, available: boolean) => {
     console.log("Toggle availability:", itemId, available);
-    // TODO: Implement API call to update availability
   };
 
   return (
-    <StandardLayout title="Inventory Management" subtitle="Best-in-class database visualization with AI voice commands">
-      <style>
-        {`
-          .inventory-theme-active {
-            background-color: ${currentTheme.primary} !important;
-            color: white !important;
-          }
-          .inventory-theme-hover:hover {
-            background-color: ${currentTheme.primary}15 !important;
-            border-color: ${currentTheme.primary} !important;
-          }
-          .inventory-theme-accent {
-            color: ${currentTheme.accent} !important;
-          }
-          .inventory-theme-success {
-            color: ${currentTheme.success} !important;
-          }
-          .inventory-theme-warning {
-            color: ${currentTheme.warning} !important;
-          }
-          .inventory-theme-danger {
-            color: ${currentTheme.danger} !important;
-          }
-          /* Tab active state styling */
-          [data-state="active"] {
-            background-color: ${currentTheme.primary} !important;
-            color: white !important;
-          }
-        `}
-      </style>
+    <StandardLayout title="Inventory Management" subtitle="Strategic color coding for easy navigation and data insights">
       <div className="space-y-6">
-        {/* Professional POS-style Dashboard Metrics with Dynamic Theming */}
+        {/* Strategic Color-Coded Dashboard Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card style={{ backgroundColor: currentTheme.surface, borderColor: currentTheme.primary + '20' }}>
+          {/* Blue Zone: Inventory Overview */}
+          <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950/20 dark:border-blue-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Items</CardTitle>
-              <Package className="h-4 w-4" style={{ color: currentTheme.primary }} />
+              <CardTitle className="text-sm font-medium text-blue-800 dark:text-blue-200">Total Items</CardTitle>
+              <Package className="h-4 w-4 text-blue-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: currentTheme.primary }}>{totalItems}</div>
-              <p className="text-xs" style={{ color: currentTheme.muted }}>
+              <div className="text-2xl font-bold text-blue-700 dark:text-blue-300">{totalItems}</div>
+              <p className="text-xs text-blue-600 dark:text-blue-400">
                 {availableItems} available
               </p>
             </CardContent>
           </Card>
 
-          <Card style={{ backgroundColor: currentTheme.surface, borderColor: currentTheme.warning + '20' }}>
+          {/* Orange Zone: Attention Needed */}
+          <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Low Stock</CardTitle>
-              <AlertTriangle className="h-4 w-4" style={{ color: currentTheme.warning }} />
+              <CardTitle className="text-sm font-medium text-orange-800 dark:text-orange-200">Low Stock</CardTitle>
+              <AlertTriangle className="h-4 w-4 text-orange-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: currentTheme.warning }}>{lowStockItems}</div>
-              <p className="text-xs" style={{ color: currentTheme.muted }}>
+              <div className="text-2xl font-bold text-orange-700 dark:text-orange-300">{lowStockItems}</div>
+              <p className="text-xs text-orange-600 dark:text-orange-400">
                 Items need restocking
               </p>
             </CardContent>
           </Card>
 
-          <Card style={{ backgroundColor: currentTheme.surface, borderColor: currentTheme.success + '20' }}>
+          {/* Green Zone: Financial Health */}
+          <Card className="border-green-200 bg-green-50 dark:bg-green-950/20 dark:border-green-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Inventory Value</CardTitle>
-              <DollarSign className="h-4 w-4" style={{ color: currentTheme.success }} />
+              <CardTitle className="text-sm font-medium text-green-800 dark:text-green-200">Inventory Value</CardTitle>
+              <DollarSign className="h-4 w-4 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: currentTheme.success }}>${totalValue.toFixed(2)}</div>
-              <p className="text-xs" style={{ color: currentTheme.muted }}>
+              <div className="text-2xl font-bold text-green-700 dark:text-green-300">${totalValue.toFixed(2)}</div>
+              <p className="text-xs text-green-600 dark:text-green-400">
                 At current stock levels
               </p>
             </CardContent>
           </Card>
 
-          <Card style={{ backgroundColor: currentTheme.surface, borderColor: currentTheme.info + '20' }}>
+          {/* Purple Zone: Performance Metrics */}
+          <Card className="border-purple-200 bg-purple-50 dark:bg-purple-950/20 dark:border-purple-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Performance</CardTitle>
-              <TrendingUp className="h-4 w-4" style={{ color: currentTheme.info }} />
+              <CardTitle className="text-sm font-medium text-purple-800 dark:text-purple-200">Performance</CardTitle>
+              <TrendingUp className="h-4 w-4 text-purple-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: currentTheme.info }}>94%</div>
-              <p className="text-xs" style={{ color: currentTheme.muted }}>
+              <div className="text-2xl font-bold text-purple-700 dark:text-purple-300">94%</div>
+              <p className="text-xs text-purple-600 dark:text-purple-400">
                 Items in stock
               </p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Professional Search & Filter Bar (Lightspeed-style) */}
-        <Card>
+        {/* Search & Filter Bar with Color-Coded Actions */}
+        <Card className="border-gray-200 bg-gray-50 dark:bg-gray-900 dark:border-gray-700">
           <CardHeader>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
               <div className="flex flex-1 gap-2 max-w-md">
@@ -213,10 +182,6 @@ export default function AdminInventoryPage() {
               </div>
               
               <div className="flex gap-2">
-                <ThemeSelector 
-                  currentTheme={currentTheme}
-                  onThemeChange={setCurrentTheme}
-                />
                 <Button
                   variant={isListening ? "default" : "outline"}
                   size="sm"
@@ -226,11 +191,7 @@ export default function AdminInventoryPage() {
                   <Mic className="h-4 w-4 mr-2" />
                   {isListening ? "Listening..." : "Voice Command"}
                 </Button>
-                <Button 
-                  size="sm"
-                  style={{ backgroundColor: currentTheme.primary, color: 'white' }}
-                  className="hover:opacity-90"
-                >
+                <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
                   <Plus className="h-4 w-4 mr-2" />
                   Add Item
                 </Button>
@@ -243,49 +204,33 @@ export default function AdminInventoryPage() {
           </CardHeader>
         </Card>
 
-        {/* Best-in-Class Database Visualization - Multiple View Options */}
+        {/* Strategic Color-Coded View Options */}
         <Tabs defaultValue="visual" className="w-full">
-          <TabsList 
-            className="grid w-full grid-cols-3" 
-            style={{ backgroundColor: currentTheme.secondary }}
-          >
+          <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-gray-800">
             <TabsTrigger 
               value="visual" 
-              className="flex items-center gap-2 data-[state=active]:text-white" 
-              style={{ 
-                '--primary': currentTheme.primary,
-                backgroundColor: 'transparent'
-              } as React.CSSProperties & { '--primary': string }}
-              data-state-active-style={{ backgroundColor: currentTheme.primary }}
+              className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
             >
               <Grid className="h-4 w-4" />
               Visual Cards
             </TabsTrigger>
             <TabsTrigger 
               value="table" 
-              className="flex items-center gap-2 data-[state=active]:text-white"
-              style={{ 
-                '--primary': currentTheme.primary,
-                backgroundColor: 'transparent'
-              } as React.CSSProperties & { '--primary': string }}
+              className="flex items-center gap-2 data-[state=active]:bg-green-600 data-[state=active]:text-white"
             >
               <Table2 className="h-4 w-4" />
               Data Table
             </TabsTrigger>
             <TabsTrigger 
               value="kanban" 
-              className="flex items-center gap-2 data-[state=active]:text-white"
-              style={{ 
-                '--primary': currentTheme.primary,
-                backgroundColor: 'transparent'
-              } as React.CSSProperties & { '--primary': string }}
+              className="flex items-center gap-2 data-[state=active]:bg-purple-600 data-[state=active]:text-white"
             >
               <Layers className="h-4 w-4" />
               Category Boards
             </TabsTrigger>
           </TabsList>
 
-          {/* Visual Cards View - Best for Product Overview */}
+          {/* Visual Cards View */}
           <TabsContent value="visual" className="mt-6">
             {isLoading ? (
               <div className="text-center py-8">Loading inventory...</div>
@@ -298,7 +243,7 @@ export default function AdminInventoryPage() {
             )}
           </TabsContent>
 
-          {/* Traditional Table View - Best for Detailed Analysis */}
+          {/* Data Table View */}
           <TabsContent value="table" className="mt-6">
             <Card>
               <CardContent className="p-0">
@@ -362,17 +307,21 @@ export default function AdminInventoryPage() {
                             <TableCell>
                               <Badge variant="outline">{item.category}</Badge>
                             </TableCell>
-                            <TableCell>${price.toFixed(2)}</TableCell>
-                            <TableCell>${cost.toFixed(2)}</TableCell>
+                            <TableCell className="text-green-600 font-semibold">${price.toFixed(2)}</TableCell>
+                            <TableCell className="text-gray-600">${cost.toFixed(2)}</TableCell>
                             <TableCell>
-                              <span className={margin > 50 ? "text-green-600" : margin > 30 ? "text-yellow-600" : "text-red-600"}>
+                              <span className={`font-medium ${
+                                margin > 50 ? "text-green-600" : 
+                                margin > 30 ? "text-yellow-600" : 
+                                "text-red-600"
+                              }`}>
                                 {margin.toFixed(1)}%
                               </span>
                             </TableCell>
                             <TableCell>
                               {item.trackInventory ? (
                                 <div className="flex items-center gap-2">
-                                  <span className={isLowStock ? "text-red-600 font-medium" : ""}>
+                                  <span className={`font-medium ${isLowStock ? "text-red-600" : "text-blue-600"}`}>
                                     {item.currentStock || 0}
                                   </span>
                                   {isLowStock && <AlertTriangle className="h-4 w-4 text-red-500" />}
@@ -397,7 +346,7 @@ export default function AdminInventoryPage() {
                               <div className="flex items-center gap-1">
                                 <div className="w-12 bg-gray-200 rounded-full h-2">
                                   <div 
-                                    className="bg-blue-500 h-2 rounded-full" 
+                                    className="bg-purple-500 h-2 rounded-full" 
                                     style={{ width: `${Math.min((item.popularityScore || 0), 100)}%` }}
                                   />
                                 </div>
@@ -419,7 +368,7 @@ export default function AdminInventoryPage() {
             </Card>
           </TabsContent>
 
-          {/* Kanban Category View - Best for Menu Organization */}
+          {/* Category Boards View */}
           <TabsContent value="kanban" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
               {categories.map((category: string) => {
@@ -431,10 +380,10 @@ export default function AdminInventoryPage() {
                 ).length;
 
                 return (
-                  <Card key={category} className="h-fit">
+                  <Card key={category} className="h-fit border-purple-200 bg-purple-50 dark:bg-purple-950/20">
                     <CardHeader>
                       <div className="flex justify-between items-center">
-                        <CardTitle className="text-lg">{category}</CardTitle>
+                        <CardTitle className="text-lg text-purple-800 dark:text-purple-200">{category}</CardTitle>
                         <div className="flex items-center gap-2">
                           <Badge variant="secondary">
                             {categoryItems.length} items
@@ -459,7 +408,7 @@ export default function AdminInventoryPage() {
                             key={item.id}
                             className={`p-3 border rounded-lg cursor-pointer hover:shadow-md transition-all ${
                               !item.isAvailable ? 'opacity-60' : ''
-                            } ${isLowStock ? 'border-red-200 bg-red-50' : ''}`}
+                            } ${isLowStock ? 'border-red-200 bg-red-50' : 'bg-white dark:bg-gray-800'}`}
                             onClick={() => handleItemClick(item)}
                           >
                             <div className="flex justify-between items-start mb-2">
@@ -512,15 +461,15 @@ export default function AdminInventoryPage() {
 
         {/* AI Voice Commands Help */}
         {isListening && (
-          <Card className="border-orange-200 bg-orange-50">
+          <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3">
                 <div className="animate-pulse">
                   <Mic className="h-5 w-5 text-orange-500" />
                 </div>
                 <div>
-                  <h4 className="font-medium">Listening for inventory commands...</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <h4 className="font-medium text-orange-800 dark:text-orange-200">Listening for inventory commands...</h4>
+                  <p className="text-sm text-orange-600 dark:text-orange-400">
                     Try: "Show low stock items" • "Update burger price to $15" • "Mark fish as sold out"
                   </p>
                 </div>
