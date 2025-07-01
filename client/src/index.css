@@ -49,6 +49,17 @@
   animation: keyhole-reveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
+/* Chat gradient themes */
+.chat-gradient-light {
+  background: linear-gradient(135deg, #fb923c 0%, #ffffff 100%) !important;
+  transition: background 0.3s ease;
+}
+
+.chat-gradient-dark {
+  background: linear-gradient(135deg, #fb923c 0%, #0f172a 100%) !important;
+  transition: background 0.3s ease;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

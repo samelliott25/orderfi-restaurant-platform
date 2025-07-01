@@ -74,7 +74,23 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
   const { theme } = useTheme();
   
   // Determine if we're in dark mode
-  const isDarkMode = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  
+  useEffect(() => {
+    const updateTheme = () => {
+      const darkMode = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      console.log('Theme update:', { theme, darkMode, systemPreference: window.matchMedia('(prefers-color-scheme: dark)').matches });
+      setIsDarkMode(darkMode);
+    };
+    
+    updateTheme();
+    
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', updateTheme);
+    
+    return () => mediaQuery.removeEventListener('change', updateTheme);
+  }, [theme]);
 
   const menuItems: MenuItem[] = [
     {
@@ -329,9 +345,11 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
           <div 
             className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300"
             style={{
-              background: isDarkMode 
-                ? 'linear-gradient(to bottom right, rgb(251 146 60), rgb(15 23 42))'
-                : 'linear-gradient(to bottom right, rgb(251 146 60), rgb(255 255 255))'
+              backgroundImage: isDarkMode 
+                ? 'linear-gradient(135deg, #fb923c 0%, #0f172a 100%)'
+                : 'linear-gradient(135deg, #fb923c 0%, #ffffff 100%)',
+              backgroundColor: 'transparent',
+              transition: 'background-image 0.3s ease'
             }}
           >
             {/* Header */}
