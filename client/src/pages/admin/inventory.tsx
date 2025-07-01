@@ -85,67 +85,71 @@ export default function AdminInventoryPage() {
   return (
     <StandardLayout title="Inventory Management" subtitle="Strategic color coding for easy navigation and data insights">
       <div className="space-y-6">
-        {/* Strategic Color-Coded Dashboard Metrics */}
+        {/* Strategic Color-Coded Dashboard Metrics - OrderFi Brand Colors */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* Blue Zone: Inventory Overview */}
-          <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950/20 dark:border-blue-800">
+          {/* Slate Zone: Inventory Overview */}
+          <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-blue-800 dark:text-blue-200">Total Items</CardTitle>
-              <Package className="h-4 w-4 text-blue-600" />
+              <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300">Total Items</CardTitle>
+              <Package className="h-4 w-4 text-slate-600 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-700 dark:text-blue-300">{totalItems}</div>
-              <p className="text-xs text-blue-600 dark:text-blue-400">
+              <div className="text-2xl font-bold text-slate-800 dark:text-slate-200">{totalItems}</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">
                 {availableItems} available
               </p>
             </CardContent>
           </Card>
 
-          {/* Orange Zone: Attention Needed */}
-          <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-800">
+          {/* OrderFi Orange Zone: Attention Needed */}
+          <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-700" 
+                style={{ borderColor: 'hsl(25, 95%, 53%, 0.3)', backgroundColor: 'hsl(25, 95%, 53%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-orange-800 dark:text-orange-200">Low Stock</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-orange-600" />
+              <CardTitle className="text-sm font-medium" style={{ color: 'hsl(25, 95%, 35%)' }}>Low Stock</CardTitle>
+              <AlertTriangle className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-orange-700 dark:text-orange-300">{lowStockItems}</div>
-              <p className="text-xs text-orange-600 dark:text-orange-400">
+              <div className="text-2xl font-bold" style={{ color: 'hsl(25, 95%, 45%)' }}>{lowStockItems}</div>
+              <p className="text-xs" style={{ color: 'hsl(25, 95%, 40%)' }}>
                 Items need restocking
               </p>
             </CardContent>
           </Card>
 
-          {/* Green Zone: Financial Health */}
-          <Card className="border-green-200 bg-green-50 dark:bg-green-950/20 dark:border-green-800">
+          {/* OrderFi Pink Zone: Financial Health */}
+          <Card className="border-pink-200 bg-pink-50 dark:bg-pink-950/20 dark:border-pink-700"
+                style={{ borderColor: 'hsl(340, 82%, 52%, 0.3)', backgroundColor: 'hsl(340, 82%, 52%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-green-800 dark:text-green-200">Inventory Value</CardTitle>
-              <DollarSign className="h-4 w-4 text-green-600" />
+              <CardTitle className="text-sm font-medium" style={{ color: 'hsl(340, 82%, 35%)' }}>Inventory Value</CardTitle>
+              <DollarSign className="h-4 w-4" style={{ color: 'hsl(340, 82%, 52%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-700 dark:text-green-300">${totalValue.toFixed(2)}</div>
-              <p className="text-xs text-green-600 dark:text-green-400">
+              <div className="text-2xl font-bold" style={{ color: 'hsl(340, 82%, 45%)' }}>${totalValue.toFixed(2)}</div>
+              <p className="text-xs" style={{ color: 'hsl(340, 82%, 40%)' }}>
                 At current stock levels
               </p>
             </CardContent>
           </Card>
 
-          {/* Purple Zone: Performance Metrics */}
-          <Card className="border-purple-200 bg-purple-50 dark:bg-purple-950/20 dark:border-purple-800">
+          {/* Slate Blue Zone: Performance Metrics */}
+          <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700"
+                style={{ borderColor: 'hsl(215, 28%, 17%, 0.3)', backgroundColor: 'hsl(215, 28%, 17%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-purple-800 dark:text-purple-200">Performance</CardTitle>
-              <TrendingUp className="h-4 w-4 text-purple-600" />
+              <CardTitle className="text-sm font-medium" style={{ color: 'hsl(215, 28%, 25%)' }}>Performance</CardTitle>
+              <TrendingUp className="h-4 w-4" style={{ color: 'hsl(215, 28%, 35%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-700 dark:text-purple-300">94%</div>
-              <p className="text-xs text-purple-600 dark:text-purple-400">
+              <div className="text-2xl font-bold" style={{ color: 'hsl(215, 28%, 30%)' }}>94%</div>
+              <p className="text-xs" style={{ color: 'hsl(215, 28%, 40%)' }}>
                 Items in stock
               </p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Search & Filter Bar with Color-Coded Actions */}
-        <Card className="border-gray-200 bg-gray-50 dark:bg-gray-900 dark:border-gray-700">
+        {/* Search & Filter Bar with OrderFi Gradient Accent */}
+        <Card className="border-slate-200 bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-700"
+              style={{ background: 'linear-gradient(135deg, hsl(25, 95%, 53%, 0.03), hsl(340, 82%, 52%, 0.03))' }}>
           <CardHeader>
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
               <div className="flex flex-1 gap-2 max-w-md">
@@ -191,7 +195,11 @@ export default function AdminInventoryPage() {
                   <Mic className="h-4 w-4 mr-2" />
                   {isListening ? "Listening..." : "Voice Command"}
                 </Button>
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
+                <Button 
+                  size="sm" 
+                  className="text-white hover:opacity-90 transition-opacity"
+                  style={{ background: 'linear-gradient(135deg, hsl(25, 95%, 53%), hsl(340, 82%, 52%))' }}
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Item
                 </Button>
@@ -204,26 +212,31 @@ export default function AdminInventoryPage() {
           </CardHeader>
         </Card>
 
-        {/* Strategic Color-Coded View Options */}
+        {/* Strategic Color-Coded View Options with OrderFi Gradient */}
         <Tabs defaultValue="visual" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-gray-800">
+          <TabsList className="grid w-full grid-cols-3 bg-slate-100 dark:bg-slate-800">
             <TabsTrigger 
               value="visual" 
-              className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+              className="flex items-center gap-2 data-[state=active]:text-white"
+              style={{ 
+                '--active-bg': 'linear-gradient(135deg, hsl(25, 95%, 53%), hsl(340, 82%, 52%))'
+              } as React.CSSProperties & { '--active-bg': string }}
             >
               <Grid className="h-4 w-4" />
               Visual Cards
             </TabsTrigger>
             <TabsTrigger 
               value="table" 
-              className="flex items-center gap-2 data-[state=active]:bg-green-600 data-[state=active]:text-white"
+              className="flex items-center gap-2 data-[state=active]:text-white"
+              style={{ color: 'hsl(215, 28%, 35%)' }}
             >
               <Table2 className="h-4 w-4" />
               Data Table
             </TabsTrigger>
             <TabsTrigger 
               value="kanban" 
-              className="flex items-center gap-2 data-[state=active]:bg-purple-600 data-[state=active]:text-white"
+              className="flex items-center gap-2 data-[state=active]:text-white"
+              style={{ color: 'hsl(215, 28%, 35%)' }}
             >
               <Layers className="h-4 w-4" />
               Category Boards
@@ -307,24 +320,30 @@ export default function AdminInventoryPage() {
                             <TableCell>
                               <Badge variant="outline">{item.category}</Badge>
                             </TableCell>
-                            <TableCell className="text-green-600 font-semibold">${price.toFixed(2)}</TableCell>
-                            <TableCell className="text-gray-600">${cost.toFixed(2)}</TableCell>
+                            <TableCell className="font-semibold" style={{ color: 'hsl(340, 82%, 45%)' }}>${price.toFixed(2)}</TableCell>
+                            <TableCell className="text-slate-600">${cost.toFixed(2)}</TableCell>
                             <TableCell>
                               <span className={`font-medium ${
-                                margin > 50 ? "text-green-600" : 
-                                margin > 30 ? "text-yellow-600" : 
-                                "text-red-600"
-                              }`}>
+                                margin > 50 ? "text-emerald-600" : 
+                                margin > 30 ? "" : 
+                                ""
+                              }`}
+                              style={{
+                                color: margin > 50 ? 'hsl(160, 84%, 39%)' :
+                                       margin > 30 ? 'hsl(25, 95%, 53%)' :
+                                       'hsl(0, 84%, 60%)'
+                              }}>
                                 {margin.toFixed(1)}%
                               </span>
                             </TableCell>
                             <TableCell>
                               {item.trackInventory ? (
                                 <div className="flex items-center gap-2">
-                                  <span className={`font-medium ${isLowStock ? "text-red-600" : "text-blue-600"}`}>
+                                  <span className={`font-medium`}
+                                        style={{ color: isLowStock ? 'hsl(25, 95%, 53%)' : 'hsl(215, 28%, 35%)' }}>
                                     {item.currentStock || 0}
                                   </span>
-                                  {isLowStock && <AlertTriangle className="h-4 w-4 text-red-500" />}
+                                  {isLowStock && <AlertTriangle className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />}
                                 </div>
                               ) : (
                                 <span className="text-muted-foreground">Not tracked</span>
@@ -344,13 +363,16 @@ export default function AdminInventoryPage() {
                             </TableCell>
                             <TableCell>
                               <div className="flex items-center gap-1">
-                                <div className="w-12 bg-gray-200 rounded-full h-2">
+                                <div className="w-12 bg-slate-200 rounded-full h-2">
                                   <div 
-                                    className="bg-purple-500 h-2 rounded-full" 
-                                    style={{ width: `${Math.min((item.popularityScore || 0), 100)}%` }}
+                                    className="h-2 rounded-full transition-all" 
+                                    style={{ 
+                                      width: `${Math.min((item.popularityScore || 0), 100)}%`,
+                                      background: 'linear-gradient(135deg, hsl(25, 95%, 53%), hsl(340, 82%, 52%))'
+                                    }}
                                   />
                                 </div>
-                                <span className="text-sm">{item.popularityScore || 0}</span>
+                                <span className="text-sm text-slate-600">{item.popularityScore || 0}</span>
                               </div>
                             </TableCell>
                             <TableCell className="text-right">
@@ -380,10 +402,14 @@ export default function AdminInventoryPage() {
                 ).length;
 
                 return (
-                  <Card key={category} className="h-fit border-purple-200 bg-purple-50 dark:bg-purple-950/20">
+                  <Card key={category} className="h-fit border-slate-200 bg-slate-50 dark:bg-slate-950/20"
+                        style={{ 
+                          background: 'linear-gradient(135deg, hsl(25, 95%, 53%, 0.02), hsl(340, 82%, 52%, 0.02))',
+                          borderColor: 'hsl(215, 28%, 17%, 0.2)'
+                        }}>
                     <CardHeader>
                       <div className="flex justify-between items-center">
-                        <CardTitle className="text-lg text-purple-800 dark:text-purple-200">{category}</CardTitle>
+                        <CardTitle className="text-lg" style={{ color: 'hsl(215, 28%, 25%)' }}>{category}</CardTitle>
                         <div className="flex items-center gap-2">
                           <Badge variant="secondary">
                             {categoryItems.length} items
