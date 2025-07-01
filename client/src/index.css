@@ -49,19 +49,13 @@
   animation: keyhole-reveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-/* Chat gradient themes - Ultra high specificity */
-div[class*="fixed"][class*="inset-4"][class*="rounded-2xl"].chat-gradient-light,
-.chat-gradient-light.fixed.inset-4.rounded-2xl.shadow-2xl.flex.flex-col {
-  background: #00ff00 !important; /* Bright green test */
-  background-image: none !important;
-  background-color: #00ff00 !important;
+/* Chat gradient themes - now using inline styles in component */
+.chat-gradient-light {
+  /* Placeholder for potential future use */
 }
 
-div[class*="fixed"][class*="inset-4"][class*="rounded-2xl"].chat-gradient-dark,
-.chat-gradient-dark.fixed.inset-4.rounded-2xl.shadow-2xl.flex.flex-col {
-  background: linear-gradient(135deg, #fb923c 0%, #0f172a 100%) !important;
-  background-image: linear-gradient(135deg, #fb923c 0%, #0f172a 100%) !important;
-  background-color: transparent !important;
+.chat-gradient-dark {
+  /* Placeholder for potential future use */
 }
 
 @tailwind base;
