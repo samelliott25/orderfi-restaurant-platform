@@ -300,10 +300,9 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
       {!isExpanded && (
         <button
           onClick={() => setIsExpanded(true)}
-          className="w-16 h-16 rounded-full shadow-lg flex items-center justify-center relative transition-all duration-300 hover:scale-110 active:scale-95"
-          style={{ backgroundColor: '#8b795e' }}
+          className="w-16 h-16 rounded-full shadow-lg flex items-center justify-center relative transition-all duration-300 hover:scale-110 active:scale-95 bg-gradient-to-br from-orange-400 to-white dark:from-orange-400 dark:to-slate-900"
         >
-          <MessageCircle className="w-8 h-8 text-white" />
+          <MessageCircle className="w-8 h-8 text-slate-900 dark:text-white" />
           {getTotalItems() > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
               {getTotalItems()}
