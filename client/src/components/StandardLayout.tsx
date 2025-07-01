@@ -162,7 +162,8 @@ export function StandardLayout({
               {/* AI Chatbot Icon - Center of navbar */}
               <Button
                 onClick={() => setIsChatExpanded(true)}
-                className="absolute left-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-xl z-50 overflow-hidden ai-cosmic-glow ai-gentle-float"
+                className="absolute left-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-2xl drop-shadow-2xl z-50 overflow-hidden ai-cosmic-glow ai-gentle-float"
+                style={{ filter: 'drop-shadow(0 8px 25px rgba(0, 0, 0, 0.25)) drop-shadow(0 4px 10px rgba(255, 165, 0, 0.3))' }}
               >
                 <div className="relative w-full h-full flex items-center justify-center">
                   {/* Stars positioned across entire button surface */}

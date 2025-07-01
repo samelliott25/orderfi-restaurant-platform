@@ -77,7 +77,7 @@ export default function TokenRewards() {
     ((currentPoints - tier.minPoints) / (nextTier.minPoints - tier.minPoints)) * 100 : 100;
 
   return (
-    <StandardLayout title="Token Rewards" subtitle="Earn tokens with every order and unlock exclusive benefits">
+    <StandardLayout title="Token Rewards" subtitle="Earn your share of the network">
       <div className="max-w-4xl mx-auto space-y-6">
 
         {/* Current Status Card - Matching OrderFi Design */}
