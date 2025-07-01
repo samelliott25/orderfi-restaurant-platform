@@ -347,12 +347,8 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
               isDarkMode ? 'chat-gradient-dark' : 'chat-gradient-light'
             }`}
             style={{
-              background: isDarkMode 
-                ? 'linear-gradient(135deg, #fb923c 0%, #0f172a 100%)' 
-                : 'linear-gradient(135deg, #fb923c 0%, #ffffff 100%)',
-              backgroundImage: isDarkMode 
-                ? 'linear-gradient(135deg, #fb923c 0%, #0f172a 100%)' 
-                : 'linear-gradient(135deg, #fb923c 0%, #ffffff 100%)'
+              backgroundColor: '#ff0000',
+              background: '#ff0000'
             }}
             data-testid="chat-gradient-container"
           >
