@@ -358,7 +358,10 @@ export default function OrderFiNew() {
 
           {/* Token Rewards */}
           <div className="mt-8">
-            <Card className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0">
+            <Card 
+              className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0 cursor-pointer hover:scale-105 transition-transform duration-200"
+              onClick={() => setLocation('/tokenrewards')}
+            >
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>

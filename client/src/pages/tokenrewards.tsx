@@ -80,30 +80,24 @@ export default function TokenRewards() {
     <StandardLayout title="Token Rewards" subtitle="Earn tokens with every order and unlock exclusive benefits">
       <div className="max-w-4xl mx-auto space-y-6">
 
-        {/* Current Status Card */}
-        <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
-          <CardHeader className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Coins className="h-8 w-8 text-orange-600" />
-              <CardTitle className="text-2xl text-orange-900">{currentPoints.toLocaleString()} Points</CardTitle>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <Badge className={`${tier.color} text-white`}>
-                {tier.name} Member
-              </Badge>
-              <span className="text-sm text-orange-700">{tier.multiplier}x multiplier</span>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {nextTier && (
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm text-orange-700">
-                  <span>Progress to {nextTier.name}</span>
-                  <span>{nextTier.minPoints - currentPoints} points to go</span>
-                </div>
-                <Progress value={progressToNext} className="h-2" />
+        {/* Current Status Card - Matching OrderFi Design */}
+        <Card className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-lg">OrderFi Tokens</h3>
+                <p className="text-2xl font-bold mt-1">{currentPoints.toLocaleString()}</p>
+                <p className="text-xs opacity-90 mt-1">Available Tokens</p>
               </div>
-            )}
+              <div className="text-right">
+                <Button variant="secondary" size="sm" className="bg-white/20 hover:bg-white/30 text-white border-0">
+                  Redeem
+                </Button>
+              </div>
+            </div>
+            <div className="mt-3 pt-3 border-t border-white/20">
+              <p className="text-xs opacity-90">Earn tokens with every order • 1 token = $0.10</p>
+            </div>
           </CardContent>
         </Card>
 
