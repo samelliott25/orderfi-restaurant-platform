@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { OperationsAiChat } from "@/components/admin/operations-ai-chat";
+import { HamburgerMenu } from "@/components/Navigation";
 import { 
   DollarSign, 
   Clock, 
@@ -89,14 +90,60 @@ export default function RestaurantDashboard() {
 
   return (
     <div className="min-h-screen pb-32 pt-0" style={{ backgroundColor: '#fcfcfc' }}>
-      {/* Header */}
-      <div className="shadow-sm border-b mt-0" style={{ backgroundColor: '#fcfcfc' }}>
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center pt-0 pb-6">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 font-heading pt-[0px] pb-[0px] mt-[10px] mb-[10px]">Dashboard</h1>
-              <div className="flex items-center gap-2 mt-1">
-                <p className="text-sm text-gray-600">Command Center</p>
+      {/* Header with standardized OrderFi branding */}
+      <div className="flex items-center justify-between p-4 bg-card border-b border-border">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center overflow-hidden ai-cosmic-glow relative">
+            <div className="relative w-full h-full flex items-center justify-center">
+              <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
+                <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-1 h-1 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-1 h-1 absolute ai-cascade-4" style={{ top: '65%', left: '52%', transform: 'rotate(-15deg)', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '35%', left: '82%', transform: 'rotate(89deg)', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '85%', left: '78%', transform: 'rotate(178deg)', animationDelay: '3.1s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+              </div>
+              <svg className="w-5 h-5 text-white relative z-10 ai-star-pulse" viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <h1 className="font-semibold text-lg" style={{ fontFamily: 'Playwrite Australia Victoria' }}>OrderFi</h1>
+            <p className="text-sm text-muted-foreground">Restaurant Dashboard</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button
+            onClick={() => setShowAiAssistant(!showAiAssistant)}
+            variant="ghost"
+            size="sm"
+            className="text-gray-600 hover:text-orange-500"
+          >
+            <MessageCircle className="h-5 w-5" />
+          </Button>
+          <HamburgerMenu />
+        </div>
+      </div>
+      
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center pt-4 pb-6">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Dashboard</h2>
+            <div className="flex items-center gap-2 mt-1">
+              <p className="text-sm text-gray-600">Command Center</p>
                 <Badge variant="outline" className="bg-green-50 text-green-700 text-xs">
                   <Activity className="h-3 w-3 mr-1" />
                   Live
@@ -106,6 +153,8 @@ export default function RestaurantDashboard() {
           </div>
         </div>
       </div>
+      
+      {/* Main Dashboard Content */}
       <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <div className="overflow-x-auto">
@@ -734,6 +783,39 @@ export default function RestaurantDashboard() {
           </div>
         </div>
       )}
+
+      {/* Bottom Navigation - Chat Button */}
+      <div className="fixed bottom-0 left-0 right-0">
+        <div className="relative flex items-center justify-center py-3">
+          <Button
+            onClick={() => setShowAiAssistant(!showAiAssistant)}
+            className="w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-xl z-50 overflow-hidden ai-cosmic-glow ai-gentle-float"
+          >
+            <div className="relative w-full h-full flex items-center justify-center">
+              <div className="absolute inset-0 w-full h-full pointer-events-none">
+                <svg className="w-1.5 h-1 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-1 h-1.5 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-1 h-2 absolute ai-cascade-3" style={{ top: '15%', left: '48%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-1.5 h-1 absolute ai-cascade-4" style={{ top: '65%', left: '52%', transform: 'rotate(-15deg)', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '35%', left: '82%', transform: 'rotate(89deg)', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="w-2 h-0.5 absolute ai-cascade-2" style={{ top: '85%', left: '78%', transform: 'rotate(178deg)', animationDelay: '3.1s' }} viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+              </div>
+            </div>
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
