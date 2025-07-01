@@ -25,6 +25,7 @@ import {
   Plus
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useTheme } from '@/components/theme-provider';
 import type { Restaurant, MenuItem } from '@shared/schema';
 
 interface ChatMessage {
@@ -75,6 +76,10 @@ export default function OrderFiNew() {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { theme } = useTheme();
+  
+  // Check if dark mode is active
+  const isDarkMode = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   // Initialize page on load
   useEffect(() => {
@@ -422,7 +427,11 @@ export default function OrderFiNew() {
 
       {/* Floating AI Chat Interface */}
       {isChatExpanded && (
-        <div className="fixed inset-4 md:inset-8 lg:inset-12 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-3xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300 flex flex-col">
+        <div className={`fixed inset-4 md:inset-8 lg:inset-12 rounded-3xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300 flex flex-col ${
+          isDarkMode 
+            ? 'bg-gradient-to-br from-orange-500 to-slate-900' 
+            : 'bg-gradient-to-br from-orange-500 to-white'
+        }`}>
           {/* Chat Header */}
           <div className="flex items-center justify-between p-4 border-b border-white/20">
             <div className="flex items-center gap-2">
