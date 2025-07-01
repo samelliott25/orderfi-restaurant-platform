@@ -343,14 +343,9 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
           
           {/* Chat Card */}
           <div 
-            className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300"
-            style={{
-              backgroundImage: isDarkMode 
-                ? 'linear-gradient(135deg, #fb923c 0%, #0f172a 100%)'
-                : 'linear-gradient(135deg, #fb923c 0%, #ffffff 100%)',
-              backgroundColor: 'transparent',
-              transition: 'background-image 0.3s ease'
-            }}
+            className={`fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300 ${
+              isDarkMode ? 'chat-gradient-dark' : 'chat-gradient-light'
+            }`}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-white/20 dark:border-slate-700/50">
