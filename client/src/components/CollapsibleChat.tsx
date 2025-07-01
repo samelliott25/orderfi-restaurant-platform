@@ -17,6 +17,7 @@ import {
   ArrowDown
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/components/theme-provider";
 
 interface MenuItem {
   id: number;
@@ -70,6 +71,10 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [highlightedProductId, setHighlightedProductId] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  
+  // Determine if we're in dark mode
+  const isDarkMode = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   const menuItems: MenuItem[] = [
     {
@@ -322,7 +327,12 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
           
           {/* Chat Card */}
           <div 
-            className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300 bg-gradient-to-br from-orange-400 to-white dark:from-orange-400 dark:to-slate-900"
+            className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300"
+            style={{
+              background: isDarkMode 
+                ? 'linear-gradient(to bottom right, rgb(251 146 60), rgb(15 23 42))'
+                : 'linear-gradient(to bottom right, rgb(251 146 60), rgb(255 255 255))'
+            }}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-white/20 dark:border-slate-700/50">
