@@ -303,7 +303,9 @@ export default function OrderFiNew() {
             <p className="text-sm text-muted-foreground">Smart Restaurant Assistant</p>
           </div>
         </div>
-        {/* Remove HamburgerMenu to prevent duplicate navigation */}
+        <div className="flex items-center gap-3">
+          <HamburgerMenu />
+        </div>
       </div>
       <ScrollArea className="flex-1 px-4 pb-20 border-none" style={{ height: 'calc(100vh - 140px)' }}>
         <div className="space-y-4 py-4 pr-2">
