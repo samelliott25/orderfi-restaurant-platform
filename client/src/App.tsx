@@ -12,7 +12,7 @@ import Web3DappPage from "@/pages/web3-dapp";
 import OrderFiNew from "@/pages/orderfi-new";
 import OrderFiSimple from "./pages/orderfi-simple";
 import TokenRewardsPage from "@/pages/tokenrewards";
-import KitchenPrintingPage from "@/pages/kitchen-printing";
+import NetworkPage from "@/pages/network";
 import NotFound from "@/pages/not-found";
 import { useEffect, useState } from "react";
 
@@ -77,7 +77,7 @@ function Router() {
         <Route path="/orderfi-home" component={OrderFiNew} />
         <Route path="/orderfi-simple" component={OrderFiSimple} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
-        <Route path="/kitchen-printing" component={KitchenPrintingPage} />
+        <Route path="/network" component={NetworkPage} />
         <Route path="/web3-order" component={Web3DappPage} />
         
         {/* Back Office Dashboard */}

@@ -77,15 +77,8 @@ export default function TokenRewards() {
     ((currentPoints - tier.minPoints) / (nextTier.minPoints - tier.minPoints)) * 100 : 100;
 
   return (
-    <div className="min-h-screen bg-[#fcfcfc] p-4">
+    <StandardLayout title="Token Rewards" subtitle="Earn tokens with every order and unlock exclusive benefits">
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-gray-900" style={{ fontFamily: '"Playwrite AU VIC", cursive' }}>
-            Token Rewards
-          </h1>
-          <p className="text-gray-600">Earn tokens with every order and unlock exclusive benefits</p>
-        </div>
 
         {/* Current Status Card */}
         <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
@@ -332,6 +325,6 @@ export default function TokenRewards() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </StandardLayout>
   );
 }
