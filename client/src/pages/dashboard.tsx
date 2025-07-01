@@ -783,39 +783,6 @@ export default function RestaurantDashboard() {
           </div>
         </div>
       )}
-
-      {/* Bottom Navigation - Chat Button */}
-      <div className="fixed bottom-0 left-0 right-0">
-        <div className="relative flex items-center justify-center py-3">
-          <Button
-            onClick={() => setShowAiAssistant(!showAiAssistant)}
-            className="w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-xl z-50 overflow-hidden ai-cosmic-glow ai-gentle-float"
-          >
-            <div className="relative w-full h-full flex items-center justify-center">
-              <div className="absolute inset-0 w-full h-full pointer-events-none">
-                <svg className="w-1.5 h-1 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="w-1 h-1.5 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="w-1 h-2 absolute ai-cascade-3" style={{ top: '15%', left: '48%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="w-1.5 h-1 absolute ai-cascade-4" style={{ top: '65%', left: '52%', transform: 'rotate(-15deg)', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '35%', left: '82%', transform: 'rotate(89deg)', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="w-2 h-0.5 absolute ai-cascade-2" style={{ top: '85%', left: '78%', transform: 'rotate(178deg)', animationDelay: '3.1s' }} viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-              </div>
-            </div>
-          </Button>
-        </div>
-      </div>
     </div>
   );
 }

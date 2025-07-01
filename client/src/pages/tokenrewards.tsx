@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Coins, Gift, Trophy, Star, TrendingUp, History, Wallet } from "lucide-react";
+import { StandardLayout } from "@/components/StandardLayout";
 
 interface RewardTier {
   name: string;

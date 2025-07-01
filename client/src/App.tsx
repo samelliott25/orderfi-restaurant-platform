@@ -7,7 +7,7 @@ import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
 import { ThemeProvider } from "@/components/theme-provider";
 import { HamburgerMenu, SearchBar } from "@/components/Navigation";
 import HomePage from "@/pages/home";
-import RestaurantDashboard from "@/pages/dashboard";
+import RestaurantDashboard from "@/pages/dashboard-new";
 import Web3DappPage from "@/pages/web3-dapp";
 import OrderFiNew from "@/pages/orderfi-new";
 import OrderFiSimple from "./pages/orderfi-simple";
