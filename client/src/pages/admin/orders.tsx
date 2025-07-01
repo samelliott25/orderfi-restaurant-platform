@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AdminLayout } from "@/components/admin/admin-layout";
+import { StandardLayout } from "@/components/StandardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -277,17 +277,8 @@ export default function AdminOrdersPage() {
   };
 
   return (
-    <AdminLayout>
+    <StandardLayout title="Orders Management" subtitle="Kitchen video system and floor plan management">
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#8b795e' }}>
-              Orders Management
-            </h1>
-            <p className="text-sm" style={{ color: '#8b795e' }}>
-              Kitchen video system and floor plan management
-            </p>
-          </div>
           <div className="flex gap-3">
             <Button 
               variant="outline" 
@@ -758,6 +749,6 @@ export default function AdminOrdersPage() {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </StandardLayout>
   );
 }

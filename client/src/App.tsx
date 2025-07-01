@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 
 // Keep only essential admin pages for dashboard integration
 import AdminInventoryPage from "@/pages/admin/inventory";
-import AdminOrdersPage from "@/pages/admin/orders";
+import AdminOrdersPage from "@/pages/admin/orders-new";
 import AdminPaymentsPage from "@/pages/admin/payments";
 import AdminRewardsPage from "@/pages/admin/rewards";
 import AdminBlockchainPage from "@/pages/admin/blockchain";
@@ -86,7 +86,7 @@ function Router() {
         {/* Admin Pages (accessed through dashboard) */}
         <Route path="/inventory" component={AdminInventoryPage} />
         <Route path="/admin/orders" component={AdminOrdersPage} />
-        <Route path="/admin/payments" component={AdminPaymentsPage} />
+        <Route path="/payments" component={AdminPaymentsPage} />
         <Route path="/admin/rewards" component={AdminRewardsPage} />
         <Route path="/admin/blockchain" component={AdminBlockchainPage} />
         

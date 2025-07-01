@@ -1,10 +1,10 @@
 import { MenuManagement } from "@/components/menu-management";
-import { AdminLayout } from "@/components/admin/admin-layout";
+import { StandardLayout } from "@/components/StandardLayout";
 
-export default function AdminMenuPage() {
+export default function AdminInventoryPage() {
   return (
-    <AdminLayout>
+    <StandardLayout title="Inventory Management" subtitle="Manage menu items and pricing">
       <MenuManagement restaurantId={1} />
-    </AdminLayout>
+    </StandardLayout>
   );
 }
