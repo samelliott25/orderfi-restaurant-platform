@@ -429,8 +429,8 @@ export default function OrderFiNew() {
       {isChatExpanded && (
         <div className={`fixed inset-4 md:inset-8 lg:inset-12 rounded-3xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300 flex flex-col ${
           isDarkMode 
-            ? 'bg-gradient-to-br from-orange-500 to-slate-900' 
-            : 'bg-gradient-to-br from-orange-500 to-white'
+            ? 'bg-gradient-to-br from-orange-600 via-red-600 to-purple-900' 
+            : 'bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-400'
         }`}>
           {/* Chat Header */}
           <div className="flex items-center justify-between p-4 border-b border-white/20">
