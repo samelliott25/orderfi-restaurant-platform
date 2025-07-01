@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -9,34 +8,30 @@ export default function HomePage() {
   const [showTransition, setShowTransition] = useState(false);
   const [location, setLocation] = useLocation();
 
-  // Preload data for OrderFi page
-  const { data: menuItems, isLoading: menuLoading } = useQuery({
-    queryKey: [`/api/restaurants/1/menu`],
-    enabled: showTransition, // Only fetch when user clicks enter app
-    staleTime: 5 * 60 * 1000,
-  });
-
-  const { data: restaurants, isLoading: restaurantLoading } = useQuery({
-    queryKey: ['/api/restaurants'],
-    enabled: showTransition,
-    staleTime: 5 * 60 * 1000,
-  });
+  // Data will be loaded by the OrderFi page itself
 
   const handleDAppClick = () => {
     setIsClicked(true);
     setShowTransition(true);
+    
+    // Immediate navigation backup for reliability
+    setTimeout(() => {
+      if (showTransition) {
+        setLocation('/orderfi-home');
+      }
+    }, 2500);
   };
 
-  // Navigate when data is ready using wouter for SPA navigation
+  // Simple navigation after animation
   useEffect(() => {
-    if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
-      // Wait for keyhole animation to complete then navigate using SPA routing
+    if (showTransition) {
       const timer = setTimeout(() => {
         setLocation('/orderfi-home');
-      }, 1200);
+      }, 1500); // Wait for animation to complete
+      
       return () => clearTimeout(timer);
     }
-  }, [showTransition, menuLoading, restaurantLoading, menuItems, restaurants]);
+  }, [showTransition, setLocation]);
 
   return (
     <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden bg-background text-foreground">
@@ -67,7 +62,7 @@ export default function HomePage() {
             {/* Loading text below logo */}
             <div className="text-center">
               <div className="text-xl text-white animate-pulse">
-                {menuLoading || restaurantLoading ? 'Loading restaurant data...' : 'Launching AI Assistant...'}
+                Launching AI Assistant...
               </div>
             </div>
           </div>
