@@ -411,11 +411,26 @@ export default function AdminInventoryPage() {
                       <div className="flex justify-between items-center">
                         <CardTitle className="text-lg" style={{ color: 'hsl(215, 28%, 25%)' }}>{category}</CardTitle>
                         <div className="flex items-center gap-2">
-                          <Badge variant="secondary">
+                          <Badge 
+                            variant="secondary"
+                            className="text-xs border-slate-200"
+                            style={{ 
+                              backgroundColor: 'hsl(215, 28%, 17%, 0.1)',
+                              color: 'hsl(215, 28%, 35%)'
+                            }}
+                          >
                             {categoryItems.length} items
                           </Badge>
                           {lowStockCount > 0 && (
-                            <Badge variant="destructive">
+                            <Badge 
+                              variant="destructive"
+                              className="text-xs"
+                              style={{
+                                backgroundColor: 'hsl(25, 95%, 53%, 0.1)',
+                                color: 'hsl(25, 95%, 45%)',
+                                borderColor: 'hsl(25, 95%, 53%, 0.3)'
+                              }}
+                            >
                               {lowStockCount} low stock
                             </Badge>
                           )}
@@ -434,7 +449,11 @@ export default function AdminInventoryPage() {
                             key={item.id}
                             className={`p-3 border rounded-lg cursor-pointer hover:shadow-md transition-all ${
                               !item.isAvailable ? 'opacity-60' : ''
-                            } ${isLowStock ? 'border-red-200 bg-red-50' : 'bg-white dark:bg-gray-800'}`}
+                            }`}
+                            style={{
+                              borderColor: isLowStock ? 'hsl(25, 95%, 53%, 0.3)' : 'hsl(215, 28%, 17%, 0.15)',
+                              backgroundColor: isLowStock ? 'hsl(25, 95%, 53%, 0.05)' : 'white'
+                            }}
                             onClick={() => handleItemClick(item)}
                           >
                             <div className="flex justify-between items-start mb-2">
