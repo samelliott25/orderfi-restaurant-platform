@@ -322,24 +322,23 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
           
           {/* Chat Card */}
           <div 
-            className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300"
-            style={{ backgroundColor: '#fff0cc' }}
+            className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300 bg-gradient-to-br from-orange-400 to-white dark:from-orange-400 dark:to-slate-900"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: '#e5cf97' }}>
+            <div className="flex items-center justify-between p-4 border-b border-white/20 dark:border-slate-700/50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#8b795e] flex items-center justify-center">
-                  <ChefHat className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 rounded-full bg-white/30 dark:bg-slate-800/50 flex items-center justify-center backdrop-blur-sm">
+                  <ChefHat className="w-6 h-6 text-slate-900 dark:text-white" />
                 </div>
                 <div>
-                  <h2 className="font-bold text-lg" style={{ color: '#8b795e' }}>Mimi Waitress</h2>
-                  <p className="text-sm" style={{ color: '#8b795e' }}>Order Assistant</p>
+                  <h2 className="font-bold text-lg text-slate-900 dark:text-white">AI Assistant</h2>
+                  <p className="text-sm text-slate-700 dark:text-slate-300">Online</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 {getTotalItems() > 0 && (
                   <div className="relative">
-                    <ShoppingCart className="w-6 h-6" style={{ color: '#8b795e' }} />
+                    <ShoppingCart className="w-6 h-6 text-slate-900 dark:text-white" />
                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                       {getTotalItems()}
                     </span>
@@ -349,15 +348,15 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsExpanded(false)}
-                  className="p-2"
+                  className="p-2 hover:bg-white/20 dark:hover:bg-slate-700/50"
                 >
-                  <X className="w-5 h-5" style={{ color: '#8b795e' }} />
+                  <X className="w-5 h-5 text-slate-900 dark:text-white" />
                 </Button>
               </div>
             </div>
 
             {/* Category Tabs */}
-            <div className="p-3 border-b" style={{ borderColor: '#e5cf97' }}>
+            <div className="p-3 border-b border-white/20 dark:border-slate-700/50">
               <div className="flex gap-2 overflow-x-auto">
                 {categories.map((category) => (
                   <Button
@@ -367,8 +366,8 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                     onClick={() => setSelectedCategory(category.id)}
                     className={`whitespace-nowrap text-xs ${
                       selectedCategory === category.id 
-                        ? 'bg-[#8b795e] text-white' 
-                        : 'border-[#8b795e] text-[#8b795e] bg-white'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900' 
+                        : 'border-slate-900/30 dark:border-white/30 text-slate-900 dark:text-white bg-white/20 dark:bg-slate-800/20'
                     }`}
                   >
                     <span className="mr-1">{category.icon}</span>
@@ -384,20 +383,20 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                 <div key={message.id} className="space-y-3">
                   {message.type === 'user' ? (
                     <div className="flex justify-end">
-                      <div className="max-w-[80%] bg-[#8b795e] text-white p-3 rounded-2xl rounded-br-sm text-sm">
+                      <div className="max-w-[80%] bg-slate-900/80 dark:bg-white/90 text-white dark:text-slate-900 p-3 rounded-2xl rounded-br-sm text-sm backdrop-blur-sm">
                         {message.content}
                       </div>
                     </div>
                   ) : message.type === 'bot' ? (
                     <div className="flex justify-start">
-                      <div className="max-w-[80%] bg-white p-3 rounded-2xl rounded-bl-sm border text-sm" style={{ borderColor: '#e5cf97', color: '#8b795e' }}>
+                      <div className="max-w-[80%] bg-white/80 dark:bg-slate-800/80 p-3 rounded-2xl rounded-bl-sm border border-white/30 dark:border-slate-600/50 text-sm text-slate-900 dark:text-white backdrop-blur-sm">
                         {message.content}
                       </div>
                     </div>
                   ) : message.type === 'menu' ? (
                     <div className="space-y-3">
                       <div className="flex justify-start">
-                        <div className="bg-white p-3 rounded-2xl rounded-bl-sm border text-sm" style={{ borderColor: '#e5cf97', color: '#8b795e' }}>
+                        <div className="bg-white/80 dark:bg-slate-800/80 p-3 rounded-2xl rounded-bl-sm border border-white/30 dark:border-slate-600/50 text-sm text-slate-900 dark:text-white backdrop-blur-sm">
                           {message.content}
                         </div>
                       </div>
@@ -496,19 +495,19 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
             )}
 
             {/* Input */}
-            <div className="p-4 border-t" style={{ borderColor: '#e5cf97' }}>
+            <div className="p-4 border-t border-white/20 dark:border-slate-700/50">
               <div className="flex gap-2">
                 <Input
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
-                  placeholder="What would you like to order?"
+                  placeholder="Type your message..."
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  className="flex-1 text-sm"
+                  className="flex-1 text-sm bg-white/50 dark:bg-slate-800/50 border-white/30 dark:border-slate-600/50 text-slate-900 dark:text-white placeholder-slate-600 dark:placeholder-slate-400 backdrop-blur-sm"
                 />
                 <Button 
                   onClick={handleSendMessage}
                   size="sm"
-                  className="bg-[#8b795e] hover:bg-[#6d5d4f] text-white px-3"
+                  className="bg-slate-900/80 dark:bg-white/90 hover:bg-slate-900 dark:hover:bg-white text-white dark:text-slate-900 px-3"
                 >
                   <Send className="w-4 h-4" />
                 </Button>
