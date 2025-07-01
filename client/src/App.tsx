@@ -27,8 +27,19 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   
-  // Hide navigation on landing page and certain other pages for full-screen experience
-  const hideNavigation = ['/', '/landing-page', '/not-found', '/orderfi-home'].includes(location);
+  // Hide navigation on pages that have their own header/navigation (StandardLayout or custom headers)
+  const hideNavigation = [
+    '/', 
+    '/landing-page', 
+    '/not-found', 
+    '/orderfi-home',
+    '/dashboard',
+    '/tokenrewards',
+    '/network', 
+    '/inventory',
+    '/admin/orders',
+    '/payments'
+  ].includes(location);
 
   // Set app loaded state and change background after initial render
   useEffect(() => {

@@ -134,16 +134,18 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
-- July 1, 2025. Complete UI standardization and layout consistency implementation
+- July 1, 2025. Complete UI standardization and header duplication fix
   - Successfully implemented StandardLayout component across all pages for consistent branding
   - Applied OrderFi header with animated stars and Playwrite AU VIC font to all pages
-  - Added standardized hamburger menu to top-right corner of every page
+  - Fixed critical header duplication issue by updating hideNavigation array in AppLayout
+  - Eliminated duplicate hamburger menu buttons by preventing AppLayout navigation on StandardLayout pages
+  - Added standardized hamburger menu to top-right corner of every page without conflicts
   - Positioned AI chat button consistently in center footer across entire application
   - Updated routing structure: /kitchen-printing → /network, /admin/menu → /inventory, /admin/payments → /payments
   - Created clean, simplified admin pages with proper StandardLayout integration
-  - Fixed duplicate navigation elements and theme consistency issues
   - Updated Navigation component menu items to reflect new standardized route structure
   - Maintained orange gradient branding and theme-aware design throughout all pages
+  - Removed problematic legacy dashboard and orders files with syntax errors
 - July 1, 2025. Route reorganization and theme-aware gradients implementation
   - Reorganized page routing structure for better navigation flow
   - Renamed login page (/) to /landing-page for marketing/onboarding
