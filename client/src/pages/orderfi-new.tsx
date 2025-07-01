@@ -548,7 +548,7 @@ export default function OrderFiNew() {
             variant="ghost" 
             size="sm" 
             className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"
-            onClick={() => setLocation('/')}
+            onClick={() => setLocation('/orderfi-home')}
           >
             <Home className="h-4 w-4 text-orange-500" />
             <span className="text-xs">Home</span>

@@ -32,7 +32,7 @@ export default function HomePage() {
     if (showTransition && !menuLoading && !restaurantLoading && menuItems && restaurants) {
       // Wait for keyhole animation to complete then navigate using SPA routing
       const timer = setTimeout(() => {
-        setLocation('/orderfi');
+        setLocation('/orderfi-home');
       }, 1200);
       return () => clearTimeout(timer);
     }

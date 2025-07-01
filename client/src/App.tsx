@@ -27,8 +27,8 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   
-  // Hide navigation on home page and certain other pages for full-screen experience
-  const hideNavigation = ['/', '/not-found', '/orderfi'].includes(location);
+  // Hide navigation on landing page and certain other pages for full-screen experience
+  const hideNavigation = ['/landing-page', '/not-found', '/orderfi-home'].includes(location);
 
   // Set app loaded state and change background after initial render
   useEffect(() => {
@@ -69,11 +69,12 @@ function Router() {
   return (
     <AppLayout>
       <Switch>
-        {/* Main Application Routes */}
-        <Route path="/" component={HomePage} />
+        {/* Landing Page */}
+        <Route path="/landing-page" component={HomePage} />
         
-        {/* Customer-Facing Mobile Interface */}
-        <Route path="/orderfi" component={OrderFiNew} />
+        {/* Customer-Facing Mobile Interface - Default Home */}
+        <Route path="/" component={OrderFiNew} />
+        <Route path="/orderfi-home" component={OrderFiNew} />
         <Route path="/orderfi-simple" component={OrderFiSimple} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
         <Route path="/kitchen-printing" component={KitchenPrintingPage} />

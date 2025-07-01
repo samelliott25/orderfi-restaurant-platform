@@ -26,8 +26,8 @@ import { useTheme } from "@/components/theme-provider";
 
 
 const menuItems = [
-  { id: "home", path: "/", label: "Home", icon: Home },
-  { id: "orderfi", path: "/orderfi", label: "Order with AI", icon: MessageCircle },
+  { id: "home", path: "/orderfi-home", label: "Home", icon: Home },
+  { id: "landing", path: "/landing-page", label: "Landing Page", icon: MessageCircle },
   { id: "dashboard", path: "/dashboard", label: "Restaurant Dashboard", icon: LayoutDashboard },
   { id: "rewards", path: "/tokenrewards", label: "Token Rewards", icon: Coins },
   { id: "printing", path: "/kitchen-printing", label: "Kitchen Printing", icon: Printer },

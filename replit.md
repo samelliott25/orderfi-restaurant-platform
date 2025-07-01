@@ -134,12 +134,16 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
-- July 1, 2025. Chat interface theme-aware gradient backgrounds implementation
+- July 1, 2025. Route reorganization and theme-aware gradients implementation
+  - Reorganized page routing structure for better navigation flow
+  - Renamed login page (/) to /landing-page for marketing/onboarding
+  - Renamed orderfi page (/orderfi) to /orderfi-home as the new default home
+  - Updated all home button links throughout app to point to /orderfi-home
+  - Updated navigation menu items to reflect new route structure
   - Successfully implemented sunrise/sunset gradient themes for AI chat interface
-  - Light mode: Beautiful sunrise gradient (yellow to orange to pink)
-  - Dark mode: Stunning sunset gradient (orange to red to deep purple)
+  - Light mode: Original orange-red-pink gradient for readability
+  - Dark mode: Beautiful sunset gradient (orange to red to deep purple)
   - Added useTheme hook integration for automatic theme detection
-  - Resolved CSS targeting issues by using proper component and inline styles
 - June 30, 2025. Navigation white screen flash resolution and UI improvements
   - Successfully eliminated white screen flash during home to orderfi navigation
   - Implemented SPA routing using wouter instead of page reload for seamless transitions

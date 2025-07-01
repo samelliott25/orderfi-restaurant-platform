@@ -75,7 +75,7 @@ export default function OrderFiSimple() {
           <p className="text-muted-foreground mb-6">Your AI-powered restaurant assistant is ready to help.</p>
           
           <Button 
-            onClick={() => setLocation('/')}
+            onClick={() => setLocation('/orderfi-home')}
             className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white"
           >
             Go Back Home
