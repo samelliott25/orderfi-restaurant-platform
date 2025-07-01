@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { Printer, Wifi, Settings, CheckCircle, XCircle, AlertTriangle, Plus, Trash2, TestTube, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { StandardLayout } from "@/components/StandardLayout";
 
 interface PrinterConfig {
   id: string;
@@ -79,7 +80,7 @@ const printerModels = [
   'Custom/Other'
 ];
 
-export default function KitchenPrinting() {
+export default function NetworkPage() {
   const [printers, setPrinters] = useState<PrinterConfig[]>(defaultPrinters);
   const [templates, setTemplates] = useState<PrintTemplate[]>(defaultTemplates);
   const [selectedPrinter, setSelectedPrinter] = useState<PrinterConfig | null>(null);
@@ -370,16 +371,10 @@ export default function KitchenPrinting() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fcfcfc] p-4">
+    <StandardLayout title="Network & Printing" subtitle="Configure and manage restaurant kitchen printers">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900" style={{ fontFamily: '"Playwrite AU VIC", cursive' }}>
-              Kitchen Printing
-            </h1>
-            <p className="text-gray-600">Configure and manage restaurant kitchen printers</p>
-          </div>
+        {/* Save Configuration Button */}
+        <div className="flex justify-end">
           <Button onClick={savePrinterConfig} className="bg-orange-500 hover:bg-orange-600">
             <Save className="h-4 w-4 mr-2" />
             Save Configuration
@@ -791,6 +786,6 @@ export default function KitchenPrinting() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </StandardLayout>
   );
 }
