@@ -122,6 +122,11 @@
     100% { transform: rotate(360deg); }
   }
 
+  @keyframes counter-planetary-rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+  }
+
   /* Mini version of sentient orb for header logo */
   .sentient-orb-mini {
     position: relative;
@@ -1444,6 +1449,7 @@ html {
     );
     pointer-events: none;
     z-index: 10;
+    animation: counter-planetary-rotation 20s linear infinite;
   }
 
   /* Gas Giant Atmospheric Layer - inspired by Neptune/Jupiter */
