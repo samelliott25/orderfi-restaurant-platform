@@ -1341,7 +1341,15 @@ html {
   .wallet-orb-button.sentient-orb {
     border-radius: 8px; /* Rectangle shape instead of circle */
     border: 2px solid rgba(255, 255, 255, 0.3);
-    /* No animations - completely static */
+    animation: none !important; /* Override all inherited animations */
+  }
+
+  .wallet-orb-button .orb-core {
+    animation: none !important; /* Stop orb core animations */
+  }
+
+  .wallet-orb-button .orb-lighting-overlay {
+    animation: none !important; /* Stop lighting overlay animations */
   }
 
   .wallet-star-field {
