@@ -33,7 +33,6 @@ import {
   LineChart,
   Minus
 } from "lucide-react";
-// Chart component with CSS-based visualization (avoiding recharts dependency conflicts)
 
 export default function RestaurantDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -68,29 +67,25 @@ export default function RestaurantDashboard() {
   const totalTodayOrders = salesChartData.reduce((sum, data) => sum + data.orders, 0);
   const avgOrderValue = totalTodayRevenue / totalTodayOrders;
 
-  // Real-time clock update
+  // Update time every second
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch real-time data
-  const { data: menuItems = [] } = useQuery({
-    queryKey: ['/api/restaurants/1/menu'],
-    refetchInterval: 30000
-  });
-
+  // Fetch real data
   const { data: orders = [] } = useQuery({
-    queryKey: ['/api/restaurants/1/orders'],
-    refetchInterval: 10000
+    queryKey: ['/api/orders'],
+    refetchInterval: 10000, // Refresh every 10 seconds
   });
 
-  // Type-safe orders array
-  const typedOrders = Array.isArray(orders) ? orders : [];
-
-  const { data: restaurant } = useQuery({
-    queryKey: ['/api/restaurants/1']
+  const { data: menuItems = [] } = useQuery({
+    queryKey: ['/api/menu'],
+    refetchInterval: 30000, // Refresh every 30 seconds
   });
+
+  // Type assertion for orders data
+  const typedOrders = orders as any[];
 
   // Calculate real-time metrics
   const todayOrders = typedOrders.filter((order: any) => {
@@ -106,130 +101,114 @@ export default function RestaurantDashboard() {
   return (
     <StandardLayout title="Restaurant Dashboard" subtitle="AI-Powered Command Center">
       <div className="space-y-6">
-        
-        {/* Header Status Bar */}
-        <div className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
-          <div className="flex items-center justify-between">
+        {/* Real-time System Status Bar */}
+        <div className="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-700 rounded-lg p-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">System Online</span>
-              </div>
-              <Badge variant="outline" className="border-green-200 text-green-700 bg-green-50">
-                <Wifi className="w-3 h-3 mr-1" />
-                Connected
-              </Badge>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <div className="text-lg font-bold text-slate-800 dark:text-slate-200">
+                <Clock className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+                <span className="text-sm font-mono text-slate-700 dark:text-slate-300">
                   {currentTime.toLocaleTimeString()}
-                </div>
-                <div className="text-xs text-slate-600 dark:text-slate-400">
-                  {currentTime.toLocaleDateString()}
-                </div>
+                </span>
               </div>
-              <Button variant="outline" size="sm">
-                <Settings className="w-4 h-4 mr-1" />
-                Settings
-              </Button>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-slate-600 dark:text-slate-400">System Online</span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <Wifi className="w-4 h-4 text-green-500" />
+                <span className="text-slate-600 dark:text-slate-400">Connected</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Timer className="w-4 h-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
+                <span className="text-slate-600 dark:text-slate-400">Avg: 14min</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Bell className="w-4 h-4" style={{ color: 'hsl(340, 82%, 52%)' }} />
+                <span className="text-slate-600 dark:text-slate-400">{pendingOrders} Pending</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Main KPI Cards with OrderFi Branding */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          
-          {/* Today's Revenue */}
-          <Card className="border-slate-200 bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-700"
-                style={{ background: 'linear-gradient(135deg, hsl(340, 82%, 52%, 0.03), hsl(340, 82%, 52%, 0.01))' }}>
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300">Today's Revenue</CardTitle>
-              <DollarSign className="h-5 w-5" style={{ color: 'hsl(340, 82%, 52%)' }} />
+              <CardTitle className="text-sm font-medium">Today's Revenue</CardTitle>
+              <DollarSign className="h-4 w-4" style={{ color: 'hsl(340, 82%, 52%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'hsl(340, 82%, 45%)' }}>${todayRevenue.toFixed(2)}</div>
-              <div className="flex items-center gap-1 mt-1">
-                <ArrowUpRight className="h-3 w-3 text-green-600" />
-                <p className="text-xs text-green-600 font-medium">+24.3% vs yesterday</p>
-              </div>
+              <div className="text-2xl font-bold">${todayRevenue.toFixed(2)}</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                <TrendingUp className="w-3 h-3 text-green-600" />
+                +12% from yesterday
+              </p>
             </CardContent>
           </Card>
 
-          {/* Orders Today */}
-          <Card className="border-slate-200 bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-700"
-                style={{ background: 'linear-gradient(135deg, hsl(25, 95%, 53%, 0.03), hsl(25, 95%, 53%, 0.01))' }}>
+          <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300">Orders Today</CardTitle>
-              <ShoppingCart className="h-5 w-5" style={{ color: 'hsl(25, 95%, 53%)' }} />
+              <CardTitle className="text-sm font-medium">Orders</CardTitle>
+              <ShoppingCart className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'hsl(25, 95%, 45%)' }}>{todayOrders.length}</div>
-              <div className="flex items-center gap-1 mt-1">
-                <ArrowUpRight className="h-3 w-3 text-green-600" />
-                <p className="text-xs text-green-600 font-medium">+12 since morning</p>
-              </div>
+              <div className="text-2xl font-bold">{todayOrders.length}</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                <TrendingUp className="w-3 h-3 text-green-600" />
+                +8% from yesterday
+              </p>
             </CardContent>
           </Card>
 
-          {/* Pending Orders */}
-          <Card className="border-slate-200 bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-700">
+          <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300">Pending Orders</CardTitle>
-              <Clock className="h-5 w-5 text-amber-500" />
+              <CardTitle className="text-sm font-medium">Pending Orders</CardTitle>
+              <Clock className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-amber-600">{pendingOrders}</div>
-              <div className="flex items-center gap-1 mt-1">
-                {pendingOrders > 5 ? (
-                  <AlertCircle className="h-3 w-3 text-amber-500" />
-                ) : (
-                  <CheckCircle className="h-3 w-3 text-green-600" />
-                )}
-                <p className={`text-xs font-medium ${pendingOrders > 5 ? 'text-amber-600' : 'text-green-600'}`}>
-                  {pendingOrders > 5 ? 'High volume' : 'Normal flow'}
-                </p>
-              </div>
+              <div className="text-2xl font-bold">{pendingOrders}</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">
+                Orders in queue
+              </p>
             </CardContent>
           </Card>
 
-          {/* Average Order Value */}
-          <Card className="border-slate-200 bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-700"
-                style={{ background: 'linear-gradient(135deg, hsl(215, 28%, 17%, 0.03), hsl(215, 28%, 17%, 0.01))' }}>
+          <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300">Avg Order Value</CardTitle>
-              <TrendingUp className="h-5 w-5" style={{ color: 'hsl(215, 28%, 35%)' }} />
+              <CardTitle className="text-sm font-medium">Average Order Value</CardTitle>
+              <TrendingUp className="h-4 w-4" style={{ color: 'hsl(215, 28%, 35%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'hsl(215, 28%, 30%)' }}>${avgOrderValue.toFixed(2)}</div>
-              <div className="flex items-center gap-1 mt-1">
-                <ArrowUpRight className="h-3 w-3 text-green-600" />
-                <p className="text-xs text-green-600 font-medium">+8.2% this week</p>
-              </div>
+              <div className="text-2xl font-bold">${todayOrders.length > 0 ? (todayRevenue / todayOrders.length).toFixed(2) : '0.00'}</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                <TrendingUp className="w-3 h-3 text-green-600" />
+                +5% from yesterday
+              </p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Dashboard Tabs */}
+        {/* Main Tabs */}
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4 bg-slate-100 dark:bg-slate-800">
-            <TabsTrigger value="overview" className="data-[state=active]:text-white"
-                         style={{ 
-                           background: 'data-[state=active]:linear-gradient(135deg, hsl(25, 95%, 53%), hsl(340, 82%, 52%))'
-                         }}>
-              <BarChart3 className="w-4 h-4 mr-2" />
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="overview" className="flex items-center gap-2">
+              <BarChart3 className="w-4 h-4" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="orders">
-              <ChefHat className="w-4 h-4 mr-2" />
+            <TabsTrigger value="orders" className="flex items-center gap-2">
+              <ChefHat className="w-4 h-4" />
               Live Orders
             </TabsTrigger>
-            <TabsTrigger value="analytics">
-              <PieChart className="w-4 h-4 mr-2" />
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <PieChart className="w-4 h-4" />
               Analytics
             </TabsTrigger>
-            <TabsTrigger value="performance">
-              <Activity className="w-4 h-4 mr-2" />
+            <TabsTrigger value="performance" className="flex items-center gap-2">
+              <Activity className="w-4 h-4" />
               Performance
             </TabsTrigger>
           </TabsList>
@@ -516,11 +495,11 @@ export default function RestaurantDashboard() {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded" style={{ backgroundColor: 'hsl(340, 82%, 52%)' }}></div>
-                    <span>Orders (Bars)</span>
+                    <span>Peak Hours</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded" style={{ backgroundColor: 'hsl(215, 28%, 35%)' }}></div>
-                    <span>Avg Order (Line)</span>
+                    <span>Average Trend</span>
                   </div>
                 </div>
               </CardContent>
@@ -537,31 +516,6 @@ export default function RestaurantDashboard() {
                   <Activity className="w-12 h-12 mx-auto mb-4 opacity-50" />
                   <p>Performance metrics dashboard coming soon...</p>
                   <p className="text-sm">Real-time kitchen analytics and staff efficiency tracking</p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
-    </StandardLayout>
-  );
-}
-                  <p className="text-sm">Sales trends, customer insights, and business intelligence</p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="performance">
-            <Card>
-              <CardHeader>
-                <CardTitle>Performance Monitoring</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center text-slate-600 dark:text-slate-400 py-8">
-                  <Activity className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>Performance monitoring coming soon...</p>
-                  <p className="text-sm">System metrics, response times, and optimization insights</p>
                 </div>
               </CardContent>
             </Card>
