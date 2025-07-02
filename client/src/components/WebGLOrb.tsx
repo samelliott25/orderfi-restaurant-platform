@@ -55,14 +55,15 @@ const WebGLOrb: React.FC<WebGLOrbProps> = ({ size, onClick, className = '' }) =>
       // Iridescent glass sphere effect
       float time = u_time * 0.4;
       
-      // Create flowing gradients like in the reference images
-      vec3 flowPos = spherePos + vec3(time * 0.1, time * 0.15, time * 0.08);
-      float flow1 = noise(flowPos * 1.5);
-      float flow2 = noise(flowPos * 2.5 + time * 0.2);
+      // Create very smooth flowing gradients  
+      vec3 flowPos = spherePos + vec3(time * 0.05, time * 0.08, time * 0.04);
+      float flow1 = noise(flowPos * 0.8);
+      float flow2 = noise(flowPos * 1.2 + time * 0.1);
       
-      // Smooth flowing patterns
-      float pattern = (flow1 + flow2 * 0.5) * 0.5;
-      pattern = smoothstep(0.2, 0.8, pattern);
+      // Extra smooth flowing patterns
+      float pattern = (flow1 + flow2 * 0.3) * 0.4;
+      pattern = smoothstep(0.1, 0.9, pattern);
+      pattern = smoothstep(0.0, 1.0, pattern); // Double smoothing
       
       // Fresnel for glass-like rim lighting
       float fresnel = pow(1.0 - abs(dot(normalize(spherePos), vec3(0,0,1))), 2.0);
@@ -73,18 +74,19 @@ const WebGLOrb: React.FC<WebGLOrbProps> = ({ size, onClick, className = '' }) =>
       vec3 color3 = vec3(1.0, 0.4, 0.8);    // Pink
       vec3 color4 = vec3(1.0, 0.6, 0.2);    // Orange
       
-      // Create rainbow-like color transitions
-      float colorPhase = (spherePos.x + spherePos.y + pattern + time * 0.3) * 2.0;
-      vec3 baseColor;
+      // Create smooth rainbow-like color transitions
+      float colorPhase = (spherePos.x + spherePos.y + pattern + time * 0.1) * 1.0;
+      colorPhase = fract(colorPhase); // Keep in 0-1 range
       
-      if (colorPhase < 1.0) {
-        baseColor = mix(color1, color2, colorPhase);
-      } else if (colorPhase < 2.0) {
-        baseColor = mix(color2, color3, colorPhase - 1.0);
-      } else if (colorPhase < 3.0) {
-        baseColor = mix(color3, color4, colorPhase - 2.0);
+      vec3 baseColor;
+      if (colorPhase < 0.25) {
+        baseColor = mix(color1, color2, colorPhase * 4.0);
+      } else if (colorPhase < 0.5) {
+        baseColor = mix(color2, color3, (colorPhase - 0.25) * 4.0);
+      } else if (colorPhase < 0.75) {
+        baseColor = mix(color3, color4, (colorPhase - 0.5) * 4.0);
       } else {
-        baseColor = mix(color4, color1, colorPhase - 3.0);
+        baseColor = mix(color4, color1, (colorPhase - 0.75) * 4.0);
       }
       
       // Add depth and volume
@@ -95,11 +97,7 @@ const WebGLOrb: React.FC<WebGLOrbProps> = ({ size, onClick, className = '' }) =>
       vec3 rimColor = vec3(1.0, 0.9, 0.8);
       
       // Combine volume and rim lighting
-      vec3 finalColor = volumeColor + fresnel * rimColor * 1.2;
-      
-      // Add subtle shimmer
-      float shimmer = sin(time * 3.0 + spherePos.x * 10.0) * 0.05 + 0.95;
-      finalColor *= shimmer;
+      vec3 finalColor = volumeColor + fresnel * rimColor * 1.0;
       
       gl_FragColor = vec4(finalColor, 1.0);
     }
