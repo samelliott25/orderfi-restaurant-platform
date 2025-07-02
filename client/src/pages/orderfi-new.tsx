@@ -568,9 +568,9 @@ export default function OrderFiNew() {
               width: isAnimating ? '100vw' : '76px', 
               height: isAnimating ? '100vh' : '76px',
               position: isAnimating ? 'fixed' : 'relative',
-              top: isAnimating ? '0' : undefined,
-              left: isAnimating ? '0' : undefined,
-              transform: isAnimating ? 'translate(0, 0)' : undefined,
+              top: isAnimating ? '50%' : undefined,
+              left: isAnimating ? '50%' : undefined,
+              transform: isAnimating ? 'translate(-50%, -50%)' : undefined,
               zIndex: isAnimating ? 9999 : 999
             }}
           >

@@ -259,7 +259,7 @@
   /* Morphing animation for chat orb */
   @keyframes morph-to-center {
     0% {
-      transform: translate(-50%, -50%) scale(1);
+      transform: translate(-50%, calc(-100% + 2rem)) scale(1);
       width: 76px;
       height: 76px;
       border-radius: 50%;
@@ -280,6 +280,9 @@
 
   .animate-morph-to-center {
     animation: morph-to-center 0.8s ease-out forwards;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
   }
 
   :root {
