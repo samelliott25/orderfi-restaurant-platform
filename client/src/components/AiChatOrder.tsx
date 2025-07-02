@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { 
   Send, 
   Mic, 
@@ -547,6 +547,9 @@ Customer said: "${userMessage}"`
                 ${selectedMenuItem?.price}
               </Badge>
             </DialogTitle>
+            <DialogDescription>
+              View menu item details and add to your order.
+            </DialogDescription>
           </DialogHeader>
           {selectedMenuItem && (
             <div className="space-y-4">
