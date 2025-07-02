@@ -124,43 +124,52 @@ const WebGLOrb: React.FC<WebGLOrbProps> = ({ size, onClick, className = '' }) =>
       float z = sqrt(1.0 - dist * dist);
       vec3 spherePos = vec3(uv, z);
       
-      // Plasma noise with multiple octaves
-      float time = u_time * 0.5;
-      vec3 noisePos = spherePos * 3.0 + vec3(time * 0.3, time * 0.2, time * 0.1);
+      // Gentler plasma noise with slower movement
+      float time = u_time * 0.2;
+      vec3 noisePos = spherePos * 2.0 + vec3(time * 0.1, time * 0.15, time * 0.08);
       
       float noise1 = snoise(noisePos);
-      float noise2 = snoise(noisePos * 2.0 + vec3(time * 0.5));
-      float noise3 = snoise(noisePos * 4.0 - vec3(time * 0.3));
+      float noise2 = snoise(noisePos * 1.5 + vec3(time * 0.2));
+      float noise3 = snoise(noisePos * 2.5 - vec3(time * 0.12));
       
-      float turbulence = noise1 * 0.5 + noise2 * 0.3 + noise3 * 0.2;
+      float turbulence = noise1 * 0.4 + noise2 * 0.35 + noise3 * 0.25;
       
       // Fresnel effect for edge glow
       float fresnel = pow(1.0 - z, 2.0);
       
-      // Color mixing with turbulence
-      vec3 baseColor = vec3(1.0, 0.4, 0.0); // Orange
-      vec3 accentColor = vec3(1.0, 0.0, 0.5); // Pink
-      vec3 plasmaColor = mix(baseColor, accentColor, turbulence * 0.5 + 0.5);
+      // Softer color mixing with turbulence
+      vec3 baseColor = vec3(1.0, 0.6, 0.2); // Warm orange
+      vec3 accentColor = vec3(1.0, 0.4, 0.6); // Soft pink
+      vec3 highlightColor = vec3(1.0, 0.8, 0.4); // Golden highlight
       
-      // Add volumetric depth
-      float depth = z * 0.7 + 0.3;
+      // Gentler turbulence mixing
+      float softTurbulence = turbulence * 0.3 + 0.7;
+      vec3 plasmaColor = mix(baseColor, accentColor, softTurbulence);
+      plasmaColor = mix(plasmaColor, highlightColor, abs(turbulence) * 0.2);
+      
+      // Softer volumetric depth
+      float depth = z * 0.5 + 0.5;
       plasmaColor *= depth;
       
-      // Specular highlights
-      vec3 lightDir = normalize(vec3(0.5, 0.5, 1.0));
-      float specular = pow(max(dot(spherePos, lightDir), 0.0), 16.0);
+      // Gentler specular highlights
+      vec3 lightDir = normalize(vec3(0.3, 0.3, 1.0));
+      float specular = pow(max(dot(spherePos, lightDir), 0.0), 8.0) * 0.3;
       
-      // Combine effects
-      vec3 finalColor = plasmaColor + fresnel * 0.8 + specular * 0.5;
+      // Combine effects with softer intensity
+      vec3 finalColor = plasmaColor + fresnel * 0.4 + specular;
       
-      // Add atmospheric glow
+      // Warmer atmospheric glow
       float glow = 1.0 - dist;
-      finalColor += glow * 0.3 * vec3(1.0, 0.6, 0.2);
+      finalColor += glow * 0.2 * vec3(1.0, 0.7, 0.3);
       
-      // Bloom effect
+      // Gentle pulsing effect
+      float pulse = sin(u_time * 1.5) * 0.1 + 0.9;
+      finalColor *= pulse;
+      
+      // Softer bloom effect
       float brightness = dot(finalColor, vec3(0.299, 0.587, 0.114));
-      if (brightness > 0.8) {
-        finalColor += (finalColor - 0.8) * 0.5;
+      if (brightness > 0.6) {
+        finalColor += (finalColor - 0.6) * 0.2;
       }
       
       gl_FragColor = vec4(finalColor, 1.0);
