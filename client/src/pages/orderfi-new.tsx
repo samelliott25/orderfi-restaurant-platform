@@ -553,43 +553,16 @@ export default function OrderFiNew() {
             className="relative -top-8 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
             style={{ width: '76px', height: '76px' }}
           >
-            {/* Rotating and pulsing stars positioned around the orb */}
+            {/* Subtle rotating stars positioned around the orb */}
             <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-              {/* Left side stars */}
-              <svg className="w-2 h-2 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
+              {/* Just 3 small stars positioned strategically */}
+              <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
               </svg>
-              <svg className="w-2 h-2 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
+              <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '75%', left: '80%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
               </svg>
-              
-              {/* Center stars */}
-              <svg className="w-2 h-2 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="w-2 h-2 absolute ai-cascade-4" style={{ top: '65%', left: '52%', transform: 'rotate(-15deg)', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              
-              {/* Right side stars */}
-              <svg className="w-2 h-2 absolute ai-cascade-1" style={{ top: '35%', left: '82%', transform: 'rotate(89deg)', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="w-2 h-2 absolute ai-cascade-2" style={{ top: '85%', left: '78%', transform: 'rotate(178deg)', animationDelay: '3.1s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              
-              {/* Additional stars for the larger orb */}
-              <svg className="w-1.5 h-1.5 absolute ai-cascade-3" style={{ top: '8%', left: '25%', transform: 'rotate(234deg)', animationDelay: '2.8s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="w-1.5 h-1.5 absolute ai-cascade-4" style={{ top: '92%', left: '35%', transform: 'rotate(-98deg)', animationDelay: '1.9s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="w-1.5 h-1.5 absolute ai-cascade-1" style={{ top: '45%', left: '5%', transform: 'rotate(67deg)', animationDelay: '3.7s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="w-1.5 h-1.5 absolute ai-cascade-2" style={{ top: '55%', left: '95%', transform: 'rotate(-134deg)', animationDelay: '0.5s' }} viewBox="0 0 24 24" fill="white">
+              <svg className="w-1 h-1 absolute ai-cascade-3" style={{ top: '30%', left: '85%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
               </svg>
             </div>
