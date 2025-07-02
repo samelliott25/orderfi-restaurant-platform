@@ -470,7 +470,7 @@ export default function OrderFiNew() {
 
       {/* Floating AI Chat Interface */}
       {isChatExpanded && (
-        <div className={`fixed inset-4 md:inset-8 lg:inset-12 rounded-3xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300 flex flex-col ${
+        <div className={`fixed inset-4 md:inset-8 lg:inset-12 rounded-3xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm chat-interface-enter flex flex-col ${
           isDarkMode 
             ? 'bg-gradient-to-br from-orange-600 via-red-600 to-purple-900' 
             : 'bg-gradient-to-br from-orange-500 via-red-500 to-pink-500'
