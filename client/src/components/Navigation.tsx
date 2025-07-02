@@ -121,11 +121,7 @@ export function HamburgerMenu() {
                     </svg>
                   </div>
                   
-                  {/* Orb Core */}
-                  <div className="orb-core"></div>
-                  
-                  {/* Directional lighting overlay */}
-                  <div className="orb-lighting-overlay"></div>
+
                   
                   <Wallet className="h-5 w-5 mr-2 relative z-20" />
                   <span className="relative z-20">{isConnecting ? 'Connecting...' : 'Connect Wallet'}</span>

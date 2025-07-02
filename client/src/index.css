@@ -1362,16 +1362,7 @@ html {
     display: none;
   }
 
-  .wallet-orb-button .orb-lighting-overlay {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      transparent 30%,
-      transparent 70%,
-      rgba(0, 0, 0, 0.15) 100%
-    );
-    animation: none;
-  }
+  /* No lighting overlay needed for rectangular button */
 
   @keyframes wallet-gradient-shift {
     0%, 100% {
