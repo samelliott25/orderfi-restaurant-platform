@@ -260,9 +260,11 @@ export default function OrderFiNew() {
 
   const handleChatToggle = () => {
     if (!isChatExpanded) {
+      console.log('Starting animation...');
       setIsAnimating(true);
       // Start animation, then show chat after animation completes
       setTimeout(() => {
+        console.log('Animation complete, showing chat');
         setIsChatExpanded(true);
         setIsAnimating(false);
       }, 800); // Animation duration
@@ -561,7 +563,7 @@ export default function OrderFiNew() {
         <div className="absolute top-0 left-0 right-0 flex justify-center pointer-events-auto z-[200]">
           <Button
             onClick={handleChatToggle}
-            className={`relative -top-8 rounded-full z-[999] overflow-hidden sentient-orb border-0 p-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 !bg-transparent hover:!bg-transparent pointer-events-auto transition-all duration-700 ease-out ${
+            className={`relative -top-8 rounded-full z-[999] overflow-hidden sentient-orb border-0 p-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 !bg-transparent hover:!bg-transparent pointer-events-auto transition-all duration-700 ease-out ${
               isAnimating ? 'animate-morph-to-center' : ''
             }`}
             style={{ 
