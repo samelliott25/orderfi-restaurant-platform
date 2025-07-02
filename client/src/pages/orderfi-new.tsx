@@ -546,7 +546,7 @@ export default function OrderFiNew() {
       )}
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0">
-        <div className="relative flex items-center justify-around py-3">
+        <div className="relative flex items-center justify-between px-8 py-3">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -557,7 +557,7 @@ export default function OrderFiNew() {
             <span className="text-xs">Home</span>
           </Button>
           
-          {/* Sentient AI Orb - Center of navbar */}
+          {/* Sentient AI Orb - Perfectly centered */}
           <Button
             onClick={() => setIsChatExpanded(true)}
             className="absolute left-1/2 transform -translate-x-1/2 -top-8 w-16 h-16 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
@@ -571,8 +571,6 @@ export default function OrderFiNew() {
             <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
             <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
             <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
-            
-
           </Button>
           
           <Button 

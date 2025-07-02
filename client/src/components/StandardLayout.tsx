@@ -148,7 +148,7 @@ export function StandardLayout({
 
           {/* Bottom Navigation */}
           <div className="fixed bottom-0 left-0 right-0">
-            <div className="relative flex items-center justify-around py-3">
+            <div className="relative flex items-center justify-between px-8 py-3">
               <Button 
                 variant="ghost" 
                 size="sm" 
