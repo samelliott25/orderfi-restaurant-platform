@@ -1337,22 +1337,55 @@ html {
       );
   }
 
-  /* Wallet button orb effects */
+  /* Wallet button rectangular atmospheric effects */
   .wallet-orb-button.sentient-orb {
-    border-radius: 8px; /* Rectangle shape instead of circle */
+    border-radius: 8px;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    /* Only remove position-changing animations, keep color/gradient animations */
-    animation: 
-      marble-flow 12s ease-in-out infinite,
-      fluid-shift 8s linear infinite;
+    background: 
+      linear-gradient(135deg, 
+        rgba(249, 115, 22, 0.9) 0%,
+        rgba(251, 146, 60, 0.7) 30%,
+        rgba(236, 72, 153, 0.8) 70%,
+        rgba(219, 39, 119, 0.9) 100%
+      ),
+      linear-gradient(45deg,
+        rgba(251, 146, 60, 0.3) 0%,
+        transparent 50%,
+        rgba(236, 72, 153, 0.3) 100%
+      );
+    background-size: 200% 200%, 150% 150%;
+    animation: wallet-gradient-shift 8s ease-in-out infinite;
   }
 
+  /* Remove circular elements from wallet button */
   .wallet-orb-button .orb-core {
-    animation: inner-glow 4s ease-in-out infinite, core-marble 10s linear infinite;
+    display: none;
   }
 
   .wallet-orb-button .orb-lighting-overlay {
-    animation: none !important; /* Keep lighting static for depth */
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(0, 0, 0, 0.15) 100%
+    );
+    animation: none;
+  }
+
+  @keyframes wallet-gradient-shift {
+    0%, 100% {
+      background-position: 0% 0%, 0% 0%;
+    }
+    25% {
+      background-position: 100% 50%, 25% 75%;
+    }
+    50% {
+      background-position: 50% 100%, 75% 25%;
+    }
+    75% {
+      background-position: 0% 50%, 50% 100%;
+    }
   }
 
   .wallet-star-field {
