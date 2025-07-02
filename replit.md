@@ -134,6 +134,13 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 2, 2025. Enhanced AI orb with gas giant atmospheric effects and rotating stars
+  - Applied gas giant atmospheric texture to both header logo and main chat orb
+  - Added planetary rotation animation with flowing atmospheric bands using multi-layer gradients
+  - Implemented counter-rotation for center star logo to keep it stationary while background rotates
+  - Added 6 tiny (1.5px) rotating and pulsing stars around main chat orb perimeter
+  - Created unified branding between header mini-orb and main chat orb with consistent gas giant aesthetic
+  - Maintained orange-pink-magenta color palette throughout for cohesive OrderFi brand identity
 - July 2, 2025. Fixed AI orb positioning and scroll area padding issues
   - Restructured bottom navigation with dedicated centering container for perfect AI orb alignment
   - Used absolute positioning with flex justify-center for true center alignment independent of navigation buttons
