@@ -2236,3 +2236,18 @@ html {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(-360deg); }
 }
+
+/* Remove any white circle outlines from orb button */
+.sentient-orb {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.sentient-orb:focus,
+.sentient-orb:focus-visible,
+.sentient-orb:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
