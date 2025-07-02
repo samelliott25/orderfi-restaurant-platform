@@ -550,7 +550,7 @@ export default function OrderFiNew() {
         <div className="absolute top-0 left-0 right-0 flex justify-center pointer-events-auto">
           <Button
             onClick={() => setIsChatExpanded(true)}
-            className="relative -top-8 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 !bg-transparent hover:!bg-transparent pointer-events-auto"
+            className="relative -top-8 rounded-full z-[100] overflow-hidden sentient-orb border-0 p-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 !bg-transparent hover:!bg-transparent pointer-events-auto"
             style={{ width: '76px', height: '76px' }}
           >
             {/* Tiny rotating stars positioned around the orb */}
