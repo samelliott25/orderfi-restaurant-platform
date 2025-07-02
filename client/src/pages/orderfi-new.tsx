@@ -337,7 +337,7 @@ export default function OrderFiNew() {
             <h3 className="text-sm font-semibold text-foreground mb-3">Today's Specials</h3>
             <div className="space-y-3">
               {todaysSpecials.map((special) => (
-                <Card key={special.id} className="border-border">
+                <Card key={special.id} className="elevated-card border-border">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
@@ -345,7 +345,7 @@ export default function OrderFiNew() {
                         <p className="text-xs text-muted-foreground mt-1">{special.description}</p>
                         <p className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 font-bold text-sm mt-2">${special.price}</p>
                       </div>
-                      <Button size="sm" className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white">
+                      <Button size="sm" className="slick-button bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white">
                         <Plus className="h-3 w-3 mr-1" />
                         Add
                       </Button>
@@ -560,7 +560,7 @@ export default function OrderFiNew() {
           {/* AI Chatbot Icon - Center of navbar */}
           <Button
             onClick={() => setIsChatExpanded(true)}
-            className="absolute left-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full z-50 overflow-hidden ai-cosmic-glow ai-gentle-float"
+            className="absolute left-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full z-50 overflow-hidden ai-cosmic-glow ai-gentle-float pulse-glow"
             style={{ boxShadow: '0 12px 24px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1)' }}
           >
             <div className="relative w-full h-full flex items-center justify-center">
