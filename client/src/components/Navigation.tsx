@@ -101,12 +101,34 @@ export function HamburgerMenu() {
             {!isConnected ? (
               <WalletConnectDialog>
                 <Button
-                  className="w-full mb-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300 transform hover:scale-105"
+                  className="wallet-orb-button w-full mb-3 text-white shadow-lg transition-all duration-300 transform hover:scale-105 sentient-orb relative overflow-hidden"
                   size="lg"
                   disabled={isConnecting}
                 >
-                  <Wallet className="h-5 w-5 mr-2" />
-                  {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+                  {/* Rotating stars around wallet button */}
+                  <div className="wallet-star-field">
+                    <svg className="absolute wallet-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '20%', left: '15%', transform: 'rotate(45deg)', animationDelay: '0.5s' }} viewBox="0 0 24 24" fill="white">
+                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                    </svg>
+                    <svg className="absolute wallet-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '75%', left: '80%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
+                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                    </svg>
+                    <svg className="absolute wallet-cascade-3" style={{ width: '1.5px', height: '1.5px', top: '30%', left: '85%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
+                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                    </svg>
+                    <svg className="absolute wallet-cascade-4" style={{ width: '1.5px', height: '1.5px', top: '10%', left: '70%', transform: 'rotate(-89deg)', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="white">
+                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                    </svg>
+                  </div>
+                  
+                  {/* Orb Core */}
+                  <div className="orb-core"></div>
+                  
+                  {/* Directional lighting overlay */}
+                  <div className="orb-lighting-overlay"></div>
+                  
+                  <Wallet className="h-5 w-5 mr-2 relative z-20" />
+                  <span className="relative z-20">{isConnecting ? 'Connecting...' : 'Connect Wallet'}</span>
                 </Button>
               </WalletConnectDialog>
             ) : (
