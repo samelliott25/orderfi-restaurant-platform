@@ -122,7 +122,7 @@ export default function HomePage() {
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 <svg 
-                  className="w-4 h-4 ai-sparkle-1" 
+                  className="w-4 h-4" 
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -142,7 +142,7 @@ export default function HomePage() {
               {/* Ripple effect */}
               <div className={`
                 absolute inset-0 rounded-xl transition-opacity duration-300
-                ${isClicked ? 'animate-ping bg-white/30' : 'opacity-0'}
+                ${isClicked ? 'bg-white/20' : 'opacity-0'}
               `} />
             </Button>
           </div>
