@@ -1337,49 +1337,6 @@ html {
       );
   }
 
-
-
-  .sentient-orb::before {
-    content: '';
-    position: absolute;
-    inset: -6px;
-    border-radius: 50%;
-    background: 
-      radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.6) 0%, transparent 30%),
-      radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.5) 0%, transparent 35%),
-      radial-gradient(circle at 70% 10%, rgba(251, 146, 60, 0.4) 0%, transparent 40%),
-      conic-gradient(
-        from 90deg at 30% 70%,
-        transparent 0deg,
-        rgba(249, 115, 22, 0.3) 60deg,
-        rgba(236, 72, 153, 0.4) 120deg,
-        rgba(219, 39, 119, 0.3) 180deg,
-        rgba(190, 24, 93, 0.2) 240deg,
-        transparent 300deg,
-        rgba(251, 146, 60, 0.3) 360deg
-      );
-    animation: marble-swirl 6s ease-in-out infinite;
-    z-index: -1;
-  }
-
-  .sentient-orb::after {
-    content: '';
-    position: absolute;
-    inset: 8px;
-    border-radius: 50%;
-    background: 
-      radial-gradient(ellipse at 25% 25%, rgba(251, 146, 60, 0.3) 0%, transparent 40%),
-      radial-gradient(ellipse at 75% 30%, rgba(251, 146, 60, 0.3) 0%, transparent 50%),
-      radial-gradient(ellipse at 40% 80%, rgba(236, 72, 153, 0.2) 0%, transparent 45%),
-      radial-gradient(
-        circle at 35% 35%,
-        rgba(251, 146, 60, 0.2) 0%,
-        rgba(236, 72, 153, 0.1) 30%,
-        transparent 60%
-      );
-    animation: inner-glow 4s ease-in-out infinite reverse, highlight-drift 7s linear infinite;
-  }
-
   .orb-energy-particle {
     position: absolute;
     width: 3px;
