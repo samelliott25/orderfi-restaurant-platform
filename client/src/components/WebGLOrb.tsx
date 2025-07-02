@@ -52,41 +52,54 @@ const WebGLOrb: React.FC<WebGLOrbProps> = ({ size, onClick, className = '' }) =>
       float z = sqrt(1.0 - dist * dist);
       vec3 spherePos = vec3(uv, z);
       
-      // Smooth molten glass with flowing patterns
-      float time = u_time * 0.3;
+      // Iridescent glass sphere effect
+      float time = u_time * 0.4;
       
-      // Multiple noise octaves for smooth flowing patterns
-      vec3 noisePos1 = spherePos * 2.0 + vec3(time * 0.5, time * 0.3, time * 0.2);
-      vec3 noisePos2 = spherePos * 4.0 + vec3(time * 0.2, time * 0.4, time * 0.1);
+      // Create flowing gradients like in the reference images
+      vec3 flowPos = spherePos + vec3(time * 0.1, time * 0.15, time * 0.08);
+      float flow1 = noise(flowPos * 1.5);
+      float flow2 = noise(flowPos * 2.5 + time * 0.2);
       
-      float n1 = noise(noisePos1);
-      float n2 = noise(noisePos2);
+      // Smooth flowing patterns
+      float pattern = (flow1 + flow2 * 0.5) * 0.5;
+      pattern = smoothstep(0.2, 0.8, pattern);
       
-      // Smooth the noise for flowing plasma effect
-      float smoothNoise = (n1 * 0.7 + n2 * 0.3);
-      smoothNoise = smoothstep(0.3, 0.7, smoothNoise);
+      // Fresnel for glass-like rim lighting
+      float fresnel = pow(1.0 - abs(dot(normalize(spherePos), vec3(0,0,1))), 2.0);
       
-      // Fresnel effect for molten glass edge glow
-      float fresnel = pow(1.0 - dot(normalize(spherePos), vec3(0,0,1)), 2.5);
+      // Iridescent color palette like soap bubbles
+      vec3 color1 = vec3(0.8, 0.3, 1.0);    // Purple
+      vec3 color2 = vec3(0.2, 0.6, 1.0);    // Blue
+      vec3 color3 = vec3(1.0, 0.4, 0.8);    // Pink
+      vec3 color4 = vec3(1.0, 0.6, 0.2);    // Orange
       
-      // Molten glass colors
-      vec3 coreColor = vec3(1.0, 0.4, 0.0);    // Deep orange core
-      vec3 hotColor = vec3(1.0, 0.6, 0.1);     // Bright molten areas
-      vec3 glowColor = vec3(1.0, 0.8, 0.3);    // Edge glow
+      // Create rainbow-like color transitions
+      float colorPhase = (spherePos.x + spherePos.y + pattern + time * 0.3) * 2.0;
+      vec3 baseColor;
       
-      // Mix colors based on noise for flowing molten effect
-      vec3 plasmaColor = mix(coreColor, hotColor, smoothNoise);
+      if (colorPhase < 1.0) {
+        baseColor = mix(color1, color2, colorPhase);
+      } else if (colorPhase < 2.0) {
+        baseColor = mix(color2, color3, colorPhase - 1.0);
+      } else if (colorPhase < 3.0) {
+        baseColor = mix(color3, color4, colorPhase - 2.0);
+      } else {
+        baseColor = mix(color4, color1, colorPhase - 3.0);
+      }
       
-      // Add depth with z-position
-      float depth = z * 0.8 + 0.2;
-      plasmaColor *= depth;
+      // Add depth and volume
+      float depth = z * 0.7 + 0.3;
+      vec3 volumeColor = baseColor * depth;
       
-      // Combine with fresnel glow
-      vec3 finalColor = plasmaColor + fresnel * glowColor * 0.6;
+      // Strong rim lighting for glass effect
+      vec3 rimColor = vec3(1.0, 0.9, 0.8);
       
-      // Add subtle pulsing
-      float pulse = sin(time * 2.0) * 0.1 + 0.9;
-      finalColor *= pulse;
+      // Combine volume and rim lighting
+      vec3 finalColor = volumeColor + fresnel * rimColor * 1.2;
+      
+      // Add subtle shimmer
+      float shimmer = sin(time * 3.0 + spherePos.x * 10.0) * 0.05 + 0.95;
+      finalColor *= shimmer;
       
       gl_FragColor = vec4(finalColor, 1.0);
     }
