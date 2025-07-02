@@ -578,7 +578,6 @@ export default function OrderFiNew() {
 
             {/* Orb Core with liquid-like inner glow */}
             <div className="orb-core">
-              <div className="marble-detail-layer"></div>
             </div>
             
             {/* Energy particles floating around */}
