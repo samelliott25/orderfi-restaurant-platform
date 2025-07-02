@@ -580,6 +580,9 @@ export default function OrderFiNew() {
             <div className="orb-core">
             </div>
             
+            {/* Directional lighting overlay */}
+            <div className="orb-lighting-overlay"></div>
+            
             {/* Energy particles floating around */}
             <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
             <div className="orb-energy-particle" style={{ top: '70%', left: '25%', animationDelay: '0.7s' }}></div>
