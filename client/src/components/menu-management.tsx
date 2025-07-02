@@ -226,6 +226,9 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
               <DialogContent className="max-w-lg">
                 <DialogHeader>
                   <DialogTitle>AI Menu Import</DialogTitle>
+                  <DialogDescription>
+                    Upload a photo of your menu and AI will extract items automatically.
+                  </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
                   <p className="text-sm text-gray-600">
@@ -313,6 +316,9 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>Add Menu Item</DialogTitle>
+                <DialogDescription>
+                  Create a new menu item with name, description, and pricing.
+                </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleAddItem} className="space-y-4">
                 <div>
@@ -493,6 +499,9 @@ export function MenuManagement({ restaurantId }: MenuManagementProps) {
                           <DialogContent className="max-w-md">
                             <DialogHeader>
                               <DialogTitle>Edit Menu Item</DialogTitle>
+                              <DialogDescription>
+                                Update menu item details and pricing information.
+                              </DialogDescription>
                             </DialogHeader>
                             {editingItem && (
                               <form onSubmit={handleUpdateItem} className="space-y-4">
