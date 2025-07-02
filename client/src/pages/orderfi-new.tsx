@@ -545,7 +545,7 @@ export default function OrderFiNew() {
         </div>
       )}
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0">
+      <div className="fixed bottom-0 left-0 right-0 bg-transparent">
         {/* Sentient AI Orb - Fixed center position */}
         <div className="absolute top-0 left-0 right-0 flex justify-center">
           <Button
@@ -590,7 +590,7 @@ export default function OrderFiNew() {
         </div>
         
         {/* Navigation buttons */}
-        <div className="flex items-center justify-around py-3">
+        <div className="flex items-center justify-around py-3 bg-transparent">
           <Button 
             variant="ghost" 
             size="sm" 
