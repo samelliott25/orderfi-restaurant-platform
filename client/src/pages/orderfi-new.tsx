@@ -73,8 +73,6 @@ export default function OrderFiNew() {
   const [isLoading, setIsLoading] = useState(false);
   const [availableTokens] = useState(1250);
   const [isChatExpanded, setIsChatExpanded] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [animationState, setAnimationState] = useState<'idle' | 'expanding' | 'contracting'>('idle');
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -104,53 +102,6 @@ export default function OrderFiNew() {
   });
 
   const restaurant = Array.isArray(restaurants) ? restaurants.find((r: any) => r.id === restaurantId) : null;
-
-  // Animation functions
-  const handleChatToggle = () => {
-    if (isAnimating) return; // Prevent multiple animations
-    
-    if (!isChatExpanded) {
-      // Expanding animation
-      setIsAnimating(true);
-      setAnimationState('expanding');
-      
-      // Add ripple effect and particle explosion
-      const button = document.querySelector('.chat-button-morph');
-      if (button) {
-        button.classList.add('ripple-active', 'starburst-animation');
-        
-        // Create spiral particles
-        const particles = document.createElement('div');
-        particles.className = 'spiral-particles';
-        button.appendChild(particles);
-        
-        setTimeout(() => {
-          button.classList.remove('ripple-active');
-          if (particles.parentNode) {
-            particles.parentNode.removeChild(particles);
-          }
-        }, 1200);
-      }
-      
-      // Wait for animation to complete before showing chat
-      setTimeout(() => {
-        setIsChatExpanded(true);
-        setAnimationState('idle');
-        setIsAnimating(false);
-      }, 1200);
-    } else {
-      // Contracting animation
-      setIsAnimating(true);
-      setAnimationState('contracting');
-      setIsChatExpanded(false);
-      
-      // Wait for animation to complete
-      setTimeout(() => {
-        setAnimationState('idle');
-        setIsAnimating(false);
-      }, 600);
-    }
-  };
 
   // Mock data for today's specials
   const todaysSpecials: SpecialItem[] = [
@@ -479,7 +430,7 @@ export default function OrderFiNew() {
 
       {/* Floating AI Chat Interface */}
       {isChatExpanded && (
-        <div className={`fixed inset-4 md:inset-8 lg:inset-12 rounded-3xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm chat-interface-enter flex flex-col ${
+        <div className={`fixed inset-4 md:inset-8 lg:inset-12 rounded-3xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300 flex flex-col ${
           isDarkMode 
             ? 'bg-gradient-to-br from-orange-600 via-red-600 to-purple-900' 
             : 'bg-gradient-to-br from-orange-500 via-red-500 to-pink-500'
@@ -494,7 +445,7 @@ export default function OrderFiNew() {
             <Button
               size="sm"
               variant="ghost"
-              onClick={handleChatToggle}
+              onClick={() => setIsChatExpanded(false)}
               className="p-1 h-6 w-6 hover:bg-white/20 text-white"
               title="Minimize chat"
             >
@@ -608,19 +559,8 @@ export default function OrderFiNew() {
           
           {/* AI Chatbot Icon - Center of navbar */}
           <Button
-            onClick={handleChatToggle}
-            disabled={isAnimating}
-            className={`
-              chat-button-morph ripple-effect
-              absolute -translate-x-1/2 left-1/2 -top-8 w-16 h-16 
-              bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 
-              hover:from-orange-600 hover:via-red-600 hover:to-pink-600 
-              text-white rounded-full z-50 overflow-hidden 
-              ai-cosmic-glow ai-gentle-float
-              ${animationState === 'expanding' ? 'chat-button-expanding' : ''}
-              ${animationState === 'contracting' ? 'chat-button-contracting' : ''}
-              ${isAnimating ? 'pointer-events-none' : ''}
-            `}
+            onClick={() => setIsChatExpanded(true)}
+            className="absolute left-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full z-50 overflow-hidden ai-cosmic-glow ai-gentle-float"
             style={{ boxShadow: '0 12px 24px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1)' }}
           >
             <div className="relative w-full h-full flex items-center justify-center">
