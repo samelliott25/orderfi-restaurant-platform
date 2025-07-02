@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Wallet, ExternalLink, AlertCircle } from 'lucide-react';
 import { useWallet } from '@/hooks/useWallet';
@@ -77,6 +77,9 @@ export function WalletConnectDialog({ children }: WalletConnectDialogProps) {
             <Wallet className="h-5 w-5" />
             Connect Your Wallet
           </DialogTitle>
+          <DialogDescription>
+            Choose a crypto wallet to connect and make secure payments.
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-4">

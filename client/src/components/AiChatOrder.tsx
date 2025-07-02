@@ -528,7 +528,7 @@ Customer said: "${userMessage}"`
             {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
           </Button>
           <Button
-            onClick={handleSendMessage}
+            onClick={() => handleSendMessage()}
             disabled={!inputMessage.trim() || isProcessing}
             className="bg-orange-500 hover:bg-orange-600"
           >

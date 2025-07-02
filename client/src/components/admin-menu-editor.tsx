@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
@@ -226,6 +226,9 @@ export function AdminMenuEditor({ restaurantId }: AdminMenuEditorProps) {
                 <DialogTitle>
                   {editingItem ? "Edit Menu Item" : "Add New Menu Item"}
                 </DialogTitle>
+                <DialogDescription>
+                  {editingItem ? "Update menu item details and pricing." : "Add a new item to your restaurant menu."}
+                </DialogDescription>
               </DialogHeader>
               
               <Form {...form}>
