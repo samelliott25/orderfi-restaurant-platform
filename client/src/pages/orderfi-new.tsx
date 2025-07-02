@@ -565,12 +565,8 @@ export default function OrderFiNew() {
               isAnimating ? 'animate-morph-to-center' : ''
             }`}
             style={{ 
-              width: isAnimating ? '100vw' : '76px', 
-              height: isAnimating ? '100vh' : '76px',
-              position: isAnimating ? 'fixed' : 'relative',
-              top: isAnimating ? '50%' : undefined,
-              left: isAnimating ? '50%' : undefined,
-              transform: isAnimating ? 'translate(-50%, -50%)' : undefined,
+              width: '76px', 
+              height: '76px',
               zIndex: isAnimating ? 9999 : 999
             }}
           >
