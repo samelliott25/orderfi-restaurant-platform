@@ -141,6 +141,8 @@ Changelog:
   - Added 6 tiny (1.5px) rotating and pulsing stars around main chat orb perimeter
   - Created unified branding between header mini-orb and main chat orb with consistent gas giant aesthetic
   - Maintained orange-pink-magenta color palette throughout for cohesive OrderFi brand identity
+  - Removed unwanted white circular elements and reduced white gradient opacity for clean appearance
+  - Eliminated rocking circle animations while preserving atmospheric flow effects
 - July 2, 2025. Fixed AI orb positioning and scroll area padding issues
   - Restructured bottom navigation with dedicated centering container for perfect AI orb alignment
   - Used absolute positioning with flex justify-center for true center alignment independent of navigation buttons
