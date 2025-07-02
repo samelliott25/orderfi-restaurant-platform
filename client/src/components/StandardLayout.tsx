@@ -159,39 +159,44 @@ export function StandardLayout({
                 <span className="text-xs">Home</span>
               </Button>
               
-              {/* AI Chatbot Icon - Center of navbar */}
+              {/* Sentient AI Orb - Center of navbar */}
               <Button
                 onClick={() => setIsChatExpanded(true)}
-                className="absolute left-1/2 -top-8 w-16 h-16 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full z-50 overflow-hidden ai-cosmic-glow ai-gentle-float"
-                style={{ boxShadow: '0 12px 24px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1)' }}
+                className="absolute left-1/2 -top-8 w-16 h-16 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
               >
-                <div className="relative w-full h-full flex items-center justify-center">
-                  {/* Stars positioned across entire button surface */}
-                  <div className="absolute inset-0 w-full h-full pointer-events-none">
-                    {/* Left side */}
-                    <svg className="w-1.5 h-1 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    <svg className="w-1 h-1.5 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    
-                    {/* Center */}
-                    <svg className="w-1 h-2 absolute ai-cascade-3" style={{ top: '15%', left: '48%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    <svg className="w-1.5 h-1 absolute ai-cascade-4" style={{ top: '65%', left: '52%', transform: 'rotate(-15deg)', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    
-                    {/* Right side */}
-                    <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '35%', left: '82%', transform: 'rotate(89deg)', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                    <svg className="w-2 h-0.5 absolute ai-cascade-2" style={{ top: '85%', left: '78%', transform: 'rotate(178deg)', animationDelay: '3.1s' }} viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                    </svg>
-                  </div>
+                {/* Orb Core with liquid-like inner glow */}
+                <div className="orb-core"></div>
+                
+                {/* Energy particles floating around */}
+                <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
+                <div className="orb-energy-particle" style={{ top: '70%', left: '25%', animationDelay: '0.7s' }}></div>
+                <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
+                <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
+                <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
+                
+                {/* Central AI consciousness symbol */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <svg 
+                    className="w-6 h-6 text-white opacity-90 animate-spin" 
+                    style={{ animationDuration: '8s' }} 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" opacity="0.8"/>
+                    <circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="1" opacity="0.4"/>
+                    <circle cx="12" cy="12" r="11" stroke="currentColor" strokeWidth="0.5" opacity="0.2"/>
+                    <path d="M12 2v4M12 18v4M22 12h-4M6 12H2" stroke="currentColor" strokeWidth="1.5" opacity="0.6"/>
+                    <path d="M19.07 4.93l-2.83 2.83M7.76 16.24l-2.83 2.83M19.07 19.07l-2.83-2.83M7.76 7.76L4.93 4.93" stroke="currentColor" strokeWidth="1" opacity="0.4"/>
+                  </svg>
+                </div>
+                
+                {/* Outer ring with neural network pattern */}
+                <div className="absolute inset-2 rounded-full border border-white/20">
+                  <div className="absolute top-1 left-1/2 w-1 h-1 bg-white/60 rounded-full transform -translate-x-1/2"></div>
+                  <div className="absolute bottom-1 left-1/2 w-1 h-1 bg-white/60 rounded-full transform -translate-x-1/2"></div>
+                  <div className="absolute left-1 top-1/2 w-1 h-1 bg-white/60 rounded-full transform -translate-y-1/2"></div>
+                  <div className="absolute right-1 top-1/2 w-1 h-1 bg-white/60 rounded-full transform -translate-y-1/2"></div>
                 </div>
               </Button>
               
