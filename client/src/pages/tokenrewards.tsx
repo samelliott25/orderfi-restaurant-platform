@@ -124,8 +124,8 @@ export default function TokenRewards() {
                     <Coins className="h-5 w-5 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold">Place Orders</h3>
-                    <p className="text-sm text-gray-600">Earn 10 points per $1 spent</p>
+                    <h3 className="font-semibold text-gray-900">Place Orders</h3>
+                    <p className="text-sm text-gray-800 font-medium">Earn 10 points per $1 spent</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
@@ -133,8 +133,8 @@ export default function TokenRewards() {
                     <Gift className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold">Daily Check-in</h3>
-                    <p className="text-sm text-gray-600">Get 25 bonus points daily</p>
+                    <h3 className="font-semibold text-gray-900">Daily Check-in</h3>
+                    <p className="text-sm text-gray-800 font-medium">Get 25 bonus points daily</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 bg-purple-50 rounded-lg">
@@ -142,8 +142,8 @@ export default function TokenRewards() {
                     <Star className="h-5 w-5 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold">Leave Reviews</h3>
-                    <p className="text-sm text-gray-600">Earn 50 points per review</p>
+                    <h3 className="font-semibold text-gray-900">Leave Reviews</h3>
+                    <p className="text-sm text-gray-800 font-medium">Earn 50 points per review</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 bg-orange-50 rounded-lg">
@@ -151,8 +151,8 @@ export default function TokenRewards() {
                     <Trophy className="h-5 w-5 text-orange-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold">Referrals</h3>
-                    <p className="text-sm text-gray-600">Get 200 points per friend</p>
+                    <h3 className="font-semibold text-gray-900">Referrals</h3>
+                    <p className="text-sm text-gray-800 font-medium">Get 200 points per friend</p>
                   </div>
                 </div>
               </CardContent>
