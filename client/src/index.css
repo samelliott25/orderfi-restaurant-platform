@@ -1303,7 +1303,7 @@ html {
       marble-flow 12s ease-in-out infinite,
       fluid-shift 8s linear infinite,
       planetary-rotation 20s linear infinite !important;
-    border: 2px solid rgba(255, 255, 255, 0.6) !important;
+    border: none !important;
     backdrop-filter: blur(8px) !important;
     box-shadow: 
       inset 0 0 20px rgba(255, 255, 255, 0.3),
