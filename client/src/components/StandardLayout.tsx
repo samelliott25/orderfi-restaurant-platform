@@ -174,30 +174,7 @@ export function StandardLayout({
                 <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
                 <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
                 
-                {/* Central AI consciousness symbol */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <svg 
-                    className="w-6 h-6 text-white opacity-90 animate-spin" 
-                    style={{ animationDuration: '8s' }} 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" opacity="0.8"/>
-                    <circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="1" opacity="0.4"/>
-                    <circle cx="12" cy="12" r="11" stroke="currentColor" strokeWidth="0.5" opacity="0.2"/>
-                    <path d="M12 2v4M12 18v4M22 12h-4M6 12H2" stroke="currentColor" strokeWidth="1.5" opacity="0.6"/>
-                    <path d="M19.07 4.93l-2.83 2.83M7.76 16.24l-2.83 2.83M19.07 19.07l-2.83-2.83M7.76 7.76L4.93 4.93" stroke="currentColor" strokeWidth="1" opacity="0.4"/>
-                  </svg>
-                </div>
-                
-                {/* Outer ring with neural network pattern */}
-                <div className="absolute inset-2 rounded-full border border-white/20">
-                  <div className="absolute top-1 left-1/2 w-1 h-1 bg-white/60 rounded-full transform -translate-x-1/2"></div>
-                  <div className="absolute bottom-1 left-1/2 w-1 h-1 bg-white/60 rounded-full transform -translate-x-1/2"></div>
-                  <div className="absolute left-1 top-1/2 w-1 h-1 bg-white/60 rounded-full transform -translate-y-1/2"></div>
-                  <div className="absolute right-1 top-1/2 w-1 h-1 bg-white/60 rounded-full transform -translate-y-1/2"></div>
-                </div>
+
               </Button>
               
               <Button 
