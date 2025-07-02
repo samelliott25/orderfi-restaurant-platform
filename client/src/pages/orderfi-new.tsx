@@ -364,7 +364,7 @@ export default function OrderFiNew() {
             >
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
-                  <div>
+                  <div className="relative z-20 pointer-events-auto">
                     <h3 className="font-bold text-lg">OrderFi Tokens</h3>
                     <p className="text-2xl font-bold mt-1">{availableTokens.toLocaleString()}</p>
                     <p className="text-xs opacity-90 mt-1">Available Tokens</p>
