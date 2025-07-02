@@ -113,17 +113,11 @@ export default function HomePage() {
             <Button
               onClick={handleDAppClick}
               className={`
-                relative overflow-hidden w-full py-4 sm:py-6 text-lg sm:text-xl font-bold text-white 
+                dapp-entry-button relative overflow-hidden w-full py-4 sm:py-6 text-lg sm:text-xl font-bold text-white 
                 shadow-xl transition-all duration-300 transform rounded-xl
-                bg-gradient-to-r from-orange-500 via-red-500 to-pink-500
-                hover:from-orange-600 hover:via-red-600 hover:to-pink-600
                 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/50
                 active:scale-95 active:shadow-lg
-                dark-mode-button
                 ${isClicked ? 'animate-pulse scale-95' : ''}
-                before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent 
-                before:via-white/20 before:to-transparent before:-translate-x-full 
-                hover:before:translate-x-full before:transition-transform before:duration-700
               `}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
