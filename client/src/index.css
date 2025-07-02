@@ -259,19 +259,19 @@
   /* Morphing animation for chat orb */
   @keyframes morph-to-center {
     0% {
-      transform: translateY(-2rem);
+      transform: translate(-50%, -50%) scale(1);
       width: 76px;
       height: 76px;
       border-radius: 50%;
     }
     50% {
-      transform: translateY(-50vh);
-      width: 200px;
-      height: 200px;
+      transform: translate(-50%, -50%) scale(2.5);
+      width: 76px;
+      height: 76px;
       border-radius: 50%;
     }
     100% {
-      transform: translateY(-50vh);
+      transform: translate(-50%, -50%) scale(1);
       width: 100vw;
       height: 100vh;
       border-radius: 0;
