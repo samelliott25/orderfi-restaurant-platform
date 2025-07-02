@@ -972,8 +972,11 @@ html {
     font-weight: 700;
     letter-spacing: -0.02em;
     font-size: 1rem;
-    color: hsl(var(--foreground));
-    opacity: 0.9;
+    color: hsl(215, 28%, 17%); /* Dark slate for light mode */
+  }
+
+  .dark .section-heading {
+    color: hsl(210, 40%, 95%); /* Light color for dark mode */
   }
   
   .retro-text {
