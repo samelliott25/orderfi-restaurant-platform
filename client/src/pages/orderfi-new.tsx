@@ -307,7 +307,7 @@ export default function OrderFiNew() {
           <HamburgerMenu />
         </div>
       </div>
-      <ScrollArea className="flex-1 pb-16 border-none" style={{ height: 'calc(100vh - 140px)' }}>
+      <ScrollArea className="flex-1 pb-8 border-none" style={{ height: 'calc(100vh - 140px)' }}>
         <div className="space-y-4 py-4 px-4">
 
           {/* Quick Actions */}
