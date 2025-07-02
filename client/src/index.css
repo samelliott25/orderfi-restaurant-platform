@@ -256,6 +256,32 @@
   .ai-sparkle-4 { animation: twinkle-orbit 4.5s ease-in-out infinite 2.1s; }
   .ai-cosmic-glow { animation: cosmic-glow 4s ease-in-out infinite; }
 
+  /* Morphing animation for chat orb */
+  @keyframes morph-to-center {
+    0% {
+      transform: translateY(-2rem);
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+    }
+    50% {
+      transform: translateY(-50vh);
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+    }
+    100% {
+      transform: translateY(-50vh);
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+    }
+  }
+
+  .animate-morph-to-center {
+    animation: morph-to-center 0.8s ease-out forwards;
+  }
+
   :root {
     --background: 0 0% 98.8%;
     --foreground: 240 10% 3.9%;

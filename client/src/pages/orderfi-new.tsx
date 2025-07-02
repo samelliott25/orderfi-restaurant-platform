@@ -74,6 +74,7 @@ export default function OrderFiNew() {
   const [availableTokens] = useState(1250);
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { theme } = useTheme();
@@ -257,6 +258,19 @@ export default function OrderFiNew() {
     }
   };
 
+  const handleChatToggle = () => {
+    if (!isChatExpanded) {
+      setIsAnimating(true);
+      // Start animation, then show chat after animation completes
+      setTimeout(() => {
+        setIsChatExpanded(true);
+        setIsAnimating(false);
+      }, 800); // Animation duration
+    } else {
+      setIsChatExpanded(false);
+    }
+  };
+
   return (
     <div className={`min-h-screen bg-background transition-opacity duration-700 ease-in-out overflow-x-hidden ${
       isPageLoaded ? 'opacity-100' : 'opacity-0'
@@ -420,21 +434,17 @@ export default function OrderFiNew() {
           <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
-      {/* Chat Backdrop */}
-      {isChatExpanded && (
-        <div 
-          className="fixed inset-0 bg-black/30 backdrop-blur-md z-40"
-          onClick={() => setIsChatExpanded(false)}
-        />
-      )}
-
-      {/* Floating AI Chat Interface */}
-      {isChatExpanded && (
-        <div className={`fixed inset-4 md:inset-8 lg:inset-12 rounded-3xl shadow-2xl border border-orange-200/20 z-50 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300 flex flex-col ${
-          isDarkMode 
-            ? 'bg-gradient-to-br from-orange-600 via-red-600 to-purple-900' 
-            : 'bg-gradient-to-br from-orange-500 via-red-500 to-pink-500'
-        }`}>
+      {/* Morphing Orb Chat Interface */}
+      {(isChatExpanded || isAnimating) && (
+        <div className={`fixed inset-0 z-[9998] flex items-center justify-center pointer-events-auto ${
+          isChatExpanded ? 'opacity-100' : 'opacity-0'
+        } transition-opacity duration-300`}>
+          <div className={`w-full h-full max-w-4xl max-h-4xl rounded-3xl shadow-2xl border border-orange-200/20 backdrop-blur-sm flex flex-col m-8 ${
+            isDarkMode 
+              ? 'bg-gradient-to-br from-orange-600 via-red-600 to-purple-900' 
+              : 'bg-gradient-to-br from-orange-500 via-red-500 to-pink-500'
+          }`}
+          onClick={(e) => e.stopPropagation()}>
           {/* Chat Header */}
           <div className="flex items-center justify-between p-4 border-b border-white/20">
             <div className="flex items-center gap-2">
@@ -542,6 +552,7 @@ export default function OrderFiNew() {
               </Button>
             </div>
           </div>
+          </div>
         </div>
       )}
       {/* Bottom Navigation */}
@@ -549,9 +560,19 @@ export default function OrderFiNew() {
         {/* Sentient AI Orb - Fixed center position */}
         <div className="absolute top-0 left-0 right-0 flex justify-center pointer-events-auto z-[200]">
           <Button
-            onClick={() => setIsChatExpanded(true)}
-            className="relative -top-8 rounded-full z-[999] overflow-hidden sentient-orb border-0 p-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 !bg-transparent hover:!bg-transparent pointer-events-auto"
-            style={{ width: '76px', height: '76px' }}
+            onClick={handleChatToggle}
+            className={`relative -top-8 rounded-full z-[999] overflow-hidden sentient-orb border-0 p-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 !bg-transparent hover:!bg-transparent pointer-events-auto transition-all duration-700 ease-out ${
+              isAnimating ? 'animate-morph-to-center' : ''
+            }`}
+            style={{ 
+              width: isAnimating ? '100vw' : '76px', 
+              height: isAnimating ? '100vh' : '76px',
+              position: isAnimating ? 'fixed' : 'relative',
+              top: isAnimating ? '0' : undefined,
+              left: isAnimating ? '0' : undefined,
+              transform: isAnimating ? 'translate(0, 0)' : undefined,
+              zIndex: isAnimating ? 9999 : 999
+            }}
           >
             {/* Tiny rotating stars positioned around the orb */}
             <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
