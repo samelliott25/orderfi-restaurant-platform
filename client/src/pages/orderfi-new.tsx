@@ -359,12 +359,12 @@ export default function OrderFiNew() {
           {/* Token Rewards */}
           <div className="mt-8">
             <Card 
-              className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0 cursor-pointer hover:scale-105 transition-transform duration-200"
+              className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0 cursor-pointer hover:scale-105 transition-transform duration-200 relative z-0"
               onClick={() => setLocation('/tokenrewards')}
             >
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
-                  <div className="relative z-20 pointer-events-auto">
+                  <div>
                     <h3 className="font-bold text-lg">OrderFi Tokens</h3>
                     <p className="text-2xl font-bold mt-1">{availableTokens.toLocaleString()}</p>
                     <p className="text-xs opacity-90 mt-1">Available Tokens</p>
