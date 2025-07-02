@@ -117,7 +117,7 @@ export default function HomePage() {
                 shadow-xl transition-all duration-300 transform rounded-xl
                 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/50
                 active:scale-95 active:shadow-lg
-                ${isClicked ? 'animate-pulse scale-95' : ''}
+                ${isClicked ? 'scale-95' : ''}
               `}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">

@@ -1395,7 +1395,7 @@ html {
         rgba(236, 72, 153, 0.3) 100%
       );
     background-size: 200% 200%, 150% 150%;
-    animation: wallet-gradient-shift 8s ease-in-out infinite;
+    animation: wallet-gradient-shift 12s ease-in-out infinite;
   }
 
   /* Dark mode extension for DApp button */
