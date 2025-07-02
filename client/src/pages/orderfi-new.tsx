@@ -114,13 +114,22 @@ export default function OrderFiNew() {
       setIsAnimating(true);
       setAnimationState('expanding');
       
-      // Add ripple effect
+      // Add ripple effect and particle explosion
       const button = document.querySelector('.chat-button-morph');
       if (button) {
         button.classList.add('ripple-active', 'starburst-animation');
+        
+        // Create spiral particles
+        const particles = document.createElement('div');
+        particles.className = 'spiral-particles';
+        button.appendChild(particles);
+        
         setTimeout(() => {
           button.classList.remove('ripple-active');
-        }, 800);
+          if (particles.parentNode) {
+            particles.parentNode.removeChild(particles);
+          }
+        }, 1200);
       }
       
       // Wait for animation to complete before showing chat
@@ -128,7 +137,7 @@ export default function OrderFiNew() {
         setIsChatExpanded(true);
         setAnimationState('idle');
         setIsAnimating(false);
-      }, 800);
+      }, 1200);
     } else {
       // Contracting animation
       setIsAnimating(true);
@@ -603,7 +612,7 @@ export default function OrderFiNew() {
             disabled={isAnimating}
             className={`
               chat-button-morph ripple-effect
-              absolute left-1/2 -top-8 w-16 h-16 
+              absolute -translate-x-1/2 left-1/2 -top-8 w-16 h-16 
               bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 
               hover:from-orange-600 hover:via-red-600 hover:to-pink-600 
               text-white rounded-full z-50 overflow-hidden 
