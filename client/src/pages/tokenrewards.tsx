@@ -119,40 +119,40 @@ export default function TokenRewards() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid gap-4 md:grid-cols-2">
-                <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
-                  <div className="p-2 bg-green-100 rounded-full">
-                    <Coins className="h-5 w-5 text-green-600" />
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="p-2 bg-white rounded-full shadow-sm">
+                    <Coins className="h-5 w-5 text-orange-500" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Place Orders</h3>
-                    <p className="text-sm text-gray-800 font-medium">Earn 10 points per $1 spent</p>
+                    <p className="text-sm text-gray-700 font-medium">Earn 10 points per $1 spent</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
-                  <div className="p-2 bg-blue-100 rounded-full">
-                    <Gift className="h-5 w-5 text-blue-600" />
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="p-2 bg-white rounded-full shadow-sm">
+                    <Gift className="h-5 w-5 text-orange-500" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Daily Check-in</h3>
-                    <p className="text-sm text-gray-800 font-medium">Get 25 bonus points daily</p>
+                    <p className="text-sm text-gray-700 font-medium">Get 25 bonus points daily</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-purple-50 rounded-lg">
-                  <div className="p-2 bg-purple-100 rounded-full">
-                    <Star className="h-5 w-5 text-purple-600" />
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="p-2 bg-white rounded-full shadow-sm">
+                    <Star className="h-5 w-5 text-orange-500" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Leave Reviews</h3>
-                    <p className="text-sm text-gray-800 font-medium">Earn 50 points per review</p>
+                    <p className="text-sm text-gray-700 font-medium">Earn 50 points per review</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-orange-50 rounded-lg">
-                  <div className="p-2 bg-orange-100 rounded-full">
-                    <Trophy className="h-5 w-5 text-orange-600" />
+                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="p-2 bg-white rounded-full shadow-sm">
+                    <Trophy className="h-5 w-5 text-orange-500" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Referrals</h3>
-                    <p className="text-sm text-gray-800 font-medium">Get 200 points per friend</p>
+                    <p className="text-sm text-gray-700 font-medium">Get 200 points per friend</p>
                   </div>
                 </div>
               </CardContent>
