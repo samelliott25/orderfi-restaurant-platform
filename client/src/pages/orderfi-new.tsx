@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { HamburgerMenu } from '@/components/Navigation';
+import WebGLOrb from '@/components/WebGLOrb';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -548,23 +549,13 @@ export default function OrderFiNew() {
       <div className="fixed bottom-0 left-0 right-0">
         {/* Sentient AI Orb - Fixed center position */}
         <div className="absolute top-0 left-0 right-0 flex justify-center">
-          <Button
-            onClick={() => setIsChatExpanded(true)}
-            className="relative -top-8 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
-            style={{ width: '76px', height: '76px' }}
-          >
-            {/* Orb Core with liquid-like inner glow */}
-            <div className="orb-core">
-              <div className="marble-detail-layer"></div>
-            </div>
-            
-            {/* Energy particles floating around */}
-            <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
-            <div className="orb-energy-particle" style={{ top: '70%', left: '25%', animationDelay: '0.7s' }}></div>
-            <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
-            <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
-            <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
-          </Button>
+          <div className="relative -top-8 z-50">
+            <WebGLOrb 
+              size={76} 
+              onClick={() => setIsChatExpanded(true)}
+              className="hover:scale-105 transition-transform duration-200"
+            />
+          </div>
         </div>
         
         {/* Navigation buttons */}

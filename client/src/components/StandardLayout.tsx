@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { HamburgerMenu } from '@/components/Navigation';
+import WebGLOrb from '@/components/WebGLOrb';
 import { useTheme } from '@/components/theme-provider';
 import { 
   Home, 
