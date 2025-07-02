@@ -318,7 +318,7 @@ export default function OrderFiNew() {
                 <Button
                   key={index}
                   variant="outline"
-                  className="relative flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 transition-all duration-200 active:scale-95 overflow-hidden group"
+                  className="slick-button elevated-card relative flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 transition-all duration-200 active:scale-95 overflow-hidden group"
                   onClick={action.action}
                 >
                   {/* Internal glow overlay */}
