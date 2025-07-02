@@ -1341,12 +1341,7 @@ html {
   .wallet-orb-button.sentient-orb {
     border-radius: 8px; /* Rectangle shape instead of circle */
     border: 2px solid rgba(255, 255, 255, 0.3);
-    animation: 
-      sentient-float 4s ease-in-out infinite,
-      orb-pulse 2s ease-in-out infinite,
-      marble-flow 12s ease-in-out infinite,
-      fluid-shift 8s linear infinite;
-    /* Remove planetary-rotation to stop spinning */
+    /* No animations - completely static */
   }
 
   .wallet-star-field {
