@@ -137,33 +137,33 @@ const WebGLOrb: React.FC<WebGLOrbProps> = ({ size, onClick, className = '' }) =>
       // Fresnel effect for edge glow
       float fresnel = pow(1.0 - z, 2.0);
       
-      // Softer color mixing with turbulence
-      vec3 baseColor = vec3(1.0, 0.6, 0.2); // Warm orange
-      vec3 accentColor = vec3(1.0, 0.4, 0.6); // Soft pink
-      vec3 highlightColor = vec3(1.0, 0.8, 0.4); // Golden highlight
+      // Vibrant color mixing with turbulence
+      vec3 baseColor = vec3(1.0, 0.5, 0.1); // Rich orange
+      vec3 accentColor = vec3(1.0, 0.2, 0.5); // Vivid pink
+      vec3 highlightColor = vec3(1.0, 0.8, 0.3); // Bright gold
       
-      // Gentler turbulence mixing
-      float softTurbulence = turbulence * 0.3 + 0.7;
-      vec3 plasmaColor = mix(baseColor, accentColor, softTurbulence);
-      plasmaColor = mix(plasmaColor, highlightColor, abs(turbulence) * 0.2);
+      // More dynamic turbulence mixing
+      float dynamicTurbulence = turbulence * 0.6 + 0.4;
+      vec3 plasmaColor = mix(baseColor, accentColor, dynamicTurbulence);
+      plasmaColor = mix(plasmaColor, highlightColor, abs(turbulence) * 0.4);
       
-      // Softer volumetric depth
-      float depth = z * 0.5 + 0.5;
-      plasmaColor *= depth;
+      // Enhanced volumetric depth with more contrast
+      float depth = z * 0.6 + 0.4;
+      plasmaColor *= depth * 1.2;
       
-      // Gentler specular highlights
-      vec3 lightDir = normalize(vec3(0.3, 0.3, 1.0));
-      float specular = pow(max(dot(spherePos, lightDir), 0.0), 8.0) * 0.3;
+      // Enhanced specular highlights
+      vec3 lightDir = normalize(vec3(0.4, 0.4, 1.0));
+      float specular = pow(max(dot(spherePos, lightDir), 0.0), 12.0) * 0.6;
       
-      // Combine effects with softer intensity
-      vec3 finalColor = plasmaColor + fresnel * 0.4 + specular;
+      // Combine effects with vibrant intensity
+      vec3 finalColor = plasmaColor + fresnel * 0.7 + specular;
       
-      // Warmer atmospheric glow
+      // Brighter atmospheric glow
       float glow = 1.0 - dist;
-      finalColor += glow * 0.2 * vec3(1.0, 0.7, 0.3);
+      finalColor += glow * 0.4 * vec3(1.0, 0.6, 0.2);
       
-      // Gentle pulsing effect
-      float pulse = sin(u_time * 1.5) * 0.1 + 0.9;
+      // More pronounced pulsing effect
+      float pulse = sin(u_time * 1.2) * 0.15 + 0.85;
       finalColor *= pulse;
       
       // Softer bloom effect
