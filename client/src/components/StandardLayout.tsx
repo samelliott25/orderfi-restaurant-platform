@@ -155,7 +155,9 @@ export function StandardLayout({
                 className="relative -top-8 w-16 h-16 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
               >
                 {/* Orb Core with liquid-like inner glow */}
-                <div className="orb-core"></div>
+                <div className="orb-core">
+                  <div className="marble-detail-layer"></div>
+                </div>
                 
                 {/* Energy particles floating around */}
                 <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>

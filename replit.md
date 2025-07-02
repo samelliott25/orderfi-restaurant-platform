@@ -134,6 +134,13 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 2, 2025. Fixed AI orb positioning and scroll area padding issues
+  - Restructured bottom navigation with dedicated centering container for perfect AI orb alignment
+  - Used absolute positioning with flex justify-center for true center alignment independent of navigation buttons
+  - Fixed ScrollArea padding inconsistency by moving px-4 from container to content div for even spacing
+  - Restored navigation button layout to justify-around for proper Home and Orders button positioning
+  - Eliminated card hover overflow issues where left-side cards would extend outside the frame
+  - Applied consistent fixes across both orderfi-new.tsx and StandardLayout.tsx components
 - July 1, 2025. Professional restaurant dashboard UI overhaul with real-time features
   - Completely redesigned dashboard with modern, professional interface using OrderFi brand colors
   - Added real-time system status bar with live clock, connection status, and system metrics

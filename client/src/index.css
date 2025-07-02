@@ -116,6 +116,63 @@
     50% { box-shadow: 0 0 25px rgba(249, 115, 22, 0.6), 0 0 50px rgba(239, 68, 68, 0.4), 0 0 75px rgba(236, 72, 153, 0.3); }
   }
 
+  /* Slow planetary rotation like Venus/Saturn - 20 second rotation */
+  @keyframes planetary-rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Ultra-fine marble detail animations */
+  @keyframes marble-fine-detail {
+    0% { 
+      transform: rotate(0deg) scale(1) skew(0deg, 0deg);
+      background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 15% 25%, 85% 75%, 45% 15%, 25% 85%, 75% 35%, 60% 80%, 25% 25%, 75% 75%;
+    }
+    25% { 
+      transform: rotate(90deg) scale(1.02) skew(1deg, 0deg);
+      background-position: 25% 25%, 25% 25%, 25% 25%, 25% 25%, 25% 25%, 25% 25%, 25% 25%, 25% 25%, 35% 45%, 65% 55%, 25% 35%, 45% 65%, 55% 15%, 40% 60%, 45% 45%, 55% 55%;
+    }
+    50% { 
+      transform: rotate(180deg) scale(0.98) skew(0deg, 1deg);
+      background-position: 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 55% 65%, 45% 35%, 65% 55%, 65% 45%, 35% 75%, 80% 40%, 65% 65%, 35% 35%;
+    }
+    75% { 
+      transform: rotate(270deg) scale(1.01) skew(-1deg, 0deg);
+      background-position: 75% 75%, 75% 75%, 75% 75%, 75% 75%, 75% 75%, 75% 75%, 75% 75%, 75% 75%, 75% 85%, 25% 15%, 85% 75%, 85% 25%, 15% 55%, 60% 20%, 85% 85%, 15% 15%;
+    }
+    100% { 
+      transform: rotate(360deg) scale(1) skew(0deg, 0deg);
+      background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 15% 25%, 85% 75%, 45% 15%, 25% 85%, 75% 35%, 60% 80%, 25% 25%, 75% 75%;
+    }
+  }
+
+  @keyframes marble-drift {
+    0% {
+      transform: translateX(0px) translateY(0px) rotate(0deg);
+      opacity: 0.8;
+    }
+    20% {
+      transform: translateX(1px) translateY(0.5px) rotate(72deg);
+      opacity: 0.9;
+    }
+    40% {
+      transform: translateX(0.5px) translateY(1px) rotate(144deg);
+      opacity: 0.7;
+    }
+    60% {
+      transform: translateX(-0.5px) translateY(0.5px) rotate(216deg);
+      opacity: 0.9;
+    }
+    80% {
+      transform: translateX(-1px) translateY(-0.5px) rotate(288deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateX(0px) translateY(0px) rotate(360deg);
+      opacity: 0.8;
+    }
+  }
+
   .ai-orbit-1 { animation: orbit-clockwise 8s linear infinite, twinkle-orbit 2s ease-in-out infinite; }
   .ai-orbit-2 { animation: orbit-counter-clockwise 10s linear infinite, twinkle-orbit 2.5s ease-in-out infinite 0.5s; }
   .ai-orbit-3 { animation: orbit-slow 12s linear infinite, twinkle-orbit 3s ease-in-out infinite 1s; }
@@ -1171,7 +1228,8 @@ html {
       sentient-float 4s ease-in-out infinite,
       orb-pulse 2s ease-in-out infinite,
       marble-flow 12s ease-in-out infinite,
-      fluid-shift 8s linear infinite;
+      fluid-shift 8s linear infinite,
+      planetary-rotation 20s linear infinite;
     border: 2px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(15px);
     box-shadow: 
@@ -1299,6 +1357,63 @@ html {
     box-shadow: 
       inset 0 0 20px rgba(255, 255, 255, 0.3),
       inset 0 0 40px rgba(249, 115, 22, 0.1);
+    overflow: hidden;
+  }
+
+  /* Ultra-detailed marble layer for fine marbling effects */
+  .marble-detail-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: 
+      /* Fine marble veins - horizontal streaks */
+      linear-gradient(10deg, transparent 30%, rgba(255, 255, 255, 0.7) 31%, transparent 32%),
+      linear-gradient(25deg, transparent 40%, rgba(251, 146, 60, 0.5) 41%, transparent 43%),
+      linear-gradient(45deg, transparent 50%, rgba(236, 72, 153, 0.4) 51%, transparent 53%),
+      linear-gradient(65deg, transparent 25%, rgba(255, 255, 255, 0.6) 26%, transparent 28%),
+      linear-gradient(85deg, transparent 35%, rgba(249, 115, 22, 0.3) 36%, transparent 38%),
+      
+      /* Diagonal marble streaks */
+      linear-gradient(120deg, transparent 45%, rgba(255, 255, 255, 0.5) 46%, transparent 48%),
+      linear-gradient(135deg, transparent 20%, rgba(236, 72, 153, 0.4) 21%, transparent 23%),
+      linear-gradient(150deg, transparent 60%, rgba(251, 146, 60, 0.3) 61%, transparent 63%),
+      
+      /* Micro marble spots and clusters */
+      radial-gradient(ellipse 8% 12% at 15% 25%, rgba(255, 255, 255, 0.8) 0%, transparent 70%),
+      radial-gradient(ellipse 6% 10% at 85% 75%, rgba(251, 146, 60, 0.6) 0%, transparent 80%),
+      radial-gradient(ellipse 10% 8% at 45% 15%, rgba(236, 72, 153, 0.5) 0%, transparent 75%),
+      radial-gradient(ellipse 7% 15% at 25% 85%, rgba(249, 115, 22, 0.4) 0%, transparent 85%),
+      radial-gradient(ellipse 12% 6% at 75% 35%, rgba(255, 255, 255, 0.7) 0%, transparent 60%),
+      radial-gradient(ellipse 5% 8% at 60% 80%, rgba(236, 72, 153, 0.3) 0%, transparent 90%),
+      
+      /* Complex conic gradients for swirling patterns */
+      conic-gradient(from 15deg at 25% 25%, 
+        transparent 0deg,
+        rgba(255, 255, 255, 0.4) 30deg,
+        rgba(251, 146, 60, 0.3) 60deg,
+        transparent 90deg,
+        rgba(236, 72, 153, 0.2) 120deg,
+        transparent 150deg,
+        rgba(249, 115, 22, 0.3) 180deg,
+        transparent 210deg,
+        rgba(255, 255, 255, 0.2) 240deg,
+        transparent 270deg,
+        rgba(251, 146, 60, 0.4) 300deg,
+        transparent 330deg,
+        rgba(236, 72, 153, 0.3) 360deg
+      ),
+      conic-gradient(from 75deg at 75% 75%, 
+        rgba(236, 72, 153, 0.3) 0deg,
+        transparent 45deg,
+        rgba(255, 255, 255, 0.5) 90deg,
+        transparent 135deg,
+        rgba(251, 146, 60, 0.4) 180deg,
+        transparent 225deg,
+        rgba(249, 115, 22, 0.3) 270deg,
+        transparent 315deg,
+        rgba(236, 72, 153, 0.3) 360deg
+      );
+    animation: marble-fine-detail 18s linear infinite, marble-drift 25s ease-in-out infinite reverse;
   }
   
   .retro-text {
