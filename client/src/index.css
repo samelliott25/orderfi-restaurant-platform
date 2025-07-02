@@ -1343,18 +1343,14 @@ html {
     border: 2px solid rgba(255, 255, 255, 0.3);
     background: 
       linear-gradient(135deg, 
-        rgba(249, 115, 22, 0.9) 0%,
-        rgba(251, 146, 60, 0.7) 30%,
-        rgba(236, 72, 153, 0.8) 70%,
-        rgba(219, 39, 119, 0.9) 100%
-      ),
-      linear-gradient(45deg,
-        rgba(251, 146, 60, 0.3) 0%,
-        transparent 50%,
-        rgba(236, 72, 153, 0.3) 100%
+        rgba(249, 115, 22, 0.8) 0%,
+        rgba(251, 146, 60, 0.6) 25%,
+        rgba(236, 72, 153, 0.7) 50%,
+        rgba(219, 39, 119, 0.8) 75%,
+        rgba(190, 24, 93, 0.6) 100%
       );
-    background-size: 200% 200%, 150% 150%;
-    animation: wallet-gradient-shift 8s ease-in-out infinite;
+    background-size: 150% 150%;
+    animation: marble-flow 20s ease-in-out infinite;
   }
 
   /* Remove circular elements from wallet button */
@@ -1384,18 +1380,14 @@ html {
     border: 2px solid rgba(255, 255, 255, 0.3);
     background: 
       linear-gradient(135deg, 
-        rgba(249, 115, 22, 0.9) 0%,
-        rgba(251, 146, 60, 0.7) 30%,
-        rgba(236, 72, 153, 0.8) 70%,
-        rgba(219, 39, 119, 0.9) 100%
-      ),
-      linear-gradient(45deg,
-        rgba(251, 146, 60, 0.3) 0%,
-        transparent 50%,
-        rgba(236, 72, 153, 0.3) 100%
+        rgba(249, 115, 22, 0.8) 0%,
+        rgba(251, 146, 60, 0.6) 25%,
+        rgba(236, 72, 153, 0.7) 50%,
+        rgba(219, 39, 119, 0.8) 75%,
+        rgba(190, 24, 93, 0.6) 100%
       );
-    background-size: 200% 200%, 150% 150%;
-    animation: wallet-gradient-shift 12s ease-in-out infinite;
+    background-size: 150% 150%;
+    animation: marble-flow 20s ease-in-out infinite;
   }
 
   /* Dark mode extension for DApp button */
