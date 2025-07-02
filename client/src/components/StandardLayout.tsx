@@ -152,7 +152,7 @@ export function StandardLayout({
             <div className="absolute top-0 left-0 right-0 flex justify-center">
               <Button
                 onClick={() => setIsChatExpanded(true)}
-                className="relative -top-8 w-16 h-16 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
+                className="relative -top-8 w-19 h-19 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
               >
                 {/* Orb Core with liquid-like inner glow */}
                 <div className="orb-core">
