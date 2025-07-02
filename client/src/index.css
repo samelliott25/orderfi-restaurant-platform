@@ -1341,15 +1341,18 @@ html {
   .wallet-orb-button.sentient-orb {
     border-radius: 8px; /* Rectangle shape instead of circle */
     border: 2px solid rgba(255, 255, 255, 0.3);
-    animation: none !important; /* Override all inherited animations */
+    /* Only remove position-changing animations, keep color/gradient animations */
+    animation: 
+      marble-flow 12s ease-in-out infinite,
+      fluid-shift 8s linear infinite;
   }
 
   .wallet-orb-button .orb-core {
-    animation: none !important; /* Stop orb core animations */
+    animation: inner-glow 4s ease-in-out infinite, core-marble 10s linear infinite;
   }
 
   .wallet-orb-button .orb-lighting-overlay {
-    animation: none !important; /* Stop lighting overlay animations */
+    animation: none !important; /* Keep lighting static for depth */
   }
 
   .wallet-star-field {
