@@ -553,16 +553,16 @@ export default function OrderFiNew() {
             className="relative -top-8 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
             style={{ width: '76px', height: '76px' }}
           >
-            {/* Microscopic rotating stars positioned around the orb */}
+            {/* Tiny rotating stars positioned around the orb */}
             <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-              {/* Just 3 microscopic stars positioned strategically */}
-              <svg className="absolute ai-cascade-1" style={{ width: '1px', height: '1px', top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
+              {/* Just 3 tiny stars positioned strategically */}
+              <svg className="absolute ai-cascade-1" style={{ width: '2px', height: '2px', top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
               </svg>
-              <svg className="absolute ai-cascade-2" style={{ width: '1px', height: '1px', top: '75%', left: '80%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
+              <svg className="absolute ai-cascade-2" style={{ width: '2px', height: '2px', top: '75%', left: '80%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
               </svg>
-              <svg className="absolute ai-cascade-3" style={{ width: '1px', height: '1px', top: '30%', left: '85%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
+              <svg className="absolute ai-cascade-3" style={{ width: '2px', height: '2px', top: '30%', left: '85%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
               </svg>
             </div>
