@@ -162,7 +162,7 @@ export function StandardLayout({
               {/* Sentient AI Orb - Center of navbar */}
               <Button
                 onClick={() => setIsChatExpanded(true)}
-                className="absolute left-1/2 -top-8 w-16 h-16 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
+                className="absolute left-1/2 transform -translate-x-1/2 -top-8 w-16 h-16 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
               >
                 {/* Orb Core with liquid-like inner glow */}
                 <div className="orb-core"></div>
