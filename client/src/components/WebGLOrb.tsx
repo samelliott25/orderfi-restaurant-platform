@@ -52,23 +52,41 @@ const WebGLOrb: React.FC<WebGLOrbProps> = ({ size, onClick, className = '' }) =>
       float z = sqrt(1.0 - dist * dist);
       vec3 spherePos = vec3(uv, z);
       
-      // Molten glass noise pattern (based on Three.js reference)
-      float time = u_time * 0.6;
-      vec3 noisePos = spherePos * 5.0 + time;
+      // Smooth molten glass with flowing patterns
+      float time = u_time * 0.3;
       
-      float n = noise(noisePos);
+      // Multiple noise octaves for smooth flowing patterns
+      vec3 noisePos1 = spherePos * 2.0 + vec3(time * 0.5, time * 0.3, time * 0.2);
+      vec3 noisePos2 = spherePos * 4.0 + vec3(time * 0.2, time * 0.4, time * 0.1);
+      
+      float n1 = noise(noisePos1);
+      float n2 = noise(noisePos2);
+      
+      // Smooth the noise for flowing plasma effect
+      float smoothNoise = (n1 * 0.7 + n2 * 0.3);
+      smoothNoise = smoothstep(0.3, 0.7, smoothNoise);
       
       // Fresnel effect for molten glass edge glow
-      float fresnel = pow(1.0 - dot(normalize(spherePos), vec3(0,0,1)), 3.0);
+      float fresnel = pow(1.0 - dot(normalize(spherePos), vec3(0,0,1)), 2.5);
       
-      // Base color (molten orange like the reference)
-      vec3 baseColor = vec3(1.0, 0.33, 0.0); // #ff5500 converted to RGB
+      // Molten glass colors
+      vec3 coreColor = vec3(1.0, 0.4, 0.0);    // Deep orange core
+      vec3 hotColor = vec3(1.0, 0.6, 0.1);     // Bright molten areas
+      vec3 glowColor = vec3(1.0, 0.8, 0.3);    // Edge glow
       
-      // Mix base color with noise and add fresnel glow
-      vec3 plasmaColor = mix(baseColor * 0.3, baseColor, n);
+      // Mix colors based on noise for flowing molten effect
+      vec3 plasmaColor = mix(coreColor, hotColor, smoothNoise);
       
-      // Final molten glass effect
-      vec3 finalColor = plasmaColor + fresnel * 0.8;
+      // Add depth with z-position
+      float depth = z * 0.8 + 0.2;
+      plasmaColor *= depth;
+      
+      // Combine with fresnel glow
+      vec3 finalColor = plasmaColor + fresnel * glowColor * 0.6;
+      
+      // Add subtle pulsing
+      float pulse = sin(time * 2.0) * 0.1 + 0.9;
+      finalColor *= pulse;
       
       gl_FragColor = vec4(finalColor, 1.0);
     }
