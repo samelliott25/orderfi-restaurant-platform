@@ -167,7 +167,7 @@ export function StandardLayout({
             </div>
             
             {/* Navigation buttons */}
-            <div className="flex items-center justify-between px-8 py-3">
+            <div className="flex items-center justify-around py-3">
               <Button 
                 variant="ghost" 
                 size="sm" 
