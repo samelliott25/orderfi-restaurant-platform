@@ -545,7 +545,7 @@ export default function OrderFiNew() {
         </div>
       )}
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-transparent h-0 pointer-events-none">
+      <div className="fixed bottom-0 left-0 right-0 bg-transparent pointer-events-none">
         {/* Sentient AI Orb - Fixed center position */}
         <div className="absolute top-0 left-0 right-0 flex justify-center pointer-events-auto">
           <Button
@@ -590,7 +590,7 @@ export default function OrderFiNew() {
         </div>
         
         {/* Navigation buttons */}
-        <div className="flex items-center justify-around bg-transparent pointer-events-auto">
+        <div className="flex items-center justify-around bg-transparent pointer-events-auto py-4 px-4">
           <Button 
             variant="ghost" 
             size="sm" 
