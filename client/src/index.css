@@ -2186,3 +2186,13 @@ html {
     box-shadow: 0 0 30px rgba(255, 165, 0, 0.6);
   }
 }
+
+/* Counter-rotate the main star to keep it stationary */
+.star-no-rotate {
+  animation: counter-rotate 20s linear infinite;
+}
+
+@keyframes counter-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
