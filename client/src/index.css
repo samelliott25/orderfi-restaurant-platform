@@ -178,7 +178,7 @@
         transparent 300deg,
         rgba(251, 146, 60, 0.2) 360deg
       );
-    animation: energy-ripple 4s linear infinite, marble-swirl 6s ease-in-out infinite;
+    animation: marble-swirl 6s ease-in-out infinite;
     z-index: -1;
   }
 
