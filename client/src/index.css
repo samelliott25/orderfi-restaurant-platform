@@ -957,14 +957,23 @@ html {
 
   body {
     @apply antialiased bg-background text-foreground;
-    font-family: 'Comfortaa', sans-serif;
+    font-family: 'Inter', 'Comfortaa', sans-serif;
     font-weight: 400;
   }
 
   h1, h2, h3, h4, h5, h6, .logo-text {
-    font-family: 'Fredoka One', cursive;
-    font-weight: 400;
-    letter-spacing: 0.025em;
+    font-family: 'Inter', 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .section-heading {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 1rem;
+    color: hsl(var(--foreground));
+    opacity: 0.9;
   }
   
   .retro-text {

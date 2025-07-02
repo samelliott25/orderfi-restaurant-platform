@@ -312,7 +312,7 @@ export default function OrderFiNew() {
 
           {/* Quick Actions */}
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
+            <h3 className="section-heading mb-3">Quick Actions</h3>
             <div className="grid grid-cols-2 gap-3">
               {quickActions.map((action, index) => (
                 <Button
@@ -334,7 +334,7 @@ export default function OrderFiNew() {
 
           {/* Today's Specials */}
           <div className="mt-8">
-            <h3 className="text-sm font-semibold text-foreground mb-3">Today's Specials</h3>
+            <h3 className="section-heading mb-3">Today's Specials</h3>
             <div className="space-y-3">
               {todaysSpecials.map((special) => (
                 <Card key={special.id} className="elevated-card border-border">
@@ -384,7 +384,7 @@ export default function OrderFiNew() {
 
           {/* Recent Orders */}
           <div className="mt-8">
-            <h3 className="text-sm font-semibold text-foreground mb-3">Recent Orders</h3>
+            <h3 className="section-heading mb-3">Recent Orders</h3>
             <div className="space-y-3">
               {recentOrders.map((order) => (
                 <Card key={order.id} className="border-border">
