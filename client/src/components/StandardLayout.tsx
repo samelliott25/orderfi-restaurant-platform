@@ -148,21 +148,11 @@ export function StandardLayout({
 
           {/* Bottom Navigation */}
           <div className="fixed bottom-0 left-0 right-0">
-            <div className="relative flex items-center justify-between px-8 py-3">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"
-                onClick={() => setLocation('/orderfi-home')}
-              >
-                <Home className="h-4 w-4 text-orange-500" />
-                <span className="text-xs">Home</span>
-              </Button>
-              
-              {/* Sentient AI Orb - Center of navbar */}
+            {/* Sentient AI Orb - Fixed center position */}
+            <div className="absolute top-0 left-0 right-0 flex justify-center">
               <Button
                 onClick={() => setIsChatExpanded(true)}
-                className="absolute left-1/2 transform -translate-x-1/2 -top-8 w-16 h-16 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
+                className="relative -top-8 w-16 h-16 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
               >
                 {/* Orb Core with liquid-like inner glow */}
                 <div className="orb-core"></div>
@@ -173,8 +163,19 @@ export function StandardLayout({
                 <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
                 <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
                 <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
-                
-
+              </Button>
+            </div>
+            
+            {/* Navigation buttons */}
+            <div className="flex items-center justify-between px-8 py-3">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"
+                onClick={() => setLocation('/orderfi-home')}
+              >
+                <Home className="h-4 w-4 text-orange-500" />
+                <span className="text-xs">Home</span>
               </Button>
               
               <Button 
