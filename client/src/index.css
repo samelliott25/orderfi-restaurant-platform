@@ -1333,13 +1333,13 @@ html {
     inset: 8px;
     border-radius: 50%;
     background: 
-      radial-gradient(ellipse at 25% 25%, rgba(255, 255, 255, 0.6) 0%, transparent 40%),
+      radial-gradient(ellipse at 25% 25%, rgba(251, 146, 60, 0.3) 0%, transparent 40%),
       radial-gradient(ellipse at 75% 30%, rgba(251, 146, 60, 0.3) 0%, transparent 50%),
       radial-gradient(ellipse at 40% 80%, rgba(236, 72, 153, 0.2) 0%, transparent 45%),
       radial-gradient(
         circle at 35% 35%,
-        rgba(255, 255, 255, 0.4) 0%,
-        rgba(255, 255, 255, 0.1) 30%,
+        rgba(251, 146, 60, 0.2) 0%,
+        rgba(236, 72, 153, 0.1) 30%,
         transparent 60%
       );
     animation: inner-glow 4s ease-in-out infinite reverse, highlight-drift 7s linear infinite;
@@ -2237,17 +2237,4 @@ html {
   100% { transform: rotate(-360deg); }
 }
 
-/* Remove any white circle outlines from orb button */
-.sentient-orb {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-}
 
-.sentient-orb:focus,
-.sentient-orb:focus-visible,
-.sentient-orb:active {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-}
