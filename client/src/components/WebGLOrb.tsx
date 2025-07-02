@@ -52,52 +52,32 @@ const WebGLOrb: React.FC<WebGLOrbProps> = ({ size, onClick, className = '' }) =>
       float z = sqrt(1.0 - dist * dist);
       vec3 spherePos = vec3(uv, z);
       
-      // Iridescent glass sphere effect
-      float time = u_time * 0.4;
+      // Simple clean iridescent effect
+      float time = u_time * 0.2;
       
-      // Create very smooth flowing gradients  
-      vec3 flowPos = spherePos + vec3(time * 0.05, time * 0.08, time * 0.04);
-      float flow1 = noise(flowPos * 0.8);
-      float flow2 = noise(flowPos * 1.2 + time * 0.1);
+      // Create gentle color shifts based on sphere position
+      float angle = atan(spherePos.y, spherePos.x) + time;
+      float colorShift = sin(angle * 2.0) * 0.5 + 0.5;
       
-      // Extra smooth flowing patterns
-      float pattern = (flow1 + flow2 * 0.3) * 0.4;
-      pattern = smoothstep(0.1, 0.9, pattern);
-      pattern = smoothstep(0.0, 1.0, pattern); // Double smoothing
+      // Clean iridescent colors
+      vec3 color1 = vec3(0.9, 0.4, 1.0);    // Purple
+      vec3 color2 = vec3(0.3, 0.7, 1.0);    // Blue  
+      vec3 color3 = vec3(1.0, 0.5, 0.6);    // Pink
       
-      // Fresnel for glass-like rim lighting
-      float fresnel = pow(1.0 - abs(dot(normalize(spherePos), vec3(0,0,1))), 2.0);
-      
-      // Iridescent color palette like soap bubbles
-      vec3 color1 = vec3(0.8, 0.3, 1.0);    // Purple
-      vec3 color2 = vec3(0.2, 0.6, 1.0);    // Blue
-      vec3 color3 = vec3(1.0, 0.4, 0.8);    // Pink
-      vec3 color4 = vec3(1.0, 0.6, 0.2);    // Orange
-      
-      // Create smooth rainbow-like color transitions
-      float colorPhase = (spherePos.x + spherePos.y + pattern + time * 0.1) * 1.0;
-      colorPhase = fract(colorPhase); // Keep in 0-1 range
-      
+      // Simple smooth color blending
       vec3 baseColor;
-      if (colorPhase < 0.25) {
-        baseColor = mix(color1, color2, colorPhase * 4.0);
-      } else if (colorPhase < 0.5) {
-        baseColor = mix(color2, color3, (colorPhase - 0.25) * 4.0);
-      } else if (colorPhase < 0.75) {
-        baseColor = mix(color3, color4, (colorPhase - 0.5) * 4.0);
+      if (colorShift < 0.5) {
+        baseColor = mix(color1, color2, colorShift * 2.0);
       } else {
-        baseColor = mix(color4, color1, (colorPhase - 0.75) * 4.0);
+        baseColor = mix(color2, color3, (colorShift - 0.5) * 2.0);
       }
       
-      // Add depth and volume
-      float depth = z * 0.7 + 0.3;
-      vec3 volumeColor = baseColor * depth;
+      // Fresnel rim lighting
+      float fresnel = pow(1.0 - abs(dot(normalize(spherePos), vec3(0,0,1))), 1.5);
       
-      // Strong rim lighting for glass effect
-      vec3 rimColor = vec3(1.0, 0.9, 0.8);
-      
-      // Combine volume and rim lighting
-      vec3 finalColor = volumeColor + fresnel * rimColor * 1.0;
+      // Simple depth shading
+      float depth = z * 0.6 + 0.4;
+      vec3 finalColor = baseColor * depth + fresnel * 0.5;
       
       gl_FragColor = vec4(finalColor, 1.0);
     }
