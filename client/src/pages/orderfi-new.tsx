@@ -264,7 +264,7 @@ export default function OrderFiNew() {
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-card border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center overflow-hidden ai-cosmic-glow relative">
+          <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Stars positioned across entire icon surface */}
               <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
