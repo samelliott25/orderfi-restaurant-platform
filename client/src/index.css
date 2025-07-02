@@ -265,13 +265,13 @@
       border-radius: 50%;
     }
     50% {
-      transform: translate(0, -40vh) scale(1.8);
+      transform: translate(0, -35vh) scale(1.5);
       width: 76px;
       height: 76px;
       border-radius: 50%;
     }
     100% {
-      transform: translate(-50vw, -50vh) scale(1);
+      transform: translate(0, -35vh) scale(1);
       width: 100vw;
       height: 100vh;
       border-radius: 0;
@@ -283,6 +283,7 @@
     position: fixed !important;
     top: 50% !important;
     left: 50% !important;
+    transform-origin: center !important;
     z-index: 9999 !important;
   }
 
