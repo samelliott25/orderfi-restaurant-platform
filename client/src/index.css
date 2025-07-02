@@ -257,7 +257,7 @@
   .ai-cosmic-glow { animation: cosmic-glow 4s ease-in-out infinite; }
 
   :root {
-    --background: 25 15% 95%;
+    --background: 0 0% 98.8%;
     --foreground: 240 10% 3.9%;
     --card: 25 20% 96%;
     --card-foreground: 240 10% 3.9%;
