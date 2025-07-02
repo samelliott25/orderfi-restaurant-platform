@@ -300,7 +300,7 @@ export default function OrderFiNew() {
           </div>
           <div>
             <h1 className="font-semibold text-lg" style={{ fontFamily: 'Playwrite Australia Victoria' }}>OrderFi </h1>
-            <p className="text-sm text-muted-foreground">Smart Restaurant Assistant</p>
+            <p className="text-sm text-orange-600">Smart Restaurant Assistant</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -342,7 +342,7 @@ export default function OrderFiNew() {
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <h4 className="font-semibold text-sm text-foreground">{special.name}</h4>
-                        <p className="text-xs text-muted-foreground mt-1">{special.description}</p>
+                        <p className="text-xs text-orange-700 mt-1">{special.description}</p>
                         <p className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 font-bold text-sm mt-2">${special.price}</p>
                       </div>
                       <Button size="sm" className="slick-button bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white">
@@ -406,10 +406,10 @@ export default function OrderFiNew() {
                              order.status === 'in-progress' ? 'In Progress' : 'Preparing'}
                           </Badge>
                         </div>
-                        <p className="text-xs text-muted-foreground mt-1">{order.items}</p>
+                        <p className="text-xs text-orange-700 mt-1">{order.items}</p>
                         <p className="font-bold text-sm mt-2 text-foreground">${order.total}</p>
                       </div>
-                      <span className="text-xs text-muted-foreground">{order.date}</span>
+                      <span className="text-xs text-orange-600">{order.date}</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -604,10 +604,10 @@ export default function OrderFiNew() {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="flex flex-col items-center gap-1 text-muted-foreground hover:text-orange-500"
+            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600"
             onClick={() => setLocation('/dashboard')}
           >
-            <Calendar className="h-4 w-4" />
+            <Calendar className="h-4 w-4 text-orange-500" />
             <span className="text-xs">Orders</span>
           </Button>
         </div>
