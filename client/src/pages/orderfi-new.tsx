@@ -525,8 +525,6 @@ export default function OrderFiNew() {
             <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
           </Button>
         </div>
-        
-
       </div>
     </div>
   );
