@@ -269,7 +269,7 @@ export default function OrderFiNew() {
         console.log('Animation complete, showing chat');
         setIsChatExpanded(true);
         setIsAnimating(false);
-      }, 800); // Animation duration
+      }, 1000); // Animation duration
     } else {
       setIsChatExpanded(false);
     }
