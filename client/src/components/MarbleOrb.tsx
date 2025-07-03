@@ -188,91 +188,75 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
           
           ${NOISE_FUNC}
           
-          // Improved noise function for smoother patterns
-          float fbm(vec3 x) {
-            float v = 0.0;
-            float a = 0.5;
-            vec3 shift = vec3(100);
-            for (int i = 0; i < 6; ++i) {
-              v += a * snoise(x);
-              x = x * 2.0 + shift;
-              a *= 0.5;
-            }
-            return v;
-          }
-          
           void main() {
-            // Create flowing energy streams like the original orb
-            vec2 uv = (vPos.xy + 1.0) * 0.5;
-            vec3 p = vPos;
-            float t = time * 0.8;
+            vec3 normal = normalize(vNormal);
+            vec3 viewDir = normalize(vViewDir);
+            vec3 position = vPos;
             
-            // Layer 1: Flowing energy streams using FBM
-            vec3 flowUV = p + vec3(sin(t * 2.0 + p.y * 10.0) * 0.1, cos(t * 1.5 + p.x * 8.0) * 0.08, 0.0);
-            float flow = fbm(flowUV * 4.0 + t * 0.5);
+            // Create glass sphere with volumetric interior
+            float radius = length(position);
             
-            // Layer 2: Plasma-like electric fields
-            float plasma = sin(p.x * 15.0 + t * 3.0) * cos(p.y * 12.0 + t * 2.5);
-            plasma += sin(length(p.xy) * 20.0 - t * 4.0) * 0.5;
-            plasma = (plasma + 1.0) * 0.5;
-            
-            // Layer 3: Spiral galaxy arms
-            float angle = atan(p.y, p.x);
-            float radius = length(p.xy);
-            float spiral = sin(angle * 3.0 + radius * 15.0 - t * 2.0) * exp(-radius * 2.0);
-            spiral = (spiral + 1.0) * 0.5;
-            
-            // Layer 4: Neural network synapses
-            float neural = snoise(p * 20.0 + vec3(t * 0.6, -t * 0.4, 0.0));
-            neural *= smoothstep(0.7, 0.9, neural);
-            
-            // Dynamic color palette that shifts over time
-            vec3 dynamicColor1 = color1 * (1.0 + sin(t * 0.8) * 0.2);
-            vec3 dynamicColor2 = color2 * (1.0 + sin(t * 1.1) * 0.3);
-            vec3 dynamicColor3 = color3 * (1.0 + sin(t * 0.7) * 0.2);
-            
-            // Combine all layers with different mixing modes
-            float mixer1 = flow * 0.4 + spiral * 0.3 + plasma * 0.3;
-            float mixer2 = neural * 0.6 + plasma * 0.4;
-            
-            vec3 baseColor = mix(mix(dynamicColor1, dynamicColor2, mixer1), dynamicColor3, mixer2 * 0.6);
-            
-            // Add dynamic energy pulses
-            float pulse = sin(t * 4.0) * 0.5 + 0.5;
-            float energyRing = smoothstep(0.3, 0.35, radius) * smoothstep(0.45, 0.4, radius);
-            baseColor += energyRing * dynamicColor2 * pulse * 0.8;
-            
-            // Volumetric depth effect like the original
-            float depth = 1.0 - smoothstep(0.0, 0.8, radius);
-            baseColor *= (depth * 0.7 + 0.3);
-            
-            // Advanced fresnel with iridescence
-            float fresnel = pow(1.0 - abs(dot(vNormal, normalize(vViewDir))), 1.5);
-            vec3 iridescent = vec3(
-              sin(fresnel * 6.28 + t) * 0.5 + 0.5,
-              sin(fresnel * 6.28 + t + 2.09) * 0.5 + 0.5,
-              sin(fresnel * 6.28 + t + 4.18) * 0.5 + 0.5
+            // Base gradient from orange to red to purple like reference image
+            vec3 coreColor = mix(
+              mix(vec3(1.0, 0.3, 0.1), vec3(1.0, 0.1, 0.3), radius),
+              vec3(0.6, 0.1, 1.0),
+              radius * 1.2
             );
-            baseColor += fresnel * iridescent * 0.3;
             
-            // Subsurface scattering simulation
-            float scatter = exp(-radius * 3.0) * (neural + flow) * 0.5;
-            baseColor += scatter * dynamicColor1 * 0.4;
+            // Add volumetric density variations
+            float noise1 = snoise(position * 3.0 + time * 0.5) * 0.5 + 0.5;
+            float noise2 = snoise(position * 6.0 - time * 0.3) * 0.3 + 0.7;
             
-            // Glass-like reflections
-            vec3 R = reflect(-normalize(vViewDir), normalize(vNormal));
-            vec3 envReflection = mix(vec3(0.1, 0.2, 0.4), vec3(0.8, 0.6, 1.0), (R.y + 1.0) * 0.5);
-            baseColor = mix(baseColor, envReflection, fresnel * 0.3);
+            // Create concentric energy rings like the reference
+            float ringPattern = sin(radius * 15.0 - time * 2.0) * 0.5 + 0.5;
+            ringPattern = smoothstep(0.3, 0.7, ringPattern);
             
-            // Add rim lighting for that glowing edge
-            float rim = 1.0 - max(dot(normalize(vViewDir), normalize(vNormal)), 0.0);
-            baseColor += pow(rim, 2.0) * mix(dynamicColor1, dynamicColor2, 0.5) * 0.6;
+            // Volumetric lighting effect
+            float density = (1.0 - radius) * noise1 * noise2;
+            density = pow(density, 1.5);
             
-            gl_FragColor = vec4(baseColor, opacity + fresnel * 0.15);
+            // Apply energy ring modulation
+            density *= (1.0 + ringPattern * 0.8);
+            
+            // Color mixing based on depth
+            vec3 volumeColor = mix(
+              vec3(1.0, 0.4, 0.1), // Orange core
+              vec3(0.8, 0.1, 0.5), // Red-purple
+              density
+            );
+            
+            // Glass surface effects
+            float fresnel = pow(1.0 - abs(dot(viewDir, normal)), 2.0);
+            
+            // Create glass highlights and refraction
+            vec3 glassHighlight = vec3(1.0, 0.8, 0.6) * fresnel * 0.8;
+            
+            // Simulate light transmission through glass
+            float transmission = 1.0 - fresnel;
+            vec3 transmittedLight = volumeColor * transmission * density;
+            
+            // Add atmospheric glow
+            float glowIntensity = pow(1.0 - radius, 3.0);
+            vec3 atmosphericGlow = coreColor * glowIntensity * 0.6;
+            
+            // Combine all effects
+            vec3 finalColor = transmittedLight + glassHighlight + atmosphericGlow;
+            
+            // Add outer rim glow
+            float rimGlow = pow(1.0 - abs(dot(viewDir, normal)), 4.0);
+            finalColor += vec3(1.0, 0.5, 0.2) * rimGlow * 0.4;
+            
+            // Enhance saturation and contrast
+            finalColor = pow(finalColor, vec3(1.1));
+            finalColor *= 1.2;
+            
+            gl_FragColor = vec4(finalColor, 0.9);
           }
         `,
         transparent: true,
-        side: THREE.DoubleSide
+        side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
       });
       
       const orb = new THREE.Mesh(geometry, orbMaterial);
