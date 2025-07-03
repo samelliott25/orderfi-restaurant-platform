@@ -189,94 +189,57 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
           ${NOISE_FUNC}
           
           void main() {
-            vec3 p = vPos;
-            float t = time * 0.6;
+            vec2 uv = (vPos.xy + 1.0) * 0.5;
+            vec3 pos = vPos;
+            float time_slow = time * 0.3;
             
-            // Marble pattern using layered noise - increased scale for visibility
-            vec3 marbleUV = p * 1.5 + vec3(sin(t * 0.5) * 0.3, cos(t * 0.3) * 0.25, 0.0);
+            // Create flowing marble veins by distorting coordinates
+            vec2 distorted = uv;
+            distorted.x += sin(uv.y * 8.0 + time_slow) * 0.1;
+            distorted.y += cos(uv.x * 6.0 + time_slow * 0.8) * 0.08;
             
-            // Primary marble veins - larger scale, more dramatic
-            float marble1 = snoise(marbleUV * 2.0 + vec3(t * 0.4, 0.0, 0.0)) * 2.0;
-            marble1 += snoise(marbleUV * 4.0 + vec3(t * 0.2, 0.0, 0.0)) * 1.0;
-            marble1 += snoise(marbleUV * 8.0 + vec3(t * 0.1, 0.0, 0.0)) * 0.5;
+            // Multiple layers of marble veining
+            float vein1 = abs(sin(distorted.x * 12.0 + sin(distorted.y * 8.0) * 2.0));
+            float vein2 = abs(sin(distorted.y * 10.0 + cos(distorted.x * 6.0) * 1.5));
+            float vein3 = abs(sin((distorted.x + distorted.y) * 15.0));
             
-            // Secondary marble veins for complexity - increased amplitude
-            float marble2 = snoise(marbleUV * 2.5 + vec3(0.0, t * 0.3, 0.0)) * 1.8;
-            marble2 += snoise(marbleUV * 5.0 + vec3(0.0, t * 0.15, 0.0)) * 0.9;
+            // Create marble regions
+            float marble_base = smoothstep(0.3, 0.7, vein1);
+            float marble_veins = smoothstep(0.6, 0.9, vein2) * smoothstep(0.7, 0.95, vein3);
             
-            // Turbulent marble flows
-            vec3 turbulentUV = p + vec3(
-              sin(p.y * 5.0 + t * 1.5) * 0.1,
-              cos(p.x * 4.0 + t * 1.2) * 0.08,
-              sin(length(p.xy) * 3.0 + t) * 0.06
-            );
+            // Orange and magenta marble colors
+            vec3 orange_marble = vec3(1.0, 0.5, 0.1);
+            vec3 magenta_marble = vec3(0.8, 0.2, 0.5);
+            vec3 white_veins = vec3(0.95, 0.9, 0.85);
+            vec3 dark_veins = vec3(0.3, 0.1, 0.2);
             
-            float turbulence = snoise(turbulentUV * 5.0 + vec3(t * 0.8, 0.0, 0.0));
-            turbulence += snoise(turbulentUV * 10.0 + vec3(t * 0.4, 0.0, 0.0)) * 0.5;
+            // Build marble texture
+            vec3 base_color = mix(orange_marble, magenta_marble, marble_base);
             
-            // Marble color mapping - Orange and Magenta
-            vec3 orangeMarble = vec3(1.0, 0.4, 0.1);    // Deep orange
-            vec3 lightOrange = vec3(1.0, 0.7, 0.3);     // Light orange
-            vec3 magentaMarble = vec3(0.9, 0.2, 0.6);   // Deep magenta
-            vec3 lightMagenta = vec3(1.0, 0.5, 0.8);    // Light magenta
-            vec3 whiteVeins = vec3(1.0, 0.9, 0.8);      // Creamy white veins
+            // Add white veining
+            base_color = mix(base_color, white_veins, marble_veins * 0.8);
             
-            // Create dramatic marble pattern with extreme contrast
-            float marblePattern = marble1 + marble2 * 0.7;
-            marblePattern = sin(marblePattern * 3.14159) * 0.5 + 0.5; // Wave pattern for striping
+            // Add dark accent veins
+            float dark_veins_pattern = smoothstep(0.85, 0.95, vein1) * smoothstep(0.8, 0.9, vein2);
+            base_color = mix(base_color, dark_veins, dark_veins_pattern * 0.6);
             
-            // Sharp marble transitions
-            float marbleStep = step(0.4, marblePattern);
+            // Add surface variations for realism
+            float surface_noise = snoise(pos * 20.0 + vec3(time_slow, 0.0, 0.0)) * 0.1;
+            base_color += surface_noise;
             
-            // Base marble colors - sharp orange/magenta transitions
-            vec3 baseMarble = mix(orangeMarble, magentaMarble, marbleStep);
-            
-            // Dramatic vein patterns
-            float veinPattern = abs(sin(marble1 * 6.0 + turbulence * 2.0));
-            veinPattern = step(0.8, veinPattern); // Sharp vein edges
-            
-            // Bold white veins cutting through
-            float whiteVeinPattern = abs(sin(marble2 * 4.0 + turbulence * 1.5));
-            whiteVeinPattern = step(0.9, whiteVeinPattern); // Very selective white veins
-            
-            // Apply veins with high contrast
-            baseMarble = mix(baseMarble, lightOrange, veinPattern * 0.7);
-            baseMarble = mix(baseMarble, whiteVeins, whiteVeinPattern);
-            
-            // Add depth variation
-            float radius = length(p.xy);
-            float depth = 1.0 - smoothstep(0.0, 0.8, radius);
-            baseMarble *= (depth * 0.4 + 0.6);
-            
-            // Marble surface lighting
+            // Lighting calculations
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(vViewDir);
-            float fresnel = pow(1.0 - abs(dot(viewDir, normal)), 1.8);
+            float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 2.0);
             
-            // Marble highlights
-            vec3 marbleHighlight = mix(lightOrange, lightMagenta, marblePattern * 0.8) * fresnel * 0.5;
-            baseMarble += marbleHighlight;
+            // Marble shine and polish
+            float specular = pow(max(dot(reflect(-viewDir, normal), normalize(vec3(1.0, 1.0, 1.0))), 0.0), 32.0);
+            base_color += vec3(1.0, 1.0, 1.0) * specular * 0.3;
             
-            // Add subtle color variation over time
-            float colorShift = sin(t * 1.2) * 0.1 + 0.9;
-            baseMarble *= colorShift;
+            // Fresnel rim lighting
+            base_color += fresnel * vec3(1.0, 0.8, 0.6) * 0.4;
             
-            // Marble polish effect
-            float polish = pow(fresnel, 3.0);
-            baseMarble = mix(baseMarble, whiteVeins, polish * 0.2);
-            
-            // Final marble composition
-            vec3 finalColor = baseMarble;
-            
-            // Add subtle glow around edges
-            float edgeGlow = pow(1.0 - radius, 2.0);
-            finalColor += mix(orangeMarble, magentaMarble, 0.5) * edgeGlow * 0.3;
-            
-            // Enhance saturation and brightness
-            finalColor = pow(finalColor, vec3(0.9));
-            finalColor *= 1.3;
-            
-            gl_FragColor = vec4(finalColor, opacity + fresnel * 0.1);
+            gl_FragColor = vec4(base_color, opacity);
           }
         `,
         transparent: true,
