@@ -1678,8 +1678,8 @@ html {
 
     /* Enable 3D transforms and spin */
     transform-style: preserve-3d;
-    animation: orb-spin 20s ease-in-out infinite;
-    -webkit-animation: orb-spin 20s ease-in-out infinite;
+    animation: orb-spin 60s linear infinite;
+    -webkit-animation: orb-spin 60s linear infinite;
 
     position: relative;
   }
@@ -1738,20 +1738,14 @@ html {
     }
   }
 
-  /* Keyframes for new orb spin - proper spherical rotation */
+  /* Keyframes for smooth 3D orb rotation */
   @keyframes orb-spin {
-    0% { transform: rotateX(15deg) rotateY(0deg) rotateZ(5deg); }
-    25% { transform: rotateX(10deg) rotateY(90deg) rotateZ(10deg); }
-    50% { transform: rotateX(20deg) rotateY(180deg) rotateZ(5deg); }
-    75% { transform: rotateX(5deg) rotateY(270deg) rotateZ(15deg); }
-    100% { transform: rotateX(15deg) rotateY(360deg) rotateZ(5deg); }
+    0% { transform: rotateX(-10deg) rotateY(0deg); }
+    100% { transform: rotateX(-10deg) rotateY(360deg); }
   }
   @-webkit-keyframes orb-spin {
-    0% { -webkit-transform: rotateX(15deg) rotateY(0deg) rotateZ(5deg); }
-    25% { -webkit-transform: rotateX(10deg) rotateY(90deg) rotateZ(10deg); }
-    50% { -webkit-transform: rotateX(20deg) rotateY(180deg) rotateZ(5deg); }
-    75% { -webkit-transform: rotateX(5deg) rotateY(270deg) rotateZ(15deg); }
-    100% { -webkit-transform: rotateX(15deg) rotateY(360deg) rotateZ(5deg); }
+    0% { -webkit-transform: rotateX(-10deg) rotateY(0deg); }
+    100% { -webkit-transform: rotateX(-10deg) rotateY(360deg); }
   }
 
   /* Keyframes for highlight drift */
