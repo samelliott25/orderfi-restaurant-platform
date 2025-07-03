@@ -75,8 +75,11 @@ export default function OrderFiNew() {
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [orbPosition, setOrbPosition] = useState({ x: 50, y: 90 });
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Array<{id: string, text: string, isUser: boolean, timestamp: Date}>>([]);
+  const [currentInput, setCurrentInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const orbChatEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { theme } = useTheme();
   
@@ -90,6 +93,62 @@ export default function OrderFiNew() {
     window.scrollTo({ top: 0, behavior: 'instant' });
     setIsPageLoaded(true);
   }, []);
+
+  // Mobile keyboard detection
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleResize = () => {
+      const viewportHeight = window.visualViewport?.height || window.innerHeight;
+      const windowHeight = window.screen.height;
+      const keyboardThreshold = windowHeight * 0.75;
+      
+      setIsKeyboardOpen(viewportHeight < keyboardThreshold);
+    };
+
+    window.visualViewport?.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const handleOrbChatMessage = () => {
+    if (!currentInput.trim()) return;
+    
+    const userMessage = {
+      id: Date.now().toString(),
+      text: currentInput,
+      isUser: true,
+      timestamp: new Date()
+    };
+    
+    setChatMessages(prev => [...prev, userMessage]);
+    setCurrentInput('');
+    
+    // Auto-scroll to bottom
+    setTimeout(() => {
+      orbChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+    
+    // Simulate AI response
+    setTimeout(() => {
+      const aiResponse = {
+        id: (Date.now() + 1).toString(),
+        text: "Thanks for your message! I'm here to help you with your order.",
+        isUser: false,
+        timestamp: new Date()
+      };
+      setChatMessages(prev => [...prev, aiResponse]);
+      
+      // Auto-scroll after AI response
+      setTimeout(() => {
+        orbChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }, 1000);
+  };
 
   // Get menu items and restaurant data
   const { data: menuItems = [] } = useQuery({
@@ -418,7 +477,7 @@ export default function OrderFiNew() {
 
       {/* Revolutionary Sentient Orb Experience */}
       {isChatExpanded && (
-        <div className="fixed inset-0 z-[8000] flex items-center justify-center animate-in fade-in duration-300">
+        <div className={`fixed inset-0 z-[8000] flex items-center justify-center animate-in fade-in duration-300 ${isKeyboardOpen ? 'items-start pt-20' : 'items-center'}`}>
           {/* Blurred Background */}
           <div className="absolute inset-0 looking-glass-background"></div>
           
@@ -508,12 +567,46 @@ export default function OrderFiNew() {
               <div className="orb-energy-particle" style={{ top: '40%', left: '5%', animationDelay: '4.2s' }}></div>
             </div>
             
-            {/* Static Text Overlay - Completely Outside Rotating Orb */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[300]">
-              <div className="text-center text-white">
-                <div className="text-lg font-bold mb-2 looking-glass-text">Welcome to OrderFi</div>
-                <div className="text-sm opacity-90 looking-glass-text">Your AI restaurant assistant</div>
-                <div className="text-xs mt-3 opacity-80 looking-glass-text">What would you like to order today?</div>
+            {/* Chat Messages Scrollable Area Within Orb */}
+            <div className="absolute inset-8 flex flex-col pointer-events-auto z-[300] rounded-full overflow-hidden">
+              {/* Messages Area */}
+              <div className="flex-1 overflow-y-auto px-4 py-2 space-y-2 scrollbar-hide">
+                {chatMessages.length === 0 ? (
+                  <div className="text-center text-white py-8">
+                    <div className="text-lg font-bold mb-2 looking-glass-text">Welcome to OrderFi</div>
+                    <div className="text-sm opacity-90 looking-glass-text">Your AI restaurant assistant</div>
+                    <div className="text-xs mt-3 opacity-80 looking-glass-text">What would you like to order today?</div>
+                  </div>
+                ) : (
+                  <>
+                    {chatMessages.map((message) => (
+                      <div key={message.id} className={`p-2 rounded-lg max-w-[80%] ${message.isUser ? 'ml-auto bg-orange-500/80 text-white' : 'mr-auto bg-white/20 text-white'}`}>
+                        <div className="text-sm">{message.text}</div>
+                      </div>
+                    ))}
+                    <div ref={orbChatEndRef} />
+                  </>
+                )}
+              </div>
+              
+              {/* Input Area */}
+              <div className="p-4 border-t border-white/20">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={currentInput}
+                    onChange={(e) => setCurrentInput(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleOrbChatMessage()}
+                    placeholder="Type your message..."
+                    className="flex-1 px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                  <Button
+                    onClick={handleOrbChatMessage}
+                    className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm"
+                  >
+                    Send
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
