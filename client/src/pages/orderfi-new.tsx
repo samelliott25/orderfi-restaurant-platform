@@ -301,7 +301,7 @@ export default function OrderFiNew() {
         </div>
       </div>
 
-      <ScrollArea className="flex-1 pb-20 border-none" style={{ height: 'calc(100vh - 140px)' }}>
+      <ScrollArea className="flex-1 border-none" style={{ height: 'calc(100vh - 80px)' }}>
         <div className="space-y-4 py-4 px-4">
           {/* Quick Actions */}
           <div>
@@ -480,7 +480,7 @@ export default function OrderFiNew() {
       )}
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-4 left-0 right-0 bg-transparent pointer-events-none">
+      <div className="fixed bottom-0 left-0 right-0 bg-transparent pointer-events-none">
         {/* Sentient AI Orb - Fixed center position */}
         <div className={`flex justify-center pointer-events-auto z-[200] ${
           isAnimating ? 'animate-morph-to-center' : ''
@@ -490,7 +490,7 @@ export default function OrderFiNew() {
             className={`w-16 h-16 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 ${
               isAnimating ? 'pointer-events-none' : ''
             }`}
-            style={{ transform: 'translateY(0px)' }}
+            style={{ transform: 'translateY(-8px)' }}
           >
             {/* Tiny rotating stars positioned around the orb */}
             <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
