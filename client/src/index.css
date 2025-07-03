@@ -260,34 +260,36 @@
   @keyframes morph-to-center {
     0% {
       transform: translateY(-2rem) scale(1);
-      width: 76px;
-      height: 76px;
       border-radius: 50%;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
     }
-    40% {
-      transform: translateY(-45vh) scale(1.8);
-      width: 76px;
-      height: 76px;
+    25% {
+      transform: translateY(-15vh) scale(1.5);
       border-radius: 50%;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
     }
-    70% {
-      transform: translateY(-45vh) scale(2.5);
-      width: 150px;
-      height: 150px;
+    50% {
+      transform: translateY(-30vh) scale(2);
+      border-radius: 40%;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
+    }
+    75% {
+      transform: translateY(-45vh) scale(5);
       border-radius: 20%;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
     }
     100% {
-      transform: translateY(-45vh) scale(15);
-      width: 150px;
-      height: 150px;
+      transform: translateY(-45vh) scale(20);
       border-radius: 0;
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
     }
   }
 
   .animate-morph-to-center {
-    animation: morph-to-center 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: morph-to-center 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
     transform-origin: center !important;
     z-index: 9999 !important;
+    position: relative !important;
   }
 
   :root {
