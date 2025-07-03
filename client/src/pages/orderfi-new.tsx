@@ -303,25 +303,30 @@ export default function OrderFiNew() {
 
       <ScrollArea className="flex-1 border-none" style={{ height: 'calc(100vh - 80px)' }}>
         <div className="space-y-4 py-4 px-4">
-          {/* Quick Actions */}
+          {/* Token Rewards */}
           <div>
-            <h3 className="section-heading mb-3">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-3">
-              {quickActions.map((action, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="slick-button elevated-card relative flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 transition-all duration-200 active:scale-95 overflow-hidden group"
-                  onClick={action.action}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-orange-500/0 group-hover:from-orange-400/10 group-hover:to-orange-500/15 transition-all duration-300 rounded-md"></div>
-                  <div className="relative z-10 text-orange-500 scale-110 group-hover:text-orange-600 transition-colors duration-200">
-                    {action.icon}
+            <Card 
+              className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0 cursor-pointer hover:scale-105 transition-transform duration-200 relative z-0"
+              onClick={() => setLocation('/tokenrewards')}
+            >
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold text-lg">OrderFi Tokens</h3>
+                    <p className="text-2xl font-bold mt-1">{availableTokens.toLocaleString()}</p>
+                    <p className="text-xs opacity-90 mt-1">Available Tokens</p>
                   </div>
-                  <span className="relative z-10 text-xs font-semibold text-foreground group-hover:text-orange-700 transition-colors duration-200">{action.label}</span>
-                </Button>
-              ))}
-            </div>
+                  <div className="text-right">
+                    <Button variant="secondary" size="sm" className="bg-white/20 hover:bg-white/30 text-white border-0">
+                      Redeem
+                    </Button>
+                  </div>
+                </div>
+                <div className="mt-3 pt-3 border-t border-white/20">
+                  <p className="text-xs opacity-90">Earn tokens with every order • 1 token = $0.10</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Today's Specials */}
@@ -348,30 +353,25 @@ export default function OrderFiNew() {
             </div>
           </div>
 
-          {/* Token Rewards */}
+          {/* Quick Actions */}
           <div className="mt-8">
-            <Card 
-              className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0 cursor-pointer hover:scale-105 transition-transform duration-200 relative z-0"
-              onClick={() => setLocation('/tokenrewards')}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="font-bold text-lg">OrderFi Tokens</h3>
-                    <p className="text-2xl font-bold mt-1">{availableTokens.toLocaleString()}</p>
-                    <p className="text-xs opacity-90 mt-1">Available Tokens</p>
+            <h3 className="section-heading mb-3">Quick Actions</h3>
+            <div className="grid grid-cols-2 gap-3">
+              {quickActions.map((action, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="slick-button elevated-card relative flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 transition-all duration-200 active:scale-95 overflow-hidden group"
+                  onClick={action.action}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-orange-500/0 group-hover:from-orange-400/10 group-hover:to-orange-500/15 transition-all duration-300 rounded-md"></div>
+                  <div className="relative z-10 text-orange-500 scale-110 group-hover:text-orange-600 transition-colors duration-200">
+                    {action.icon}
                   </div>
-                  <div className="text-right">
-                    <Button variant="secondary" size="sm" className="bg-white/20 hover:bg-white/30 text-white border-0">
-                      Redeem
-                    </Button>
-                  </div>
-                </div>
-                <div className="mt-3 pt-3 border-t border-white/20">
-                  <p className="text-xs opacity-90">Earn tokens with every order • 1 token = $0.10</p>
-                </div>
-              </CardContent>
-            </Card>
+                  <span className="relative z-10 text-xs font-semibold text-foreground group-hover:text-orange-700 transition-colors duration-200">{action.label}</span>
+                </Button>
+              ))}
+            </div>
           </div>
 
           {/* Recent Orders */}
