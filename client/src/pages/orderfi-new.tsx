@@ -415,7 +415,7 @@ export default function OrderFiNew() {
 
       {/* Revolutionary Sentient Orb Experience */}
       {isChatExpanded && (
-        <div className="fixed inset-0 z-[8000] flex items-center justify-center bg-black/30 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[8000] flex items-center justify-center bg-black/30 backdrop-blur-sm animate-in fade-in duration-300">
           {/* Close Button */}
           <Button 
             variant="ghost" 
@@ -430,7 +430,7 @@ export default function OrderFiNew() {
           <div className="relative">
             {/* Main Orb */}
             <div 
-              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer"
+              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform"
               style={{
                 background: `
                   radial-gradient(circle at 20% 30%, #f97316 0%, transparent 40%),

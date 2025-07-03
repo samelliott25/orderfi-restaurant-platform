@@ -311,6 +311,22 @@
     50% { transform: translateY(-10px); opacity: 1; }
   }
 
+  /* Chat orb exit animation */
+  @keyframes orb-exit {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+
+  .animate-orb-exit {
+    animation: orb-exit 0.3s ease-in forwards;
+  }
+
   @keyframes cosmic-atmosphere {
     0%, 100% {
       background-position: 0% 50%, 100% 20%, 0% 80%, 50% 100%;
