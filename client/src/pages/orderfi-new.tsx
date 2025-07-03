@@ -269,7 +269,7 @@ export default function OrderFiNew() {
   return (
     <div className={`min-h-screen bg-background transition-opacity duration-700 ease-in-out overflow-x-hidden ${
       isPageLoaded ? 'opacity-100' : 'opacity-0'
-    }`}>
+    }`} style={{ backgroundColor: 'rgb(252, 248, 238)' }}>
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-card border-b border-border">
         <div className="flex items-center gap-3">
@@ -301,7 +301,7 @@ export default function OrderFiNew() {
         </div>
       </div>
 
-      <ScrollArea className="flex-1 pb-2 border-none" style={{ height: 'calc(100vh - 140px)' }}>
+      <ScrollArea className="flex-1 pb-20 border-none" style={{ height: 'calc(100vh - 140px)' }}>
         <div className="space-y-4 py-4 px-4">
           {/* Quick Actions */}
           <div>
