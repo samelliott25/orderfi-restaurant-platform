@@ -432,13 +432,40 @@ export default function OrderFiNew() {
             <div 
               className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer"
               style={{
-                background: 'radial-gradient(circle at 30% 30%, rgba(255, 200, 100, 0.9) 0%, rgba(255, 150, 0, 0.8) 30%, rgba(255, 100, 100, 0.7) 60%, rgba(200, 50, 255, 0.6) 100%)',
-                boxShadow: '0 0 100px rgba(255, 150, 0, 0.5), 0 0 200px rgba(255, 100, 100, 0.3), 0 0 300px rgba(200, 50, 255, 0.2)',
-                animation: 'sentient-pulse 4s ease-in-out infinite'
+                background: `
+                  radial-gradient(circle at 20% 30%, #f97316 0%, transparent 40%),
+                  radial-gradient(circle at 80% 70%, #ec4899 0%, transparent 35%),
+                  radial-gradient(circle at 60% 20%, #fb923c 0%, transparent 45%),
+                  radial-gradient(circle at 30% 80%, #db2777 0%, transparent 30%),
+                  conic-gradient(
+                    from 45deg at 40% 60%,
+                    #f97316 0deg,
+                    #fb923c 60deg,
+                    #ec4899 120deg,
+                    #db2777 180deg,
+                    #be185d 240deg,
+                    #ec4899 300deg,
+                    #f97316 360deg
+                  ),
+                  linear-gradient(
+                    135deg,
+                    #f97316 0%,
+                    #fb923c 25%,
+                    #ec4899 50%,
+                    #db2777 75%,
+                    #be185d 100%
+                  )
+                `,
+                backgroundSize: '300% 300%, 250% 250%, 400% 400%, 350% 350%, 200% 200%, 150% 150%',
+                boxShadow: `
+                  inset 0 0 20px rgba(255, 255, 255, 0.3),
+                  0 0 40px rgba(249, 115, 22, 0.8),
+                  0 0 80px rgba(236, 72, 153, 0.6),
+                  0 0 120px rgba(219, 39, 119, 0.4)
+                `,
+                animation: 'sentient-pulse 4s ease-in-out infinite, marble-flow 12s ease-in-out infinite, fluid-shift 8s linear infinite, planetary-rotation 20s linear infinite'
               }}
             >
-              {/* Liquid Interior */}
-              <div className="absolute inset-4 rounded-full bg-gradient-to-br from-orange-300/60 to-purple-500/60 animate-pulse"></div>
               
 
               
