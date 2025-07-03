@@ -415,7 +415,9 @@ export default function OrderFiNew() {
 
       {/* Chat Interface - Full Screen Morphed Orb */}
       {isChatExpanded && (
-        <div className="fixed inset-0 z-[8000] sentient-orb-fullscreen">
+        <div className="fixed inset-0 z-[8000]" style={{
+          background: 'radial-gradient(circle at center, rgb(255, 150, 0) 0%, rgb(255, 100, 100) 25%, rgb(200, 50, 255) 50%, rgb(100, 0, 200) 75%, rgb(0, 0, 0) 100%)'
+        }}>
           {/* Floating Chat Interface */}
           <div className="relative z-10 flex flex-col h-full">
             {/* Chat Header */}
