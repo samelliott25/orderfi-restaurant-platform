@@ -329,7 +329,7 @@ export default function OrderFiNew() {
             <h3 className="section-heading mb-3">Today's Specials</h3>
             <div className="space-y-3">
               {todaysSpecials.map((special) => (
-                <Card key={special.id} className="elevated-card border-border">
+                <Card key={special.id} className="bg-transparent border-orange-200/30 backdrop-blur-sm">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
@@ -379,7 +379,7 @@ export default function OrderFiNew() {
             <h3 className="section-heading mb-3">Recent Orders</h3>
             <div className="space-y-3">
               {recentOrders.map((order) => (
-                <Card key={order.id} className="elevated-card border-border">
+                <Card key={order.id} className="bg-transparent border-orange-200/30 backdrop-blur-sm">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
