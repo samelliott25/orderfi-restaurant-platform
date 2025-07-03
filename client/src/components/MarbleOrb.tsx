@@ -218,12 +218,12 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
             float marble_region = (chaos1 + chaos2) * 0.5;
             marble_region = smoothstep(-0.3, 0.8, marble_region);
             
-            // OrderFi brand colors - rich orange to magenta
-            vec3 deep_orange = vec3(0.98, 0.42, 0.09);     // #F96B17 - OrderFi Orange
-            vec3 hot_pink = vec3(0.93, 0.28, 0.58);        // #EC4893 - OrderFi Pink  
-            vec3 magenta = vec3(0.86, 0.15, 0.47);         // #DB2777 - Deep Magenta
-            vec3 light_orange = vec3(0.99, 0.57, 0.23);    // Lighter orange for veins
-            vec3 white_veins = vec3(0.9, 0.85, 0.8);       // Subtle white veins
+            // OrderFi brand colors - saturated and true to brand
+            vec3 deep_orange = vec3(0.85, 0.25, 0.05);     // Deeper, richer orange
+            vec3 hot_pink = vec3(0.75, 0.15, 0.45);        // Deeper pink
+            vec3 magenta = vec3(0.65, 0.08, 0.35);         // Rich magenta
+            vec3 light_orange = vec3(0.95, 0.35, 0.15);    // Orange for veins
+            vec3 accent_veins = vec3(0.90, 0.45, 0.65);    // Pink accent veins
             
             // Base marble pattern using OrderFi colors
             vec3 base_marble = mix(deep_orange, hot_pink, marble_region);
@@ -233,9 +233,9 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
             float vein_pattern = smoothstep(0.4, 0.8, vein1) * smoothstep(0.5, 0.9, vein2);
             base_marble = mix(base_marble, light_orange, vein_pattern * 0.7);
             
-            // Add fine white marble veins
+            // Add fine accent veins
             float fine_veins = smoothstep(0.8, 0.95, vein3) * smoothstep(0.7, 0.9, vein1);
-            base_marble = mix(base_marble, white_veins, fine_veins * 0.4);
+            base_marble = mix(base_marble, accent_veins, fine_veins * 0.3);
             
             // Add random marble streaks
             float streaks = abs(sin(chaos1 * 8.0 + chaos2 * 6.0));
@@ -260,9 +260,9 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
             float rim = pow(1.0 - radius, 3.0);
             base_marble += deep_orange * rim * 0.3;
             
-            // Final color enhancement
-            base_marble = pow(base_marble, vec3(0.8)); // Gamma correction
-            base_marble *= 1.4; // Increase overall brightness
+            // Final color enhancement - keep true colors
+            base_marble = pow(base_marble, vec3(0.95)); // Minimal gamma correction
+            base_marble *= 1.1; // Slight brightness boost
             
             gl_FragColor = vec4(base_marble, opacity);
           }
