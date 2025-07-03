@@ -191,55 +191,80 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
           void main() {
             vec2 uv = (vPos.xy + 1.0) * 0.5;
             vec3 pos = vPos;
-            float time_slow = time * 0.3;
+            float t = time * 0.4;
             
-            // Create flowing marble veins by distorting coordinates
-            vec2 distorted = uv;
-            distorted.x += sin(uv.y * 8.0 + time_slow) * 0.1;
-            distorted.y += cos(uv.x * 6.0 + time_slow * 0.8) * 0.08;
+            // Create complex swirling marble distortions
+            vec2 swirl1 = uv + vec2(
+              sin(uv.y * 6.0 + t * 2.0) * 0.15,
+              cos(uv.x * 5.0 + t * 1.5) * 0.12
+            );
             
-            // Multiple layers of marble veining
-            float vein1 = abs(sin(distorted.x * 12.0 + sin(distorted.y * 8.0) * 2.0));
-            float vein2 = abs(sin(distorted.y * 10.0 + cos(distorted.x * 6.0) * 1.5));
-            float vein3 = abs(sin((distorted.x + distorted.y) * 15.0));
+            vec2 swirl2 = uv + vec2(
+              cos(uv.x * 8.0 + sin(uv.y * 4.0) + t * 1.8) * 0.1,
+              sin(uv.y * 7.0 + cos(uv.x * 3.0) + t * 2.2) * 0.08
+            );
             
-            // Create marble regions
-            float marble_base = smoothstep(0.3, 0.7, vein1);
-            float marble_veins = smoothstep(0.6, 0.9, vein2) * smoothstep(0.7, 0.95, vein3);
+            // Random marble chaos using multiple noise layers
+            float chaos1 = snoise(vec3(swirl1 * 8.0, t * 0.5));
+            float chaos2 = snoise(vec3(swirl2 * 12.0, t * 0.3));
+            float chaos3 = snoise(vec3(uv * 15.0 + chaos1 * 0.5, t * 0.7));
             
-            // Orange and magenta marble colors
-            vec3 orange_marble = vec3(1.0, 0.5, 0.1);
-            vec3 magenta_marble = vec3(0.8, 0.2, 0.5);
-            vec3 white_veins = vec3(0.95, 0.9, 0.85);
-            vec3 dark_veins = vec3(0.3, 0.1, 0.2);
+            // Swirling marble veins
+            float vein1 = abs(sin(swirl1.x * 10.0 + chaos1 * 3.0));
+            float vein2 = abs(cos(swirl2.y * 12.0 + chaos2 * 2.5));
+            float vein3 = abs(sin((swirl1.x + swirl2.y) * 8.0 + chaos3 * 4.0));
             
-            // Build marble texture
-            vec3 base_color = mix(orange_marble, magenta_marble, marble_base);
+            // Random marble regions
+            float marble_region = (chaos1 + chaos2) * 0.5;
+            marble_region = smoothstep(-0.3, 0.8, marble_region);
             
-            // Add white veining
-            base_color = mix(base_color, white_veins, marble_veins * 0.8);
+            // OrderFi brand colors - rich orange to magenta
+            vec3 deep_orange = vec3(0.98, 0.42, 0.09);     // #F96B17 - OrderFi Orange
+            vec3 hot_pink = vec3(0.93, 0.28, 0.58);        // #EC4893 - OrderFi Pink  
+            vec3 magenta = vec3(0.86, 0.15, 0.47);         // #DB2777 - Deep Magenta
+            vec3 light_orange = vec3(0.99, 0.57, 0.23);    // Lighter orange for veins
+            vec3 white_veins = vec3(0.9, 0.85, 0.8);       // Subtle white veins
             
-            // Add dark accent veins
-            float dark_veins_pattern = smoothstep(0.85, 0.95, vein1) * smoothstep(0.8, 0.9, vein2);
-            base_color = mix(base_color, dark_veins, dark_veins_pattern * 0.6);
+            // Base marble pattern using OrderFi colors
+            vec3 base_marble = mix(deep_orange, hot_pink, marble_region);
+            base_marble = mix(base_marble, magenta, marble_region * 0.6);
             
-            // Add surface variations for realism
-            float surface_noise = snoise(pos * 20.0 + vec3(time_slow, 0.0, 0.0)) * 0.1;
-            base_color += surface_noise;
+            // Add swirling veins with varying thickness
+            float vein_pattern = smoothstep(0.4, 0.8, vein1) * smoothstep(0.5, 0.9, vein2);
+            base_marble = mix(base_marble, light_orange, vein_pattern * 0.7);
             
-            // Lighting calculations
+            // Add fine white marble veins
+            float fine_veins = smoothstep(0.8, 0.95, vein3) * smoothstep(0.7, 0.9, vein1);
+            base_marble = mix(base_marble, white_veins, fine_veins * 0.4);
+            
+            // Add random marble streaks
+            float streaks = abs(sin(chaos1 * 8.0 + chaos2 * 6.0));
+            streaks = smoothstep(0.6, 0.9, streaks);
+            base_marble = mix(base_marble, mix(deep_orange, magenta, 0.7), streaks * 0.5);
+            
+            // Depth and radius effects
+            float radius = length(pos.xy);
+            float depth_fade = 1.0 - smoothstep(0.0, 0.9, radius);
+            base_marble *= (depth_fade * 0.5 + 0.5);
+            
+            // Enhanced lighting for marble polish
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(vViewDir);
-            float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 2.0);
+            float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 1.5);
             
-            // Marble shine and polish
-            float specular = pow(max(dot(reflect(-viewDir, normal), normalize(vec3(1.0, 1.0, 1.0))), 0.0), 32.0);
-            base_color += vec3(1.0, 1.0, 1.0) * specular * 0.3;
+            // Marble highlights using OrderFi colors
+            vec3 marble_highlight = mix(light_orange, hot_pink, marble_region) * fresnel * 0.6;
+            base_marble += marble_highlight;
             
-            // Fresnel rim lighting
-            base_color += fresnel * vec3(1.0, 0.8, 0.6) * 0.4;
+            // Subtle rim glow in OrderFi orange
+            float rim = pow(1.0 - radius, 3.0);
+            base_marble += deep_orange * rim * 0.3;
             
-            gl_FragColor = vec4(base_color, opacity);
+            // Final color enhancement
+            base_marble = pow(base_marble, vec3(0.8)); // Gamma correction
+            base_marble *= 1.4; // Increase overall brightness
+            
+            gl_FragColor = vec4(base_marble, opacity);
           }
         `,
         transparent: true,
