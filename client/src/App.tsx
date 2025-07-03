@@ -14,6 +14,7 @@ import OrderFiSimple from "./pages/orderfi-simple";
 import TokenRewardsPage from "@/pages/tokenrewards";
 import NetworkPage from "@/pages/network";
 import NotFound from "@/pages/not-found";
+import TestThree from "@/pages/test-three";
 import { useEffect, useState } from "react";
 
 // Keep only essential admin pages for dashboard integration
@@ -90,6 +91,7 @@ function Router() {
         <Route path="/tokenrewards" component={TokenRewardsPage} />
         <Route path="/network" component={NetworkPage} />
         <Route path="/web3-order" component={Web3DappPage} />
+        <Route path="/test-three" component={TestThree} />
         
         {/* Back Office Dashboard */}
         <Route path="/dashboard" component={RestaurantDashboard} />
