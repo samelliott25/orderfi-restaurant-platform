@@ -445,14 +445,14 @@ export default function OrderFiNew() {
         } transition-opacity duration-300`}>
           <div className="w-full h-full max-w-4xl max-h-4xl shadow-2xl border border-orange-200/20 backdrop-blur-sm flex flex-col m-8 bg-transparent relative overflow-hidden"
           style={{
-            borderRadius: '2rem 2rem 50% 50%'
+            borderRadius: '1.5rem 1.5rem 100% 100%'
           }}
           onClick={(e) => e.stopPropagation()}>
           
           {/* Morphed Orb Background - positioned behind chat content */}
           {isChatExpanded && (
-            <div className="absolute inset-0 z-0 overflow-hidden" style={{ borderRadius: '2rem 2rem 50% 50%' }}>
-              <div className="w-full h-full sentient-orb" style={{ borderRadius: '2rem 2rem 50% 50%' }}>
+            <div className="absolute inset-0 z-0 overflow-hidden" style={{ borderRadius: '1.5rem 1.5rem 100% 100%' }}>
+              <div className="w-full h-full sentient-orb" style={{ borderRadius: '1.5rem 1.5rem 100% 100%' }}>
                 {/* Tiny rotating stars positioned around the background */}
                 <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
                   {/* 6 tiny stars positioned strategically */}
@@ -483,7 +483,7 @@ export default function OrderFiNew() {
           )}
           
           {/* Chat Header */}
-          <div className="flex items-center justify-between p-6 relative z-10 bg-black/20 backdrop-blur-sm" style={{ borderRadius: '2rem 2rem 0 0' }}>
+          <div className="flex items-center justify-between p-6 relative z-10 bg-black/20 backdrop-blur-sm" style={{ borderRadius: '1.5rem 1.5rem 0 0' }}>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-green-400 rounded-full"></div>
               <span className="text-sm font-medium text-white">AI Assistant</span>
@@ -562,7 +562,7 @@ export default function OrderFiNew() {
           </div>
           
           {/* Chat Input */}
-          <div className="p-6 relative z-10 bg-black/20 backdrop-blur-sm" style={{ borderRadius: '0 0 50% 50%' }}>
+          <div className="p-6 relative z-10 bg-black/20 backdrop-blur-sm" style={{ borderRadius: '0 0 100% 100%' }}>
             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-2">
               <Button
                 size="sm"
