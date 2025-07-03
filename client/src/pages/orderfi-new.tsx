@@ -862,120 +862,14 @@ export default function OrderFiNew() {
                   </div>
                 ) : (
                   <div className="text-center space-y-8">
-                    <div className="text-white/90 text-2xl font-light tracking-wide looking-glass-text">
-                      What brings you here?
-                    </div>
-                    
-                    {/* Designer-grade action grid */}
-                    <div className="grid grid-cols-2 gap-4 max-w-[220px] mx-auto">
-                      <button
-                        onClick={() => handleProactiveAction('show-menu')}
-                        className="aspect-square bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white text-xs font-medium backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] flex flex-col items-center justify-center gap-1"
-                      >
-                        <span className="text-lg">🍽</span>
-                        <span>Menu</span>
-                      </button>
-                      <button
-                        onClick={() => handleProactiveAction('recommend')}
-                        className="aspect-square bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white text-xs font-medium backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] flex flex-col items-center justify-center gap-1"
-                      >
-                        <span className="text-lg">✨</span>
-                        <span>Surprise</span>
-                      </button>
-                      <button
-                        onClick={() => handleProactiveAction('specials')}
-                        className="aspect-square bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white text-xs font-medium backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] flex flex-col items-center justify-center gap-1"
-                      >
-                        <span className="text-lg">⭐</span>
-                        <span>Special</span>
-                      </button>
-                      <button
-                        onClick={() => handleProactiveAction('popular')}
-                        className="aspect-square bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white text-xs font-medium backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] flex flex-col items-center justify-center gap-1"
-                      >
-                        <span className="text-lg">🔥</span>
-                        <span>Popular</span>
-                      </button>
-                    </div>
-                    
-                    {/* Secondary actions */}
-                    <div className="flex justify-center gap-3">
-                      <button
-                        onClick={() => handleProactiveAction('quick-order')}
-                        className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 rounded-full text-white text-xs font-light backdrop-blur-sm transition-all duration-300"
-                      >
-                        Quick Order
-                      </button>
-                      <button
-                        onClick={() => handleProactiveAction('dietary')}
-                        className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 rounded-full text-white text-xs font-light backdrop-blur-sm transition-all duration-300"
-                      >
-                        Dietary
-                      </button>
-                    </div>
+                    {/* Clean minimal interface - just the orb */}
                   </div>
                 )}
                 
-                {/* Navigation Arrows */}
-                {chatMessages.length > 1 && (
-                  <>
-                    {currentMessageIndex > 0 && (
-                      <Button
-                        onClick={handlePreviousMessage}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white p-0 text-lg"
-                      >
-                        ↑
-                      </Button>
-                    )}
-                    {currentMessageIndex < chatMessages.length - 1 && (
-                      <Button
-                        onClick={handleNextMessage}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white p-0 text-lg"
-                      >
-                        ↓
-                      </Button>
-                    )}
-                  </>
-                )}
-                
-                {/* Message Counter */}
-                {chatMessages.length > 0 && (
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/70 text-xs">
-                    {currentMessageIndex + 1} of {chatMessages.length}
-                  </div>
-                )}
+
               </div>
               
-              {/* Gesture Guide */}
-              <div className="p-6 bg-black/20 backdrop-blur-sm border-t border-white/20">
-                <div className="text-center space-y-4">
-                  <div className="text-white/80 text-sm mb-4">Interact directly with the orb</div>
-                  <div className="grid grid-cols-2 gap-3 text-xs text-white/70">
-                    <div className="p-2 bg-white/10 rounded-lg">
-                      👆 Tap<br/>Type Message
-                    </div>
-                    <div className="p-2 bg-white/10 rounded-lg">
-                      🔒 Hold<br/>Voice Record
-                    </div>
-                    <div className="p-2 bg-white/10 rounded-lg">
-                      ↓ Swipe Down<br/>Close Chat
-                    </div>
-                    <div className="p-2 bg-white/10 rounded-lg">
-                      → Swipe Right<br/>Add to Cart
-                    </div>
-                  </div>
-                  {isRecording && (
-                    <div className="text-orange-200 text-sm animate-pulse">
-                      🎙️ Recording... speak now
-                    </div>
-                  )}
-                  {isHolding && !isRecording && (
-                    <div className="text-purple-200 text-sm animate-pulse">
-                      Hold to start recording...
-                    </div>
-                  )}
-                </div>
-              </div>
+
             </div>
           </div>
         </div>

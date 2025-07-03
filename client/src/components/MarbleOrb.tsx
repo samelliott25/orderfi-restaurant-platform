@@ -145,12 +145,13 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
       // Create sphere geometry with high resolution for smooth marble
       const geometry = new THREE.SphereGeometry(1, 256, 256);
       
-      // Define uniforms for the marble shader
+      // Define uniforms for the cosmic orb shader
       const uniforms = {
         time: { value: 0 },
-        color1: { value: new THREE.Color(0xFF8A00) }, // Orange
-        color2: { value: new THREE.Color(0xFF1493) }, // Deep Pink
+        color1: { value: new THREE.Color(0xFF6B00) }, // OrderFi Orange
+        color2: { value: new THREE.Color(0xFF1493) }, // Hot Pink
         color3: { value: new THREE.Color(0x8A2BE2) }, // Purple
+        opacity: { value: 0.85 },
       };
 
       // Advanced marble shader material
@@ -183,75 +184,91 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
           uniform vec3 color1;
           uniform vec3 color2;
           uniform vec3 color3;
+          uniform float opacity;
           
           ${NOISE_FUNC}
           
+          // Improved noise function for smoother patterns
+          float fbm(vec3 x) {
+            float v = 0.0;
+            float a = 0.5;
+            vec3 shift = vec3(100);
+            for (int i = 0; i < 6; ++i) {
+              v += a * snoise(x);
+              x = x * 2.0 + shift;
+              a *= 0.5;
+            }
+            return v;
+          }
+          
           void main() {
-            // Create flowing marble veining with time-based animation
-            vec3 p = vPos * 2.0;
+            // Create flowing energy streams like the original orb
+            vec2 uv = (vPos.xy + 1.0) * 0.5;
+            vec3 p = vPos;
+            float t = time * 0.8;
             
-            // Add dramatic flowing motion to create swirling marble veins
-            vec3 flow1 = p + vec3(time * 1.2, time * 0.8, time * 0.6);
-            vec3 flow2 = p + vec3(-time * 0.9, time * 1.1, -time * 0.7);
-            vec3 flow3 = p + vec3(time * 0.7, -time * 1.0, time * 1.3);
+            // Layer 1: Flowing energy streams using FBM
+            vec3 flowUV = p + vec3(sin(t * 2.0 + p.y * 10.0) * 0.1, cos(t * 1.5 + p.x * 8.0) * 0.08, 0.0);
+            float flow = fbm(flowUV * 4.0 + t * 0.5);
             
-            // Create multiple scales of flowing veins
-            float n1 = snoise(flow1 * 1.0);
-            float n2 = snoise(flow2 * 2.0);
-            float n3 = snoise(flow3 * 3.0);
-            float n4 = snoise(p * 6.0 + time * 2.0);
+            // Layer 2: Plasma-like electric fields
+            float plasma = sin(p.x * 15.0 + t * 3.0) * cos(p.y * 12.0 + t * 2.5);
+            plasma += sin(length(p.xy) * 20.0 - t * 4.0) * 0.5;
+            plasma = (plasma + 1.0) * 0.5;
             
-            // Create dramatic swirling patterns
-            float swirl = sin(time * 1.5 + n1 * 3.14159);
-            vec3 swirledPos = p + vec3(swirl * 0.3, cos(time * 1.2) * 0.3, sin(time * 0.8) * 0.3);
-            float swirledNoise = snoise(swirledPos * 2.0);
+            // Layer 3: Spiral galaxy arms
+            float angle = atan(p.y, p.x);
+            float radius = length(p.xy);
+            float spiral = sin(angle * 3.0 + radius * 15.0 - t * 2.0) * exp(-radius * 2.0);
+            spiral = (spiral + 1.0) * 0.5;
             
-            // Combine all noise layers for complex marble veining
-            float vein = (n1 + n2 * 0.7 + n3 * 0.5 + n4 * 0.3 + swirledNoise * 0.6);
-            vein = (vein + 2.0) * 0.25; // Normalize and adjust contrast
+            // Layer 4: Neural network synapses
+            float neural = snoise(p * 20.0 + vec3(t * 0.6, -t * 0.4, 0.0));
+            neural *= smoothstep(0.7, 0.9, neural);
             
-            // Create sharp, flowing marble veins
-            float veinPattern = smoothstep(0.2, 0.8, vein);
-            float darkVeins = smoothstep(0.4, 0.6, vein);
-            float lightVeins = smoothstep(0.1, 0.3, vein) + smoothstep(0.7, 0.9, vein);
+            // Dynamic color palette that shifts over time
+            vec3 dynamicColor1 = color1 * (1.0 + sin(t * 0.8) * 0.2);
+            vec3 dynamicColor2 = color2 * (1.0 + sin(t * 1.1) * 0.3);
+            vec3 dynamicColor3 = color3 * (1.0 + sin(t * 0.7) * 0.2);
             
-            // Create dramatic color mixing with flowing patterns
-            vec3 baseColor = mix(color1, color2, veinPattern);
-            baseColor = mix(baseColor, color3, darkVeins * 0.9);
-            baseColor = mix(baseColor, color1 * 1.3, lightVeins * 0.6);
+            // Combine all layers with different mixing modes
+            float mixer1 = flow * 0.4 + spiral * 0.3 + plasma * 0.3;
+            float mixer2 = neural * 0.6 + plasma * 0.4;
             
-            // Add subtle secondary veining
-            float secondaryVein = snoise(vPos * 8.0 + time * 0.1);
-            baseColor = mix(baseColor, baseColor * 1.3, secondaryVein * 0.1);
+            vec3 baseColor = mix(mix(dynamicColor1, dynamicColor2, mixer1), dynamicColor3, mixer2 * 0.6);
             
-            // Fresnel effect for glass-like surface
-            float fresnel = pow(1.0 - max(dot(vViewDir, vNormal), 0.0), 2.0);
+            // Add dynamic energy pulses
+            float pulse = sin(t * 4.0) * 0.5 + 0.5;
+            float energyRing = smoothstep(0.3, 0.35, radius) * smoothstep(0.45, 0.4, radius);
+            baseColor += energyRing * dynamicColor2 * pulse * 0.8;
             
-            // Simulate environment reflection
-            vec3 R = reflect(-vViewDir, vNormal);
-            vec3 envColor = vec3(0.6, 0.8, 1.0); // Sky blue reflection
+            // Volumetric depth effect like the original
+            float depth = 1.0 - smoothstep(0.0, 0.8, radius);
+            baseColor *= (depth * 0.7 + 0.3);
             
-            // Add depth with subsurface scattering simulation
-            float depth = 1.0 - smoothstep(0.0, 1.0, length(vPos));
-            vec3 subsurface = baseColor * depth * 0.5;
+            // Advanced fresnel with iridescence
+            float fresnel = pow(1.0 - abs(dot(vNormal, normalize(vViewDir))), 1.5);
+            vec3 iridescent = vec3(
+              sin(fresnel * 6.28 + t) * 0.5 + 0.5,
+              sin(fresnel * 6.28 + t + 2.09) * 0.5 + 0.5,
+              sin(fresnel * 6.28 + t + 4.18) * 0.5 + 0.5
+            );
+            baseColor += fresnel * iridescent * 0.3;
             
-            // Combine all effects
-            vec3 finalColor = mix(baseColor + subsurface, envColor, fresnel * 0.4);
+            // Subsurface scattering simulation
+            float scatter = exp(-radius * 3.0) * (neural + flow) * 0.5;
+            baseColor += scatter * dynamicColor1 * 0.4;
             
-            // Add rim lighting
-            float rim = 1.0 - max(dot(vViewDir, vNormal), 0.0);
-            finalColor += pow(rim, 3.0) * vec3(1.0, 0.8, 0.9) * 0.5;
+            // Glass-like reflections
+            vec3 R = reflect(-normalize(vViewDir), normalize(vNormal));
+            vec3 envReflection = mix(vec3(0.1, 0.2, 0.4), vec3(0.8, 0.6, 1.0), (R.y + 1.0) * 0.5);
+            baseColor = mix(baseColor, envReflection, fresnel * 0.3);
             
-            // Add specular highlights
-            vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
-            vec3 halfDir = normalize(lightDir + vViewDir);
-            float spec = pow(max(dot(vNormal, halfDir), 0.0), 64.0);
-            finalColor += spec * vec3(1.0, 1.0, 1.0) * 0.8;
+            // Add rim lighting for that glowing edge
+            float rim = 1.0 - max(dot(normalize(vViewDir), normalize(vNormal)), 0.0);
+            baseColor += pow(rim, 2.0) * mix(dynamicColor1, dynamicColor2, 0.5) * 0.6;
             
-            // Gamma correction
-            finalColor = pow(finalColor, vec3(1.0/2.2));
-            
-            gl_FragColor = vec4(finalColor, 1.0);
+            gl_FragColor = vec4(baseColor, opacity + fresnel * 0.15);
           }
         `,
         transparent: true,
@@ -277,9 +294,9 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
         const time = Date.now() * 0.001;
         uniforms.time.value = time;
         
-        // Faster rotation to show flowing marble patterns
-        orb.rotation.y = time * 0.3;
-        orb.rotation.x = Math.sin(time * 0.2) * 0.1;
+        // Gentle rotation for mesmerizing cosmic effect
+        orb.rotation.y = time * 0.15;
+        orb.rotation.x = Math.sin(time * 0.1) * 0.05;
         
         rendererRef.current.render(sceneRef.current, camera);
       };
