@@ -1,314 +1,280 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Home, Calendar, Star, ShoppingCart, Clock, DollarSign, Sparkles } from 'lucide-react';
-import { useLocation } from 'wouter';
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { AiChatOrder } from "@/components/AiChatOrder";
+import { SimpleOrderFi } from "@/components/SimpleOrderFi";
+import { IntegratedChatSearch } from "@/components/IntegratedChatSearch";
+import { ThreeOrb } from "@/components/ThreeOrb";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { QrCode, Smartphone, Zap, MessageSquare, Grid3X3, Bot, Sparkles, TrendingUp, Clock, Users, Coffee, Sun, Moon } from "lucide-react";
 
-export default function OrderFiNew() {
-  const [, setLocation] = useLocation();
-  const [isChatExpanded, setIsChatExpanded] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+// OrderFi - AI-first conversational ordering experience with modern UX innovations
+export default function OrderFiPage() {
+  const [restaurantId] = useState(1);
+  const [orderingMode, setOrderingMode] = useState<'chat' | 'browse'>('chat');
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showQuickActions, setShowQuickActions] = useState(true);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
+  const [chatMessage, setChatMessage] = useState<string>('');
 
-  const handleChatToggle = () => {
-    setIsAnimating(true);
-    setTimeout(() => {
-      setIsChatExpanded(!isChatExpanded);
-      setIsAnimating(false);
-    }, 300);
+  
+  // Get menu items for the interface (load in background)
+  const { data: menuItems = [], isLoading: menuLoading } = useQuery({
+    queryKey: [`/api/restaurants/${restaurantId}/menu`],
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  });
+
+  // Get restaurant data for interface
+  const { data: restaurants = [], isLoading: restaurantLoading } = useQuery({
+    queryKey: ['/api/restaurants'],
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  });
+
+  const restaurant = Array.isArray(restaurants) ? restaurants.find((r: any) => r.id === restaurantId) : null;
+
+  // Real-time clock for contextual ordering
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Generate contextual AI suggestions based on time and popular items
+  useEffect(() => {
+    const hour = currentTime.getHours();
+    let suggestions: string[] = [];
+    
+    if (hour >= 6 && hour < 11) {
+      suggestions = ["What's good for breakfast?", "Something quick and energizing", "Coffee and pastry combo"];
+    } else if (hour >= 11 && hour < 16) {
+      suggestions = ["Lunch specials today?", "Something light and fresh", "Popular lunch items"];
+    } else if (hour >= 16 && hour < 20) {
+      suggestions = ["What's trending for dinner?", "Comfort food recommendations", "Share plates for groups"];
+    } else {
+      suggestions = ["Late night favorites?", "Something satisfying", "Quick bites available"];
+    }
+    
+    // Add popular items from menu if available
+    if (menuItems && Array.isArray(menuItems) && menuItems.length > 0) {
+      const popularCategories = Array.from(new Set(menuItems.slice(0, 3).map((item: any) => item.category)));
+      if (popularCategories[0]) {
+        suggestions.push(`What's in ${popularCategories[0]}?`);
+      }
+    }
+    
+    setAiSuggestions(suggestions);
+  }, [currentTime.getHours(), Array.isArray(menuItems) ? menuItems.length : 0]);
+
+  const handleChatMessage = (message: string) => {
+    setShowQuickActions(false); // Hide quick actions after first interaction
+    // Store the message to be passed to AiChatOrder component
+    setChatMessage(message);
   };
 
+  const handleSearch = async (query: string) => {
+    setIsSearching(true);
+    try {
+      // Filter menu items based on search query
+      const filtered = Array.isArray(menuItems) ? menuItems.filter((item: any) =>
+        item.name.toLowerCase().includes(query.toLowerCase()) ||
+        item.description?.toLowerCase().includes(query.toLowerCase()) ||
+        item.category?.toLowerCase().includes(query.toLowerCase()) ||
+        item.tags?.some((tag: string) => tag.toLowerCase().includes(query.toLowerCase()))
+      ) : [];
+      setSearchResults(filtered);
+      setOrderingMode('browse'); // Switch to browse mode to show results
+    } catch (error) {
+      console.error('Search error:', error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const getTimeBasedGreeting = () => {
+    const hour = currentTime.getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
+  };
+
+  const getMealContext = () => {
+    const hour = currentTime.getHours();
+    if (hour >= 6 && hour < 11) return { meal: "breakfast", emoji: "🌅", color: "from-yellow-400 to-orange-500" };
+    if (hour >= 11 && hour < 16) return { meal: "lunch", emoji: "☀️", color: "from-blue-400 to-cyan-500" };
+    if (hour >= 16 && hour < 20) return { meal: "dinner", emoji: "🌆", color: "from-purple-400 to-pink-500" };
+    return { meal: "late night", emoji: "🌙", color: "from-indigo-400 to-purple-500" };
+  };
+
+  const mealContext = getMealContext();
+
+
+
+
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cream-50 via-orange-50 to-pink-50 relative overflow-hidden">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-100/30 via-pink-100/20 to-purple-100/30"></div>
-      
-      {/* Main Content */}
-      <ScrollArea className="h-screen relative z-10">
-        <div className="container mx-auto px-4 py-8 pb-32">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent mb-2">
-              Welcome to OrderFi
-            </h1>
-            <p className="text-gray-600 text-lg">
-              Your AI-powered restaurant experience
-            </p>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <ShoppingCart className="h-5 w-5 text-orange-500" />
-                  Quick Order
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white">
-                  Order Now
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-orange-500" />
-                  Order History
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button variant="outline" className="w-full border-orange-500 text-orange-500 hover:bg-orange-50">
-                  View Orders
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Featured Items */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Popular Items</h2>
+    <div className="fixed inset-0 flex flex-col" style={{ backgroundColor: '#fcfcfc' }}>
+      <div className="flex-1 overflow-hidden">
+        <div className="max-w-4xl mx-auto p-4 h-full overflow-y-auto pb-32">
+          
+          {/* Search Results Display */}
+        {searchResults.length > 0 && (
+          <div className="p-4">
+            <h3 className="text-lg font-semibold mb-4 font-heading">Search Results ({searchResults.length} items)</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span>Signature Burger</span>
-                    <Badge className="bg-orange-500 text-white">Popular</Badge>
-                  </CardTitle>
-                  <CardDescription>
-                    Our most loved burger with premium ingredients
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-orange-500">$12.99</span>
-                    <Button size="sm" className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                      Add to Cart
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span>Artisan Pizza</span>
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="text-sm text-gray-600">4.9</span>
+              {searchResults.map((item: any) => (
+                <Card key={item.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <h4 className="font-semibold text-gray-900 font-heading">{item.name}</h4>
+                    <p className="text-sm text-gray-600 mt-1">{item.description}</p>
+                    <div className="flex justify-between items-center mt-3">
+                      <span className="text-lg font-bold text-orange-600">${item.price}</span>
+                      <Button 
+                        size="sm"
+                        onClick={() => handleChatMessage(`Add ${item.name} to my order`)}
+                        className="bg-orange-500 hover:bg-orange-600"
+                      >
+                        Add to Order
+                      </Button>
                     </div>
-                  </CardTitle>
-                  <CardDescription>
-                    Wood-fired pizza with fresh toppings
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-orange-500">$18.99</span>
-                    <Button size="sm" className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                      Add to Cart
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-          </div>
-
-          {/* Rewards Card */}
-          <Card className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Star className="h-5 w-5" />
-                OrderFi Rewards
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-lg font-semibold">Gold Member</p>
-                  <p className="text-sm opacity-90">1,250 points available</p>
-                </div>
-                <Button variant="outline" className="border-white text-white hover:bg-white/20">
-                  Redeem
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </ScrollArea>
-
-      {/* Revolutionary Sentient Orb Experience */}
-      {isChatExpanded && (
-        <div className="fixed inset-0 z-[8000] flex items-center justify-center" style={{
-          background: 'radial-gradient(circle at center, rgb(255, 150, 0) 0%, rgb(255, 100, 100) 25%, rgb(200, 50, 255) 50%, rgb(100, 0, 200) 75%, rgb(0, 0, 0) 100%)'
-        }}>
-          {/* Close Button */}
-          <Button 
-            variant="ghost" 
-            size="sm"
-            onClick={() => setIsChatExpanded(false)}
-            className="absolute top-4 right-4 text-white hover:bg-white/20 z-10"
-          >
-            ×
-          </Button>
-
-          {/* Sentient Orb Core */}
-          <div className="relative">
-            {/* Main Orb */}
-            <div 
-              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer"
-              style={{
-                background: 'radial-gradient(circle at 30% 30%, rgba(255, 200, 100, 0.9) 0%, rgba(255, 150, 0, 0.8) 30%, rgba(255, 100, 100, 0.7) 60%, rgba(200, 50, 255, 0.6) 100%)',
-                boxShadow: '0 0 100px rgba(255, 150, 0, 0.5), 0 0 200px rgba(255, 100, 100, 0.3), 0 0 300px rgba(200, 50, 255, 0.2)',
-                animation: 'sentient-pulse 4s ease-in-out infinite'
-              }}
+            <Button 
+              variant="outline" 
+              onClick={() => {setSearchResults([]); setOrderingMode('chat');}}
+              className="mt-4 w-full"
             >
-              {/* Liquid Interior */}
-              <div className="absolute inset-4 rounded-full bg-gradient-to-br from-orange-300/60 to-purple-500/60 animate-pulse"></div>
-              
-              {/* AI Consciousness Core */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center text-white font-medium">
-                  <div className="text-4xl mb-2">🧠</div>
-                  <div className="text-lg">I'm listening...</div>
-                </div>
-              </div>
-              
-              {/* Conversation Particles */}
-              <div className="absolute inset-0">
-                {[...Array(8)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute w-2 h-2 bg-white rounded-full opacity-70"
-                    style={{
-                      left: `${15 + i * 8}%`,
-                      top: `${25 + (i % 4) * 15}%`,
-                      animation: `float ${3 + i * 0.3}s ease-in-out infinite ${i * 0.5}s`
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-            
-            {/* Orbiting Interface Elements */}
-            <div className="absolute inset-0 animate-spin" style={{ animationDuration: '20s' }}>
-              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-lg">💬</span>
-              </div>
-              <div className="absolute top-1/2 -right-6 transform -translate-y-1/2 w-10 h-10 bg-green-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-sm">🎤</span>
-              </div>
-              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-purple-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-lg">🔮</span>
-              </div>
-              <div className="absolute top-1/2 -left-6 transform -translate-y-1/2 w-10 h-10 bg-pink-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-sm">✨</span>
-              </div>
-            </div>
+              Return to Chat
+            </Button>
           </div>
-          
-          {/* Floating Message Display */}
-          <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 max-w-md">
-            <div className="bg-black/40 backdrop-blur-lg rounded-2xl p-6 border border-white/20 text-center">
-              <p className="text-white text-lg mb-4">
-                Hi! I'm your AI assistant. What would you like to order today?
-              </p>
-              <div className="flex justify-center space-x-4">
-                <Button 
-                  className="bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white"
-                  onClick={() => {
-                    console.log('Voice interaction');
-                  }}
-                >
-                  🎤 Speak
-                </Button>
-                <Button 
-                  variant="outline"
-                  className="border-white/30 text-white hover:bg-white/20"
-                  onClick={() => {
-                    console.log('Type interaction');
-                  }}
-                >
-                  ⌨️ Type
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+        )}
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-transparent pointer-events-none">
-        {/* Sentient AI Orb - Fixed center position */}
-        <div className={`absolute top-0 left-0 right-0 flex justify-center pointer-events-auto z-[200] ${
-          isAnimating ? 'animate-morph-to-center' : ''
-        }`}>
-          <Button
-            onClick={handleChatToggle}
-            className={`w-16 h-16 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 ${
-              isAnimating ? 'pointer-events-none' : ''
-            }`}
-            style={{ transform: 'translateY(-8px)' }}
-          >
-            {/* Tiny rotating stars positioned around the orb */}
-            <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-              <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '75%', left: '80%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-3" style={{ width: '1.5px', height: '1.5px', top: '30%', left: '85%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-4" style={{ width: '1.5px', height: '1.5px', top: '10%', left: '70%', transform: 'rotate(-89deg)', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '60%', left: '5%', transform: 'rotate(156deg)', animationDelay: '3.2s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '90%', left: '50%', transform: 'rotate(-201deg)', animationDelay: '1.4s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
+        {/* Mode Selector - Only visible when in browse mode and no search results */}
+        {orderingMode === 'browse' && searchResults.length === 0 && (
+          <div className="bg-white border-b p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-semibold font-heading">Choose Your Experience</h2>
+              <Badge variant="outline" className="text-orange-600 border-orange-300">
+                Browse Mode
+              </Badge>
             </div>
-            
-            {/* Orb Core */}
-            <div className="orb-core w-full h-full"></div>
-            
-            {/* Energy particles */}
-            <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
-            <div className="orb-energy-particle" style={{ top: '70%', left: '25%', animationDelay: '0.7s' }}></div>
-            <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
-            <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
-            <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
-          </Button>
-        </div>
-        
-        {/* Navigation buttons */}
-        <div className="flex items-center justify-around bg-transparent pointer-events-auto py-4 px-4">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"
-            onClick={() => setLocation('/orderfi-home')}
+            <div className="flex space-x-2">
+              <Button
+                onClick={() => setOrderingMode('chat')}
+                className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
+              >
+                <Bot className="h-4 w-4 mr-2" />
+                Chat with OrderFi Ai
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setOrderingMode('browse')}
+                className="flex-1 border-orange-300 text-orange-600"
+              >
+                <Grid3X3 className="h-4 w-4 mr-2" />
+                Browse Menu
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Chat Interface - Default Mode */}
+        {searchResults.length === 0 && (
+          <div 
+            data-ai-chat 
+            className={`transition-all duration-500 ${showQuickActions ? 'mt-80' : 'mt-0'}`}
+            style={{ paddingTop: showQuickActions ? '0' : '20px' }}
           >
-            <Home className="h-4 w-4 text-orange-500" />
-            <span className="text-xs">Home</span>
-          </Button>
+            <AiChatOrder 
+              restaurantId={restaurantId}
+              menuItems={Array.isArray(menuItems) ? menuItems : []}
+              restaurant={restaurant}
+              externalMessage={chatMessage}
+              onMessageProcessed={() => setChatMessage('')}
+            />
+          </div>
+        )}
           
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600"
-            onClick={() => setLocation('/dashboard')}
-          >
-            <Calendar className="h-4 w-4 text-orange-500" />
-            <span className="text-xs">Orders</span>
-          </Button>
+        </div>
+      </div>
+
+      {/* Floating Cosmic Orb Chat Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <button
+          onClick={() => window.location.href = '/orderfi-new'}
+          className="relative group"
+        >
+          <ThreeOrb className="w-20 h-20 transform transition-all duration-300 hover:scale-110" />
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <MessageSquare className="h-6 w-6 text-white opacity-80" />
+          </div>
+          <div className="absolute -top-2 -right-2 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold animate-pulse">
+            AI
+          </div>
+        </button>
+      </div>
+
+      {/* Enhanced Bottom Chat Interface */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-t border-gray-200/50 shadow-2xl safe-area-pb">
+        <div className="p-4">
+          {/* Voice Wave Animation when listening */}
+          <div className="mb-2 flex justify-center">
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-1 bg-gradient-to-t from-orange-400 to-red-500 rounded-full transition-all duration-300"
+                  style={{
+                    height: isSearching ? `${8 + Math.sin(Date.now() / 200 + i) * 4}px` : '4px',
+                    animationDelay: `${i * 100}ms`
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
+          <IntegratedChatSearch
+            onSendMessage={handleChatMessage}
+            onSearch={handleSearch}
+            isLoading={isSearching}
+            placeholder={`${getTimeBasedGreeting()}, what sounds good for ${mealContext.meal}?`}
+          />
+
+          {/* Quick Action Pills */}
+          {!showQuickActions && (
+            <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleChatMessage("What's popular right now?")}
+                className="whitespace-nowrap bg-orange-50 text-orange-700 hover:bg-orange-100"
+              >
+                <TrendingUp className="h-3 w-3 mr-1" />
+                What's Popular
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleChatMessage("Show me something quick")}
+                className="whitespace-nowrap bg-blue-50 text-blue-700 hover:bg-blue-100"
+              >
+                <Zap className="h-3 w-3 mr-1" />
+                Quick Bites
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowQuickActions(true)}
+                className="whitespace-nowrap bg-purple-50 text-purple-700 hover:bg-purple-100"
+              >
+                <Sparkles className="h-3 w-3 mr-1" />
+                More Ideas
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
