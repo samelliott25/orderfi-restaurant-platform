@@ -79,9 +79,9 @@ export default function OrderFiNew() {
   const [chatMessages, setChatMessages] = useState<Array<{id: string, text: string, isUser: boolean, timestamp: Date}>>([]);
   const [currentInput, setCurrentInput] = useState('');
   const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
-  const [inputMode, setInputMode] = useState<'voice' | 'gesture' | 'text'>('voice');
   const [isRecording, setIsRecording] = useState(false);
-  const [gestureInput, setGestureInput] = useState('');
+  const [isHolding, setIsHolding] = useState(false);
+  const [touchStart, setTouchStart] = useState({ x: 0, y: 0, time: 0 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const orbChatEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -171,7 +171,7 @@ export default function OrderFiNew() {
     return chatMessages[currentMessageIndex];
   };
 
-  const handleVoiceInput = () => {
+  const startVoiceRecording = () => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
       const recognition = new SpeechRecognition();
@@ -186,38 +186,170 @@ export default function OrderFiNew() {
       
       recognition.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
-        setCurrentInput(transcript);
-        handleOrbChatMessage();
+        const userMessage = {
+          id: Date.now().toString(),
+          text: transcript,
+          isUser: true,
+          timestamp: new Date()
+        };
+        
+        setChatMessages(prev => {
+          const newMessages = [...prev, userMessage];
+          setCurrentMessageIndex(newMessages.length - 1);
+          return newMessages;
+        });
+        
+        // Simulate AI response
+        setTimeout(() => {
+          const aiResponse = {
+            id: (Date.now() + 1).toString(),
+            text: "Thanks for your voice message! I heard: " + transcript,
+            isUser: false,
+            timestamp: new Date()
+          };
+          setChatMessages(prev => {
+            const newMessages = [...prev, aiResponse];
+            setCurrentMessageIndex(newMessages.length - 1);
+            return newMessages;
+          });
+        }, 1000);
       };
       
       recognition.onerror = () => {
         setIsRecording(false);
+        setIsHolding(false);
       };
       
       recognition.onend = () => {
         setIsRecording(false);
+        setIsHolding(false);
       };
       
       recognition.start();
-    } else {
-      // Fallback to text input
-      setInputMode('text');
     }
   };
 
-  const handleGestureInput = (gesture: string) => {
-    const gestureCommands: Record<string, string> = {
-      'swipe-up': 'Show me the menu',
-      'swipe-down': 'What are today\'s specials?',
-      'tap-double': 'I want to order',
-      'circle': 'Surprise me with a recommendation',
-      'hold': 'Help me choose something'
+  const handleOrbTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
+    setTouchStart({ x: clientX, y: clientY, time: Date.now() });
+    setIsHolding(true);
+    
+    // Start voice recording after 500ms hold
+    setTimeout(() => {
+      if (isHolding) {
+        startVoiceRecording();
+      }
+    }, 500);
+  };
+
+  const handleOrbTouchEnd = (e: React.TouchEvent | React.MouseEvent) => {
+    const clientX = 'changedTouches' in e ? e.changedTouches[0].clientX : e.clientX;
+    const clientY = 'changedTouches' in e ? e.changedTouches[0].clientY : e.clientY;
+    
+    const deltaX = clientX - touchStart.x;
+    const deltaY = clientY - touchStart.y;
+    const holdTime = Date.now() - touchStart.time;
+    
+    setIsHolding(false);
+    
+    if (holdTime > 500 && isRecording) {
+      // Was a voice recording - let it finish naturally
+      return;
+    }
+    
+    if (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50) {
+      // Handle swipe gestures
+      if (Math.abs(deltaY) > Math.abs(deltaX)) {
+        if (deltaY > 50) {
+          // Swipe down - close chat
+          setIsChatExpanded(false);
+        } else if (deltaY < -50) {
+          // Swipe up - show menu
+          handleGestureAction('Show me the menu');
+        }
+      } else {
+        if (deltaX > 50) {
+          // Swipe right - add to cart
+          handleGestureAction('Add this item to my cart');
+        } else if (deltaX < -50) {
+          // Swipe left - go back
+          handleGestureAction('Go back to previous options');
+        }
+      }
+    } else if (holdTime < 500) {
+      // Quick tap - open text input
+      openTextInput();
+    }
+  };
+
+  const handleGestureAction = (action: string) => {
+    const userMessage = {
+      id: Date.now().toString(),
+      text: action,
+      isUser: true,
+      timestamp: new Date()
     };
     
-    const command = gestureCommands[gesture];
-    if (command) {
-      setCurrentInput(command);
-      handleOrbChatMessage();
+    setChatMessages(prev => {
+      const newMessages = [...prev, userMessage];
+      setCurrentMessageIndex(newMessages.length - 1);
+      return newMessages;
+    });
+    
+    // Simulate AI response
+    setTimeout(() => {
+      const responses: Record<string, string> = {
+        'Show me the menu': 'Here are our menu categories: Appetizers, Main Courses, Desserts, and Beverages.',
+        'Add this item to my cart': 'Item added to your cart! Anything else you\'d like to order?',
+        'Go back to previous options': 'Going back to the previous menu...'
+      };
+      
+      const aiResponse = {
+        id: (Date.now() + 1).toString(),
+        text: responses[action] || 'I understand your gesture. How can I help you?',
+        isUser: false,
+        timestamp: new Date()
+      };
+      setChatMessages(prev => {
+        const newMessages = [...prev, aiResponse];
+        setCurrentMessageIndex(newMessages.length - 1);
+        return newMessages;
+      });
+    }, 1000);
+  };
+
+  const openTextInput = () => {
+    const input = prompt('Type your message:');
+    if (input && input.trim()) {
+      const userMessage = {
+        id: Date.now().toString(),
+        text: input,
+        isUser: true,
+        timestamp: new Date()
+      };
+      
+      setChatMessages(prev => {
+        const newMessages = [...prev, userMessage];
+        setCurrentMessageIndex(newMessages.length - 1);
+        return newMessages;
+      });
+      
+      // Simulate AI response
+      setTimeout(() => {
+        const aiResponse = {
+          id: (Date.now() + 1).toString(),
+          text: "Thanks for your message! I'm here to help you with your order.",
+          isUser: false,
+          timestamp: new Date()
+        };
+        setChatMessages(prev => {
+          const newMessages = [...prev, aiResponse];
+          setCurrentMessageIndex(newMessages.length - 1);
+          return newMessages;
+        });
+      }, 1000);
     }
   };
 
@@ -567,6 +699,10 @@ export default function OrderFiNew() {
             {/* Main Orb */}
             <div 
               className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform looking-glass-orb"
+              onTouchStart={handleOrbTouchStart}
+              onTouchEnd={handleOrbTouchEnd}
+              onMouseDown={handleOrbTouchStart}
+              onMouseUp={handleOrbTouchEnd}
               style={{
                 background: `
                   radial-gradient(circle at 20% 30%, #f97316 0%, transparent 40%),
@@ -689,93 +825,35 @@ export default function OrderFiNew() {
                 )}
               </div>
               
-              {/* Revolutionary Input Interface */}
+              {/* Gesture Guide */}
               <div className="p-6 bg-black/20 backdrop-blur-sm border-t border-white/20">
-                {inputMode === 'voice' && (
-                  <div className="text-center space-y-4">
-                    <div className="text-white/80 text-sm mb-4">Speak to the orb or try gestures</div>
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        onClick={handleVoiceInput}
-                        disabled={isRecording}
-                        className={`w-16 h-16 rounded-full ${isRecording ? 'bg-red-500 animate-pulse' : 'bg-orange-500 hover:bg-orange-600'} text-white flex items-center justify-center text-2xl`}
-                      >
-                        {isRecording ? '🎙️' : '🎤'}
-                      </Button>
-                      <Button
-                        onClick={() => setInputMode('gesture')}
-                        className="w-16 h-16 rounded-full bg-purple-500 hover:bg-purple-600 text-white flex items-center justify-center text-2xl"
-                      >
-                        ✋
-                      </Button>
-                      <Button
-                        onClick={() => setInputMode('text')}
-                        className="w-16 h-16 rounded-full bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center text-xl"
-                      >
-                        💬
-                      </Button>
+                <div className="text-center space-y-4">
+                  <div className="text-white/80 text-sm mb-4">Interact directly with the orb</div>
+                  <div className="grid grid-cols-2 gap-3 text-xs text-white/70">
+                    <div className="p-2 bg-white/10 rounded-lg">
+                      👆 Tap<br/>Type Message
                     </div>
-                    {isRecording && (
-                      <div className="text-orange-200 text-sm animate-pulse">
-                        Listening... speak now
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {inputMode === 'gesture' && (
-                  <div className="text-center space-y-4">
-                    <div className="text-white/80 text-sm mb-4">Try these gestures on the orb</div>
-                    <div className="grid grid-cols-2 gap-3 text-xs text-white/70">
-                      <div className="p-2 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20" onClick={() => handleGestureInput('swipe-up')}>
-                        ↑ Swipe Up<br/>Show Menu
-                      </div>
-                      <div className="p-2 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20" onClick={() => handleGestureInput('swipe-down')}>
-                        ↓ Swipe Down<br/>Today's Specials
-                      </div>
-                      <div className="p-2 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20" onClick={() => handleGestureInput('tap-double')}>
-                        👆👆 Double Tap<br/>I Want to Order
-                      </div>
-                      <div className="p-2 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20" onClick={() => handleGestureInput('circle')}>
-                        ○ Circle<br/>Surprise Me
-                      </div>
+                    <div className="p-2 bg-white/10 rounded-lg">
+                      🔒 Hold<br/>Voice Record
                     </div>
-                    <Button
-                      onClick={() => setInputMode('voice')}
-                      className="mt-4 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm"
-                    >
-                      Back to Voice
-                    </Button>
-                  </div>
-                )}
-
-                {inputMode === 'text' && (
-                  <div className="space-y-3">
-                    <div className="text-white/80 text-sm text-center">Fallback text mode</div>
-                    <div className="flex gap-3">
-                      <input
-                        type="text"
-                        value={currentInput}
-                        onChange={(e) => setCurrentInput(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleOrbChatMessage()}
-                        placeholder="Type your message..."
-                        className="flex-1 px-4 py-3 bg-white/20 border border-white/30 rounded-2xl text-white placeholder-white/70 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                      />
-                      <Button
-                        onClick={handleOrbChatMessage}
-                        className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-sm font-medium"
-                      >
-                        Send
-                      </Button>
+                    <div className="p-2 bg-white/10 rounded-lg">
+                      ↓ Swipe Down<br/>Close Chat
                     </div>
-                    <Button
-                      onClick={() => setInputMode('voice')}
-                      className="w-full py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm"
-                    >
-                      Switch to Voice & Gestures
-                    </Button>
+                    <div className="p-2 bg-white/10 rounded-lg">
+                      → Swipe Right<br/>Add to Cart
+                    </div>
                   </div>
-                )}
+                  {isRecording && (
+                    <div className="text-orange-200 text-sm animate-pulse">
+                      🎙️ Recording... speak now
+                    </div>
+                  )}
+                  {isHolding && !isRecording && (
+                    <div className="text-purple-200 text-sm animate-pulse">
+                      Hold to start recording...
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
