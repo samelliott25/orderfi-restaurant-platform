@@ -259,16 +259,16 @@
   /* Morphing animation for chat orb */
   @keyframes morph-to-center {
     0% {
-      transform: translateY(0) scale(1);
-      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+      background: red !important;
     }
     50% {
-      transform: translateY(-50vh) scale(3);
-      opacity: 0.8;
+      transform: translateX(-50%) translateY(-40vh) scale(2);
+      background: blue !important;
     }
     100% {
-      transform: translateY(-50vh) scale(10);
-      opacity: 0.5;
+      transform: translateX(-50%) translateY(-50vh) scale(5);
+      background: green !important;
     }
   }
 
@@ -276,7 +276,10 @@
     animation: morph-to-center 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
     transform-origin: center !important;
     z-index: 9999 !important;
-    position: relative !important;
+    position: fixed !important;
+    top: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
   }
 
   :root {

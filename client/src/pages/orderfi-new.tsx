@@ -261,7 +261,9 @@ export default function OrderFiNew() {
   const handleChatToggle = () => {
     if (!isChatExpanded) {
       console.log('Starting animation...');
+      console.log('isAnimating before:', isAnimating);
       setIsAnimating(true);
+      console.log('isAnimating after:', true);
       // Start animation, then show chat after animation completes
       setTimeout(() => {
         console.log('Animation complete, showing chat');
