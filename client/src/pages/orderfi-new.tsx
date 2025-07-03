@@ -840,55 +840,65 @@ export default function OrderFiNew() {
               {/* Current Message Display - Takes Full Orb */}
               <div className="flex-1 flex items-center justify-center p-8 relative">
                 {getCurrentMessage() ? (
-                  <div className={`text-center transition-all duration-500 ${getCurrentMessage()?.isUser ? 'animate-pulse' : ''}`}>
-                    <div className={`text-lg font-bold mb-4 ${getCurrentMessage()?.isUser ? 'text-orange-200' : 'text-white'} looking-glass-text`}>
-                      {getCurrentMessage()?.isUser ? 'You said:' : 'OrderFi AI:'}
-                    </div>
-                    <div className={`text-base leading-relaxed ${getCurrentMessage()?.isUser ? 'text-orange-100' : 'text-white'} looking-glass-text max-w-[250px]`}>
-                      {getCurrentMessage()?.text}
+                  <div className="text-center transition-all duration-300">
+                    <div className="mb-6">
+                      <div className={`inline-block px-6 py-4 rounded-3xl max-w-[240px] shadow-lg ${
+                        getCurrentMessage()?.isUser 
+                          ? 'bg-blue-500 text-white' 
+                          : 'bg-white/95 text-black backdrop-blur-xl border border-white/20'
+                      }`}>
+                        <div className="text-base leading-relaxed font-normal">
+                          {getCurrentMessage()?.text}
+                        </div>
+                      </div>
+                      <div className="text-xs text-white/60 mt-2 font-light">
+                        {getCurrentMessage()?.timestamp.toLocaleTimeString()}
+                      </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center text-white space-y-4">
-                    <div className="text-lg font-bold mb-2 looking-glass-text">Hi, can I help you?</div>
+                  <div className="text-center space-y-6">
+                    <div className="text-white/95 text-xl font-light tracking-wide looking-glass-text">
+                      Hi, can I help you?
+                    </div>
                     
-                    {/* Proactive Action Bubbles */}
-                    <div className="flex flex-wrap justify-center gap-2 max-w-[240px] mx-auto">
+                    {/* Apple-style Action Bubbles */}
+                    <div className="flex flex-wrap justify-center gap-2 max-w-[260px] mx-auto">
                       <button
                         onClick={() => handleProactiveAction('show-menu')}
-                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
                       >
-                        🍽️ Show Menu
+                        Show Menu
                       </button>
                       <button
                         onClick={() => handleProactiveAction('recommend')}
-                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
                       >
-                        ✨ Surprise Me
+                        Surprise Me
                       </button>
                       <button
                         onClick={() => handleProactiveAction('specials')}
-                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
                       >
-                        🌟 Today's Special
+                        Today's Special
                       </button>
                       <button
                         onClick={() => handleProactiveAction('quick-order')}
-                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
                       >
-                        ⚡ Quick Order
+                        Quick Order
                       </button>
                       <button
                         onClick={() => handleProactiveAction('dietary')}
-                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
                       >
-                        🥗 Dietary Options
+                        Dietary Options
                       </button>
                       <button
                         onClick={() => handleProactiveAction('popular')}
-                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
                       >
-                        🔥 Popular Items
+                        Popular Items
                       </button>
                     </div>
                   </div>
