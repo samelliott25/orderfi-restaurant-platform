@@ -437,15 +437,6 @@ export default function OrderFiNew() {
             
             {/* Chat Messages */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
-              {/* Debug info */}
-              <div className="text-white/60 text-xs mb-2">Messages: {messages.length}</div>
-              {messages.length === 0 && (
-                <div className="flex items-center justify-center h-full">
-                  <div className="bg-white/20 backdrop-blur-md rounded-lg px-6 py-4 border border-white/30 shadow-lg">
-                    <p className="text-white text-center">Welcome! I'm your AI assistant. What would you like to order today?</p>
-                  </div>
-                </div>
-              )}
               {messages.map((message) => (
                 <div key={message.id}>
                   {message.role === 'assistant' ? (
