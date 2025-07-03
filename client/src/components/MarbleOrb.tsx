@@ -222,13 +222,13 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
             // Combine waves and flows for ferrofluid effect
             float ferrofluid = (wave1 + wave2 + wave3) * 0.3 + (flow1 + flow2 + flow3) * 0.4;
             
-            // High contrast marble regions
-            float marble_mask = smoothstep(-0.4, 0.6, ferrofluid);
-            float contrast_boost = smoothstep(0.2, 0.8, abs(ferrofluid));
+            // Sharp marble boundaries - no smoothing
+            float marble_mask = step(0.0, ferrofluid);
+            float contrast_boost = step(0.4, abs(ferrofluid));
             
-            // Dynamic moving veins
-            float vein_flow = sin(pos.x * 5.0 + flow1 * 3.0 + t * 2.5) * cos(pos.y * 4.0 + flow2 * 2.0 + t * 1.8);
-            vein_flow = smoothstep(0.3, 0.9, abs(vein_flow));
+            // Sharp vein edges with high frequency detail
+            float vein_flow = sin(pos.x * 15.0 + flow1 * 8.0 + t * 4.0) * cos(pos.y * 12.0 + flow2 * 6.0 + t * 3.5);
+            vein_flow = step(0.6, abs(vein_flow));
             
             // High contrast OrderFi colors
             vec3 bright_orange = vec3(1.0, 0.4, 0.0);      // Vibrant orange
@@ -240,25 +240,33 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
             vec3 base_color = mix(bright_orange, electric_pink, marble_mask);
             base_color = mix(base_color, deep_magenta, contrast_boost * 0.7);
             
-            // Add flowing vein patterns
-            base_color = mix(base_color, hot_orange, vein_flow * 0.8);
+            // Sharp flowing vein patterns
+            base_color = mix(base_color, hot_orange, vein_flow);
             
-            // Dynamic color shifting for liquid movement
-            float color_shift = sin(ferrofluid * 6.0 + t * 3.0) * 0.5 + 0.5;
-            base_color = mix(base_color, mix(electric_pink, bright_orange, color_shift), 0.3);
+            // High frequency marble streaks
+            float streak1 = step(0.8, abs(sin(pos.x * 25.0 + flow1 * 10.0 + t * 5.0)));
+            float streak2 = step(0.7, abs(cos(pos.y * 20.0 + flow2 * 8.0 + t * 4.5)));
+            float streak3 = step(0.9, abs(sin((pos.x + pos.y) * 30.0 + flow3 * 12.0 + t * 6.0)));
+            
+            // Apply sharp streaks
+            base_color = mix(base_color, electric_pink, streak1);
+            base_color = mix(base_color, bright_orange, streak2);
+            base_color = mix(base_color, deep_magenta, streak3);
             
             // Ripple highlights
             float ripple_highlight = abs(sin(ripple1 * 12.0 - t * 4.0)) * exp(-ripple1 * 1.5);
             ripple_highlight += abs(cos(ripple2 * 10.0 - t * 3.5)) * exp(-ripple2 * 1.8);
             base_color += hot_orange * ripple_highlight * 0.4;
             
-            // Surface tension effects
-            float surface_tension = length(vec2(
-              cos(pos.x * 8.0 + flow1 * 2.0 + t * 2.0),
-              sin(pos.y * 6.0 + flow2 * 1.5 + t * 1.5)
-            ));
-            surface_tension = smoothstep(0.5, 1.2, surface_tension);
-            base_color = mix(base_color, bright_orange, surface_tension * 0.3);
+            // Sharp surface texture detail
+            float texture_detail1 = step(0.5, snoise(pos * 40.0 + vec3(t * 2.0, 0.0, 0.0)));
+            float texture_detail2 = step(0.6, snoise(pos * 60.0 + vec3(0.0, t * 3.0, 0.0)));
+            float texture_detail3 = step(0.7, snoise(pos * 80.0 + vec3(t * 1.5, t * 2.5, 0.0)));
+            
+            // Apply high frequency texture variations
+            base_color = mix(base_color, hot_orange, texture_detail1 * 0.4);
+            base_color = mix(base_color, electric_pink, texture_detail2 * 0.3);
+            base_color = mix(base_color, bright_orange, texture_detail3 * 0.2);
             
             // Depth and spherical effects
             float radius = length(pos.xy);
