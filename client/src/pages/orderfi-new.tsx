@@ -419,7 +419,7 @@ export default function OrderFiNew() {
           {/* Floating Chat Interface */}
           <div className="relative z-10 flex flex-col h-full">
             {/* Chat Header */}
-            <div className="flex items-center justify-between p-6 bg-black/20 backdrop-blur-sm border-b border-white/10">
+            <div className="flex items-center justify-between p-6 bg-black/40 backdrop-blur-md border-b border-white/20 shadow-lg">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                 <span className="text-sm font-medium text-white">AI Assistant</span>
@@ -445,8 +445,8 @@ export default function OrderFiNew() {
                         <Sparkles className="h-4 w-4 text-orange-300" />
                       </div>
                       <div className="flex-1">
-                        <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
-                          <p className="text-sm text-white">{message.content}</p>
+                        <div className="bg-white/20 backdrop-blur-md rounded-lg px-4 py-3 border border-white/30 shadow-lg">
+                          <p className="text-sm text-white font-medium">{message.content}</p>
                         </div>
                         {message.menuItems && message.menuItems.length > 0 && (
                           <div className="flex flex-wrap gap-2 mt-2">
@@ -466,8 +466,8 @@ export default function OrderFiNew() {
                     </div>
                   ) : (
                     <div className="flex gap-3 justify-end">
-                      <div className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white rounded-lg px-4 py-3 max-w-xs">
-                        <p className="text-sm">{message.content}</p>
+                      <div className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white rounded-lg px-4 py-3 max-w-xs shadow-lg">
+                        <p className="text-sm font-medium">{message.content}</p>
                       </div>
                       <Avatar className="w-8 h-8">
                         <AvatarFallback className="bg-white/10 text-white">
@@ -495,7 +495,7 @@ export default function OrderFiNew() {
             </div>
             
             {/* Chat Input */}
-            <div className="p-6 bg-black/20 backdrop-blur-sm border-t border-white/10">
+            <div className="p-6 bg-black/40 backdrop-blur-md border-t border-white/20 shadow-lg">
               <div className="flex gap-2">
                 <Input
                   value={currentMessage}
