@@ -189,79 +189,89 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
           ${NOISE_FUNC}
           
           void main() {
-            // Create flowing energy streams like the original orb
-            vec2 uv = (vPos.xy + 1.0) * 0.5;
             vec3 p = vPos;
-            float t = time * 0.8;
+            float t = time * 0.6;
             
-            // Layer 1: Flowing energy streams using FBM
-            vec3 flowUV = p + vec3(sin(t * 2.0 + p.y * 10.0) * 0.1, cos(t * 1.5 + p.x * 8.0) * 0.08, 0.0);
-            float flow = 0.0;
-            float a = 0.5;
-            for (int i = 0; i < 4; ++i) {
-              flow += a * snoise(flowUV * 4.0 + t * 0.5);
-              flowUV = flowUV * 2.0 + vec3(100);
-              a *= 0.5;
-            }
+            // Marble pattern using layered noise
+            vec3 marbleUV = p * 2.0 + vec3(sin(t * 0.5) * 0.2, cos(t * 0.3) * 0.15, 0.0);
             
-            // Layer 2: Plasma-like electric fields
-            float plasma = sin(p.x * 15.0 + t * 3.0) * cos(p.y * 12.0 + t * 2.5);
-            plasma += sin(length(p.xy) * 20.0 - t * 4.0) * 0.5;
-            plasma = (plasma + 1.0) * 0.5;
+            // Primary marble veins
+            float marble1 = snoise(marbleUV * 3.0 + vec3(t * 0.4, 0.0, 0.0));
+            marble1 += snoise(marbleUV * 6.0 + vec3(t * 0.2, 0.0, 0.0)) * 0.5;
+            marble1 += snoise(marbleUV * 12.0 + vec3(t * 0.1, 0.0, 0.0)) * 0.25;
             
-            // Layer 3: Spiral galaxy arms
-            float angle = atan(p.y, p.x);
-            float radius = length(p.xy);
-            float spiral = sin(angle * 3.0 + radius * 15.0 - t * 2.0) * exp(-radius * 2.0);
-            spiral = (spiral + 1.0) * 0.5;
+            // Secondary marble veins for complexity
+            float marble2 = snoise(marbleUV * 4.0 + vec3(0.0, t * 0.3, 0.0));
+            marble2 += snoise(marbleUV * 8.0 + vec3(0.0, t * 0.15, 0.0)) * 0.5;
             
-            // Layer 4: Neural network synapses
-            float neural = snoise(p * 20.0 + vec3(t * 0.6, -t * 0.4, 0.0));
-            neural *= smoothstep(0.7, 0.9, neural);
-            
-            // Dynamic color palette that shifts over time
-            vec3 dynamicColor1 = color1 * (1.0 + sin(t * 0.8) * 0.2);
-            vec3 dynamicColor2 = color2 * (1.0 + sin(t * 1.1) * 0.3);
-            vec3 dynamicColor3 = color3 * (1.0 + sin(t * 0.7) * 0.2);
-            
-            // Combine all layers with different mixing modes
-            float mixer1 = flow * 0.4 + spiral * 0.3 + plasma * 0.3;
-            float mixer2 = neural * 0.6 + plasma * 0.4;
-            
-            vec3 baseColor = mix(mix(dynamicColor1, dynamicColor2, mixer1), dynamicColor3, mixer2 * 0.6);
-            
-            // Add dynamic energy pulses
-            float pulse = sin(t * 4.0) * 0.5 + 0.5;
-            float energyRing = smoothstep(0.3, 0.35, radius) * smoothstep(0.45, 0.4, radius);
-            baseColor += energyRing * dynamicColor2 * pulse * 0.8;
-            
-            // Volumetric depth effect like the original
-            float depth = 1.0 - smoothstep(0.0, 0.8, radius);
-            baseColor *= (depth * 0.7 + 0.3);
-            
-            // Advanced fresnel with iridescence
-            float fresnel = pow(1.0 - abs(dot(normalize(vNormal), normalize(vViewDir))), 1.5);
-            vec3 iridescent = vec3(
-              sin(fresnel * 6.28 + t) * 0.5 + 0.5,
-              sin(fresnel * 6.28 + t + 2.09) * 0.5 + 0.5,
-              sin(fresnel * 6.28 + t + 4.18) * 0.5 + 0.5
+            // Turbulent marble flows
+            vec3 turbulentUV = p + vec3(
+              sin(p.y * 5.0 + t * 1.5) * 0.1,
+              cos(p.x * 4.0 + t * 1.2) * 0.08,
+              sin(length(p.xy) * 3.0 + t) * 0.06
             );
-            baseColor += fresnel * iridescent * 0.3;
             
-            // Subsurface scattering simulation
-            float scatter = exp(-radius * 3.0) * (neural + flow) * 0.5;
-            baseColor += scatter * dynamicColor1 * 0.4;
+            float turbulence = snoise(turbulentUV * 5.0 + vec3(t * 0.8, 0.0, 0.0));
+            turbulence += snoise(turbulentUV * 10.0 + vec3(t * 0.4, 0.0, 0.0)) * 0.5;
             
-            // Glass-like reflections
-            vec3 R = reflect(-normalize(vViewDir), normalize(vNormal));
-            vec3 envReflection = mix(vec3(0.1, 0.2, 0.4), vec3(0.8, 0.6, 1.0), (R.y + 1.0) * 0.5);
-            baseColor = mix(baseColor, envReflection, fresnel * 0.3);
+            // Marble color mapping - Orange and Magenta
+            vec3 orangeMarble = vec3(1.0, 0.4, 0.1);    // Deep orange
+            vec3 lightOrange = vec3(1.0, 0.7, 0.3);     // Light orange
+            vec3 magentaMarble = vec3(0.9, 0.2, 0.6);   // Deep magenta
+            vec3 lightMagenta = vec3(1.0, 0.5, 0.8);    // Light magenta
+            vec3 whiteVeins = vec3(1.0, 0.9, 0.8);      // Creamy white veins
             
-            // Add rim lighting for that glowing edge
-            float rim = 1.0 - max(dot(normalize(vViewDir), normalize(vNormal)), 0.0);
-            baseColor += pow(rim, 2.0) * mix(dynamicColor1, dynamicColor2, 0.5) * 0.6;
+            // Create marble pattern
+            float marblePattern = (marble1 + marble2) * 0.5;
+            marblePattern = smoothstep(-0.5, 0.8, marblePattern);
             
-            gl_FragColor = vec4(baseColor, opacity + fresnel * 0.15);
+            // Base marble colors
+            vec3 baseMarble = mix(orangeMarble, magentaMarble, marblePattern);
+            
+            // Add lighter veins
+            float veinPattern = abs(marble1 * 0.7 + turbulence * 0.3);
+            veinPattern = smoothstep(0.6, 0.9, veinPattern);
+            baseMarble = mix(baseMarble, mix(lightOrange, lightMagenta, marblePattern), veinPattern * 0.6);
+            
+            // Add white marble veins
+            float whiteVeinPattern = abs(marble2 * 0.8 + turbulence * 0.2);
+            whiteVeinPattern = smoothstep(0.7, 0.95, whiteVeinPattern);
+            baseMarble = mix(baseMarble, whiteVeins, whiteVeinPattern * 0.4);
+            
+            // Add depth variation
+            float radius = length(p.xy);
+            float depth = 1.0 - smoothstep(0.0, 0.8, radius);
+            baseMarble *= (depth * 0.4 + 0.6);
+            
+            // Marble surface lighting
+            vec3 normal = normalize(vNormal);
+            vec3 viewDir = normalize(vViewDir);
+            float fresnel = pow(1.0 - abs(dot(viewDir, normal)), 1.8);
+            
+            // Marble highlights
+            vec3 marbleHighlight = mix(lightOrange, lightMagenta, marblePattern * 0.8) * fresnel * 0.5;
+            baseMarble += marbleHighlight;
+            
+            // Add subtle color variation over time
+            float colorShift = sin(t * 1.2) * 0.1 + 0.9;
+            baseMarble *= colorShift;
+            
+            // Marble polish effect
+            float polish = pow(fresnel, 3.0);
+            baseMarble = mix(baseMarble, whiteVeins, polish * 0.2);
+            
+            // Final marble composition
+            vec3 finalColor = baseMarble;
+            
+            // Add subtle glow around edges
+            float edgeGlow = pow(1.0 - radius, 2.0);
+            finalColor += mix(orangeMarble, magentaMarble, 0.5) * edgeGlow * 0.3;
+            
+            // Enhance saturation and brightness
+            finalColor = pow(finalColor, vec3(0.9));
+            finalColor *= 1.3;
+            
+            gl_FragColor = vec4(finalColor, opacity + fresnel * 0.1);
           }
         `,
         transparent: true,
