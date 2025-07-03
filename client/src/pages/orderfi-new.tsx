@@ -472,8 +472,8 @@ export default function OrderFiNew() {
                 animation: 'sentient-pulse 4s ease-in-out infinite, marble-flow 12s ease-in-out infinite, fluid-shift 8s linear infinite, planetary-rotation 20s linear infinite'
               }}
             >
-              {/* Looking Glass Text Content */}
-              <div className="absolute inset-0 flex items-center justify-center">
+              {/* Looking Glass Text Content - Static, Non-Rotating */}
+              <div className="absolute inset-0 flex items-center justify-center static-text-container">
                 <div className="text-center text-white p-6">
                   <div className="text-lg font-bold mb-2 looking-glass-text">Welcome to OrderFi</div>
                   <div className="text-sm opacity-90 looking-glass-text">Your AI restaurant assistant</div>

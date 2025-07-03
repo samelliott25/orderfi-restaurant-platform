@@ -928,11 +928,26 @@ html.light [role="menu"] {
   z-index: -1;
 }
 
+/* Static text container to prevent rotation */
+.static-text-container {
+  animation: counter-rotate 20s linear infinite;
+  z-index: 200;
+}
+
 .looking-glass-text {
   animation: looking-glass-pulse 3s ease-in-out infinite;
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
   position: relative;
   z-index: 200;
+}
+
+@keyframes counter-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 
 @keyframes looking-glass-pulse {
