@@ -1667,7 +1667,7 @@ html {
         transparent 0%, 
         rgba(255, 215, 0, 0.4) 25%, 
         rgba(255, 20, 147, 0.5) 35%, 
-        rgba(0, 255, 255, 0.3) 45%, 
+        rgba(255, 140, 0, 0.3) 45%, 
         transparent 55%
       ),
       /* Diagonal swirl vein */
@@ -1705,11 +1705,11 @@ html {
       inset 0 0 20px rgba(255,100,0,0.3),
       0 20px 60px rgba(0,0,0,0.6),
       0 0 40px rgba(255,80,150,0.2),
-      0 0 80px rgba(0,255,255,0.1);
+      0 0 80px rgba(255,165,0,0.1);
 
-    /* Iridescent color shifting animation */
-    animation: iridescent-shift 8s ease-in-out infinite;
-    -webkit-animation: iridescent-shift 8s ease-in-out infinite;
+    /* Rotating marble pattern animation */
+    animation: pattern-rotate 15s linear infinite;
+    -webkit-animation: pattern-rotate 15s linear infinite;
     
     /* Keep stationary */
     position: relative;
@@ -1769,39 +1769,39 @@ html {
     }
   }
 
-  /* Keyframes for iridescent color shifting */
-  @keyframes iridescent-shift {
+  /* Keyframes for rotating marble patterns */
+  @keyframes pattern-rotate {
     0% { 
-      filter: hue-rotate(0deg) saturate(1.2); 
+      background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%; 
     }
     25% { 
-      filter: hue-rotate(30deg) saturate(1.4); 
+      background-position: 25% 25%, -25% 25%, 25% -25%, 0% 0%, 0% 0%; 
     }
     50% { 
-      filter: hue-rotate(60deg) saturate(1.1); 
+      background-position: 50% 50%, -50% 50%, 50% -50%, 0% 0%, 0% 0%; 
     }
     75% { 
-      filter: hue-rotate(90deg) saturate(1.3); 
+      background-position: 75% 75%, -75% 75%, 75% -75%, 0% 0%, 0% 0%; 
     }
     100% { 
-      filter: hue-rotate(0deg) saturate(1.2); 
+      background-position: 100% 100%, -100% 100%, 100% -100%, 0% 0%, 0% 0%; 
     }
   }
-  @-webkit-keyframes iridescent-shift {
+  @-webkit-keyframes pattern-rotate {
     0% { 
-      -webkit-filter: hue-rotate(0deg) saturate(1.2); 
+      background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%; 
     }
     25% { 
-      -webkit-filter: hue-rotate(30deg) saturate(1.4); 
+      background-position: 25% 25%, -25% 25%, 25% -25%, 0% 0%, 0% 0%; 
     }
     50% { 
-      -webkit-filter: hue-rotate(60deg) saturate(1.1); 
+      background-position: 50% 50%, -50% 50%, 50% -50%, 0% 0%, 0% 0%; 
     }
     75% { 
-      -webkit-filter: hue-rotate(90deg) saturate(1.3); 
+      background-position: 75% 75%, -75% 75%, 75% -75%, 0% 0%, 0% 0%; 
     }
     100% { 
-      -webkit-filter: hue-rotate(0deg) saturate(1.2); 
+      background-position: 100% 100%, -100% 100%, 100% -100%, 0% 0%, 0% 0%; 
     }
   }
 
