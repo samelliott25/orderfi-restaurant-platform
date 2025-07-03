@@ -264,11 +264,11 @@
     }
     50% {
       transform: translateY(-35vh) scale(2.5);
-      border-radius: 35%;
+      border-radius: 50%;
     }
     100% {
       transform: translateY(-50vh) scale(10);
-      border-radius: 12px;
+      border-radius: 50%;
     }
   }
 

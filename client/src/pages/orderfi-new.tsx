@@ -448,8 +448,8 @@ export default function OrderFiNew() {
           
           {/* Morphed Orb Background - positioned behind chat content */}
           {isChatExpanded && (
-            <div className="absolute inset-0 z-0 rounded-3xl overflow-hidden">
-              <div className="w-full h-full sentient-orb">
+            <div className="absolute inset-0 z-0 rounded-full overflow-hidden">
+              <div className="w-full h-full sentient-orb rounded-full">
                 {/* Tiny rotating stars positioned around the background */}
                 <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
                   {/* 6 tiny stars positioned strategically */}
