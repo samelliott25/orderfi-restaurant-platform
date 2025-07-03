@@ -78,6 +78,7 @@ export default function OrderFiNew() {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<Array<{id: string, text: string, isUser: boolean, timestamp: Date}>>([]);
   const [currentInput, setCurrentInput] = useState('');
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const orbChatEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -125,13 +126,12 @@ export default function OrderFiNew() {
       timestamp: new Date()
     };
     
-    setChatMessages(prev => [...prev, userMessage]);
+    setChatMessages(prev => {
+      const newMessages = [...prev, userMessage];
+      setCurrentMessageIndex(newMessages.length - 1);
+      return newMessages;
+    });
     setCurrentInput('');
-    
-    // Auto-scroll to bottom
-    setTimeout(() => {
-      orbChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
     
     // Simulate AI response
     setTimeout(() => {
@@ -141,13 +141,31 @@ export default function OrderFiNew() {
         isUser: false,
         timestamp: new Date()
       };
-      setChatMessages(prev => [...prev, aiResponse]);
-      
-      // Auto-scroll after AI response
-      setTimeout(() => {
-        orbChatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      setChatMessages(prev => {
+        const newMessages = [...prev, aiResponse];
+        setCurrentMessageIndex(newMessages.length - 1);
+        return newMessages;
+      });
     }, 1000);
+  };
+
+  const handlePreviousMessage = () => {
+    if (currentMessageIndex > 0) {
+      setCurrentMessageIndex(currentMessageIndex - 1);
+    }
+  };
+
+  const handleNextMessage = () => {
+    if (currentMessageIndex < chatMessages.length - 1) {
+      setCurrentMessageIndex(currentMessageIndex + 1);
+    }
+  };
+
+  const getCurrentMessage = () => {
+    if (chatMessages.length === 0 || currentMessageIndex === -1) {
+      return null;
+    }
+    return chatMessages[currentMessageIndex];
   };
 
   // Get menu items and restaurant data
@@ -567,42 +585,71 @@ export default function OrderFiNew() {
               <div className="orb-energy-particle" style={{ top: '40%', left: '5%', animationDelay: '4.2s' }}></div>
             </div>
             
-            {/* Chat Messages Scrollable Area Within Orb */}
-            <div className="absolute inset-8 flex flex-col pointer-events-auto z-[300] rounded-full overflow-hidden">
-              {/* Messages Area */}
-              <div className="flex-1 overflow-y-auto px-4 py-2 space-y-2 scrollbar-hide">
-                {chatMessages.length === 0 ? (
-                  <div className="text-center text-white py-8">
+            {/* Full-Orb Message Display */}
+            <div className="absolute inset-0 flex flex-col pointer-events-auto z-[300]">
+              {/* Current Message Display - Takes Full Orb */}
+              <div className="flex-1 flex items-center justify-center p-8 relative">
+                {getCurrentMessage() ? (
+                  <div className={`text-center transition-all duration-500 ${getCurrentMessage()?.isUser ? 'animate-pulse' : ''}`}>
+                    <div className={`text-lg font-bold mb-4 ${getCurrentMessage()?.isUser ? 'text-orange-200' : 'text-white'} looking-glass-text`}>
+                      {getCurrentMessage()?.isUser ? 'You said:' : 'OrderFi AI:'}
+                    </div>
+                    <div className={`text-base leading-relaxed ${getCurrentMessage()?.isUser ? 'text-orange-100' : 'text-white'} looking-glass-text max-w-[250px]`}>
+                      {getCurrentMessage()?.text}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center text-white">
                     <div className="text-lg font-bold mb-2 looking-glass-text">Welcome to OrderFi</div>
                     <div className="text-sm opacity-90 looking-glass-text">Your AI restaurant assistant</div>
                     <div className="text-xs mt-3 opacity-80 looking-glass-text">What would you like to order today?</div>
                   </div>
-                ) : (
+                )}
+                
+                {/* Navigation Arrows */}
+                {chatMessages.length > 1 && (
                   <>
-                    {chatMessages.map((message) => (
-                      <div key={message.id} className={`p-2 rounded-lg max-w-[80%] ${message.isUser ? 'ml-auto bg-orange-500/80 text-white' : 'mr-auto bg-white/20 text-white'}`}>
-                        <div className="text-sm">{message.text}</div>
-                      </div>
-                    ))}
-                    <div ref={orbChatEndRef} />
+                    {currentMessageIndex > 0 && (
+                      <Button
+                        onClick={handlePreviousMessage}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white p-0 text-lg"
+                      >
+                        ↑
+                      </Button>
+                    )}
+                    {currentMessageIndex < chatMessages.length - 1 && (
+                      <Button
+                        onClick={handleNextMessage}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 text-white p-0 text-lg"
+                      >
+                        ↓
+                      </Button>
+                    )}
                   </>
+                )}
+                
+                {/* Message Counter */}
+                {chatMessages.length > 0 && (
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/70 text-xs">
+                    {currentMessageIndex + 1} of {chatMessages.length}
+                  </div>
                 )}
               </div>
               
-              {/* Input Area */}
-              <div className="p-4 border-t border-white/20">
-                <div className="flex gap-2">
+              {/* Input Area - Fixed at Bottom */}
+              <div className="p-6 bg-black/20 backdrop-blur-sm border-t border-white/20">
+                <div className="flex gap-3">
                   <input
                     type="text"
                     value={currentInput}
                     onChange={(e) => setCurrentInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleOrbChatMessage()}
                     placeholder="Type your message..."
-                    className="flex-1 px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="flex-1 px-4 py-3 bg-white/20 border border-white/30 rounded-2xl text-white placeholder-white/70 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                   <Button
                     onClick={handleOrbChatMessage}
-                    className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm"
+                    className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-sm font-medium"
                   >
                     Send
                   </Button>
