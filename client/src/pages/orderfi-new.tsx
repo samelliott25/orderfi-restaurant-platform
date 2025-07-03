@@ -740,7 +740,7 @@ export default function OrderFiNew() {
         </div>
       </ScrollArea>
 
-      {/* Revolutionary Sentient Orb Experience */}
+      {/* Clean Orb Experience */}
       {isChatExpanded && (
         <div className={`fixed inset-0 z-[8000] flex items-center justify-center animate-in fade-in duration-300 ${isKeyboardOpen ? 'items-start pt-20' : 'items-center'}`}>
           {/* Blurred Background */}
@@ -756,122 +756,16 @@ export default function OrderFiNew() {
             ×
           </Button>
 
-          {/* Sentient Orb Core */}
+          {/* Clean Three.js Orb */}
           <div className="relative">
-            {/* Three.js Enhanced Orb */}
             <ThreeOrb 
               onTouchStart={handleOrbTouchStart}
               onTouchEnd={handleOrbTouchEnd}
-              className="animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform looking-glass-orb"
+              className="animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform"
             />
-            
-            {/* CSS Overlay for Glass Effect */}
-            <div 
-              className="absolute inset-0 w-80 h-80 rounded-full pointer-events-none"
-              style={{
-                background: `
-                  radial-gradient(circle at 20% 30%, #f97316 0%, transparent 40%),
-                  radial-gradient(circle at 80% 70%, #ec4899 0%, transparent 35%),
-                  radial-gradient(circle at 60% 20%, #fb923c 0%, transparent 45%),
-                  radial-gradient(circle at 30% 80%, #db2777 0%, transparent 30%),
-                  conic-gradient(
-                    from 45deg at 40% 60%,
-                    #f97316 0deg,
-                    #fb923c 60deg,
-                    #ec4899 120deg,
-                    #db2777 180deg,
-                    #be185d 240deg,
-                    #ec4899 300deg,
-                    #f97316 360deg
-                  ),
-                  linear-gradient(
-                    135deg,
-                    #f97316 0%,
-                    #fb923c 25%,
-                    #ec4899 50%,
-                    #db2777 75%,
-                    #be185d 100%
-                  )
-                `,
-                backgroundSize: '300% 300%, 250% 250%, 400% 400%, 350% 350%, 200% 200%, 150% 150%',
-                boxShadow: `
-                  inset 0 0 20px rgba(255, 255, 255, 0.3),
-                  0 0 40px rgba(249, 115, 22, 0.8),
-                  0 0 80px rgba(236, 72, 153, 0.6),
-                  0 0 120px rgba(219, 39, 119, 0.4)
-                `,
-                animation: 'sentient-pulse 4s ease-in-out infinite, marble-flow 12s ease-in-out infinite, fluid-shift 8s linear infinite, planetary-rotation 20s linear infinite'
-              }}
-            >
-              {/* Tiny rotating stars around the large orb */}
-              <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-                <svg className="absolute ai-cascade-1" style={{ width: '3px', height: '3px', top: '15%', left: '10%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="absolute ai-cascade-2" style={{ width: '3px', height: '3px', top: '85%', left: '85%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="absolute ai-cascade-3" style={{ width: '3px', height: '3px', top: '25%', left: '90%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="absolute ai-cascade-4" style={{ width: '3px', height: '3px', top: '5%', left: '65%', transform: 'rotate(-89deg)', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="absolute ai-cascade-1" style={{ width: '3px', height: '3px', top: '60%', left: '5%', transform: 'rotate(156deg)', animationDelay: '3.2s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="absolute ai-cascade-2" style={{ width: '3px', height: '3px', top: '95%', left: '50%', transform: 'rotate(-201deg)', animationDelay: '1.4s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-              </div>
-              
-              {/* Orb Core with inner glow */}
-              <div className="orb-core w-full h-full"></div>
-              
-              {/* Energy particles floating around */}
-              <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
-              <div className="orb-energy-particle" style={{ top: '70%', left: '25%', animationDelay: '0.7s' }}></div>
-              <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
-              <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
-              <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
-              <div className="orb-energy-particle" style={{ top: '80%', left: '60%', animationDelay: '2.8s' }}></div>
-              <div className="orb-energy-particle" style={{ top: '10%', left: '80%', animationDelay: '3.5s' }}></div>
-              <div className="orb-energy-particle" style={{ top: '40%', left: '5%', animationDelay: '4.2s' }}></div>
-            </div>
-            
-            {/* Full-Orb Message Display */}
-            <div className="absolute inset-0 flex flex-col pointer-events-auto z-[300]">
-              {/* Current Message Display - Takes Full Orb */}
-              <div className="flex-1 flex items-center justify-center p-8 relative">
-                {getCurrentMessage() ? (
-                  <div className="text-center transition-all duration-300">
-                    <div className="mb-6">
-                      <div className={`inline-block px-6 py-4 max-w-[240px] transition-all duration-300 ${
-                        getCurrentMessage()?.isUser 
-                          ? 'bg-white/20 border border-white/40 rounded-xl text-white backdrop-blur-sm' 
-                          : 'bg-white/15 border border-white/30 rounded-xl text-white/95 backdrop-blur-md'
-                      }`}>
-                        <div className="text-sm leading-relaxed font-light tracking-wide">
-                          {getCurrentMessage()?.text}
-                        </div>
-                      </div>
-                      <div className="text-xs text-white/50 mt-2 font-light tracking-wider">
-                        {getCurrentMessage()?.timestamp.toLocaleTimeString()}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center space-y-8">
-                    <div className="text-white/90 text-2xl font-light tracking-wide looking-glass-text">
-                      What brings you here?
-                    </div>
-                    
-                    {/* Designer-grade action grid */}
-                    <div className="grid grid-cols-2 gap-4 max-w-[220px] mx-auto">
-                      <button
-                        onClick={() => handleProactiveAction('show-menu')}
-                        className="aspect-square bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white text-xs font-medium backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] flex flex-col items-center justify-center gap-1"
-                      >
+          </div>
+        </div>
+      )}
                         <span className="text-lg">🍽</span>
                         <span>Menu</span>
                       </button>
