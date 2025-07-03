@@ -259,29 +259,16 @@
   /* Morphing animation for chat orb */
   @keyframes morph-to-center {
     0% {
-      transform: translateY(-2rem) scale(1);
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
-    }
-    25% {
-      transform: translateY(-15vh) scale(1.5);
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
+      transform: translateY(0) scale(1);
+      opacity: 1;
     }
     50% {
-      transform: translateY(-30vh) scale(2);
-      border-radius: 40%;
-      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
-    }
-    75% {
-      transform: translateY(-45vh) scale(5);
-      border-radius: 20%;
-      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
+      transform: translateY(-50vh) scale(3);
+      opacity: 0.8;
     }
     100% {
-      transform: translateY(-45vh) scale(20);
-      border-radius: 0;
-      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1493 50%, #8a2be2 75%, #ff6b35 100%);
+      transform: translateY(-50vh) scale(10);
+      opacity: 0.5;
     }
   }
 
