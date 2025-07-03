@@ -19,15 +19,21 @@ export function ThreeOrb({ onTouchStart, onTouchEnd, className }: ThreeOrbProps)
     
     const checkThreeJs = () => {
       if (typeof window !== 'undefined' && (window as any).THREE) {
+        console.log('Three.js loaded successfully, initializing 3D scene...');
         initThreeScene();
         return;
       }
       
       attempts++;
       if (attempts < maxAttempts) {
-        setTimeout(checkThreeJs, 100);
+        console.log(`Three.js not ready, attempt ${attempts}/${maxAttempts}`);
+        setTimeout(checkThreeJs, 200);
       } else {
-        console.log('Three.js not loaded after multiple attempts, falling back to CSS orb');
+        console.error('Three.js failed to load after multiple attempts');
+        // Show a simple fallback for debugging
+        if (mountRef.current) {
+          mountRef.current.innerHTML = '<div style="width: 320px; height: 320px; border-radius: 50%; background: linear-gradient(45deg, #ff6b9d, #ffa500, #8a2be2); display: flex; align-items: center; justify-content: center; color: white; font-family: monospace;">Three.js Failed</div>';
+        }
       }
     };
     
@@ -389,15 +395,8 @@ export function ThreeOrb({ onTouchStart, onTouchEnd, className }: ThreeOrbProps)
       onMouseDown={onTouchStart}
       onMouseUp={onTouchEnd}
       style={{
-        background: 'radial-gradient(circle, rgba(255,107,157,0.1) 0%, rgba(255,165,0,0.1) 50%, rgba(138,43,226,0.1) 100%)',
-        borderRadius: '50%',
         cursor: 'pointer'
       }}
-    >
-      {/* Fallback CSS orb for when Three.js isn't available */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 opacity-80 animate-pulse" />
-      <div className="absolute inset-4 rounded-full bg-gradient-to-tl from-orange-300 via-pink-400 to-purple-500 opacity-60 animate-pulse" />
-      <div className="absolute inset-8 rounded-full bg-gradient-to-br from-orange-200 via-pink-300 to-purple-400 opacity-40 animate-pulse" />
-    </div>
+    />
   );
 }
