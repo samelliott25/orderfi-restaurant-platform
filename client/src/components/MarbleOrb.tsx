@@ -189,82 +189,95 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
           ${NOISE_FUNC}
           
           void main() {
-            vec2 uv = (vPos.xy + 1.0) * 0.5;
             vec3 pos = vPos;
-            float t = time * 0.4;
+            float t = time;
             
-            // Create complex swirling marble distortions
-            vec2 swirl1 = uv + vec2(
-              sin(uv.y * 6.0 + t * 2.0) * 0.15,
-              cos(uv.x * 5.0 + t * 1.5) * 0.12
+            // Ferrofluid ripple coordinates
+            vec2 ripple_center1 = vec2(sin(t * 1.2) * 0.3, cos(t * 0.8) * 0.4);
+            vec2 ripple_center2 = vec2(cos(t * 1.5) * 0.5, sin(t * 1.1) * 0.3);
+            vec2 ripple_center3 = vec2(sin(t * 0.9) * 0.4, cos(t * 1.3) * 0.5);
+            
+            // Dynamic ripples emanating from moving centers
+            float ripple1 = length(pos.xy - ripple_center1);
+            float ripple2 = length(pos.xy - ripple_center2);
+            float ripple3 = length(pos.xy - ripple_center3);
+            
+            // Ferrofluid wave patterns
+            float wave1 = sin(ripple1 * 8.0 - t * 3.0) * exp(-ripple1 * 2.0);
+            float wave2 = cos(ripple2 * 6.0 - t * 2.5) * exp(-ripple2 * 1.8);
+            float wave3 = sin(ripple3 * 10.0 - t * 4.0) * exp(-ripple3 * 2.2);
+            
+            // Flowing ferrofluid streams
+            vec3 flow_pos = pos + vec3(
+              sin(pos.y * 4.0 + t * 2.0) * 0.2,
+              cos(pos.x * 3.0 + t * 1.8) * 0.15,
+              0.0
             );
             
-            vec2 swirl2 = uv + vec2(
-              cos(uv.x * 8.0 + sin(uv.y * 4.0) + t * 1.8) * 0.1,
-              sin(uv.y * 7.0 + cos(uv.x * 3.0) + t * 2.2) * 0.08
-            );
+            // Multiple flowing noise layers for organic movement
+            float flow1 = snoise(flow_pos * 3.0 + vec3(t * 0.8, 0.0, 0.0));
+            float flow2 = snoise(flow_pos * 6.0 + vec3(0.0, t * 1.2, 0.0));
+            float flow3 = snoise(flow_pos * 9.0 + vec3(t * 0.6, t * 0.9, 0.0));
             
-            // Random marble chaos using multiple noise layers
-            float chaos1 = snoise(vec3(swirl1 * 8.0, t * 0.5));
-            float chaos2 = snoise(vec3(swirl2 * 12.0, t * 0.3));
-            float chaos3 = snoise(vec3(uv * 15.0 + chaos1 * 0.5, t * 0.7));
+            // Combine waves and flows for ferrofluid effect
+            float ferrofluid = (wave1 + wave2 + wave3) * 0.3 + (flow1 + flow2 + flow3) * 0.4;
             
-            // Swirling marble veins
-            float vein1 = abs(sin(swirl1.x * 10.0 + chaos1 * 3.0));
-            float vein2 = abs(cos(swirl2.y * 12.0 + chaos2 * 2.5));
-            float vein3 = abs(sin((swirl1.x + swirl2.y) * 8.0 + chaos3 * 4.0));
+            // High contrast marble regions
+            float marble_mask = smoothstep(-0.4, 0.6, ferrofluid);
+            float contrast_boost = smoothstep(0.2, 0.8, abs(ferrofluid));
             
-            // Random marble regions
-            float marble_region = (chaos1 + chaos2) * 0.5;
-            marble_region = smoothstep(-0.3, 0.8, marble_region);
+            // Dynamic moving veins
+            float vein_flow = sin(pos.x * 5.0 + flow1 * 3.0 + t * 2.5) * cos(pos.y * 4.0 + flow2 * 2.0 + t * 1.8);
+            vein_flow = smoothstep(0.3, 0.9, abs(vein_flow));
             
-            // OrderFi brand colors - saturated and true to brand
-            vec3 deep_orange = vec3(0.85, 0.25, 0.05);     // Deeper, richer orange
-            vec3 hot_pink = vec3(0.75, 0.15, 0.45);        // Deeper pink
-            vec3 magenta = vec3(0.65, 0.08, 0.35);         // Rich magenta
-            vec3 light_orange = vec3(0.95, 0.35, 0.15);    // Orange for veins
-            vec3 accent_veins = vec3(0.90, 0.45, 0.65);    // Pink accent veins
+            // High contrast OrderFi colors
+            vec3 bright_orange = vec3(1.0, 0.4, 0.0);      // Vibrant orange
+            vec3 electric_pink = vec3(1.0, 0.2, 0.6);      // Electric pink
+            vec3 deep_magenta = vec3(0.8, 0.0, 0.5);       // Deep magenta
+            vec3 hot_orange = vec3(1.0, 0.5, 0.1);         // Hot orange
             
-            // Base marble pattern using OrderFi colors
-            vec3 base_marble = mix(deep_orange, hot_pink, marble_region);
-            base_marble = mix(base_marble, magenta, marble_region * 0.6);
+            // Base ferrofluid color mixing
+            vec3 base_color = mix(bright_orange, electric_pink, marble_mask);
+            base_color = mix(base_color, deep_magenta, contrast_boost * 0.7);
             
-            // Add swirling veins with varying thickness
-            float vein_pattern = smoothstep(0.4, 0.8, vein1) * smoothstep(0.5, 0.9, vein2);
-            base_marble = mix(base_marble, light_orange, vein_pattern * 0.7);
+            // Add flowing vein patterns
+            base_color = mix(base_color, hot_orange, vein_flow * 0.8);
             
-            // Add fine accent veins
-            float fine_veins = smoothstep(0.8, 0.95, vein3) * smoothstep(0.7, 0.9, vein1);
-            base_marble = mix(base_marble, accent_veins, fine_veins * 0.3);
+            // Dynamic color shifting for liquid movement
+            float color_shift = sin(ferrofluid * 6.0 + t * 3.0) * 0.5 + 0.5;
+            base_color = mix(base_color, mix(electric_pink, bright_orange, color_shift), 0.3);
             
-            // Add random marble streaks
-            float streaks = abs(sin(chaos1 * 8.0 + chaos2 * 6.0));
-            streaks = smoothstep(0.6, 0.9, streaks);
-            base_marble = mix(base_marble, mix(deep_orange, magenta, 0.7), streaks * 0.5);
+            // Ripple highlights
+            float ripple_highlight = abs(sin(ripple1 * 12.0 - t * 4.0)) * exp(-ripple1 * 1.5);
+            ripple_highlight += abs(cos(ripple2 * 10.0 - t * 3.5)) * exp(-ripple2 * 1.8);
+            base_color += hot_orange * ripple_highlight * 0.4;
             
-            // Depth and radius effects
+            // Surface tension effects
+            float surface_tension = length(vec2(
+              cos(pos.x * 8.0 + flow1 * 2.0 + t * 2.0),
+              sin(pos.y * 6.0 + flow2 * 1.5 + t * 1.5)
+            ));
+            surface_tension = smoothstep(0.5, 1.2, surface_tension);
+            base_color = mix(base_color, bright_orange, surface_tension * 0.3);
+            
+            // Depth and spherical effects
             float radius = length(pos.xy);
-            float depth_fade = 1.0 - smoothstep(0.0, 0.9, radius);
-            base_marble *= (depth_fade * 0.5 + 0.5);
+            float depth = 1.0 - smoothstep(0.0, 0.8, radius);
+            base_color *= (depth * 0.6 + 0.4);
             
-            // Enhanced lighting for marble polish
+            // Ferrofluid shine and reflection
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(vViewDir);
-            float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 1.5);
+            float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 2.0);
             
-            // Marble highlights using OrderFi colors
-            vec3 marble_highlight = mix(light_orange, hot_pink, marble_region) * fresnel * 0.6;
-            base_marble += marble_highlight;
+            // Liquid surface reflections
+            base_color += fresnel * mix(bright_orange, electric_pink, marble_mask) * 0.5;
             
-            // Subtle rim glow in OrderFi orange
-            float rim = pow(1.0 - radius, 3.0);
-            base_marble += deep_orange * rim * 0.3;
+            // Edge glow for liquid effect
+            float edge_glow = pow(1.0 - radius, 4.0);
+            base_color += bright_orange * edge_glow * 0.6;
             
-            // Final color enhancement - keep true colors
-            base_marble = pow(base_marble, vec3(0.95)); // Minimal gamma correction
-            base_marble *= 1.1; // Slight brightness boost
-            
-            gl_FragColor = vec4(base_marble, opacity);
+            gl_FragColor = vec4(base_color, opacity);
           }
         `,
         transparent: true,
