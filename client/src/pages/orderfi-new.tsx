@@ -1,280 +1,536 @@
-import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { AiChatOrder } from "@/components/AiChatOrder";
-import { SimpleOrderFi } from "@/components/SimpleOrderFi";
-import { IntegratedChatSearch } from "@/components/IntegratedChatSearch";
-import { ThreeOrb } from "@/components/ThreeOrb";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { QrCode, Smartphone, Zap, MessageSquare, Grid3X3, Bot, Sparkles, TrendingUp, Clock, Users, Coffee, Sun, Moon } from "lucide-react";
+import { useState, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useLocation } from 'wouter';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { 
+  Mic, 
+  MicOff, 
+  Send, 
+  Search, 
+  Heart, 
+  Gift, 
+  Home, 
+  Menu, 
+  ShoppingCart,
+  Calendar,
+  Bell,
+  User,
+  Sparkles,
+  Plus
+} from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import type { Restaurant, MenuItem } from '@shared/schema';
 
-// OrderFi - AI-first conversational ordering experience with modern UX innovations
-export default function OrderFiPage() {
+interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+  menuItems?: string[];
+}
+
+interface QuickAction {
+  icon: React.ReactNode;
+  label: string;
+  action: () => void;
+}
+
+interface SpecialItem {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+}
+
+interface RecentOrder {
+  id: string;
+  items: string;
+  total: number;
+  status: 'delivered' | 'in-progress' | 'preparing';
+  date: string;
+}
+
+export default function OrderFiNew() {
   const [restaurantId] = useState(1);
-  const [orderingMode, setOrderingMode] = useState<'chat' | 'browse'>('chat');
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [showQuickActions, setShowQuickActions] = useState(true);
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
-  const [chatMessage, setChatMessage] = useState<string>('');
+  const [, setLocation] = useLocation();
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: '1',
+      role: 'assistant',
+      content: "Hi! I'm your AI assistant. What would you like to order today?",
+      timestamp: new Date(),
+    }
+  ]);
+  const [currentMessage, setCurrentMessage] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [availableTokens] = useState(1250);
+  const [isChatExpanded, setIsChatExpanded] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
-  
-  // Get menu items for the interface (load in background)
-  const { data: menuItems = [], isLoading: menuLoading } = useQuery({
+  // Get menu items and restaurant data
+  const { data: menuItems = [] } = useQuery({
     queryKey: [`/api/restaurants/${restaurantId}/menu`],
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 
-  // Get restaurant data for interface
-  const { data: restaurants = [], isLoading: restaurantLoading } = useQuery({
+  const { data: restaurants = [] } = useQuery({
     queryKey: ['/api/restaurants'],
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 
   const restaurant = Array.isArray(restaurants) ? restaurants.find((r: any) => r.id === restaurantId) : null;
 
-  // Real-time clock for contextual ordering
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Generate contextual AI suggestions based on time and popular items
-  useEffect(() => {
-    const hour = currentTime.getHours();
-    let suggestions: string[] = [];
-    
-    if (hour >= 6 && hour < 11) {
-      suggestions = ["What's good for breakfast?", "Something quick and energizing", "Coffee and pastry combo"];
-    } else if (hour >= 11 && hour < 16) {
-      suggestions = ["Lunch specials today?", "Something light and fresh", "Popular lunch items"];
-    } else if (hour >= 16 && hour < 20) {
-      suggestions = ["What's trending for dinner?", "Comfort food recommendations", "Share plates for groups"];
-    } else {
-      suggestions = ["Late night favorites?", "Something satisfying", "Quick bites available"];
+  // Mock data for today's specials
+  const todaysSpecials: SpecialItem[] = [
+    {
+      id: 1,
+      name: "Spicy Thai Curry",
+      description: "Authentic Thai flavors with coconut milk",
+      price: 12.99
+    },
+    {
+      id: 2,
+      name: "Buffalo Wings",
+      description: "Crispy wings with spicy buffalo sauce",
+      price: 9.99
     }
-    
-    // Add popular items from menu if available
-    if (menuItems && Array.isArray(menuItems) && menuItems.length > 0) {
-      const popularCategories = Array.from(new Set(menuItems.slice(0, 3).map((item: any) => item.category)));
-      if (popularCategories[0]) {
-        suggestions.push(`What's in ${popularCategories[0]}?`);
-      }
-    }
-    
-    setAiSuggestions(suggestions);
-  }, [currentTime.getHours(), Array.isArray(menuItems) ? menuItems.length : 0]);
+  ];
 
-  const handleChatMessage = (message: string) => {
-    setShowQuickActions(false); // Hide quick actions after first interaction
-    // Store the message to be passed to AiChatOrder component
-    setChatMessage(message);
+  // Mock data for recent orders
+  const recentOrders: RecentOrder[] = [
+    {
+      id: "#1234",
+      items: "2x Spicy Thai Curry, 1x Buffalo Wings",
+      total: 35.97,
+      status: "delivered",
+      date: "Today"
+    },
+    {
+      id: "#1233",
+      items: "1x Pad Thai, 1x Spring Rolls",
+      total: 18.50,
+      status: "in-progress",
+      date: "Yesterday"
+    }
+  ];
+
+  const quickActions: QuickAction[] = [
+    {
+      icon: <Search className="h-5 w-5" />,
+      label: "Browse Menu",
+      action: () => toast({ title: "Browse Menu", description: "Opening menu browser..." })
+    },
+    {
+      icon: <Calendar className="h-5 w-5" />,
+      label: "Track Order",
+      action: () => toast({ title: "Track Order", description: "Opening order tracking..." })
+    },
+    {
+      icon: <Heart className="h-5 w-5" />,
+      label: "Favorites",
+      action: () => toast({ title: "Favorites", description: "Opening your favorites..." })
+    },
+    {
+      icon: <Gift className="h-5 w-5" />,
+      label: "Rewards",
+      action: () => toast({ title: "Rewards", description: "Opening rewards program..." })
+    }
+  ];
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleSearch = async (query: string) => {
-    setIsSearching(true);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleSendMessage = async () => {
+    if (!currentMessage.trim()) return;
+
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: currentMessage,
+      timestamp: new Date(),
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setCurrentMessage('');
+    setIsLoading(true);
+
     try {
-      // Filter menu items based on search query
-      const filtered = Array.isArray(menuItems) ? menuItems.filter((item: any) =>
-        item.name.toLowerCase().includes(query.toLowerCase()) ||
-        item.description?.toLowerCase().includes(query.toLowerCase()) ||
-        item.category?.toLowerCase().includes(query.toLowerCase()) ||
-        item.tags?.some((tag: string) => tag.toLowerCase().includes(query.toLowerCase()))
-      ) : [];
-      setSearchResults(filtered);
-      setOrderingMode('browse'); // Switch to browse mode to show results
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: currentMessage,
+          restaurantId,
+          sessionId: 'orderfi-session'
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to send message');
+
+      const data = await response.json();
+      
+      const assistantMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: data.message,
+        timestamp: new Date(),
+        menuItems: data.menuItems || []
+      };
+
+      setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('Search error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive"
+      });
     } finally {
-      setIsSearching(false);
+      setIsLoading(false);
     }
   };
 
-  const getTimeBasedGreeting = () => {
-    const hour = currentTime.getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 18) return "Good afternoon";
-    return "Good evening";
+  const handleVoiceToggle = () => {
+    if (!isListening) {
+      if ('speechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        const SpeechRecognition = (window as any).speechRecognition || (window as any).webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        recognition.onstart = () => setIsListening(true);
+        recognition.onend = () => setIsListening(false);
+        recognition.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          setCurrentMessage(transcript);
+        };
+
+        recognition.start();
+      } else {
+        toast({
+          title: "Voice not supported",
+          description: "Speech recognition is not supported in this browser.",
+          variant: "destructive"
+        });
+      }
+    } else {
+      setIsListening(false);
+    }
   };
 
-  const getMealContext = () => {
-    const hour = currentTime.getHours();
-    if (hour >= 6 && hour < 11) return { meal: "breakfast", emoji: "🌅", color: "from-yellow-400 to-orange-500" };
-    if (hour >= 11 && hour < 16) return { meal: "lunch", emoji: "☀️", color: "from-blue-400 to-cyan-500" };
-    if (hour >= 16 && hour < 20) return { meal: "dinner", emoji: "🌆", color: "from-purple-400 to-pink-500" };
-    return { meal: "late night", emoji: "🌙", color: "from-indigo-400 to-purple-500" };
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
   };
-
-  const mealContext = getMealContext();
-
-
-
-
 
   return (
-    <div className="fixed inset-0 flex flex-col" style={{ backgroundColor: '#fcfcfc' }}>
-      <div className="flex-1 overflow-hidden">
-        <div className="max-w-4xl mx-auto p-4 h-full overflow-y-auto pb-32">
-          
-          {/* Search Results Display */}
-        {searchResults.length > 0 && (
-          <div className="p-4">
-            <h3 className="text-lg font-semibold mb-4 font-heading">Search Results ({searchResults.length} items)</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {searchResults.map((item: any) => (
-                <Card key={item.id} className="hover:shadow-md transition-shadow">
+    <div className="min-h-screen bg-[#fcfcfc]">
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 bg-white border-b border-gray-100">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center">
+            <Sparkles className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <h1 className="font-semibold text-lg" style={{ fontFamily: 'Playwrite Australia Victoria' }}>
+              OrderFi AI
+            </h1>
+            <p className="text-sm text-gray-500">Smart Restaurant Assistant</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Bell className="h-5 w-5 text-gray-400" />
+          <Avatar className="w-8 h-8">
+            <AvatarFallback className="bg-gray-100">
+              <User className="h-4 w-4" />
+            </AvatarFallback>
+          </Avatar>
+        </div>
+      </div>
+
+      <ScrollArea className="flex-1 px-4 pb-20" style={{ height: 'calc(100vh - 140px)' }}>
+        <div className="space-y-4 py-4">
+
+          {/* Quick Actions */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Actions</h3>
+            <div className="grid grid-cols-2 gap-3">
+              {quickActions.map((action, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="flex flex-col items-center gap-2 h-16 bg-white border-gray-200 hover:bg-gray-50"
+                  onClick={action.action}
+                >
+                  {action.icon}
+                  <span className="text-xs font-medium">{action.label}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Today's Specials */}
+          <div className="mt-8">
+            <h3 className="text-sm font-semibold text-gray-700 mb-3">Today's Specials</h3>
+            <div className="space-y-3">
+              {todaysSpecials.map((special) => (
+                <Card key={special.id} className="border-gray-200">
                   <CardContent className="p-4">
-                    <h4 className="font-semibold text-gray-900 font-heading">{item.name}</h4>
-                    <p className="text-sm text-gray-600 mt-1">{item.description}</p>
-                    <div className="flex justify-between items-center mt-3">
-                      <span className="text-lg font-bold text-orange-600">${item.price}</span>
-                      <Button 
-                        size="sm"
-                        onClick={() => handleChatMessage(`Add ${item.name} to my order`)}
-                        className="bg-orange-500 hover:bg-orange-600"
-                      >
-                        Add to Order
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-sm">{special.name}</h4>
+                        <p className="text-xs text-gray-600 mt-1">{special.description}</p>
+                        <p className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 font-bold text-sm mt-2">${special.price}</p>
+                      </div>
+                      <Button size="sm" className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white">
+                        <Plus className="h-3 w-3 mr-1" />
+                        Add
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
-            <Button 
-              variant="outline" 
-              onClick={() => {setSearchResults([]); setOrderingMode('chat');}}
-              className="mt-4 w-full"
-            >
-              Return to Chat
-            </Button>
           </div>
-        )}
 
-        {/* Mode Selector - Only visible when in browse mode and no search results */}
-        {orderingMode === 'browse' && searchResults.length === 0 && (
-          <div className="bg-white border-b p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-semibold font-heading">Choose Your Experience</h2>
-              <Badge variant="outline" className="text-orange-600 border-orange-300">
-                Browse Mode
-              </Badge>
-            </div>
-            <div className="flex space-x-2">
-              <Button
-                onClick={() => setOrderingMode('chat')}
-                className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
-              >
-                <Bot className="h-4 w-4 mr-2" />
-                Chat with OrderFi Ai
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setOrderingMode('browse')}
-                className="flex-1 border-orange-300 text-orange-600"
-              >
-                <Grid3X3 className="h-4 w-4 mr-2" />
-                Browse Menu
-              </Button>
-            </div>
+          {/* Token Rewards */}
+          <div className="mt-8">
+            <Card className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-bold text-lg">OrderFi Tokens</h3>
+                    <p className="text-2xl font-bold mt-1">{availableTokens.toLocaleString()}</p>
+                    <p className="text-xs opacity-90 mt-1">Available Tokens</p>
+                  </div>
+                  <div className="text-right">
+                    <Button variant="secondary" size="sm" className="bg-white/20 hover:bg-white/30 text-white border-0">
+                      Redeem
+                    </Button>
+                  </div>
+                </div>
+                <div className="mt-3 pt-3 border-t border-white/20">
+                  <p className="text-xs opacity-90">Earn tokens with every order • 1 token = $0.10</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        )}
 
-        {/* Chat Interface - Default Mode */}
-        {searchResults.length === 0 && (
-          <div 
-            data-ai-chat 
-            className={`transition-all duration-500 ${showQuickActions ? 'mt-80' : 'mt-0'}`}
-            style={{ paddingTop: showQuickActions ? '0' : '20px' }}
-          >
-            <AiChatOrder 
-              restaurantId={restaurantId}
-              menuItems={Array.isArray(menuItems) ? menuItems : []}
-              restaurant={restaurant}
-              externalMessage={chatMessage}
-              onMessageProcessed={() => setChatMessage('')}
-            />
-          </div>
-        )}
-          
-        </div>
-      </div>
-
-      {/* Floating Cosmic Orb Chat Button */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <button
-          onClick={() => window.location.href = '/orderfi-new'}
-          className="relative group"
-        >
-          <ThreeOrb className="w-20 h-20 transform transition-all duration-300 hover:scale-110" />
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <MessageSquare className="h-6 w-6 text-white opacity-80" />
-          </div>
-          <div className="absolute -top-2 -right-2 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold animate-pulse">
-            AI
-          </div>
-        </button>
-      </div>
-
-      {/* Enhanced Bottom Chat Interface */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-t border-gray-200/50 shadow-2xl safe-area-pb">
-        <div className="p-4">
-          {/* Voice Wave Animation when listening */}
-          <div className="mb-2 flex justify-center">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <div
-                  key={i}
-                  className="w-1 bg-gradient-to-t from-orange-400 to-red-500 rounded-full transition-all duration-300"
-                  style={{
-                    height: isSearching ? `${8 + Math.sin(Date.now() / 200 + i) * 4}px` : '4px',
-                    animationDelay: `${i * 100}ms`
-                  }}
-                />
+          {/* Recent Orders */}
+          <div className="mt-8">
+            <h3 className="text-sm font-semibold text-gray-700 mb-3">Recent Orders</h3>
+            <div className="space-y-3">
+              {recentOrders.map((order) => (
+                <Card key={order.id} className="border-gray-200">
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-sm">Order {order.id}</span>
+                          <Badge 
+                            className={`text-xs ${
+                              order.status === 'delivered' 
+                                ? 'bg-green-100 text-green-800' 
+                                : order.status === 'in-progress'
+                                ? 'bg-blue-100 text-blue-800'
+                                : 'bg-yellow-100 text-yellow-800'
+                            }`}
+                          >
+                            {order.status === 'delivered' ? 'Delivered' : 
+                             order.status === 'in-progress' ? 'In Progress' : 'Preparing'}
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-gray-600 mt-1">{order.items}</p>
+                        <p className="font-bold text-sm mt-2">${order.total}</p>
+                      </div>
+                      <span className="text-xs text-gray-500">{order.date}</span>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
 
-          <IntegratedChatSearch
-            onSendMessage={handleChatMessage}
-            onSearch={handleSearch}
-            isLoading={isSearching}
-            placeholder={`${getTimeBasedGreeting()}, what sounds good for ${mealContext.meal}?`}
-          />
+          <div ref={messagesEndRef} />
+        </div>
+      </ScrollArea>
 
-          {/* Quick Action Pills */}
-          {!showQuickActions && (
-            <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
+      {/* Floating AI Chat Interface */}
+      {isChatExpanded && (
+        <div className="fixed top-20 right-4 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50">
+          {/* Chat Header */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-100">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span className="text-sm font-medium">AI Assistant</span>
+              <Badge className="bg-green-100 text-green-800 text-xs">Online</Badge>
+            </div>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setIsChatExpanded(false)}
+              className="p-1 h-6 w-6 hover:bg-gray-100"
+              title="Minimize chat"
+            >
+              <span className="text-lg leading-none">−</span>
+            </Button>
+          </div>
+          
+          {/* Chat Messages */}
+          <div className="h-80 overflow-y-auto p-4 space-y-3">
+            {messages.map((message) => (
+              <div key={message.id}>
+                {message.role === 'assistant' ? (
+                  <div className="flex gap-2">
+                    <div className="w-6 h-6 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="h-3 w-3 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="bg-gray-50 rounded-lg px-3 py-2">
+                        <p className="text-xs text-gray-800">{message.content}</p>
+                      </div>
+                      {message.menuItems && message.menuItems.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {message.menuItems.map((item, index) => (
+                            <Button
+                              key={index}
+                              size="sm"
+                              variant="outline"
+                              className="text-xs h-5 px-2"
+                            >
+                              {item}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 justify-end items-start">
+                    <div className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white rounded-lg px-3 py-2 max-w-[70%]">
+                      <p className="text-xs">{message.content}</p>
+                    </div>
+                    <Avatar className="w-6 h-6 flex-shrink-0">
+                      <AvatarFallback className="bg-gray-600 text-white text-xs">
+                        <User className="h-3 w-3" />
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                )}
+              </div>
+            ))}
+            
+            {isLoading && (
+              <div className="flex gap-2">
+                <div className="w-6 h-6 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center">
+                  <Sparkles className="h-3 w-3 text-white animate-pulse" />
+                </div>
+                <div className="bg-gray-50 rounded-lg px-3 py-2">
+                  <div className="flex gap-1">
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+          
+          {/* Chat Input */}
+          <div className="p-4 border-t border-gray-100">
+            <div className="flex items-center gap-2 bg-gray-50 rounded-full px-3 py-2">
               <Button
-                variant="ghost"
                 size="sm"
-                onClick={() => handleChatMessage("What's popular right now?")}
-                className="whitespace-nowrap bg-orange-50 text-orange-700 hover:bg-orange-100"
+                variant="ghost"
+                className={`p-1 rounded-full ${isListening ? 'bg-red-100 text-red-600' : 'hover:bg-gray-200'}`}
+                onClick={handleVoiceToggle}
               >
-                <TrendingUp className="h-3 w-3 mr-1" />
-                What's Popular
+                {isListening ? <MicOff className="h-3 w-3" /> : <Mic className="h-3 w-3" />}
               </Button>
+              <Input
+                value={currentMessage}
+                onChange={(e) => setCurrentMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Type your message..."
+                className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-sm"
+              />
               <Button
-                variant="ghost"
                 size="sm"
-                onClick={() => handleChatMessage("Show me something quick")}
-                className="whitespace-nowrap bg-blue-50 text-blue-700 hover:bg-blue-100"
+                className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white p-1 rounded-full"
+                onClick={handleSendMessage}
+                disabled={!currentMessage.trim() || isLoading}
               >
-                <Zap className="h-3 w-3 mr-1" />
-                Quick Bites
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowQuickActions(true)}
-                className="whitespace-nowrap bg-purple-50 text-purple-700 hover:bg-purple-100"
-              >
-                <Sparkles className="h-3 w-3 mr-1" />
-                More Ideas
+                <Send className="h-3 w-3" />
               </Button>
             </div>
-          )}
+          </div>
+        </div>
+      )}
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
+        <div className="relative flex items-center justify-around py-3">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"
+            onClick={() => setLocation('/')}
+          >
+            <Home className="h-4 w-4 text-orange-500" />
+            <span className="text-xs">Home</span>
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex flex-col items-center gap-1 text-gray-400 hover:text-orange-500"
+            onClick={() => setLocation('/dashboard')}
+          >
+            <Menu className="h-4 w-4" />
+            <span className="text-xs">Menu</span>
+          </Button>
+          
+          {/* AI Chatbot Icon - Center of navbar */}
+          <Button
+            onClick={() => setIsChatExpanded(true)}
+            className="absolute left-1/2 transform -translate-x-1/2 -top-6 w-12 h-12 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white rounded-full shadow-lg z-50"
+          >
+            <Sparkles className="h-5 w-5" />
+          </Button>
+          
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex flex-col items-center gap-1 text-gray-400 hover:text-orange-500"
+            onClick={() => setLocation('/dashboard')}
+          >
+            <Calendar className="h-4 w-4" />
+            <span className="text-xs">Orders</span>
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex flex-col items-center gap-1 text-gray-400 hover:text-orange-500"
+            onClick={() => setLocation('/tokenrewards')}
+          >
+            <Gift className="h-4 w-4" />
+            <span className="text-xs">Rewards</span>
+          </Button>
         </div>
       </div>
     </div>
