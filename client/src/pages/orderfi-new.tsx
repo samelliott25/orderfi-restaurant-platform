@@ -79,6 +79,9 @@ export default function OrderFiNew() {
   const [chatMessages, setChatMessages] = useState<Array<{id: string, text: string, isUser: boolean, timestamp: Date}>>([]);
   const [currentInput, setCurrentInput] = useState('');
   const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
+  const [inputMode, setInputMode] = useState<'voice' | 'gesture' | 'text'>('voice');
+  const [isRecording, setIsRecording] = useState(false);
+  const [gestureInput, setGestureInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const orbChatEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -166,6 +169,56 @@ export default function OrderFiNew() {
       return null;
     }
     return chatMessages[currentMessageIndex];
+  };
+
+  const handleVoiceInput = () => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+      const recognition = new SpeechRecognition();
+      
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+      
+      recognition.onstart = () => {
+        setIsRecording(true);
+      };
+      
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setCurrentInput(transcript);
+        handleOrbChatMessage();
+      };
+      
+      recognition.onerror = () => {
+        setIsRecording(false);
+      };
+      
+      recognition.onend = () => {
+        setIsRecording(false);
+      };
+      
+      recognition.start();
+    } else {
+      // Fallback to text input
+      setInputMode('text');
+    }
+  };
+
+  const handleGestureInput = (gesture: string) => {
+    const gestureCommands: Record<string, string> = {
+      'swipe-up': 'Show me the menu',
+      'swipe-down': 'What are today\'s specials?',
+      'tap-double': 'I want to order',
+      'circle': 'Surprise me with a recommendation',
+      'hold': 'Help me choose something'
+    };
+    
+    const command = gestureCommands[gesture];
+    if (command) {
+      setCurrentInput(command);
+      handleOrbChatMessage();
+    }
   };
 
   // Get menu items and restaurant data
@@ -636,24 +689,93 @@ export default function OrderFiNew() {
                 )}
               </div>
               
-              {/* Input Area - Fixed at Bottom */}
+              {/* Revolutionary Input Interface */}
               <div className="p-6 bg-black/20 backdrop-blur-sm border-t border-white/20">
-                <div className="flex gap-3">
-                  <input
-                    type="text"
-                    value={currentInput}
-                    onChange={(e) => setCurrentInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleOrbChatMessage()}
-                    placeholder="Type your message..."
-                    className="flex-1 px-4 py-3 bg-white/20 border border-white/30 rounded-2xl text-white placeholder-white/70 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  />
-                  <Button
-                    onClick={handleOrbChatMessage}
-                    className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-sm font-medium"
-                  >
-                    Send
-                  </Button>
-                </div>
+                {inputMode === 'voice' && (
+                  <div className="text-center space-y-4">
+                    <div className="text-white/80 text-sm mb-4">Speak to the orb or try gestures</div>
+                    <div className="flex justify-center gap-4">
+                      <Button
+                        onClick={handleVoiceInput}
+                        disabled={isRecording}
+                        className={`w-16 h-16 rounded-full ${isRecording ? 'bg-red-500 animate-pulse' : 'bg-orange-500 hover:bg-orange-600'} text-white flex items-center justify-center text-2xl`}
+                      >
+                        {isRecording ? '🎙️' : '🎤'}
+                      </Button>
+                      <Button
+                        onClick={() => setInputMode('gesture')}
+                        className="w-16 h-16 rounded-full bg-purple-500 hover:bg-purple-600 text-white flex items-center justify-center text-2xl"
+                      >
+                        ✋
+                      </Button>
+                      <Button
+                        onClick={() => setInputMode('text')}
+                        className="w-16 h-16 rounded-full bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center text-xl"
+                      >
+                        💬
+                      </Button>
+                    </div>
+                    {isRecording && (
+                      <div className="text-orange-200 text-sm animate-pulse">
+                        Listening... speak now
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {inputMode === 'gesture' && (
+                  <div className="text-center space-y-4">
+                    <div className="text-white/80 text-sm mb-4">Try these gestures on the orb</div>
+                    <div className="grid grid-cols-2 gap-3 text-xs text-white/70">
+                      <div className="p-2 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20" onClick={() => handleGestureInput('swipe-up')}>
+                        ↑ Swipe Up<br/>Show Menu
+                      </div>
+                      <div className="p-2 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20" onClick={() => handleGestureInput('swipe-down')}>
+                        ↓ Swipe Down<br/>Today's Specials
+                      </div>
+                      <div className="p-2 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20" onClick={() => handleGestureInput('tap-double')}>
+                        👆👆 Double Tap<br/>I Want to Order
+                      </div>
+                      <div className="p-2 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20" onClick={() => handleGestureInput('circle')}>
+                        ○ Circle<br/>Surprise Me
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => setInputMode('voice')}
+                      className="mt-4 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm"
+                    >
+                      Back to Voice
+                    </Button>
+                  </div>
+                )}
+
+                {inputMode === 'text' && (
+                  <div className="space-y-3">
+                    <div className="text-white/80 text-sm text-center">Fallback text mode</div>
+                    <div className="flex gap-3">
+                      <input
+                        type="text"
+                        value={currentInput}
+                        onChange={(e) => setCurrentInput(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleOrbChatMessage()}
+                        placeholder="Type your message..."
+                        className="flex-1 px-4 py-3 bg-white/20 border border-white/30 rounded-2xl text-white placeholder-white/70 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      />
+                      <Button
+                        onClick={handleOrbChatMessage}
+                        className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl text-sm font-medium"
+                      >
+                        Send
+                      </Button>
+                    </div>
+                    <Button
+                      onClick={() => setInputMode('voice')}
+                      className="w-full py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg text-sm"
+                    >
+                      Switch to Voice & Gestures
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
