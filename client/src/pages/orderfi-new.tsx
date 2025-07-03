@@ -758,9 +758,9 @@ export default function OrderFiNew() {
 
           {/* Sentient Orb Core */}
           <div className="relative">
-            {/* CSS Marble Orb */}
+            {/* CSS Marble Orb with SVG Filter */}
             <div 
-              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer marble-orb"
+              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer marble-orb-new"
               onTouchStart={handleOrbTouchStart}
               onTouchEnd={handleOrbTouchEnd}
             ></div>

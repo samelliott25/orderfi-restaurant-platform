@@ -7,6 +7,71 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC:wght@100..400&family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- SVG filter for marble veins -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0;">
+      <filter id="marbleNoise">
+        <!-- Primary fractal noise layer -->
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.02 0.02"
+          numOctaves="5"
+          seed="1"
+          result="noise1"
+        >
+          <!-- Animate primary noise frequency for slow morphing -->
+          <animate
+            attributeName="baseFrequency"
+            values="0.02 0.02; 0.05 0.05; 0.02 0.02"
+            dur="10s"
+            repeatCount="indefinite"
+          />
+        </feTurbulence>
+        <!-- Secondary finer noise layer -->
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.1 0.1"
+          numOctaves="3"
+          seed="2"
+          result="noise2"
+        >
+          <!-- Animate secondary noise frequency for micro-marbling -->
+          <animate
+            attributeName="baseFrequency"
+            values="0.1 0.1; 0.2 0.2; 0.1 0.1"
+            dur="7s"
+            repeatCount="indefinite"
+          />
+        </feTurbulence>
+        <!-- Combine noise layers -->
+        <feComposite
+          in="noise1"
+          in2="noise2"
+          operator="arithmetic"
+          k1="1"
+          k2="-1"
+          result="marble"
+        />
+        <!-- Convert marble to sharp veins -->
+        <feColorMatrix
+          in="marble"
+          type="matrix"
+          values="
+            1 0 0 0 0
+            0 1 0 0 0
+            0 0 1 0 0
+            0 0 0 30 -15
+          "
+          result="veins"
+        />
+        <!-- Blend veins over the orb -->
+        <feBlend
+          in="SourceGraphic"
+          in2="veins"
+          mode="overlay"
+        />
+      </filter>
+    </svg>
     <style>
       /* Immediate background color to prevent white flash */
       html, body {
