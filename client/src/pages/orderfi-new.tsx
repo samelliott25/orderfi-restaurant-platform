@@ -75,6 +75,7 @@ export default function OrderFiNew() {
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [orbPosition, setOrbPosition] = useState({ x: 50, y: 90 });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { theme } = useTheme();
@@ -417,7 +418,10 @@ export default function OrderFiNew() {
 
       {/* Revolutionary Sentient Orb Experience */}
       {isChatExpanded && (
-        <div className="fixed inset-0 z-[8000] flex items-center justify-center bg-black/30 backdrop-blur-sm animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[8000] flex items-center justify-center animate-in fade-in duration-300">
+          {/* Blurred Background */}
+          <div className="absolute inset-0 looking-glass-background"></div>
+          
           {/* Close Button */}
           <Button 
             variant="ghost" 
@@ -432,7 +436,7 @@ export default function OrderFiNew() {
           <div className="relative">
             {/* Main Orb */}
             <div 
-              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform"
+              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform looking-glass-orb"
               style={{
                 background: `
                   radial-gradient(circle at 20% 30%, #f97316 0%, transparent 40%),
@@ -468,16 +472,16 @@ export default function OrderFiNew() {
                 animation: 'sentient-pulse 4s ease-in-out infinite, marble-flow 12s ease-in-out infinite, fluid-shift 8s linear infinite, planetary-rotation 20s linear infinite'
               }}
             >
-              
-
-              
-
+              {/* Looking Glass Text Content */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center text-white p-6">
+                  <div className="text-lg font-bold mb-2 looking-glass-text">Welcome to OrderFi</div>
+                  <div className="text-sm opacity-90 looking-glass-text">Your AI restaurant assistant</div>
+                  <div className="text-xs mt-3 opacity-80 looking-glass-text">What would you like to order today?</div>
+                </div>
+              </div>
             </div>
-            
-
           </div>
-          
-
         </div>
       )}
 

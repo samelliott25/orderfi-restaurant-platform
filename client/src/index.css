@@ -900,30 +900,51 @@ html.light [role="menu"] {
   animation: fade-in 0.2s ease-out;
 }
 
-/* Text animation effects for orb */
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-    transform: translateY(0px) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-30px) scale(0.8);
-  }
+/* Looking Glass Effect for Chat Popup */
+.looking-glass-background {
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="20" font-size="12" fill="rgba(255,255,255,0.3)">OrderFi AI Assistant</text><text y="35" font-size="8" fill="rgba(255,255,255,0.2)">Smart Restaurant Technology</text><text y="50" font-size="6" fill="rgba(255,255,255,0.2)">Browse Menu • Track Orders • Earn Rewards</text><text y="65" font-size="6" fill="rgba(255,255,255,0.2)">Powered by GPT-4 • Voice Recognition</text><text y="80" font-size="6" fill="rgba(255,255,255,0.2)">Blockchain Rewards • Crypto Payments</text></svg>') center/cover,
+              linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.8) 0%, 
+                rgba(25, 15, 35, 0.9) 50%, 
+                rgba(0, 0, 0, 0.8) 100%);
+  filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
-@keyframes textFloat {
-  0% {
-    transform: translateY(0px) scale(1);
-    opacity: 1;
+.looking-glass-orb {
+  backdrop-filter: blur(0px) !important;
+  position: relative;
+  z-index: 100;
+}
+
+.looking-glass-orb::before {
+  content: '';
+  position: absolute;
+  inset: -50px;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><text x="50%" y="30%" text-anchor="middle" font-size="16" fill="rgba(255,255,255,0.4)">OrderFi AI Assistant</text><text x="50%" y="45%" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.3)">Smart Restaurant Technology</text><text x="50%" y="60%" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.3)">Browse Menu • Track Orders</text><text x="50%" y="70%" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.3)">Earn Rewards • Voice Recognition</text><text x="50%" y="80%" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.3)">Blockchain Technology</text></svg>') center/cover;
+  mask: radial-gradient(circle 160px at center, transparent 140px, black 160px);
+  -webkit-mask: radial-gradient(circle 160px at center, transparent 140px, black 160px);
+  filter: blur(6px);
+  z-index: -1;
+}
+
+.looking-glass-text {
+  animation: looking-glass-pulse 3s ease-in-out infinite;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  position: relative;
+  z-index: 200;
+}
+
+@keyframes looking-glass-pulse {
+  0%, 100% {
+    opacity: 0.9;
+    transform: scale(1);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
   }
   50% {
-    transform: translateY(-15px) scale(1.1);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(-30px) scale(0.9);
-    opacity: 0;
+    opacity: 1;
+    transform: scale(1.02);
+    text-shadow: 0 0 25px rgba(255, 255, 255, 1);
   }
 }
 
