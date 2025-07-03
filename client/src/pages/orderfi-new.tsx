@@ -75,8 +75,6 @@ export default function OrderFiNew() {
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [orbText, setOrbText] = useState('');
-  const [textAnimation, setTextAnimation] = useState<{id: string, word: string, x: number, y: number}[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { theme } = useTheme();
@@ -84,42 +82,7 @@ export default function OrderFiNew() {
   // Check if dark mode is active
   const isDarkMode = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-  // Text animation system for orb
-  const animateTextOnOrb = (text: string) => {
-    const words = text.split(' ');
-    words.forEach((word, index) => {
-      setTimeout(() => {
-        // Show word on orb
-        setOrbText(word);
-        
-        // After a moment, animate word away
-        setTimeout(() => {
-          const newAnimatedWord = {
-            id: Math.random().toString(36),
-            word,
-            x: Math.random() * 60 + 20, // Random position between 20-80%
-            y: Math.random() * 60 + 20
-          };
-          setTextAnimation(prev => [...prev, newAnimatedWord]);
-          
-          // Clear orb text
-          setOrbText('');
-          
-          // Remove animated word after animation completes
-          setTimeout(() => {
-            setTextAnimation(prev => prev.filter(item => item.id !== newAnimatedWord.id));
-          }, 2000);
-        }, 800);
-      }, index * 1000);
-    });
-  };
 
-  // Demo text animation on orb hover/click
-  const handleOrbInteraction = () => {
-    if (!isChatExpanded) {
-      animateTextOnOrb("Hello there! How can I help you today?");
-    }
-  };
 
   // Initialize page on load
   useEffect(() => {
@@ -295,17 +258,11 @@ export default function OrderFiNew() {
 
   const handleChatToggle = () => {
     if (!isChatExpanded) {
-      // Trigger text animation first
-      handleOrbInteraction();
-      
-      // Then open chat after text animation completes
+      setIsAnimating(true);
       setTimeout(() => {
-        setIsAnimating(true);
-        setTimeout(() => {
-          setIsChatExpanded(true);
-          setIsAnimating(false);
-        }, 500);
-      }, 3000);
+        setIsChatExpanded(true);
+        setIsAnimating(false);
+      }, 1000);
     } else {
       setIsChatExpanded(false);
     }
@@ -524,23 +481,7 @@ export default function OrderFiNew() {
         </div>
       )}
 
-      {/* Animated Text Elements */}
-      <div className="fixed inset-0 pointer-events-none z-[150]">
-        {textAnimation.map((item) => (
-          <div
-            key={item.id}
-            className="absolute text-white text-sm font-bold animate-pulse transition-all duration-2000 ease-out"
-            style={{
-              left: `${item.x}%`,
-              top: `${item.y}%`,
-              animation: 'fadeOut 2s ease-out forwards, float 2s ease-out forwards',
-              transform: 'translateY(0px)',
-            }}
-          >
-            {item.word}
-          </div>
-        ))}
-      </div>
+
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-6 left-0 right-0 bg-transparent pointer-events-none">
@@ -580,14 +521,7 @@ export default function OrderFiNew() {
             {/* Orb Core */}
             <div className="orb-core w-full h-full"></div>
             
-            {/* Text Display on Orb */}
-            {orbText && (
-              <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                <span className="text-white text-xs font-bold text-center px-2 animate-pulse">
-                  {orbText}
-                </span>
-              </div>
-            )}
+
             
             {/* Energy particles */}
             <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
