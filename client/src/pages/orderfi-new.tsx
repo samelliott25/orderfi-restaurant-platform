@@ -442,13 +442,7 @@ export default function OrderFiNew() {
               {/* Liquid Interior */}
               <div className="absolute inset-4 rounded-full bg-gradient-to-br from-orange-300/60 to-purple-500/60 animate-pulse"></div>
               
-              {/* AI Consciousness Core */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center text-white font-medium">
-                  <div className="text-4xl mb-2">🧠</div>
-                  <div className="text-lg">I'm listening...</div>
-                </div>
-              </div>
+
               
               {/* Conversation Particles */}
               <div className="absolute inset-0">
@@ -466,50 +460,10 @@ export default function OrderFiNew() {
               </div>
             </div>
             
-            {/* Orbiting Interface Elements */}
-            <div className="absolute inset-0 animate-spin" style={{ animationDuration: '20s' }}>
-              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-lg">💬</span>
-              </div>
-              <div className="absolute top-1/2 -right-6 transform -translate-y-1/2 w-10 h-10 bg-green-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-sm">🎤</span>
-              </div>
-              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-purple-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-lg">🔮</span>
-              </div>
-              <div className="absolute top-1/2 -left-6 transform -translate-y-1/2 w-10 h-10 bg-pink-400 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white text-sm">✨</span>
-              </div>
-            </div>
+
           </div>
           
-          {/* Floating Message Display */}
-          <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 max-w-md">
-            <div className="bg-black/40 backdrop-blur-lg rounded-2xl p-6 border border-white/20 text-center">
-              <p className="text-white text-lg mb-4">
-                Hi! I'm your AI assistant. What would you like to order today?
-              </p>
-              <div className="flex justify-center space-x-4">
-                <Button 
-                  className="bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-500 hover:to-pink-600 text-white"
-                  onClick={() => {
-                    console.log('Voice interaction');
-                  }}
-                >
-                  🎤 Speak
-                </Button>
-                <Button 
-                  variant="outline"
-                  className="border-white/30 text-white hover:bg-white/20"
-                  onClick={() => {
-                    console.log('Type interaction');
-                  }}
-                >
-                  ⌨️ Type
-                </Button>
-              </div>
-            </div>
-          </div>
+
         </div>
       )}
 
