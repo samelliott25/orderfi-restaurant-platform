@@ -1660,58 +1660,27 @@ html {
   }
 
   .marble-orb-new {
-    /* Iridescent marble gradient with color-shifting layers */
-    background: 
-      /* Iridescent shimmer overlay */
-      linear-gradient(135deg, 
-        transparent 0%, 
-        rgba(255, 215, 0, 0.4) 25%, 
-        rgba(255, 20, 147, 0.5) 35%, 
-        rgba(255, 140, 0, 0.3) 45%, 
-        transparent 55%
-      ),
-      /* Diagonal swirl vein */
-      linear-gradient(45deg, 
-        transparent 0%, 
-        rgba(255, 20, 147, 0.6) 20%, 
-        transparent 25%, 
-        rgba(255, 165, 0, 0.7) 35%, 
-        transparent 45%
-      ),
-      /* Counter-diagonal swirl */
-      linear-gradient(-45deg, 
-        transparent 0%, 
-        rgba(255, 85, 0, 0.8) 15%, 
-        transparent 20%, 
-        rgba(255, 105, 180, 0.6) 65%, 
-        transparent 75%
-      ),
-      /* Circular marble base */
-      radial-gradient(ellipse 80% 120% at 30% 70%, 
-        rgba(255, 140, 0, 0.9) 0%, 
-        rgba(255, 50, 120, 0.7) 40%, 
-        rgba(255, 0, 100, 0.5) 100%
-      ),
-      /* Foundation gradient */
-      radial-gradient(circle at center, 
-        rgba(255, 110, 0, 0.8) 0%, 
-        rgba(255, 45, 130, 0.9) 50%, 
-        rgba(139, 0, 255, 0.6) 100%
-      );
+    /* Clean marble gradient: orange → pink → purple */
+    background: radial-gradient(
+      circle at 30% 30%,
+      #FF8A00 0%,
+      #FF1493 50%,
+      #800080 100%
+    );
 
-    /* Enhanced orb shadows with iridescent glow */
+    /* Apply animated marble veins filter */
+    filter: url(#marbleNoise);
+    -webkit-filter: url(#marbleNoise);
+    background-blend-mode: overlay;
+    -webkit-background-blend-mode: overlay;
+
+    /* Enhanced orb shadows */
     box-shadow:
-      inset 0 0 60px rgba(0,0,0,0.5),
-      inset 0 0 20px rgba(255,100,0,0.3),
-      0 20px 60px rgba(0,0,0,0.6),
-      0 0 40px rgba(255,80,150,0.2),
-      0 0 80px rgba(255,165,0,0.1);
+      inset 0 0 60px rgba(0,0,0,0.4),
+      0 20px 50px rgba(0,0,0,0.6);
 
-    /* Rotating marble pattern animation */
-    animation: pattern-rotate 15s linear infinite;
-    -webkit-animation: pattern-rotate 15s linear infinite;
+    /* Remove any rotation - keep orb stationary */
     
-    /* Keep stationary */
     position: relative;
   }
 
@@ -1769,40 +1738,14 @@ html {
     }
   }
 
-  /* Keyframes for rotating marble patterns */
-  @keyframes pattern-rotate {
-    0% { 
-      background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%; 
-    }
-    25% { 
-      background-position: 25% 25%, -25% 25%, 25% -25%, 0% 0%, 0% 0%; 
-    }
-    50% { 
-      background-position: 50% 50%, -50% 50%, 50% -50%, 0% 0%, 0% 0%; 
-    }
-    75% { 
-      background-position: 75% 75%, -75% 75%, 75% -75%, 0% 0%, 0% 0%; 
-    }
-    100% { 
-      background-position: 100% 100%, -100% 100%, 100% -100%, 0% 0%, 0% 0%; 
-    }
+  /* Keyframes for 3D orb rotation */
+  @keyframes orb-3d-spin {
+    from { transform: rotateY(0deg) rotateX(10deg); }
+    to   { transform: rotateY(360deg) rotateX(10deg); }
   }
-  @-webkit-keyframes pattern-rotate {
-    0% { 
-      background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%; 
-    }
-    25% { 
-      background-position: 25% 25%, -25% 25%, 25% -25%, 0% 0%, 0% 0%; 
-    }
-    50% { 
-      background-position: 50% 50%, -50% 50%, 50% -50%, 0% 0%, 0% 0%; 
-    }
-    75% { 
-      background-position: 75% 75%, -75% 75%, 75% -75%, 0% 0%, 0% 0%; 
-    }
-    100% { 
-      background-position: 100% 100%, -100% 100%, 100% -100%, 0% 0%, 0% 0%; 
-    }
+  @-webkit-keyframes orb-3d-spin {
+    from { -webkit-transform: rotateY(0deg) rotateX(10deg); }
+    to   { -webkit-transform: rotateY(360deg) rotateX(10deg); }
   }
 
   /* Keyframes for highlight drift */
