@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useTheme } from '@/components/theme-provider';
+import { ThreeOrb } from '@/components/ThreeOrb';
 import type { Restaurant, MenuItem } from '@shared/schema';
 
 interface ChatMessage {
@@ -757,13 +758,16 @@ export default function OrderFiNew() {
 
           {/* Sentient Orb Core */}
           <div className="relative">
-            {/* Main Orb */}
-            <div 
-              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform looking-glass-orb"
+            {/* Three.js Enhanced Orb */}
+            <ThreeOrb 
               onTouchStart={handleOrbTouchStart}
               onTouchEnd={handleOrbTouchEnd}
-              onMouseDown={handleOrbTouchStart}
-              onMouseUp={handleOrbTouchEnd}
+              className="animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform looking-glass-orb"
+            />
+            
+            {/* CSS Overlay for Glass Effect */}
+            <div 
+              className="absolute inset-0 w-80 h-80 rounded-full pointer-events-none"
               style={{
                 background: `
                   radial-gradient(circle at 20% 30%, #f97316 0%, transparent 40%),
