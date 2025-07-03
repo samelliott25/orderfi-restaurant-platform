@@ -480,9 +480,9 @@ export default function OrderFiNew() {
       )}
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-transparent pointer-events-none pb-4">
+      <div className="fixed bottom-4 left-0 right-0 bg-transparent pointer-events-none">
         {/* Sentient AI Orb - Fixed center position */}
-        <div className={`absolute top-0 left-0 right-0 flex justify-center pointer-events-auto z-[200] ${
+        <div className={`flex justify-center pointer-events-auto z-[200] ${
           isAnimating ? 'animate-morph-to-center' : ''
         }`}>
           <Button
@@ -490,7 +490,7 @@ export default function OrderFiNew() {
             className={`w-16 h-16 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 ${
               isAnimating ? 'pointer-events-none' : ''
             }`}
-            style={{ transform: 'translateY(-8px)' }}
+            style={{ transform: 'translateY(0px)' }}
           >
             {/* Tiny rotating stars positioned around the orb */}
             <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
