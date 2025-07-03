@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { ThreeOrb } from "@/components/ThreeOrb";
 
 interface ChatMessage {
   id: string;

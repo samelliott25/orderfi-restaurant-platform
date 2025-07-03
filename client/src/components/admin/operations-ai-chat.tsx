@@ -21,6 +21,7 @@ import {
   Paperclip
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
+import { ThreeOrb } from "@/components/ThreeOrb";
 import mimiLogo from "@assets/Mimi dashboard logo_1750329007735.webp";
 
 interface ChatMessage {

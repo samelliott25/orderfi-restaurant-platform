@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { HamburgerMenu } from '@/components/Navigation';
 import { useTheme } from '@/components/theme-provider';
+import { UniversalOrbChat } from '@/components/UniversalOrbChat';
 import { 
   Home, 
   Calendar,
@@ -148,26 +149,11 @@ export function StandardLayout({
 
           {/* Bottom Navigation */}
           <div className="fixed bottom-0 left-0 right-0">
-            {/* Sentient AI Orb - Fixed center position */}
-            <div className="absolute top-0 left-0 right-0 flex justify-center">
-              <Button
-                onClick={() => setIsChatExpanded(true)}
-                className="relative -top-8 rounded-full z-50 overflow-hidden sentient-orb border-0 p-0"
-                style={{ width: '76px', height: '76px' }}
-              >
-                {/* Orb Core with liquid-like inner glow */}
-                <div className="orb-core">
-                  <div className="marble-detail-layer"></div>
-                </div>
-                
-                {/* Energy particles floating around */}
-                <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
-                <div className="orb-energy-particle" style={{ top: '70%', left: '25%', animationDelay: '0.7s' }}></div>
-                <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
-                <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
-                <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
-              </Button>
-            </div>
+            {/* Universal Three.js Orb Chat */}
+            <UniversalOrbChat 
+              pageContext="admin" 
+              className="absolute top-0 left-0 right-0 flex justify-center -translate-y-8"
+            />
             
             {/* Navigation buttons */}
             <div className="flex items-center justify-around py-3">

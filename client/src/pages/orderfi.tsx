@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AiChatOrder } from "@/components/AiChatOrder";
 import { SimpleOrderFi } from "@/components/SimpleOrderFi";
 import { IntegratedChatSearch } from "@/components/IntegratedChatSearch";
+import { ThreeOrb } from "@/components/ThreeOrb";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -200,8 +201,24 @@ export default function OrderFiPage() {
         </div>
       </div>
 
+      {/* Floating Cosmic Orb Chat Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <button
+          onClick={() => window.location.href = '/orderfi-new'}
+          className="relative group"
+        >
+          <ThreeOrb className="w-20 h-20 transform transition-all duration-300 hover:scale-110" />
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <MessageSquare className="h-6 w-6 text-white opacity-80" />
+          </div>
+          <div className="absolute -top-2 -right-2 w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold animate-pulse">
+            AI
+          </div>
+        </button>
+      </div>
+
       {/* Enhanced Bottom Chat Interface */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-gray-200/50 shadow-2xl safe-area-pb">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-t border-gray-200/50 shadow-2xl safe-area-pb">
         <div className="p-4">
           {/* Voice Wave Animation when listening */}
           <div className="mb-2 flex justify-center">
