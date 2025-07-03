@@ -495,7 +495,7 @@ export default function OrderFiNew() {
         }`}>
           <Button
             onClick={handleChatToggle}
-            className={`w-16 h-16 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 ${
+            className={`w-20 h-20 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 ${
               isAnimating ? 'pointer-events-none' : ''
             }`}
             style={{ transform: 'translateY(-8px)' }}
