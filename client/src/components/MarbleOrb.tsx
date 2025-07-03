@@ -190,100 +190,64 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
           
           void main() {
             vec3 pos = vPos;
-            float t = time;
+            float t = time * 0.3;
             
-            // Ferrofluid ripple coordinates
-            vec2 ripple_center1 = vec2(sin(t * 1.2) * 0.3, cos(t * 0.8) * 0.4);
-            vec2 ripple_center2 = vec2(cos(t * 1.5) * 0.5, sin(t * 1.1) * 0.3);
-            vec2 ripple_center3 = vec2(sin(t * 0.9) * 0.4, cos(t * 1.3) * 0.5);
-            
-            // Dynamic ripples emanating from moving centers
-            float ripple1 = length(pos.xy - ripple_center1);
-            float ripple2 = length(pos.xy - ripple_center2);
-            float ripple3 = length(pos.xy - ripple_center3);
-            
-            // Ferrofluid wave patterns
-            float wave1 = sin(ripple1 * 8.0 - t * 3.0) * exp(-ripple1 * 2.0);
-            float wave2 = cos(ripple2 * 6.0 - t * 2.5) * exp(-ripple2 * 1.8);
-            float wave3 = sin(ripple3 * 10.0 - t * 4.0) * exp(-ripple3 * 2.2);
-            
-            // Flowing ferrofluid streams
-            vec3 flow_pos = pos + vec3(
-              sin(pos.y * 4.0 + t * 2.0) * 0.2,
-              cos(pos.x * 3.0 + t * 1.8) * 0.15,
-              0.0
+            // Flowing marble distortion
+            vec2 flow = vec2(
+              sin(pos.y * 2.0 + t * 2.0) * 0.3,
+              cos(pos.x * 1.5 + t * 1.5) * 0.25
             );
             
-            // Multiple flowing noise layers for organic movement
-            float flow1 = snoise(flow_pos * 3.0 + vec3(t * 0.8, 0.0, 0.0));
-            float flow2 = snoise(flow_pos * 6.0 + vec3(0.0, t * 1.2, 0.0));
-            float flow3 = snoise(flow_pos * 9.0 + vec3(t * 0.6, t * 0.9, 0.0));
+            vec3 marble_pos = pos + vec3(flow, 0.0);
             
-            // Combine waves and flows for ferrofluid effect
-            float ferrofluid = (wave1 + wave2 + wave3) * 0.3 + (flow1 + flow2 + flow3) * 0.4;
+            // Smooth flowing noise layers
+            float n1 = snoise(marble_pos * 2.0 + vec3(t, 0.0, 0.0));
+            float n2 = snoise(marble_pos * 4.0 + vec3(0.0, t * 1.5, 0.0)) * 0.5;
+            float n3 = snoise(marble_pos * 8.0 + vec3(t * 0.8, t * 1.2, 0.0)) * 0.25;
             
-            // Sharp marble boundaries - no smoothing
-            float marble_mask = step(0.0, ferrofluid);
-            float contrast_boost = step(0.4, abs(ferrofluid));
+            float marble_pattern = n1 + n2 + n3;
             
-            // Sharp vein edges with high frequency detail
-            float vein_flow = sin(pos.x * 15.0 + flow1 * 8.0 + t * 4.0) * cos(pos.y * 12.0 + flow2 * 6.0 + t * 3.5);
-            vein_flow = step(0.6, abs(vein_flow));
+            // Smooth flowing bands like the reference
+            float bands = sin(marble_pattern * 4.0 + pos.x * 3.0 + pos.y * 2.0 + t * 2.0);
+            bands = smoothstep(-0.8, 0.8, bands);
             
-            // High contrast OrderFi colors
-            vec3 bright_orange = vec3(1.0, 0.4, 0.0);      // Vibrant orange
-            vec3 electric_pink = vec3(1.0, 0.2, 0.6);      // Electric pink
-            vec3 deep_magenta = vec3(0.8, 0.0, 0.5);       // Deep magenta
-            vec3 hot_orange = vec3(1.0, 0.5, 0.1);         // Hot orange
+            // Color palette matching the reference image
+            vec3 orange = vec3(1.0, 0.5, 0.1);     // Orange
+            vec3 red = vec3(1.0, 0.2, 0.3);        // Red-pink
+            vec3 purple = vec3(0.6, 0.2, 0.8);     // Purple
+            vec3 blue = vec3(0.2, 0.6, 1.0);       // Blue
+            vec3 cyan = vec3(0.3, 0.8, 1.0);       // Cyan
             
-            // Base ferrofluid color mixing
-            vec3 base_color = mix(bright_orange, electric_pink, marble_mask);
-            base_color = mix(base_color, deep_magenta, contrast_boost * 0.7);
+            // Smooth color transitions based on marble pattern
+            vec3 color1 = mix(orange, red, smoothstep(-0.5, 0.5, marble_pattern));
+            vec3 color2 = mix(purple, blue, smoothstep(-0.3, 0.7, marble_pattern + 0.3));
+            vec3 color3 = mix(blue, cyan, smoothstep(-0.2, 0.8, marble_pattern + 0.6));
             
-            // Sharp flowing vein patterns
-            base_color = mix(base_color, hot_orange, vein_flow);
+            // Blend colors smoothly
+            vec3 base_color = mix(color1, color2, bands);
+            base_color = mix(base_color, color3, smoothstep(0.2, 0.8, abs(marble_pattern)));
             
-            // High frequency marble streaks
-            float streak1 = step(0.8, abs(sin(pos.x * 25.0 + flow1 * 10.0 + t * 5.0)));
-            float streak2 = step(0.7, abs(cos(pos.y * 20.0 + flow2 * 8.0 + t * 4.5)));
-            float streak3 = step(0.9, abs(sin((pos.x + pos.y) * 30.0 + flow3 * 12.0 + t * 6.0)));
+            // Add flowing highlight streams
+            float highlight = smoothstep(0.5, 0.9, abs(sin(marble_pattern * 6.0 + t * 3.0)));
+            base_color = mix(base_color, mix(orange, cyan, 0.5), highlight * 0.4);
             
-            // Apply sharp streaks
-            base_color = mix(base_color, electric_pink, streak1);
-            base_color = mix(base_color, bright_orange, streak2);
-            base_color = mix(base_color, deep_magenta, streak3);
-            
-            // Ripple highlights
-            float ripple_highlight = abs(sin(ripple1 * 12.0 - t * 4.0)) * exp(-ripple1 * 1.5);
-            ripple_highlight += abs(cos(ripple2 * 10.0 - t * 3.5)) * exp(-ripple2 * 1.8);
-            base_color += hot_orange * ripple_highlight * 0.4;
-            
-            // Sharp surface texture detail
-            float texture_detail1 = step(0.5, snoise(pos * 40.0 + vec3(t * 2.0, 0.0, 0.0)));
-            float texture_detail2 = step(0.6, snoise(pos * 60.0 + vec3(0.0, t * 3.0, 0.0)));
-            float texture_detail3 = step(0.7, snoise(pos * 80.0 + vec3(t * 1.5, t * 2.5, 0.0)));
-            
-            // Apply high frequency texture variations
-            base_color = mix(base_color, hot_orange, texture_detail1 * 0.4);
-            base_color = mix(base_color, electric_pink, texture_detail2 * 0.3);
-            base_color = mix(base_color, bright_orange, texture_detail3 * 0.2);
-            
-            // Depth and spherical effects
+            // Spherical depth and lighting
             float radius = length(pos.xy);
-            float depth = 1.0 - smoothstep(0.0, 0.8, radius);
-            base_color *= (depth * 0.6 + 0.4);
+            float depth = 1.0 - smoothstep(0.0, 0.9, radius);
+            base_color *= (depth * 0.5 + 0.5);
             
-            // Ferrofluid shine and reflection
+            // Glass-like surface reflection
             vec3 normal = normalize(vNormal);
             vec3 viewDir = normalize(vViewDir);
-            float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 2.0);
+            float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 1.5);
             
-            // Liquid surface reflections
-            base_color += fresnel * mix(bright_orange, electric_pink, marble_mask) * 0.5;
+            // Add subtle reflection highlights
+            vec3 reflection_color = mix(cyan, orange, marble_pattern * 0.5 + 0.5);
+            base_color += fresnel * reflection_color * 0.3;
             
-            // Edge glow for liquid effect
-            float edge_glow = pow(1.0 - radius, 4.0);
-            base_color += bright_orange * edge_glow * 0.6;
+            // Enhance saturation and vibrancy
+            base_color = pow(base_color, vec3(0.9));
+            base_color *= 1.2;
             
             gl_FragColor = vec4(base_color, opacity);
           }
