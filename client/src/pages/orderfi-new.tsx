@@ -443,14 +443,44 @@ export default function OrderFiNew() {
         <div className={`fixed inset-0 z-[9998] flex items-center justify-center pointer-events-auto ${
           isChatExpanded ? 'opacity-100' : 'opacity-0'
         } transition-opacity duration-300`}>
-          <div className={`w-full h-full max-w-4xl max-h-4xl rounded-3xl shadow-2xl border border-orange-200/20 backdrop-blur-sm flex flex-col m-8 ${
-            isDarkMode 
-              ? 'bg-gradient-to-br from-orange-600 via-red-600 to-purple-900' 
-              : 'bg-gradient-to-br from-orange-500 via-red-500 to-pink-500'
-          }`}
+          <div className="w-full h-full max-w-4xl max-h-4xl rounded-3xl shadow-2xl border border-orange-200/20 backdrop-blur-sm flex flex-col m-8 bg-transparent relative overflow-hidden"
           onClick={(e) => e.stopPropagation()}>
+          
+          {/* Morphed Orb Background - positioned behind chat content */}
+          {isChatExpanded && (
+            <div className="absolute inset-0 z-0 rounded-3xl overflow-hidden">
+              <div className="w-full h-full sentient-orb">
+                {/* Tiny rotating stars positioned around the background */}
+                <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
+                  {/* 6 tiny stars positioned strategically */}
+                  <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '75%', left: '80%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  <svg className="absolute ai-cascade-3" style={{ width: '1.5px', height: '1.5px', top: '30%', left: '85%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  <svg className="absolute ai-cascade-4" style={{ width: '1.5px', height: '1.5px', top: '10%', left: '70%', transform: 'rotate(-89deg)', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="white">
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '60%', left: '5%', transform: 'rotate(156deg)', animationDelay: '3.2s' }} viewBox="0 0 24 24" fill="white">
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                  <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '90%', left: '50%', transform: 'rotate(-201deg)', animationDelay: '1.4s' }} viewBox="0 0 24 24" fill="white">
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                </div>
+                
+                {/* Orb Core with liquid-like inner glow */}
+                <div className="orb-core w-full h-full"></div>
+              </div>
+            </div>
+          )}
+          
           {/* Chat Header */}
-          <div className="flex items-center justify-between p-4 border-b border-white/20">
+          <div className="flex items-center justify-between p-4 border-b border-white/20 relative z-10 bg-black/20 backdrop-blur-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-green-400 rounded-full"></div>
               <span className="text-sm font-medium text-white">AI Assistant</span>
@@ -468,7 +498,7 @@ export default function OrderFiNew() {
           </div>
           
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto p-6 space-y-4 relative z-10">
             {messages.map((message) => (
               <div key={message.id}>
                 {message.role === 'assistant' ? (
@@ -529,7 +559,7 @@ export default function OrderFiNew() {
           </div>
           
           {/* Chat Input */}
-          <div className="p-6 border-t border-white/20">
+          <div className="p-6 border-t border-white/20 relative z-10 bg-black/20 backdrop-blur-sm">
             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-2">
               <Button
                 size="sm"
