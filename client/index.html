@@ -11,64 +11,79 @@
     <!-- SVG filter for marble veins -->
     <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0;">
       <filter id="marbleNoise">
-        <!-- Primary fractal noise layer -->
+        <!-- Swirling turbulence for fluid marble -->
         <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.02 0.02"
-          numOctaves="5"
-          seed="1"
-          result="noise1"
+          type="turbulence"
+          baseFrequency="0.015 0.025"
+          numOctaves="4"
+          seed="42"
+          result="swirl1"
         >
-          <!-- Animate primary noise frequency for slow morphing -->
+          <!-- Animate for flowing motion -->
           <animate
             attributeName="baseFrequency"
-            values="0.02 0.02; 0.05 0.05; 0.02 0.02"
-            dur="10s"
+            values="0.015 0.025; 0.035 0.045; 0.015 0.025"
+            dur="8s"
+            repeatCount="indefinite"
+          />
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            values="0; 360"
+            dur="15s"
             repeatCount="indefinite"
           />
         </feTurbulence>
-        <!-- Secondary finer noise layer -->
+        
+        <!-- Secondary swirl for complexity -->
         <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.1 0.1"
-          numOctaves="3"
-          seed="2"
-          result="noise2"
+          type="turbulence"
+          baseFrequency="0.08 0.06"
+          numOctaves="2"
+          seed="99"
+          result="swirl2"
         >
-          <!-- Animate secondary noise frequency for micro-marbling -->
           <animate
             attributeName="baseFrequency"
-            values="0.1 0.1; 0.2 0.2; 0.1 0.1"
-            dur="7s"
+            values="0.08 0.06; 0.12 0.1; 0.08 0.06"
+            dur="6s"
+            repeatCount="indefinite"
+          />
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            values="360; 0"
+            dur="12s"
             repeatCount="indefinite"
           />
         </feTurbulence>
-        <!-- Combine noise layers -->
+        
+        <!-- Combine swirls -->
         <feComposite
-          in="noise1"
-          in2="noise2"
-          operator="arithmetic"
-          k1="1"
-          k2="-1"
+          in="swirl1"
+          in2="swirl2"
+          operator="multiply"
           result="marble"
         />
-        <!-- Convert marble to sharp veins -->
+        
+        <!-- Create marble streaks -->
         <feColorMatrix
           in="marble"
           type="matrix"
           values="
-            1 0 0 0 0
-            0 1 0 0 0
-            0 0 1 0 0
-            0 0 0 30 -15
+            2 0 0 0 -0.5
+            0 1.5 0 0 -0.2
+            0 0 0.8 0 0.1
+            0 0 0 20 -10
           "
-          result="veins"
+          result="marbleStreaks"
         />
-        <!-- Blend veins over the orb -->
+        
+        <!-- Blend with source -->
         <feBlend
           in="SourceGraphic"
-          in2="veins"
-          mode="overlay"
+          in2="marbleStreaks"
+          mode="soft-light"
         />
       </filter>
     </svg>
