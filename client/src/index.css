@@ -1676,10 +1676,7 @@ html {
       inset 0 0 50px rgba(0,0,0,0.4),
       0 20px 50px rgba(0,0,0,0.5);
 
-    /* Enable 3D transforms and spin */
-    transform-style: preserve-3d;
-    animation: orb-spin 60s linear infinite;
-    -webkit-animation: orb-spin 60s linear infinite;
+    /* Just keep it static - no rotation */
 
     position: relative;
   }

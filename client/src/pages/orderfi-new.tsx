@@ -757,7 +757,7 @@ export default function OrderFiNew() {
           </Button>
 
           {/* Sentient Orb Core */}
-          <div className="relative" style={{ perspective: '800px' }}>
+          <div className="relative">
             {/* CSS Marble Orb with SVG Filter */}
             <div 
               className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer marble-orb-new"
