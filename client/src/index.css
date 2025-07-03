@@ -267,7 +267,7 @@
       border-radius: 50%;
     }
     100% {
-      transform: translateY(-50vh) scale(10);
+      transform: translateY(-50vh) scale(25);
       border-radius: 50%;
     }
   }
@@ -276,6 +276,40 @@
     animation: morph-to-center 1.0s ease-out forwards !important;
     transform-origin: center !important;
     z-index: 9999 !important;
+  }
+
+  /* Full-screen orb interface */
+  .sentient-orb-fullscreen {
+    background: radial-gradient(circle at center, 
+      rgba(255, 150, 0, 0.15) 0%,
+      rgba(255, 100, 100, 0.12) 25%,
+      rgba(200, 50, 255, 0.10) 50%,
+      rgba(100, 0, 200, 0.08) 75%,
+      rgba(0, 0, 0, 0.95) 100%);
+    
+    /* Gas giant atmospheric effect */
+    background-image:
+      radial-gradient(ellipse 300% 100% at 50% 20%, rgba(255, 150, 0, 0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 200% 80% at 30% 60%, rgba(255, 100, 100, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 250% 90% at 70% 40%, rgba(200, 50, 255, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse 180% 120% at 50% 80%, rgba(100, 0, 200, 0.04) 0%, transparent 40%);
+    
+    animation: cosmic-atmosphere 20s ease-in-out infinite;
+  }
+
+  @keyframes cosmic-atmosphere {
+    0%, 100% {
+      background-position: 0% 50%, 100% 20%, 0% 80%, 50% 100%;
+    }
+    25% {
+      background-position: 20% 40%, 80% 30%, 10% 70%, 60% 90%;
+    }
+    50% {
+      background-position: 40% 60%, 60% 40%, 20% 60%, 70% 80%;
+    }
+    75% {
+      background-position: 60% 20%, 40% 50%, 30% 90%, 80% 70%;
+    }
   }
 
   :root {

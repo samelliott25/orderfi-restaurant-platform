@@ -84,10 +84,7 @@ export default function OrderFiNew() {
 
   // Initialize page on load
   useEffect(() => {
-    // Force scroll to top immediately
     window.scrollTo({ top: 0, behavior: 'instant' });
-    
-    // Trigger fade-in animation
     setIsPageLoaded(true);
   }, []);
 
@@ -165,9 +162,8 @@ export default function OrderFiNew() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Only scroll to bottom when new messages are added by user interaction, not on page load
   useEffect(() => {
-    if (messages.length > 1) { // Only scroll if there are user messages (more than just the initial AI greeting)
+    if (messages.length > 1) {
       scrollToBottom();
     }
   }, [messages]);
@@ -260,16 +256,11 @@ export default function OrderFiNew() {
 
   const handleChatToggle = () => {
     if (!isChatExpanded) {
-      console.log('Starting animation...');
-      console.log('isAnimating before:', isAnimating);
       setIsAnimating(true);
-      console.log('isAnimating after:', true);
-      // Start animation, then show chat after animation completes
       setTimeout(() => {
-        console.log('Animation complete, showing chat');
         setIsChatExpanded(true);
         setIsAnimating(false);
-      }, 1000); // Animation duration
+      }, 1000);
     } else {
       setIsChatExpanded(false);
     }
@@ -284,40 +275,24 @@ export default function OrderFiNew() {
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
             <div className="relative w-full h-full flex items-center justify-center">
-              {/* Stars positioned across entire icon surface */}
               <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-                {/* Left side */}
                 <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
                 <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
-                
-                {/* Center */}
                 <svg className="w-1 h-1 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
                   <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                 </svg>
-                <svg className="w-1 h-1 absolute ai-cascade-4" style={{ top: '65%', left: '52%', transform: 'rotate(-15deg)', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                
-                {/* Right side */}
-                <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '35%', left: '82%', transform: 'rotate(89deg)', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '85%', left: '78%', transform: 'rotate(178deg)', animationDelay: '3.1s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
               </div>
-              {/* Main center star icon */}
               <svg className="w-5 h-5 text-white relative z-10 ai-star-pulse star-no-rotate" viewBox="0 0 24 24" fill="white">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
               </svg>
             </div>
           </div>
           <div>
-            <h1 className="font-semibold text-lg" style={{ fontFamily: 'Playwrite Australia Victoria' }}>OrderFi </h1>
+            <h1 className="font-semibold text-lg" style={{ fontFamily: 'Playwrite Australia Victoria' }}>OrderFi</h1>
             <p className="text-sm text-orange-600">Smart Restaurant Assistant</p>
           </div>
         </div>
@@ -325,9 +300,9 @@ export default function OrderFiNew() {
           <HamburgerMenu />
         </div>
       </div>
+
       <ScrollArea className="flex-1 pb-2 border-none" style={{ height: 'calc(100vh - 140px)' }}>
         <div className="space-y-4 py-4 px-4">
-
           {/* Quick Actions */}
           <div>
             <h3 className="section-heading mb-3">Quick Actions</h3>
@@ -339,7 +314,6 @@ export default function OrderFiNew() {
                   className="slick-button elevated-card relative flex flex-col items-center gap-2 h-16 bg-gradient-to-br from-background to-muted border-2 border-orange-200 hover:border-orange-300 transition-all duration-200 active:scale-95 overflow-hidden group"
                   onClick={action.action}
                 >
-                  {/* Internal glow overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-orange-500/0 group-hover:from-orange-400/10 group-hover:to-orange-500/15 transition-all duration-300 rounded-md"></div>
                   <div className="relative z-10 text-orange-500 scale-110 group-hover:text-orange-600 transition-colors duration-200">
                     {action.icon}
@@ -405,12 +379,12 @@ export default function OrderFiNew() {
             <h3 className="section-heading mb-3">Recent Orders</h3>
             <div className="space-y-3">
               {recentOrders.map((order) => (
-                <Card key={order.id} className="border-border">
+                <Card key={order.id} className="elevated-card border-border">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-sm text-foreground">Order {order.id}</span>
+                          <span className="font-semibold text-sm">Order {order.id}</span>
                           <Badge 
                             className={`text-xs ${
                               order.status === 'delivered' 
@@ -425,9 +399,9 @@ export default function OrderFiNew() {
                           </Badge>
                         </div>
                         <p className="text-xs text-orange-700 mt-1">{order.items}</p>
-                        <p className="font-bold text-sm mt-2 text-foreground">${order.total}</p>
+                        <p className="font-bold text-sm mt-2">${order.total}</p>
                       </div>
-                      <span className="text-xs text-orange-600">{order.date}</span>
+                      <span className="text-xs text-muted-foreground">{order.date}</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -438,153 +412,123 @@ export default function OrderFiNew() {
           <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
-      {/* Morphing Orb Chat Interface */}
-      {(isChatExpanded || isAnimating) && (
-        <div className="fixed inset-0 z-[9998] pointer-events-auto">
-          {/* Full-screen orb background */}
-          <div className="absolute inset-0 w-full h-full sentient-orb">
-            {/* Tiny rotating stars positioned around the background */}
-            <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-              {/* 6 tiny stars positioned strategically */}
-              <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '75%', left: '80%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-3" style={{ width: '1.5px', height: '1.5px', top: '30%', left: '85%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-4" style={{ width: '1.5px', height: '1.5px', top: '10%', left: '70%', transform: 'rotate(-89deg)', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '60%', left: '5%', transform: 'rotate(156deg)', animationDelay: '3.2s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '90%', left: '50%', transform: 'rotate(-201deg)', animationDelay: '1.4s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-            </div>
-            
-            {/* Orb Core with liquid-like inner glow */}
-            <div className="orb-core w-full h-full"></div>
-          </div>
-          
-          {/* Chat interface floating on top */}
-          <div className={`absolute inset-0 flex flex-col ${
-            isChatExpanded ? 'opacity-100' : 'opacity-0'
-          } transition-opacity duration-300`}>
-            
+
+      {/* Chat Interface - Full Screen Morphed Orb */}
+      {isChatExpanded && (
+        <div className="fixed inset-0 z-[8000] sentient-orb-fullscreen">
+          {/* Floating Chat Interface */}
+          <div className="relative z-10 flex flex-col h-full">
             {/* Chat Header */}
-            <div className="flex items-center justify-between p-6 relative z-10">
+            <div className="flex items-center justify-between p-6 bg-black/20 backdrop-blur-sm border-b border-white/10">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                 <span className="text-sm font-medium text-white">AI Assistant</span>
-                <Badge className="bg-white/20 text-white text-xs border-white/30">Online</Badge>
+                <Badge className="bg-green-500/20 text-green-300 text-xs border-green-500/30">Online</Badge>
               </div>
               <Button
                 size="sm"
                 variant="ghost"
                 onClick={() => setIsChatExpanded(false)}
-                className="p-1 h-6 w-6 hover:bg-white/20 text-white"
-                title="Minimize chat"
+                className="p-2 h-8 w-8 hover:bg-white/10 text-white"
               >
-                <span className="text-lg leading-none">×</span>
+                ×
               </Button>
             </div>
             
             {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto px-6 space-y-4 relative z-10">
-            {messages.map((message) => (
-              <div key={message.id}>
-                {message.role === 'assistant' ? (
-                  <div className="flex gap-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Sparkles className="h-3 w-3 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2">
-                        <p className="text-xs text-white">{message.content}</p>
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              {messages.map((message) => (
+                <div key={message.id}>
+                  {message.role === 'assistant' ? (
+                    <div className="flex gap-3">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-sm">
+                        <Sparkles className="h-4 w-4 text-orange-300" />
                       </div>
-                      {message.menuItems && message.menuItems.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-2">
-                          {message.menuItems.map((item, index) => (
-                            <Button
-                              key={index}
-                              size="sm"
-                              variant="outline"
-                              className="text-xs h-5 px-2 bg-white/10 border-white/30 text-white hover:bg-white/20"
-                            >
-                              {item}
-                            </Button>
-                          ))}
+                      <div className="flex-1">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+                          <p className="text-sm text-white">{message.content}</p>
                         </div>
-                      )}
+                        {message.menuItems && message.menuItems.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {message.menuItems.map((item, index) => (
+                              <Button
+                                key={index}
+                                size="sm"
+                                variant="outline"
+                                className="text-xs h-6 px-2 bg-white/10 border-white/20 text-white hover:bg-white/20"
+                              >
+                                {item}
+                              </Button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex gap-3 justify-end">
+                      <div className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white rounded-lg px-4 py-3 max-w-xs">
+                        <p className="text-sm">{message.content}</p>
+                      </div>
+                      <Avatar className="w-8 h-8">
+                        <AvatarFallback className="bg-white/10 text-white">
+                          <User className="h-4 w-4" />
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-sm">
+                    <Sparkles className="h-4 w-4 text-orange-300 animate-spin" />
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-white/40 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-white/40 rounded-full animate-bounce delay-100"></div>
+                      <div className="w-2 h-2 bg-white/40 rounded-full animate-bounce delay-200"></div>
                     </div>
                   </div>
-                ) : (
-                  <div className="flex gap-2 justify-end items-start">
-                    <div className="bg-white/30 backdrop-blur-sm text-white rounded-lg px-3 py-2 max-w-[70%]">
-                      <p className="text-xs">{message.content}</p>
-                    </div>
-                    <Avatar className="w-6 h-6 flex-shrink-0">
-                      <AvatarFallback className="bg-white/20 text-white text-xs">
-                        <User className="h-3 w-3" />
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                )}
-              </div>
-            ))}
-            
-            {isLoading && (
-              <div className="flex gap-2">
-                <div className="w-6 h-6 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center">
-                  <Sparkles className="h-3 w-3 text-white animate-pulse" />
                 </div>
-                <div className="bg-muted/50 rounded-lg px-3 py-2">
-                  <div className="flex gap-1">
-                    <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                  </div>
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-          
-            {/* Chat Input */}
-            <div className="p-6 relative z-10">
-            <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-2">
-              <Button
-                size="sm"
-                variant="ghost"
-                className={`p-1 rounded-full text-white ${isListening ? 'bg-red-400/30 text-red-200' : 'hover:bg-white/20'}`}
-                onClick={handleVoiceToggle}
-              >
-                {isListening ? <MicOff className="h-3 w-3" /> : <Mic className="h-3 w-3" />}
-              </Button>
-              <Input
-                value={currentMessage}
-                onChange={(e) => setCurrentMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
-                className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-sm text-white placeholder:text-white/70"
-              />
-              <Button
-                size="sm"
-                className="bg-white/30 hover:bg-white/40 text-white p-1 rounded-full backdrop-blur-sm"
-                onClick={handleSendMessage}
-                disabled={!currentMessage.trim() || isLoading}
-              >
-                <Send className="h-3 w-3" />
-              </Button>
+              )}
             </div>
-          </div>
+            
+            {/* Chat Input */}
+            <div className="p-6 bg-black/20 backdrop-blur-sm border-t border-white/10">
+              <div className="flex gap-2">
+                <Input
+                  value={currentMessage}
+                  onChange={(e) => setCurrentMessage(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Type your message..."
+                  className="flex-1 bg-white/10 border-white/20 text-white placeholder-white/50 focus:border-orange-500 focus:ring-orange-500/20"
+                />
+                <Button
+                  onClick={handleVoiceToggle}
+                  variant="outline"
+                  size="sm"
+                  className={`bg-white/10 border-white/20 text-white hover:bg-white/20 ${
+                    isListening ? 'bg-red-500/20 border-red-500' : ''
+                  }`}
+                >
+                  {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                </Button>
+                <Button
+                  onClick={handleSendMessage}
+                  variant="outline"
+                  size="sm"
+                  className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 border-0 text-white hover:from-orange-600 hover:via-red-600 hover:to-pink-600"
+                  disabled={!currentMessage.trim() || isLoading}
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       )}
+
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-transparent pointer-events-none">
         {/* Sentient AI Orb - Fixed center position */}
@@ -593,16 +537,13 @@ export default function OrderFiNew() {
         }`}>
           <Button
             onClick={handleChatToggle}
-            className="relative -top-8 rounded-full z-[999] overflow-hidden sentient-orb border-0 p-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 !bg-transparent hover:!bg-transparent pointer-events-auto"
-            style={{ 
-              width: '76px', 
-              height: '76px',
-              zIndex: isAnimating ? 9999 : 999
-            }}
+            className={`w-16 h-16 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 ${
+              isAnimating ? 'pointer-events-none' : ''
+            }`}
+            style={{ transform: 'translateY(-8px)' }}
           >
             {/* Tiny rotating stars positioned around the orb */}
             <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-              {/* 6 tiny stars positioned strategically - scaled to match header size */}
               <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
               </svg>
@@ -622,12 +563,11 @@ export default function OrderFiNew() {
                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
               </svg>
             </div>
-
-            {/* Orb Core with liquid-like inner glow */}
-            <div className="orb-core">
-            </div>
             
-            {/* Energy particles floating around */}
+            {/* Orb Core */}
+            <div className="orb-core w-full h-full"></div>
+            
+            {/* Energy particles */}
             <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
             <div className="orb-energy-particle" style={{ top: '70%', left: '25%', animationDelay: '0.7s' }}></div>
             <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
