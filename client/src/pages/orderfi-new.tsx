@@ -758,12 +758,12 @@ export default function OrderFiNew() {
 
           {/* Sentient Orb Core */}
           <div className="relative">
-            {/* Three.js Enhanced Orb */}
-            <MarbleOrb 
+            {/* CSS Marble Orb */}
+            <div 
+              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer marble-orb"
               onTouchStart={handleOrbTouchStart}
               onTouchEnd={handleOrbTouchEnd}
-              className="animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform looking-glass-orb"
-            />
+            ></div>
             
             {/* Tiny rotating stars around the large orb */}
             <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
