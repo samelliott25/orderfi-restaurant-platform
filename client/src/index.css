@@ -299,6 +299,22 @@
     width: 100vw !important;
   }
 
+  @keyframes sentient-pulse {
+    0%, 100% { 
+      transform: scale(1);
+      box-shadow: 0 0 100px rgba(255, 150, 0, 0.5), 0 0 200px rgba(255, 100, 100, 0.3), 0 0 300px rgba(200, 50, 255, 0.2);
+    }
+    50% { 
+      transform: scale(1.05);
+      box-shadow: 0 0 120px rgba(255, 150, 0, 0.7), 0 0 240px rgba(255, 100, 100, 0.5), 0 0 360px rgba(200, 50, 255, 0.4);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); opacity: 0.7; }
+    50% { transform: translateY(-10px); opacity: 1; }
+  }
+
   @keyframes cosmic-atmosphere {
     0%, 100% {
       background-position: 0% 50%, 100% 20%, 0% 80%, 50% 100%;
