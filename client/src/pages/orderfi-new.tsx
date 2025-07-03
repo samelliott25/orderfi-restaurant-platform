@@ -526,28 +526,7 @@ export default function OrderFiNew() {
           </Button>
         </div>
         
-        {/* Navigation buttons */}
-        <div className="flex items-center justify-around bg-transparent pointer-events-auto py-4 px-4">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"
-            onClick={() => setLocation('/orderfi-home')}
-          >
-            <Home className="h-4 w-4 text-orange-500" />
-            <span className="text-xs">Home</span>
-          </Button>
-          
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600"
-            onClick={() => setLocation('/dashboard')}
-          >
-            <Calendar className="h-4 w-4 text-orange-500" />
-            <span className="text-xs">Orders</span>
-          </Button>
-        </div>
+
       </div>
     </div>
   );
