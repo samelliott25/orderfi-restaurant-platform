@@ -47,133 +47,229 @@ export function ThreeOrb({ onTouchStart, onTouchEnd, className }: ThreeOrbProps)
       varying vec2 vUv;
       varying vec3 vPosition;
       varying vec3 vNormal;
+      varying vec3 vViewPosition;
       
       void main() {
         vUv = uv;
         vPosition = position;
-        vNormal = normal;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        vNormal = normalMatrix * normal;
+        
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        vViewPosition = -mvPosition.xyz;
+        
+        gl_Position = projectionMatrix * mvPosition;
       }
     `;
     
     const fragmentShader = `
       uniform float time;
+      uniform vec2 resolution;
       varying vec2 vUv;
       varying vec3 vPosition;
       varying vec3 vNormal;
+      varying vec3 vViewPosition;
       
-      // Advanced noise functions
-      float random(vec2 st) {
-        return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+      #define MAX_STEPS 100
+      #define MAX_DIST 100.0
+      #define SURF_DIST 0.01
+      
+      // Advanced noise functions for volumetric effects
+      float hash(float n) { return fract(sin(n) * 1e4); }
+      
+      float noise3D(vec3 x) {
+        const vec3 step = vec3(110, 241, 171);
+        vec3 i = floor(x);
+        vec3 f = fract(x);
+        float n = dot(i, step);
+        vec3 u = f * f * (3.0 - 2.0 * f);
+        return mix(mix(mix( hash(n + dot(step, vec3(0, 0, 0))), hash(n + dot(step, vec3(1, 0, 0))), u.x),
+                       mix( hash(n + dot(step, vec3(0, 1, 0))), hash(n + dot(step, vec3(1, 1, 0))), u.x), u.y),
+                   mix(mix( hash(n + dot(step, vec3(0, 0, 1))), hash(n + dot(step, vec3(1, 0, 1))), u.x),
+                       mix( hash(n + dot(step, vec3(0, 1, 1))), hash(n + dot(step, vec3(1, 1, 1))), u.x), u.y), u.z);
       }
       
-      float noise(vec2 st) {
-        vec2 i = floor(st);
-        vec2 f = fract(st);
-        float a = random(i);
-        float b = random(i + vec2(1.0, 0.0));
-        float c = random(i + vec2(0.0, 1.0));
-        float d = random(i + vec2(1.0, 1.0));
-        vec2 u = f * f * (3.0 - 2.0 * f);
-        return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-      }
-      
-      // Fractal Brownian Motion for complex patterns
-      float fbm(vec2 st) {
-        float value = 0.0;
-        float amplitude = 0.5;
-        float frequency = 0.0;
-        for (int i = 0; i < 6; i++) {
-          value += amplitude * noise(st);
-          st *= 2.0;
-          amplitude *= 0.5;
+      // Fractal Brownian Motion for complex volumetric patterns
+      float fbm3D(vec3 x) {
+        float v = 0.0;
+        float a = 0.5;
+        vec3 shift = vec3(100);
+        for (int i = 0; i < 6; ++i) {
+          v += a * noise3D(x);
+          x = x * 2.0 + shift;
+          a *= 0.5;
         }
-        return value;
+        return v;
       }
       
-      // Voronoi-like cellular pattern
-      float voronoi(vec2 st) {
-        vec2 i_st = floor(st);
-        vec2 f_st = fract(st);
-        float m_dist = 1.0;
-        for (int y= -1; y <= 1; y++) {
-          for (int x= -1; x <= 1; x++) {
-            vec2 neighbor = vec2(float(x),float(y));
-            vec2 point = random(i_st + neighbor) * vec2(1.0);
-            point = 0.5 + 0.5*sin(time + 6.2831*point);
-            vec2 diff = neighbor + point - f_st;
-            float dist = length(diff);
-            m_dist = min(m_dist, dist);
-          }
+      // Sphere distance function for ray marching
+      float sdSphere(vec3 p, float s) {
+        return length(p) - s;
+      }
+      
+      // Scene distance function
+      float GetDist(vec3 p) {
+        // Main sphere
+        float sphere = sdSphere(p, 1.0);
+        
+        // Add volumetric noise for interior complexity
+        float noise = fbm3D(p * 2.0 + time * 0.3) * 0.1;
+        return sphere - noise;
+      }
+      
+      // Ray marching function
+      float RayMarch(vec3 ro, vec3 rd) {
+        float dO = 0.0;
+        for (int i = 0; i < MAX_STEPS; i++) {
+          vec3 p = ro + rd * dO;
+          float dS = GetDist(p);
+          dO += dS;
+          if (dO > MAX_DIST || dS < SURF_DIST) break;
         }
-        return m_dist;
+        return dO;
+      }
+      
+      // Normal calculation for lighting
+      vec3 GetNormal(vec3 p) {
+        float d = GetDist(p);
+        vec2 e = vec2(0.01, 0);
+        vec3 n = d - vec3(
+          GetDist(p - e.xyy),
+          GetDist(p - e.yxy),
+          GetDist(p - e.yyx)
+        );
+        return normalize(n);
+      }
+      
+      // Advanced lighting model
+      vec3 GetLight(vec3 p, vec3 normal, vec3 viewDir) {
+        // Multiple light sources
+        vec3 lightPos1 = vec3(2.0, 4.0, 6.0);
+        vec3 lightPos2 = vec3(-3.0, -2.0, 4.0);
+        vec3 lightPos3 = vec3(0.0, -4.0, -2.0);
+        
+        vec3 lightDir1 = normalize(lightPos1 - p);
+        vec3 lightDir2 = normalize(lightPos2 - p);
+        vec3 lightDir3 = normalize(lightPos3 - p);
+        
+        // Diffuse lighting
+        float diff1 = max(dot(normal, lightDir1), 0.0);
+        float diff2 = max(dot(normal, lightDir2), 0.0);
+        float diff3 = max(dot(normal, lightDir3), 0.0);
+        
+        // Specular lighting
+        vec3 reflectDir1 = reflect(-lightDir1, normal);
+        vec3 reflectDir2 = reflect(-lightDir2, normal);
+        vec3 reflectDir3 = reflect(-lightDir3, normal);
+        
+        float spec1 = pow(max(dot(viewDir, reflectDir1), 0.0), 64.0);
+        float spec2 = pow(max(dot(viewDir, reflectDir2), 0.0), 32.0);
+        float spec3 = pow(max(dot(viewDir, reflectDir3), 0.0), 16.0);
+        
+        // Light colors
+        vec3 lightColor1 = vec3(1.0, 0.8, 0.6); // Warm orange
+        vec3 lightColor2 = vec3(0.8, 0.4, 1.0); // Purple
+        vec3 lightColor3 = vec3(0.2, 0.8, 1.0); // Cyan
+        
+        vec3 lighting = lightColor1 * (diff1 + spec1) +
+                       lightColor2 * (diff2 + spec2) +
+                       lightColor3 * (diff3 + spec3);
+        
+        return lighting;
+      }
+      
+      // Volumetric interior effects
+      vec3 GetVolumetricColor(vec3 rayPos, vec3 rayDir, float dist) {
+        vec3 color = vec3(0.0);
+        float stepSize = dist / 50.0;
+        
+        for (int i = 0; i < 50; i++) {
+          vec3 pos = rayPos + rayDir * float(i) * stepSize;
+          if (length(pos) > 1.0) break;
+          
+          // Create flowing volumetric patterns
+          float density = fbm3D(pos * 3.0 + time * 0.5);
+          density *= smoothstep(1.0, 0.3, length(pos));
+          
+          // Color based on position and time
+          vec3 volColor = vec3(
+            0.8 + 0.4 * sin(pos.x * 4.0 + time),
+            0.4 + 0.6 * sin(pos.y * 3.0 + time * 1.3),
+            0.9 + 0.3 * sin(pos.z * 5.0 + time * 0.8)
+          );
+          
+          color += volColor * density * 0.02;
+        }
+        
+        return color;
       }
       
       void main() {
-        vec2 st = vUv;
-        vec3 pos = vPosition;
-        float t = time * 0.8;
+        vec2 uv = (vUv - 0.5) * 2.0;
         
-        // Create multiple pattern layers
-        float angle = atan(st.y - 0.5, st.x - 0.5);
-        float radius = length(st - 0.5);
+        // Camera setup
+        vec3 ro = vec3(0.0, 0.0, 3.0); // Ray origin
+        vec3 rd = normalize(vec3(uv, -1.0)); // Ray direction
         
-        // Layer 1: Flowing energy streams
-        vec2 flowUV = st + vec2(sin(t * 2.0 + st.y * 10.0) * 0.1, cos(t * 1.5 + st.x * 8.0) * 0.08);
-        float flow = fbm(flowUV * 4.0 + t * 0.5);
+        // Ray marching
+        float d = RayMarch(ro, rd);
         
-        // Layer 2: Cellular/crystalline structure
-        float cells = voronoi(st * 8.0 + vec2(sin(t * 0.7), cos(t * 0.9)));
-        cells = smoothstep(0.1, 0.3, cells);
+        vec3 finalColor = vec3(0.0);
         
-        // Layer 3: Plasma-like electric fields
-        float plasma = sin(st.x * 15.0 + t * 3.0) * cos(st.y * 12.0 + t * 2.5);
-        plasma += sin(length(st - 0.5) * 20.0 - t * 4.0) * 0.5;
-        plasma = (plasma + 1.0) * 0.5; // Normalize to 0-1
+        if (d < MAX_DIST) {
+          vec3 p = ro + rd * d;
+          vec3 normal = GetNormal(p);
+          vec3 viewDir = normalize(ro - p);
+          
+          // Surface lighting
+          vec3 lighting = GetLight(p, normal, viewDir);
+          
+          // Fresnel effect for glass-like appearance
+          float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 3.0);
+          
+          // Refraction effect
+          vec3 refractDir = refract(-viewDir, normal, 0.9);
+          vec3 refractColor = GetVolumetricColor(p, refractDir, 2.0);
+          
+          // Reflection effect
+          vec3 reflectDir = reflect(-viewDir, normal);
+          vec3 reflectColor = vec3(0.2, 0.6, 1.0) * 0.3; // Sky reflection
+          
+          // Chromatic dispersion for rainbow effect
+          float dispersion = 0.02;
+          vec3 dispersionR = refract(-viewDir, normal, 0.95);
+          vec3 dispersionG = refract(-viewDir, normal, 0.92);
+          vec3 dispersionB = refract(-viewDir, normal, 0.89);
+          
+          vec3 chromaticColor = vec3(
+            GetVolumetricColor(p, dispersionR, 2.0).r,
+            GetVolumetricColor(p, dispersionG, 2.0).g,
+            GetVolumetricColor(p, dispersionB, 2.0).b
+          );
+          
+          // Combine all effects
+          finalColor = mix(refractColor + chromaticColor, reflectColor, fresnel);
+          finalColor += lighting * 0.3;
+          
+          // Add rim lighting
+          float rim = 1.0 - max(dot(viewDir, normal), 0.0);
+          finalColor += pow(rim, 2.0) * vec3(1.0, 0.5, 0.8) * 0.5;
+          
+        } else {
+          // Background gradient
+          float gradient = length(uv) * 0.5;
+          finalColor = mix(vec3(0.1, 0.05, 0.2), vec3(0.02, 0.02, 0.1), gradient);
+        }
         
-        // Layer 4: Spiral galaxy arms
-        float spiral = sin(angle * 3.0 + radius * 15.0 - t * 2.0) * exp(-radius * 2.0);
-        spiral = (spiral + 1.0) * 0.5;
+        // Add atmospheric glow around the sphere
+        float sphereDist = length(uv);
+        float glow = exp(-sphereDist * 2.0) * 0.3;
+        finalColor += vec3(1.0, 0.6, 0.8) * glow;
         
-        // Layer 5: Neural network synapses
-        float neural = noise(st * 20.0 + vec2(t * 0.6, -t * 0.4));
-        neural *= smoothstep(0.7, 0.9, neural); // Create sparse connections
+        // Tone mapping and gamma correction
+        finalColor = finalColor / (finalColor + vec3(1.0));
+        finalColor = pow(finalColor, vec3(1.0/2.2));
         
-        // Dynamic color palette that shifts over time
-        vec3 color1 = vec3(1.0, 0.4 + sin(t * 0.8) * 0.2, 0.1 + cos(t * 1.2) * 0.1); // Dynamic orange
-        vec3 color2 = vec3(1.0, 0.2 + sin(t * 1.1) * 0.3, 0.6 + cos(t * 0.9) * 0.2); // Dynamic pink  
-        vec3 color3 = vec3(0.6 + sin(t * 0.7) * 0.2, 0.2, 1.0); // Dynamic purple
-        vec3 color4 = vec3(0.1, 0.8 + sin(t * 1.3) * 0.2, 1.0); // Dynamic cyan
-        
-        // Combine all layers with different mixing modes
-        float mixer1 = flow * 0.4 + cells * 0.3 + spiral * 0.3;
-        float mixer2 = plasma * 0.5 + neural * 0.5;
-        
-        vec3 baseColor = mix(mix(color1, color2, mixer1), mix(color3, color4, mixer2), radius);
-        
-        // Add dynamic energy pulses
-        float pulse = sin(t * 4.0) * 0.5 + 0.5;
-        float energyRing = smoothstep(0.3, 0.35, radius) * smoothstep(0.45, 0.4, radius);
-        baseColor += energyRing * color2 * pulse * 0.8;
-        
-        // Volumetric depth effect
-        float depth = 1.0 - smoothstep(0.0, 0.8, radius);
-        baseColor *= depth;
-        
-        // Advanced fresnel with iridescence
-        float fresnel = pow(1.0 - abs(dot(vNormal, vec3(0.0, 0.0, 1.0))), 1.5);
-        vec3 iridescent = vec3(
-          sin(fresnel * 6.28 + t) * 0.5 + 0.5,
-          sin(fresnel * 6.28 + t + 2.09) * 0.5 + 0.5,
-          sin(fresnel * 6.28 + t + 4.18) * 0.5 + 0.5
-        );
-        baseColor += fresnel * iridescent * 0.3;
-        
-        // Subsurface scattering simulation
-        float scatter = exp(-radius * 3.0) * (neural + flow) * 0.5;
-        baseColor += scatter * color1 * 0.4;
-        
-        gl_FragColor = vec4(baseColor, 0.85 + fresnel * 0.15);
+        gl_FragColor = vec4(finalColor, 1.0);
       }
     `;
     
@@ -181,7 +277,8 @@ export function ThreeOrb({ onTouchStart, onTouchEnd, className }: ThreeOrbProps)
       vertexShader,
       fragmentShader,
       uniforms: {
-        time: { value: 0 }
+        time: { value: 0 },
+        resolution: { value: new THREE.Vector2(size, size) }
       },
       transparent: true,
       side: THREE.DoubleSide
