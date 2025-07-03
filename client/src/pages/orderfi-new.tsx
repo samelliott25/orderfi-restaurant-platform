@@ -840,65 +840,65 @@ export default function OrderFiNew() {
               {/* Current Message Display - Takes Full Orb */}
               <div className="flex-1 flex items-center justify-center p-8 relative">
                 {getCurrentMessage() ? (
-                  <div className="text-center transition-all duration-300">
-                    <div className="mb-6">
-                      <div className={`inline-block px-6 py-4 rounded-3xl max-w-[240px] shadow-lg ${
+                  <div className="text-center transition-all duration-400">
+                    <div className="mb-4">
+                      <div className={`inline-block px-5 py-3 rounded-2xl max-w-[240px] transform transition-all duration-300 ${
                         getCurrentMessage()?.isUser 
-                          ? 'bg-blue-500 text-white' 
-                          : 'bg-white/95 text-black backdrop-blur-xl border border-white/20'
+                          ? 'bg-gradient-to-r from-orange-400 to-pink-400 text-white shadow-lg rotate-1' 
+                          : 'bg-white/90 text-gray-800 backdrop-blur-sm shadow-md -rotate-1'
                       }`}>
-                        <div className="text-base leading-relaxed font-normal">
+                        <div className="text-sm leading-relaxed font-normal">
                           {getCurrentMessage()?.text}
                         </div>
                       </div>
-                      <div className="text-xs text-white/60 mt-2 font-light">
+                      <div className="text-xs text-white/70 mt-3 font-light">
                         {getCurrentMessage()?.timestamp.toLocaleTimeString()}
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center space-y-6">
-                    <div className="text-white/95 text-xl font-light tracking-wide looking-glass-text">
-                      Hi, can I help you?
+                  <div className="text-center space-y-5">
+                    <div className="text-white text-lg font-normal looking-glass-text">
+                      Hey! What sounds good?
                     </div>
                     
-                    {/* Apple-style Action Bubbles */}
-                    <div className="flex flex-wrap justify-center gap-2 max-w-[260px] mx-auto">
+                    {/* Fresh, organic bubbles */}
+                    <div className="flex flex-wrap justify-center gap-3 max-w-[250px] mx-auto">
                       <button
                         onClick={() => handleProactiveAction('show-menu')}
-                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
+                        className="px-3 py-2 bg-orange-400/80 hover:bg-orange-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:rotate-1 hover:scale-110 shadow-sm"
                       >
-                        Show Menu
+                        🍽️ Menu
                       </button>
                       <button
                         onClick={() => handleProactiveAction('recommend')}
-                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
+                        className="px-3 py-2 bg-pink-400/80 hover:bg-pink-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:-rotate-1 hover:scale-110 shadow-sm"
                       >
-                        Surprise Me
+                        ✨ Surprise me
                       </button>
                       <button
                         onClick={() => handleProactiveAction('specials')}
-                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
+                        className="px-3 py-2 bg-purple-400/80 hover:bg-purple-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:rotate-2 hover:scale-110 shadow-sm"
                       >
-                        Today's Special
+                        🌟 Special
                       </button>
                       <button
                         onClick={() => handleProactiveAction('quick-order')}
-                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
+                        className="px-3 py-2 bg-green-400/80 hover:bg-green-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:-rotate-2 hover:scale-110 shadow-sm"
                       >
-                        Quick Order
+                        ⚡ Quick
                       </button>
                       <button
                         onClick={() => handleProactiveAction('dietary')}
-                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
+                        className="px-3 py-2 bg-blue-400/80 hover:bg-blue-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:rotate-1 hover:scale-110 shadow-sm"
                       >
-                        Dietary Options
+                        🥗 Healthy
                       </button>
                       <button
                         onClick={() => handleProactiveAction('popular')}
-                        className="px-4 py-2 bg-white/95 hover:bg-white text-black rounded-full text-sm font-medium backdrop-blur-xl border border-white/20 transition-all duration-200 hover:scale-[1.02] shadow-lg"
+                        className="px-3 py-2 bg-red-400/80 hover:bg-red-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:-rotate-1 hover:scale-110 shadow-sm"
                       >
-                        Popular Items
+                        🔥 Popular
                       </button>
                     </div>
                   </div>
