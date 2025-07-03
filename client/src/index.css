@@ -932,13 +932,21 @@ html.light [role="menu"] {
 .static-text-container {
   animation: counter-rotate 20s linear infinite;
   z-index: 200;
+  transform-origin: center center;
+  will-change: transform;
 }
 
 .looking-glass-text {
   animation: looking-glass-pulse 3s ease-in-out infinite;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 1),
+    0 0 40px rgba(255, 255, 255, 0.8),
+    0 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 60px rgba(249, 115, 22, 0.6);
   position: relative;
   z-index: 200;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 @keyframes counter-rotate {
