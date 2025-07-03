@@ -260,12 +260,19 @@
   @keyframes morph-to-center {
     0% {
       transform: translateY(0) scale(1);
+      border-radius: 50%;
     }
-    50% {
-      transform: translateY(-40vh) scale(2);
+    30% {
+      transform: translateY(-30vh) scale(1.8);
+      border-radius: 50%;
+    }
+    60% {
+      transform: translateY(-45vh) scale(3);
+      border-radius: 30%;
     }
     100% {
-      transform: translateY(-50vh) scale(5);
+      transform: translateY(-50vh) scale(12);
+      border-radius: 8px;
     }
   }
 
