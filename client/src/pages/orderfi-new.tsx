@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useTheme } from '@/components/theme-provider';
-import { ThreeOrb } from '@/components/ThreeOrb';
+import { MarbleOrb } from '@/components/MarbleOrb';
 import type { Restaurant, MenuItem } from '@shared/schema';
 
 interface ChatMessage {
@@ -759,7 +759,7 @@ export default function OrderFiNew() {
           {/* Sentient Orb Core */}
           <div className="relative">
             {/* Three.js Enhanced Orb */}
-            <ThreeOrb 
+            <MarbleOrb 
               onTouchStart={handleOrbTouchStart}
               onTouchEnd={handleOrbTouchEnd}
               className="animate-in zoom-in duration-500 delay-200 hover:scale-105 transition-transform looking-glass-orb"
