@@ -840,65 +840,73 @@ export default function OrderFiNew() {
               {/* Current Message Display - Takes Full Orb */}
               <div className="flex-1 flex items-center justify-center p-8 relative">
                 {getCurrentMessage() ? (
-                  <div className="text-center transition-all duration-400">
-                    <div className="mb-4">
-                      <div className={`inline-block px-5 py-3 rounded-2xl max-w-[240px] transform transition-all duration-300 ${
+                  <div className="text-center transition-all duration-300">
+                    <div className="mb-6">
+                      <div className={`inline-block px-6 py-4 max-w-[240px] transition-all duration-300 ${
                         getCurrentMessage()?.isUser 
-                          ? 'bg-gradient-to-r from-orange-400 to-pink-400 text-white shadow-lg rotate-1' 
-                          : 'bg-white/90 text-gray-800 backdrop-blur-sm shadow-md -rotate-1'
+                          ? 'bg-white/20 border border-white/40 rounded-xl text-white backdrop-blur-sm' 
+                          : 'bg-white/15 border border-white/30 rounded-xl text-white/95 backdrop-blur-md'
                       }`}>
-                        <div className="text-sm leading-relaxed font-normal">
+                        <div className="text-sm leading-relaxed font-light tracking-wide">
                           {getCurrentMessage()?.text}
                         </div>
                       </div>
-                      <div className="text-xs text-white/70 mt-3 font-light">
+                      <div className="text-xs text-white/50 mt-2 font-light tracking-wider">
                         {getCurrentMessage()?.timestamp.toLocaleTimeString()}
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center space-y-5">
-                    <div className="text-white text-lg font-normal looking-glass-text">
-                      Hey! What sounds good?
+                  <div className="text-center space-y-8">
+                    <div className="text-white/90 text-2xl font-light tracking-wide looking-glass-text">
+                      What brings you here?
                     </div>
                     
-                    {/* Fresh, organic bubbles */}
-                    <div className="flex flex-wrap justify-center gap-3 max-w-[250px] mx-auto">
+                    {/* Designer-grade action grid */}
+                    <div className="grid grid-cols-2 gap-4 max-w-[220px] mx-auto">
                       <button
                         onClick={() => handleProactiveAction('show-menu')}
-                        className="px-3 py-2 bg-orange-400/80 hover:bg-orange-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:rotate-1 hover:scale-110 shadow-sm"
+                        className="aspect-square bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white text-xs font-medium backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] flex flex-col items-center justify-center gap-1"
                       >
-                        🍽️ Menu
+                        <span className="text-lg">🍽</span>
+                        <span>Menu</span>
                       </button>
                       <button
                         onClick={() => handleProactiveAction('recommend')}
-                        className="px-3 py-2 bg-pink-400/80 hover:bg-pink-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:-rotate-1 hover:scale-110 shadow-sm"
+                        className="aspect-square bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white text-xs font-medium backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] flex flex-col items-center justify-center gap-1"
                       >
-                        ✨ Surprise me
+                        <span className="text-lg">✨</span>
+                        <span>Surprise</span>
                       </button>
                       <button
                         onClick={() => handleProactiveAction('specials')}
-                        className="px-3 py-2 bg-purple-400/80 hover:bg-purple-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:rotate-2 hover:scale-110 shadow-sm"
+                        className="aspect-square bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white text-xs font-medium backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] flex flex-col items-center justify-center gap-1"
                       >
-                        🌟 Special
-                      </button>
-                      <button
-                        onClick={() => handleProactiveAction('quick-order')}
-                        className="px-3 py-2 bg-green-400/80 hover:bg-green-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:-rotate-2 hover:scale-110 shadow-sm"
-                      >
-                        ⚡ Quick
-                      </button>
-                      <button
-                        onClick={() => handleProactiveAction('dietary')}
-                        className="px-3 py-2 bg-blue-400/80 hover:bg-blue-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:rotate-1 hover:scale-110 shadow-sm"
-                      >
-                        🥗 Healthy
+                        <span className="text-lg">⭐</span>
+                        <span>Special</span>
                       </button>
                       <button
                         onClick={() => handleProactiveAction('popular')}
-                        className="px-3 py-2 bg-red-400/80 hover:bg-red-400 text-white rounded-2xl text-sm backdrop-blur-sm transition-all duration-300 hover:-rotate-1 hover:scale-110 shadow-sm"
+                        className="aspect-square bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-white text-xs font-medium backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] flex flex-col items-center justify-center gap-1"
                       >
-                        🔥 Popular
+                        <span className="text-lg">🔥</span>
+                        <span>Popular</span>
+                      </button>
+                    </div>
+                    
+                    {/* Secondary actions */}
+                    <div className="flex justify-center gap-3">
+                      <button
+                        onClick={() => handleProactiveAction('quick-order')}
+                        className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 rounded-full text-white text-xs font-light backdrop-blur-sm transition-all duration-300"
+                      >
+                        Quick Order
+                      </button>
+                      <button
+                        onClick={() => handleProactiveAction('dietary')}
+                        className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 rounded-full text-white text-xs font-light backdrop-blur-sm transition-all duration-300"
+                      >
+                        Dietary
                       </button>
                     </div>
                   </div>
