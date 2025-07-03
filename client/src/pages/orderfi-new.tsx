@@ -472,6 +472,41 @@ export default function OrderFiNew() {
                 animation: 'sentient-pulse 4s ease-in-out infinite, marble-flow 12s ease-in-out infinite, fluid-shift 8s linear infinite, planetary-rotation 20s linear infinite'
               }}
             >
+              {/* Tiny rotating stars around the large orb */}
+              <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
+                <svg className="absolute ai-cascade-1" style={{ width: '3px', height: '3px', top: '15%', left: '10%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="absolute ai-cascade-2" style={{ width: '3px', height: '3px', top: '85%', left: '85%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="absolute ai-cascade-3" style={{ width: '3px', height: '3px', top: '25%', left: '90%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="absolute ai-cascade-4" style={{ width: '3px', height: '3px', top: '5%', left: '65%', transform: 'rotate(-89deg)', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="absolute ai-cascade-1" style={{ width: '3px', height: '3px', top: '60%', left: '5%', transform: 'rotate(156deg)', animationDelay: '3.2s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="absolute ai-cascade-2" style={{ width: '3px', height: '3px', top: '95%', left: '50%', transform: 'rotate(-201deg)', animationDelay: '1.4s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+              </div>
+              
+              {/* Orb Core with inner glow */}
+              <div className="orb-core w-full h-full"></div>
+              
+              {/* Energy particles floating around */}
+              <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
+              <div className="orb-energy-particle" style={{ top: '70%', left: '25%', animationDelay: '0.7s' }}></div>
+              <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
+              <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
+              <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
+              <div className="orb-energy-particle" style={{ top: '80%', left: '60%', animationDelay: '2.8s' }}></div>
+              <div className="orb-energy-particle" style={{ top: '10%', left: '80%', animationDelay: '3.5s' }}></div>
+              <div className="orb-energy-particle" style={{ top: '40%', left: '5%', animationDelay: '4.2s' }}></div>
+
               {/* Looking Glass Text Content - Static, Non-Rotating */}
               <div className="absolute inset-0 flex items-center justify-center static-text-container">
                 <div className="text-center text-white p-6">
