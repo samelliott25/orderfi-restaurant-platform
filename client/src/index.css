@@ -928,14 +928,6 @@ html.light [role="menu"] {
   z-index: -1;
 }
 
-/* Static text container to prevent rotation */
-.static-text-container {
-  animation: counter-rotate 20s linear infinite;
-  z-index: 200;
-  transform-origin: center center;
-  will-change: transform;
-}
-
 .looking-glass-text {
   animation: looking-glass-pulse 3s ease-in-out infinite;
   text-shadow: 
@@ -947,15 +939,6 @@ html.light [role="menu"] {
   z-index: 200;
   font-weight: 700;
   letter-spacing: 0.5px;
-}
-
-@keyframes counter-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
 }
 
 @keyframes looking-glass-pulse {
