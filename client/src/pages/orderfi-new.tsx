@@ -444,20 +444,7 @@ export default function OrderFiNew() {
               
 
               
-              {/* Conversation Particles */}
-              <div className="absolute inset-0">
-                {[...Array(8)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute w-2 h-2 bg-white rounded-full opacity-70"
-                    style={{
-                      left: `${15 + i * 8}%`,
-                      top: `${25 + (i % 4) * 15}%`,
-                      animation: `float ${3 + i * 0.3}s ease-in-out infinite ${i * 0.5}s`
-                    }}
-                  />
-                ))}
-              </div>
+
             </div>
             
 
