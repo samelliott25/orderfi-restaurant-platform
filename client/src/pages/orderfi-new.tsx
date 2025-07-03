@@ -353,6 +353,67 @@ export default function OrderFiNew() {
     }
   };
 
+  const handleProactiveAction = (action: string) => {
+    const actionResponses: Record<string, { userText: string; aiResponse: string }> = {
+      'show-menu': {
+        userText: 'Show me the menu',
+        aiResponse: 'Here are our menu categories:\n\n🍕 Pizza & Pasta\n🥗 Fresh Salads\n🍖 Grilled Specialties\n🍰 Desserts\n🥤 Beverages\n\nWhat catches your eye?'
+      },
+      'recommend': {
+        userText: 'Surprise me with a recommendation',
+        aiResponse: 'Perfect! Based on what\'s popular today, I recommend our:\n\n🌟 Truffle Mushroom Risotto - creamy, aromatic, absolutely divine!\n\nIt pairs wonderfully with our house salad. Would you like to add it to your order?'
+      },
+      'specials': {
+        userText: 'What\'s today\'s special?',
+        aiResponse: 'Today\'s special is incredible!\n\n🔥 Grilled Salmon with Lemon Herb Butter\nServed with roasted vegetables and wild rice\n\nUsually $28, today only $22! It\'s flying out of the kitchen. Interested?'
+      },
+      'quick-order': {
+        userText: 'I want to order quickly',
+        aiResponse: 'Let\'s get you sorted fast! Here are our quickest options:\n\n⚡ Caesar Salad - 5 mins\n⚡ Margherita Pizza - 10 mins\n⚡ Grilled Chicken Wrap - 7 mins\n\nWhich sounds good?'
+      },
+      'dietary': {
+        userText: 'Show me dietary options',
+        aiResponse: 'I\'d love to help with your dietary needs!\n\n🌱 Vegan options available\n🥛 Gluten-free menu\n🥩 Keto-friendly dishes\n🚫 Allergen-free choices\n\nWhat dietary preferences should I focus on?'
+      },
+      'popular': {
+        userText: 'What\'s popular here?',
+        aiResponse: 'Great question! Our top crowd-pleasers are:\n\n🏆 #1 Chicken Parmesan\n🏆 #2 Beef Tacos (3-pack)\n🏆 #3 Vegetarian Buddha Bowl\n\nAll are chef-recommended and guest favorites!'
+      }
+    };
+
+    const response = actionResponses[action];
+    if (response) {
+      // Add user message
+      const userMessage = {
+        id: Date.now().toString(),
+        text: response.userText,
+        isUser: true,
+        timestamp: new Date()
+      };
+      
+      setChatMessages(prev => {
+        const newMessages = [...prev, userMessage];
+        setCurrentMessageIndex(newMessages.length - 1);
+        return newMessages;
+      });
+      
+      // Add AI response after delay
+      setTimeout(() => {
+        const aiResponse = {
+          id: (Date.now() + 1).toString(),
+          text: response.aiResponse,
+          isUser: false,
+          timestamp: new Date()
+        };
+        setChatMessages(prev => {
+          const newMessages = [...prev, aiResponse];
+          setCurrentMessageIndex(newMessages.length - 1);
+          return newMessages;
+        });
+      }, 1000);
+    }
+  };
+
   // Get menu items and restaurant data
   const { data: menuItems = [] } = useQuery({
     queryKey: [`/api/restaurants/${restaurantId}/menu`],
@@ -788,10 +849,48 @@ export default function OrderFiNew() {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center text-white">
-                    <div className="text-lg font-bold mb-2 looking-glass-text">Welcome to OrderFi</div>
-                    <div className="text-sm opacity-90 looking-glass-text">Your AI restaurant assistant</div>
-                    <div className="text-xs mt-3 opacity-80 looking-glass-text">What would you like to order today?</div>
+                  <div className="text-center text-white space-y-4">
+                    <div className="text-lg font-bold mb-2 looking-glass-text">Hi, can I help you?</div>
+                    
+                    {/* Proactive Action Bubbles */}
+                    <div className="flex flex-wrap justify-center gap-2 max-w-[240px] mx-auto">
+                      <button
+                        onClick={() => handleProactiveAction('show-menu')}
+                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                      >
+                        🍽️ Show Menu
+                      </button>
+                      <button
+                        onClick={() => handleProactiveAction('recommend')}
+                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                      >
+                        ✨ Surprise Me
+                      </button>
+                      <button
+                        onClick={() => handleProactiveAction('specials')}
+                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                      >
+                        🌟 Today's Special
+                      </button>
+                      <button
+                        onClick={() => handleProactiveAction('quick-order')}
+                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                      >
+                        ⚡ Quick Order
+                      </button>
+                      <button
+                        onClick={() => handleProactiveAction('dietary')}
+                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                      >
+                        🥗 Dietary Options
+                      </button>
+                      <button
+                        onClick={() => handleProactiveAction('popular')}
+                        className="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white rounded-full text-xs backdrop-blur-sm border border-white/30 transition-all hover:scale-105 looking-glass-text"
+                      >
+                        🔥 Popular Items
+                      </button>
+                    </div>
                   </div>
                 )}
                 
