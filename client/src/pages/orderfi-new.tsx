@@ -415,9 +415,7 @@ export default function OrderFiNew() {
 
       {/* Revolutionary Sentient Orb Experience */}
       {isChatExpanded && (
-        <div className="fixed inset-0 z-[8000] flex items-center justify-center" style={{
-          background: 'radial-gradient(circle at center, rgb(255, 150, 0) 0%, rgb(255, 100, 100) 25%, rgb(200, 50, 255) 50%, rgb(100, 0, 200) 75%, rgb(0, 0, 0) 100%)'
-        }}>
+        <div className="fixed inset-0 z-[8000] flex items-center justify-center bg-black/30 backdrop-blur-sm">
           {/* Close Button */}
           <Button 
             variant="ghost" 
