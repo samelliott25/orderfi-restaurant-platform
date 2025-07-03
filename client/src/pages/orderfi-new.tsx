@@ -480,7 +480,7 @@ export default function OrderFiNew() {
       )}
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-transparent pointer-events-none">
+      <div className="fixed bottom-6 left-0 right-0 bg-transparent pointer-events-none">
         {/* Sentient AI Orb - Fixed center position */}
         <div className={`flex justify-center pointer-events-auto z-[200] ${
           isAnimating ? 'animate-morph-to-center' : ''
