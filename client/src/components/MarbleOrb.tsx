@@ -187,28 +187,38 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
           ${NOISE_FUNC}
           
           void main() {
-            // Create multiple layers of marble veining
-            vec3 p = vPos * 3.0;
-            p += time * 0.3;
+            // Create flowing marble veining with time-based animation
+            vec3 p = vPos * 2.0;
             
-            // Primary marble veins
-            float n1 = snoise(p);
-            float n2 = snoise(p * 2.0 + vec3(100.0));
-            float n3 = snoise(p * 4.0 + vec3(200.0));
+            // Add dramatic flowing motion to create swirling marble veins
+            vec3 flow1 = p + vec3(time * 1.2, time * 0.8, time * 0.6);
+            vec3 flow2 = p + vec3(-time * 0.9, time * 1.1, -time * 0.7);
+            vec3 flow3 = p + vec3(time * 0.7, -time * 1.0, time * 1.3);
             
-            // Combine noise layers for complex marble patterns
-            float vein = (n1 + n2 * 0.5 + n3 * 0.25) / 1.75;
-            vein = smoothstep(-0.3, 0.7, vein);
+            // Create multiple scales of flowing veins
+            float n1 = snoise(flow1 * 1.0);
+            float n2 = snoise(flow2 * 2.0);
+            float n3 = snoise(flow3 * 3.0);
+            float n4 = snoise(p * 6.0 + time * 2.0);
             
-            // Create color transitions based on noise
-            vec3 baseColor;
-            if (vein < 0.33) {
-              baseColor = mix(color1, color2, vein * 3.0);
-            } else if (vein < 0.66) {
-              baseColor = mix(color2, color3, (vein - 0.33) * 3.0);
-            } else {
-              baseColor = mix(color3, color1, (vein - 0.66) * 3.0);
-            }
+            // Create dramatic swirling patterns
+            float swirl = sin(time * 1.5 + n1 * 3.14159);
+            vec3 swirledPos = p + vec3(swirl * 0.3, cos(time * 1.2) * 0.3, sin(time * 0.8) * 0.3);
+            float swirledNoise = snoise(swirledPos * 2.0);
+            
+            // Combine all noise layers for complex marble veining
+            float vein = (n1 + n2 * 0.7 + n3 * 0.5 + n4 * 0.3 + swirledNoise * 0.6);
+            vein = (vein + 2.0) * 0.25; // Normalize and adjust contrast
+            
+            // Create sharp, flowing marble veins
+            float veinPattern = smoothstep(0.2, 0.8, vein);
+            float darkVeins = smoothstep(0.4, 0.6, vein);
+            float lightVeins = smoothstep(0.1, 0.3, vein) + smoothstep(0.7, 0.9, vein);
+            
+            // Create dramatic color mixing with flowing patterns
+            vec3 baseColor = mix(color1, color2, veinPattern);
+            baseColor = mix(baseColor, color3, darkVeins * 0.9);
+            baseColor = mix(baseColor, color1 * 1.3, lightVeins * 0.6);
             
             // Add subtle secondary veining
             float secondaryVein = snoise(vPos * 8.0 + time * 0.1);
@@ -267,9 +277,9 @@ export function MarbleOrb({ onTouchStart, onTouchEnd, className }: MarbleOrbProp
         const time = Date.now() * 0.001;
         uniforms.time.value = time;
         
-        // Slow rotation for marble effect
-        orb.rotation.y = time * 0.15;
-        orb.rotation.x = Math.sin(time * 0.1) * 0.05;
+        // Faster rotation to show flowing marble patterns
+        orb.rotation.y = time * 0.3;
+        orb.rotation.x = Math.sin(time * 0.2) * 0.1;
         
         rendererRef.current.render(sceneRef.current, camera);
       };
