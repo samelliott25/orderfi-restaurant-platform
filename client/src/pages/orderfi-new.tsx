@@ -506,14 +506,14 @@ export default function OrderFiNew() {
               <div className="orb-energy-particle" style={{ top: '80%', left: '60%', animationDelay: '2.8s' }}></div>
               <div className="orb-energy-particle" style={{ top: '10%', left: '80%', animationDelay: '3.5s' }}></div>
               <div className="orb-energy-particle" style={{ top: '40%', left: '5%', animationDelay: '4.2s' }}></div>
-
-              {/* Static Text Overlay - No Rotation */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[300]">
-                <div className="text-center text-white">
-                  <div className="text-lg font-bold mb-2 looking-glass-text">Welcome to OrderFi</div>
-                  <div className="text-sm opacity-90 looking-glass-text">Your AI restaurant assistant</div>
-                  <div className="text-xs mt-3 opacity-80 looking-glass-text">What would you like to order today?</div>
-                </div>
+            </div>
+            
+            {/* Static Text Overlay - Completely Outside Rotating Orb */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[300]">
+              <div className="text-center text-white">
+                <div className="text-lg font-bold mb-2 looking-glass-text">Welcome to OrderFi</div>
+                <div className="text-sm opacity-90 looking-glass-text">Your AI restaurant assistant</div>
+                <div className="text-xs mt-3 opacity-80 looking-glass-text">What would you like to order today?</div>
               </div>
             </div>
           </div>
