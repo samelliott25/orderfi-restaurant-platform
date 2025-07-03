@@ -260,15 +260,12 @@
   @keyframes morph-to-center {
     0% {
       transform: translateY(0) scale(1);
-      background: red !important;
     }
     50% {
       transform: translateY(-40vh) scale(2);
-      background: blue !important;
     }
     100% {
       transform: translateY(-50vh) scale(5);
-      background: green !important;
     }
   }
 

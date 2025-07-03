@@ -562,12 +562,12 @@ export default function OrderFiNew() {
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-transparent pointer-events-none">
         {/* Sentient AI Orb - Fixed center position */}
-        <div className="absolute top-0 left-0 right-0 flex justify-center pointer-events-auto z-[200]">
+        <div className={`absolute top-0 left-0 right-0 flex justify-center pointer-events-auto z-[200] ${
+          isAnimating ? 'animate-morph-to-center' : ''
+        }`}>
           <Button
             onClick={handleChatToggle}
-            className={`relative -top-8 rounded-full z-[999] overflow-hidden sentient-orb border-0 p-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 !bg-transparent hover:!bg-transparent pointer-events-auto ${
-              isAnimating ? 'animate-morph-to-center' : ''
-            }`}
+            className="relative -top-8 rounded-full z-[999] overflow-hidden sentient-orb border-0 p-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 !bg-transparent hover:!bg-transparent pointer-events-auto"
             style={{ 
               width: '76px', 
               height: '76px',
