@@ -262,30 +262,18 @@
       transform: translateY(0) scale(1);
       border-radius: 50%;
     }
-    20% {
-      transform: translateY(-20vh) scale(1.4);
-      border-radius: 50%;
-    }
-    40% {
-      transform: translateY(-35vh) scale(2.2);
-      border-radius: 45%;
-    }
-    65% {
-      transform: translateY(-45vh) scale(3.5);
-      border-radius: 25%;
-    }
-    85% {
-      transform: translateY(-48vh) scale(7);
-      border-radius: 15%;
+    50% {
+      transform: translateY(-35vh) scale(2.5);
+      border-radius: 35%;
     }
     100% {
-      transform: translateY(-50vh) scale(12);
-      border-radius: 8px;
+      transform: translateY(-50vh) scale(10);
+      border-radius: 12px;
     }
   }
 
   .animate-morph-to-center {
-    animation: morph-to-center 1.0s cubic-bezier(0.23, 1, 0.32, 1) forwards !important;
+    animation: morph-to-center 1.0s ease-out forwards !important;
     transform-origin: center !important;
     z-index: 9999 !important;
   }
