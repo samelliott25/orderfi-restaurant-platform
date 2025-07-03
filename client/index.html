@@ -11,79 +11,42 @@
     <!-- SVG filter for marble veins -->
     <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0;">
       <filter id="marbleNoise">
-        <!-- Swirling turbulence for fluid marble -->
+        <!-- Smooth marble veining -->
         <feTurbulence
-          type="turbulence"
-          baseFrequency="0.015 0.025"
-          numOctaves="4"
-          seed="42"
-          result="swirl1"
+          type="fractalNoise"
+          baseFrequency="0.01 0.02"
+          numOctaves="3"
+          seed="5"
+          result="veins"
         >
-          <!-- Animate for flowing motion -->
+          <!-- Subtle animation for flowing marble -->
           <animate
             attributeName="baseFrequency"
-            values="0.015 0.025; 0.035 0.045; 0.015 0.025"
-            dur="8s"
-            repeatCount="indefinite"
-          />
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            values="0; 360"
-            dur="15s"
-            repeatCount="indefinite"
-          />
-        </feTurbulence>
-        
-        <!-- Secondary swirl for complexity -->
-        <feTurbulence
-          type="turbulence"
-          baseFrequency="0.08 0.06"
-          numOctaves="2"
-          seed="99"
-          result="swirl2"
-        >
-          <animate
-            attributeName="baseFrequency"
-            values="0.08 0.06; 0.12 0.1; 0.08 0.06"
-            dur="6s"
-            repeatCount="indefinite"
-          />
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            values="360; 0"
+            values="0.01 0.02; 0.02 0.03; 0.01 0.02"
             dur="12s"
             repeatCount="indefinite"
           />
         </feTurbulence>
         
-        <!-- Combine swirls -->
-        <feComposite
-          in="swirl1"
-          in2="swirl2"
-          operator="multiply"
-          result="marble"
-        />
-        
-        <!-- Create marble streaks -->
+        <!-- Convert to smooth marble streaks -->
         <feColorMatrix
-          in="marble"
+          in="veins"
           type="matrix"
           values="
-            2 0 0 0 -0.5
-            0 1.5 0 0 -0.2
-            0 0 0.8 0 0.1
-            0 0 0 20 -10
+            1 0 0 0 0
+            0 1 0 0 0
+            0 0 1 0 0
+            0 0 0 8 -4
           "
           result="marbleStreaks"
         />
         
-        <!-- Blend with source -->
+        <!-- Blend subtly with source -->
         <feBlend
           in="SourceGraphic"
           in2="marbleStreaks"
-          mode="soft-light"
+          mode="multiply"
+          result="final"
         />
       </filter>
     </svg>
