@@ -880,7 +880,7 @@ export default function OrderFiNew() {
                     onChange={(e) => setCurrentMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message..."
-                    className="w-full bg-black/30 border-0 text-white placeholder-white/70 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-black/40 transition-all duration-200"
+                    className="w-full border-0 text-white placeholder-white/70 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-black/40 transition-all duration-200 bg-[#f7877d]"
                     style={{ backdropFilter: 'blur(20px)' }}
                     onFocus={() => {
                       setIsKeyboardOpen(true);
