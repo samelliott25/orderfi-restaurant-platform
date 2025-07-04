@@ -71,7 +71,7 @@ export function StandardLayout({
   const isDarkMode = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   return (
-    <div className={`min-h-screen bg-background transition-opacity duration-700 ease-in-out overflow-x-hidden ${className}`}>
+    <div className={`h-screen bg-background transition-opacity duration-700 ease-in-out overflow-x-hidden flex flex-col ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-card border-b border-border">
         <div className="flex items-center gap-3">
@@ -120,11 +120,13 @@ export function StandardLayout({
       </div>
 
       {/* Main Content */}
-      <ScrollArea className="flex-1 border-none" style={{ height: 'calc(100vh - 140px)' }}>
-        <div className="space-y-4 py-4 px-4 pb-2">
-          {children}
-        </div>
-      </ScrollArea>
+      <div className="flex-1 overflow-hidden">
+        <ScrollArea className="h-full border-none">
+          <div className="space-y-4 py-4 px-4 pb-20">
+            {children}
+          </div>
+        </ScrollArea>
+      </div>
 
       {showChatButton && (
         <>
