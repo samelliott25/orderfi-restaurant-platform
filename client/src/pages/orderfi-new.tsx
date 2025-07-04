@@ -874,13 +874,23 @@ export default function OrderFiNew() {
               
               {/* Input Area */}
               <div className="flex items-center space-x-3">
+                {/* Microphone Button */}
+                <Button
+                  className="w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 border-0 text-white backdrop-blur-xl transition-all duration-200"
+                  style={{ backdropFilter: 'blur(20px)' }}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                </Button>
+                
                 <div className="flex-1 relative">
                   <Input
                     value={currentMessage}
                     onChange={(e) => setCurrentMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message..."
-                    className="w-full border-0 text-white placeholder-white/70 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-black/40 transition-all duration-200 bg-[#f7877d]"
+                    className="w-full border-0 text-black placeholder-black/60 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-[#f9a999] transition-all duration-200 bg-[#f7877d] font-medium"
                     style={{ backdropFilter: 'blur(20px)' }}
                     onFocus={() => {
                       setIsKeyboardOpen(true);
@@ -895,13 +905,14 @@ export default function OrderFiNew() {
                     onBlur={() => setIsKeyboardOpen(false)}
                   />
                 </div>
+                
                 <Button
                   onClick={handleSendMessage}
                   disabled={!currentMessage.trim() || isLoading}
-                  className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 border-0 text-white disabled:opacity-50"
+                  className="w-12 h-12 rounded-full bg-white hover:bg-white/90 border-0 text-black shadow-lg disabled:opacity-50 transition-all duration-200"
                 >
                   {isLoading ? (
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
                   ) : (
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
