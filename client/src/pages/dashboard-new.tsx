@@ -44,24 +44,136 @@ export default function RestaurantDashboard() {
   const currentHour = new Date().getHours();
   const currentMinute = new Date().getMinutes();
   
-  // Generate 5-minute interval data for hourly view
+  // Static 5-minute interval data for hourly view - realistic restaurant sales pattern
   const generate5MinuteData = () => {
-    const intervals = [];
-    for (let hour = 9; hour <= 23; hour++) {
-      for (let minute = 0; minute < 60; minute += 5) {
-        const timeString = `${hour}:${minute.toString().padStart(2, '0')}`;
-        const baseRevenue = Math.sin((hour - 9) * Math.PI / 14) * 100 + Math.random() * 50 + 20;
-        const peakMultiplier = (hour >= 12 && hour <= 13) || (hour >= 19 && hour <= 20) ? 2.5 : 1;
-        
-        intervals.push({
-          time: timeString,
-          revenue: Math.round(baseRevenue * peakMultiplier),
-          orders: Math.round((baseRevenue * peakMultiplier) / 22),
-          isLive: hour < currentHour || (hour === currentHour && minute <= currentMinute)
-        });
-      }
-    }
-    return intervals;
+    // Pre-defined realistic sales pattern for a typical restaurant day
+    const staticPatterns = [
+      // 9:00 AM - Morning opening (slow)
+      { time: '9:00', revenue: 45, orders: 2 }, { time: '9:05', revenue: 32, orders: 1 },
+      { time: '9:10', revenue: 68, orders: 3 }, { time: '9:15', revenue: 91, orders: 4 },
+      { time: '9:20', revenue: 123, orders: 5 }, { time: '9:25', revenue: 156, orders: 7 },
+      { time: '9:30', revenue: 189, orders: 8 }, { time: '9:35', revenue: 234, orders: 10 },
+      { time: '9:40', revenue: 267, orders: 12 }, { time: '9:45', revenue: 298, orders: 13 },
+      { time: '9:50', revenue: 334, orders: 15 }, { time: '9:55', revenue: 367, orders: 16 },
+      
+      // 10:00 AM - Building up
+      { time: '10:00', revenue: 425, orders: 19 }, { time: '10:05', revenue: 456, orders: 20 },
+      { time: '10:10', revenue: 489, orders: 22 }, { time: '10:15', revenue: 523, orders: 23 },
+      { time: '10:20', revenue: 567, orders: 25 }, { time: '10:25', revenue: 598, orders: 27 },
+      { time: '10:30', revenue: 634, orders: 28 }, { time: '10:35', revenue: 667, orders: 30 },
+      { time: '10:40', revenue: 701, orders: 31 }, { time: '10:45', revenue: 734, orders: 33 },
+      { time: '10:50', revenue: 768, orders: 34 }, { time: '10:55', revenue: 801, orders: 36 },
+      
+      // 11:00 AM - Pre-lunch pickup
+      { time: '11:00', revenue: 867, orders: 39 }, { time: '11:05', revenue: 901, orders: 40 },
+      { time: '11:10', revenue: 956, orders: 43 }, { time: '11:15', revenue: 1012, orders: 45 },
+      { time: '11:20', revenue: 1067, orders: 48 }, { time: '11:25', revenue: 1123, orders: 50 },
+      { time: '11:30', revenue: 1178, orders: 53 }, { time: '11:35', revenue: 1234, orders: 55 },
+      { time: '11:40', revenue: 1289, orders: 58 }, { time: '11:45', revenue: 1345, orders: 60 },
+      { time: '11:50', revenue: 1400, orders: 63 }, { time: '11:55', revenue: 1456, orders: 65 },
+      
+      // 12:00 PM - Lunch rush peak
+      { time: '12:00', revenue: 1567, orders: 70 }, { time: '12:05', revenue: 1634, orders: 73 },
+      { time: '12:10', revenue: 1723, orders: 77 }, { time: '12:15', revenue: 1812, orders: 81 },
+      { time: '12:20', revenue: 1901, orders: 85 }, { time: '12:25', revenue: 1989, orders: 89 },
+      { time: '12:30', revenue: 2078, orders: 93 }, { time: '12:35', revenue: 2167, orders: 97 },
+      { time: '12:40', revenue: 2256, orders: 101 }, { time: '12:45', revenue: 2345, orders: 105 },
+      { time: '12:50', revenue: 2434, orders: 109 }, { time: '12:55', revenue: 2523, orders: 113 },
+      
+      // 1:00 PM - Peak lunch continues
+      { time: '13:00', revenue: 2612, orders: 117 }, { time: '13:05', revenue: 2701, orders: 121 },
+      { time: '13:10', revenue: 2790, orders: 125 }, { time: '13:15', revenue: 2879, orders: 129 },
+      { time: '13:20', revenue: 2968, orders: 133 }, { time: '13:25', revenue: 3057, orders: 137 },
+      { time: '13:30', revenue: 3146, orders: 141 }, { time: '13:35', revenue: 3235, orders: 145 },
+      { time: '13:40', revenue: 3324, orders: 149 }, { time: '13:45', revenue: 3413, orders: 153 },
+      { time: '13:50', revenue: 3502, orders: 157 }, { time: '13:55', revenue: 3591, orders: 161 },
+      
+      // 2:00 PM - Post-lunch slowdown
+      { time: '14:00', revenue: 3680, orders: 165 }, { time: '14:05', revenue: 3725, orders: 167 },
+      { time: '14:10', revenue: 3770, orders: 169 }, { time: '14:15', revenue: 3815, orders: 171 },
+      { time: '14:20', revenue: 3860, orders: 173 }, { time: '14:25', revenue: 3905, orders: 175 },
+      { time: '14:30', revenue: 3950, orders: 177 }, { time: '14:35', revenue: 3995, orders: 179 },
+      { time: '14:40', revenue: 4040, orders: 181 }, { time: '14:45', revenue: 4085, orders: 183 },
+      { time: '14:50', revenue: 4130, orders: 185 }, { time: '14:55', revenue: 4175, orders: 187 },
+      
+      // 3:00 PM - Afternoon lull
+      { time: '15:00', revenue: 4220, orders: 189 }, { time: '15:05', revenue: 4245, orders: 190 },
+      { time: '15:10', revenue: 4270, orders: 191 }, { time: '15:15', revenue: 4295, orders: 192 },
+      { time: '15:20', revenue: 4320, orders: 193 }, { time: '15:25', revenue: 4345, orders: 194 },
+      { time: '15:30', revenue: 4370, orders: 195 }, { time: '15:35', revenue: 4395, orders: 196 },
+      { time: '15:40', revenue: 4420, orders: 197 }, { time: '15:45', revenue: 4445, orders: 198 },
+      { time: '15:50', revenue: 4470, orders: 199 }, { time: '15:55', revenue: 4495, orders: 200 },
+      
+      // 4:00 PM - Late afternoon
+      { time: '16:00', revenue: 4520, orders: 201 }, { time: '16:05', revenue: 4535, orders: 202 },
+      { time: '16:10', revenue: 4550, orders: 203 }, { time: '16:15', revenue: 4565, orders: 204 },
+      { time: '16:20', revenue: 4580, orders: 205 }, { time: '16:25', revenue: 4595, orders: 206 },
+      { time: '16:30', revenue: 4610, orders: 207 }, { time: '16:35', revenue: 4625, orders: 208 },
+      { time: '16:40', revenue: 4640, orders: 209 }, { time: '16:45', revenue: 4655, orders: 210 },
+      { time: '16:50', revenue: 4670, orders: 211 }, { time: '16:55', revenue: 4685, orders: 212 },
+      
+      // 5:00 PM - Early dinner pickup
+      { time: '17:00', revenue: 4700, orders: 213 }, { time: '17:05', revenue: 4730, orders: 215 },
+      { time: '17:10', revenue: 4760, orders: 217 }, { time: '17:15', revenue: 4790, orders: 219 },
+      { time: '17:20', revenue: 4820, orders: 221 }, { time: '17:25', revenue: 4850, orders: 223 },
+      { time: '17:30', revenue: 4880, orders: 225 }, { time: '17:35', revenue: 4910, orders: 227 },
+      { time: '17:40', revenue: 4940, orders: 229 }, { time: '17:45', revenue: 4970, orders: 231 },
+      { time: '17:50', revenue: 5000, orders: 233 }, { time: '17:55', revenue: 5030, orders: 235 },
+      
+      // 6:00 PM - Dinner rush building
+      { time: '18:00', revenue: 5089, orders: 238 }, { time: '18:05', revenue: 5148, orders: 241 },
+      { time: '18:10', revenue: 5207, orders: 244 }, { time: '18:15', revenue: 5266, orders: 247 },
+      { time: '18:20', revenue: 5325, orders: 250 }, { time: '18:25', revenue: 5384, orders: 253 },
+      { time: '18:30', revenue: 5443, orders: 256 }, { time: '18:35', revenue: 5502, orders: 259 },
+      { time: '18:40', revenue: 5561, orders: 262 }, { time: '18:45', revenue: 5620, orders: 265 },
+      { time: '18:50', revenue: 5679, orders: 268 }, { time: '18:55', revenue: 5738, orders: 271 },
+      
+      // 7:00 PM - Peak dinner rush
+      { time: '19:00', revenue: 5856, orders: 276 }, { time: '19:05', revenue: 5974, orders: 281 },
+      { time: '19:10', revenue: 6092, orders: 286 }, { time: '19:15', revenue: 6210, orders: 291 },
+      { time: '19:20', revenue: 6328, orders: 296 }, { time: '19:25', revenue: 6446, orders: 301 },
+      { time: '19:30', revenue: 6564, orders: 306 }, { time: '19:35', revenue: 6682, orders: 311 },
+      { time: '19:40', revenue: 6800, orders: 316 }, { time: '19:45', revenue: 6918, orders: 321 },
+      { time: '19:50', revenue: 7036, orders: 326 }, { time: '19:55', revenue: 7154, orders: 331 },
+      
+      // 8:00 PM - Peak continues
+      { time: '20:00', revenue: 7272, orders: 336 }, { time: '20:05', revenue: 7390, orders: 341 },
+      { time: '20:10', revenue: 7508, orders: 346 }, { time: '20:15', revenue: 7626, orders: 351 },
+      { time: '20:20', revenue: 7744, orders: 356 }, { time: '20:25', revenue: 7862, orders: 361 },
+      { time: '20:30', revenue: 7980, orders: 366 }, { time: '20:35', revenue: 8098, orders: 371 },
+      { time: '20:40', revenue: 8216, orders: 376 }, { time: '20:45', revenue: 8334, orders: 381 },
+      { time: '20:50', revenue: 8452, orders: 386 }, { time: '20:55', revenue: 8570, orders: 391 },
+      
+      // 9:00 PM - Late dinner wind down
+      { time: '21:00', revenue: 8688, orders: 396 }, { time: '21:05', revenue: 8776, orders: 400 },
+      { time: '21:10', revenue: 8864, orders: 404 }, { time: '21:15', revenue: 8952, orders: 408 },
+      { time: '21:20', revenue: 9040, orders: 412 }, { time: '21:25', revenue: 9128, orders: 416 },
+      { time: '21:30', revenue: 9216, orders: 420 }, { time: '21:35', revenue: 9304, orders: 424 },
+      { time: '21:40', revenue: 9392, orders: 428 }, { time: '21:45', revenue: 9480, orders: 432 },
+      { time: '21:50', revenue: 9568, orders: 436 }, { time: '21:55', revenue: 9656, orders: 440 },
+      
+      // 10:00 PM - Evening slow down
+      { time: '22:00', revenue: 9744, orders: 444 }, { time: '22:05', revenue: 9802, orders: 446 },
+      { time: '22:10', revenue: 9860, orders: 448 }, { time: '22:15', revenue: 9918, orders: 450 },
+      { time: '22:20', revenue: 9976, orders: 452 }, { time: '22:25', revenue: 10034, orders: 454 },
+      { time: '22:30', revenue: 10092, orders: 456 }, { time: '22:35', revenue: 10150, orders: 458 },
+      { time: '22:40', revenue: 10208, orders: 460 }, { time: '22:45', revenue: 10266, orders: 462 },
+      { time: '22:50', revenue: 10324, orders: 464 }, { time: '22:55', revenue: 10382, orders: 466 },
+      
+      // 11:00 PM - Late night
+      { time: '23:00', revenue: 10440, orders: 468 }, { time: '23:05', revenue: 10470, orders: 469 },
+      { time: '23:10', revenue: 10500, orders: 470 }, { time: '23:15', revenue: 10530, orders: 471 },
+      { time: '23:20', revenue: 10560, orders: 472 }, { time: '23:25', revenue: 10590, orders: 473 },
+      { time: '23:30', revenue: 10620, orders: 474 }, { time: '23:35', revenue: 10650, orders: 475 },
+      { time: '23:40', revenue: 10680, orders: 476 }, { time: '23:45', revenue: 10710, orders: 477 },
+      { time: '23:50', revenue: 10740, orders: 478 }, { time: '23:55', revenue: 10770, orders: 479 }
+    ];
+    
+    return staticPatterns.map(item => ({
+      ...item,
+      isLive: parseInt(item.time.split(':')[0]) < currentHour || 
+              (parseInt(item.time.split(':')[0]) === currentHour && parseInt(item.time.split(':')[1]) <= currentMinute)
+    }));
   };
 
   // Hourly aggregated data for daily view
