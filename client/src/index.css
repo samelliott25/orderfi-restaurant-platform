@@ -49,6 +49,66 @@
   animation: keyhole-reveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
+/* Expand from bottom animation */
+@keyframes expand-from-bottom {
+  0% {
+    clip-path: circle(32px at 50% calc(100% - 32px));
+    opacity: 0;
+  }
+  30% {
+    clip-path: circle(100px at 50% calc(100% - 32px));
+    opacity: 1;
+  }
+  100% {
+    clip-path: circle(150% at 50% calc(100% - 32px));
+    opacity: 1;
+  }
+}
+
+.animate-expand-from-bottom {
+  animation: expand-from-bottom 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Ping animation from bottom */
+@keyframes ping-from-bottom {
+  0% {
+    transform: translateX(-50%) scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(-50%) scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping-from-bottom {
+  animation: ping-from-bottom 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Fade in delayed for content */
+@keyframes fade-in-delayed {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  60% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-delayed {
+  animation: fade-in-delayed 1.5s ease-out forwards;
+}
+
 /* Chat gradient themes - now using inline styles in component */
 .chat-gradient-light {
   /* Placeholder for potential future use */
