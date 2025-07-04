@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { 
   DollarSign, 
   Users, 
@@ -31,23 +33,47 @@ import {
   Timer,
   TrendingDown,
   LineChart as LineChartIcon,
-  Minus
+  Minus,
+  Calendar as CalendarIcon,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { format, addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from 'date-fns';
 
 export default function RestaurantDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedTimeframe, setSelectedTimeframe] = useState("today");
   const [chartTimeframe, setChartTimeframe] = useState("1H");
+  
+  // Date selection state
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date()); // Default to today (Friday)
+  const [dateRange, setDateRange] = useState<{from?: Date; to?: Date}>({});
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isRangeCalendarOpen, setIsRangeCalendarOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<"single" | "range">("single");
 
   // Current time and hour tracking
   const currentHour = new Date().getHours();
   const currentMinute = new Date().getMinutes();
   
-  // Static 5-minute interval data for hourly view - organic sales patterns
-  const generate5MinuteData = () => {
-    // Pre-calculated organic sales data with natural variation
-    const organicSalesData = [
+  // Generate realistic sales data for each day of the week
+  const generateDailySalesData = (dayOfWeek: number) => {
+    // Different sales patterns for each day (0 = Sunday, 6 = Saturday)
+    const dailyMultipliers = {
+      0: 0.6,  // Sunday - slower day
+      1: 0.7,  // Monday - building up  
+      2: 0.8,  // Tuesday - steady
+      3: 0.85, // Wednesday - good business
+      4: 0.9,  // Thursday - busy
+      5: 1.0,  // Friday - peak (baseline)
+      6: 1.2   // Saturday - busiest
+    };
+    
+    const multiplier = dailyMultipliers[dayOfWeek as keyof typeof dailyMultipliers] || 1.0;
+    
+    // Base Friday sales pattern with day-specific adjustments
+    const baseFridayData = [
       // 9 AM - Morning opening (gradual increase with small variations)
       { time: '09:00', revenue: 12, orders: 1 }, { time: '09:05', revenue: 8, orders: 0 },
       { time: '09:10', revenue: 18, orders: 1 }, { time: '09:15', revenue: 23, orders: 1 },
@@ -169,11 +195,54 @@ export default function RestaurantDashboard() {
       { time: '23:50', revenue: 1, orders: 0 }, { time: '23:55', revenue: 0, orders: 0 }
     ];
     
-    return organicSalesData.map(item => ({
+    // Apply day-of-week multiplier and add some natural variation
+    return baseFridayData.map(item => ({
       ...item,
+      revenue: Math.round(item.revenue * multiplier * (0.9 + Math.random() * 0.2)),
+      orders: Math.round(item.orders * multiplier * (0.9 + Math.random() * 0.2)),
       isLive: parseInt(item.time.split(':')[0]) < currentHour || 
               (parseInt(item.time.split(':')[0]) === currentHour && parseInt(item.time.split(':')[1]) <= currentMinute)
     }));
+  };
+
+  // Static 5-minute interval data for hourly view - organic sales patterns
+  const generate5MinuteData = () => {
+    return generateDailySalesData(selectedDate.getDay());
+  };
+
+  // Generate daily totals for range charts
+  const generateDailyTotals = (startDate: Date, endDate: Date) => {
+    const days = eachDayOfInterval({ start: startDate, end: endDate });
+    
+    return days.map(day => {
+      const dayData = generateDailySalesData(day.getDay());
+      const totalRevenue = dayData.reduce((sum, item) => sum + item.revenue, 0);
+      const totalOrders = dayData.reduce((sum, item) => sum + item.orders, 0);
+      
+      return {
+        date: format(day, 'MMM dd'),
+        fullDate: day,
+        revenue: totalRevenue,
+        orders: totalOrders,
+        avgOrderValue: totalOrders > 0 ? totalRevenue / totalOrders : 0
+      };
+    });
+  };
+
+  // Navigation functions
+  const goToPreviousDay = () => {
+    setSelectedDate(prev => subDays(prev, 1));
+  };
+
+  const goToNextDay = () => {
+    setSelectedDate(prev => addDays(prev, 1));
+  };
+
+  // Current week navigation
+  const getCurrentWeekDays = () => {
+    const start = startOfWeek(selectedDate);
+    const end = endOfWeek(selectedDate);
+    return eachDayOfInterval({ start, end });
   };
 
   // Hourly aggregated data for daily view
@@ -470,32 +539,137 @@ export default function RestaurantDashboard() {
                 <Badge variant="secondary" className="ml-2 bg-orange-100 text-orange-700">Live</Badge>
               </div>
               <div className="flex items-center gap-4">
+                {/* Date Navigation */}
                 <div className="flex items-center gap-2">
-                  <Button 
-                    variant={chartTimeframe === "1H" ? "default" : "outline"} 
+                  <Button
+                    variant="outline"
                     size="sm"
-                    onClick={() => setChartTimeframe("1H")}
-                    className="h-7 px-3 text-xs font-medium"
+                    onClick={goToPreviousDay}
+                    className="h-7 px-2"
                   >
-                    1H
+                    <ChevronLeft className="w-4 h-4" />
                   </Button>
-                  <Button 
-                    variant={chartTimeframe === "1D" ? "default" : "outline"} 
+                  
+                  <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 px-3 text-xs font-medium min-w-[100px] justify-start"
+                      >
+                        <CalendarIcon className="w-3 h-3 mr-2" />
+                        {format(selectedDate, 'MMM dd')}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={(date) => {
+                          if (date) {
+                            setSelectedDate(date);
+                            setIsCalendarOpen(false);
+                          }
+                        }}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  
+                  <Button
+                    variant="outline"
                     size="sm"
-                    onClick={() => setChartTimeframe("1D")}
-                    className="h-7 px-3 text-xs font-medium"
+                    onClick={goToNextDay}
+                    className="h-7 px-2"
                   >
-                    1D
-                  </Button>
-                  <Button 
-                    variant={chartTimeframe === "1W" ? "default" : "outline"} 
-                    size="sm"
-                    onClick={() => setChartTimeframe("1W")}
-                    className="h-7 px-3 text-xs font-medium"
-                  >
-                    1W
+                    <ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>
+
+                {/* View Mode Toggle */}
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant={viewMode === "single" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setViewMode("single")}
+                    className="h-7 px-3 text-xs font-medium"
+                  >
+                    Daily
+                  </Button>
+                  <Button
+                    variant={viewMode === "range" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setViewMode("range")}
+                    className="h-7 px-3 text-xs font-medium"
+                  >
+                    Range
+                  </Button>
+                </div>
+
+                {/* Chart Timeframe (only show for single day view) */}
+                {viewMode === "single" && (
+                  <div className="flex items-center gap-2">
+                    <Button 
+                      variant={chartTimeframe === "1H" ? "default" : "outline"} 
+                      size="sm"
+                      onClick={() => setChartTimeframe("1H")}
+                      className="h-7 px-3 text-xs font-medium"
+                    >
+                      1H
+                    </Button>
+                    <Button 
+                      variant={chartTimeframe === "1D" ? "default" : "outline"} 
+                      size="sm"
+                      onClick={() => setChartTimeframe("1D")}
+                      className="h-7 px-3 text-xs font-medium"
+                    >
+                      1D
+                    </Button>
+                    <Button 
+                      variant={chartTimeframe === "1W" ? "default" : "outline"} 
+                      size="sm"
+                      onClick={() => setChartTimeframe("1W")}
+                      className="h-7 px-3 text-xs font-medium"
+                    >
+                      1W
+                    </Button>
+                  </div>
+                )}
+
+                {/* Date Range Selection (only show for range view) */}
+                {viewMode === "range" && (
+                  <div className="flex items-center gap-2">
+                    <Popover open={isRangeCalendarOpen} onOpenChange={setIsRangeCalendarOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 px-3 text-xs font-medium min-w-[120px] justify-start"
+                        >
+                          <CalendarIcon className="w-3 h-3 mr-2" />
+                          {dateRange.from && dateRange.to 
+                            ? `${format(dateRange.from, 'MMM dd')} - ${format(dateRange.to, 'MMM dd')}`
+                            : 'Select range'
+                          }
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="range"
+                          selected={dateRange}
+                          onSelect={(range) => {
+                            setDateRange(range || {});
+                            if (range?.from && range?.to) {
+                              setIsRangeCalendarOpen(false);
+                            }
+                          }}
+                          numberOfMonths={2}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                )}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <div className="w-3 h-3 rounded bg-slate-600"></div>
@@ -515,7 +689,51 @@ export default function RestaurantDashboard() {
           <CardContent>
             <div className="h-96 mb-6">
               <ResponsiveContainer width="100%" height="100%">
-                {isColumnChart ? (
+                {viewMode === "range" && dateRange.from && dateRange.to ? (
+                  // Range view - Trading style line chart
+                  <LineChart data={generateDailyTotals(dateRange.from, dateRange.to)} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                    <XAxis 
+                      dataKey="date"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#64748b' }}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#64748b' }}
+                      tickFormatter={(value) => `$${value}`}
+                    />
+                    <Tooltip 
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                          const data = payload[0].payload;
+                          return (
+                            <div className="bg-slate-900 text-white text-xs px-3 py-2 rounded-lg shadow-xl border border-slate-700">
+                              <div className="font-bold playwrite-font text-sm text-orange-300">{label}</div>
+                              <div style={{ color: '#f97316' }} className="font-medium">
+                                Revenue: ${data.revenue.toLocaleString()}
+                              </div>
+                              <div style={{ color: '#94a3b8' }} className="font-medium">
+                                Orders: {data.orders} • Avg: ${data.avgOrderValue.toFixed(2)}
+                              </div>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="#f97316"
+                      strokeWidth={3}
+                      dot={{ fill: '#f97316', strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6, stroke: '#f97316', strokeWidth: 2, fill: '#fff' }}
+                    />
+                  </LineChart>
+                ) : isColumnChart ? (
                   <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                     <XAxis 
