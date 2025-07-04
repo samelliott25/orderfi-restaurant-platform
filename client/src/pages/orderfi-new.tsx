@@ -201,7 +201,7 @@ export default function OrderFiNew() {
     setTimeout(() => {
       setIsChatExpanded(false);
       setIsClosing(false);
-    }, 400); // Match the circular close animation duration
+    }, 1500); // Match the contract-to-bottom animation duration
   };
 
   const handlePreviousMessage = () => {

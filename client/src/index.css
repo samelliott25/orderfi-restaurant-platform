@@ -1055,16 +1055,18 @@ html.light [role="menu"] {
   }
 }
 
-@keyframes circular-close {
-  from {
+@keyframes contract-to-bottom {
+  0% {
+    clip-path: circle(150% at 50% calc(100% - 32px));
     opacity: 1;
-    transform: scale(1);
-    border-radius: 1.5rem;
   }
-  to {
+  70% {
+    clip-path: circle(100px at 50% calc(100% - 32px));
+    opacity: 1;
+  }
+  100% {
+    clip-path: circle(32px at 50% calc(100% - 32px));
     opacity: 0;
-    transform: scale(0);
-    border-radius: 50%;
   }
 }
 
@@ -1101,8 +1103,7 @@ html.light [role="menu"] {
 }
 
 .animate-circular-close {
-  animation: circular-close 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  transform-origin: center bottom;
+  animation: contract-to-bottom 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .fade-in {
