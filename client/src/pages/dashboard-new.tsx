@@ -330,19 +330,19 @@ export default function RestaurantDashboard() {
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <LineChart className="w-6 h-6" style={{ color: 'hsl(25, 95%, 53%)' }} />
-                <span className="text-xl playwrite-font">Sales Performance</span>
-                <Badge variant="secondary" className="ml-2">Live</Badge>
+                <span className="text-2xl playwrite-font">Sales Performance</span>
+                <Badge variant="secondary" className="ml-2 bg-orange-100 text-orange-700">Live</Badge>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 text-sm font-medium">
                   <div className="w-3 h-3 rounded bg-slate-600"></div>
-                  <span>Historical Avg</span>
+                  <span className="playwrite-font">Historical Avg</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm">
+                <div className="flex items-center gap-2 text-sm font-medium">
                   <div className="w-3 h-3 rounded bg-orange-500"></div>
-                  <span>Today Live</span>
+                  <span className="playwrite-font">Today Live</span>
                 </div>
-                <div className="text-lg font-bold" style={{ color: 'hsl(25, 95%, 53%)' }}>
+                <div className="text-xl font-bold playwrite-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
                   ${salesChartData[Math.min(currentHour - 9, salesChartData.length - 1)]?.revenue || 0}
                 </div>
               </div>
@@ -350,86 +350,162 @@ export default function RestaurantDashboard() {
           </CardHeader>
           <CardContent>
             <div className="h-96 mb-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-lg p-6 relative overflow-hidden">
-              {/* Trading hours grid */}
-              <div className="absolute inset-6 grid grid-cols-16 opacity-20">
+              {/* Enhanced chart grid with revenue lines */}
+              <div className="absolute inset-6 grid grid-cols-16 opacity-30">
                 {Array.from({ length: 16 }).map((_, i) => (
-                  <div key={i} className="border-r border-slate-300 dark:border-slate-500"></div>
+                  <div key={i} className="border-r border-slate-300 dark:border-slate-400"></div>
                 ))}
               </div>
-              <div className="absolute inset-6 grid grid-rows-8 opacity-20">
+              <div className="absolute inset-6 grid grid-rows-8 opacity-30">
                 {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="border-b border-slate-300 dark:border-slate-500"></div>
+                  <div key={i} className="border-b border-slate-300 dark:border-slate-400"></div>
                 ))}
               </div>
               
-              {/* Dual line chart visualization */}
-              <div className="absolute inset-6 flex items-end justify-between">
-                {salesChartData.map((data, index) => {
-                  const maxRevenue = 2200; // Peak revenue for scaling
-                  const liveHeight = (data.revenue / maxRevenue) * 100;
-                  const historicalHeight = (historicalData[index]?.avgRevenue / maxRevenue) * 100;
-                  const isCurrentHour = index === Math.min(currentHour - 9, salesChartData.length - 1);
-                  
+              {/* Revenue threshold lines */}
+              <div className="absolute inset-6">
+                {[500, 1000, 1500, 2000].map((threshold) => {
+                  const position = ((threshold / 2200) * 100);
                   return (
                     <div
-                      key={index}
-                      className="flex flex-col items-center group relative"
-                      style={{ width: `${100 / salesChartData.length}%` }}
+                      key={threshold}
+                      className="absolute left-0 right-0 border-t-2 border-dashed opacity-40"
+                      style={{
+                        bottom: `${position}%`,
+                        borderColor: threshold === 2000 ? '#f97316' : '#64748b'
+                      }}
                     >
-                      {/* Enhanced tooltip */}
-                      <div className="absolute -top-24 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-nowrap">
-                        <div className="font-semibold">{data.time}</div>
-                        <div style={{ color: '#f97316' }}>Live: ${data.revenue} ({data.orders} orders)</div>
-                        <div style={{ color: '#64748b' }}>Avg: ${historicalData[index]?.avgRevenue || 0}</div>
-                        <div className="text-xs mt-1">
-                          {data.revenue > (historicalData[index]?.avgRevenue || 0) ? '↗ Above average' : '↘ Below average'}
-                        </div>
-                      </div>
-                      
-                      {/* Historical average bar (dark blue/purple) */}
-                      <div
-                        className="absolute bottom-0 w-4 rounded-t-sm opacity-60"
-                        style={{
-                          height: `${historicalHeight}%`,
-                          backgroundColor: '#64748b',
-                          right: '45%'
-                        }}
-                      />
-                      
-                      {/* Live performance bar (orange) */}
-                      <div
-                        className={`absolute bottom-0 w-4 rounded-t-sm transition-all duration-300 ${isCurrentHour ? 'ring-2 ring-orange-400 ring-opacity-60' : ''}`}
-                        style={{
-                          height: `${liveHeight}%`,
-                          backgroundColor: data.isLive ? '#f97316' : '#fbbf24',
-                          left: '45%',
-                          opacity: data.isLive ? 1 : 0.4
-                        }}
-                      />
-                      
-                      {/* Time labels */}
-                      <div className="absolute -bottom-6 text-xs text-slate-600 dark:text-slate-400 transform -rotate-45 origin-top-left">
-                        {data.time}
-                      </div>
-                      
-                      {/* Current hour indicator */}
-                      {isCurrentHour && (
-                        <div className="absolute -bottom-10 w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                      )}
+                      <span 
+                        className="absolute -left-12 -top-2 text-xs font-medium playwrite-font"
+                        style={{ color: threshold === 2000 ? '#f97316' : '#64748b' }}
+                      >
+                        ${threshold}
+                      </span>
                     </div>
                   );
                 })}
               </div>
               
+              {/* Professional trading-style line chart */}
+              <div className="absolute inset-6">
+                {/* Historical average line (slate) */}
+                <svg className="absolute inset-0 w-full h-full">
+                  <defs>
+                    <linearGradient id="historicalGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{stopColor: '#64748b', stopOpacity: 0.3}} />
+                      <stop offset="100%" style={{stopColor: '#64748b', stopOpacity: 0.1}} />
+                    </linearGradient>
+                    <linearGradient id="liveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style={{stopColor: '#f97316', stopOpacity: 0.4}} />
+                      <stop offset="100%" style={{stopColor: '#f97316', stopOpacity: 0.1}} />
+                    </linearGradient>
+                  </defs>
+                  
+                  {/* Historical average area */}
+                  <path
+                    d={`M 0,${100 - (historicalData[0]?.avgRevenue / 2200) * 100} ` +
+                      historicalData.map((data, i) => 
+                        `L ${(i / (historicalData.length - 1)) * 100},${100 - (data.avgRevenue / 2200) * 100}`
+                      ).join(' ') +
+                      ` L 100,100 L 0,100 Z`}
+                    fill="url(#historicalGradient)"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  
+                  {/* Historical average line */}
+                  <path
+                    d={`M 0,${100 - (historicalData[0]?.avgRevenue / 2200) * 100} ` +
+                      historicalData.map((data, i) => 
+                        `L ${(i / (historicalData.length - 1)) * 100},${100 - (data.avgRevenue / 2200) * 100}`
+                      ).join(' ')}
+                    fill="none"
+                    stroke="#64748b"
+                    strokeWidth="2"
+                    strokeOpacity="0.8"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  
+                  {/* Live performance area */}
+                  <path
+                    d={`M 0,${100 - (salesChartData[0]?.revenue / 2200) * 100} ` +
+                      salesChartData.map((data, i) => 
+                        `L ${(i / (salesChartData.length - 1)) * 100},${100 - (data.revenue / 2200) * 100}`
+                      ).join(' ') +
+                      ` L 100,100 L 0,100 Z`}
+                    fill="url(#liveGradient)"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  
+                  {/* Live performance line */}
+                  <path
+                    d={`M 0,${100 - (salesChartData[0]?.revenue / 2200) * 100} ` +
+                      salesChartData.map((data, i) => 
+                        `L ${(i / (salesChartData.length - 1)) * 100},${100 - (data.revenue / 2200) * 100}`
+                      ).join(' ')}
+                    fill="none"
+                    stroke="#f97316"
+                    strokeWidth="3"
+                    strokeOpacity="0.9"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
+                
+                {/* Interactive data points */}
+                {salesChartData.map((data, index) => {
+                  const x = (index / (salesChartData.length - 1)) * 100;
+                  const y = 100 - (data.revenue / 2200) * 100;
+                  const isCurrentHour = index === Math.min(currentHour - 9, salesChartData.length - 1);
+                  
+                  return (
+                    <div
+                      key={index}
+                      className="absolute group cursor-pointer"
+                      style={{ 
+                        left: `${x}%`, 
+                        top: `${y}%`,
+                        transform: 'translate(-50%, -50%)'
+                      }}
+                    >
+                      {/* Enhanced tooltip */}
+                      <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 whitespace-nowrap shadow-xl border border-slate-700">
+                        <div className="font-bold playwrite-font text-sm text-orange-300">{data.time}</div>
+                        <div style={{ color: '#f97316' }} className="font-medium">Live: ${data.revenue} ({data.orders} orders)</div>
+                        <div style={{ color: '#94a3b8' }} className="font-medium">Avg: ${historicalData[index]?.avgRevenue || 0}</div>
+                        <div className="text-xs mt-1 font-medium text-green-400">
+                          {data.revenue > (historicalData[index]?.avgRevenue || 0) ? '↗ Above average' : '↘ Below average'}
+                        </div>
+                      </div>
+                      
+                      {/* Data point */}
+                      <div 
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          isCurrentHour ? 'w-3 h-3 ring-2 ring-orange-400 ring-opacity-60 animate-pulse' : 'group-hover:w-3 group-hover:h-3'
+                        }`}
+                        style={{ backgroundColor: data.isLive ? '#f97316' : '#fbbf24' }}
+                      />
+                    </div>
+                  );
+                })}
+                
+                {/* Time axis labels */}
+                <div className="absolute -bottom-8 left-0 right-0 flex justify-between">
+                  {salesChartData.filter((_, i) => i % 2 === 0).map((data, index) => (
+                    <div key={index} className="text-xs text-slate-500 dark:text-slate-400 font-medium playwrite-font">
+                      {data.time}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
               {/* Performance indicators */}
               <div className="absolute top-4 right-4 flex flex-col gap-2">
-                <div className="bg-white dark:bg-slate-800 px-3 py-2 rounded-lg shadow-sm">
-                  <div className="text-xs text-slate-600 dark:text-slate-400">vs Historical</div>
-                  <div className="text-sm font-bold text-green-600">+8.2%</div>
+                <div className="bg-white/90 dark:bg-slate-800/90 px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm border border-slate-200 dark:border-slate-600">
+                  <div className="text-xs text-slate-600 dark:text-slate-400 font-medium playwrite-font">vs Historical</div>
+                  <div className="text-sm font-bold text-green-600 playwrite-font">+8.2%</div>
                 </div>
-                <div className="bg-white dark:bg-slate-800 px-3 py-2 rounded-lg shadow-sm">
-                  <div className="text-xs text-slate-600 dark:text-slate-400">Peak Hour</div>
-                  <div className="text-sm font-bold">8:00 PM</div>
+                <div className="bg-white/90 dark:bg-slate-800/90 px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm border border-slate-200 dark:border-slate-600">
+                  <div className="text-xs text-slate-600 dark:text-slate-400 font-medium playwrite-font">Peak Hour</div>
+                  <div className="text-sm font-bold playwrite-font" style={{ color: '#f97316' }}>8:00 PM</div>
                 </div>
               </div>
             </div>
