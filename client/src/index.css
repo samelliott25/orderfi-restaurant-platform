@@ -1034,6 +1034,17 @@ html.light [role="menu"] {
   }
 }
 
+@keyframes slide-out-to-bottom {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -1049,6 +1060,10 @@ html.light [role="menu"] {
 
 .slide-in-from-bottom-4 {
   animation: slide-in-from-bottom 0.3s ease-out;
+}
+
+.slide-out-to-bottom-4 {
+  animation: slide-out-to-bottom 0.3s ease-in;
 }
 
 .fade-in {

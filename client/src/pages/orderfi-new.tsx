@@ -76,6 +76,7 @@ export default function OrderFiNew() {
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [showLoadingScreen, setShowLoadingScreen] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
@@ -193,6 +194,14 @@ export default function OrderFiNew() {
         return newMessages;
       });
     }, 1000);
+  };
+
+  const handleChatClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsChatExpanded(false);
+      setIsClosing(false);
+    }, 300); // Match the animation duration
   };
 
   const handlePreviousMessage = () => {
@@ -783,7 +792,7 @@ export default function OrderFiNew() {
       {/* Clean Chat Interface */}
       {isChatExpanded && (
         <div 
-          className="fixed inset-0 z-[8000] flex flex-col animate-expand-from-bottom"
+          className={`fixed inset-0 z-[8000] flex flex-col ${isClosing ? 'slide-out-to-bottom-4' : 'animate-expand-from-bottom'}`}
           style={{ height: `${viewportHeight}px` }}
         >
           {/* iOS-style Gradient Background */}
@@ -852,7 +861,7 @@ export default function OrderFiNew() {
           <Button 
             variant="ghost" 
             size="sm"
-            onClick={() => setIsChatExpanded(false)}
+            onClick={handleChatClose}
             className="absolute top-6 right-6 text-white/80 hover:text-white hover:bg-white/10 z-10 w-8 h-8 rounded-full backdrop-blur-xl transition-all duration-200"
             style={{ backdropFilter: 'blur(20px)' }}
           >
