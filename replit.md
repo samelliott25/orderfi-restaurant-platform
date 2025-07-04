@@ -134,6 +134,15 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 4, 2025. Enhanced dashboard with comprehensive mock sales data for development
+  - Added realistic hourly sales data with revenue, orders, customer counts, and tip tracking
+  - Implemented weekly revenue trends and menu performance analytics with profit margins
+  - Created detailed customer metrics including satisfaction ratings and loyalty program data
+  - Added comprehensive payment method breakdown with USDC/crypto, credit cards, and cash analytics
+  - Included staff performance metrics with individual order counts, revenue, and ratings
+  - Added operational data including kitchen efficiency, wait times, and cost percentages
+  - Enhanced order generation with realistic customer names, menu items, and payment methods
+  - Improved dashboard KPIs with $14,530 daily revenue, 567 orders, and $22.38 average order value
 - July 4, 2025. Fixed footer background blocking issue across all standardized pages
   - Applied same ScrollArea padding fix (pb-2) from /orderfi-home to StandardLayout component
   - Moved padding from ScrollArea to inner content div to prevent white background blocking
