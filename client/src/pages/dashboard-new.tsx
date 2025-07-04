@@ -39,59 +39,84 @@ export default function RestaurantDashboard() {
   const [selectedTimeframe, setSelectedTimeframe] = useState("today");
   const [chartTimeframe, setChartTimeframe] = useState("1H");
 
-  // Trading hours: 9am-midnight comprehensive sales data
+  // Current time and hour tracking
   const currentHour = new Date().getHours();
+  const currentMinute = new Date().getMinutes();
   
-  // Historical average data (darker blue/purple for comparison)
-  const historicalData = [
-    { time: '9:00', avgRevenue: 260, avgOrders: 12, trend: 'stable' },
-    { time: '10:00', avgRevenue: 390, avgOrders: 19, trend: 'up' },
-    { time: '11:00', avgRevenue: 620, avgOrders: 29, trend: 'up' },
-    { time: '12:00', avgRevenue: 1150, avgOrders: 54, trend: 'up' },
-    { time: '13:00', avgRevenue: 1520, avgOrders: 70, trend: 'peak' },
-    { time: '14:00', avgRevenue: 890, avgOrders: 41, trend: 'down' },
-    { time: '15:00', avgRevenue: 380, avgOrders: 18, trend: 'down' },
-    { time: '16:00', avgRevenue: 290, avgOrders: 14, trend: 'stable' },
-    { time: '17:00', avgRevenue: 780, avgOrders: 36, trend: 'up' },
-    { time: '18:00', avgRevenue: 1320, avgOrders: 60, trend: 'up' },
-    { time: '19:00', avgRevenue: 1780, avgOrders: 78, trend: 'peak' },
-    { time: '20:00', avgRevenue: 2050, avgOrders: 85, trend: 'peak' },
-    { time: '21:00', avgRevenue: 1480, avgOrders: 64, trend: 'down' },
-    { time: '22:00', avgRevenue: 720, avgOrders: 30, trend: 'down' },
-    { time: '23:00', avgRevenue: 450, avgOrders: 18, trend: 'closing' },
-    { time: '24:00', avgRevenue: 180, avgOrders: 8, trend: 'closing' }
+  // Generate 5-minute interval data for hourly view
+  const generate5MinuteData = () => {
+    const intervals = [];
+    for (let hour = 9; hour <= 23; hour++) {
+      for (let minute = 0; minute < 60; minute += 5) {
+        const timeString = `${hour}:${minute.toString().padStart(2, '0')}`;
+        const baseRevenue = Math.sin((hour - 9) * Math.PI / 14) * 100 + Math.random() * 50 + 20;
+        const peakMultiplier = (hour >= 12 && hour <= 13) || (hour >= 19 && hour <= 20) ? 2.5 : 1;
+        
+        intervals.push({
+          time: timeString,
+          revenue: Math.round(baseRevenue * peakMultiplier),
+          orders: Math.round((baseRevenue * peakMultiplier) / 22),
+          isLive: hour < currentHour || (hour === currentHour && minute <= currentMinute)
+        });
+      }
+    }
+    return intervals;
+  };
+
+  // Hourly aggregated data for daily view
+  const hourlyData = [
+    { time: '9:00', revenue: 285, orders: 14, avgRevenue: 260 },
+    { time: '10:00', revenue: 425, orders: 21, avgRevenue: 390 },
+    { time: '11:00', revenue: 680, orders: 32, avgRevenue: 620 },
+    { time: '12:00', revenue: 1250, orders: 58, avgRevenue: 1150 },
+    { time: '13:00', revenue: 1650, orders: 76, avgRevenue: 1520 },
+    { time: '14:00', revenue: 980, orders: 45, avgRevenue: 890 },
+    { time: '15:00', revenue: 420, orders: 19, avgRevenue: 380 },
+    { time: '16:00', revenue: 320, orders: 15, avgRevenue: 290 },
+    { time: '17:00', revenue: 850, orders: 39, avgRevenue: 780 },
+    { time: '18:00', revenue: 1420, orders: 64, avgRevenue: 1320 },
+    { time: '19:00', revenue: 1890, orders: 82, avgRevenue: 1780 },
+    { time: '20:00', revenue: 2150, orders: 89, avgRevenue: 2050 },
+    { time: '21:00', revenue: 1560, orders: 67, avgRevenue: 1480 },
+    { time: '22:00', revenue: 780, orders: 32, avgRevenue: 720 },
+    { time: '23:00', revenue: 420, orders: 17, avgRevenue: 450 }
   ];
 
-  // Today's live sales data (orange line for current performance)
-  const salesChartData = [
-    { time: '9:00', revenue: 285, orders: 14, avgOrder: 20.36, volume: 9200, customers: 16, tips: 42.75, isLive: currentHour >= 9 },
-    { time: '10:00', revenue: 425, orders: 21, avgOrder: 20.24, volume: 14300, customers: 24, tips: 63.75, isLive: currentHour >= 10 },
-    { time: '11:00', revenue: 680, orders: 32, avgOrder: 21.25, volume: 21800, customers: 35, tips: 102.00, isLive: currentHour >= 11 },
-    { time: '12:00', revenue: 1250, orders: 58, avgOrder: 21.55, volume: 39500, customers: 62, tips: 187.50, isLive: currentHour >= 12 },
-    { time: '13:00', revenue: 1650, orders: 76, avgOrder: 21.71, volume: 52200, customers: 81, tips: 247.50, isLive: currentHour >= 13 },
-    { time: '14:00', revenue: 980, orders: 45, avgOrder: 21.78, volume: 31100, customers: 48, tips: 147.00, isLive: currentHour >= 14 },
-    { time: '15:00', revenue: 420, orders: 19, avgOrder: 22.11, volume: 13300, customers: 21, tips: 63.00, isLive: currentHour >= 15 },
-    { time: '16:00', revenue: 320, orders: 15, avgOrder: 21.33, volume: 10200, customers: 17, tips: 48.00, isLive: currentHour >= 16 },
-    { time: '17:00', revenue: 850, orders: 39, avgOrder: 21.79, volume: 26900, customers: 42, tips: 127.50, isLive: currentHour >= 17 },
-    { time: '18:00', revenue: 1420, orders: 64, avgOrder: 22.19, volume: 44800, customers: 68, tips: 213.00, isLive: currentHour >= 18 },
-    { time: '19:00', revenue: 1890, orders: 82, avgOrder: 23.05, volume: 59700, customers: 87, tips: 283.50, isLive: currentHour >= 19 },
-    { time: '20:00', revenue: 2150, orders: 89, avgOrder: 24.16, volume: 67900, customers: 94, tips: 322.50, isLive: currentHour >= 20 },
-    { time: '21:00', revenue: 1560, orders: 67, avgOrder: 23.28, volume: 49300, customers: 71, tips: 234.00, isLive: currentHour >= 21 },
-    { time: '22:00', revenue: 780, orders: 32, avgOrder: 24.38, volume: 24600, customers: 35, tips: 117.00, isLive: currentHour >= 22 },
-    { time: '23:00', revenue: 420, orders: 17, avgOrder: 24.71, volume: 12800, customers: 19, tips: 63.00, isLive: currentHour >= 23 },
-    { time: '24:00', revenue: 150, orders: 6, avgOrder: 25.00, volume: 4200, customers: 7, tips: 22.50, isLive: currentHour >= 24 }
-  ];
-
-  // Weekly revenue data for trends
+  // Weekly data for weekly view
   const weeklyData = [
-    { day: 'Mon', revenue: 8420, orders: 387, avgOrder: 21.76 },
-    { day: 'Tue', revenue: 9150, orders: 421, avgOrder: 21.73 },
-    { day: 'Wed', revenue: 10280, orders: 468, avgOrder: 21.97 },
-    { day: 'Thu', revenue: 11650, orders: 524, avgOrder: 22.23 },
-    { day: 'Fri', revenue: 15280, orders: 692, avgOrder: 22.08 },
-    { day: 'Sat', revenue: 18420, orders: 824, avgOrder: 22.35 },
-    { day: 'Sun', revenue: 14680, orders: 658, avgOrder: 22.31 }
+    { day: 'Mon', revenue: 8420, orders: 387, avgRevenue: 7890 },
+    { day: 'Tue', revenue: 9150, orders: 421, avgRevenue: 8650 },
+    { day: 'Wed', revenue: 10280, orders: 468, avgRevenue: 9420 },
+    { day: 'Thu', revenue: 11650, orders: 524, avgRevenue: 10890 },
+    { day: 'Fri', revenue: 15280, orders: 692, avgRevenue: 14200 },
+    { day: 'Sat', revenue: 18420, orders: 824, avgRevenue: 17100 },
+    { day: 'Sun', revenue: 14680, orders: 658, avgRevenue: 13980 }
   ];
+
+  // Monthly data for monthly view
+  const monthlyData = [
+    { week: 'Week 1', revenue: 87900, orders: 3876, avgRevenue: 82400 },
+    { week: 'Week 2', revenue: 92400, orders: 4123, avgRevenue: 89200 },
+    { week: 'Week 3', revenue: 89600, orders: 3998, avgRevenue: 87100 },
+    { week: 'Week 4', revenue: 94200, orders: 4234, avgRevenue: 91800 }
+  ];
+
+  // Get data based on selected timeframe
+  const getChartData = () => {
+    switch (chartTimeframe) {
+      case '5m': return generate5MinuteData();
+      case '1H': return hourlyData;
+      case '1D': return weeklyData;
+      case '1W': return monthlyData;
+      default: return hourlyData;
+    }
+  };
+
+  const chartData = getChartData();
+  const maxRevenue = Math.max(...chartData.map(d => d.revenue || 0));
+  const isColumnChart = chartTimeframe === '5m';
+
+
 
   // Menu performance data
   const menuPerformance = [
@@ -144,14 +169,13 @@ export default function RestaurantDashboard() {
   };
 
   // Calculate real-time metrics from chart data
-  const currentRevenue = salesChartData[salesChartData.length - 1]?.revenue || 0;
-  const previousRevenue = salesChartData[salesChartData.length - 2]?.revenue || 0;
+  const currentRevenue = chartData[chartData.length - 1]?.revenue || 0;
+  const previousRevenue = chartData[chartData.length - 2]?.revenue || 0;
   const revenueChange = currentRevenue - previousRevenue;
   const revenueChangePercent = previousRevenue ? ((revenueChange / previousRevenue) * 100) : 0;
 
-  const totalTodayRevenue = salesChartData.reduce((sum, data) => sum + data.revenue, 0);
-  const totalTodayOrders = salesChartData.reduce((sum, data) => sum + data.orders, 0);
-  const totalTodayTips = salesChartData.reduce((sum, data) => sum + data.tips, 0);
+  const totalTodayRevenue = hourlyData.reduce((sum: number, data: any) => sum + data.revenue, 0);
+  const totalTodayOrders = hourlyData.reduce((sum: number, data: any) => sum + data.orders, 0);
   const avgOrderValue = totalTodayRevenue / totalTodayOrders;
 
   // Update time every second
@@ -334,16 +358,52 @@ export default function RestaurantDashboard() {
                 <Badge variant="secondary" className="ml-2 bg-orange-100 text-orange-700">Live</Badge>
               </div>
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 text-sm font-medium">
-                  <div className="w-3 h-3 rounded bg-slate-600"></div>
-                  <span className="playwrite-font">Historical Avg</span>
+                <div className="flex items-center gap-2">
+                  <Button 
+                    variant={chartTimeframe === "5m" ? "default" : "outline"} 
+                    size="sm"
+                    onClick={() => setChartTimeframe("5m")}
+                    className="h-7 px-3 text-xs font-medium"
+                  >
+                    5m
+                  </Button>
+                  <Button 
+                    variant={chartTimeframe === "1H" ? "default" : "outline"} 
+                    size="sm"
+                    onClick={() => setChartTimeframe("1H")}
+                    className="h-7 px-3 text-xs font-medium"
+                  >
+                    1D
+                  </Button>
+                  <Button 
+                    variant={chartTimeframe === "1D" ? "default" : "outline"} 
+                    size="sm"
+                    onClick={() => setChartTimeframe("1D")}
+                    className="h-7 px-3 text-xs font-medium"
+                  >
+                    1W
+                  </Button>
+                  <Button 
+                    variant={chartTimeframe === "1W" ? "default" : "outline"} 
+                    size="sm"
+                    onClick={() => setChartTimeframe("1W")}
+                    className="h-7 px-3 text-xs font-medium"
+                  >
+                    1M
+                  </Button>
                 </div>
-                <div className="flex items-center gap-2 text-sm font-medium">
-                  <div className="w-3 h-3 rounded bg-orange-500"></div>
-                  <span className="playwrite-font">Today Live</span>
-                </div>
-                <div className="text-xl font-bold playwrite-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
-                  ${salesChartData[Math.min(currentHour - 9, salesChartData.length - 1)]?.revenue || 0}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 text-sm font-medium">
+                    <div className="w-3 h-3 rounded bg-slate-600"></div>
+                    <span className="playwrite-font">Historical Avg</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm font-medium">
+                    <div className="w-3 h-3 rounded bg-orange-500"></div>
+                    <span className="playwrite-font">{isColumnChart ? 'Live 5min' : 'Today Live'}</span>
+                  </div>
+                  <div className="text-xl font-bold playwrite-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
+                    ${chartData[Math.min(currentHour - 9, chartData.length - 1)]?.revenue || chartData[chartData.length - 1]?.revenue || 0}
+                  </div>
                 </div>
               </div>
             </CardTitle>
@@ -386,112 +446,142 @@ export default function RestaurantDashboard() {
                 })}
               </div>
               
-              {/* Professional trading-style line chart */}
+              {/* Flexible chart rendering */}
               <div className="absolute inset-6">
-                {/* Historical average line (slate) */}
-                <svg className="absolute inset-0 w-full h-full">
-                  <defs>
-                    <linearGradient id="historicalGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" style={{stopColor: '#64748b', stopOpacity: 0.3}} />
-                      <stop offset="100%" style={{stopColor: '#64748b', stopOpacity: 0.1}} />
-                    </linearGradient>
-                    <linearGradient id="liveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" style={{stopColor: '#f97316', stopOpacity: 0.4}} />
-                      <stop offset="100%" style={{stopColor: '#f97316', stopOpacity: 0.1}} />
-                    </linearGradient>
-                  </defs>
-                  
-                  {/* Historical average area */}
-                  <path
-                    d={`M 0,${100 - (historicalData[0]?.avgRevenue / 2200) * 100} ` +
-                      historicalData.map((data, i) => 
-                        `L ${(i / (historicalData.length - 1)) * 100},${100 - (data.avgRevenue / 2200) * 100}`
-                      ).join(' ') +
-                      ` L 100,100 L 0,100 Z`}
-                    fill="url(#historicalGradient)"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                  
-                  {/* Historical average line */}
-                  <path
-                    d={`M 0,${100 - (historicalData[0]?.avgRevenue / 2200) * 100} ` +
-                      historicalData.map((data, i) => 
-                        `L ${(i / (historicalData.length - 1)) * 100},${100 - (data.avgRevenue / 2200) * 100}`
-                      ).join(' ')}
-                    fill="none"
-                    stroke="#64748b"
-                    strokeWidth="2"
-                    strokeOpacity="0.8"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                  
-                  {/* Live performance area */}
-                  <path
-                    d={`M 0,${100 - (salesChartData[0]?.revenue / 2200) * 100} ` +
-                      salesChartData.map((data, i) => 
-                        `L ${(i / (salesChartData.length - 1)) * 100},${100 - (data.revenue / 2200) * 100}`
-                      ).join(' ') +
-                      ` L 100,100 L 0,100 Z`}
-                    fill="url(#liveGradient)"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                  
-                  {/* Live performance line */}
-                  <path
-                    d={`M 0,${100 - (salesChartData[0]?.revenue / 2200) * 100} ` +
-                      salesChartData.map((data, i) => 
-                        `L ${(i / (salesChartData.length - 1)) * 100},${100 - (data.revenue / 2200) * 100}`
-                      ).join(' ')}
-                    fill="none"
-                    stroke="#f97316"
-                    strokeWidth="3"
-                    strokeOpacity="0.9"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                </svg>
-                
-                {/* Interactive data points */}
-                {salesChartData.map((data, index) => {
-                  const x = (index / (salesChartData.length - 1)) * 100;
-                  const y = 100 - (data.revenue / 2200) * 100;
-                  const isCurrentHour = index === Math.min(currentHour - 9, salesChartData.length - 1);
-                  
-                  return (
-                    <div
-                      key={index}
-                      className="absolute group cursor-pointer"
-                      style={{ 
-                        left: `${x}%`, 
-                        top: `${y}%`,
-                        transform: 'translate(-50%, -50%)'
-                      }}
-                    >
-                      {/* Enhanced tooltip */}
-                      <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 whitespace-nowrap shadow-xl border border-slate-700">
-                        <div className="font-bold playwrite-font text-sm text-orange-300">{data.time}</div>
-                        <div style={{ color: '#f97316' }} className="font-medium">Live: ${data.revenue} ({data.orders} orders)</div>
-                        <div style={{ color: '#94a3b8' }} className="font-medium">Avg: ${historicalData[index]?.avgRevenue || 0}</div>
-                        <div className="text-xs mt-1 font-medium text-green-400">
-                          {data.revenue > (historicalData[index]?.avgRevenue || 0) ? '↗ Above average' : '↘ Below average'}
-                        </div>
-                      </div>
+                {isColumnChart ? (
+                  // Column chart for 5-minute intervals
+                  <div className="flex items-end justify-between h-full">
+                    {chartData.map((data: any, index: number) => {
+                      const height = (data.revenue / maxRevenue) * 100;
+                      const isCurrentInterval = data.isLive || false;
                       
-                      {/* Data point */}
-                      <div 
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          isCurrentHour ? 'w-3 h-3 ring-2 ring-orange-400 ring-opacity-60 animate-pulse' : 'group-hover:w-3 group-hover:h-3'
-                        }`}
-                        style={{ backgroundColor: data.isLive ? '#f97316' : '#fbbf24' }}
+                      return (
+                        <div
+                          key={index}
+                          className="flex flex-col items-center group relative"
+                          style={{ width: `${100 / chartData.length}%` }}
+                        >
+                          {/* Tooltip */}
+                          <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-nowrap">
+                            <div className="font-bold playwrite-font">{data.time || data.day || data.week}</div>
+                            <div style={{ color: '#f97316' }} className="font-medium">${data.revenue}</div>
+                          </div>
+                          
+                          {/* Column */}
+                          <div
+                            className={`w-1 rounded-t transition-all duration-300 ${isCurrentInterval ? 'bg-orange-500' : 'bg-orange-300'}`}
+                            style={{ height: `${height}%` }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  // Trading-style line chart for longer timeframes
+                  <>
+                    <svg className="absolute inset-0 w-full h-full">
+                      <defs>
+                        <linearGradient id="historicalGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" style={{stopColor: '#64748b', stopOpacity: 0.3}} />
+                          <stop offset="100%" style={{stopColor: '#64748b', stopOpacity: 0.1}} />
+                        </linearGradient>
+                        <linearGradient id="liveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" style={{stopColor: '#f97316', stopOpacity: 0.4}} />
+                          <stop offset="100%" style={{stopColor: '#f97316', stopOpacity: 0.1}} />
+                        </linearGradient>
+                      </defs>
+                      
+                      {/* Historical average area */}
+                      <path
+                        d={`M 0,${100 - ((chartData[0] as any)?.avgRevenue || (chartData[0] as any)?.revenue * 0.8) / maxRevenue * 100} ` +
+                          chartData.map((data: any, i: number) => 
+                            `L ${(i / (chartData.length - 1)) * 100},${100 - ((data.avgRevenue || data.revenue * 0.8) / maxRevenue) * 100}`
+                          ).join(' ') +
+                          ` L 100,100 L 0,100 Z`}
+                        fill="url(#historicalGradient)"
+                        vectorEffect="non-scaling-stroke"
                       />
-                    </div>
-                  );
-                })}
+                      
+                      {/* Historical average line */}
+                      <path
+                        d={`M 0,${100 - ((chartData[0] as any)?.avgRevenue || (chartData[0] as any)?.revenue * 0.8) / maxRevenue * 100} ` +
+                          chartData.map((data: any, i: number) => 
+                            `L ${(i / (chartData.length - 1)) * 100},${100 - ((data.avgRevenue || data.revenue * 0.8) / maxRevenue) * 100}`
+                          ).join(' ')}
+                        fill="none"
+                        stroke="#64748b"
+                        strokeWidth="2"
+                        strokeOpacity="0.8"
+                        vectorEffect="non-scaling-stroke"
+                      />
+                      
+                      {/* Live performance area */}
+                      <path
+                        d={`M 0,${100 - (chartData[0]?.revenue / maxRevenue) * 100} ` +
+                          chartData.map((data: any, i: number) => 
+                            `L ${(i / (chartData.length - 1)) * 100},${100 - (data.revenue / maxRevenue) * 100}`
+                          ).join(' ') +
+                          ` L 100,100 L 0,100 Z`}
+                        fill="url(#liveGradient)"
+                        vectorEffect="non-scaling-stroke"
+                      />
+                      
+                      {/* Live performance line */}
+                      <path
+                        d={`M 0,${100 - (chartData[0]?.revenue / maxRevenue) * 100} ` +
+                          chartData.map((data: any, i: number) => 
+                            `L ${(i / (chartData.length - 1)) * 100},${100 - (data.revenue / maxRevenue) * 100}`
+                          ).join(' ')}
+                        fill="none"
+                        stroke="#f97316"
+                        strokeWidth="3"
+                        strokeOpacity="0.9"
+                        vectorEffect="non-scaling-stroke"
+                      />
+                    </svg>
+                    
+                    {/* Interactive data points */}
+                    {chartData.map((data: any, index: number) => {
+                      const x = (index / (chartData.length - 1)) * 100;
+                      const y = 100 - (data.revenue / maxRevenue) * 100;
+                      const timeLabel = data.time || data.day || data.week || '';
+                      
+                      return (
+                        <div
+                          key={index}
+                          className="absolute group cursor-pointer"
+                          style={{ 
+                            left: `${x}%`, 
+                            top: `${y}%`,
+                            transform: 'translate(-50%, -50%)'
+                          }}
+                        >
+                          {/* Enhanced tooltip */}
+                          <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 whitespace-nowrap shadow-xl border border-slate-700">
+                            <div className="font-bold playwrite-font text-sm text-orange-300">{timeLabel}</div>
+                            <div style={{ color: '#f97316' }} className="font-medium">Live: ${data.revenue} ({data.orders} orders)</div>
+                            <div style={{ color: '#94a3b8' }} className="font-medium">Avg: ${data.avgRevenue || data.revenue * 0.8}</div>
+                            <div className="text-xs mt-1 font-medium text-green-400">
+                              {data.revenue > (data.avgRevenue || data.revenue * 0.8) ? '↗ Above average' : '↘ Below average'}
+                            </div>
+                          </div>
+                          
+                          {/* Data point */}
+                          <div 
+                            className="w-2 h-2 rounded-full transition-all duration-300 group-hover:w-3 group-hover:h-3"
+                            style={{ backgroundColor: '#f97316' }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
                 
                 {/* Time axis labels */}
                 <div className="absolute -bottom-8 left-0 right-0 flex justify-between">
-                  {salesChartData.filter((_, i) => i % 2 === 0).map((data, index) => (
+                  {chartData.filter((_, i: number) => isColumnChart ? i % 24 === 0 : i % 2 === 0).map((data: any, index: number) => (
                     <div key={index} className="text-xs text-slate-500 dark:text-slate-400 font-medium playwrite-font">
-                      {data.time}
+                      {data.time || data.day || data.week || ''}
                     </div>
                   ))}
                 </div>
@@ -737,7 +827,7 @@ export default function RestaurantDashboard() {
                   <div className="flex justify-between items-center mb-4">
                     <div className="text-sm text-slate-600 dark:text-slate-400">Revenue Trend</div>
                     <div className="text-sm font-medium" style={{ color: 'hsl(25, 95%, 53%)' }}>
-                      ${salesChartData[salesChartData.length - 1]?.revenue || 0}
+                      ${hourlyData[hourlyData.length - 1]?.revenue || 0}
                     </div>
                   </div>
                   
@@ -757,13 +847,13 @@ export default function RestaurantDashboard() {
                     
                     {/* Revenue area chart */}
                     <div className="absolute inset-0 flex items-end justify-between px-2">
-                      {salesChartData.map((data, index) => {
+                      {hourlyData.map((data: any, index: number) => {
                         const height = (data.revenue / 1500) * 100; // Max height based on peak value
                         return (
                           <div
                             key={index}
                             className="flex flex-col items-center group relative"
-                            style={{ width: `${100 / salesChartData.length}%` }}
+                            style={{ width: `${100 / hourlyData.length}%` }}
                           >
                             {/* Tooltip on hover */}
                             <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10">
