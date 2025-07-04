@@ -167,30 +167,40 @@
 }
 
 /* Placeholder animation */
-@keyframes placeholder-fade {
+@keyframes placeholder-fade-in {
   0% {
     opacity: 0;
-    transform: translateY(2px);
+    transform: translateY(3px);
   }
-  15% {
+  100% {
     opacity: 1;
     transform: translateY(0px);
   }
-  85% {
+}
+
+@keyframes placeholder-fade-out {
+  0% {
     opacity: 1;
     transform: translateY(0px);
   }
   100% {
     opacity: 0;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
   }
 }
 
 .animated-placeholder::placeholder {
-  animation: placeholder-fade 3s ease-in-out infinite;
   text-align: center;
   color: white !important;
-  opacity: 0.9;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.placeholder-fade-in::placeholder {
+  animation: placeholder-fade-in 0.5s ease-out forwards;
+}
+
+.placeholder-fade-out::placeholder {
+  animation: placeholder-fade-out 0.5s ease-in forwards;
 }
 
 /* Floating particles animation */
