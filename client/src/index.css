@@ -170,14 +170,14 @@
 .animated-placeholder::placeholder {
   text-align: center;
   color: white !important;
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 1;
   transform: translateY(0px);
 }
 
 .animated-placeholder.fade-out::placeholder {
   opacity: 0;
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 }
 
 /* Floating particles animation */

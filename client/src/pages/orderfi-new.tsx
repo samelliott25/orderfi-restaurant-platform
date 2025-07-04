@@ -134,7 +134,7 @@ export default function OrderFiNew() {
           (prevIndex + 1) % placeholderPhrases.length
         );
         setIsFadingOut(false);
-      }, 300); // Wait for fade out to complete
+      }, 600); // Wait for fade out to complete
       
     }, 3000); // Change every 3 seconds
 
