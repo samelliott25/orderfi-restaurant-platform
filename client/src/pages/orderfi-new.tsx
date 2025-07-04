@@ -760,7 +760,7 @@ export default function OrderFiNew() {
           <div 
             className="absolute inset-0 animated-gradient"
             style={{
-              background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 30%, #AF52DE 70%, #FF2D92 100%)',
+              background: 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)',
               backgroundSize: '200% 200%'
             }}
           ></div>
@@ -793,7 +793,7 @@ export default function OrderFiNew() {
                   top: `${20 + Math.random() * 60}%`,
                   width: `${60 + Math.random() * 40}px`,
                   height: `${60 + Math.random() * 40}px`,
-                  background: `radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(0,122,255,0.08) 30%, rgba(175,82,222,0.06) 70%, transparent 100%)`,
+                  background: `radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(249,115,22,0.08) 30%, rgba(236,72,153,0.06) 70%, transparent 100%)`,
                   animationDelay: `${i * 1.5}s`,
                   animationDuration: `${4 + Math.random() * 2}s`
                 }}
@@ -810,7 +810,7 @@ export default function OrderFiNew() {
                   top: `${Math.random() * 100}%`,
                   width: `${20 + Math.random() * 30}px`,
                   height: `${20 + Math.random() * 30}px`,
-                  background: `radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(88,86,214,0.08) 50%, transparent 100%)`,
+                  background: `radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(239,68,68,0.08) 50%, transparent 100%)`,
                   animationDelay: `${i * 2}s`,
                   animationDuration: `${6 + Math.random() * 3}s`
                 }}
