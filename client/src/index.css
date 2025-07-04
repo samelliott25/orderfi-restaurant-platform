@@ -166,6 +166,26 @@
   animation: flare-drift 8s ease-in-out infinite;
 }
 
+/* Placeholder animation */
+@keyframes placeholder-fade {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animated-placeholder::placeholder {
+  animation: placeholder-fade 3s ease-in-out infinite;
+}
+
 /* Floating particles animation */
 @keyframes float {
   0% {

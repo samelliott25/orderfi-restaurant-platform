@@ -79,6 +79,16 @@ export default function OrderFiNew() {
   const [showLoadingScreen, setShowLoadingScreen] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  
+  const placeholderPhrases = [
+    "Order me a beer",
+    "What's good here?", 
+    "Surprise me!",
+    "I'm feeling hungry",
+    "Show me the specials",
+    "What do you recommend?"
+  ];
   const [chatMessages, setChatMessages] = useState<Array<{id: string, text: string, isUser: boolean, timestamp: Date}>>([]);
   const [currentInput, setCurrentInput] = useState('');
   const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
@@ -110,6 +120,17 @@ export default function OrderFiNew() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Cycle through placeholder phrases
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIndex((prevIndex) => 
+        (prevIndex + 1) % placeholderPhrases.length
+      );
+    }, 3000); // Change every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [placeholderPhrases.length]);
 
   // Mobile keyboard detection
   useEffect(() => {
@@ -891,8 +912,8 @@ export default function OrderFiNew() {
                     value={currentMessage}
                     onChange={(e) => setCurrentMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Type your message..."
-                    className="w-full border-0 text-black placeholder-black/60 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-[#f9a999] transition-all duration-200 bg-[#f7877d] font-medium"
+                    placeholder={placeholderPhrases[placeholderIndex]}
+                    className="w-full border-0 text-black placeholder-black/60 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-[#f9a999] transition-all duration-200 bg-[#f7877d] font-medium animated-placeholder"
                     style={{ backdropFilter: 'blur(20px)' }}
                     onFocus={() => {
                       setIsKeyboardOpen(true);
