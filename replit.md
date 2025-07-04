@@ -1,8 +1,8 @@
-# OrderFi AI - Comprehensive System Architecture
+# AI Visualization Platform - System Architecture
 
 ## Overview
 
-OrderFi AI is a blockchain-first, decentralized restaurant platform that revolutionizes dining experiences through conversational AI and Web3 infrastructure. The platform combines a React frontend with Express.js backend, PostgreSQL database with Drizzle ORM, and integrates smart contracts for token rewards. The system features AI-powered conversational ordering, kitchen printing systems, multi-language support, and decentralized Web3 payments using USDC.
+An advanced AI-powered interactive visualization platform that creates immersive, dynamically rendered visual experiences through cutting-edge procedural graphics and intelligent interface technologies. The platform combines a React frontend with Express.js backend, PostgreSQL database with Drizzle ORM, and integrates smart contracts for token rewards. The system features AI-powered conversational ordering, kitchen printing systems, multi-language support, and decentralized Web3 payments using USDC.
 
 ## System Architecture
 

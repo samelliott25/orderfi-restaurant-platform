@@ -890,11 +890,11 @@ export default function OrderFiNew() {
                     {messages.map((message) => (
                       <div
                         key={message.id}
-                        className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                        className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                       >
                         <div
                           className={`max-w-[80%] px-4 py-3 rounded-xl ${
-                            message.isUser
+                            message.role === 'user'
                               ? 'bg-white/20 text-white backdrop-blur-sm'
                               : 'bg-white/15 text-white/95 backdrop-blur-md'
                           }`}
