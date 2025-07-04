@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 4, 2025. Enhanced chat interface with iOS-style animations and transitions
+  - Implemented smooth placeholder text fade animations with 600ms transitions and cubic-bezier easing
+  - Added gentle floating hover effect for OrderFi logo with vertical movement animation
+  - Created perfect circular closing transition using clip-path that mirrors the opening animation
+  - Closing animation contracts from full screen to 32px circle at bottom center in 1.5s
+  - Enhanced user experience with symmetrical open/close animations for professional feel
 - July 2, 2025. Fixed white footer background and z-index layering issues
   - Eliminated white footer background that was blocking 20% of screen behind chat button
   - Fixed OrderFi Tokens card overlapping AI chat button on narrow screens using proper z-index layering
