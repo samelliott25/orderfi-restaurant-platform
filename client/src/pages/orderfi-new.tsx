@@ -818,7 +818,7 @@ export default function OrderFiNew() {
             ))}
           </div>
           
-          {/* Close Button */}
+          {/* Minimize Button */}
           <Button 
             variant="ghost" 
             size="sm"
@@ -826,7 +826,9 @@ export default function OrderFiNew() {
             className="absolute top-6 right-6 text-white/80 hover:text-white hover:bg-white/10 z-10 w-8 h-8 rounded-full backdrop-blur-xl transition-all duration-200"
             style={{ backdropFilter: 'blur(20px)' }}
           >
-            ×
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+            </svg>
           </Button>
 
           {/* Chat Interface */}
