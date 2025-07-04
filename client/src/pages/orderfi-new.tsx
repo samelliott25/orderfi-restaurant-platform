@@ -779,7 +779,7 @@ export default function OrderFiNew() {
         </div>
       )}
 
-      {/* Revolutionary Sentient Orb Experience */}
+      {/* Clean Chat Interface */}
       {isChatExpanded && (
         <div className={`fixed inset-0 z-[8000] flex items-center justify-center animate-in fade-in duration-300 ${isKeyboardOpen ? 'items-start pt-20' : 'items-center'}`}>
           {/* Blurred Background */}
@@ -795,68 +795,76 @@ export default function OrderFiNew() {
             ×
           </Button>
 
-          {/* Sentient Orb Core */}
-          <div className="relative">
-            {/* CSS Marble Orb with SVG Filter */}
-            <div 
-              className="w-80 h-80 rounded-full relative overflow-hidden cursor-pointer marble-orb-new"
-              onTouchStart={handleOrbTouchStart}
-              onTouchEnd={handleOrbTouchEnd}
-            ></div>
-            
-            {/* Tiny rotating stars around the large orb */}
-            <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-              <svg className="absolute ai-cascade-1" style={{ width: '3px', height: '3px', top: '15%', left: '10%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-2" style={{ width: '3px', height: '3px', top: '85%', left: '85%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-3" style={{ width: '3px', height: '3px', top: '25%', left: '90%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-4" style={{ width: '3px', height: '3px', top: '5%', left: '65%', transform: 'rotate(-89deg)', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-1" style={{ width: '3px', height: '3px', top: '60%', left: '5%', transform: 'rotate(156deg)', animationDelay: '3.2s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-              <svg className="absolute ai-cascade-2" style={{ width: '3px', height: '3px', top: '95%', left: '50%', transform: 'rotate(-201deg)', animationDelay: '1.4s' }} viewBox="0 0 24 24" fill="white">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-            </div>
-            
-            {/* Full-Orb Message Display */}
-            <div className="absolute inset-0 flex flex-col pointer-events-auto z-[300]">
-              {/* Current Message Display - Takes Full Orb */}
-              <div className="flex-1 flex items-center justify-center p-8 relative">
-                {getCurrentMessage() ? (
-                  <div className="text-center transition-all duration-300">
-                    <div className="mb-6">
-                      <div className={`inline-block px-6 py-4 max-w-[240px] transition-all duration-300 ${
-                        getCurrentMessage()?.isUser 
-                          ? 'bg-white/20 border border-white/40 rounded-xl text-white backdrop-blur-sm' 
-                          : 'bg-white/15 border border-white/30 rounded-xl text-white/95 backdrop-blur-md'
-                      }`}>
-                        <div className="text-sm leading-relaxed font-light tracking-wide">
-                          {getCurrentMessage()?.text}
-                        </div>
-                      </div>
-                      <div className="text-xs text-white/50 mt-2 font-light tracking-wider">
-                        {getCurrentMessage()?.timestamp.toLocaleTimeString()}
-                      </div>
+          {/* Chat Interface */}
+          <div className="relative w-full max-w-md mx-4">
+            {/* Messages Area */}
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 mb-4 min-h-[400px] flex flex-col">
+              {/* Messages */}
+              <div className="flex-1 space-y-4 mb-6 overflow-y-auto max-h-80">
+                {messages.length === 0 ? (
+                  <div className="text-center py-8">
+                    <div className="text-white/80 text-lg mb-2 font-light tracking-wide">
+                      Hi, I'm your AI assistant
+                    </div>
+                    <div className="text-white/60 text-sm font-light tracking-wider">
+                      How can I help you today?
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center space-y-8">
-                    {/* Clean minimal interface - just the orb */}
-                  </div>
+                  <>
+                    {messages.map((message) => (
+                      <div
+                        key={message.id}
+                        className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={`max-w-[80%] px-4 py-3 rounded-xl ${
+                            message.sender === 'user'
+                              ? 'bg-white/20 border border-white/40 text-white backdrop-blur-sm'
+                              : 'bg-white/15 border border-white/30 text-white/95 backdrop-blur-md'
+                          }`}
+                        >
+                          <div className="text-sm leading-relaxed font-light tracking-wide">
+                            {message.content}
+                          </div>
+                          <div className="text-xs text-white/50 mt-1 font-light tracking-wider">
+                            {new Date(message.timestamp).toLocaleTimeString()}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <div ref={messagesEndRef} />
+                  </>
                 )}
-                
-
               </div>
               
-
+              {/* Input Area */}
+              <div className="flex items-center space-x-3">
+                <div className="flex-1 relative">
+                  <Input
+                    value={currentMessage}
+                    onChange={(e) => setCurrentMessage(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Type your message..."
+                    className="w-full bg-white/10 border-white/30 text-white placeholder-white/60 rounded-xl px-4 py-3 text-sm backdrop-blur-sm focus:bg-white/20 focus:border-white/50"
+                    onFocus={() => setIsKeyboardOpen(true)}
+                    onBlur={() => setIsKeyboardOpen(false)}
+                  />
+                </div>
+                <Button
+                  onClick={handleSendMessage}
+                  disabled={!currentMessage.trim() || isLoading}
+                  className="w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 border border-white/30 text-white disabled:opacity-50"
+                >
+                  {isLoading ? (
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
