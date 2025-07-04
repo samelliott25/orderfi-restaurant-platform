@@ -913,7 +913,7 @@ export default function OrderFiNew() {
                     onChange={(e) => setCurrentMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder={placeholderPhrases[placeholderIndex]}
-                    className="w-full border-0 text-black placeholder-white/80 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-[#f9a999] transition-all duration-200 bg-[#f7877d] font-medium animated-placeholder text-center"
+                    className="w-full border-0 text-black placeholder-white rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-[#f9a999] transition-all duration-200 bg-[#f7877d] font-medium animated-placeholder text-center"
                     style={{ backdropFilter: 'blur(20px)' }}
                     onFocus={() => {
                       setIsKeyboardOpen(true);

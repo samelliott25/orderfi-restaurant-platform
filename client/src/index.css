@@ -170,21 +170,27 @@
 @keyframes placeholder-fade {
   0% {
     opacity: 0;
+    transform: translateY(2px);
   }
-  10% {
+  15% {
     opacity: 1;
+    transform: translateY(0px);
   }
   85% {
     opacity: 1;
+    transform: translateY(0px);
   }
   100% {
     opacity: 0;
+    transform: translateY(-2px);
   }
 }
 
 .animated-placeholder::placeholder {
   animation: placeholder-fade 3s ease-in-out infinite;
   text-align: center;
+  color: white !important;
+  opacity: 0.9;
 }
 
 /* Floating particles animation */
