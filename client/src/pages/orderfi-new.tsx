@@ -854,8 +854,8 @@ export default function OrderFiNew() {
                         <div
                           className={`max-w-[80%] px-4 py-3 rounded-xl ${
                             message.sender === 'user'
-                              ? 'bg-white/20 border border-white/40 text-white backdrop-blur-sm'
-                              : 'bg-white/15 border border-white/30 text-white/95 backdrop-blur-md'
+                              ? 'bg-white/20 text-white backdrop-blur-sm'
+                              : 'bg-white/15 text-white/95 backdrop-blur-md'
                           }`}
                         >
                           <div className="text-sm leading-relaxed font-light tracking-wide">
@@ -880,7 +880,7 @@ export default function OrderFiNew() {
                     onChange={(e) => setCurrentMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message..."
-                    className="w-full bg-white/8 border-white/20 text-white placeholder-white/50 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-white/12 focus:border-white/40 transition-all duration-200"
+                    className="w-full bg-black/30 border-0 text-white placeholder-white/70 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-black/40 transition-all duration-200"
                     style={{ backdropFilter: 'blur(20px)' }}
                     onFocus={() => {
                       setIsKeyboardOpen(true);
