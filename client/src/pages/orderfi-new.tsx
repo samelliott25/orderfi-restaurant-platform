@@ -756,11 +756,11 @@ export default function OrderFiNew() {
           className="fixed inset-0 z-[8000] flex flex-col animate-expand-from-bottom"
           style={{ height: `${viewportHeight}px` }}
         >
-          {/* Animated Gradient Background */}
+          {/* iOS-style Gradient Background */}
           <div 
             className="absolute inset-0 animated-gradient"
             style={{
-              background: 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)',
+              background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 30%, #AF52DE 70%, #FF2D92 100%)',
               backgroundSize: '200% 200%'
             }}
           ></div>
@@ -793,7 +793,7 @@ export default function OrderFiNew() {
                   top: `${20 + Math.random() * 60}%`,
                   width: `${60 + Math.random() * 40}px`,
                   height: `${60 + Math.random() * 40}px`,
-                  background: `radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(249,115,22,0.1) 30%, rgba(236,72,153,0.05) 70%, transparent 100%)`,
+                  background: `radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(0,122,255,0.08) 30%, rgba(175,82,222,0.06) 70%, transparent 100%)`,
                   animationDelay: `${i * 1.5}s`,
                   animationDuration: `${4 + Math.random() * 2}s`
                 }}
@@ -810,7 +810,7 @@ export default function OrderFiNew() {
                   top: `${Math.random() * 100}%`,
                   width: `${20 + Math.random() * 30}px`,
                   height: `${20 + Math.random() * 30}px`,
-                  background: `radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(239,68,68,0.1) 50%, transparent 100%)`,
+                  background: `radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(88,86,214,0.08) 50%, transparent 100%)`,
                   animationDelay: `${i * 2}s`,
                   animationDuration: `${6 + Math.random() * 3}s`
                 }}
@@ -823,7 +823,8 @@ export default function OrderFiNew() {
             variant="ghost" 
             size="sm"
             onClick={() => setIsChatExpanded(false)}
-            className="absolute top-4 right-4 text-white hover:bg-white/20 z-10"
+            className="absolute top-6 right-6 text-white/80 hover:text-white hover:bg-white/10 z-10 w-8 h-8 rounded-full backdrop-blur-xl transition-all duration-200"
+            style={{ backdropFilter: 'blur(20px)' }}
           >
             ×
           </Button>
@@ -831,15 +832,15 @@ export default function OrderFiNew() {
           {/* Chat Interface */}
           <div className="relative w-full h-full p-4 flex flex-col">
             {/* Messages Area */}
-            <div className="bg-white/15 backdrop-blur-lg rounded-2xl border border-white/30 p-6 mb-4 flex-1 flex flex-col shadow-2xl min-h-0 max-h-full">
+            <div className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 p-6 mb-4 flex-1 flex flex-col shadow-2xl min-h-0 max-h-full" style={{ backdropFilter: 'blur(40px)' }}>
               {/* Messages */}
               <div className="flex-1 space-y-4 mb-6 overflow-y-auto">
                 {messages.length === 0 ? (
                   <div className="text-center py-8">
-                    <div className="text-white/80 text-lg mb-2 font-light tracking-wide">
+                    <div className="text-white/90 text-xl mb-3 font-medium tracking-tight">
                       Hi, I'm your AI assistant
                     </div>
-                    <div className="text-white/60 text-sm font-light tracking-wider">
+                    <div className="text-white/70 text-base font-normal tracking-normal">
                       How can I help you today?
                     </div>
                   </div>
@@ -879,7 +880,8 @@ export default function OrderFiNew() {
                     onChange={(e) => setCurrentMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message..."
-                    className="w-full bg-white/10 border-white/30 text-white placeholder-white/60 rounded-xl px-4 py-3 text-sm backdrop-blur-sm focus:bg-white/20 focus:border-white/50"
+                    className="w-full bg-white/8 border-white/20 text-white placeholder-white/50 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-white/12 focus:border-white/40 transition-all duration-200"
+                    style={{ backdropFilter: 'blur(20px)' }}
                     onFocus={() => {
                       setIsKeyboardOpen(true);
                       // Small delay to ensure keyboard is open before scrolling
