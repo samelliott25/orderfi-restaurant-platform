@@ -140,6 +140,16 @@ Changelog:
   - Removed problematic padding that was creating white background areas at bottom
   - Applied bg-transparent to ScrollArea and proper height calculations for clean footer
   - Ensured consistent bottom spacing across all pages without unwanted white blocks
+- July 4, 2025. Enhanced Sales Performance chart as primary dashboard feature with historical comparison
+  - Made Sales Performance the main chart prominently displayed above tabs
+  - Added historical average data (dark slate bars) vs live sales data (orange bars) for easy comparison
+  - Implemented trading hours visualization (9am-midnight) with 16-hour coverage
+  - Added live performance indicators with current hour highlighting and pulse animation
+  - Created dual-bar chart showing historical averages vs today's live performance
+  - Added enhanced tooltips showing live revenue, order counts, and performance vs average
+  - Included performance indicators showing +8.2% vs historical and peak hour identification
+  - Used OrderFi color scheme: orange (#f97316) for live data, slate (#64748b) for historical data
+  - Added "Live" badge and real-time current revenue display in chart header
 - July 4, 2025. Enhanced dashboard with comprehensive mock sales data for development
   - Added realistic hourly sales data with revenue, orders, customer counts, and tip tracking
   - Implemented weekly revenue trends and menu performance analytics with profit margins

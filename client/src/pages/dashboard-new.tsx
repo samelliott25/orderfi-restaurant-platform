@@ -39,22 +39,47 @@ export default function RestaurantDashboard() {
   const [selectedTimeframe, setSelectedTimeframe] = useState("today");
   const [chartTimeframe, setChartTimeframe] = useState("1H");
 
-  // Comprehensive sales data with realistic restaurant patterns
+  // Trading hours: 9am-midnight comprehensive sales data
+  const currentHour = new Date().getHours();
+  
+  // Historical average data (darker blue/purple for comparison)
+  const historicalData = [
+    { time: '9:00', avgRevenue: 260, avgOrders: 12, trend: 'stable' },
+    { time: '10:00', avgRevenue: 390, avgOrders: 19, trend: 'up' },
+    { time: '11:00', avgRevenue: 620, avgOrders: 29, trend: 'up' },
+    { time: '12:00', avgRevenue: 1150, avgOrders: 54, trend: 'up' },
+    { time: '13:00', avgRevenue: 1520, avgOrders: 70, trend: 'peak' },
+    { time: '14:00', avgRevenue: 890, avgOrders: 41, trend: 'down' },
+    { time: '15:00', avgRevenue: 380, avgOrders: 18, trend: 'down' },
+    { time: '16:00', avgRevenue: 290, avgOrders: 14, trend: 'stable' },
+    { time: '17:00', avgRevenue: 780, avgOrders: 36, trend: 'up' },
+    { time: '18:00', avgRevenue: 1320, avgOrders: 60, trend: 'up' },
+    { time: '19:00', avgRevenue: 1780, avgOrders: 78, trend: 'peak' },
+    { time: '20:00', avgRevenue: 2050, avgOrders: 85, trend: 'peak' },
+    { time: '21:00', avgRevenue: 1480, avgOrders: 64, trend: 'down' },
+    { time: '22:00', avgRevenue: 720, avgOrders: 30, trend: 'down' },
+    { time: '23:00', avgRevenue: 450, avgOrders: 18, trend: 'closing' },
+    { time: '24:00', avgRevenue: 180, avgOrders: 8, trend: 'closing' }
+  ];
+
+  // Today's live sales data (orange line for current performance)
   const salesChartData = [
-    { time: '9:00', revenue: 285, orders: 14, avgOrder: 20.36, volume: 9200, customers: 16, tips: 42.75 },
-    { time: '10:00', revenue: 425, orders: 21, avgOrder: 20.24, volume: 14300, customers: 24, tips: 63.75 },
-    { time: '11:00', revenue: 680, orders: 32, avgOrder: 21.25, volume: 21800, customers: 35, tips: 102.00 },
-    { time: '12:00', revenue: 1250, orders: 58, avgOrder: 21.55, volume: 39500, customers: 62, tips: 187.50 },
-    { time: '13:00', revenue: 1650, orders: 76, avgOrder: 21.71, volume: 52200, customers: 81, tips: 247.50 },
-    { time: '14:00', revenue: 980, orders: 45, avgOrder: 21.78, volume: 31100, customers: 48, tips: 147.00 },
-    { time: '15:00', revenue: 420, orders: 19, avgOrder: 22.11, volume: 13300, customers: 21, tips: 63.00 },
-    { time: '16:00', revenue: 320, orders: 15, avgOrder: 21.33, volume: 10200, customers: 17, tips: 48.00 },
-    { time: '17:00', revenue: 850, orders: 39, avgOrder: 21.79, volume: 26900, customers: 42, tips: 127.50 },
-    { time: '18:00', revenue: 1420, orders: 64, avgOrder: 22.19, volume: 44800, customers: 68, tips: 213.00 },
-    { time: '19:00', revenue: 1890, orders: 82, avgOrder: 23.05, volume: 59700, customers: 87, tips: 283.50 },
-    { time: '20:00', revenue: 2150, orders: 89, avgOrder: 24.16, volume: 67900, customers: 94, tips: 322.50 },
-    { time: '21:00', revenue: 1560, orders: 67, avgOrder: 23.28, volume: 49300, customers: 71, tips: 234.00 },
-    { time: '22:00', revenue: 780, orders: 32, avgOrder: 24.38, volume: 24600, customers: 35, tips: 117.00 }
+    { time: '9:00', revenue: 285, orders: 14, avgOrder: 20.36, volume: 9200, customers: 16, tips: 42.75, isLive: currentHour >= 9 },
+    { time: '10:00', revenue: 425, orders: 21, avgOrder: 20.24, volume: 14300, customers: 24, tips: 63.75, isLive: currentHour >= 10 },
+    { time: '11:00', revenue: 680, orders: 32, avgOrder: 21.25, volume: 21800, customers: 35, tips: 102.00, isLive: currentHour >= 11 },
+    { time: '12:00', revenue: 1250, orders: 58, avgOrder: 21.55, volume: 39500, customers: 62, tips: 187.50, isLive: currentHour >= 12 },
+    { time: '13:00', revenue: 1650, orders: 76, avgOrder: 21.71, volume: 52200, customers: 81, tips: 247.50, isLive: currentHour >= 13 },
+    { time: '14:00', revenue: 980, orders: 45, avgOrder: 21.78, volume: 31100, customers: 48, tips: 147.00, isLive: currentHour >= 14 },
+    { time: '15:00', revenue: 420, orders: 19, avgOrder: 22.11, volume: 13300, customers: 21, tips: 63.00, isLive: currentHour >= 15 },
+    { time: '16:00', revenue: 320, orders: 15, avgOrder: 21.33, volume: 10200, customers: 17, tips: 48.00, isLive: currentHour >= 16 },
+    { time: '17:00', revenue: 850, orders: 39, avgOrder: 21.79, volume: 26900, customers: 42, tips: 127.50, isLive: currentHour >= 17 },
+    { time: '18:00', revenue: 1420, orders: 64, avgOrder: 22.19, volume: 44800, customers: 68, tips: 213.00, isLive: currentHour >= 18 },
+    { time: '19:00', revenue: 1890, orders: 82, avgOrder: 23.05, volume: 59700, customers: 87, tips: 283.50, isLive: currentHour >= 19 },
+    { time: '20:00', revenue: 2150, orders: 89, avgOrder: 24.16, volume: 67900, customers: 94, tips: 322.50, isLive: currentHour >= 20 },
+    { time: '21:00', revenue: 1560, orders: 67, avgOrder: 23.28, volume: 49300, customers: 71, tips: 234.00, isLive: currentHour >= 21 },
+    { time: '22:00', revenue: 780, orders: 32, avgOrder: 24.38, volume: 24600, customers: 35, tips: 117.00, isLive: currentHour >= 22 },
+    { time: '23:00', revenue: 420, orders: 17, avgOrder: 24.71, volume: 12800, customers: 19, tips: 63.00, isLive: currentHour >= 23 },
+    { time: '24:00', revenue: 150, orders: 6, avgOrder: 25.00, volume: 4200, customers: 7, tips: 22.50, isLive: currentHour >= 24 }
   ];
 
   // Weekly revenue data for trends
@@ -299,9 +324,121 @@ export default function RestaurantDashboard() {
           </Card>
         </div>
 
-        {/* Main Tabs */}
+        {/* Primary Sales Performance Chart */}
+        <Card className="col-span-full">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <LineChart className="w-6 h-6" style={{ color: 'hsl(25, 95%, 53%)' }} />
+                <span className="text-xl playwrite-font">Sales Performance</span>
+                <Badge variant="secondary" className="ml-2">Live</Badge>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-3 h-3 rounded bg-slate-600"></div>
+                  <span>Historical Avg</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-3 h-3 rounded bg-orange-500"></div>
+                  <span>Today Live</span>
+                </div>
+                <div className="text-lg font-bold" style={{ color: 'hsl(25, 95%, 53%)' }}>
+                  ${salesChartData[Math.min(currentHour - 9, salesChartData.length - 1)]?.revenue || 0}
+                </div>
+              </div>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-96 mb-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-lg p-6 relative overflow-hidden">
+              {/* Trading hours grid */}
+              <div className="absolute inset-6 grid grid-cols-16 opacity-20">
+                {Array.from({ length: 16 }).map((_, i) => (
+                  <div key={i} className="border-r border-slate-300 dark:border-slate-500"></div>
+                ))}
+              </div>
+              <div className="absolute inset-6 grid grid-rows-8 opacity-20">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="border-b border-slate-300 dark:border-slate-500"></div>
+                ))}
+              </div>
+              
+              {/* Dual line chart visualization */}
+              <div className="absolute inset-6 flex items-end justify-between">
+                {salesChartData.map((data, index) => {
+                  const maxRevenue = 2200; // Peak revenue for scaling
+                  const liveHeight = (data.revenue / maxRevenue) * 100;
+                  const historicalHeight = (historicalData[index]?.avgRevenue / maxRevenue) * 100;
+                  const isCurrentHour = index === Math.min(currentHour - 9, salesChartData.length - 1);
+                  
+                  return (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center group relative"
+                      style={{ width: `${100 / salesChartData.length}%` }}
+                    >
+                      {/* Enhanced tooltip */}
+                      <div className="absolute -top-24 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-nowrap">
+                        <div className="font-semibold">{data.time}</div>
+                        <div style={{ color: '#f97316' }}>Live: ${data.revenue} ({data.orders} orders)</div>
+                        <div style={{ color: '#64748b' }}>Avg: ${historicalData[index]?.avgRevenue || 0}</div>
+                        <div className="text-xs mt-1">
+                          {data.revenue > (historicalData[index]?.avgRevenue || 0) ? '↗ Above average' : '↘ Below average'}
+                        </div>
+                      </div>
+                      
+                      {/* Historical average bar (dark blue/purple) */}
+                      <div
+                        className="absolute bottom-0 w-4 rounded-t-sm opacity-60"
+                        style={{
+                          height: `${historicalHeight}%`,
+                          backgroundColor: '#64748b',
+                          right: '45%'
+                        }}
+                      />
+                      
+                      {/* Live performance bar (orange) */}
+                      <div
+                        className={`absolute bottom-0 w-4 rounded-t-sm transition-all duration-300 ${isCurrentHour ? 'ring-2 ring-orange-400 ring-opacity-60' : ''}`}
+                        style={{
+                          height: `${liveHeight}%`,
+                          backgroundColor: data.isLive ? '#f97316' : '#fbbf24',
+                          left: '45%',
+                          opacity: data.isLive ? 1 : 0.4
+                        }}
+                      />
+                      
+                      {/* Time labels */}
+                      <div className="absolute -bottom-6 text-xs text-slate-600 dark:text-slate-400 transform -rotate-45 origin-top-left">
+                        {data.time}
+                      </div>
+                      
+                      {/* Current hour indicator */}
+                      {isCurrentHour && (
+                        <div className="absolute -bottom-10 w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              
+              {/* Performance indicators */}
+              <div className="absolute top-4 right-4 flex flex-col gap-2">
+                <div className="bg-white dark:bg-slate-800 px-3 py-2 rounded-lg shadow-sm">
+                  <div className="text-xs text-slate-600 dark:text-slate-400">vs Historical</div>
+                  <div className="text-sm font-bold text-green-600">+8.2%</div>
+                </div>
+                <div className="bg-white dark:bg-slate-800 px-3 py-2 rounded-lg shadow-sm">
+                  <div className="text-xs text-slate-600 dark:text-slate-400">Peak Hour</div>
+                  <div className="text-sm font-bold">8:00 PM</div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Secondary Tabs */}
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <BarChart3 className="w-4 h-4" />
               Overview
@@ -309,10 +446,6 @@ export default function RestaurantDashboard() {
             <TabsTrigger value="orders" className="flex items-center gap-2">
               <ChefHat className="w-4 h-4" />
               Live Orders
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <PieChart className="w-4 h-4" />
-              Analytics
             </TabsTrigger>
             <TabsTrigger value="performance" className="flex items-center gap-2">
               <Activity className="w-4 h-4" />
