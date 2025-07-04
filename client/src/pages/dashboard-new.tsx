@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { format, addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from 'date-fns';
+import type { DateRange } from 'react-day-picker';
 
 export default function RestaurantDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -48,7 +49,7 @@ export default function RestaurantDashboard() {
   
   // Date selection state
   const [selectedDate, setSelectedDate] = useState<Date>(new Date()); // Default to today (Friday)
-  const [dateRange, setDateRange] = useState<{from?: Date; to?: Date}>({});
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isRangeCalendarOpen, setIsRangeCalendarOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"single" | "range">("single");
@@ -606,92 +607,96 @@ export default function RestaurantDashboard() {
                   </Button>
                 </div>
 
-                {/* Chart Timeframe (only show for single day view) */}
-                {viewMode === "single" && (
-                  <div className="flex items-center gap-2">
-                    <Button 
-                      variant={chartTimeframe === "1H" ? "default" : "outline"} 
-                      size="sm"
-                      onClick={() => setChartTimeframe("1H")}
-                      className="h-7 px-3 text-xs font-medium"
-                    >
-                      1H
-                    </Button>
-                    <Button 
-                      variant={chartTimeframe === "1D" ? "default" : "outline"} 
-                      size="sm"
-                      onClick={() => setChartTimeframe("1D")}
-                      className="h-7 px-3 text-xs font-medium"
-                    >
-                      1D
-                    </Button>
-                    <Button 
-                      variant={chartTimeframe === "1W" ? "default" : "outline"} 
-                      size="sm"
-                      onClick={() => setChartTimeframe("1W")}
-                      className="h-7 px-3 text-xs font-medium"
-                    >
-                      1W
-                    </Button>
-                  </div>
-                )}
+                {/* Conditional Controls */}
+                <>
+                  {/* Chart Timeframe (only show for single day view) */}
+                  {viewMode === "single" && (
+                    <div className="flex items-center gap-2">
+                      <Button 
+                        variant={chartTimeframe === "1H" ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => setChartTimeframe("1H")}
+                        className="h-7 px-3 text-xs font-medium"
+                      >
+                        1H
+                      </Button>
+                      <Button 
+                        variant={chartTimeframe === "1D" ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => setChartTimeframe("1D")}
+                        className="h-7 px-3 text-xs font-medium"
+                      >
+                        1D
+                      </Button>
+                      <Button 
+                        variant={chartTimeframe === "1W" ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => setChartTimeframe("1W")}
+                        className="h-7 px-3 text-xs font-medium"
+                      >
+                        1W
+                      </Button>
+                    </div>
+                  )}
 
-                {/* Date Range Selection (only show for range view) */}
-                {viewMode === "range" && (
-                  <div className="flex items-center gap-2">
-                    <Popover open={isRangeCalendarOpen} onOpenChange={setIsRangeCalendarOpen}>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="h-7 px-3 text-xs font-medium min-w-[120px] justify-start"
-                        >
-                          <CalendarIcon className="w-3 h-3 mr-2" />
-                          {dateRange.from && dateRange.to 
-                            ? `${format(dateRange.from, 'MMM dd')} - ${format(dateRange.to, 'MMM dd')}`
-                            : 'Select range'
-                          }
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="range"
-                          selected={dateRange}
-                          onSelect={(range) => {
-                            setDateRange(range || {});
-                            if (range?.from && range?.to) {
-                              setIsRangeCalendarOpen(false);
+                  {/* Date Range Selection (only show for range view) */}
+                  {viewMode === "range" && (
+                    <div className="flex items-center gap-2">
+                      <Popover open={isRangeCalendarOpen} onOpenChange={setIsRangeCalendarOpen}>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-7 px-3 text-xs font-medium min-w-[120px] justify-start"
+                          >
+                            <CalendarIcon className="w-3 h-3 mr-2" />
+                            {dateRange?.from && dateRange?.to 
+                              ? `${format(dateRange.from, 'MMM dd')} - ${format(dateRange.to, 'MMM dd')}`
+                              : 'Select range'
                             }
-                          }}
-                          numberOfMonths={2}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="range"
+                            selected={dateRange}
+                            onSelect={(range) => {
+                              setDateRange(range);
+                              if (range?.from && range?.to) {
+                                setIsRangeCalendarOpen(false);
+                              }
+                            }}
+                            numberOfMonths={2}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 text-sm font-medium">
+                      <div className="w-3 h-3 rounded bg-slate-600"></div>
+                      <span className="playwrite-font">Historical Avg</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm font-medium">
+                      <div className="w-3 h-3 rounded bg-orange-500"></div>
+                      <span className="playwrite-font">{isColumnChart ? 'Live (5min intervals)' : 'Live Performance'}</span>
+                    </div>
+                    <div className="text-xl font-bold playwrite-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
+                      ${chartData[Math.min(currentHour - 9, chartData.length - 1)]?.revenue || chartData[chartData.length - 1]?.revenue || 0}
+                    </div>
                   </div>
-                )}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 text-sm font-medium">
-                    <div className="w-3 h-3 rounded bg-slate-600"></div>
-                    <span className="playwrite-font">Historical Avg</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm font-medium">
-                    <div className="w-3 h-3 rounded bg-orange-500"></div>
-                    <span className="playwrite-font">{isColumnChart ? 'Live (5min intervals)' : 'Live Performance'}</span>
-                  </div>
-                  <div className="text-xl font-bold playwrite-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
-                    ${chartData[Math.min(currentHour - 9, chartData.length - 1)]?.revenue || chartData[chartData.length - 1]?.revenue || 0}
-                  </div>
-                </div>
+                </>
               </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-96 mb-6">
               <ResponsiveContainer width="100%" height="100%">
-                {viewMode === "range" && dateRange.from && dateRange.to ? (
+                {viewMode === "range" && dateRange?.from && dateRange?.to ? (
                   // Range view - Trading style line chart
-                  <LineChart data={generateDailyTotals(dateRange.from, dateRange.to)} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                  <LineChart data={generateDailyTotals(dateRange.from!, dateRange.to!)} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                     <XAxis 
                       dataKey="date"

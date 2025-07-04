@@ -15,6 +15,8 @@ import TokenRewardsPage from "@/pages/tokenrewards";
 import NetworkPage from "@/pages/network";
 import NotFound from "@/pages/not-found";
 import TestThree from "@/pages/test-three";
+import VisualizationPlatform from "@/pages/visualization-platform";
+import SimpleVisualization from "@/pages/simple-visualization";
 import { useEffect, useState } from "react";
 
 // Keep only essential admin pages for dashboard integration
@@ -84,8 +86,11 @@ function Router() {
         {/* Landing Page */}
         <Route path="/landing-page" component={HomePage} />
         
-        {/* Customer-Facing Mobile Interface - Default Home */}
-        <Route path="/" component={OrderFiNew} />
+        {/* AI Visualization Platform - Default Home */}
+        <Route path="/" component={SimpleVisualization} />
+        
+        {/* Customer-Facing Mobile Interface */}
+        <Route path="/orderfi" component={OrderFiNew} />
         <Route path="/orderfi-home" component={OrderFiNew} />
         <Route path="/orderfi-simple" component={OrderFiSimple} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
