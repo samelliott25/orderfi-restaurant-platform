@@ -743,14 +743,16 @@ export default function OrderFiNew() {
       {isChatExpanded && (
         <div className={`fixed inset-0 z-[8000] flex items-center justify-center animate-expand-from-bottom ${isKeyboardOpen ? 'items-start pt-20' : 'items-center'}`}>
           {/* Animated Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-orange-600 to-pink-500 animated-gradient"></div>
+          <div className="absolute inset-0 animated-gradient" style={{ 
+            background: 'linear-gradient(135deg, rgb(252, 248, 238) 0%, rgb(245, 235, 220) 50%, rgb(240, 225, 200) 100%)'
+          }}></div>
           
           {/* Floating Particles */}
           <div className="absolute inset-0 overflow-hidden">
             {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-2 h-2 bg-white/20 rounded-full animate-float"
+                className="absolute w-2 h-2 bg-orange-400/30 rounded-full animate-float"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
@@ -774,15 +776,15 @@ export default function OrderFiNew() {
           {/* Chat Interface */}
           <div className="relative w-full max-w-md mx-4">
             {/* Messages Area */}
-            <div className="bg-white/15 backdrop-blur-lg rounded-2xl border border-white/30 p-6 mb-4 min-h-[400px] flex flex-col shadow-2xl">
+            <div className="bg-white/80 backdrop-blur-lg rounded-2xl border border-orange-200/50 p-6 mb-4 min-h-[400px] flex flex-col shadow-2xl">
               {/* Messages */}
               <div className="flex-1 space-y-4 mb-6 overflow-y-auto max-h-80">
                 {messages.length === 0 ? (
                   <div className="text-center py-8">
-                    <div className="text-white/80 text-lg mb-2 font-light tracking-wide">
+                    <div className="text-gray-800 text-lg mb-2 font-light tracking-wide">
                       Hi, I'm your AI assistant
                     </div>
-                    <div className="text-white/60 text-sm font-light tracking-wider">
+                    <div className="text-gray-600 text-sm font-light tracking-wider">
                       How can I help you today?
                     </div>
                   </div>
@@ -822,7 +824,7 @@ export default function OrderFiNew() {
                     onChange={(e) => setCurrentMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message..."
-                    className="w-full bg-white/10 border-white/30 text-white placeholder-white/60 rounded-xl px-4 py-3 text-sm backdrop-blur-sm focus:bg-white/20 focus:border-white/50"
+                    className="w-full bg-white/50 border-orange-200 text-gray-800 placeholder-gray-500 rounded-xl px-4 py-3 text-sm backdrop-blur-sm focus:bg-white/70 focus:border-orange-300"
                     onFocus={() => setIsKeyboardOpen(true)}
                     onBlur={() => setIsKeyboardOpen(false)}
                   />
@@ -830,7 +832,7 @@ export default function OrderFiNew() {
                 <Button
                   onClick={handleSendMessage}
                   disabled={!currentMessage.trim() || isLoading}
-                  className="w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 border border-white/30 text-white disabled:opacity-50"
+                  className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 border-0 text-white disabled:opacity-50"
                 >
                   {isLoading ? (
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
