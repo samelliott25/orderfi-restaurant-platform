@@ -78,6 +78,7 @@ export default function OrderFiNew() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [showLoadingScreen, setShowLoadingScreen] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
   const [chatMessages, setChatMessages] = useState<Array<{id: string, text: string, isUser: boolean, timestamp: Date}>>([]);
   const [currentInput, setCurrentInput] = useState('');
   const [currentMessageIndex, setCurrentMessageIndex] = useState(-1);
@@ -98,6 +99,16 @@ export default function OrderFiNew() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
     setIsPageLoaded(true);
+    
+    // Handle viewport height changes for mobile keyboard
+    const handleResize = () => {
+      const newHeight = window.innerHeight;
+      setViewportHeight(newHeight);
+      setIsKeyboardOpen(newHeight < window.screen.height * 0.75);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Mobile keyboard detection
@@ -741,7 +752,10 @@ export default function OrderFiNew() {
 
       {/* Clean Chat Interface */}
       {isChatExpanded && (
-        <div className={`fixed inset-0 z-[8000] flex items-center justify-center animate-expand-from-bottom ${isKeyboardOpen ? 'items-start pt-20' : 'items-center'}`}>
+        <div 
+          className="fixed inset-0 z-[8000] flex flex-col animate-expand-from-bottom"
+          style={{ height: `${viewportHeight}px` }}
+        >
           {/* Animated Gradient Background */}
           <div 
             className="absolute inset-0 animated-gradient"
@@ -766,6 +780,43 @@ export default function OrderFiNew() {
               />
             ))}
           </div>
+
+          {/* Light Flares */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Main light flares */}
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={`flare-${i}`}
+                className="absolute rounded-full light-flare"
+                style={{
+                  left: `${20 + Math.random() * 60}%`,
+                  top: `${20 + Math.random() * 60}%`,
+                  width: `${60 + Math.random() * 40}px`,
+                  height: `${60 + Math.random() * 40}px`,
+                  background: `radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(249,115,22,0.1) 30%, rgba(236,72,153,0.05) 70%, transparent 100%)`,
+                  animationDelay: `${i * 1.5}s`,
+                  animationDuration: `${4 + Math.random() * 2}s`
+                }}
+              />
+            ))}
+            
+            {/* Drifting light accents */}
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={`drift-${i}`}
+                className="absolute rounded-full light-flare-drift"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  width: `${20 + Math.random() * 30}px`,
+                  height: `${20 + Math.random() * 30}px`,
+                  background: `radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(239,68,68,0.1) 50%, transparent 100%)`,
+                  animationDelay: `${i * 2}s`,
+                  animationDuration: `${6 + Math.random() * 3}s`
+                }}
+              />
+            ))}
+          </div>
           
           {/* Close Button */}
           <Button 
@@ -778,11 +829,11 @@ export default function OrderFiNew() {
           </Button>
 
           {/* Chat Interface */}
-          <div className="relative w-full max-w-md mx-4">
+          <div className="relative w-full h-full p-4 flex flex-col">
             {/* Messages Area */}
-            <div className="bg-white/15 backdrop-blur-lg rounded-2xl border border-white/30 p-6 mb-4 min-h-[400px] flex flex-col shadow-2xl">
+            <div className="bg-white/15 backdrop-blur-lg rounded-2xl border border-white/30 p-6 mb-4 flex-1 flex flex-col shadow-2xl min-h-0 max-h-full">
               {/* Messages */}
-              <div className="flex-1 space-y-4 mb-6 overflow-y-auto max-h-80">
+              <div className="flex-1 space-y-4 mb-6 overflow-y-auto">
                 {messages.length === 0 ? (
                   <div className="text-center py-8">
                     <div className="text-white/80 text-lg mb-2 font-light tracking-wide">
@@ -829,7 +880,16 @@ export default function OrderFiNew() {
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message..."
                     className="w-full bg-white/10 border-white/30 text-white placeholder-white/60 rounded-xl px-4 py-3 text-sm backdrop-blur-sm focus:bg-white/20 focus:border-white/50"
-                    onFocus={() => setIsKeyboardOpen(true)}
+                    onFocus={() => {
+                      setIsKeyboardOpen(true);
+                      // Small delay to ensure keyboard is open before scrolling
+                      setTimeout(() => {
+                        const input = document.activeElement as HTMLInputElement;
+                        if (input) {
+                          input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                      }, 300);
+                    }}
                     onBlur={() => setIsKeyboardOpen(false)}
                   />
                 </div>

@@ -127,6 +127,45 @@
   animation: gradient-shift 8s ease-in-out infinite;
 }
 
+/* Light flare animations */
+@keyframes flare-glow {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.1;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes flare-drift {
+  0% {
+    transform: translateX(-20px) translateY(-10px);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateX(20px) translateY(10px);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateX(-20px) translateY(-10px);
+    opacity: 0.2;
+  }
+}
+
+.light-flare {
+  animation: flare-glow 6s ease-in-out infinite;
+}
+
+.light-flare-drift {
+  animation: flare-drift 8s ease-in-out infinite;
+}
+
 /* Floating particles animation */
 @keyframes float {
   0% {
