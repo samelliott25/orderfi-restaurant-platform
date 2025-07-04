@@ -167,33 +167,17 @@
 }
 
 /* Placeholder animation */
-@keyframes placeholder-cycle {
-  0% {
-    opacity: 1;
-    transform: translateY(0px);
-  }
-  45% {
-    opacity: 1;
-    transform: translateY(0px);
-  }
-  50% {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  55% {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0px);
-  }
-}
-
 .animated-placeholder::placeholder {
   text-align: center;
   color: white !important;
-  animation: placeholder-cycle 3s ease-in-out infinite;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.animated-placeholder.fade-out::placeholder {
+  opacity: 0;
+  transform: translateY(-5px);
 }
 
 /* Floating particles animation */
