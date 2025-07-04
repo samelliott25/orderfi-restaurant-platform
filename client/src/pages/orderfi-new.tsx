@@ -832,7 +832,7 @@ export default function OrderFiNew() {
           {/* Chat Interface */}
           <div className="relative w-full h-full p-4 flex flex-col">
             {/* Messages Area */}
-            <div className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 p-6 mb-4 flex-1 flex flex-col shadow-2xl min-h-0 max-h-full" style={{ backdropFilter: 'blur(40px)' }}>
+            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 mb-4 flex-1 flex flex-col shadow-2xl min-h-0 max-h-full" style={{ backdropFilter: 'blur(40px)' }}>
               {/* Messages */}
               <div className="flex-1 space-y-4 mb-6 overflow-y-auto">
                 {messages.length === 0 ? (
