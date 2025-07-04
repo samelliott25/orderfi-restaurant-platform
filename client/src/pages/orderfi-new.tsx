@@ -743,7 +743,13 @@ export default function OrderFiNew() {
       {isChatExpanded && (
         <div className={`fixed inset-0 z-[8000] flex items-center justify-center animate-expand-from-bottom ${isKeyboardOpen ? 'items-start pt-20' : 'items-center'}`}>
           {/* Animated Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 animated-gradient"></div>
+          <div 
+            className="absolute inset-0 animated-gradient"
+            style={{
+              background: 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)',
+              backgroundSize: '200% 200%'
+            }}
+          ></div>
           
           {/* Floating Particles */}
           <div className="absolute inset-0 overflow-hidden">
