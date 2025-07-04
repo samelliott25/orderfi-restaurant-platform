@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 4, 2025. Rolled out Playwrite Australia Victoria font theme across entire application
+  - Applied OrderFi brand font (Playwrite AU VIC) to all page titles, card titles, and headers
+  - Updated global CSS with h1, h2, h3 font defaults and brand element classes
+  - Standardized font theme across dashboard, inventory, tokenrewards, and all admin pages
+  - Enhanced brand consistency with .playwrite-font utility class throughout interface
+  - Maintained OrderFi's distinctive handwritten aesthetic across all user touchpoints
 - July 4, 2025. Enhanced chat interface with iOS-style animations and transitions
   - Implemented smooth placeholder text fade animations with 600ms transitions and cubic-bezier easing
   - Added gentle floating hover effect for OrderFi logo with vertical movement animation

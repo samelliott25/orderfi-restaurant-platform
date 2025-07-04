@@ -110,7 +110,7 @@ export function StandardLayout({
             </div>
           </div>
           <div>
-            <h1 className="font-semibold text-lg" style={{ fontFamily: 'Playwrite Australia Victoria' }}>{title}</h1>
+            <h1 className="font-semibold text-lg playwrite-font">{title}</h1>
             <p className="text-sm text-muted-foreground">{subtitle}</p>
           </div>
         </div>
@@ -233,7 +233,7 @@ export function StandardLayout({
             <div className="fixed inset-0 z-[9000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
               <Card className="w-full max-w-md h-[600px] flex flex-col">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-lg font-semibold">OrderFi Assistant</CardTitle>
+                  <CardTitle className="text-lg font-semibold playwrite-font">OrderFi Assistant</CardTitle>
                   <Button 
                     variant="ghost" 
                     size="sm" 

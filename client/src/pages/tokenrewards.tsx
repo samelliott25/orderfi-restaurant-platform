@@ -113,7 +113,7 @@ export default function TokenRewards() {
           <TabsContent value="earn" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 playwrite-font">
                   <TrendingUp className="h-5 w-5" />
                   Ways to Earn Points
                 </CardTitle>
@@ -163,7 +163,7 @@ export default function TokenRewards() {
           <TabsContent value="redeem" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 playwrite-font">
                   <Gift className="h-5 w-5" />
                   Available Rewards
                 </CardTitle>

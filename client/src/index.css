@@ -7,6 +7,19 @@
   font-family: "Playwrite AU VIC", cursive !important;
 }
 
+/* Global OrderFi branding font theme */
+h1, h2, h3, .orderfi-brand {
+  font-family: "Playwrite AU VIC", cursive;
+}
+
+/* Specific OrderFi brand elements */
+.brand-title, 
+.page-title, 
+.card-title,
+.dialog-title {
+  font-family: "Playwrite AU VIC", cursive;
+}
+
 /* Page turn animation */
 @keyframes page-turn {
   0% {

@@ -138,7 +138,7 @@ export default function RestaurantDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Today's Revenue</CardTitle>
+              <CardTitle className="text-sm font-medium playwrite-font">Today's Revenue</CardTitle>
               <DollarSign className="h-4 w-4" style={{ color: 'hsl(340, 82%, 52%)' }} />
             </CardHeader>
             <CardContent>
@@ -152,7 +152,7 @@ export default function RestaurantDashboard() {
 
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Orders</CardTitle>
+              <CardTitle className="text-sm font-medium playwrite-font">Orders</CardTitle>
               <ShoppingCart className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
@@ -166,7 +166,7 @@ export default function RestaurantDashboard() {
 
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Orders</CardTitle>
+              <CardTitle className="text-sm font-medium playwrite-font">Pending Orders</CardTitle>
               <Clock className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
@@ -179,7 +179,7 @@ export default function RestaurantDashboard() {
 
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Average Order Value</CardTitle>
+              <CardTitle className="text-sm font-medium playwrite-font">Average Order Value</CardTitle>
               <TrendingUp className="h-4 w-4" style={{ color: 'hsl(215, 28%, 35%)' }} />
             </CardHeader>
             <CardContent>

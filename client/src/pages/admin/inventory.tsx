@@ -90,7 +90,7 @@ export default function AdminInventoryPage() {
           {/* Slate Zone: Inventory Overview */}
           <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300">Total Items</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300 playwrite-font">Total Items</CardTitle>
               <Package className="h-4 w-4 text-slate-600 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
@@ -105,7 +105,7 @@ export default function AdminInventoryPage() {
           <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-700" 
                 style={{ borderColor: 'hsl(25, 95%, 53%, 0.3)', backgroundColor: 'hsl(25, 95%, 53%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'hsl(25, 95%, 35%)' }}>Low Stock</CardTitle>
+              <CardTitle className="text-sm font-medium playwrite-font" style={{ color: 'hsl(25, 95%, 35%)' }}>Low Stock</CardTitle>
               <AlertTriangle className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
@@ -120,7 +120,7 @@ export default function AdminInventoryPage() {
           <Card className="border-pink-200 bg-pink-50 dark:bg-pink-950/20 dark:border-pink-700"
                 style={{ borderColor: 'hsl(340, 82%, 52%, 0.3)', backgroundColor: 'hsl(340, 82%, 52%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'hsl(340, 82%, 35%)' }}>Inventory Value</CardTitle>
+              <CardTitle className="text-sm font-medium playwrite-font" style={{ color: 'hsl(340, 82%, 35%)' }}>Inventory Value</CardTitle>
               <DollarSign className="h-4 w-4" style={{ color: 'hsl(340, 82%, 52%)' }} />
             </CardHeader>
             <CardContent>
@@ -135,7 +135,7 @@ export default function AdminInventoryPage() {
           <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700"
                 style={{ borderColor: 'hsl(215, 28%, 17%, 0.3)', backgroundColor: 'hsl(215, 28%, 17%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: 'hsl(215, 28%, 25%)' }}>Performance</CardTitle>
+              <CardTitle className="text-sm font-medium playwrite-font" style={{ color: 'hsl(215, 28%, 25%)' }}>Performance</CardTitle>
               <TrendingUp className="h-4 w-4" style={{ color: 'hsl(215, 28%, 35%)' }} />
             </CardHeader>
             <CardContent>
