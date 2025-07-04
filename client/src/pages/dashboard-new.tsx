@@ -30,9 +30,10 @@ import {
   ChefHat,
   Timer,
   TrendingDown,
-  LineChart,
+  LineChart as LineChartIcon,
   Minus
 } from "lucide-react";
+import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function RestaurantDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -104,17 +105,16 @@ export default function RestaurantDashboard() {
   // Get data based on selected timeframe
   const getChartData = () => {
     switch (chartTimeframe) {
-      case '5m': return generate5MinuteData();
-      case '1H': return hourlyData;
+      case '1H': return generate5MinuteData(); // 5-minute intervals for hourly view
       case '1D': return weeklyData;
       case '1W': return monthlyData;
-      default: return hourlyData;
+      default: return generate5MinuteData();
     }
   };
 
   const chartData = getChartData();
   const maxRevenue = Math.max(...chartData.map(d => d.revenue || 0));
-  const isColumnChart = chartTimeframe === '5m';
+  const isColumnChart = chartTimeframe === '1H';
 
 
 
@@ -353,27 +353,19 @@ export default function RestaurantDashboard() {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <LineChart className="w-6 h-6" style={{ color: 'hsl(25, 95%, 53%)' }} />
+                <LineChartIcon className="w-6 h-6" style={{ color: 'hsl(25, 95%, 53%)' }} />
                 <span className="text-2xl playwrite-font">Sales Performance</span>
                 <Badge variant="secondary" className="ml-2 bg-orange-100 text-orange-700">Live</Badge>
               </div>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
                   <Button 
-                    variant={chartTimeframe === "5m" ? "default" : "outline"} 
-                    size="sm"
-                    onClick={() => setChartTimeframe("5m")}
-                    className="h-7 px-3 text-xs font-medium"
-                  >
-                    5m
-                  </Button>
-                  <Button 
                     variant={chartTimeframe === "1H" ? "default" : "outline"} 
                     size="sm"
                     onClick={() => setChartTimeframe("1H")}
                     className="h-7 px-3 text-xs font-medium"
                   >
-                    1D
+                    1H
                   </Button>
                   <Button 
                     variant={chartTimeframe === "1D" ? "default" : "outline"} 
@@ -381,7 +373,7 @@ export default function RestaurantDashboard() {
                     onClick={() => setChartTimeframe("1D")}
                     className="h-7 px-3 text-xs font-medium"
                   >
-                    1W
+                    1D
                   </Button>
                   <Button 
                     variant={chartTimeframe === "1W" ? "default" : "outline"} 
@@ -389,7 +381,7 @@ export default function RestaurantDashboard() {
                     onClick={() => setChartTimeframe("1W")}
                     className="h-7 px-3 text-xs font-medium"
                   >
-                    1M
+                    1W
                   </Button>
                 </div>
                 <div className="flex items-center gap-3">
@@ -399,7 +391,7 @@ export default function RestaurantDashboard() {
                   </div>
                   <div className="flex items-center gap-2 text-sm font-medium">
                     <div className="w-3 h-3 rounded bg-orange-500"></div>
-                    <span className="playwrite-font">{isColumnChart ? 'Live 5min' : 'Today Live'}</span>
+                    <span className="playwrite-font">{isColumnChart ? 'Live (5min intervals)' : 'Live Performance'}</span>
                   </div>
                   <div className="text-xl font-bold playwrite-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
                     ${chartData[Math.min(currentHour - 9, chartData.length - 1)]?.revenue || chartData[chartData.length - 1]?.revenue || 0}
@@ -409,195 +401,112 @@ export default function RestaurantDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-96 mb-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-lg p-6 relative overflow-hidden">
-              {/* Enhanced chart grid with revenue lines */}
-              <div className="absolute inset-6 grid grid-cols-16 opacity-30">
-                {Array.from({ length: 16 }).map((_, i) => (
-                  <div key={i} className="border-r border-slate-300 dark:border-slate-400"></div>
-                ))}
-              </div>
-              <div className="absolute inset-6 grid grid-rows-8 opacity-30">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="border-b border-slate-300 dark:border-slate-400"></div>
-                ))}
-              </div>
-              
-              {/* Revenue threshold lines */}
-              <div className="absolute inset-6">
-                {[500, 1000, 1500, 2000].map((threshold) => {
-                  const position = ((threshold / 2200) * 100);
-                  return (
-                    <div
-                      key={threshold}
-                      className="absolute left-0 right-0 border-t-2 border-dashed opacity-40"
-                      style={{
-                        bottom: `${position}%`,
-                        borderColor: threshold === 2000 ? '#f97316' : '#64748b'
-                      }}
-                    >
-                      <span 
-                        className="absolute -left-12 -top-2 text-xs font-medium playwrite-font"
-                        style={{ color: threshold === 2000 ? '#f97316' : '#64748b' }}
-                      >
-                        ${threshold}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-              
-              {/* Flexible chart rendering */}
-              <div className="absolute inset-6">
+            <div className="h-96 mb-6">
+              <ResponsiveContainer width="100%" height="100%">
                 {isColumnChart ? (
-                  // Column chart for 5-minute intervals
-                  <div className="flex items-end justify-between h-full">
-                    {chartData.map((data: any, index: number) => {
-                      const height = (data.revenue / maxRevenue) * 100;
-                      const isCurrentInterval = data.isLive || false;
-                      
-                      return (
-                        <div
-                          key={index}
-                          className="flex flex-col items-center group relative"
-                          style={{ width: `${100 / chartData.length}%` }}
-                        >
-                          {/* Tooltip */}
-                          <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-nowrap">
-                            <div className="font-bold playwrite-font">{data.time || data.day || data.week}</div>
-                            <div style={{ color: '#f97316' }} className="font-medium">${data.revenue}</div>
-                          </div>
-                          
-                          {/* Column */}
-                          <div
-                            className={`w-1 rounded-t transition-all duration-300 ${isCurrentInterval ? 'bg-orange-500' : 'bg-orange-300'}`}
-                            style={{ height: `${height}%` }}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  // Trading-style line chart for longer timeframes
-                  <>
-                    <svg className="absolute inset-0 w-full h-full">
-                      <defs>
-                        <linearGradient id="historicalGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" style={{stopColor: '#64748b', stopOpacity: 0.3}} />
-                          <stop offset="100%" style={{stopColor: '#64748b', stopOpacity: 0.1}} />
-                        </linearGradient>
-                        <linearGradient id="liveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" style={{stopColor: '#f97316', stopOpacity: 0.4}} />
-                          <stop offset="100%" style={{stopColor: '#f97316', stopOpacity: 0.1}} />
-                        </linearGradient>
-                      </defs>
-                      
-                      {/* Historical average area */}
-                      <path
-                        d={`M 0,${100 - ((chartData[0] as any)?.avgRevenue || (chartData[0] as any)?.revenue * 0.8) / maxRevenue * 100} ` +
-                          chartData.map((data: any, i: number) => 
-                            `L ${(i / (chartData.length - 1)) * 100},${100 - ((data.avgRevenue || data.revenue * 0.8) / maxRevenue) * 100}`
-                          ).join(' ') +
-                          ` L 100,100 L 0,100 Z`}
-                        fill="url(#historicalGradient)"
-                        vectorEffect="non-scaling-stroke"
-                      />
-                      
-                      {/* Historical average line */}
-                      <path
-                        d={`M 0,${100 - ((chartData[0] as any)?.avgRevenue || (chartData[0] as any)?.revenue * 0.8) / maxRevenue * 100} ` +
-                          chartData.map((data: any, i: number) => 
-                            `L ${(i / (chartData.length - 1)) * 100},${100 - ((data.avgRevenue || data.revenue * 0.8) / maxRevenue) * 100}`
-                          ).join(' ')}
-                        fill="none"
-                        stroke="#64748b"
-                        strokeWidth="2"
-                        strokeOpacity="0.8"
-                        vectorEffect="non-scaling-stroke"
-                      />
-                      
-                      {/* Live performance area */}
-                      <path
-                        d={`M 0,${100 - (chartData[0]?.revenue / maxRevenue) * 100} ` +
-                          chartData.map((data: any, i: number) => 
-                            `L ${(i / (chartData.length - 1)) * 100},${100 - (data.revenue / maxRevenue) * 100}`
-                          ).join(' ') +
-                          ` L 100,100 L 0,100 Z`}
-                        fill="url(#liveGradient)"
-                        vectorEffect="non-scaling-stroke"
-                      />
-                      
-                      {/* Live performance line */}
-                      <path
-                        d={`M 0,${100 - (chartData[0]?.revenue / maxRevenue) * 100} ` +
-                          chartData.map((data: any, i: number) => 
-                            `L ${(i / (chartData.length - 1)) * 100},${100 - (data.revenue / maxRevenue) * 100}`
-                          ).join(' ')}
-                        fill="none"
-                        stroke="#f97316"
-                        strokeWidth="3"
-                        strokeOpacity="0.9"
-                        vectorEffect="non-scaling-stroke"
-                      />
-                    </svg>
-                    
-                    {/* Interactive data points */}
-                    {chartData.map((data: any, index: number) => {
-                      const x = (index / (chartData.length - 1)) * 100;
-                      const y = 100 - (data.revenue / maxRevenue) * 100;
-                      const timeLabel = data.time || data.day || data.week || '';
-                      
-                      return (
-                        <div
-                          key={index}
-                          className="absolute group cursor-pointer"
-                          style={{ 
-                            left: `${x}%`, 
-                            top: `${y}%`,
-                            transform: 'translate(-50%, -50%)'
-                          }}
-                        >
-                          {/* Enhanced tooltip */}
-                          <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 whitespace-nowrap shadow-xl border border-slate-700">
-                            <div className="font-bold playwrite-font text-sm text-orange-300">{timeLabel}</div>
-                            <div style={{ color: '#f97316' }} className="font-medium">Live: ${data.revenue} ({data.orders} orders)</div>
-                            <div style={{ color: '#94a3b8' }} className="font-medium">Avg: ${data.avgRevenue || data.revenue * 0.8}</div>
-                            <div className="text-xs mt-1 font-medium text-green-400">
-                              {data.revenue > (data.avgRevenue || data.revenue * 0.8) ? '↗ Above average' : '↘ Below average'}
+                  <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                    <XAxis 
+                      dataKey="time" 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#64748b' }}
+                      interval="preserveEnd"
+                      tickFormatter={(value, index) => {
+                        // Show only hourly labels
+                        if (index % 12 === 0) {
+                          return value.split(':')[0] + ':00';
+                        }
+                        return '';
+                      }}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#64748b' }}
+                      tickFormatter={(value) => `$${value}`}
+                    />
+                    <Tooltip 
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="bg-slate-900 text-white text-xs px-3 py-2 rounded-lg shadow-xl border border-slate-700">
+                              <div className="font-bold playwrite-font text-sm text-orange-300">{label}</div>
+                              <div style={{ color: '#f97316' }} className="font-medium">
+                                Revenue: ${payload[0].value} ({payload[0].payload.orders} orders)
+                              </div>
                             </div>
-                          </div>
-                          
-                          {/* Data point */}
-                          <div 
-                            className="w-2 h-2 rounded-full transition-all duration-300 group-hover:w-3 group-hover:h-3"
-                            style={{ backgroundColor: '#f97316' }}
-                          />
-                        </div>
-                      );
-                    })}
-                  </>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Bar 
+                      dataKey="revenue" 
+                      fill="#f97316" 
+                      radius={[2, 2, 0, 0]}
+                    />
+                  </BarChart>
+                ) : (
+                  <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                    <defs>
+                      <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#f97316" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#f97316" stopOpacity={0.1}/>
+                      </linearGradient>
+                      <linearGradient id="colorAverage" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#64748b" stopOpacity={0.2}/>
+                        <stop offset="95%" stopColor="#64748b" stopOpacity={0.05}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                    <XAxis 
+                      dataKey={(chartTimeframe === '1D' ? 'day' : chartTimeframe === '1W' ? 'week' : 'time')}
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#64748b' }}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#64748b' }}
+                      tickFormatter={(value) => `$${value}`}
+                    />
+                    <Tooltip 
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="bg-slate-900 text-white text-xs px-3 py-2 rounded-lg shadow-xl border border-slate-700">
+                              <div className="font-bold playwrite-font text-sm text-orange-300">{label}</div>
+                              <div style={{ color: '#f97316' }} className="font-medium">
+                                Live: ${payload.find(p => p.dataKey === 'revenue')?.value} ({payload[0].payload.orders} orders)
+                              </div>
+                              <div style={{ color: '#94a3b8' }} className="font-medium">
+                                Avg: ${payload.find(p => p.dataKey === 'avgRevenue')?.value || 0}
+                              </div>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="avgRevenue"
+                      stroke="#64748b"
+                      strokeWidth={2}
+                      fill="url(#colorAverage)"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="#f97316"
+                      strokeWidth={3}
+                      fill="url(#colorRevenue)"
+                    />
+                  </AreaChart>
                 )}
-                
-                {/* Time axis labels */}
-                <div className="absolute -bottom-8 left-0 right-0 flex justify-between">
-                  {chartData.filter((_, i: number) => isColumnChart ? i % 24 === 0 : i % 2 === 0).map((data: any, index: number) => (
-                    <div key={index} className="text-xs text-slate-500 dark:text-slate-400 font-medium playwrite-font">
-                      {data.time || data.day || data.week || ''}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Performance indicators */}
-              <div className="absolute top-4 right-4 flex flex-col gap-2">
-                <div className="bg-white/90 dark:bg-slate-800/90 px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm border border-slate-200 dark:border-slate-600">
-                  <div className="text-xs text-slate-600 dark:text-slate-400 font-medium playwrite-font">vs Historical</div>
-                  <div className="text-sm font-bold text-green-600 playwrite-font">+8.2%</div>
-                </div>
-                <div className="bg-white/90 dark:bg-slate-800/90 px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm border border-slate-200 dark:border-slate-600">
-                  <div className="text-xs text-slate-600 dark:text-slate-400 font-medium playwrite-font">Peak Hour</div>
-                  <div className="text-sm font-bold playwrite-font" style={{ color: '#f97316' }}>8:00 PM</div>
-                </div>
-              </div>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>

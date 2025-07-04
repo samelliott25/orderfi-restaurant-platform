@@ -134,6 +134,13 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 4, 2025. Refined chart timeframe system to remove 5-minute standalone option
+  - Removed dedicated "5m" timeframe button from chart controls
+  - Updated hourly (1H) chart to internally use 5-minute data intervals for granular detail
+  - Maintained column chart visualization for hourly view with 5-minute granularity
+  - Kept trading-style line charts for daily (1D) and weekly (1W) timeframes
+  - Updated chart legend to show "Live (5min intervals)" for hourly column chart
+  - Simplified timeframe options to: 1H (columns), 1D (lines), 1W (lines) for cleaner UX
 - July 4, 2025. Eliminated white footer blocks using proper flexbox layout structure
   - Restructured StandardLayout to use flexbox container (h-screen flex flex-col) instead of min-h-screen
   - Fixed ScrollArea layout by wrapping in flex-1 div with proper overflow handling
