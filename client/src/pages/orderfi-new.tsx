@@ -76,6 +76,7 @@ export default function OrderFiNew() {
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<Array<{id: string, text: string, isUser: boolean, timestamp: Date}>>([]);
   const [currentInput, setCurrentInput] = useState('');
@@ -583,11 +584,12 @@ export default function OrderFiNew() {
 
   const handleChatToggle = () => {
     if (!isChatExpanded) {
-      setIsAnimating(true);
+      // Show loading screen animation
+      setShowLoadingScreen(true);
       setTimeout(() => {
+        setShowLoadingScreen(false);
         setIsChatExpanded(true);
-        setIsAnimating(false);
-      }, 1000);
+      }, 2000);
     } else {
       setIsChatExpanded(false);
     }
@@ -740,6 +742,43 @@ export default function OrderFiNew() {
         </div>
       </ScrollArea>
 
+      {/* Loading Screen Animation */}
+      {showLoadingScreen && (
+        <div className="fixed inset-0 z-[9000] flex items-center justify-center bg-gradient-to-r from-orange-500 via-red-500 to-pink-500">
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
+          
+          {/* Center content */}
+          <div className="relative z-10 text-center text-white">
+            <div className="text-5xl font-bold mb-4 animate-bounce font-heading">
+              OrderFi
+            </div>
+            <div className="text-xl animate-pulse">
+              Launching AI Assistant...
+            </div>
+          </div>
+          
+          {/* Morphing circles */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full bg-white/20 animate-ping"
+                style={{
+                  width: `${(i + 1) * 100}px`,
+                  height: `${(i + 1) * 100}px`,
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  animationDelay: `${i * 200}ms`,
+                  animationDuration: '2s'
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Revolutionary Sentient Orb Experience */}
       {isChatExpanded && (
         <div className={`fixed inset-0 z-[8000] flex items-center justify-center animate-in fade-in duration-300 ${isKeyboardOpen ? 'items-start pt-20' : 'items-center'}`}>
@@ -828,14 +867,10 @@ export default function OrderFiNew() {
       {/* Bottom Navigation */}
       <div className="fixed bottom-6 left-0 right-0 bg-transparent pointer-events-none">
         {/* Sentient AI Orb - Fixed center position */}
-        <div className={`flex justify-center pointer-events-auto z-[200] ${
-          isAnimating ? 'animate-morph-to-center' : ''
-        }`}>
+        <div className="flex justify-center pointer-events-auto z-[200]">
           <Button
             onClick={handleChatToggle}
-            className={`w-20 h-20 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 ${
-              isAnimating ? 'pointer-events-none' : ''
-            }`}
+            className="w-20 h-20 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300"
             style={{ transform: 'translateY(-8px)' }}
           >
             {/* Tiny rotating stars positioned around the orb */}
