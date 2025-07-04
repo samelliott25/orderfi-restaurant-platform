@@ -1055,6 +1055,19 @@ html.light [role="menu"] {
   }
 }
 
+@keyframes circular-close {
+  from {
+    opacity: 1;
+    transform: scale(1);
+    border-radius: 1.5rem;
+  }
+  to {
+    opacity: 0;
+    transform: scale(0);
+    border-radius: 50%;
+  }
+}
+
 @keyframes slide-out-to-bottom {
   from {
     opacity: 1;
@@ -1085,6 +1098,11 @@ html.light [role="menu"] {
 
 .slide-out-to-bottom-4 {
   animation: slide-out-to-bottom 0.3s ease-in;
+}
+
+.animate-circular-close {
+  animation: circular-close 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: center bottom;
 }
 
 .fade-in {

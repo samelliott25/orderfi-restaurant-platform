@@ -201,7 +201,7 @@ export default function OrderFiNew() {
     setTimeout(() => {
       setIsChatExpanded(false);
       setIsClosing(false);
-    }, 600); // Match the circular animation duration
+    }, 400); // Match the circular close animation duration
   };
 
   const handlePreviousMessage = () => {
@@ -792,7 +792,7 @@ export default function OrderFiNew() {
       {/* Clean Chat Interface */}
       {isChatExpanded && (
         <div 
-          className={`fixed inset-0 z-[8000] flex flex-col ${isClosing ? 'chat-button-contracting' : 'animate-expand-from-bottom'}`}
+          className={`fixed inset-0 z-[8000] flex flex-col ${isClosing ? 'animate-circular-close' : 'animate-expand-from-bottom'}`}
           style={{ height: `${viewportHeight}px` }}
         >
           {/* iOS-style Gradient Background */}
