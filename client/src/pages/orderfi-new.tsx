@@ -999,7 +999,7 @@ export default function OrderFiNew() {
               </svg>
             </div>
             
-            {/* Orb Core */}
+            {/* Orb Core with Hollow Center */}
             <div className="orb-core w-full h-full"></div>
             
 
