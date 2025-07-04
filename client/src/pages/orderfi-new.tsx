@@ -82,12 +82,12 @@ export default function OrderFiNew() {
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   
   const placeholderPhrases = [
-    "Order me a beer",
-    "What's good here?", 
-    "Surprise me!",
-    "I'm feeling hungry",
-    "Show me the specials",
-    "What do you recommend?"
+    "...\"Order me a beer\"...",
+    "...\"What's good here?\"...", 
+    "...\"Surprise me!\"...",
+    "...\"I'm feeling hungry\"...",
+    "...\"Show me the specials\"...",
+    "...\"What do you recommend?\"..."
   ];
   const [chatMessages, setChatMessages] = useState<Array<{id: string, text: string, isUser: boolean, timestamp: Date}>>([]);
   const [currentInput, setCurrentInput] = useState('');
@@ -913,7 +913,7 @@ export default function OrderFiNew() {
                     onChange={(e) => setCurrentMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder={placeholderPhrases[placeholderIndex]}
-                    className="w-full border-0 text-black placeholder-black/60 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-[#f9a999] transition-all duration-200 bg-[#f7877d] font-medium animated-placeholder"
+                    className="w-full border-0 text-black placeholder-white/80 rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-[#f9a999] transition-all duration-200 bg-[#f7877d] font-medium animated-placeholder text-center"
                     style={{ backdropFilter: 'blur(20px)' }}
                     onFocus={() => {
                       setIsKeyboardOpen(true);

@@ -169,21 +169,22 @@
 /* Placeholder animation */
 @keyframes placeholder-fade {
   0% {
+    opacity: 0;
+  }
+  10% {
     opacity: 1;
   }
-  90% {
+  85% {
     opacity: 1;
-  }
-  95% {
-    opacity: 0.3;
   }
   100% {
-    opacity: 1;
+    opacity: 0;
   }
 }
 
 .animated-placeholder::placeholder {
   animation: placeholder-fade 3s ease-in-out infinite;
+  text-align: center;
 }
 
 /* Floating particles animation */
