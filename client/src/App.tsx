@@ -86,11 +86,8 @@ function Router() {
         {/* Landing Page */}
         <Route path="/landing-page" component={HomePage} />
         
-        {/* AI Visualization Platform - Default Home */}
-        <Route path="/" component={SimpleVisualization} />
-        
-        {/* Restaurant App Alternative Route */}
-        <Route path="/restaurant" component={OrderFiNew} />
+        {/* Customer-Facing Mobile Interface - Default Home */}
+        <Route path="/" component={OrderFiNew} />
         <Route path="/orderfi-home" component={OrderFiNew} />
         <Route path="/orderfi-simple" component={OrderFiSimple} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
