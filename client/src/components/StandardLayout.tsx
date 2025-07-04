@@ -185,13 +185,12 @@ export function StandardLayout({
           )}
 
           {/* Bottom Navigation */}
-          <div className="fixed bottom-6 left-0 right-0 bg-transparent pointer-events-none">
+          <div className="fixed bottom-0 left-0 right-0 bg-transparent pointer-events-none">
             {/* Sentient AI Orb - Fixed center position */}
-            <div className="flex justify-center pointer-events-auto z-[200]">
+            <div className="flex justify-center pointer-events-auto z-[200] pb-6">
               <Button
                 onClick={handleChatToggle}
                 className="w-20 h-20 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300"
-                style={{ transform: 'translateY(-8px)' }}
               >
                 {/* Tiny rotating stars positioned around the orb */}
                 <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
