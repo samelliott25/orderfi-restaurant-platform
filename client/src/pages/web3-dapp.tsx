@@ -198,14 +198,7 @@ export default function Web3DappPage() {
                   <HelpCircle className="h-4 w-4 mr-2" />
                   Start Voice Tutorial
                 </Button>
-                <Button
-                  onClick={() => setShowAiChat(true)}
-                  variant="outline"
-                  className="border-[#8b795e]/30 text-[#8b795e] hover:bg-[#ffe6b0]/10"
-                >
-                  <Bot className="h-4 w-4 mr-2" />
-                  Chat with OrderFi Ai
-                </Button>
+
               </div>
             </div>
           </div>
@@ -520,6 +513,50 @@ export default function Web3DappPage() {
         isVisible={showTutorial} 
         onClose={() => setShowTutorial(false)} 
       />
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-6 left-0 right-0 bg-transparent pointer-events-none">
+        {/* Sentient AI Orb - Fixed center position */}
+        <div className="flex justify-center pointer-events-auto z-[200]">
+          <Button
+            onClick={() => setShowAiChat(true)}
+            className="w-20 h-20 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300"
+            style={{ transform: 'translateY(-8px)' }}
+          >
+            {/* Tiny rotating stars positioned around the orb */}
+            <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
+              <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '75%', left: '80%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-3" style={{ width: '1.5px', height: '1.5px', top: '30%', left: '85%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-4" style={{ width: '1.5px', height: '1.5px', top: '10%', left: '70%', transform: 'rotate(-89deg)', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '60%', left: '5%', transform: 'rotate(156deg)', animationDelay: '3.2s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '90%', left: '50%', transform: 'rotate(-201deg)', animationDelay: '1.4s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+            </div>
+            
+            {/* Orb Core with Hollow Center */}
+            <div className="orb-core w-full h-full"></div>
+            
+            {/* Energy particles */}
+            <div className="orb-energy-particle" style={{ top: '20%', left: '15%', animationDelay: '0s' }}></div>
+            <div className="orb-energy-particle" style={{ top: '70%', left: '25%', animationDelay: '0.7s' }}></div>
+            <div className="orb-energy-particle" style={{ top: '30%', right: '20%', animationDelay: '1.4s' }}></div>
+            <div className="orb-energy-particle" style={{ bottom: '25%', right: '15%', animationDelay: '2.1s' }}></div>
+            <div className="orb-energy-particle" style={{ top: '50%', left: '45%', animationDelay: '1.2s' }}></div>
+          </Button>
+        </div>
+      </div>
 
       {/* AI Chat Assistant */}
       <CustomerAiChat 
