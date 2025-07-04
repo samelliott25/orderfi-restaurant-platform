@@ -199,8 +199,8 @@ export default function RestaurantDashboard() {
     // Apply day-of-week multiplier and add some natural variation
     return baseFridayData.map(item => ({
       ...item,
-      revenue: Math.round(item.revenue * multiplier * (0.9 + Math.random() * 0.2)),
-      orders: Math.round(item.orders * multiplier * (0.9 + Math.random() * 0.2)),
+      revenue: Math.round(item.revenue * multiplier),
+      orders: Math.round(item.orders * multiplier),
       isLive: parseInt(item.time.split(':')[0]) < currentHour || 
               (parseInt(item.time.split(':')[0]) === currentHour && parseInt(item.time.split(':')[1]) <= currentMinute)
     }));
