@@ -969,9 +969,9 @@ export default function OrderFiNew() {
 
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-transparent pointer-events-none">
+      <div className="fixed bottom-6 left-0 right-0 bg-transparent pointer-events-none">
         {/* Sentient AI Orb - Fixed center position */}
-        <div className="flex justify-center pointer-events-auto z-[200] pb-6">
+        <div className="flex justify-center pointer-events-auto z-[200]">
           <Button
             onClick={handleChatToggle}
             className="w-20 h-20 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300"
