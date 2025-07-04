@@ -584,12 +584,7 @@ export default function OrderFiNew() {
 
   const handleChatToggle = () => {
     if (!isChatExpanded) {
-      // Show loading screen animation
-      setShowLoadingScreen(true);
-      setTimeout(() => {
-        setShowLoadingScreen(false);
-        setIsChatExpanded(true);
-      }, 2000);
+      setIsChatExpanded(true);
     } else {
       setIsChatExpanded(false);
     }
@@ -742,50 +737,29 @@ export default function OrderFiNew() {
         </div>
       </ScrollArea>
 
-      {/* Loading Screen Animation */}
-      {showLoadingScreen && (
-        <div className="fixed inset-0 z-[9000] bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 animate-expand-from-bottom">
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
+
+
+      {/* Clean Chat Interface */}
+      {isChatExpanded && (
+        <div className={`fixed inset-0 z-[8000] flex items-center justify-center animate-expand-from-bottom ${isKeyboardOpen ? 'items-start pt-20' : 'items-center'}`}>
+          {/* Animated Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 animated-gradient"></div>
           
-          {/* Center content */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center text-white animate-fade-in-delayed">
-              <div className="text-5xl font-bold mb-4 animate-bounce font-heading">
-                OrderFi
-              </div>
-              <div className="text-xl animate-pulse">
-                Launching AI Assistant...
-              </div>
-            </div>
-          </div>
-          
-          {/* Morphing circles from bottom */}
+          {/* Floating Particles */}
           <div className="absolute inset-0 overflow-hidden">
-            {[...Array(5)].map((_, i) => (
+            {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="absolute rounded-full bg-white/20 animate-ping-from-bottom"
+                className="absolute w-2 h-2 bg-white/20 rounded-full animate-float"
                 style={{
-                  width: `${(i + 1) * 100}px`,
-                  height: `${(i + 1) * 100}px`,
-                  bottom: '24px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  animationDelay: `${i * 150}ms`,
-                  animationDuration: '1.5s'
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${i * 0.5}s`,
+                  animationDuration: `${3 + Math.random() * 2}s`
                 }}
               />
             ))}
           </div>
-        </div>
-      )}
-
-      {/* Clean Chat Interface */}
-      {isChatExpanded && (
-        <div className={`fixed inset-0 z-[8000] flex items-center justify-center animate-in fade-in duration-300 ${isKeyboardOpen ? 'items-start pt-20' : 'items-center'}`}>
-          {/* Blurred Background */}
-          <div className="absolute inset-0 looking-glass-background"></div>
           
           {/* Close Button */}
           <Button 
@@ -800,7 +774,7 @@ export default function OrderFiNew() {
           {/* Chat Interface */}
           <div className="relative w-full max-w-md mx-4">
             {/* Messages Area */}
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 mb-4 min-h-[400px] flex flex-col">
+            <div className="bg-white/15 backdrop-blur-lg rounded-2xl border border-white/30 p-6 mb-4 min-h-[400px] flex flex-col shadow-2xl">
               {/* Messages */}
               <div className="flex-1 space-y-4 mb-6 overflow-y-auto max-h-80">
                 {messages.length === 0 ? (
