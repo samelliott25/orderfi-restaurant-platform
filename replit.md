@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 4, 2025. Fixed footer background blocking issue across all standardized pages
+  - Applied same ScrollArea padding fix (pb-2) from /orderfi-home to StandardLayout component
+  - Moved padding from ScrollArea to inner content div to prevent white background blocking
+  - Ensured consistent z-index layering (z-[200]) for chat buttons across all pages
+  - Prevented content blocking issues behind chat button on admin pages and web3-dapp
+  - Maintained transparent background (bg-transparent) for all chat button containers
 - July 4, 2025. Rolled out Playwrite Australia Victoria font theme across entire application
   - Applied OrderFi brand font (Playwrite AU VIC) to all page titles, card titles, and headers
   - Updated global CSS with h1, h2, h3 font defaults and brand element classes

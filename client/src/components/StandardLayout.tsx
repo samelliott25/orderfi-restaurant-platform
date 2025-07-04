@@ -120,8 +120,8 @@ export function StandardLayout({
       </div>
 
       {/* Main Content */}
-      <ScrollArea className="flex-1 px-4 pb-20 border-none" style={{ height: 'calc(100vh - 140px)' }}>
-        <div className="space-y-4 py-4 pr-2">
+      <ScrollArea className="flex-1 border-none" style={{ height: 'calc(100vh - 140px)' }}>
+        <div className="space-y-4 py-4 px-4 pb-2">
           {children}
         </div>
       </ScrollArea>
