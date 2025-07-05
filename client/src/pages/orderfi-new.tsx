@@ -188,7 +188,7 @@ export default function OrderFiNew() {
             {/* Quick Actions */}
             <div className="mt-8">
               <h3 className="section-heading mb-3">Quick Actions</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {quickActions.map((action, index) => (
                   <Button
                     key={index}
