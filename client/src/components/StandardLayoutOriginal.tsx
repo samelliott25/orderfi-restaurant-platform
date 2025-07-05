@@ -84,9 +84,42 @@ export function StandardLayout({
       {/* AI Chat Button */}
       {showChatButton && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-[200]">
-          <CustomerAiChat />
+          <button
+            onClick={() => setShowAiChat(!showAiChat)}
+            className="w-20 h-20 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500"
+          >
+            {/* Tiny rotating stars positioned around the orb */}
+            <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
+              <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '20%', left: '15%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '75%', left: '80%', transform: 'rotate(-67deg)', animationDelay: '1.8s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-3" style={{ width: '1.5px', height: '1.5px', top: '30%', left: '85%', transform: 'rotate(123deg)', animationDelay: '2.5s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-4" style={{ width: '1.5px', height: '1.5px', top: '10%', left: '70%', transform: 'rotate(-89deg)', animationDelay: '0.9s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-5" style={{ width: '1.5px', height: '1.5px', top: '60%', left: '5%', transform: 'rotate(156deg)', animationDelay: '3.2s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+              <svg className="absolute ai-cascade-6" style={{ width: '1.5px', height: '1.5px', top: '90%', left: '45%', transform: 'rotate(-203deg)', animationDelay: '4.1s' }} viewBox="0 0 24 24" fill="white">
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+              </svg>
+            </div>
+            
+            {/* Central logo */}
+            <svg className="w-8 h-8 text-white counter-rotate-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+            </svg>
+          </button>
         </div>
       )}
+      
+      {/* AI Chat Dialog */}
+      <CustomerAiChat isOpen={showAiChat} onToggle={() => setShowAiChat(!showAiChat)} />
     </div>
   );
 }
