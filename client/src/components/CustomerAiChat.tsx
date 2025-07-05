@@ -393,49 +393,49 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
       }}
       onMouseDown={handleMouseDown}
     >
-      {/* iOS-style glass card with advanced blur effects */}
-      <div className="w-full h-full rounded-[28px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-[20px] border border-white/[0.08]"
+      {/* iOS-style glass card with OrderFi gradient theme */}
+      <div className="w-full h-full rounded-[28px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-[20px] border border-white/20"
            style={{
-             background: 'linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)',
+             background: 'linear-gradient(145deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
              boxShadow: `
-               0 8px 32px rgba(0, 0, 0, 0.12),
-               0 2px 8px rgba(0, 0, 0, 0.08),
-               inset 0 1px 0 rgba(255, 255, 255, 0.8),
-               inset 0 -1px 0 rgba(0, 0, 0, 0.05)
+               0 8px 32px rgba(0, 0, 0, 0.15),
+               0 2px 8px rgba(0, 0, 0, 0.1),
+               inset 0 1px 0 rgba(255, 255, 255, 0.3),
+               inset 0 -1px 0 rgba(0, 0, 0, 0.1)
              `
            }}>
         
         {/* Subtle top gradient highlight - iOS style */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
         
         {/* iOS-style header with frosted glass effect */}
-        <div className="relative px-6 py-4 border-b border-black/[0.06] bg-gradient-to-b from-white/20 to-transparent backdrop-blur-md">
+        <div className="relative px-6 py-4 border-b border-white/20 bg-gradient-to-b from-white/15 to-transparent backdrop-blur-md">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              {/* Modern iOS-style avatar with subtle gradient */}
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 shadow-[0_2px_8px_rgba(59,130,246,0.3)] flex items-center justify-center">
+              {/* Modern iOS-style avatar with OrderFi theme */}
+              <div className="w-10 h-10 rounded-full bg-white/20 shadow-[0_2px_8px_rgba(0,0,0,0.2)] flex items-center justify-center backdrop-blur-sm border border-white/30">
                 <Bot className="w-5 h-5 text-white drop-shadow-sm" />
               </div>
               <div>
-                <h3 className="font-[600] text-gray-900 text-[15px] tracking-[-0.01em]">AI Assistant</h3>
+                <h3 className="font-[600] text-white text-[15px] tracking-[-0.01em] drop-shadow-sm">AI Assistant</h3>
                 <div className="flex items-center space-x-1">
-                  <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_4px_rgba(34,197,94,0.4)]"></div>
-                  <p className="text-[13px] text-gray-600 font-[500]">Online</p>
+                  <div className="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_4px_rgba(34,197,94,0.6)]"></div>
+                  <p className="text-[13px] text-white/80 font-[500]">Online</p>
                 </div>
               </div>
             </div>
             {/* iOS-style close button */}
             <button
               onClick={onToggle}
-              className="w-8 h-8 rounded-full bg-gray-100/80 hover:bg-gray-200/80 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.1)] active:scale-95"
+              className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 backdrop-blur-sm border border-white/30"
             >
-              <X className="w-4 h-4 text-gray-600" />
+              <X className="w-4 h-4 text-white" />
             </button>
           </div>
         </div>
 
         {/* Messages area with iOS scroll behavior */}
-        <div className="flex-1 h-[350px] overflow-hidden">
+        <div className="flex-1 h-[350px] overflow-hidden bg-white/5 backdrop-blur-sm">
           <ScrollArea 
             ref={scrollAreaRef}
             className="h-full px-4 py-3"
@@ -448,16 +448,16 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 >
                   <div className="max-w-[85%] group">
                     <div
-                      className={`px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.1)] ${
+                      className={`px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.15)] backdrop-blur-sm border ${
                         message.type === 'user'
-                          ? 'bg-blue-500 text-white rounded-[20px] rounded-br-[8px] ml-auto'
-                          : 'bg-gray-100 text-gray-900 rounded-[20px] rounded-bl-[8px]'
+                          ? 'bg-white/90 text-gray-900 rounded-[20px] rounded-br-[8px] ml-auto border-white/30'
+                          : 'bg-white/20 text-white rounded-[20px] rounded-bl-[8px] border-white/20'
                       }`}
                     >
                       <p className="text-[15px] leading-[1.4] font-[400]">{message.content}</p>
                     </div>
                     <div className={`flex items-center mt-1 space-x-1 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <span className="text-[11px] text-gray-500 font-[500]">
+                      <span className="text-[11px] text-white/70 font-[500] drop-shadow-sm">
                         {message.timestamp.toLocaleTimeString([], { 
                           hour: '2-digit', 
                           minute: '2-digit' 
@@ -466,13 +466,13 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                       {message.type === 'user' && (
                         <div>
                           {message.status === 'sending' && (
-                            <Clock className="w-3 h-3 text-gray-400" />
+                            <Clock className="w-3 h-3 text-white/60" />
                           )}
                           {message.status === 'sent' && (
-                            <CheckCircle className="w-3 h-3 text-blue-500" />
+                            <CheckCircle className="w-3 h-3 text-white/80" />
                           )}
                           {message.status === 'error' && (
-                            <AlertCircle className="w-3 h-3 text-red-500" />
+                            <AlertCircle className="w-3 h-3 text-red-300" />
                           )}
                         </div>
                       )}
@@ -482,11 +482,11 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-gray-100 rounded-[20px] rounded-bl-[8px] px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.1)]">
+                  <div className="bg-white/20 rounded-[20px] rounded-bl-[8px] px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.15)] backdrop-blur-sm border border-white/20">
                     <div className="flex items-center space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
@@ -495,11 +495,11 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
           </ScrollArea>
         </div>
 
-        {/* iOS-style input bar with advanced styling */}
-        <div className="relative px-4 py-3 border-t border-black/[0.06] bg-gradient-to-t from-white/40 to-transparent backdrop-blur-md">
+        {/* iOS-style input bar with OrderFi theme */}
+        <div className="relative px-4 py-3 border-t border-white/20 bg-gradient-to-t from-white/10 to-transparent backdrop-blur-md">
           <div className="flex items-center space-x-3">
             <div className="flex-1 relative">
-              <div className="relative rounded-[22px] bg-gray-100/80 backdrop-blur-sm border border-gray-200/50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
+              <div className="relative rounded-[22px] bg-white/90 backdrop-blur-sm border border-white/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
                 <input
                   value={inputValue}
                   onChange={handleInputChange}
@@ -525,14 +525,14 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
               </div>
             </div>
             
-            {/* iOS-style send button */}
+            {/* iOS-style send button with OrderFi theme */}
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className={`w-10 h-10 rounded-full transition-all duration-200 flex items-center justify-center shadow-[0_2px_8px_rgba(59,130,246,0.25)] ${
+              className={`w-10 h-10 rounded-full transition-all duration-200 flex items-center justify-center ${
                 !inputValue.trim() || isLoading
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-blue-500 text-white hover:bg-blue-600 active:scale-95 shadow-[0_4px_12px_rgba(59,130,246,0.3)]'
+                  ? 'bg-white/30 text-white/50 cursor-not-allowed'
+                  : 'bg-white text-orange-500 hover:bg-white/90 active:scale-95 shadow-[0_4px_12px_rgba(255,255,255,0.3)]'
               }`}
             >
               {isLoading ? (
