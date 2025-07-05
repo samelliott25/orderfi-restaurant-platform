@@ -114,17 +114,14 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
     }
   };
 
-  if (!isOpen) {
-    return null;
-  }
-
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{
         background: 'linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
         clipPath: isOpen ? 'circle(150% at 50% 50%)' : 'circle(32px at 50% 100%)',
-        transition: 'clip-path 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        transition: 'clip-path 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        pointerEvents: isOpen ? 'auto' : 'none'
       }}
     >
       {/* Animated Background Elements */}
@@ -147,20 +144,22 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
       </div>
       
       {/* Close Button */}
-      <Button 
-        variant="ghost" 
-        size="sm"
-        onClick={onToggle}
-        className="absolute top-6 right-6 text-white/80 hover:text-white hover:bg-white/10 z-10 w-8 h-8 rounded-full backdrop-blur-xl transition-all duration-200"
-        style={{ backdropFilter: 'blur(20px)' }}
-      >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-        </svg>
-      </Button>
+      {isOpen && (
+        <Button 
+          variant="ghost" 
+          size="sm"
+          onClick={onToggle}
+          className="absolute top-6 right-6 text-white/80 hover:text-white hover:bg-white/10 z-10 w-8 h-8 rounded-full backdrop-blur-xl transition-all duration-200"
+          style={{ backdropFilter: 'blur(20px)' }}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+          </svg>
+        </Button>
+      )}
 
       {/* Chat Interface */}
-      <div className="relative w-full h-full p-4 flex flex-col">
+      <div className="relative w-full h-full p-4 flex flex-col" style={{ opacity: isOpen ? 1 : 0, transition: 'opacity 0.6s ease-in-out' }}>
         {/* Messages Area */}
         <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 mb-4 flex-1 flex flex-col shadow-2xl min-h-0 max-h-full" style={{ backdropFilter: 'blur(40px)' }}>
           {/* Messages */}

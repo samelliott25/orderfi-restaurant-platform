@@ -88,9 +88,7 @@ export function StandardLayout({
       )}
 
       {/* AI Chat Dialog */}
-      {showAiChat && (
-        <CustomerAiChat isOpen={showAiChat} onToggle={() => setShowAiChat(!showAiChat)} />
-      )}
+      <CustomerAiChat isOpen={showAiChat} onToggle={() => setShowAiChat(!showAiChat)} />
     </div>
   );
 }
