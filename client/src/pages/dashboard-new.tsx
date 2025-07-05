@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { StandardLayoutWithSidebar } from "@/components/StandardLayoutWithSidebar";
+import { StandardLayout } from "@/components/StandardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -437,7 +437,7 @@ export default function RestaurantDashboard() {
   const completionRate = typedOrders.length > 0 ? (completedOrders / typedOrders.length) * 100 : 0;
 
   return (
-    <StandardLayoutWithSidebar title="Restaurant Dashboard" subtitle="AI-Powered Command Center">
+    <StandardLayout title="Restaurant Dashboard" subtitle="AI-Powered Command Center">
       <div className="space-y-6">
         {/* Real-time System Status Bar */}
         <div className="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-700 rounded-lg p-4">
@@ -1172,6 +1172,6 @@ export default function RestaurantDashboard() {
           </TabsContent>
         </Tabs>
       </div>
-    </StandardLayoutWithSidebar>
+    </StandardLayout>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { StandardLayoutWithSidebar } from "@/components/StandardLayoutWithSidebar";
+import { StandardLayout } from "@/components/StandardLayout";
 import { InventoryGrid } from "@/components/inventory/InventoryGrid";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -93,7 +93,7 @@ export default function AdminInventoryPage() {
   };
 
   return (
-    <StandardLayoutWithSidebar title="Menu & Item Management" subtitle="Strategic color coding for easy navigation and data insights">
+    <StandardLayout title="Menu & Item Management" subtitle="Strategic color coding for easy navigation and data insights">
       <div className="space-y-6">
         {/* Strategic Color-Coded Dashboard Metrics - OrderFi Brand Colors */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -580,7 +580,7 @@ export default function AdminInventoryPage() {
           </DialogContent>
         </Dialog>
       </div>
-    </StandardLayoutWithSidebar>
+    </StandardLayout>
   );
 }
 

@@ -18,7 +18,11 @@ import {
   HelpCircle,
   CreditCard,
   Moon,
-  Sun
+  Sun,
+  Package,
+  ShoppingCart,
+  Users,
+  BarChart3
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/theme-provider";
@@ -28,12 +32,20 @@ import { useTheme } from "@/components/theme-provider";
 const menuItems = [
   { id: "home", path: "/orderfi-home", label: "Home", icon: Home },
   { id: "landing", path: "/landing-page", label: "Landing Page", icon: MessageCircle },
-  { id: "dashboard", path: "/dashboard", label: "Restaurant Dashboard", icon: LayoutDashboard },
+  
+  // MVP Venue Console - 8 Admin Pages
+  { id: "dashboard", path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { id: "inventory", path: "/inventory", label: "Menu & Items", icon: Menu },
+  { id: "inventory-stock", path: "/inventory-stock", label: "Inventory", icon: Package },
+  { id: "orders", path: "/orders", label: "Orders", icon: ShoppingCart },
+  { id: "payments", path: "/payments", label: "Payments", icon: CreditCard },
+  { id: "staff", path: "/staff", label: "Staff & Access", icon: Users },
+  { id: "reporting", path: "/reporting", label: "Reporting", icon: BarChart3 },
+  { id: "settings", path: "/settings", label: "Settings", icon: Settings },
+  
+  // Additional Pages
   { id: "rewards", path: "/tokenrewards", label: "Token Rewards", icon: Coins },
   { id: "network", path: "/network", label: "Network & Printing", icon: Printer },
-  { id: "inventory", path: "/inventory", label: "Inventory Management", icon: Settings },
-  { id: "orders", path: "/admin/orders", label: "Order History", icon: Search },
-  { id: "payments", path: "/payments", label: "Payments", icon: CreditCard },
 ];
 
 
