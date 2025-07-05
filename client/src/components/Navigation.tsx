@@ -81,9 +81,41 @@ export function HamburgerMenu() {
           {/* Header */}
           <div className="p-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
             <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 flex items-center justify-center shadow-lg">
-                <div className="text-white font-bold text-lg">O</div>
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 opacity-20 animate-pulse"></div>
+              <div className="relative w-10 h-10 rounded-full flex items-center justify-center shadow-lg" 
+                   style={{
+                     background: `radial-gradient(circle at center, 
+                       rgb(25, 15, 5) 0%,
+                       rgb(45, 25, 15) 25%,
+                       rgb(65, 35, 45) 50%,
+                       rgb(35, 15, 65) 75%,
+                       rgb(5, 5, 15) 100%)`,
+                     backgroundImage: `
+                       radial-gradient(ellipse 300% 100% at 50% 20%, rgba(255, 150, 0, 0.4) 0%, transparent 70%),
+                       radial-gradient(ellipse 200% 80% at 30% 60%, rgba(255, 100, 100, 0.3) 0%, transparent 60%),
+                       radial-gradient(ellipse 250% 90% at 70% 40%, rgba(200, 50, 255, 0.25) 0%, transparent 50%),
+                       radial-gradient(ellipse 180% 120% at 50% 80%, rgba(100, 0, 200, 0.2) 0%, transparent 40%)`
+                   }}>
+                {/* Central Star */}
+                <svg className="w-4 h-4 text-white star-no-rotate" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Rotating Stars */}
+                <svg className="absolute ai-cascade-1" style={{ width: '1.5px', height: '1.5px', top: '15%', left: '80%', animationDelay: '0s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="absolute ai-cascade-2" style={{ width: '1.5px', height: '1.5px', top: '70%', left: '20%', animationDelay: '1s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                <svg className="absolute ai-cascade-3" style={{ width: '1.5px', height: '1.5px', top: '30%', left: '85%', animationDelay: '2s' }} viewBox="0 0 24 24" fill="white">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+                
+                {/* Atmospheric Rotation */}
+                <div className="absolute inset-0 rounded-full opacity-20" style={{
+                  animation: 'planetary-rotation 20s linear infinite',
+                  background: `conic-gradient(from 0deg, rgba(255, 150, 0, 0.3), rgba(255, 100, 100, 0.2), rgba(200, 50, 255, 0.15), rgba(100, 0, 200, 0.1))`
+                }}></div>
               </div>
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white playwrite-font">OrderFi</h2>
