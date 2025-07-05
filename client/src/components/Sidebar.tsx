@@ -86,9 +86,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white playwrite-font">OrderFi</h2>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      AI Restaurant Platform
-                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Blockchain POS</p>
                   </div>
                 </div>
               ) : (
