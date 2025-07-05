@@ -19,12 +19,14 @@ import VisualizationPlatform from "@/pages/visualization-platform";
 import SimpleVisualization from "@/pages/simple-visualization";
 import { useEffect, useState } from "react";
 
-// Keep only essential admin pages for dashboard integration
+// Import all 8 MVP Venue Console admin pages
 import AdminInventoryPage from "@/pages/admin/inventory";
+import AdminInventoryStockPage from "@/pages/admin/inventory-stock";
 import AdminOrdersPage from "@/pages/admin/orders-new";
 import AdminPaymentsPage from "@/pages/admin/payments";
-import AdminRewardsPage from "@/pages/admin/rewards";
-import AdminBlockchainPage from "@/pages/admin/blockchain";
+import AdminStaffPage from "@/pages/admin/staff";
+import AdminReportingPage from "@/pages/admin/reporting";
+import AdminSettingsPage from "@/pages/admin/settings";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -40,8 +42,12 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/tokenrewards',
     '/network', 
     '/inventory',
-    '/admin/orders',
-    '/payments'
+    '/inventory-stock',
+    '/orders',
+    '/payments',
+    '/staff',
+    '/reporting',
+    '/settings'
   ].includes(location);
 
   // Set app loaded state and change background after initial render
@@ -98,12 +104,14 @@ function Router() {
         {/* Back Office Dashboard */}
         <Route path="/dashboard" component={RestaurantDashboard} />
         
-        {/* Admin Pages (accessed through dashboard) */}
+        {/* MVP Venue Console - 8 Admin Pages */}
         <Route path="/inventory" component={AdminInventoryPage} />
-        <Route path="/admin/orders" component={AdminOrdersPage} />
+        <Route path="/inventory-stock" component={AdminInventoryStockPage} />
+        <Route path="/orders" component={AdminOrdersPage} />
         <Route path="/payments" component={AdminPaymentsPage} />
-        <Route path="/admin/rewards" component={AdminRewardsPage} />
-        <Route path="/admin/blockchain" component={AdminBlockchainPage} />
+        <Route path="/staff" component={AdminStaffPage} />
+        <Route path="/reporting" component={AdminReportingPage} />
+        <Route path="/settings" component={AdminSettingsPage} />
         
         <Route component={NotFound} />
       </Switch>

@@ -3,6 +3,19 @@ import { useLocation } from 'wouter';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { HamburgerMenu } from '@/components/Navigation';
 import { CustomerAiChat } from '@/components/CustomerAiChat';
+import { Button } from '@/components/ui/button';
+import { 
+  LayoutDashboard, 
+  Menu, 
+  Package, 
+  ShoppingCart, 
+  CreditCard, 
+  Users, 
+  BarChart3, 
+  Settings,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-react';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -10,6 +23,7 @@ interface StandardLayoutProps {
   subtitle?: string;
   showChatButton?: boolean;
   className?: string;
+  showSidebar?: boolean;
 }
 
 export function StandardLayout({ 
@@ -17,10 +31,23 @@ export function StandardLayout({
   title = "OrderFi", 
   subtitle = "Smart Restaurant Assistant",
   showChatButton = true,
-  className = ""
+  className = "",
+  showSidebar = true
 }: StandardLayoutProps) {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [showAiChat, setShowAiChat] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const sidebarNavigation = [
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, color: 'text-slate-600' },
+    { name: 'Menu & Items', href: '/inventory', icon: Menu, color: 'text-orange-600' },
+    { name: 'Inventory', href: '/inventory-stock', icon: Package, color: 'text-blue-600' },
+    { name: 'Orders', href: '/orders', icon: ShoppingCart, color: 'text-green-600' },
+    { name: 'Payments', href: '/payments', icon: CreditCard, color: 'text-pink-600' },
+    { name: 'Staff & Access', href: '/staff', icon: Users, color: 'text-purple-600' },
+    { name: 'Reporting', href: '/reporting', icon: BarChart3, color: 'text-indigo-600' },
+    { name: 'Settings', href: '/settings', icon: Settings, color: 'text-gray-600' },
+  ];
 
   return (
     <div className={`h-screen bg-background transition-opacity duration-700 ease-in-out overflow-x-hidden flex flex-col ${className}`}>
