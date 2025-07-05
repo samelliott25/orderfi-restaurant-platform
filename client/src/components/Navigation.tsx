@@ -80,10 +80,18 @@ export function HamburgerMenu() {
         <div className="flex flex-col h-full bg-white dark:bg-gray-900">
           {/* Header */}
           <div className="p-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">OrderFi </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              AI Restaurant Platform
-            </p>
+            <div className="flex items-center gap-3">
+              <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 flex items-center justify-center shadow-lg">
+                <div className="text-white font-bold text-lg">O</div>
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 opacity-20 animate-pulse"></div>
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white playwrite-font">OrderFi</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  AI Restaurant Platform
+                </p>
+              </div>
+            </div>
           </div>
           
           {/* Scrollable Content */}
@@ -98,7 +106,7 @@ export function HamburgerMenu() {
                         variant={isActive ? "default" : "ghost"}
                         className={`w-full justify-start text-left font-medium transition-colors ${
                           isActive 
-                            ? "bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600" 
+                            ? "bg-blue-600 text-white hover:bg-blue-700" 
                             : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                         }`}
                       >
