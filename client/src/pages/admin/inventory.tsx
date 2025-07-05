@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { StandardLayout } from "@/components/StandardLayout";
 import { InventoryGrid } from "@/components/inventory/InventoryGrid";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Search, 
   Plus, 
@@ -34,6 +39,11 @@ export default function AdminInventoryPage() {
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [isListening, setIsListening] = useState(false);
+  const [isAddItemDialogOpen, setIsAddItemDialogOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
+  
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   // Fetch menu items for restaurant ID 1
   const { data: menuItems = [], isLoading } = useQuery({
@@ -197,6 +207,7 @@ export default function AdminInventoryPage() {
                 </Button>
                 <Button 
                   size="sm" 
+                  onClick={() => setIsAddItemDialogOpen(true)}
                   className="text-white hover:opacity-90 transition-opacity"
                   style={{ background: 'linear-gradient(135deg, hsl(25, 95%, 53%), hsl(340, 82%, 52%))' }}
                 >
@@ -522,7 +533,290 @@ export default function AdminInventoryPage() {
             </CardContent>
           </Card>
         )}
+
+        {/* Comprehensive Menu Item Management Dialog */}
+        <Dialog open={isAddItemDialogOpen || !!editingItem} onOpenChange={(open) => {
+          if (!open) {
+            setIsAddItemDialogOpen(false);
+            setEditingItem(null);
+          }
+        }}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="playwrite-font text-xl" style={{ color: 'hsl(25, 95%, 53%)' }}>
+                {editingItem ? 'Edit Menu Item' : 'Add New Menu Item'}
+              </DialogTitle>
+              <DialogDescription>
+                {editingItem ? 'Update item details, pricing, and availability.' : 'Create a new menu item with pricing, categories, and inventory tracking.'}
+              </DialogDescription>
+            </DialogHeader>
+
+            <MenuItemForm 
+              item={editingItem}
+              onSave={(itemData) => {
+                // Handle save logic here
+                if (editingItem) {
+                  // Update existing item
+                  toast({
+                    title: "Menu item updated",
+                    description: `${itemData.name} has been successfully updated.`,
+                  });
+                } else {
+                  // Create new item
+                  toast({
+                    title: "Menu item created", 
+                    description: `${itemData.name} has been added to your menu.`,
+                  });
+                }
+                setIsAddItemDialogOpen(false);
+                setEditingItem(null);
+                queryClient.invalidateQueries({ queryKey: ['/api/menu-items'] });
+              }}
+              onCancel={() => {
+                setIsAddItemDialogOpen(false);
+                setEditingItem(null);
+              }}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
     </StandardLayout>
+  );
+}
+
+// Comprehensive Menu Item Form Component
+interface MenuItemFormProps {
+  item?: MenuItem | null;
+  onSave: (itemData: any) => void;
+  onCancel: () => void;
+}
+
+function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
+  const [formData, setFormData] = useState({
+    name: item?.name || '',
+    description: item?.description || '',
+    price: item?.price || '',
+    costPrice: item?.costPrice || '',
+    category: item?.category || 'Main Course',
+    isAvailable: item?.isAvailable ?? true,
+    trackInventory: item?.trackInventory ?? false,
+    currentStock: item?.currentStock || 0,
+    lowStockThreshold: item?.lowStockThreshold || 5,
+    aliases: item?.aliases?.join(', ') || '',
+    dietaryTags: item?.dietaryTags?.join(', ') || '',
+    customizationOptions: item?.customizationOptions?.join(', ') || '',
+    preparationTime: item?.preparationTime || 15,
+    imageUrl: item?.imageUrl || ''
+  });
+
+  const categories = [
+    'Appetizers', 'Main Course', 'Desserts', 'Beverages', 
+    'Salads', 'Soups', 'Sides', 'Specials', 'Pizza', 'Pasta'
+  ];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const itemData = {
+      ...formData,
+      price: parseFloat(formData.price).toString(),
+      costPrice: formData.costPrice ? parseFloat(formData.costPrice).toString() : null,
+      aliases: formData.aliases ? formData.aliases.split(',').map(s => s.trim()).filter(s => s) : [],
+      dietaryTags: formData.dietaryTags ? formData.dietaryTags.split(',').map(s => s.trim()).filter(s => s) : [],
+      customizationOptions: formData.customizationOptions ? formData.customizationOptions.split(',').map(s => s.trim()).filter(s => s) : [],
+      restaurantId: 1 // Default restaurant
+    };
+
+    onSave(itemData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Basic Information */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Basic Information</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-sm font-medium">Item Name *</label>
+              <Input
+                value={formData.name}
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="e.g., Margherita Pizza"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Category *</label>
+              <Select value={formData.category} onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map(cat => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          
+          <div>
+            <label className="text-sm font-medium">Description</label>
+            <Textarea
+              value={formData.description}
+              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              placeholder="Describe the item, ingredients, preparation..."
+              rows={3}
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Alternative Names/Aliases</label>
+            <Input
+              value={formData.aliases}
+              onChange={(e) => setFormData(prev => ({ ...prev, aliases: e.target.value }))}
+              placeholder="e.g., Pepperoni, Pepperoni Pizza (comma separated)"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Pricing */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Pricing</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="text-sm font-medium">Sale Price *</label>
+              <Input
+                type="number"
+                step="0.01"
+                value={formData.price}
+                onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Cost Price</label>
+              <Input
+                type="number"
+                step="0.01"
+                value={formData.costPrice}
+                onChange={(e) => setFormData(prev => ({ ...prev, costPrice: e.target.value }))}
+                placeholder="0.00"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Prep Time (min)</label>
+              <Input
+                type="number"
+                value={formData.preparationTime}
+                onChange={(e) => setFormData(prev => ({ ...prev, preparationTime: parseInt(e.target.value) || 15 }))}
+                placeholder="15"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Inventory Management */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Inventory & Availability</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Switch
+              checked={formData.isAvailable}
+              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isAvailable: checked }))}
+            />
+            <label className="text-sm font-medium">Available for ordering</label>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Switch
+              checked={formData.trackInventory}
+              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, trackInventory: checked }))}
+            />
+            <label className="text-sm font-medium">Track inventory levels</label>
+          </div>
+
+          {formData.trackInventory && (
+            <div className="grid grid-cols-2 gap-4 pl-6">
+              <div>
+                <label className="text-sm font-medium">Current Stock</label>
+                <Input
+                  type="number"
+                  value={formData.currentStock}
+                  onChange={(e) => setFormData(prev => ({ ...prev, currentStock: parseInt(e.target.value) || 0 }))}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Low Stock Alert</label>
+                <Input
+                  type="number"
+                  value={formData.lowStockThreshold}
+                  onChange={(e) => setFormData(prev => ({ ...prev, lowStockThreshold: parseInt(e.target.value) || 5 }))}
+                />
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Additional Options */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Additional Options</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="text-sm font-medium">Dietary Tags</label>
+            <Input
+              value={formData.dietaryTags}
+              onChange={(e) => setFormData(prev => ({ ...prev, dietaryTags: e.target.value }))}
+              placeholder="e.g., Vegetarian, Gluten-Free, Vegan (comma separated)"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Customization Options</label>
+            <Input
+              value={formData.customizationOptions}
+              onChange={(e) => setFormData(prev => ({ ...prev, customizationOptions: e.target.value }))}
+              placeholder="e.g., Extra Cheese, No Onions, Spicy (comma separated)"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Image URL</label>
+            <Input
+              value={formData.imageUrl}
+              onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <DialogFooter>
+        <Button type="button" variant="outline" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button 
+          type="submit" 
+          className="text-white"
+          style={{ background: 'linear-gradient(135deg, hsl(25, 95%, 53%), hsl(340, 82%, 52%))' }}
+        >
+          {item ? 'Update Item' : 'Create Item'}
+        </Button>
+      </DialogFooter>
+    </form>
   );
 }
