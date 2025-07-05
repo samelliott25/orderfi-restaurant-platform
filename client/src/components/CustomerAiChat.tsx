@@ -118,10 +118,11 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center"
       style={{
-        background: 'linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
-        clipPath: isOpen ? 'circle(150% at 50% 50%)' : 'circle(32px at 50% 100%)',
+        background: isOpen ? 'linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)' : 'transparent',
+        clipPath: isOpen ? 'circle(150% at 50% 50%)' : 'circle(0px at 50% 100%)',
         transition: 'clip-path 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        pointerEvents: isOpen ? 'auto' : 'none'
+        pointerEvents: isOpen ? 'auto' : 'none',
+        visibility: isOpen ? 'visible' : 'hidden'
       }}
     >
       {/* Animated Background Elements */}
