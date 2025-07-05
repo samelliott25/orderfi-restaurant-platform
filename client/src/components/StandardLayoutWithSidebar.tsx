@@ -157,10 +157,10 @@ export function StandardLayoutWithSidebar({
           </ScrollArea>
         </div>
 
-        {/* AI Chat Button */}
+        {/* AI Chat Button placeholder - functionality moved to StandardLayout */}
         {showChatButton && (
           <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-[200]">
-            <CustomerAiChat isOpen={false} onToggle={() => {}} />
+            {/* Chat functionality handled by main StandardLayout */}
           </div>
         )}
       </div>
