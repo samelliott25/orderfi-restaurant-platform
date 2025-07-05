@@ -45,15 +45,19 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    // Persist sidebar state in localStorage
+    const saved = localStorage.getItem('sidebar-collapsed');
+    return saved === 'true';
+  });
   const [location] = useLocation();
   const { isConnected, walletInfo, isConnecting, connect, disconnect } = useWallet();
   const { theme, setTheme } = useTheme();
-  const [isNavigating, setIsNavigating] = useState(false);
 
-  // Update CSS custom property for sidebar width
+  // Update CSS custom property for sidebar width and persist state
   useEffect(() => {
     document.documentElement.style.setProperty('--sidebar-width', isCollapsed ? '64px' : '256px');
+    localStorage.setItem('sidebar-collapsed', isCollapsed.toString());
   }, [isCollapsed]);
 
   return (
@@ -144,13 +148,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                       }`}
                       title={isCollapsed ? item.label : undefined}
-                      onClick={(e) => {
-                        // Prevent auto-expansion when navigating while collapsed
-                        e.stopPropagation();
-                        setIsNavigating(true);
-                        // Reset navigation state after a short delay
-                        setTimeout(() => setIsNavigating(false), 100);
-                      }}
+
                     >
                       <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
                       {!isCollapsed && <span className="font-medium">{item.label}</span>}
