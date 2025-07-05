@@ -383,154 +383,165 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   return (
     <div 
       ref={chatRef}
-      className={`fixed z-50 w-96 h-[500px] rounded-2xl shadow-2xl border border-white/20 animate-in slide-in-from-bottom-4 duration-300 overflow-hidden ${
+      className={`fixed z-50 w-96 h-[520px] animate-in slide-in-from-bottom-4 duration-500 ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
       style={{
-        background: 'linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
         left: `${position.x}%`,
         top: `${position.y}%`,
         transform: 'translate(0, 0)'
       }}
       onMouseDown={handleMouseDown}
     >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full animate-pulse"
-            style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + i * 10}%`,
-              width: `${8 + i * 2}px`,
-              height: `${8 + i * 2}px`,
-              background: `rgba(255, 255, 255, ${0.1 + i * 0.05})`,
-              animationDelay: `${i * 0.5}s`,
-              animationDuration: `${2 + i * 0.3}s`
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Chat Header */}
-      <div className="relative z-10 p-4 border-b border-white/20 bg-black/20 backdrop-blur-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <Bot className="w-5 h-5 text-white" />
+      {/* iOS-style glass card with advanced blur effects */}
+      <div className="w-full h-full rounded-[28px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-[20px] border border-white/[0.08]"
+           style={{
+             background: 'linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)',
+             boxShadow: `
+               0 8px 32px rgba(0, 0, 0, 0.12),
+               0 2px 8px rgba(0, 0, 0, 0.08),
+               inset 0 1px 0 rgba(255, 255, 255, 0.8),
+               inset 0 -1px 0 rgba(0, 0, 0, 0.05)
+             `
+           }}>
+        
+        {/* Subtle top gradient highlight - iOS style */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+        
+        {/* iOS-style header with frosted glass effect */}
+        <div className="relative px-6 py-4 border-b border-black/[0.06] bg-gradient-to-b from-white/20 to-transparent backdrop-blur-md">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              {/* Modern iOS-style avatar with subtle gradient */}
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 shadow-[0_2px_8px_rgba(59,130,246,0.3)] flex items-center justify-center">
+                <Bot className="w-5 h-5 text-white drop-shadow-sm" />
+              </div>
+              <div>
+                <h3 className="font-[600] text-gray-900 text-[15px] tracking-[-0.01em]">AI Assistant</h3>
+                <div className="flex items-center space-x-1">
+                  <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_4px_rgba(34,197,94,0.4)]"></div>
+                  <p className="text-[13px] text-gray-600 font-[500]">Online</p>
+                </div>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold text-white">AI Assistant</h3>
-              <p className="text-xs text-white/70">Online</p>
-            </div>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onToggle}
-            className="text-white hover:bg-white/10"
-          >
-            <X className="w-5 h-5" />
-          </Button>
-        </div>
-      </div>
-
-      {/* Chat Messages */}
-      <ScrollArea 
-        ref={scrollAreaRef}
-        className="flex-1 h-[320px] p-4 bg-white/10 backdrop-blur-sm"
-      >
-        <div className="space-y-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+            {/* iOS-style close button */}
+            <button
+              onClick={onToggle}
+              className="w-8 h-8 rounded-full bg-gray-100/80 hover:bg-gray-200/80 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.1)] active:scale-95"
             >
-              <div
-                className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                  message.type === 'user'
-                    ? 'bg-white text-orange-600 rounded-br-sm'
-                    : 'bg-black/20 text-white rounded-bl-sm'
-                }`}
-              >
-                <p className="text-sm">{message.content}</p>
-                <div className="flex items-center justify-between mt-1">
-                  <span className="text-xs opacity-70">
-                    {message.timestamp.toLocaleTimeString([], { 
-                      hour: '2-digit', 
-                      minute: '2-digit' 
-                    })}
-                  </span>
-                  {message.type === 'user' && (
-                    <div className="ml-2">
-                      {message.status === 'sending' && (
-                        <Clock className="w-3 h-3 opacity-70" />
-                      )}
-                      {message.status === 'sent' && (
-                        <CheckCircle className="w-3 h-3 opacity-70" />
-                      )}
-                      {message.status === 'error' && (
-                        <AlertCircle className="w-3 h-3 text-red-400" />
+              <X className="w-4 h-4 text-gray-600" />
+            </button>
+          </div>
+        </div>
+
+        {/* Messages area with iOS scroll behavior */}
+        <div className="flex-1 h-[350px] overflow-hidden">
+          <ScrollArea 
+            ref={scrollAreaRef}
+            className="h-full px-4 py-3"
+          >
+            <div className="space-y-3">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className="max-w-[85%] group">
+                    <div
+                      className={`px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.1)] ${
+                        message.type === 'user'
+                          ? 'bg-blue-500 text-white rounded-[20px] rounded-br-[8px] ml-auto'
+                          : 'bg-gray-100 text-gray-900 rounded-[20px] rounded-bl-[8px]'
+                      }`}
+                    >
+                      <p className="text-[15px] leading-[1.4] font-[400]">{message.content}</p>
+                    </div>
+                    <div className={`flex items-center mt-1 space-x-1 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <span className="text-[11px] text-gray-500 font-[500]">
+                        {message.timestamp.toLocaleTimeString([], { 
+                          hour: '2-digit', 
+                          minute: '2-digit' 
+                        })}
+                      </span>
+                      {message.type === 'user' && (
+                        <div>
+                          {message.status === 'sending' && (
+                            <Clock className="w-3 h-3 text-gray-400" />
+                          )}
+                          {message.status === 'sent' && (
+                            <CheckCircle className="w-3 h-3 text-blue-500" />
+                          )}
+                          {message.status === 'error' && (
+                            <AlertCircle className="w-3 h-3 text-red-500" />
+                          )}
+                        </div>
                       )}
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-          {isLoading && (
-            <div className="flex justify-start">
-              <div className="bg-black/20 text-white rounded-2xl rounded-bl-sm px-4 py-2">
-                <div className="flex items-center space-x-1">
-                  <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-gray-100 rounded-[20px] rounded-bl-[8px] px-4 py-3 shadow-[0_1px_2px_rgba(0,0,0,0.1)]">
+                    <div className="flex items-center space-x-1">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
-          )}
+          </ScrollArea>
         </div>
-      </ScrollArea>
 
-      {/* Chat Input */}
-      <div className="relative z-10 p-4 border-t border-white/20 bg-black/20 backdrop-blur-sm">
-        <div className="flex items-center space-x-2">
-          <div className="flex-1 relative">
-            <Input
-              value={inputValue}
-              onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
-              className="pr-10 bg-white/90 border-white/20 text-gray-900 placeholder-gray-500 focus:bg-white"
-              disabled={isLoading}
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleVoiceInput}
-              className={`absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 ${
-                isListening ? 'text-red-500' : 'text-gray-500 hover:text-gray-700'
+        {/* iOS-style input bar with advanced styling */}
+        <div className="relative px-4 py-3 border-t border-black/[0.06] bg-gradient-to-t from-white/40 to-transparent backdrop-blur-md">
+          <div className="flex items-center space-x-3">
+            <div className="flex-1 relative">
+              <div className="relative rounded-[22px] bg-gray-100/80 backdrop-blur-sm border border-gray-200/50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
+                <input
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Message..."
+                  disabled={isLoading}
+                  className="w-full px-4 py-3 pr-12 bg-transparent border-0 outline-none text-[15px] text-gray-900 placeholder-gray-500 font-[400]"
+                />
+                <button
+                  onClick={toggleVoiceInput}
+                  className={`absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full transition-all duration-200 flex items-center justify-center ${
+                    isListening 
+                      ? 'bg-red-500 text-white shadow-[0_2px_8px_rgba(239,68,68,0.3)]' 
+                      : 'bg-gray-200/80 text-gray-600 hover:bg-gray-300/80'
+                  }`}
+                >
+                  {isListening ? (
+                    <MicOff className="w-4 h-4" />
+                  ) : (
+                    <Mic className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+            </div>
+            
+            {/* iOS-style send button */}
+            <button
+              onClick={handleSendMessage}
+              disabled={!inputValue.trim() || isLoading}
+              className={`w-10 h-10 rounded-full transition-all duration-200 flex items-center justify-center shadow-[0_2px_8px_rgba(59,130,246,0.25)] ${
+                !inputValue.trim() || isLoading
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-blue-500 text-white hover:bg-blue-600 active:scale-95 shadow-[0_4px_12px_rgba(59,130,246,0.3)]'
               }`}
             >
-              {isListening ? (
-                <MicOff className="w-4 h-4" />
+              {isLoading ? (
+                <RefreshCw className="w-5 h-5 animate-spin" />
               ) : (
-                <Mic className="w-4 h-4" />
+                <Send className="w-4 h-4" />
               )}
-            </Button>
+            </button>
           </div>
-          <Button
-            onClick={handleSendMessage}
-            disabled={!inputValue.trim() || isLoading}
-            className="bg-white text-orange-600 hover:bg-white/90 disabled:opacity-50"
-          >
-            {isLoading ? (
-              <RefreshCw className="w-4 h-4 animate-spin" />
-            ) : (
-              <Send className="w-4 h-4" />
-            )}
-          </Button>
         </div>
       </div>
     </div>
