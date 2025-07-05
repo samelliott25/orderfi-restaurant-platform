@@ -393,10 +393,10 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
       }}
       onMouseDown={handleMouseDown}
     >
-      {/* iOS-style glass card with OrderFi gradient theme */}
+      {/* iOS-style glass card with OrderFi gradient theme - translucent */}
       <div className="w-full h-full rounded-[28px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-[20px] border border-white/20"
            style={{
-             background: 'linear-gradient(145deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
+             background: 'linear-gradient(145deg, hsla(25, 95%, 53%, 0.85) 0%, hsla(340, 82%, 52%, 0.85) 100%)',
              boxShadow: `
                0 8px 32px rgba(0, 0, 0, 0.15),
                0 2px 8px rgba(0, 0, 0, 0.1),
