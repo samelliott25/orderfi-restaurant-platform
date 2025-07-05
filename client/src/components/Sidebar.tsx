@@ -2,13 +2,12 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@/hooks/useWallet";
 import { WalletConnectDialog } from "@/components/WalletConnectDialog";
-import { SettingsDialog } from "@/components/SettingsDialog";
+
 import { useTheme } from "@/components/theme-provider";
 import React, { useState, useEffect } from "react";
 import { 
   Home, 
   ShoppingCart, 
-  Settings, 
   ChefHat, 
   Sun, 
   Moon,
@@ -46,7 +45,6 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
-  const [showSettings, setShowSettings] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [location] = useLocation();
   const { isConnected, walletInfo, isConnecting, connect, disconnect } = useWallet();
@@ -199,17 +197,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   </div>
                 )}
                 
-                {/* Settings Button */}
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setShowSettings(true)}
-                  className="w-full text-sm border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
-                >
-                  <Settings className="h-4 w-4 mr-2" />
-                  Settings
-                </Button>
-                
                 {/* Theme Toggle */}
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Theme</span>
@@ -255,17 +242,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   </div>
                 )}
                 
-                {/* Collapsed Settings */}
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setShowSettings(true)}
-                  className="w-full h-10 p-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800"
-                  title="Settings"
-                >
-                  <Settings className="h-5 w-5" />
-                </Button>
-                
                 {/* Collapsed Theme Toggle */}
                 <Button
                   variant="ghost"
@@ -294,11 +270,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
         </div>
       </div>
-      
-      <SettingsDialog 
-        isOpen={showSettings} 
-        onClose={() => setShowSettings(false)} 
-      />
     </>
   );
 }
