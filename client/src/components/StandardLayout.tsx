@@ -23,12 +23,12 @@ export function StandardLayout({
   const [showAiChat, setShowAiChat] = useState(false);
 
   return (
-    <div className={`h-screen bg-background flex ${className}`}>
+    <div className={`h-screen bg-background ${className}`}>
       {/* Sidebar */}
       <Sidebar />
       
       {/* Main Content Area */}
-      <div className="flex-1 ml-80 bg-background">
+      <div className="h-full bg-background transition-all duration-300" style={{ marginLeft: 'var(--sidebar-width, 320px)' }}>
         <ScrollArea className="h-full bg-transparent">
           <div className="p-6">
             {/* Page Header */}
