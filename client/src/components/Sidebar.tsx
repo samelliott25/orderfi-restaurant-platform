@@ -227,9 +227,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Exit App Button */}
                 <Link href="/landing-page">
                   <Button 
-                    variant="outline" 
+                    variant="ghost" 
                     size="sm"
-                    className="w-full text-sm border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 hover:text-red-700 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20 dark:hover:border-red-700 dark:hover:text-red-300"
+                    className="w-full text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
                     <DoorOpen className="h-4 w-4 mr-2" />
                     Exit App
@@ -281,9 +281,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Collapsed Exit App */}
                 <Link href="/landing-page">
                   <Button 
-                    variant="outline" 
+                    variant="ghost" 
                     size="sm"
-                    className="w-full h-10 p-2 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 hover:text-red-700 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20 dark:hover:border-red-700 dark:hover:text-red-300"
+                    className="w-full h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                     title="Exit App"
                   >
                     <DoorOpen className="h-5 w-5" />
