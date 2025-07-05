@@ -49,6 +49,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   const [location] = useLocation();
   const { isConnected, walletInfo, isConnecting, connect, disconnect } = useWallet();
   const { theme, setTheme } = useTheme();
+  const [isNavigating, setIsNavigating] = useState(false);
 
   // Update CSS custom property for sidebar width
   useEffect(() => {
@@ -143,6 +144,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                       }`}
                       title={isCollapsed ? item.label : undefined}
+                      onClick={(e) => {
+                        // Prevent auto-expansion when navigating while collapsed
+                        e.stopPropagation();
+                        setIsNavigating(true);
+                        // Reset navigation state after a short delay
+                        setTimeout(() => setIsNavigating(false), 100);
+                      }}
                     >
                       <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
                       {!isCollapsed && <span className="font-medium">{item.label}</span>}
