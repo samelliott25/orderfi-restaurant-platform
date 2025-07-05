@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 4, 2025. Standardized AI chat popup design across all pages for consistent user experience
+  - Updated restaurant.tsx to use CustomerAiChat component instead of legacy Card-based interface
+  - Fixed accessibility warnings by adding DialogTitle and DialogDescription to CommandDialog component
+  - Confirmed all admin pages (dashboard, tokenrewards, network, inventory, orders, payments) use StandardLayout
+  - Applied beautiful gradient background, clip-path animations, and backdrop blur effects consistently
+  - Eliminated old leftover code from previous AI chat implementations
 - July 4, 2025. Refined chart timeframe system to remove 5-minute standalone option
   - Removed dedicated "5m" timeframe button from chart controls
   - Updated hourly (1H) chart to internally use 5-minute data intervals for granular detail
