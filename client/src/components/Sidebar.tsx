@@ -23,7 +23,8 @@ import {
   Settings2,
   X,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  DoorOpen
 } from "lucide-react";
 
 const menuItems = [
@@ -222,6 +223,18 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                   </Button>
                 </div>
+
+                {/* Exit App Button */}
+                <Link href="/landing-page">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="w-full text-sm border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 hover:text-red-700 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20 dark:hover:border-red-700 dark:hover:text-red-300"
+                  >
+                    <DoorOpen className="h-4 w-4 mr-2" />
+                    Exit App
+                  </Button>
+                </Link>
               </>
             ) : (
               <>
@@ -264,6 +277,18 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                   <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 </Button>
+
+                {/* Collapsed Exit App */}
+                <Link href="/landing-page">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="w-full h-10 p-2 border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 hover:text-red-700 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20 dark:hover:border-red-700 dark:hover:text-red-300"
+                    title="Exit App"
+                  >
+                    <DoorOpen className="h-5 w-5" />
+                  </Button>
+                </Link>
               </>
             )}
           </div>
