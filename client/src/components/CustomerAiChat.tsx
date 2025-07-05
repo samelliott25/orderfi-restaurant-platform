@@ -164,7 +164,7 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
       {/* Chat Interface */}
       <div className="relative w-full h-full p-4 flex flex-col" style={{ opacity: isOpen ? 1 : 0, transition: 'opacity 0.6s ease-in-out' }}>
         {/* Messages Area */}
-        <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 mb-4 flex-1 flex flex-col shadow-2xl min-h-0 max-h-full" style={{ backdropFilter: 'blur(40px)' }}>
+        <div className="p-6 mb-4 flex-1 flex flex-col min-h-0 max-h-full">
           {/* Messages */}
           <div className="flex-1 space-y-4 mb-6 overflow-y-auto">
             {messages.length === 0 ? (
@@ -183,17 +183,11 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
                     key={message.id}
                     className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
-                    <div
-                      className={`max-w-[80%] px-4 py-3 rounded-xl ${
-                        message.type === 'user'
-                          ? 'bg-white/20 text-white backdrop-blur-sm'
-                          : 'bg-white/15 text-white/95 backdrop-blur-md'
-                      }`}
-                    >
-                      <div className="text-sm leading-relaxed font-light tracking-wide">
+                    <div className={`max-w-[80%] ${message.type === 'user' ? 'text-right' : 'text-left'}`}>
+                      <div className="text-white font-light text-base leading-relaxed mb-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.4)' }}>
                         {message.content}
                       </div>
-                      <div className="text-xs text-white/50 mt-1 font-light tracking-wider">
+                      <div className="text-white/70 text-xs font-light" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>
                         {new Date(message.timestamp).toLocaleTimeString()}
                       </div>
                       
@@ -246,7 +240,7 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything about our menu..."
-                className="w-full border-0 text-black placeholder-white rounded-2xl px-5 py-4 text-base backdrop-blur-xl focus:bg-[#f9a999] transition-all duration-200 bg-[#f7877d] font-medium text-center"
+                className="w-full border-2 border-white/30 text-white placeholder-white/80 rounded-2xl px-5 py-4 text-base focus:border-white/50 transition-all duration-200 bg-white/10 backdrop-blur-xl font-medium"
                 style={{ backdropFilter: 'blur(20px)' }}
                 ref={inputRef}
               />
