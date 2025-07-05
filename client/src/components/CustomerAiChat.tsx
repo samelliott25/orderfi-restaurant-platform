@@ -178,7 +178,9 @@ import {
   Burrito,
   Hotdog,
   Fries,
-  Popcorn as PopcornIcon
+  Popcorn as PopcornIcon,
+  ChevronRight,
+  Move
 } from 'lucide-react';
 
 interface CustomerAiChatProps {
@@ -252,6 +254,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const [position, setPosition] = useState<Position>(getPersistedPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isSidebarMode, setIsSidebarMode] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
 
@@ -366,6 +369,17 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
     }
   };
 
+  const toggleSidebarMode = () => {
+    setIsSidebarMode(!isSidebarMode);
+    if (!isSidebarMode) {
+      // Snap to right side
+      setPosition({ x: 75, y: 10 });
+    } else {
+      // Return to center position
+      setPosition({ x: 35, y: 20 });
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newState = { ...chatState, inputValue: e.target.value };
     persistChatState(newState);
@@ -383,16 +397,22 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   return (
     <div 
       ref={chatRef}
-      className={`fixed z-50 w-96 h-[520px] animate-in slide-in-from-bottom-4 duration-500 ${
+      className={`fixed z-50 animate-in slide-in-from-bottom-4 duration-500 transition-all ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
+      } ${
+        isSidebarMode 
+          ? 'w-80 h-screen top-0 right-0' 
+          : 'w-96 h-[520px]'
       }`}
-      style={{
+      style={isSidebarMode ? {
+        opacity: 0.9
+      } : {
         left: `${position.x}%`,
         top: `${position.y}%`,
         transform: 'translate(0, 0)',
         opacity: 0.9
       }}
-      onMouseDown={handleMouseDown}
+      onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
     >
       {/* iOS-style glass card with OrderFi gradient theme - translucent */}
       <div className="w-full h-full rounded-[28px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-[20px] border border-white/20"
@@ -425,18 +445,34 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 </div>
               </div>
             </div>
-            {/* iOS-style close button */}
-            <button
-              onClick={onToggle}
-              className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 backdrop-blur-sm border border-white/30"
-            >
-              <X className="w-4 h-4 text-white" />
-            </button>
+            <div className="flex items-center space-x-2">
+              {/* Snap to sidebar arrow button */}
+              <button
+                onClick={toggleSidebarMode}
+                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 backdrop-blur-sm border border-white/30"
+                title={isSidebarMode ? "Float chat" : "Snap to sidebar"}
+              >
+                {isSidebarMode ? (
+                  <Move className="w-4 h-4 text-white" />
+                ) : (
+                  <ChevronRight className="w-4 h-4 text-white" />
+                )}
+              </button>
+              {/* iOS-style close button */}
+              <button
+                onClick={onToggle}
+                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 backdrop-blur-sm border border-white/30"
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Messages area with iOS scroll behavior */}
-        <div className="flex-1 h-[350px] overflow-hidden bg-white/5 backdrop-blur-sm">
+        <div className={`flex-1 overflow-hidden bg-white/5 backdrop-blur-sm ${
+          isSidebarMode ? 'h-[calc(100vh-140px)]' : 'h-[350px]'
+        }`}>
           <ScrollArea 
             ref={scrollAreaRef}
             className="h-full px-4 py-3"
