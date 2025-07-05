@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
 import { ThemeProvider } from "@/components/theme-provider";
-import { HamburgerMenu } from "@/components/Navigation";
+import { Sidebar } from "@/components/Sidebar";
 import HomePage from "@/pages/home";
 import RestaurantDashboard from "@/pages/dashboard-new";
 import Web3DappPage from "@/pages/web3-dapp";
@@ -63,21 +63,13 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const isDashboard = location === '/dashboard';
   
   return (
-    <div className="min-h-screen bg-background">
-      {!hideNavigation && (
-        <>
-          <HamburgerMenu />
-        </>
-      )}
+    <div className="min-h-screen bg-background flex">
+      {!hideNavigation && <Sidebar />}
       
-      {/* Main content with padding only for top navigation */}
-      <main className={
-        !hideNavigation 
-          ? isDashboard 
-            ? "pt-0 h-screen overflow-auto" 
-            : "pt-20 h-screen overflow-auto" 
-          : "h-screen"
-      } style={{ backgroundColor: '#fcfcfc' }}>
+      {/* Main content with sidebar offset */}
+      <main className={`${
+        !hideNavigation ? "ml-80" : ""
+      } flex-1 h-screen overflow-auto`} style={{ backgroundColor: '#fcfcfc' }}>
         {children}
       </main>
     </div>

@@ -247,6 +247,59 @@ h1, h2, h3, .orderfi-brand {
   /* Placeholder for potential future use */
 }
 
+/* Star animation styles for OrderFi logo */
+.sentient-orb-mini {
+  background: conic-gradient(from 0deg, #f97316, #dc2626, #e11d48, #be185d, #9333ea, #7c3aed, #6366f1, #3b82f6, #0ea5e9, #06b6d4, #14b8a6, #10b981, #22c55e, #84cc16, #eab308, #f59e0b, #f97316);
+  background-size: 400% 400%;
+  animation: atmospheric-rotation 15s linear infinite;
+}
+
+@keyframes atmospheric-rotation {
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+.star-no-rotate {
+  animation: none !important;
+}
+
+.ai-star-pulse {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.ai-cascade-1, .ai-cascade-2, .ai-cascade-3 {
+  animation: cascade-twinkle 3s ease-in-out infinite;
+}
+
+.ai-cascade-1 { animation-delay: 0s; }
+.ai-cascade-2 { animation-delay: 1s; }
+.ai-cascade-3 { animation-delay: 2s; }
+
+@keyframes cascade-twinkle {
+  0%, 100% { 
+    opacity: 0.6;
+    transform: scale(0.8);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

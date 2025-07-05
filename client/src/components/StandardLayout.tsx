@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { HamburgerMenu } from '@/components/Navigation';
+import { Sidebar } from '@/components/Sidebar';
 import { CustomerAiChat } from '@/components/CustomerAiChat';
 
 interface StandardLayoutProps {
@@ -23,59 +23,21 @@ export function StandardLayout({
   const [showAiChat, setShowAiChat] = useState(false);
 
   return (
-    <div className={`h-screen bg-background transition-opacity duration-700 ease-in-out overflow-x-hidden flex flex-col ${className}`}>
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-card border-b border-border">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-full flex items-center justify-center overflow-hidden ai-cosmic-glow relative">
-            <div className="relative w-full h-full flex items-center justify-center">
-              {/* Stars positioned across entire icon surface */}
-              <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-                {/* Left side */}
-                <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                
-                {/* Center */}
-                <svg className="w-1 h-1 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="w-1 h-1 absolute ai-cascade-4" style={{ top: '65%', left: '52%', transform: 'rotate(-15deg)', animationDelay: '0.8s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                
-                {/* Right side */}
-                <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '35%', left: '82%', transform: 'rotate(89deg)', animationDelay: '2.3s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-                <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '85%', left: '88%', transform: 'rotate(-278deg)', animationDelay: '1.2s' }} viewBox="0 0 24 24" fill="white">
-                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                </svg>
-              </div>
-              
-              {/* Central logo */}
-              <svg className="w-4 h-4 text-white counter-rotate-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-              </svg>
-            </div>
-          </div>
-          <div>
-            <h1 className={`text-xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent playwrite-font`}>
-              {title}
-            </h1>
-            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
-          </div>
-        </div>
-        <HamburgerMenu />
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1">
+    <div className={`h-screen bg-background flex ${className}`}>
+      {/* Sidebar */}
+      <Sidebar />
+      
+      {/* Main Content Area */}
+      <div className="flex-1 ml-80 bg-background">
         <ScrollArea className="h-full bg-transparent">
-          <div className="pb-2">
+          <div className="p-6">
+            {/* Page Header */}
+            <div className="mb-6">
+              <h1 className="text-2xl font-bold text-foreground playwrite-font">{title}</h1>
+              <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+            </div>
+            
+            {/* Page Content */}
             {children}
           </div>
         </ScrollArea>
@@ -84,7 +46,7 @@ export function StandardLayout({
       {/* AI Chat Button */}
       {showChatButton && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-[200]">
-          <CustomerAiChat />
+          <CustomerAiChat isOpen={showAiChat} onToggle={() => setShowAiChat(!showAiChat)} />
         </div>
       )}
     </div>
