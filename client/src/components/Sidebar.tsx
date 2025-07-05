@@ -107,7 +107,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                       variant={isActive ? "default" : "ghost"}
                       className={`w-full justify-start text-left font-medium transition-colors ${
                         isActive 
-                          ? "bg-blue-600 text-white hover:bg-blue-700" 
+                          ? "bg-[hsl(217,91%,60%)] text-white hover:bg-[hsl(217,91%,55%)]" 
                           : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                       }`}
                     >
