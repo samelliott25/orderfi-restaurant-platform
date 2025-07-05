@@ -142,7 +142,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           : 'justify-start text-left'
                       } ${
                         isActive 
-                          ? "bg-[hsl(217,91%,60%)] text-white hover:bg-[hsl(217,91%,55%)]" 
+                          ? "bg-[hsl(215,25%,65%)] text-white hover:bg-[hsl(215,25%,60%)]" 
                           : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                       }`}
                       title={isCollapsed ? item.label : undefined}
