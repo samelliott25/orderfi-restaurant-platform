@@ -120,10 +120,9 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
 
   return (
     <div 
-      className="fixed bottom-24 right-8 z-50 w-96 h-[500px] rounded-2xl shadow-2xl border border-white/20 animate-in slide-in-from-bottom-4 duration-300 relative overflow-hidden"
+      className="absolute bottom-6 right-6 z-50 w-96 h-[500px] rounded-2xl shadow-2xl border border-white/20 animate-in slide-in-from-bottom-4 duration-300 relative overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
-        transform: 'translateX(-256px)' // Account for sidebar width
+        background: 'linear-gradient(135deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)'
       }}
     >
       {/* Animated Background Elements */}
