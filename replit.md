@@ -134,6 +134,13 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 6, 2025. Fixed sidebar navigation persistence and chat interface positioning issues
+  - Implemented localStorage persistence for sidebar collapsed/expanded state across page navigation
+  - Fixed navigation white page issue caused by problematic event handlers
+  - Completely rewrote CustomerAiChat component with proper JSX structure and positioning
+  - Chat dialog now appears correctly centered in main content area with sidebar margin offset
+  - Resolved broken navigation that was causing page reloads and auto-expansion
+  - Users can now seamlessly navigate between pages while maintaining sidebar state preference
 - July 5, 2025. Fixed responsive width issues on dashboard, inventory, and orders pages
   - Updated inventory search/filter bar to use proper responsive flex layout with lg:flex-row breakpoints
   - Fixed orders page order cards to use responsive flex-col sm:flex-row layout for mobile compatibility
