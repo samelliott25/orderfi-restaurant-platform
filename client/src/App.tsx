@@ -24,6 +24,7 @@ import AdminInventoryPage from "@/pages/admin/inventory";
 import AdminInventoryStockPage from "@/pages/admin/inventory-stock";
 import AdminOrdersPage from "@/pages/admin/orders-new";
 import AdminPaymentsPage from "@/pages/admin/payments";
+import AdminStockPage from "@/pages/admin/stock";
 import AdminStaffPage from "@/pages/admin/staff";
 import AdminReportingPage from "@/pages/admin/reporting";
 import AdminSettingsPage from "@/pages/admin/settings";
@@ -45,6 +46,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/inventory-stock',
     '/orders',
     '/payments',
+    '/stock',
     '/staff',
     '/reporting',
     '/settings'
@@ -100,6 +102,7 @@ function Router() {
         <Route path="/inventory-stock" component={AdminInventoryStockPage} />
         <Route path="/orders" component={AdminOrdersPage} />
         <Route path="/payments" component={AdminPaymentsPage} />
+        <Route path="/stock" component={AdminStockPage} />
         <Route path="/staff" component={AdminStaffPage} />
         <Route path="/reporting" component={AdminReportingPage} />
         <Route path="/settings" component={AdminSettingsPage} />
