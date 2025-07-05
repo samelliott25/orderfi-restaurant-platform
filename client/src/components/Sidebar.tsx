@@ -54,14 +54,14 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   // Update CSS custom property for sidebar width
   useEffect(() => {
-    document.documentElement.style.setProperty('--sidebar-width', isCollapsed ? '64px' : '320px');
+    document.documentElement.style.setProperty('--sidebar-width', isCollapsed ? '64px' : '256px');
   }, [isCollapsed]);
 
   return (
     <>
       <div className={`fixed left-0 top-0 z-40 h-screen transform bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
-      } ${isCollapsed ? 'w-16' : 'w-80'}`}>
+      } ${isCollapsed ? 'w-16' : 'w-64'}`}>
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className={`border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-3' : 'p-6'}`}>
