@@ -533,13 +533,13 @@ export default function RestaurantDashboard() {
         {/* Primary Sales Performance Chart */}
         <Card className="col-span-full">
           <CardHeader>
-            <CardTitle className="flex items-center justify-between">
+            <CardTitle className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div className="flex items-center gap-2">
                 <LineChartIcon className="w-6 h-6" style={{ color: 'hsl(25, 95%, 53%)' }} />
                 <span className="text-2xl playwrite-font">Sales Performance</span>
                 <Badge variant="secondary" className="ml-2 bg-orange-100 text-orange-700">Live</Badge>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 {/* Date Navigation */}
                 <div className="flex items-center gap-2">
                   <Button

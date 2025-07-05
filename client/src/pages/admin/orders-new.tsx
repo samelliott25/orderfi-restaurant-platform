@@ -101,7 +101,7 @@ export default function AdminOrdersPage() {
           <CardContent>
             <div className="space-y-4">
               {orders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div key={order.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-4">
                   <div className="flex items-center space-x-4">
                     {getStatusIcon(order.status)}
                     <div>
@@ -127,18 +127,20 @@ export default function AdminOrdersPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center justify-between sm:justify-end gap-2 flex-shrink-0">
                     <span className="font-semibold">{order.total}</span>
-                    {order.status === 'preparing' && (
-                      <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
-                        Mark Ready
-                      </Button>
-                    )}
-                    {order.status === 'ready' && (
-                      <Button size="sm" variant="outline">
-                        Mark Picked Up
-                      </Button>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {order.status === 'preparing' && (
+                        <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
+                          Mark Ready
+                        </Button>
+                      )}
+                      {order.status === 'ready' && (
+                        <Button size="sm" variant="outline">
+                          Mark Picked Up
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
