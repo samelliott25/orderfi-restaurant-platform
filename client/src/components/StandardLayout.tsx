@@ -41,10 +41,10 @@ export function StandardLayout({
             {children}
           </div>
         </ScrollArea>
-        
-        {/* AI Chat Dialog positioned within main content area */}
-        <CustomerAiChat isOpen={showAiChat} onToggle={() => setShowAiChat(!showAiChat)} />
       </div>
+      
+      {/* AI Chat Dialog - positioned outside main content but accounting for sidebar */}
+      <CustomerAiChat isOpen={showAiChat} onToggle={() => setShowAiChat(!showAiChat)} />
 
       {/* AI Orb Chat Button - positioned in main content area */}
       {showChatButton && (
