@@ -28,7 +28,7 @@ export function StandardLayout({
       <Sidebar />
       
       {/* Main Content Area */}
-      <div className="h-full bg-background transition-all duration-300" style={{ marginLeft: 'var(--sidebar-width, 256px)' }}>
+      <div className="h-full bg-background transition-all duration-300 relative" style={{ marginLeft: 'var(--sidebar-width, 256px)' }}>
         <ScrollArea className="h-full bg-transparent">
           <div className="p-6">
             {/* Page Header */}
@@ -41,12 +41,15 @@ export function StandardLayout({
             {children}
           </div>
         </ScrollArea>
+        
+        {/* AI Chat Dialog positioned within main content area */}
+        <CustomerAiChat isOpen={showAiChat} onToggle={() => setShowAiChat(!showAiChat)} />
       </div>
 
-      {/* AI Orb Chat Button */}
+      {/* AI Orb Chat Button - positioned in main content area */}
       {showChatButton && (
-        <div className="fixed bottom-6 left-0 right-0 bg-transparent pointer-events-none">
-          <div className="flex justify-center pointer-events-auto z-[200]">
+        <div className="fixed bottom-6 bg-transparent pointer-events-none z-[200]" style={{ right: '1.5rem', left: 'var(--sidebar-width, 256px)', display: 'flex', justifyContent: 'center' }}>
+          <div className="pointer-events-auto">
             <button
               onClick={() => setShowAiChat(!showAiChat)}
               className="w-20 h-20 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500"
