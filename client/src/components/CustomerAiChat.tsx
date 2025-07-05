@@ -125,23 +125,25 @@ export function CustomerAiChat({ isOpen, onToggle, onAddToCart, currentCart = []
       }}
     >
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full animate-pulse"
-            style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + i * 10}%`,
-              width: `${20 + Math.random() * 30}px`,
-              height: `${20 + Math.random() * 30}px`,
-              background: `radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(239,68,68,0.08) 50%, transparent 100%)`,
-              animationDelay: `${i * 2}s`,
-              animationDuration: `${6 + Math.random() * 3}s`
-            }}
-          />
-        ))}
-      </div>
+      {isOpen && (
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full animate-pulse"
+              style={{
+                left: `${20 + i * 15}%`,
+                top: `${30 + i * 10}%`,
+                width: `${20 + Math.random() * 30}px`,
+                height: `${20 + Math.random() * 30}px`,
+                background: `radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(239,68,68,0.08) 50%, transparent 100%)`,
+                animationDelay: `${i * 2}s`,
+                animationDuration: `${6 + Math.random() * 3}s`
+              }}
+            />
+          ))}
+        </div>
+      )}
       
       {/* Close Button */}
       {isOpen && (
