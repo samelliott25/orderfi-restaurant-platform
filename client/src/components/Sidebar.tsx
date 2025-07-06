@@ -131,17 +131,17 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           
           {/* Navigation Items */}
           <div className={`flex-1 overflow-y-auto ${isCollapsed ? 'p-2' : 'p-4'}`}>
-            <nav className="space-y-2">
+            <nav className="space-y-1">
               {menuItems.map((item) => {
                 const isActive = location === item.href;
                 return (
                   <Link key={item.href} href={item.href}>
                     <Button
                       variant={isActive ? "default" : "ghost"}
-                      className={`w-full font-medium transition-colors ${
+                      className={`w-full font-medium transition-colors h-10 ${
                         isCollapsed 
-                          ? 'justify-center p-2 h-10' 
-                          : 'justify-start text-left'
+                          ? 'justify-center p-2' 
+                          : 'justify-start text-left px-3'
                       } ${
                         isActive 
                           ? "bg-[hsl(215,50%,68%)] text-white hover:bg-[hsl(215,50%,63%)]" 
@@ -159,7 +159,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             </nav>
             
             {/* AI Assistant Chat Orb */}
-            <div className={`${isCollapsed ? 'px-2 py-4' : 'px-4 py-3'} border-t border-gray-200 dark:border-gray-800`}>
+            <div className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'} border-t border-gray-200 dark:border-gray-800`}>
               <div className="flex items-center justify-center">
                 <Button
                   onClick={() => setChatOpen(!isChatOpen)}
