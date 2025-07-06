@@ -37,6 +37,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   // Hide navigation on pages that have their own header/navigation (StandardLayout or custom headers)
   const hideNavigation = [
     '/', 
+    '/customer',
     '/landing-page', 
     '/not-found', 
     '/dashboard',
@@ -85,8 +86,11 @@ function Router() {
         {/* Landing Page */}
         <Route path="/landing-page" component={HomePage} />
         
-        {/* Customer-Facing Mobile Interface - Default Home */}
-        <Route path="/" component={OrderFiNew} />
+        {/* Dashboard - Default Home */}
+        <Route path="/" component={RestaurantDashboard} />
+        
+        {/* Customer-Facing Mobile Interface */}
+        <Route path="/customer" component={OrderFiNew} />
         <Route path="/orderfi-simple" component={OrderFiSimple} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
         <Route path="/network" component={NetworkPage} />

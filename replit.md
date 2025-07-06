@@ -134,12 +134,13 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
-- July 6, 2025. Removed redundant /orderfi-home route and updated all navigation references
-  - Eliminated duplicate /orderfi-home route that was pointing to the same OrderFiNew component as root "/"
-  - Updated Sidebar, Navigation, home.tsx, orderfi-simple.tsx, and orderfi-new-revolutionary.tsx to use "/" instead
-  - Simplified routing structure by consolidating customer interface to single root route
-  - Maintained all existing functionality while reducing routing complexity
-  - Cleaned up hideNavigation array in App.tsx to remove obsolete route reference
+- July 6, 2025. Made Dashboard the default home page and reorganized navigation structure
+  - Changed default root route "/" from customer interface to Restaurant Dashboard 
+  - Removed Home button from Sidebar and Navigation components as Dashboard is now primary entry point
+  - Moved customer interface from "/" to "/customer" route for specific access
+  - Updated all navigation references to point to "/dashboard" instead of deprecated home routes
+  - Landing page now redirects to Dashboard, establishing it as the main application hub
+  - Simplified admin workflow by eliminating extra navigation steps to reach primary dashboard
 - July 6, 2025. Implemented contextual layout suggestion AI feature
   - Created useLayoutOptimization hook with real-time screen metrics analysis and user behavior tracking
   - Built AI-powered layout optimization backend endpoint using OpenAI GPT-4o for intelligent suggestions
