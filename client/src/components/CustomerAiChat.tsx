@@ -254,10 +254,30 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const [position, setPosition] = useState<Position>(getPersistedPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [shouldAnimate, setShouldAnimate] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
+  const hasAnimatedRef = useRef(false);
 
   const { messages, inputValue, isListening } = chatState;
+
+  // Track whether chat should animate on mount
+  useEffect(() => {
+    // Only animate if this is the first time opening (not a page navigation)
+    const chatOpenKey = 'orderfi-chat-first-open';
+    const hasOpenedBefore = sessionStorage.getItem(chatOpenKey);
+    
+    if (isOpen && !hasOpenedBefore) {
+      setShouldAnimate(true);
+      sessionStorage.setItem(chatOpenKey, 'true');
+    } else if (!isOpen) {
+      // Clear the flag when chat is closed so it can animate again when reopened
+      sessionStorage.removeItem(chatOpenKey);
+      setShouldAnimate(false);
+    } else {
+      setShouldAnimate(false);
+    }
+  }, [isOpen]);
 
   // Use global chat state persistence
 
@@ -392,7 +412,9 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   return (
     <div 
       ref={chatRef}
-      className={`fixed z-50 animate-in slide-in-from-bottom-4 duration-500 transition-all ${
+      className={`fixed z-50 transition-all ${
+        shouldAnimate ? 'animate-in slide-in-from-bottom-4 duration-500' : ''
+      } ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       } ${
         isSidebarMode 
