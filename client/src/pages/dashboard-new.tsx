@@ -477,7 +477,7 @@ export default function RestaurantDashboard() {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className={`grid gap-6 ${isSidebarMode && isOpen ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4'}`}>
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium playwrite-font">Today's Revenue</CardTitle>
@@ -696,7 +696,7 @@ export default function RestaurantDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-96 mb-6">
+            <div className={`mb-6 ${isSidebarMode && isOpen ? 'h-80' : 'h-96'}`}>
               <ResponsiveContainer width="100%" height="100%">
                 {viewMode === "range" && dateRange?.from && dateRange?.to ? (
                   // Range view - Trading style line chart
