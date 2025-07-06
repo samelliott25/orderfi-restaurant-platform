@@ -22,6 +22,9 @@ export function StandardLayout({
 }: StandardLayoutProps) {
   const [, setLocation] = useLocation();
   const { isSidebarMode, isOpen, setIsOpen } = useChatContext();
+  
+  // Debug logging
+  console.log('StandardLayout - isSidebarMode:', isSidebarMode, 'isOpen:', isOpen);
 
   return (
     <div className={`h-screen bg-background ${className}`}>
@@ -33,7 +36,8 @@ export function StandardLayout({
         className="h-full bg-background transition-all duration-300 relative" 
         style={{ 
           marginLeft: 'var(--sidebar-width, 256px)',
-          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px' // Account for chat sidebar width only when chat is open and in sidebar mode
+          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px',
+          width: (isSidebarMode && isOpen) ? 'calc(100vw - var(--sidebar-width, 256px) - 320px)' : 'calc(100vw - var(--sidebar-width, 256px))'
         }}
       >
         <ScrollArea className="h-full bg-transparent">
