@@ -206,9 +206,11 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     {isCollapsed ? (
                       <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden relative">
                         <div className="relative w-full h-full flex items-center justify-center">
-                          <svg className="w-4 h-4 text-white relative z-10" viewBox="0 0 24 24" fill="white">
-                            <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                          </svg>
+                          <div className="animate-spin" style={{ animationDuration: '8s' }}>
+                            <svg className="w-4 h-4 text-white relative z-10" viewBox="0 0 24 24" fill="white">
+                              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                            </svg>
+                          </div>
                         </div>
                       </div>
                     ) : (
