@@ -535,7 +535,7 @@ export default function RestaurantDashboard() {
         </div>
 
         {/* Primary Sales Performance Chart */}
-        <Card className="col-span-full">
+        <Card>
           <CardHeader>
             <CardTitle className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
               <div className="flex items-center gap-2">
