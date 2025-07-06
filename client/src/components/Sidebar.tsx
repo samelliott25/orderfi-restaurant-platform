@@ -207,22 +207,11 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     {!isCollapsed && (
                       <span className="text-white font-semibold text-sm mr-2">AI Assistant</span>
                     )}
-                    {/* Use the exact same orb structure as the header */}
+                    {/* Use only the essential orb elements */}
                     {isCollapsed ? (
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden relative">
                         <div className="relative w-full h-full flex items-center justify-center">
-                          <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-                            <svg className="w-0.5 h-0.5 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
-                              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                            </svg>
-                            <svg className="w-0.5 h-0.5 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
-                              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                            </svg>
-                            <svg className="w-0.5 h-0.5 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
-                              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                            </svg>
-                          </div>
-                          <svg className="w-4 h-4 text-white relative z-10 ai-star-pulse star-no-rotate" viewBox="0 0 24 24" fill="white">
+                          <svg className="w-4 h-4 text-white relative z-10" viewBox="0 0 24 24" fill="white">
                             <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                           </svg>
                         </div>
