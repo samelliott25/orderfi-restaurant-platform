@@ -201,21 +201,43 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     {!isCollapsed && (
                       <span className="text-white font-semibold text-sm mr-2">AI Assistant</span>
                     )}
-                    <div className="relative">
-                      {/* Central star icon */}
-                      <svg className="w-5 h-5 text-white drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                      </svg>
-                      
-                      {/* Rotating sparkles around the star */}
-                      <div className="absolute inset-0 animate-spin" style={{ animationDuration: '4s' }}>
-                        <svg className="w-2 h-2 absolute text-white/80" 
-                             style={{ top: '-4px', left: '50%', transform: 'translateX(-50%)' }} 
-                             viewBox="0 0 24 24" fill="currentColor">
+                    {/* Use the same OrderFi orb structure as the header */}
+                    {isCollapsed ? (
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
+                        <div className="relative w-full h-full flex items-center justify-center">
+                          <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
+                            <svg className="w-0.5 h-0.5 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
+                              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                            </svg>
+                            <svg className="w-0.5 h-0.5 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
+                              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                            </svg>
+                            <svg className="w-0.5 h-0.5 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
+                              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                            </svg>
+                          </div>
+                          <svg className="w-4 h-4 text-white relative z-10 ai-star-pulse star-no-rotate" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative">
+                        {/* Central star icon for expanded mode */}
+                        <svg className="w-5 h-5 text-white drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                         </svg>
+                        
+                        {/* Rotating sparkles around the star */}
+                        <div className="absolute inset-0 animate-spin" style={{ animationDuration: '4s' }}>
+                          <svg className="w-2 h-2 absolute text-white/80" 
+                               style={{ top: '-4px', left: '50%', transform: 'translateX(-50%)' }} 
+                               viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                          </svg>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </Button>
               </div>
