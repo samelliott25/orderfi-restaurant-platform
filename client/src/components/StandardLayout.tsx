@@ -39,7 +39,12 @@ export function StandardLayout({
         }}
       >
         <ScrollArea className="h-full bg-transparent">
-          <div className="p-6">
+          <div 
+            className="p-6 transition-all duration-300"
+            style={{
+              marginRight: (isSidebarMode && isOpen) ? '320px' : '0px'
+            }}
+          >
             {/* Page Header */}
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-foreground playwrite-font">{title}</h1>
