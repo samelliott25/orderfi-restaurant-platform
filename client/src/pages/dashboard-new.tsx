@@ -441,11 +441,7 @@ export default function RestaurantDashboard() {
   return (
     <StandardLayout title="Restaurant Dashboard" subtitle="AI-Powered Command Center">
       <div 
-        className="space-y-6 transition-all duration-300"
-        style={{
-          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px',
-          maxWidth: (isSidebarMode && isOpen) ? 'calc(100% - 320px)' : '100%'
-        }}
+        className={`space-y-6 transition-all duration-300 ${(isSidebarMode && isOpen) ? 'dashboard-chat-sidebar' : ''}`}
       >
         {/* Real-time System Status Bar */}
         <div className="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-700 rounded-lg p-4">
