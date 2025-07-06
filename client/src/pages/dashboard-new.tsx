@@ -42,12 +42,19 @@ import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, Cartesia
 import { format, addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 import { useChatContext } from '@/contexts/ChatContext';
+import { LayoutOptimization } from '@/components/LayoutOptimization';
+import type { LayoutSuggestion } from '@/hooks/useLayoutOptimization';
 
 export default function RestaurantDashboard() {
   const { isSidebarMode, isOpen } = useChatContext();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedTimeframe, setSelectedTimeframe] = useState("today");
   const [chartTimeframe, setChartTimeframe] = useState("1H");
+  const [layoutConfig, setLayoutConfig] = useState({
+    gridCols: 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4',
+    chartHeight: 'h-96',
+    compactMode: false
+  });
   
   // Date selection state
   const [selectedDate, setSelectedDate] = useState<Date>(new Date()); // Default to today (Friday)
@@ -438,8 +445,40 @@ export default function RestaurantDashboard() {
   const completedOrders = typedOrders.filter((order: any) => order.status === 'completed').length;
   const completionRate = typedOrders.length > 0 ? (completedOrders / typedOrders.length) * 100 : 0;
 
+  // Handle layout optimization suggestions
+  const handleLayoutSuggestion = (suggestion: LayoutSuggestion) => {
+    const { implementation } = suggestion;
+    
+    setLayoutConfig(prev => ({
+      ...prev,
+      gridCols: implementation.gridCols || prev.gridCols,
+      chartHeight: implementation.chartHeight || prev.chartHeight,
+      compactMode: implementation.compactMode ?? prev.compactMode
+    }));
+  };
+
+  // Dynamic grid class based on AI suggestions and chat state
+  const getGridClass = () => {
+    if (isSidebarMode && isOpen) {
+      return 'grid-cols-1 md:grid-cols-2';
+    }
+    return layoutConfig.gridCols;
+  };
+
+  // Dynamic chart height based on AI suggestions and chat state
+  const getChartHeight = () => {
+    if (isSidebarMode && isOpen) {
+      return 'h-80';
+    }
+    return layoutConfig.chartHeight;
+  };
+
   return (
     <StandardLayout title="Restaurant Dashboard" subtitle="AI-Powered Command Center">
+      <LayoutOptimization 
+        currentPage="dashboard" 
+        onApplySuggestion={handleLayoutSuggestion}
+      />
       <div 
         className={`space-y-6 transition-all duration-300 ${(isSidebarMode && isOpen) ? 'dashboard-chat-sidebar' : ''}`}
       >
@@ -477,7 +516,7 @@ export default function RestaurantDashboard() {
         </div>
 
         {/* KPI Cards */}
-        <div className={`grid gap-6 ${isSidebarMode && isOpen ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4'}`}>
+        <div className={`grid gap-6 ${getGridClass()}`}>
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium playwrite-font">Today's Revenue</CardTitle>
@@ -696,7 +735,7 @@ export default function RestaurantDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`mb-6 ${isSidebarMode && isOpen ? 'h-80' : 'h-96'}`}>
+            <div className={`mb-6 ${getChartHeight()}`}>
               <ResponsiveContainer width="100%" height="100%">
                 {viewMode === "range" && dateRange?.from && dateRange?.to ? (
                   // Range view - Trading style line chart

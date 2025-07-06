@@ -843,6 +843,71 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // AI Layout Optimization endpoint
+  app.post("/api/ai/layout-optimization", async (req, res) => {
+    try {
+      const { prompt, screenMetrics, context } = req.body;
+      
+      if (!prompt || !screenMetrics) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      // Use OpenAI to analyze layout optimization
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-4o",
+          messages: [
+            {
+              role: "system",
+              content: `You are an expert UI/UX designer specializing in restaurant dashboard layouts and screen real estate optimization. 
+              
+              Analyze the provided screen metrics and context to suggest specific layout optimizations that improve:
+              1. Information density and hierarchy
+              2. Workflow efficiency for restaurant staff
+              3. Screen space utilization
+              4. Visual clarity and readability
+              5. Mobile responsiveness
+              
+              Always respond with valid JSON containing actionable layout suggestions with specific CSS classes and measurements.`
+            },
+            {
+              role: "user",
+              content: prompt
+            }
+          ],
+          response_format: { type: "json_object" },
+          max_tokens: 1500,
+          temperature: 0.7
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const suggestions = JSON.parse(data.choices[0].message.content);
+
+      // Log the analysis for debugging
+      console.log(`Layout optimization analysis completed for ${context.page}`);
+      console.log(`Screen: ${screenMetrics.width}x${screenMetrics.height}, Density: ${screenMetrics.density}`);
+      console.log(`Generated ${suggestions.suggestions?.length || 0} suggestions`);
+
+      res.json(suggestions);
+    } catch (error) {
+      console.error("Layout optimization error:", error);
+      res.status(500).json({ 
+        error: "Failed to analyze layout optimization",
+        suggestions: []
+      });
+    }
+  });
+
   // AI Sales Analytics endpoint
   app.get("/api/ai/analytics/:restaurantId", async (req, res) => {
     try {
