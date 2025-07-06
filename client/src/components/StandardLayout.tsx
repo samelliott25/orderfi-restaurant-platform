@@ -33,8 +33,9 @@ export function StandardLayout({
         className="h-full bg-background transition-all duration-300 relative"
         style={{ 
           marginLeft: 'var(--sidebar-width, 256px)',
-          paddingRight: (isSidebarMode && isOpen) ? '320px' : '0px',
-          boxSizing: 'border-box'
+          width: (isSidebarMode && isOpen) ? 'calc(100vw - var(--sidebar-width, 256px) - 320px)' : 'calc(100vw - var(--sidebar-width, 256px))',
+          maxWidth: (isSidebarMode && isOpen) ? 'calc(100vw - var(--sidebar-width, 256px) - 320px)' : 'calc(100vw - var(--sidebar-width, 256px))',
+          overflow: 'hidden'
         }}
       >
         <ScrollArea className="h-full bg-transparent">
