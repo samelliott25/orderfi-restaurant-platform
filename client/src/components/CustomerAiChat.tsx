@@ -455,7 +455,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 <Bot className="w-5 h-5 text-white drop-shadow-sm" />
               </div>
               <div>
-                <h3 className="font-[600] text-white text-[15px] tracking-[-0.01em] drop-shadow-sm">AI Assistant</h3>
+                <h3 className="font-[600] text-white text-[15px] tracking-[-0.01em] drop-shadow-sm">ChatOps</h3>
                 <div className="flex items-center space-x-1">
                   <div className="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_4px_rgba(34,197,94,0.6)]"></div>
                   <p className="text-[13px] text-white/80 font-[500]">Online</p>
