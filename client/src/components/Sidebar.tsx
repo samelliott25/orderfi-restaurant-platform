@@ -212,17 +212,10 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                         </div>
                       </div>
                     ) : (
-                      <div className="relative">
-                        {/* Central star icon for expanded mode */}
-                        <svg className="w-5 h-5 text-white drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                        </svg>
-                        
-                        {/* Rotating sparkles around the star */}
-                        <div className="absolute inset-0 animate-spin" style={{ animationDuration: '4s' }}>
-                          <svg className="w-2 h-2 absolute text-white/80" 
-                               style={{ top: '-4px', left: '50%', transform: 'translateX(-50%)' }} 
-                               viewBox="0 0 24 24" fill="currentColor">
+                      <div className="relative w-5 h-5">
+                        {/* Single rotating star with fixed center axis */}
+                        <div className="absolute inset-0 flex items-center justify-center animate-spin" style={{ animationDuration: '4s' }}>
+                          <svg className="w-5 h-5 text-white drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                           </svg>
                         </div>
