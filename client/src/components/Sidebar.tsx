@@ -165,16 +165,20 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 <Button
                   onClick={() => setChatOpen(!isChatOpen)}
                   className={`relative overflow-hidden border-0 shadow-lg transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
-                    isCollapsed ? 'w-8 h-8 p-0' : 'w-full h-12'
+                    isCollapsed ? 'w-8 h-8 p-0 bg-transparent' : 'w-full h-12'
                   } ${
-                    isChatOpen 
-                      ? 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 hover:from-orange-500 hover:via-red-600 hover:to-pink-700' 
-                      : 'bg-gradient-to-br from-orange-500 via-red-600 to-pink-700 hover:from-orange-600 hover:via-red-700 hover:to-pink-800'
+                    !isCollapsed ? (
+                      isChatOpen 
+                        ? 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 hover:from-orange-500 hover:via-red-600 hover:to-pink-700' 
+                        : 'bg-gradient-to-br from-orange-500 via-red-600 to-pink-700 hover:from-orange-600 hover:via-red-700 hover:to-pink-800'
+                    ) : ''
                   }`}
                   style={{
-                    background: isChatOpen 
-                      ? 'conic-gradient(from 0deg, #f97316, #ef4444, #ec4899, #f97316)' 
-                      : 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)',
+                    background: !isCollapsed ? (
+                      isChatOpen 
+                        ? 'conic-gradient(from 0deg, #f97316, #ef4444, #ec4899, #f97316)' 
+                        : 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)'
+                    ) : 'transparent',
                     borderRadius: isCollapsed ? '50%' : '12px'
                   }}
                 >
