@@ -250,9 +250,7 @@ const getPersistedPosition = (): Position => {
 };
 
 export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
-  const { isSidebarMode, setIsSidebarMode } = useChatContext();
-  const [chatState, setChatState] = useState(getPersistedChatState);
-  const [isLoading, setIsLoading] = useState(false);
+  const { isSidebarMode, setIsSidebarMode, chatState, setChatState, isLoading, setIsLoading } = useChatContext();
   const [position, setPosition] = useState<Position>(getPersistedPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -261,11 +259,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
 
   const { messages, inputValue, isListening } = chatState;
 
-  // Persist chat state to localStorage
-  const persistChatState = (newState: typeof chatState) => {
-    setChatState(newState);
-    localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(newState));
-  };
+  // Use global chat state persistence
 
   // Persist position to localStorage
   const persistPosition = (newPosition: Position) => {
@@ -342,7 +336,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
       messages: [...messages, userMessage],
       inputValue: ''
     };
-    persistChatState(newState);
+    setChatState(newState);
     setIsLoading(true);
 
     // Simulate AI response
@@ -358,7 +352,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         ...newState,
         messages: [...newState.messages, aiResponse]
       };
-      persistChatState(finalState);
+      setChatState(finalState);
       setIsLoading(false);
     }, 1000);
   };
@@ -383,12 +377,12 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newState = { ...chatState, inputValue: e.target.value };
-    persistChatState(newState);
+    setChatState(newState);
   };
 
   const toggleVoiceInput = () => {
     const newState = { ...chatState, isListening: !isListening };
-    persistChatState(newState);
+    setChatState(newState);
   };
 
   if (!isOpen) {
