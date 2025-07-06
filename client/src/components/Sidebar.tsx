@@ -68,7 +68,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
       } ${isCollapsed ? 'w-16' : 'w-64'}`}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className={`border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-3' : 'p-6'}`}>
+          <div className={`border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
