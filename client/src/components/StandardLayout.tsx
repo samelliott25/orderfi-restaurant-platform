@@ -30,21 +30,14 @@ export function StandardLayout({
       
       {/* Main Content Area */}
       <div 
-        className="h-full bg-background transition-all duration-300 relative"
+        className="h-full bg-background transition-all duration-300 relative" 
         style={{ 
           marginLeft: 'var(--sidebar-width, 256px)',
-          width: (isSidebarMode && isOpen) ? 'calc(100vw - var(--sidebar-width, 256px) - 320px)' : 'calc(100vw - var(--sidebar-width, 256px))',
-          maxWidth: (isSidebarMode && isOpen) ? 'calc(100vw - var(--sidebar-width, 256px) - 320px)' : 'calc(100vw - var(--sidebar-width, 256px))',
-          overflow: 'hidden'
+          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px'
         }}
       >
         <ScrollArea className="h-full bg-transparent">
-          <div 
-            className="p-6 transition-all duration-300"
-            style={{
-              marginRight: (isSidebarMode && isOpen) ? '320px' : '0px'
-            }}
-          >
+          <div className="p-6">
             {/* Page Header */}
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-foreground playwrite-font">{title}</h1>

@@ -41,8 +41,10 @@ import {
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { format, addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
+import { useChatContext } from '@/contexts/ChatContext';
 
 export default function RestaurantDashboard() {
+  const { isSidebarMode, isOpen } = useChatContext();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedTimeframe, setSelectedTimeframe] = useState("today");
   const [chartTimeframe, setChartTimeframe] = useState("1H");
@@ -438,7 +440,13 @@ export default function RestaurantDashboard() {
 
   return (
     <StandardLayout title="Restaurant Dashboard" subtitle="AI-Powered Command Center">
-      <div className="space-y-6">
+      <div 
+        className="space-y-6 transition-all duration-300"
+        style={{
+          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px',
+          maxWidth: (isSidebarMode && isOpen) ? 'calc(100% - 320px)' : '100%'
+        }}
+      >
         {/* Real-time System Status Bar */}
         <div className="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-700 rounded-lg p-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
