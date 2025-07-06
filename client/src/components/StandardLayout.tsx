@@ -22,9 +22,6 @@ export function StandardLayout({
 }: StandardLayoutProps) {
   const [, setLocation] = useLocation();
   const { isSidebarMode, isOpen, setIsOpen } = useChatContext();
-  
-  // Debug logging
-  console.log('StandardLayout - isSidebarMode:', isSidebarMode, 'isOpen:', isOpen);
 
   return (
     <div className={`h-screen bg-background ${className}`}>
@@ -33,11 +30,11 @@ export function StandardLayout({
       
       {/* Main Content Area */}
       <div 
-        className="h-full bg-background transition-all duration-300 relative" 
+        className={`h-full bg-background transition-all duration-300 relative ${
+          isSidebarMode && isOpen ? 'chat-sidebar-open' : ''
+        }`}
         style={{ 
-          marginLeft: 'var(--sidebar-width, 256px)',
-          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px',
-          width: (isSidebarMode && isOpen) ? 'calc(100vw - var(--sidebar-width, 256px) - 320px)' : 'calc(100vw - var(--sidebar-width, 256px))'
+          marginLeft: 'var(--sidebar-width, 256px)'
         }}
       >
         <ScrollArea className="h-full bg-transparent">
