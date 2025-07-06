@@ -3,6 +3,7 @@ import { useLocation } from 'wouter';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sidebar } from '@/components/Sidebar';
 import { CustomerAiChat } from '@/components/CustomerAiChat';
+import { useChatContext } from '@/contexts/ChatContext';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -21,6 +22,7 @@ export function StandardLayout({
 }: StandardLayoutProps) {
   const [, setLocation] = useLocation();
   const [showAiChat, setShowAiChat] = useState(false);
+  const { isSidebarMode } = useChatContext();
 
   return (
     <div className={`h-screen bg-background ${className}`}>
@@ -28,7 +30,13 @@ export function StandardLayout({
       <Sidebar />
       
       {/* Main Content Area */}
-      <div className="h-full bg-background transition-all duration-300 relative" style={{ marginLeft: 'var(--sidebar-width, 256px)' }}>
+      <div 
+        className="h-full bg-background transition-all duration-300 relative" 
+        style={{ 
+          marginLeft: 'var(--sidebar-width, 256px)',
+          marginRight: isSidebarMode ? '320px' : '0px' // Account for chat sidebar width
+        }}
+      >
         <ScrollArea className="h-full bg-transparent">
           <div className="p-6">
             {/* Page Header */}

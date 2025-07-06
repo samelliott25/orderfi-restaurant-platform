@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useChatContext } from '@/contexts/ChatContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -249,12 +250,12 @@ const getPersistedPosition = (): Position => {
 };
 
 export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
+  const { isSidebarMode, setIsSidebarMode } = useChatContext();
   const [chatState, setChatState] = useState(getPersistedChatState);
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState<Position>(getPersistedPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isSidebarMode, setIsSidebarMode] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
 

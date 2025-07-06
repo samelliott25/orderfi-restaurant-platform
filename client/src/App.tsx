@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ChatProvider } from "@/contexts/ChatContext";
 import { Sidebar } from "@/components/Sidebar";
 import HomePage from "@/pages/home";
 import RestaurantDashboard from "@/pages/dashboard-new";
@@ -118,10 +119,12 @@ function App() {
     <ThemeProvider defaultTheme="light">
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <OperationsAiProvider>
-            <Toaster />
-            <Router />
-          </OperationsAiProvider>
+          <ChatProvider>
+            <OperationsAiProvider>
+              <Toaster />
+              <Router />
+            </OperationsAiProvider>
+          </ChatProvider>
         </TooltipProvider>
       </QueryClientProvider>
     </ThemeProvider>
