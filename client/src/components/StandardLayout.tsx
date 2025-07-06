@@ -34,7 +34,7 @@ export function StandardLayout({
         className="h-full bg-background transition-all duration-300 relative" 
         style={{ 
           marginLeft: 'var(--sidebar-width, 256px)',
-          marginRight: isSidebarMode ? '320px' : '0px' // Account for chat sidebar width
+          marginRight: (isSidebarMode && showAiChat) ? '320px' : '0px' // Account for chat sidebar width only when chat is open and in sidebar mode
         }}
       >
         <ScrollArea className="h-full bg-transparent">
