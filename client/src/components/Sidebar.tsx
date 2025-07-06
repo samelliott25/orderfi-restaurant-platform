@@ -200,7 +200,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   
                   <div className="relative z-10 flex items-center justify-center w-full h-full">
                     {!isCollapsed && (
-                      <span className="text-white font-semibold text-sm mr-2">AI Assistant</span>
+                      <span className="text-white font-semibold text-sm mr-2">ChatOps</span>
                     )}
                     {/* Use only the essential orb elements */}
                     {isCollapsed ? (
