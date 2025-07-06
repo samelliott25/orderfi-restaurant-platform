@@ -21,8 +21,7 @@ export function StandardLayout({
   className = ""
 }: StandardLayoutProps) {
   const [, setLocation] = useLocation();
-  const [showAiChat, setShowAiChat] = useState(false);
-  const { isSidebarMode } = useChatContext();
+  const { isSidebarMode, isOpen, setIsOpen } = useChatContext();
 
   return (
     <div className={`h-screen bg-background ${className}`}>
@@ -34,7 +33,7 @@ export function StandardLayout({
         className="h-full bg-background transition-all duration-300 relative" 
         style={{ 
           marginLeft: 'var(--sidebar-width, 256px)',
-          marginRight: (isSidebarMode && showAiChat) ? '320px' : '0px' // Account for chat sidebar width only when chat is open and in sidebar mode
+          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px' // Account for chat sidebar width only when chat is open and in sidebar mode
         }}
       >
         <ScrollArea className="h-full bg-transparent">
@@ -52,14 +51,14 @@ export function StandardLayout({
       </div>
       
       {/* AI Chat Dialog - positioned outside main content but accounting for sidebar */}
-      <CustomerAiChat isOpen={showAiChat} onToggle={() => setShowAiChat(!showAiChat)} />
+      <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
 
       {/* AI Orb Chat Button - positioned in main content area */}
       {showChatButton && (
         <div className="fixed bottom-6 bg-transparent pointer-events-none z-[200]" style={{ right: '1.5rem', left: 'var(--sidebar-width, 256px)', display: 'flex', justifyContent: 'center' }}>
           <div className="pointer-events-auto">
             <button
-              onClick={() => setShowAiChat(!showAiChat)}
+              onClick={() => setIsOpen(!isOpen)}
               className="w-20 h-20 rounded-full border-0 shadow-2xl relative overflow-hidden sentient-orb transition-all duration-300 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500"
             >
               {/* Tiny rotating stars positioned around the orb */}
