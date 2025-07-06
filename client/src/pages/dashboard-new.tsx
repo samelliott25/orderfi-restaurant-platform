@@ -42,7 +42,6 @@ import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, Cartesia
 import { format, addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 import { useChatContext } from '@/contexts/ChatContext';
-import { LayoutOptimization } from '@/components/LayoutOptimization';
 import type { LayoutSuggestion } from '@/hooks/useLayoutOptimization';
 
 export default function RestaurantDashboard() {
@@ -475,10 +474,6 @@ export default function RestaurantDashboard() {
 
   return (
     <StandardLayout title="Restaurant Dashboard" subtitle="AI-Powered Command Center">
-      <LayoutOptimization 
-        currentPage="dashboard" 
-        onApplySuggestion={handleLayoutSuggestion}
-      />
       <div 
         className={`space-y-6 transition-all duration-300 ${(isSidebarMode && isOpen) ? 'dashboard-chat-sidebar' : ''}`}
       >
