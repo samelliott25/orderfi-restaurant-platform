@@ -214,7 +214,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     ) : (
                       <div className="relative w-5 h-5">
                         {/* Single rotating star with fixed center axis */}
-                        <div className="absolute inset-0 flex items-center justify-center animate-spin" style={{ animationDuration: '4s' }}>
+                        <div className="absolute inset-0 flex items-center justify-center animate-spin" style={{ animationDuration: '8s' }}>
                           <svg className="w-5 h-5 text-white drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                           </svg>
