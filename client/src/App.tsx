@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ChatProvider } from "@/contexts/ChatContext";
 import { Sidebar } from "@/components/Sidebar";
 import HomePage from "@/pages/home";
+import LandingPage from "@/pages/landing-page";
 import RestaurantDashboard from "@/pages/dashboard-new";
 import Web3DappPage from "@/pages/web3-dapp";
 import OrderFiNew from "@/pages/orderfi-new";
@@ -84,7 +85,7 @@ function Router() {
     <AppLayout>
       <Switch>
         {/* Landing Page */}
-        <Route path="/landing-page" component={HomePage} />
+        <Route path="/landing-page" component={LandingPage} />
         
         {/* Dashboard - Default Home */}
         <Route path="/" component={RestaurantDashboard} />
