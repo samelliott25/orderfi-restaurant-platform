@@ -473,7 +473,7 @@ export default function RestaurantDashboard() {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium playwrite-font">Today's Revenue</CardTitle>
@@ -533,13 +533,13 @@ export default function RestaurantDashboard() {
         {/* Primary Sales Performance Chart */}
         <Card className="col-span-full">
           <CardHeader>
-            <CardTitle className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <CardTitle className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
               <div className="flex items-center gap-2">
                 <LineChartIcon className="w-6 h-6" style={{ color: 'hsl(25, 95%, 53%)' }} />
-                <span className="text-2xl playwrite-font">Sales Performance</span>
+                <span className="text-xl xl:text-2xl playwrite-font">Sales Performance</span>
                 <Badge variant="secondary" className="ml-2 bg-orange-100 text-orange-700">Live</Badge>
               </div>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 xl:gap-4">
                 {/* Date Navigation */}
                 <div className="flex items-center gap-2">
                   <Button
@@ -849,17 +849,17 @@ export default function RestaurantDashboard() {
         {/* Secondary Tabs */}
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="overview" className="flex items-center gap-2">
+            <TabsTrigger value="overview" className="flex items-center gap-1 xl:gap-2">
               <BarChart3 className="w-4 h-4" />
-              Overview
+              <span className="hidden sm:inline">Overview</span>
             </TabsTrigger>
-            <TabsTrigger value="orders" className="flex items-center gap-2">
+            <TabsTrigger value="orders" className="flex items-center gap-1 xl:gap-2">
               <ChefHat className="w-4 h-4" />
-              Live Orders
+              <span className="hidden sm:inline">Live Orders</span>
             </TabsTrigger>
-            <TabsTrigger value="performance" className="flex items-center gap-2">
+            <TabsTrigger value="performance" className="flex items-center gap-1 xl:gap-2">
               <Activity className="w-4 h-4" />
-              Performance
+              <span className="hidden sm:inline">Performance</span>
             </TabsTrigger>
           </TabsList>
 
@@ -960,7 +960,7 @@ export default function RestaurantDashboard() {
                 <CardTitle>Quick Actions</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
                   <Button variant="outline" className="h-auto p-4 flex flex-col gap-2">
                     <Package className="w-6 h-6" style={{ color: 'hsl(25, 95%, 53%)' }} />
                     <span className="text-sm">Inventory</span>
