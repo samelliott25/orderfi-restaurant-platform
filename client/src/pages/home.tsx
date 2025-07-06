@@ -17,7 +17,7 @@ export default function HomePage() {
     // Immediate navigation backup for reliability
     setTimeout(() => {
       if (showTransition) {
-        setLocation('/orderfi-home');
+        setLocation('/');
       }
     }, 2500);
   };
@@ -26,7 +26,7 @@ export default function HomePage() {
   useEffect(() => {
     if (showTransition) {
       const timer = setTimeout(() => {
-        setLocation('/orderfi-home');
+        setLocation('/');
       }, 1500); // Wait for animation to complete
       
       return () => clearTimeout(timer);

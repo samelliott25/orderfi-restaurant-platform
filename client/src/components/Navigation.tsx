@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 
 const menuItems = [
-  { icon: Home, label: "Home", href: "/orderfi-home" },
+  { icon: Home, label: "Home", href: "/" },
   { icon: BarChart3, label: "Dashboard", href: "/dashboard" },
   { icon: ChefHat, label: "Inventory", href: "/inventory" },
   { icon: ShoppingCart, label: "Orders", href: "/orders" },

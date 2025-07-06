@@ -39,7 +39,6 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/', 
     '/landing-page', 
     '/not-found', 
-    '/orderfi-home',
     '/dashboard',
     '/tokenrewards',
     '/network', 
@@ -88,7 +87,6 @@ function Router() {
         
         {/* Customer-Facing Mobile Interface - Default Home */}
         <Route path="/" component={OrderFiNew} />
-        <Route path="/orderfi-home" component={OrderFiNew} />
         <Route path="/orderfi-simple" component={OrderFiSimple} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
         <Route path="/network" component={NetworkPage} />
