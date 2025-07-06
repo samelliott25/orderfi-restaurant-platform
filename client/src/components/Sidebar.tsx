@@ -4,6 +4,7 @@ import { useWallet } from "@/hooks/useWallet";
 import { WalletConnectDialog } from "@/components/WalletConnectDialog";
 
 import { useTheme } from "@/components/theme-provider";
+import { useChatContext } from "@/contexts/ChatContext";
 import React, { useState, useEffect } from "react";
 import { 
   Home, 
@@ -44,6 +45,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
+  const { isOpen: isChatOpen, setIsOpen: setChatOpen } = useChatContext();
   const [isCollapsed, setIsCollapsed] = useState(() => {
     // Persist sidebar state in localStorage
     const saved = localStorage.getItem('sidebar-collapsed');
@@ -156,6 +158,68 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 );
               })}
             </nav>
+            
+            {/* AI Assistant Chat Orb */}
+            <div className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'} border-t border-gray-200 dark:border-gray-800`}>
+              <div className="flex items-center justify-center">
+                <Button
+                  onClick={() => setChatOpen(!isChatOpen)}
+                  className={`relative overflow-hidden border-0 shadow-lg transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
+                    isCollapsed ? 'w-10 h-10 p-0' : 'w-full h-12'
+                  } ${
+                    isChatOpen 
+                      ? 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 hover:from-orange-500 hover:via-red-600 hover:to-pink-700' 
+                      : 'bg-gradient-to-br from-orange-500 via-red-600 to-pink-700 hover:from-orange-600 hover:via-red-700 hover:to-pink-800'
+                  }`}
+                  style={{
+                    background: isChatOpen 
+                      ? 'conic-gradient(from 0deg, #f97316, #ef4444, #ec4899, #f97316)' 
+                      : 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)',
+                    borderRadius: isCollapsed ? '50%' : '12px'
+                  }}
+                >
+                  {/* Animated background effect */}
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute inset-0 animate-spin" style={{ animationDuration: '8s' }}>
+                      <div className="w-full h-full rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Floating particles */}
+                  <div className="absolute inset-0 pointer-events-none">
+                    <div className="w-1 h-1 absolute bg-white/80 rounded-full animate-pulse" 
+                         style={{ top: '25%', left: '15%', animationDelay: '0s', animationDuration: '2s' }}></div>
+                    <div className="w-1 h-1 absolute bg-white/60 rounded-full animate-pulse" 
+                         style={{ top: '60%', left: '75%', animationDelay: '0.5s', animationDuration: '2.5s' }}></div>
+                    <div className="w-0.5 h-0.5 absolute bg-white/70 rounded-full animate-pulse" 
+                         style={{ top: '40%', left: '85%', animationDelay: '1s', animationDuration: '3s' }}></div>
+                    <div className="w-1 h-1 absolute bg-white/50 rounded-full animate-pulse" 
+                         style={{ top: '75%', left: '20%', animationDelay: '1.5s', animationDuration: '2.2s' }}></div>
+                  </div>
+                  
+                  <div className="relative z-10 flex items-center justify-center w-full h-full">
+                    {!isCollapsed && (
+                      <span className="text-white font-semibold text-sm mr-2">AI Assistant</span>
+                    )}
+                    <div className="relative">
+                      {/* Central star icon */}
+                      <svg className="w-5 h-5 text-white drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                      </svg>
+                      
+                      {/* Rotating sparkles around the star */}
+                      <div className="absolute inset-0 animate-spin" style={{ animationDuration: '4s' }}>
+                        <svg className="w-2 h-2 absolute text-white/80" 
+                             style={{ top: '-4px', left: '50%', transform: 'translateX(-50%)' }} 
+                             viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </Button>
+              </div>
+            </div>
           </div>
           
           {/* Footer Actions */}
