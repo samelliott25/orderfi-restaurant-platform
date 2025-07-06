@@ -30,11 +30,11 @@ export function StandardLayout({
       
       {/* Main Content Area */}
       <div 
-        className={`h-full bg-background transition-all duration-300 relative ${
-          isSidebarMode && isOpen ? 'chat-sidebar-open' : ''
-        }`}
+        className="h-full bg-background transition-all duration-300 relative"
         style={{ 
-          marginLeft: 'var(--sidebar-width, 256px)'
+          marginLeft: 'var(--sidebar-width, 256px)',
+          paddingRight: (isSidebarMode && isOpen) ? '320px' : '0px',
+          boxSizing: 'border-box'
         }}
       >
         <ScrollArea className="h-full bg-transparent">
