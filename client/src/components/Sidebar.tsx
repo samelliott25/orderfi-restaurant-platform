@@ -160,12 +160,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             </nav>
             
             {/* AI Assistant Chat Orb */}
-            <div className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'} border-t border-gray-200 dark:border-gray-800`}>
+            <div className={`${isCollapsed ? 'px-2 py-4' : 'px-4 py-3'} border-t border-gray-200 dark:border-gray-800`}>
               <div className="flex items-center justify-center">
                 <Button
                   onClick={() => setChatOpen(!isChatOpen)}
                   className={`relative overflow-hidden border-0 shadow-lg transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
-                    isCollapsed ? 'w-10 h-10 p-0' : 'w-full h-12'
+                    isCollapsed ? 'w-8 h-8 p-0' : 'w-full h-12'
                   } ${
                     isChatOpen 
                       ? 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 hover:from-orange-500 hover:via-red-600 hover:to-pink-700' 
@@ -203,7 +203,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     )}
                     {/* Use the same OrderFi orb structure as the header */}
                     {isCollapsed ? (
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
                         <div className="relative w-full h-full flex items-center justify-center">
                           <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
                             <svg className="w-0.5 h-0.5 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
@@ -216,7 +216,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                               <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                             </svg>
                           </div>
-                          <svg className="w-4 h-4 text-white relative z-10 ai-star-pulse star-no-rotate" viewBox="0 0 24 24" fill="white">
+                          <svg className="w-3 h-3 text-white relative z-10 ai-star-pulse star-no-rotate" viewBox="0 0 24 24" fill="white">
                             <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
                           </svg>
                         </div>
