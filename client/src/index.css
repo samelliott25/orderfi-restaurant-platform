@@ -685,10 +685,11 @@ html.dark .border {
 
 /* Dashboard specific chat sidebar adjustment */
 .dashboard-chat-sidebar {
-  padding-right: 320px !important;
+  padding-right: 340px !important;
   box-sizing: border-box !important;
-  max-width: calc(100% - 320px) !important;
+  max-width: 100% !important;
   overflow-x: hidden !important;
+  transform: translateX(-10px) !important;
 }
 
 html.light, 
