@@ -13,7 +13,8 @@ import {
   BarChart3, 
   Settings,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  LogOut
 } from 'lucide-react';
 
 interface StandardLayoutWithSidebarProps {
@@ -113,8 +114,20 @@ export function StandardLayoutWithSidebar({
           </nav>
         </div>
 
-        {/* Sidebar Footer */}
-        <div className="p-4 border-t border-border">
+        {/* Sidebar Footer with Logout */}
+        <div className="p-4 border-t border-border flex-shrink-0">
+          {/* Logout Button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full justify-start mb-3 text-red-600 hover:text-red-700 hover:bg-red-50"
+            onClick={() => setLocation('/mobile-chat')}
+          >
+            <LogOut className={`h-4 w-4 ${sidebarCollapsed ? 'mx-auto' : 'mr-2'}`} />
+            {!sidebarCollapsed && <span>Log out</span>}
+          </Button>
+          
+          {/* Version Info */}
           <div className="text-xs text-muted-foreground">
             {!sidebarCollapsed && (
               <div>
