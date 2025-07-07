@@ -9,7 +9,7 @@ import { ChatProvider } from "@/contexts/ChatContext";
 import { Sidebar } from "@/components/Sidebar";
 import HomePage from "@/pages/home";
 import LandingPage from "@/pages/landing-page";
-import RestaurantDashboard from "@/pages/dashboard-new";
+import CryptoStyleDashboard from "@/pages/dashboard-crypto-style";
 import Web3DappPage from "@/pages/web3-dapp";
 import OrderFiNew from "@/pages/orderfi-new";
 import OrderFiSimple from "./pages/orderfi-simple";
@@ -99,7 +99,7 @@ function Router() {
         <Route path="/test-three" component={TestThree} />
         
         {/* Back Office Dashboard */}
-        <Route path="/dashboard" component={RestaurantDashboard} />
+        <Route path="/dashboard" component={CryptoStyleDashboard} />
         
         {/* MVP Venue Console - 8 Admin Pages */}
         <Route path="/inventory" component={AdminInventoryPage} />
