@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One:wght@400&family=Comfortaa:wght@300;400;700&family=Lobster:wght@400&family=Kalam:wght@400;700&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Allura&family=Seaweed+Script&family=Permanent+Marker&family=Satisfy&family=Molle:ital@1&family=Rancho:wght@400&family=Dongle:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&family=Nunito+Sans:wght@200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One:wght@400&family=Comfortaa:wght@300;400;700&family=Lobster:wght@400&family=Kalam:wght@400;700&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Allura&family=Seaweed+Script&family=Permanent+Marker&family=Satisfy&family=Molle:ital@1&family=Rancho:wght@400&family=Dongle:wght@300;400;700&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC:wght@100..400&display=swap');
 
@@ -7,9 +7,9 @@
   font-family: "Playwrite AU VIC", cursive !important;
 }
 
-/* Global OrderFi branding font theme */
-h1, h2, h3, .orderfi-brand {
-  font-family: "Playwrite AU VIC", cursive;
+/* Global font theme - Yeseva One for headings, Nunito Sans for content */
+h1, h2, h3, h4, h5, h6, .orderfi-brand {
+  font-family: "Yeseva One", serif;
 }
 
 /* Specific OrderFi brand elements */
@@ -17,7 +17,12 @@ h1, h2, h3, .orderfi-brand {
 .page-title, 
 .card-title,
 .dialog-title {
-  font-family: "Playwrite AU VIC", cursive;
+  font-family: "Yeseva One", serif;
+}
+
+/* Content and body text */
+body, p, span, div, button, input, textarea, select, .content-text {
+  font-family: "Nunito Sans", sans-serif;
 }
 
 /* Page turn animation */

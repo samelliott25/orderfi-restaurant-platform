@@ -6,8 +6,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'heading': ['"Playwrite AU VIC"', 'cursive'],
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'heading': ['"Yeseva One"', 'serif'],
+        'content': ['"Nunito Sans"', 'sans-serif'],
+        'sans': ['"Nunito Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        'serif': ['"Yeseva One"', 'Georgia', 'Times New Roman', 'serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
