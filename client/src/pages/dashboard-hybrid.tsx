@@ -348,7 +348,7 @@ export default function HybridDashboard() {
                         <stop offset="95%" stopColor="#f97316" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#6b7280" />
                     <XAxis 
                       dataKey="time" 
                       stroke="hsl(var(--muted-foreground))"
