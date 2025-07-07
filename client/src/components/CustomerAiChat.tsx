@@ -457,17 +457,23 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ 
-                width: '40px', 
-                height: '40px', 
-                borderRadius: '50%', 
-                backgroundColor: 'rgba(255,255,255,0.2)', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                border: '1px solid rgba(255,255,255,0.3)'
-              }}>
-                <Star className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
+                    <svg className="w-0.5 h-0.5 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
+                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                    </svg>
+                    <svg className="w-0.5 h-0.5 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
+                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                    </svg>
+                    <svg className="w-0.5 h-0.5 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
+                      <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                    </svg>
+                  </div>
+                  <svg className="w-4 h-4 text-white relative z-10 ai-star-pulse star-no-rotate" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                  </svg>
+                </div>
               </div>
               <div>
                 <h3 style={{ color: 'white', fontSize: '15px', fontWeight: '600', margin: 0 }}>ChatOps</h3>
