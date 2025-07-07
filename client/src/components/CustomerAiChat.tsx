@@ -411,9 +411,26 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
 
   return (
     <>
-      {/* Backdrop blur overlay */}
+      {/* Backdrop blur overlay - only covers the area behind the chat card */}
       <div 
-        className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 transition-all duration-300"
+        className={`fixed z-40 transition-all duration-300 ${
+          isSidebarMode 
+            ? 'top-0 right-0 w-80 h-screen' 
+            : 'inset-0 left-[60px] w-[calc(100vw-60px)] h-screen md:inset-auto md:left-auto md:w-96 md:h-[520px]'
+        }`}
+        style={isSidebarMode ? {
+          background: 'rgba(0, 0, 0, 0.2)',
+          backdropFilter: 'blur(4px)'
+        } : {
+          // Desktop positioning only (mobile uses CSS classes above)
+          ...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
+            left: `${position.x}%`,
+            top: `${position.y}%`,
+            transform: 'translate(0, 0)'
+          } : {}),
+          background: 'rgba(0, 0, 0, 0.2)',
+          backdropFilter: 'blur(4px)'
+        }}
         onClick={onToggle}
       />
       
