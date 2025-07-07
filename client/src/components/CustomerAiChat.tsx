@@ -663,7 +663,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                         padding: '12px 16px',
                         borderRadius: message.type === 'user' ? '20px 20px 8px 20px' : '20px 20px 20px 8px',
                         backgroundColor: message.type === 'user' 
-                          ? '#f97316' 
+                          ? 'rgba(88, 28, 135, 0.9)' // Deep purple for user messages
                           : isDarkMode 
                             ? 'rgba(147, 51, 234, 0.8)' // Purple-600 with transparency
                             : 'rgba(249, 115, 22, 0.1)', // Light orange tint
