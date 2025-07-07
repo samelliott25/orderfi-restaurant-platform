@@ -528,7 +528,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 >
                   <div className="max-w-[85%] group">
                     <div
-                      className={`px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.15)] backdrop-blur-sm border ${
+                      className={`px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.15)] border ${
                         message.type === 'user'
                           ? 'bg-white/90 text-gray-900 rounded-[20px] rounded-br-[8px] ml-auto border-white/30'
                           : 'bg-white/20 text-white rounded-[20px] rounded-bl-[8px] border-white/20'
@@ -562,7 +562,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white/20 rounded-[20px] rounded-bl-[8px] px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.15)] backdrop-blur-sm border border-white/20">
+                  <div className="bg-white/20 rounded-[20px] rounded-bl-[8px] px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.15)] border border-white/20">
                     <div className="flex items-center space-x-1">
                       <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce"></div>
                       <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
