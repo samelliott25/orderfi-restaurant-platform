@@ -331,7 +331,7 @@ export default function HybridDashboard() {
       <div className="border-b border-border px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-normal text-foreground rock-salt-font">Dashboard</h1>
+            <h1 className="font-normal text-foreground rock-salt-font text-[24px]">Dashboard</h1>
             <p className="text-sm text-muted-foreground">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
           </div>
           <div className="flex items-center gap-3">
@@ -345,7 +345,6 @@ export default function HybridDashboard() {
           </div>
         </div>
       </div>
-
       {/* Navigation Tabs */}
       <div className="border-b border-border">
         <div className="flex overflow-x-auto px-6">
@@ -371,7 +370,6 @@ export default function HybridDashboard() {
           ))}
         </div>
       </div>
-
       {/* Main Content */}
       <div className="p-6">
         {/* Key Metrics */}
@@ -553,7 +551,6 @@ export default function HybridDashboard() {
           <OrderFiJournal />
         </div>
       </div>
-      
       {/* AI Chat Dialog */}
       <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
     </div>
