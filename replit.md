@@ -383,4 +383,8 @@ Changelog:
 
 ```
 Preferred communication style: Simple, everyday language.
+Typography preferences: 
+- OrderFi logo/brand name must always use Playwrite font
+- Rock Salt font for headings and titles (in black color)
+- SUSE font for body text
 ```
