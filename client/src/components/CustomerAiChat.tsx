@@ -325,7 +325,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const [position, setPosition] = useState<Position>(getPersistedPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [shouldAnimate, setShouldAnimate] = useState(false);
+  // Removed shouldAnimate to prevent page change animations
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
@@ -333,16 +333,16 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
 
   const { messages, inputValue, isListening } = chatState;
 
-  // Auto-prompt for onboarding when chat is first opened - only once per session
+  // Auto-prompt for onboarding - only once per browser session
   useEffect(() => {
     const isOnboarded = localStorage.getItem('orderfi-onboarding-completed');
     const hasShownWelcome = sessionStorage.getItem('orderfi-welcome-shown');
     
-    if (isOpen && messages.length === 1 && !isOnboarded && !hasShownWelcome && !hasPromptedOnboarding.current) {
+    // Only trigger if: chat opened for first time AND not onboarded AND welcome not shown AND messages is just default
+    if (isOpen && !isOnboarded && !hasShownWelcome && !hasPromptedOnboarding.current && messages.length === 1) {
       hasPromptedOnboarding.current = true;
       sessionStorage.setItem('orderfi-welcome-shown', 'true');
       
-      // Set to onboarding mode and show welcome message
       setChatContext('onboarding');
       const onboardingWelcome: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -356,13 +356,12 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         status: 'sent'
       };
       
-      const newState = {
+      setChatState({
         ...chatState,
         messages: [...messages, onboardingWelcome]
-      };
-      setChatState(newState);
+      });
     }
-  }, [isOpen, messages.length, setChatContext, setChatState, chatState]);
+  }, [isOpen]); // Only depend on isOpen to prevent retriggering
 
   // Detect dark mode
   useEffect(() => {
@@ -382,21 +381,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
     return () => observer.disconnect();
   }, []);
 
-  // Portal animation from chat button
-  useEffect(() => {
-    if (isOpen && !hasAnimatedRef.current) {
-      setShouldAnimate(true);
-      hasAnimatedRef.current = true;
-      // Reset animation flag after completion
-      const timer = setTimeout(() => {
-        setShouldAnimate(false);
-      }, 600);
-      return () => clearTimeout(timer);
-    } else if (!isOpen) {
-      hasAnimatedRef.current = false;
-      setShouldAnimate(false);
-    }
-  }, [isOpen]);
+  // Animation completely disabled to prevent page change issues
 
   // Use global chat state persistence
 
@@ -541,11 +526,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
               'inset-0 left-[60px] w-[calc(100vw-60px)] h-screen md:inset-auto md:left-auto md:w-96 md:h-[520px]'
         }`}
         style={isSidebarMode ? {
-          opacity: 0.9,
-          ...(shouldAnimate ? {
-            transformOrigin: 'bottom right',
-            animation: 'portalFromButton 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
-          } : {})
+          opacity: 0.9
         } : {
           // Desktop positioning only (mobile uses CSS classes above)
           ...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
@@ -553,11 +534,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
             top: `${position.y}%`,
             transform: 'translate(0, 0)'
           } : {}),
-          opacity: 0.9,
-          ...(shouldAnimate ? {
-            transformOrigin: 'bottom center',
-            animation: 'portalFromButtonMobile 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
-          } : {})
+          opacity: 0.9
         }}
         onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
       >
