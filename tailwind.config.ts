@@ -6,9 +6,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'heading': ['"Big John"', 'sans-serif'],
-        'content': ['"Oxygen"', 'sans-serif'],
-        'sans': ['"Oxygen"', 'Inter', 'system-ui', 'sans-serif'],
+        'heading': ['Futura', 'Trebuchet MS', 'Arial', 'sans-serif'],
+        'content': ['Arial', 'Helvetica', 'sans-serif'],
+        'sans': ['Arial', 'Helvetica', 'Inter', 'system-ui', 'sans-serif'],
         'serif': ['Georgia', 'Times New Roman', 'serif'],
       },
       borderRadius: {
