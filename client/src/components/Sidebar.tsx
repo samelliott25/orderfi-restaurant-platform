@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useWallet } from "@/hooks/useWallet";
 import { WalletConnectDialog } from "@/components/WalletConnectDialog";
 
@@ -51,9 +52,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     const saved = localStorage.getItem('sidebar-collapsed');
     return saved === 'true';
   });
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const { isConnected, walletInfo, isConnecting, connect, disconnect } = useWallet();
   const { theme, setTheme } = useTheme();
+  const [showExitDialog, setShowExitDialog] = useState(false);
+
+  const handleExitApp = () => {
+    setShowExitDialog(false);
+    setLocation('/landing-page');
+  };
 
   // Update CSS custom property for sidebar width and persist state
   useEffect(() => {
@@ -288,16 +295,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 </div>
 
                 {/* Exit App Button */}
-                <Link href="/landing-page">
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="w-full text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-                  >
-                    <DoorOpen className="h-4 w-4 mr-2" />
-                    Exit App
-                  </Button>
-                </Link>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setShowExitDialog(true)}
+                  className="w-full text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  <DoorOpen className="h-4 w-4 mr-2" />
+                  Exit App
+                </Button>
               </>
             ) : (
               <>
@@ -331,21 +337,46 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 </Button>
 
                 {/* Collapsed Exit App */}
-                <Link href="/landing-page">
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="w-full h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-                    title="Exit App"
-                  >
-                    <DoorOpen className="h-5 w-5" />
-                  </Button>
-                </Link>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setShowExitDialog(true)}
+                  className="w-full h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                  title="Exit App"
+                >
+                  <DoorOpen className="h-5 w-5" />
+                </Button>
               </>
             )}
           </div>
         </div>
       </div>
+
+      {/* Exit Confirmation Dialog */}
+      <Dialog open={showExitDialog} onOpenChange={setShowExitDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Are you sure you're leaving?</DialogTitle>
+            <DialogDescription>
+              You'll be taken back to the landing page and any unsaved changes may be lost.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowExitDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleExitApp}
+              className="bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white"
+            >
+              Yes, Exit App
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
