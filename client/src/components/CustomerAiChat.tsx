@@ -12,6 +12,7 @@ import {
   Mic, 
   MicOff, 
   X,
+  Minus,
   Sparkles,
   MessageCircle,
   Clock,
@@ -24,7 +25,6 @@ import {
   DollarSign,
   ShoppingCart,
   Plus,
-  Minus,
   Heart,
   ThumbsUp,
   Smile,
@@ -504,6 +504,23 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 ) : (
                   <ChevronRight className="w-4 h-4 text-white" />
                 )}
+              </button>
+              <button
+                onClick={() => setIsSidebarMode(true)}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.2)',
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+                title="Minimize to sidebar"
+              >
+                <Minus className="w-4 h-4 text-white" />
               </button>
               <button
                 onClick={onToggle}
