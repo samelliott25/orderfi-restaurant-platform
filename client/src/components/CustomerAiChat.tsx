@@ -419,14 +419,18 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
       } ${
         isSidebarMode 
           ? 'w-80 h-screen top-0 right-0' 
-          : 'w-96 h-[520px]'
+          : // Mobile: Full screen with sidebar space, Desktop: Normal size
+            'inset-0 left-[60px] w-[calc(100vw-60px)] h-screen md:inset-auto md:left-auto md:w-96 md:h-[520px]'
       }`}
       style={isSidebarMode ? {
         opacity: 0.9
       } : {
-        left: `${position.x}%`,
-        top: `${position.y}%`,
-        transform: 'translate(0, 0)',
+        // Desktop positioning only (mobile uses CSS classes above)
+        ...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
+          left: `${position.x}%`,
+          top: `${position.y}%`,
+          transform: 'translate(0, 0)'
+        } : {}),
         opacity: 0.9
       }}
       onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
@@ -488,7 +492,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
 
         {/* Messages area with iOS scroll behavior */}
         <div className={`flex-1 overflow-hidden bg-white/5 backdrop-blur-sm ${
-          isSidebarMode ? 'h-[calc(100vh-140px)]' : 'h-[350px]'
+          isSidebarMode ? 'h-[calc(100vh-140px)]' : 'h-[calc(100vh-140px)] md:h-[350px]'
         }`}>
           <ScrollArea 
             ref={scrollAreaRef}
