@@ -660,8 +660,8 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                       style={{
                         padding: '12px 16px',
                         borderRadius: message.type === 'user' ? '20px 20px 8px 20px' : '20px 20px 20px 8px',
-                        backgroundColor: message.type === 'user' ? '#ffffff' : isDarkMode ? '#1f2937' : '#8b5a96',
-                        color: message.type === 'user' ? '#111827' : 'white',
+                        backgroundColor: message.type === 'user' ? '#f97316' : isDarkMode ? '#1f2937' : '#ffffff',
+                        color: message.type === 'user' ? 'white' : isDarkMode ? 'white' : '#111827',
                         border: '1px solid rgba(255,255,255,0.3)',
                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                       }}
@@ -685,16 +685,16 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
               {isLoading && (
                 <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <div style={{
-                    backgroundColor: isDarkMode ? '#1f2937' : '#8b5a96',
+                    backgroundColor: isDarkMode ? '#1f2937' : '#ffffff',
                     borderRadius: '20px 20px 20px 8px',
                     padding: '12px 16px',
                     border: '1px solid rgba(255,255,255,0.3)',
                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className={`w-2 h-2 rounded-full animate-bounce ${isDarkMode ? 'bg-white/70' : 'bg-gray-400'}`}></div>
+                      <div className={`w-2 h-2 rounded-full animate-bounce ${isDarkMode ? 'bg-white/70' : 'bg-gray-400'}`} style={{ animationDelay: '0.1s' }}></div>
+                      <div className={`w-2 h-2 rounded-full animate-bounce ${isDarkMode ? 'bg-white/70' : 'bg-gray-400'}`} style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
