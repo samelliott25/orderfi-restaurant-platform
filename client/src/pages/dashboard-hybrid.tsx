@@ -190,7 +190,7 @@ export default function HybridDashboard() {
   const timeframes = ['24H', '7D', '30D', '90D'];
 
   return (
-    <StandardLayout>
+    <StandardLayout title="" subtitle="">
       <div className="min-h-screen bg-background text-foreground">
         {/* Header */}
         <div className="border-b border-border px-6 py-4">
