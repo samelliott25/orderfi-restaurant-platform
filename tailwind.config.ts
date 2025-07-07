@@ -6,9 +6,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'heading': ['"Philosopher"', 'sans-serif'],
-        'content': ['"Muli"', 'sans-serif'],
-        'sans': ['"Muli"', 'Inter', 'system-ui', 'sans-serif'],
+        'heading': ['"Mr Dafoe"', 'cursive'],
+        'content': ['"Roboto"', 'sans-serif'],
+        'sans': ['"Roboto"', 'Inter', 'system-ui', 'sans-serif'],
         'serif': ['Georgia', 'Times New Roman', 'serif'],
       },
       borderRadius: {
