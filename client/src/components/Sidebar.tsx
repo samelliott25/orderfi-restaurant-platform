@@ -230,7 +230,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Footer Actions */}
-          <div className={`border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'}`}>
+          <div className={`mt-auto border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'}`}>
             {!isCollapsed ? (
               <>
                 {/* Wallet Connection Button */}
@@ -285,15 +285,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   </Button>
                 </div>
 
-                {/* Exit App Button */}
+                {/* Logout Button */}
                 <Link href="/landing-page">
                   <Button 
                     variant="ghost" 
                     size="sm"
                     className="w-full text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
-                    <DoorOpen className="h-4 w-4 mr-2" />
-                    Exit App
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
                   </Button>
                 </Link>
               </>
@@ -328,15 +328,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 </Button>
 
-                {/* Collapsed Exit App */}
+                {/* Collapsed Logout */}
                 <Link href="/landing-page">
                   <Button 
                     variant="ghost" 
                     size="sm"
                     className="w-full h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-                    title="Exit App"
+                    title="Logout"
                   >
-                    <DoorOpen className="h-5 w-5" />
+                    <LogOut className="h-5 w-5" />
                   </Button>
                 </Link>
               </>
