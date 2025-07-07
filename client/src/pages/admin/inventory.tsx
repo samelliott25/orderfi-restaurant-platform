@@ -100,7 +100,7 @@ export default function AdminInventoryPage() {
           {/* Slate Zone: Inventory Overview */}
           <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm text-slate-700 dark:text-slate-300 carter-one-font">Total Items</CardTitle>
+              <CardTitle className="text-sm text-slate-700 dark:text-slate-300 rock-salt-font">Total Items</CardTitle>
               <Package className="h-4 w-4 text-slate-600 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
@@ -115,7 +115,7 @@ export default function AdminInventoryPage() {
           <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-700" 
                 style={{ borderColor: 'hsl(25, 95%, 53%, 0.3)', backgroundColor: 'hsl(25, 95%, 53%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm carter-one-font" style={{ color: 'hsl(25, 95%, 35%)' }}>Low Stock</CardTitle>
+              <CardTitle className="text-sm rock-salt-font" style={{ color: 'hsl(25, 95%, 35%)' }}>Low Stock</CardTitle>
               <AlertTriangle className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
@@ -130,7 +130,7 @@ export default function AdminInventoryPage() {
           <Card className="border-pink-200 bg-pink-50 dark:bg-pink-950/20 dark:border-pink-700"
                 style={{ borderColor: 'hsl(340, 82%, 52%, 0.3)', backgroundColor: 'hsl(340, 82%, 52%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm carter-one-font" style={{ color: 'hsl(340, 82%, 35%)' }}>Inventory Value</CardTitle>
+              <CardTitle className="text-sm rock-salt-font" style={{ color: 'hsl(340, 82%, 35%)' }}>Inventory Value</CardTitle>
               <DollarSign className="h-4 w-4" style={{ color: 'hsl(340, 82%, 52%)' }} />
             </CardHeader>
             <CardContent>
@@ -145,7 +145,7 @@ export default function AdminInventoryPage() {
           <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700"
                 style={{ borderColor: 'hsl(215, 28%, 17%, 0.3)', backgroundColor: 'hsl(215, 28%, 17%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm carter-one-font" style={{ color: 'hsl(215, 28%, 25%)' }}>Performance</CardTitle>
+              <CardTitle className="text-sm rock-salt-font" style={{ color: 'hsl(215, 28%, 25%)' }}>Performance</CardTitle>
               <TrendingUp className="h-4 w-4" style={{ color: 'hsl(215, 28%, 35%)' }} />
             </CardHeader>
             <CardContent>
@@ -420,7 +420,7 @@ export default function AdminInventoryPage() {
                         }}>
                     <CardHeader>
                       <div className="flex justify-between items-center">
-                        <CardTitle className="text-lg carter-one-font" style={{ color: 'hsl(215, 28%, 25%)' }}>{category}</CardTitle>
+                        <CardTitle className="text-lg rock-salt-font" style={{ color: 'hsl(215, 28%, 25%)' }}>{category}</CardTitle>
                         <div className="flex items-center gap-2">
                           <Badge 
                             variant="secondary"
@@ -468,7 +468,7 @@ export default function AdminInventoryPage() {
                             onClick={() => handleItemClick(item)}
                           >
                             <div className="flex justify-between items-start mb-2">
-                              <h4 className="carter-one-font">{item.name}</h4>
+                              <h4 className="rock-salt-font">{item.name}</h4>
                               <div className="flex items-center gap-1">
                                 <span className="text-green-600">${price.toFixed(2)}</span>
                                 {isLowStock && <AlertTriangle className="h-4 w-4 text-red-500" />}
@@ -524,7 +524,7 @@ export default function AdminInventoryPage() {
                   <Mic className="h-5 w-5 text-orange-500" />
                 </div>
                 <div>
-                  <h4 className="carter-one-font text-orange-800 dark:text-orange-200">Listening for inventory commands...</h4>
+                  <h4 className="rock-salt-font text-orange-800 dark:text-orange-200">Listening for inventory commands...</h4>
                   <p className="text-sm text-orange-600 dark:text-orange-400">
                     Try: "Show low stock items" • "Update burger price to $15" • "Mark fish as sold out"
                   </p>
@@ -543,7 +543,7 @@ export default function AdminInventoryPage() {
         }}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="carter-one-font text-xl" style={{ color: 'hsl(25, 95%, 53%)' }}>
+              <DialogTitle className="rock-salt-font text-xl" style={{ color: 'hsl(25, 95%, 53%)' }}>
                 {editingItem ? 'Edit Menu Item' : 'Add New Menu Item'}
               </DialogTitle>
               <DialogDescription>
@@ -635,7 +635,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
       {/* Basic Information */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg carter-one-font">Basic Information</CardTitle>
+          <CardTitle className="text-lg rock-salt-font">Basic Information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -687,7 +687,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
       {/* Pricing */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg carter-one-font">Pricing</CardTitle>
+          <CardTitle className="text-lg rock-salt-font">Pricing</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
@@ -728,7 +728,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
       {/* Inventory Management */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg carter-one-font">Inventory & Availability</CardTitle>
+          <CardTitle className="text-lg rock-salt-font">Inventory & Availability</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center space-x-2">
@@ -773,7 +773,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
       {/* Additional Options */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg carter-one-font">Additional Options</CardTitle>
+          <CardTitle className="text-lg rock-salt-font">Additional Options</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>

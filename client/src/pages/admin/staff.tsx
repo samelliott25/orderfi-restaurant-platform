@@ -59,7 +59,7 @@ export default function StaffPage() {
       {/* Staff Management Content */}
       <Card>
         <CardHeader>
-          <CardTitle className="carter-one-font">Staff Management System</CardTitle>
+          <CardTitle className="rock-salt-font">Staff Management System</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">

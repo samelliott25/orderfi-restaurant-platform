@@ -66,7 +66,7 @@ const OrderFiJournal = () => {
     <Card className="bg-card border-border">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-foreground carter-one-font font-normal flex items-center gap-2">
+          <CardTitle className="text-foreground rock-salt-font font-normal flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-blue-500" />
             OrderFi Journal
           </CardTitle>
@@ -331,7 +331,7 @@ export default function HybridDashboard() {
       <div className="border-b border-border px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-normal text-foreground carter-one-font">Dashboard</h1>
+            <h1 className="text-xl font-normal text-foreground rock-salt-font">Dashboard</h1>
             <p className="text-sm text-muted-foreground">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
           </div>
           <div className="flex items-center gap-3">
@@ -446,7 +446,7 @@ export default function HybridDashboard() {
         {/* Chart Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-normal text-foreground carter-one-font">Revenue Performance</h2>
+            <h2 className="text-xl font-normal text-foreground rock-salt-font">Revenue Performance</h2>
             <div className="flex gap-2">
               {timeframes.map((tf) => (
                 <Button
@@ -520,7 +520,7 @@ export default function HybridDashboard() {
           {/* Live Orders */}
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground carter-one-font font-normal flex items-center gap-2">
+              <CardTitle className="text-foreground rock-salt-font font-normal flex items-center gap-2">
                 <Activity className="w-5 h-5 text-orange-500" />
                 Live Orders
               </CardTitle>
