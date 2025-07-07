@@ -134,6 +134,13 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 7, 2025. Completed comprehensive typography standardization across entire application
+  - Applied SUSE font universally using wildcard CSS selector for all text elements
+  - Updated StandardLayout and all admin pages to use Carter One font for headings
+  - Removed all font-bold, font-semibold, and font-medium classes throughout inventory page
+  - Replaced playwrite-font with carter-one-font across admin pages
+  - Established consistent typography hierarchy: Carter One gradients for headings, SUSE for body text
+  - Created unified OrderFi brand typography system with orange-pink gradient styling
 - July 7, 2025. Enhanced chat dialog with performance and visual improvements
   - Fixed dashboard responsive layout to only add padding when chat is in sidebar mode
   - Removed backdrop overlay causing grey box lag during dragging for smooth movement

@@ -71,7 +71,7 @@ export default function SettingsPage() {
       {/* Layout AI Settings */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="playwrite-font flex items-center gap-2">
+          <CardTitle className="carter-one-font flex items-center gap-2">
             <Brain className="h-5 w-5 text-orange-500" />
             Layout AI
           </CardTitle>
@@ -153,7 +153,7 @@ export default function SettingsPage() {
       {/* Settings Content */}
       <Card>
         <CardHeader>
-          <CardTitle className="playwrite-font">System Configuration</CardTitle>
+          <CardTitle className="carter-one-font">System Configuration</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">

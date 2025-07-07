@@ -60,7 +60,7 @@ export default function InventoryStockPage() {
         {/* Coming Soon */}
         <Card>
           <CardHeader>
-            <CardTitle className="playwrite-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
+            <CardTitle className="carter-one-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
               Inventory Stock Management
             </CardTitle>
           </CardHeader>
