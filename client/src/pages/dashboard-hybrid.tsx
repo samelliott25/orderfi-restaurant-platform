@@ -44,13 +44,28 @@ const generateSalesData = (period: string) => {
   
   switch (period) {
     case '24H':
-      // 24-hour hourly data
-      for (let i = 23; i >= 0; i--) {
-        const hour = new Date(now.getTime() - i * 60 * 60 * 1000);
-        const baseRevenue = Math.sin((23 - i) * Math.PI / 12) * 800 + 1000;
-        const variation = (Math.random() - 0.5) * 300;
+      // Operating hours: 9:00 AM to 12:00 AM (15 hours)
+      const operatingHours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0];
+      
+      for (let i = 0; i < operatingHours.length; i++) {
+        const hour = operatingHours[i];
+        const hourData = new Date();
+        hourData.setHours(hour, 0, 0, 0);
+        
+        // Higher revenue during peak hours (11-14 and 18-21)
+        let baseRevenue = 600;
+        if ((hour >= 11 && hour <= 14) || (hour >= 18 && hour <= 21)) {
+          baseRevenue = 1200; // Peak hours
+        } else if (hour >= 22 || hour <= 2) {
+          baseRevenue = 300; // Late night
+        }
+        
+        const variation = (Math.random() - 0.5) * 200;
+        const displayHour = hour === 0 ? '00:00' : 
+                          hour < 10 ? `0${hour}:00` : `${hour}:00`;
+        
         data.push({
-          time: hour.toISOString().split('T')[1].substr(0, 5),
+          time: displayHour,
           revenue: Math.max(0, Math.round(baseRevenue + variation)),
           orders: Math.round((baseRevenue + variation) / 25),
           customers: Math.round((baseRevenue + variation) / 35)
