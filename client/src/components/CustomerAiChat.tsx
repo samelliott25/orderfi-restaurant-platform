@@ -464,11 +464,13 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
       >
       {/* iOS-style glass card with OrderFi gradient theme - translucent */}
-      <div className="w-full h-full rounded-[28px] overflow-hidden"
-           style={{
-             background: 'linear-gradient(145deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
-             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)'
-           }}>
+      <div 
+        className="w-full h-full flex flex-col"
+        style={{
+          background: 'linear-gradient(145deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
+          borderRadius: '28px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)'
+        }}>
         
 
         
@@ -513,7 +515,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         </div>
 
         {/* Messages area with iOS scroll behavior */}
-        <div className={`flex-1 overflow-hidden bg-white/5 backdrop-blur-sm ${
+        <div className={`flex-1 overflow-hidden ${
           isSidebarMode ? 'h-[calc(100vh-140px)]' : 'h-[calc(100vh-140px)] md:h-[350px]'
         }`}>
           <ScrollArea 
