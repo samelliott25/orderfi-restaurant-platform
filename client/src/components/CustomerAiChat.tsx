@@ -479,7 +479,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
         
         {/* iOS-style header with frosted glass effect */}
-        <div className="relative px-6 py-4 border-b border-white/20 bg-gradient-to-b from-white/15 to-transparent backdrop-blur-md">
+        <div className="relative px-6 py-4 border-b border-white/20 bg-gradient-to-b from-white/15 to-transparent backdrop-blur-md rounded-t-[24px]">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {/* Modern iOS-style avatar with OrderFi theme */}
@@ -582,7 +582,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         </div>
 
         {/* iOS-style input bar with OrderFi theme */}
-        <div className="relative px-4 py-3 border-t border-white/20 bg-gradient-to-t from-white/10 to-transparent backdrop-blur-md">
+        <div className="relative px-4 py-3 border-t border-white/20 bg-gradient-to-t from-white/10 to-transparent backdrop-blur-md rounded-b-[24px]">
           <div className="flex items-center space-x-3">
             <div className="flex-1 relative">
               <div className="relative rounded-[22px] bg-white/90 backdrop-blur-sm border border-white/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
