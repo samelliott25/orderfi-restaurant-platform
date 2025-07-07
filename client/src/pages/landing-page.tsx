@@ -140,7 +140,7 @@ export default function LandingPage() {
                 <div className="w-1 h-1 absolute bg-white/50 rounded-full animate-pulse" 
                      style={{ top: '75%', left: '20%', animationDelay: '1.5s', animationDuration: '2.2s' }}></div>
               </div>
-              <span className="relative z-10 flex items-center justify-center gap-2">
+              <span className="relative z-10 flex items-center justify-center gap-2 rock-salt-font">
                 <svg 
                   className="w-4 h-4 ai-sparkle-1" 
                   viewBox="0 0 24 24" 
