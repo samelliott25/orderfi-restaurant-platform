@@ -514,7 +514,7 @@ export default function RestaurantDashboard() {
         <div className={`grid gap-6 ${getGridClass()}`}>
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium playwrite-font">Today's Revenue</CardTitle>
+              <CardTitle className="text-sm font-medium rock-salt-font">Today's Revenue</CardTitle>
               <DollarSign className="h-4 w-4" style={{ color: 'hsl(340, 82%, 52%)' }} />
             </CardHeader>
             <CardContent>
@@ -528,7 +528,7 @@ export default function RestaurantDashboard() {
 
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium playwrite-font">Orders</CardTitle>
+              <CardTitle className="text-sm font-medium rock-salt-font">Orders</CardTitle>
               <ShoppingCart className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
@@ -542,7 +542,7 @@ export default function RestaurantDashboard() {
 
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium playwrite-font">Pending Orders</CardTitle>
+              <CardTitle className="text-sm font-medium rock-salt-font">Pending Orders</CardTitle>
               <Clock className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
@@ -555,7 +555,7 @@ export default function RestaurantDashboard() {
 
           <Card className="relative overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium playwrite-font">Average Order Value</CardTitle>
+              <CardTitle className="text-sm font-medium rock-salt-font">Average Order Value</CardTitle>
               <TrendingUp className="h-4 w-4" style={{ color: 'hsl(215, 28%, 35%)' }} />
             </CardHeader>
             <CardContent>
@@ -574,7 +574,7 @@ export default function RestaurantDashboard() {
             <CardTitle className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
               <div className="flex items-center gap-2">
                 <LineChartIcon className="w-6 h-6" style={{ color: 'hsl(25, 95%, 53%)' }} />
-                <span className="text-xl xl:text-2xl playwrite-font">Sales Performance</span>
+                <span className="text-xl xl:text-2xl rock-salt-font">Sales Performance</span>
                 <Badge variant="secondary" className="ml-2 bg-orange-100 text-orange-700">Live</Badge>
               </div>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 xl:gap-4">
@@ -715,13 +715,13 @@ export default function RestaurantDashboard() {
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2 text-sm font-medium">
                       <div className="w-3 h-3 rounded bg-slate-600"></div>
-                      <span className="playwrite-font">Historical Avg</span>
+                      <span className="rock-salt-font">Historical Avg</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm font-medium">
                       <div className="w-3 h-3 rounded bg-orange-500"></div>
-                      <span className="playwrite-font">{isColumnChart ? 'Live (5min intervals)' : 'Live Performance'}</span>
+                      <span className="rock-salt-font">{isColumnChart ? 'Live (5min intervals)' : 'Live Performance'}</span>
                     </div>
-                    <div className="text-xl font-bold playwrite-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
+                    <div className="text-xl font-bold rock-salt-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
                       ${chartData[Math.min(currentHour - 9, chartData.length - 1)]?.revenue || chartData[chartData.length - 1]?.revenue || 0}
                     </div>
                   </div>
@@ -754,7 +754,7 @@ export default function RestaurantDashboard() {
                           const data = payload[0].payload;
                           return (
                             <div className="bg-slate-900 text-white text-xs px-3 py-2 rounded-lg shadow-xl border border-slate-700">
-                              <div className="font-bold playwrite-font text-sm text-orange-300">{label}</div>
+                              <div className="font-bold rock-salt-font text-sm text-orange-300">{label}</div>
                               <div style={{ color: '#f97316' }} className="font-medium">
                                 Revenue: ${data.revenue.toLocaleString()}
                               </div>
@@ -804,7 +804,7 @@ export default function RestaurantDashboard() {
                         if (active && payload && payload.length) {
                           return (
                             <div className="bg-slate-900 text-white text-xs px-3 py-2 rounded-lg shadow-xl border border-slate-700">
-                              <div className="font-bold playwrite-font text-sm text-orange-300">{label}</div>
+                              <div className="font-bold rock-salt-font text-sm text-orange-300">{label}</div>
                               <div style={{ color: '#f97316' }} className="font-medium">
                                 Revenue: ${payload[0].value} ({payload[0].payload.orders} orders)
                               </div>
@@ -850,7 +850,7 @@ export default function RestaurantDashboard() {
                         if (active && payload && payload.length) {
                           return (
                             <div className="bg-slate-900 text-white text-xs px-3 py-2 rounded-lg shadow-xl border border-slate-700">
-                              <div className="font-bold playwrite-font text-sm text-orange-300">{label}</div>
+                              <div className="font-bold rock-salt-font text-sm text-orange-300">{label}</div>
                               <div style={{ color: '#f97316' }} className="font-medium">
                                 Live: ${payload.find(p => p.dataKey === 'revenue')?.value} ({payload[0].payload.orders} orders)
                               </div>

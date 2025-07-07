@@ -59,7 +59,7 @@ export default function OrderFiSimple() {
             <Sparkles className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h1 className="font-semibold text-lg playwrite-font">OrderFi</h1>
+            <h1 className="font-semibold text-lg rock-salt-font">OrderFi</h1>
             <p className="text-sm text-muted-foreground">Smart Restaurant Assistant</p>
           </div>
         </div>
