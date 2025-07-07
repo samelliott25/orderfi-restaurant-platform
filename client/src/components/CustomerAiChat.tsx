@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useChatContext } from '@/contexts/ChatContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -261,12 +261,14 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const hasAnimatedRef = useRef(false);
+  const hasPromptedOnboarding = useRef(false);
 
   const { messages, inputValue, isListening } = chatState;
 
-  // Auto-prompt for onboarding when chat is first opened
+  // Auto-prompt for onboarding when chat is first opened - only once
   useEffect(() => {
-    if (isOpen && messages.length === 1 && !localStorage.getItem('orderfi-onboarding-completed')) {
+    if (isOpen && messages.length === 1 && !localStorage.getItem('orderfi-onboarding-completed') && !hasPromptedOnboarding.current) {
+      hasPromptedOnboarding.current = true;
       // Set to onboarding mode and show welcome message
       setChatContext('onboarding');
       const onboardingWelcome: ChatMessage = {
@@ -287,7 +289,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
       };
       setChatState(newState);
     }
-  }, [isOpen, messages.length, chatState, setChatState]);
+  }, [isOpen, messages.length]);
 
   // Detect dark mode
   useEffect(() => {
@@ -652,9 +654,8 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         </div>
 
         {/* Suggestion Chips */}
-        {(() => {
+        {React.useMemo(() => {
           const isOnboarded = localStorage.getItem('orderfi-onboarding-completed');
-          const recentMessages = messages.slice(-3);
           const lastMessage = messages[messages.length - 1];
           
           let suggestions: string[] = [];
@@ -702,7 +703,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
               </div>
             </div>
           ) : null;
-        })()}
+        }, [chatContext, messages.length])}
 
         {/* Input */}
         <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
