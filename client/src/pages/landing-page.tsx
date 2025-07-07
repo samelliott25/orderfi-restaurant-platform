@@ -15,7 +15,7 @@ export default function LandingPage() {
     // Immediate navigation backup for reliability
     setTimeout(() => {
       if (showTransition) {
-        setLocation('/onboarding');
+        setLocation('/dashboard');
       }
     }, 2500);
   };
@@ -24,7 +24,7 @@ export default function LandingPage() {
   useEffect(() => {
     if (showTransition) {
       const timer = setTimeout(() => {
-        setLocation('/onboarding');
+        setLocation('/dashboard');
       }, 1500); // Wait for animation to complete
       
       return () => clearTimeout(timer);

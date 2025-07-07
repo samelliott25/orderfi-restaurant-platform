@@ -251,21 +251,21 @@ async function handleMenuReview(message: string, state: OnboardingState) {
         });
       }
 
+      // Mark onboarding as completed
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('orderfi-onboarding-completed', 'true');
+      }
+
       return {
         message: `🎉 Congratulations! ${state.venueName} is now live on OrderFi!
 
-Here's what happens next:
-• Your restaurant is ready to take orders
-• Customers can scan a QR code to see your menu
-• You'll see live orders in your dashboard
-• Start earning $ORDER token rewards
+Your restaurant is ready to take orders! I can now help you with:
+• Managing live orders and kitchen operations
+• Generating customer QR codes
+• Analyzing sales and performance
+• Menu updates and pricing changes
 
-You can now:
-• View your dashboard
-• Generate customer QR codes  
-• Start taking orders immediately
-
-Welcome to the future of restaurant operations! 🚀`,
+What would you like to do first? Just ask me anything!`,
         action: 'complete_onboarding',
         data: { 
           restaurantId: restaurant.id,

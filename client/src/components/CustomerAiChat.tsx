@@ -264,6 +264,31 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
 
   const { messages, inputValue, isListening } = chatState;
 
+  // Auto-prompt for onboarding when chat is first opened
+  useEffect(() => {
+    if (isOpen && messages.length === 1 && !localStorage.getItem('orderfi-onboarding-completed')) {
+      // Set to onboarding mode and show welcome message
+      setChatContext('onboarding');
+      const onboardingWelcome: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: `Welcome to OrderFi! 🍽️ 
+
+I'll help you set up your restaurant in just a few minutes through conversation - no forms or complexity.
+
+Ready to get started? Just tell me your restaurant's name and I'll guide you through the rest!`,
+        timestamp: new Date(),
+        status: 'sent'
+      };
+      
+      const newState = {
+        ...chatState,
+        messages: [...messages, onboardingWelcome]
+      };
+      setChatState(newState);
+    }
+  }, [isOpen, messages.length, chatState, setChatState]);
+
   // Detect dark mode
   useEffect(() => {
     const checkDarkMode = () => {
