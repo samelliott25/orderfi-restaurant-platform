@@ -111,15 +111,15 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
   const SidebarContent = () => (
     <div className="flex h-full flex-col border-r" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
       {/* Logo */}
-      <div className="flex h-16 items-center justify-center px-6 border-b" style={{ borderColor: '#e5cf97' }}>
+      <div className="flex h-16 items-center justify-center px-6 border-b flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
         <div className="text-2xl font-bold text-[#8b795e]">
           OrderFi Admin
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* Navigation - Scrollable Middle Section */}
       <div 
-        className="flex-1 px-4 py-6 overflow-y-auto"
+        className="flex-1 px-4 py-6 overflow-y-auto min-h-0"
         ref={scrollContainerRef}
         onScroll={handleScroll}
       >
@@ -174,8 +174,8 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
         </nav>
       </div>
 
-      {/* Bottom Actions */}
-      <div className="border-t p-4" style={{ borderColor: '#e5cf97' }}>
+      {/* Bottom Actions - Fixed at Bottom */}
+      <div className="border-t p-4 flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
         <Button asChild variant="ghost" className="w-full justify-start hover:opacity-80" style={{ color: '#8b795e' }}>
           <Link href="/mobile-chat">
             <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
