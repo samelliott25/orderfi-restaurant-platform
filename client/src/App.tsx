@@ -88,7 +88,7 @@ function Router() {
         <Route path="/landing-page" component={LandingPage} />
         
         {/* Dashboard - Default Home */}
-        <Route path="/" component={RestaurantDashboard} />
+        <Route path="/" component={CryptoStyleDashboard} />
         
         {/* Customer-Facing Mobile Interface */}
         <Route path="/customer" component={OrderFiNew} />
