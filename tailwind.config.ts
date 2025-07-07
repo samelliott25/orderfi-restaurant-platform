@@ -6,9 +6,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'heading': ['"Ubuntu"', 'sans-serif'],
-        'content': ['"Open Sans"', 'sans-serif'],
-        'sans': ['"Open Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        'heading': ['"Philosopher"', 'sans-serif'],
+        'content': ['"Muli"', 'sans-serif'],
+        'sans': ['"Muli"', 'Inter', 'system-ui', 'sans-serif'],
         'serif': ['Georgia', 'Times New Roman', 'serif'],
       },
       borderRadius: {
