@@ -351,11 +351,11 @@ export default function HybridDashboard() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#6b7280" />
                     <XAxis 
                       dataKey="time" 
-                      stroke="hsl(var(--muted-foreground))"
+                      stroke="#374151"
                       fontSize={12}
                     />
                     <YAxis 
-                      stroke="hsl(var(--muted-foreground))"
+                      stroke="#374151"
                       fontSize={12}
                       tickFormatter={(value) => `$${value}`}
                     />
