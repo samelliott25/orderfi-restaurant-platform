@@ -100,11 +100,11 @@ export default function AdminInventoryPage() {
           {/* Slate Zone: Inventory Overview */}
           <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300 playwrite-font">Total Items</CardTitle>
+              <CardTitle className="text-sm text-slate-700 dark:text-slate-300 carter-one-font">Total Items</CardTitle>
               <Package className="h-4 w-4 text-slate-600 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-slate-800 dark:text-slate-200">{totalItems}</div>
+              <div className="text-2xl text-slate-800 dark:text-slate-200">{totalItems}</div>
               <p className="text-xs text-slate-600 dark:text-slate-400">
                 {availableItems} available
               </p>
@@ -115,11 +115,11 @@ export default function AdminInventoryPage() {
           <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-700" 
                 style={{ borderColor: 'hsl(25, 95%, 53%, 0.3)', backgroundColor: 'hsl(25, 95%, 53%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium playwrite-font" style={{ color: 'hsl(25, 95%, 35%)' }}>Low Stock</CardTitle>
+              <CardTitle className="text-sm carter-one-font" style={{ color: 'hsl(25, 95%, 35%)' }}>Low Stock</CardTitle>
               <AlertTriangle className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'hsl(25, 95%, 45%)' }}>{lowStockItems}</div>
+              <div className="text-2xl" style={{ color: 'hsl(25, 95%, 45%)' }}>{lowStockItems}</div>
               <p className="text-xs" style={{ color: 'hsl(25, 95%, 40%)' }}>
                 Items need restocking
               </p>
@@ -130,11 +130,11 @@ export default function AdminInventoryPage() {
           <Card className="border-pink-200 bg-pink-50 dark:bg-pink-950/20 dark:border-pink-700"
                 style={{ borderColor: 'hsl(340, 82%, 52%, 0.3)', backgroundColor: 'hsl(340, 82%, 52%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium playwrite-font" style={{ color: 'hsl(340, 82%, 35%)' }}>Inventory Value</CardTitle>
+              <CardTitle className="text-sm carter-one-font" style={{ color: 'hsl(340, 82%, 35%)' }}>Inventory Value</CardTitle>
               <DollarSign className="h-4 w-4" style={{ color: 'hsl(340, 82%, 52%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'hsl(340, 82%, 45%)' }}>${totalValue.toFixed(2)}</div>
+              <div className="text-2xl" style={{ color: 'hsl(340, 82%, 45%)' }}>${totalValue.toFixed(2)}</div>
               <p className="text-xs" style={{ color: 'hsl(340, 82%, 40%)' }}>
                 At current stock levels
               </p>
@@ -145,11 +145,11 @@ export default function AdminInventoryPage() {
           <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700"
                 style={{ borderColor: 'hsl(215, 28%, 17%, 0.3)', backgroundColor: 'hsl(215, 28%, 17%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium playwrite-font" style={{ color: 'hsl(215, 28%, 25%)' }}>Performance</CardTitle>
+              <CardTitle className="text-sm carter-one-font" style={{ color: 'hsl(215, 28%, 25%)' }}>Performance</CardTitle>
               <TrendingUp className="h-4 w-4" style={{ color: 'hsl(215, 28%, 35%)' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: 'hsl(215, 28%, 30%)' }}>94%</div>
+              <div className="text-2xl" style={{ color: 'hsl(215, 28%, 30%)' }}>94%</div>
               <p className="text-xs" style={{ color: 'hsl(215, 28%, 40%)' }}>
                 Items in stock
               </p>
@@ -317,7 +317,7 @@ export default function AdminInventoryPage() {
                             </TableCell>
                             <TableCell>
                               <div>
-                                <div className="font-medium">{item.name}</div>
+                                <div className="">{item.name}</div>
                                 <div className="text-sm text-muted-foreground truncate max-w-xs">
                                   {item.description}
                                 </div>
@@ -331,10 +331,10 @@ export default function AdminInventoryPage() {
                             <TableCell>
                               <Badge variant="outline">{item.category}</Badge>
                             </TableCell>
-                            <TableCell className="font-semibold" style={{ color: 'hsl(340, 82%, 45%)' }}>${price.toFixed(2)}</TableCell>
+                            <TableCell className="" style={{ color: 'hsl(340, 82%, 45%)' }}>${price.toFixed(2)}</TableCell>
                             <TableCell className="text-slate-600">${cost.toFixed(2)}</TableCell>
                             <TableCell>
-                              <span className={`font-medium ${
+                              <span className={`${
                                 margin > 50 ? "text-emerald-600" : 
                                 margin > 30 ? "" : 
                                 ""
@@ -350,7 +350,7 @@ export default function AdminInventoryPage() {
                             <TableCell>
                               {item.trackInventory ? (
                                 <div className="flex items-center gap-2">
-                                  <span className={`font-medium`}
+                                  <span className={``}
                                         style={{ color: isLowStock ? 'hsl(25, 95%, 53%)' : 'hsl(215, 28%, 35%)' }}>
                                     {item.currentStock || 0}
                                   </span>
@@ -468,9 +468,9 @@ export default function AdminInventoryPage() {
                             onClick={() => handleItemClick(item)}
                           >
                             <div className="flex justify-between items-start mb-2">
-                              <h4 className="font-medium">{item.name}</h4>
+                              <h4 className="carter-one-font">{item.name}</h4>
                               <div className="flex items-center gap-1">
-                                <span className="font-bold text-green-600">${price.toFixed(2)}</span>
+                                <span className="text-green-600">${price.toFixed(2)}</span>
                                 {isLowStock && <AlertTriangle className="h-4 w-4 text-red-500" />}
                               </div>
                             </div>
@@ -524,7 +524,7 @@ export default function AdminInventoryPage() {
                   <Mic className="h-5 w-5 text-orange-500" />
                 </div>
                 <div>
-                  <h4 className="font-medium text-orange-800 dark:text-orange-200">Listening for inventory commands...</h4>
+                  <h4 className="carter-one-font text-orange-800 dark:text-orange-200">Listening for inventory commands...</h4>
                   <p className="text-sm text-orange-600 dark:text-orange-400">
                     Try: "Show low stock items" • "Update burger price to $15" • "Mark fish as sold out"
                   </p>
@@ -543,7 +543,7 @@ export default function AdminInventoryPage() {
         }}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="playwrite-font text-xl" style={{ color: 'hsl(25, 95%, 53%)' }}>
+              <DialogTitle className="carter-one-font text-xl" style={{ color: 'hsl(25, 95%, 53%)' }}>
                 {editingItem ? 'Edit Menu Item' : 'Add New Menu Item'}
               </DialogTitle>
               <DialogDescription>
@@ -640,7 +640,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium">Item Name *</label>
+              <label className="text-sm">Item Name *</label>
               <Input
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
@@ -649,7 +649,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Category *</label>
+              <label className="text-sm">Category *</label>
               <Select value={formData.category} onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}>
                 <SelectTrigger>
                   <SelectValue />
@@ -664,7 +664,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
           </div>
           
           <div>
-            <label className="text-sm font-medium">Description</label>
+            <label className="text-sm">Description</label>
             <Textarea
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
@@ -674,7 +674,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
           </div>
 
           <div>
-            <label className="text-sm font-medium">Alternative Names/Aliases</label>
+            <label className="text-sm">Alternative Names/Aliases</label>
             <Input
               value={formData.aliases}
               onChange={(e) => setFormData(prev => ({ ...prev, aliases: e.target.value }))}
@@ -692,7 +692,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="text-sm font-medium">Sale Price *</label>
+              <label className="text-sm">Sale Price *</label>
               <Input
                 type="number"
                 step="0.01"
@@ -703,7 +703,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Cost Price</label>
+              <label className="text-sm">Cost Price</label>
               <Input
                 type="number"
                 step="0.01"
@@ -713,7 +713,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Prep Time (min)</label>
+              <label className="text-sm">Prep Time (min)</label>
               <Input
                 type="number"
                 value={formData.preparationTime}
@@ -736,7 +736,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
               checked={formData.isAvailable}
               onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isAvailable: checked }))}
             />
-            <label className="text-sm font-medium">Available for ordering</label>
+            <label className="text-sm">Available for ordering</label>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -744,13 +744,13 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
               checked={formData.trackInventory}
               onCheckedChange={(checked) => setFormData(prev => ({ ...prev, trackInventory: checked }))}
             />
-            <label className="text-sm font-medium">Track inventory levels</label>
+            <label className="text-sm">Track inventory levels</label>
           </div>
 
           {formData.trackInventory && (
             <div className="grid grid-cols-2 gap-4 pl-6">
               <div>
-                <label className="text-sm font-medium">Current Stock</label>
+                <label className="text-sm">Current Stock</label>
                 <Input
                   type="number"
                   value={formData.currentStock}
@@ -758,7 +758,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium">Low Stock Alert</label>
+                <label className="text-sm">Low Stock Alert</label>
                 <Input
                   type="number"
                   value={formData.lowStockThreshold}
@@ -777,7 +777,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="text-sm font-medium">Dietary Tags</label>
+            <label className="text-sm">Dietary Tags</label>
             <Input
               value={formData.dietaryTags}
               onChange={(e) => setFormData(prev => ({ ...prev, dietaryTags: e.target.value }))}
@@ -786,7 +786,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
           </div>
 
           <div>
-            <label className="text-sm font-medium">Customization Options</label>
+            <label className="text-sm">Customization Options</label>
             <Input
               value={formData.customizationOptions}
               onChange={(e) => setFormData(prev => ({ ...prev, customizationOptions: e.target.value }))}
@@ -795,7 +795,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
           </div>
 
           <div>
-            <label className="text-sm font-medium">Image URL</label>
+            <label className="text-sm">Image URL</label>
             <Input
               value={formData.imageUrl}
               onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
