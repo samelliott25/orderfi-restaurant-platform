@@ -65,7 +65,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     <>
       <div className={`fixed left-0 top-0 z-40 h-screen transform bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
-      } ${isCollapsed ? 'w-16' : 'w-64'}`}>
+      } ${isCollapsed ? 'w-16' : 'w-64'}`} 
+        style={{ height: '100vh', maxHeight: '100vh' }}>
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className={`border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
@@ -130,8 +131,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Navigation Items */}
-          <div className={`flex-1 overflow-y-auto ${isCollapsed ? 'p-2' : 'p-4'}`}>
-            <nav className="space-y-1">
+          <div className={`flex-1 min-h-0 ${isCollapsed ? 'p-2' : 'p-4'}`}>
+            <nav className="space-y-1 h-full overflow-y-auto">
               {menuItems.map((item) => {
                 const isActive = location === item.href;
                 return (
@@ -159,7 +160,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             </nav>
             
             {/* AI Assistant Chat Orb */}
-            <div className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'} border-t border-gray-200 dark:border-gray-800`}>
+            <div className={`${isCollapsed ? 'px-2 py-2' : 'px-4 py-2'} border-t border-gray-200 dark:border-gray-800`}>
               <div className="flex items-center justify-center">
                 <Button
                   onClick={() => setChatOpen(!isChatOpen)}
@@ -230,9 +231,21 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Footer Actions */}
-          <div className={`mt-auto border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'}`}>
+          <div className={`shrink-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-1 space-y-1' : 'p-2 space-y-1'}`}>
             {!isCollapsed ? (
               <>
+                {/* Logout Button - Priority Position */}
+                <Link href="/landing-page">
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    className="w-full text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 font-medium border border-red-200 dark:border-red-800"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </Button>
+                </Link>
+
                 {/* Wallet Connection Button */}
                 {!isConnected ? (
                   <WalletConnectDialog>
@@ -285,20 +298,22 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   </Button>
                 </div>
 
-                {/* Logout Button */}
+
+              </>
+            ) : (
+              <>
+                {/* Collapsed Logout - Priority Position */}
                 <Link href="/landing-page">
                   <Button 
                     variant="ghost" 
                     size="sm"
-                    className="w-full text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                    className="w-full h-8 p-1 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 border border-red-200 dark:border-red-800"
+                    title="Logout"
                   >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Logout
+                    <LogOut className="h-4 w-4" />
                   </Button>
                 </Link>
-              </>
-            ) : (
-              <>
+
                 {/* Collapsed Wallet Status */}
                 {!isConnected ? (
                   <WalletConnectDialog>
@@ -328,17 +343,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 </Button>
 
-                {/* Collapsed Logout */}
-                <Link href="/landing-page">
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="w-full h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-                    title="Logout"
-                  >
-                    <LogOut className="h-5 w-5" />
-                  </Button>
-                </Link>
+
               </>
             )}
           </div>
