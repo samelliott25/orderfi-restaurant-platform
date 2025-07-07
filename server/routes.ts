@@ -20,6 +20,7 @@ import {
 import multer from 'multer';
 import { parseMenuHandler, uploadMiddleware } from "./routes/menu-parser";
 import { processOnboardingMessage } from "./services/onboarding-chat";
+import { chatOpsOrchestrator } from "./services/chatops-orchestrator";
 import ttsRouter from "./routes/tts.js";
 import { validateRequest, createRateLimit, securityHeaders, requestLogger, errorHandler } from "./middleware/security.js";
 import { cacheManager } from "./services/cache-manager.js";
@@ -335,25 +336,35 @@ export async function registerRoutes(app: Express): Promise<void> {
         return res.status(400).json({ error: "Message is required" });
       }
 
-      // Handle onboarding context
-      if (context === 'onboarding') {
-        const onboardingResponse = await processOnboardingMessage(userMessage, sessionId, req.body);
-        
-        const chatMessage = await storage.createChatMessage({
-          sessionId,
-          role: 'assistant',
-          content: onboardingResponse.message,
-          timestamp: new Date()
-        });
-        
-        return res.json({ 
-          response: onboardingResponse.message,
-          message: onboardingResponse.message,
-          messageId: chatMessage.id,
-          action: onboardingResponse.action,
-          data: onboardingResponse.data
-        });
-      }
+      // Use ChatOps orchestrator for all contexts
+      const orchestratorResponse = await chatOpsOrchestrator.processMessage(
+        userMessage,
+        sessionId,
+        {
+          chatContext: context,
+          currentPage: req.body.currentPage,
+          restaurantId,
+          onboardingState: req.body.onboardingState
+        }
+      );
+
+      const chatMessage = await storage.createChatMessage({
+        sessionId,
+        role: 'assistant',
+        content: orchestratorResponse.message,
+        timestamp: new Date()
+      });
+
+      return res.json({
+        response: orchestratorResponse.message,
+        message: orchestratorResponse.message,
+        messageId: chatMessage.id,
+        action: orchestratorResponse.action,
+        data: orchestratorResponse.data,
+        extractedData: orchestratorResponse.extractedData,
+        suggestions: orchestratorResponse.suggestions,
+        completionStatus: orchestratorResponse.completionStatus
+      });
 
       // Get restaurant context
       const restaurant = await storage.getRestaurant(restaurantId);
