@@ -461,38 +461,57 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         }}
         onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
       >
-      {/* Simple chat card with proper rounded corners */}
+      {/* Clean chat dialog with perfect rounded corners */}
       <div 
-        className="w-full h-full flex flex-col overflow-hidden"
         style={{
           background: 'linear-gradient(145deg, #f97316, #ec4899)',
           borderRadius: '28px',
+          overflow: 'hidden',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)'
         }}>
         
-
-        
-        {/* iOS-style header with frosted glass effect */}
-        <div className="relative px-6 py-4 border-b border-white/20">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              {/* Modern iOS-style avatar with OrderFi theme */}
-              <div className="w-10 h-10 rounded-full bg-white/20 shadow-[0_2px_8px_rgba(0,0,0,0.2)] flex items-center justify-center border border-white/30">
-                <Bot className="w-5 h-5 text-white drop-shadow-sm" />
+        {/* Header */}
+        <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ 
+                width: '40px', 
+                height: '40px', 
+                borderRadius: '50%', 
+                backgroundColor: 'rgba(255,255,255,0.2)', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                border: '1px solid rgba(255,255,255,0.3)'
+              }}>
+                <Bot className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-[600] text-white text-[15px] tracking-[-0.01em] drop-shadow-sm">ChatOps</h3>
-                <div className="flex items-center space-x-1">
-                  <div className="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_4px_rgba(34,197,94,0.6)]"></div>
-                  <p className="text-[13px] text-white/80 font-[500]">Online</p>
+                <h3 style={{ color: 'white', fontSize: '15px', fontWeight: '600', margin: 0 }}>ChatOps</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }}></div>
+                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '13px', margin: 0 }}>Online</p>
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              {/* Snap to sidebar arrow button */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <button
                 onClick={toggleSidebarMode}
-                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 border border-white/30"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.2)',
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
                 title={isSidebarMode ? "Float chat" : "Snap to sidebar"}
               >
                 {isSidebarMode ? (
@@ -501,10 +520,19 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                   <ChevronRight className="w-4 h-4 text-white" />
                 )}
               </button>
-              {/* iOS-style close button */}
               <button
                 onClick={onToggle}
-                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 border border-white/30"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(255,255,255,0.2)',
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
               >
                 <X className="w-4 h-4 text-white" />
               </button>
@@ -512,58 +540,53 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
           </div>
         </div>
 
-        {/* Messages area with iOS scroll behavior */}
-        <div className={`flex-1 overflow-hidden ${
-          isSidebarMode ? 'h-[calc(100vh-140px)]' : 'h-[calc(100vh-140px)] md:h-[350px]'
-        }`}>
-          <ScrollArea 
-            ref={scrollAreaRef}
-            className="h-full px-4 py-3"
-          >
-            <div className="space-y-3">
+        {/* Messages */}
+        <div style={{ flex: 1, overflow: 'hidden', padding: '12px 16px' }}>
+          <ScrollArea ref={scrollAreaRef} className="h-full">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                  style={{
+                    display: 'flex',
+                    justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start'
+                  }}
                 >
-                  <div className="max-w-[85%] group">
+                  <div style={{ maxWidth: '85%' }}>
                     <div
-                      className={`px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.15)] border ${
-                        message.type === 'user'
-                          ? 'bg-white/90 text-gray-900 rounded-[20px] rounded-br-[8px] ml-auto border-white/30'
-                          : 'bg-white/20 text-white rounded-[20px] rounded-bl-[8px] border-white/20'
-                      }`}
+                      style={{
+                        padding: '12px 16px',
+                        borderRadius: message.type === 'user' ? '20px 20px 8px 20px' : '20px 20px 20px 8px',
+                        backgroundColor: message.type === 'user' ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.2)',
+                        color: message.type === 'user' ? '#111827' : 'white',
+                        border: '1px solid rgba(255,255,255,0.3)'
+                      }}
                     >
-                      <p className="text-[15px] leading-[1.4] font-[400]">{message.content}</p>
+                      <p style={{ margin: 0, fontSize: '15px', lineHeight: '1.4' }}>{message.content}</p>
                     </div>
-                    <div className={`flex items-center mt-1 space-x-1 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <span className="text-[11px] text-white/70 font-[500] drop-shadow-sm">
-                        {message.timestamp.toLocaleTimeString([], { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
-                        })}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      marginTop: '4px',
+                      justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start'
+                    }}>
+                      <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>
+                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
-                      {message.type === 'user' && (
-                        <div>
-                          {message.status === 'sending' && (
-                            <Clock className="w-3 h-3 text-white/60" />
-                          )}
-                          {message.status === 'sent' && (
-                            <CheckCircle className="w-3 h-3 text-white/80" />
-                          )}
-                          {message.status === 'error' && (
-                            <AlertCircle className="w-3 h-3 text-red-300" />
-                          )}
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
               ))}
               {isLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-white/20 rounded-[20px] rounded-bl-[8px] px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.15)] border border-white/20">
-                    <div className="flex items-center space-x-1">
+                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                  <div style={{
+                    backgroundColor: 'rgba(255,255,255,0.2)',
+                    borderRadius: '20px 20px 20px 8px',
+                    padding: '12px 16px',
+                    border: '1px solid rgba(255,255,255,0.2)'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce"></div>
                       <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
                       <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
@@ -575,45 +598,74 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
           </ScrollArea>
         </div>
 
-        {/* iOS-style input bar with OrderFi theme */}
-        <div className="relative px-4 py-3 border-t border-white/20">
-          <div className="flex items-center space-x-3">
-            <div className="flex-1 relative">
-              <div className="relative rounded-[22px] bg-white/90 border border-white/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
+        {/* Input */}
+        <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ flex: 1, position: 'relative' }}>
+              <div style={{
+                borderRadius: '22px',
+                backgroundColor: 'rgba(255,255,255,0.9)',
+                border: '1px solid rgba(255,255,255,0.3)',
+                position: 'relative'
+              }}>
                 <input
                   value={inputValue}
                   onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
                   placeholder="Message..."
                   disabled={isLoading}
-                  className="w-full px-4 py-3 pr-12 bg-transparent border-0 outline-none text-[15px] text-gray-900 placeholder-gray-500 font-[400]"
+                  style={{
+                    width: '100%',
+                    padding: '12px 48px 12px 16px',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    outline: 'none',
+                    fontSize: '15px',
+                    color: '#111827'
+                  }}
                 />
                 <button
                   onClick={toggleVoiceInput}
-                  className={`absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full transition-all duration-200 flex items-center justify-center ${
-                    isListening 
-                      ? 'bg-red-500 text-white shadow-[0_2px_8px_rgba(239,68,68,0.3)]' 
-                      : 'bg-gray-200/80 text-gray-600 hover:bg-gray-300/80'
-                  }`}
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    backgroundColor: isListening ? '#ef4444' : 'rgba(156,163,175,0.8)',
+                    border: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer'
+                  }}
                 >
                   {isListening ? (
-                    <MicOff className="w-4 h-4" />
+                    <MicOff className="w-4 h-4 text-white" />
                   ) : (
-                    <Mic className="w-4 h-4" />
+                    <Mic className="w-4 h-4 text-gray-600" />
                   )}
                 </button>
               </div>
             </div>
             
-            {/* iOS-style send button with OrderFi theme */}
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className={`w-10 h-10 rounded-full transition-all duration-200 flex items-center justify-center ${
-                !inputValue.trim() || isLoading
-                  ? 'bg-white/30 text-white/50 cursor-not-allowed'
-                  : 'bg-white text-orange-500 hover:bg-white/90 active:scale-95 shadow-[0_4px_12px_rgba(255,255,255,0.3)]'
-              }`}
+              style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                backgroundColor: !inputValue.trim() || isLoading ? 'rgba(255,255,255,0.3)' : 'white',
+                color: !inputValue.trim() || isLoading ? 'rgba(255,255,255,0.5)' : '#f97316',
+                border: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: !inputValue.trim() || isLoading ? 'not-allowed' : 'pointer'
+              }}
             >
               {isLoading ? (
                 <RefreshCw className="w-5 h-5 animate-spin" />
