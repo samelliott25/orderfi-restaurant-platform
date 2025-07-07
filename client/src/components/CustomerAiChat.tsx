@@ -464,18 +464,9 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
       >
       {/* iOS-style glass card with OrderFi gradient theme - translucent */}
-      <div className="w-full h-full shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-[20px] relative"
+      <div className="w-full h-full shadow-[0_8px_32px_rgba(0,0,0,0.25)] relative rounded-[28px] overflow-hidden"
            style={{
              background: 'linear-gradient(145deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
-             borderRadius: '28px',
-             WebkitMask: 'radial-gradient(circle at 28px 28px, transparent 27px, black 28px), radial-gradient(circle at calc(100% - 28px) 28px, transparent 27px, black 28px), radial-gradient(circle at 28px calc(100% - 28px), transparent 27px, black 28px), radial-gradient(circle at calc(100% - 28px) calc(100% - 28px), transparent 27px, black 28px), linear-gradient(black, black)',
-             WebkitMaskSize: '28px 28px, 28px 28px, 28px 28px, 28px 28px, calc(100% - 56px) 100%',
-             WebkitMaskPosition: '0 0, 100% 0, 0 100%, 100% 100%, 28px 0',
-             WebkitMaskRepeat: 'no-repeat',
-             mask: 'radial-gradient(circle at 28px 28px, transparent 27px, black 28px), radial-gradient(circle at calc(100% - 28px) 28px, transparent 27px, black 28px), radial-gradient(circle at 28px calc(100% - 28px), transparent 27px, black 28px), radial-gradient(circle at calc(100% - 28px) calc(100% - 28px), transparent 27px, black 28px), linear-gradient(black, black)',
-             maskSize: '28px 28px, 28px 28px, 28px 28px, 28px 28px, calc(100% - 56px) 100%',
-             maskPosition: '0 0, 100% 0, 0 100%, 100% 100%, 28px 0',
-             maskRepeat: 'no-repeat',
              boxShadow: `
                0 8px 32px rgba(0, 0, 0, 0.15),
                0 2px 8px rgba(0, 0, 0, 0.1),
