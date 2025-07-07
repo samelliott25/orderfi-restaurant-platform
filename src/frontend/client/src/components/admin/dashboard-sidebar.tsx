@@ -203,7 +203,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
               <Menu className="h-6 w-6" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-64 p-0">
+          <SheetContent side="left" className="w-64 p-0 h-full max-w-none">
             <SidebarContent />
           </SheetContent>
         </Sheet>
