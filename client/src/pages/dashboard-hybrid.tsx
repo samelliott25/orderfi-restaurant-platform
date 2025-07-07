@@ -164,7 +164,7 @@ const generateMetrics = () => ({
 
 export default function HybridDashboard() {
   const { theme } = useTheme();
-  const { isOpen, setIsOpen } = useChatContext();
+  const { isOpen, setIsOpen, isSidebarMode } = useChatContext();
   const [activeTab, setActiveTab] = useState('overview');
   const [timeframe, setTimeframe] = useState('24H');
   const [metrics, setMetrics] = useState(generateMetrics());
@@ -208,7 +208,7 @@ export default function HybridDashboard() {
 
   return (
     <div className={`min-h-screen bg-background text-foreground transition-all duration-300 ${
-      isOpen ? 'pr-80' : 'pr-0'
+      isOpen && isSidebarMode ? 'pr-80' : 'pr-0'
     }`}>
       {/* Header - At Top of Page */}
       <div className="border-b border-border px-6 py-4">
