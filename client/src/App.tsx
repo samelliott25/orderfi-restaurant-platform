@@ -37,7 +37,6 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   
   // Hide navigation on pages that have their own header/navigation (StandardLayout or custom headers)
   const hideNavigation = [
-    '/', 
     '/customer',
     '/landing-page', 
     '/not-found', 
@@ -63,8 +62,8 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(timer);
   }, []);
   
-  // Remove top padding for dashboard to push heading to very top
-  const isDashboard = location === '/dashboard';
+  // Special handling for dashboard to remove padding
+  const isDashboard = location === '/' || location === '/dashboard';
   
   return (
     <div className="min-h-screen bg-background flex">
@@ -73,7 +72,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Main content with sidebar offset */}
       <main className={`${
         !hideNavigation ? "ml-80" : ""
-      } flex-1 h-screen overflow-auto`} style={{ backgroundColor: '#fcfcfc' }}>
+      } flex-1 h-screen ${isDashboard ? 'overflow-auto' : 'overflow-auto p-6'}`} style={{ backgroundColor: isDashboard ? undefined : '#fcfcfc' }}>
         {children}
       </main>
     </div>
