@@ -319,7 +319,7 @@ export default function HybridDashboard() {
         {/* Chart Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-foreground font-heading">Revenue Performance</h2>
+            <h2 className="text-xl font-normal text-foreground font-heading">Revenue Performance</h2>
             <div className="flex gap-2">
               {timeframes.map((tf) => (
                 <Button

@@ -15,7 +15,7 @@
 /* Global font theme - Futura for headings, Arial for content */
 h1, h2, h3, h4, h5, h6, .orderfi-brand {
   font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* Specific OrderFi brand elements */
@@ -24,7 +24,7 @@ h1, h2, h3, h4, h5, h6, .orderfi-brand {
 .card-title,
 .dialog-title {
   font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* Content and body text - Use Arial */
