@@ -461,11 +461,11 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         }}
         onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
       >
-      {/* iOS-style glass card with OrderFi gradient theme - translucent */}
+      {/* Simple chat card with proper rounded corners */}
       <div 
-        className="w-full h-full flex flex-col"
+        className="w-full h-full flex flex-col overflow-hidden"
         style={{
-          background: 'linear-gradient(145deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
+          background: 'linear-gradient(145deg, #f97316, #ec4899)',
           borderRadius: '28px',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)'
         }}>
