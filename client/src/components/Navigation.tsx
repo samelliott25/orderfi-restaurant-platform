@@ -99,7 +99,7 @@ export function HamburgerMenu() {
                 </div>
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white rock-salt-font">OrderFi</h2>
+                <h2 className="text-xl font-normal text-gray-900 dark:text-white rock-salt-font">OrderFi</h2>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                   AI Restaurant Platform
                 </p>

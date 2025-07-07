@@ -71,7 +71,7 @@ export function StandardLayoutWithSidebar({
             
             {!sidebarCollapsed && (
               <div>
-                <h1 className="text-lg font-bold rock-salt-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
+                <h1 className="text-lg font-normal rock-salt-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
                   OrderFi
                 </h1>
                 <p className="text-xs text-muted-foreground">Venue Console</p>
@@ -132,7 +132,7 @@ export function StandardLayoutWithSidebar({
         <div className="flex items-center justify-between p-4 bg-card border-b border-border">
           <div className="flex items-center gap-3">
             <div>
-              <h1 className="text-xl font-bold rock-salt-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
+              <h1 className="text-xl font-normal rock-salt-font" style={{ color: 'hsl(25, 95%, 53%)' }}>
                 {title}
               </h1>
               {subtitle && (

@@ -63,7 +63,7 @@ export function StandardLayout({
             </div>
           </div>
           <div>
-            <h1 className={`text-xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent rock-salt-font`}>
+            <h1 className={`text-xl font-normal bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent rock-salt-font`}>
               {title}
             </h1>
             {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
