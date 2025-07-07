@@ -95,10 +95,9 @@ function AppLayout({ children }: { children: React.ReactNode }) {
       
       {/* Main content with sidebar offset */}
       <main 
-        className={`flex-1 h-screen ${isDashboard ? 'overflow-auto' : 'overflow-auto p-6'}`} 
+        className={`flex-1 h-screen overflow-auto`} 
         style={{ 
-          marginLeft: !hideNavigation ? sidebarWidth : '0',
-          backgroundColor: isDashboard ? undefined : '#fcfcfc' 
+          marginLeft: !hideNavigation ? sidebarWidth : '0'
         }}
       >
         {children}
