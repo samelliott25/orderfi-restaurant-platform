@@ -506,7 +506,10 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 )}
               </button>
               <button
-                onClick={() => setIsSidebarMode(true)}
+                onClick={() => {
+                  setIsSidebarMode(true);
+                  onToggle(); // Close the floating dialog
+                }}
                 style={{
                   width: '32px',
                   height: '32px',
