@@ -662,11 +662,13 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                       style={{
                         padding: '12px 16px',
                         borderRadius: message.type === 'user' ? '20px 20px 8px 20px' : '20px 20px 20px 8px',
-                        backgroundColor: message.type === 'user' 
-                          ? 'rgba(88, 28, 135, 0.9)' // Deep purple for user messages
+                        background: message.type === 'user' 
+                          ? isDarkMode 
+                            ? 'linear-gradient(135deg, rgba(88, 28, 135, 0.9), rgba(124, 58, 237, 0.8))' // Deep purple gradient for user
+                            : 'rgba(88, 28, 135, 0.9)' // Solid deep purple in light mode
                           : isDarkMode 
-                            ? 'rgba(147, 51, 234, 0.8)' // Purple-600 with transparency
-                            : 'rgba(249, 115, 22, 0.1)', // Light orange tint
+                            ? 'linear-gradient(135deg, rgba(147, 51, 234, 0.8), rgba(236, 72, 153, 0.7))' // Purple to pink gradient for ChatOps
+                            : 'rgba(249, 115, 22, 0.1)', // Light orange tint in light mode
                         color: message.type === 'user' ? 'white' : isDarkMode ? 'white' : '#111827',
                         border: '1px solid rgba(255,255,255,0.3)',
                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
@@ -691,8 +693,8 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
               {isLoading && (
                 <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <div style={{
-                    backgroundColor: isDarkMode 
-                      ? 'rgba(147, 51, 234, 0.8)' // Purple-600 with transparency to match ChatOps bubble
+                    background: isDarkMode 
+                      ? 'linear-gradient(135deg, rgba(147, 51, 234, 0.8), rgba(236, 72, 153, 0.7))' // Purple to pink gradient to match ChatOps bubble
                       : 'rgba(249, 115, 22, 0.1)', // Light orange tint to match ChatOps bubble
                     borderRadius: '20px 20px 20px 8px',
                     padding: '12px 16px',
