@@ -589,30 +589,30 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ flex: 1, position: 'relative' }}>
-              <div style={{
-                borderRadius: '22px',
-                backgroundColor: '#ffffff',
-                border: '1px solid rgba(255,255,255,0.3)',
-                position: 'relative',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                overflow: 'hidden'
-              }}>
-                {/* Animated electric border effect */}
-                <div 
-                  className="animate-spin"
-                  style={{
-                    position: 'absolute',
-                    top: '-3px',
-                    left: '-3px',
-                    right: '-3px',
-                    bottom: '-3px',
-                    background: 'conic-gradient(from 0deg, transparent 70%, #8b5cf6 85%, #06b6d4 95%, #8b5cf6 100%, transparent 110%)',
-                    borderRadius: '26px',
-                    animationDuration: '2s',
-                    zIndex: -1,
-                    opacity: 0.8
-                  }}
-                ></div>
+              {/* Electric border animation container */}
+              <div 
+                className="animate-spin"
+                style={{
+                  position: 'absolute',
+                  top: '-2px',
+                  left: '-2px',
+                  right: '-2px',
+                  bottom: '-2px',
+                  background: 'conic-gradient(from 0deg, #8b5cf6, #06b6d4, #8b5cf6, #d946ef, #8b5cf6)',
+                  borderRadius: '24px',
+                  animationDuration: '2s',
+                  padding: '2px'
+                }}
+              >
+                <div style={{
+                  borderRadius: '22px',
+                  backgroundColor: '#ffffff',
+                  border: 'none',
+                  position: 'relative',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                  width: '100%',
+                  height: '100%'
+                }}>
                 <input
                   value={inputValue}
                   onChange={handleInputChange}
@@ -653,6 +653,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                     <Mic className="w-4 h-4 text-gray-600" />
                   )}
                 </button>
+                </div>
               </div>
             </div>
             
