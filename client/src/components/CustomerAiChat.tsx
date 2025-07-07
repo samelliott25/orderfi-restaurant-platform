@@ -184,6 +184,65 @@ import {
   Move
 } from 'lucide-react';
 
+// Move component definition before main component
+const SuggestionChips = React.memo(({ chatContext, messages, chatState, setChatState }: {
+  chatContext: 'customer' | 'onboarding' | 'operations';
+  messages: ChatMessage[];
+  chatState: any;
+  setChatState: (state: any) => void;
+}) => {
+  const isOnboarded = localStorage.getItem('orderfi-onboarding-completed');
+  const lastMessage = messages[messages.length - 1];
+  
+  let suggestions: string[] = [];
+  
+  if (!isOnboarded) {
+    suggestions = ["What's your restaurant called?", "Upload my menu", "Show me a demo"];
+  } else if (lastMessage?.content.includes('live on OrderFi')) {
+    suggestions = ["Generate QR code", "View dashboard", "Show menu"];
+  } else if (chatContext === 'operations') {
+    suggestions = ["Kitchen status", "Daily sales", "Menu analytics"];
+  } else {
+    suggestions = ["Take an order", "Menu updates", "Check inventory"];
+  }
+  
+  if (suggestions.length === 0) return null;
+
+  return (
+    <div style={{ padding: '8px 16px 0 16px' }}>
+      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+        {suggestions.map((suggestion, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              const newState = { ...chatState, inputValue: suggestion };
+              setChatState(newState);
+            }}
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.15)',
+              color: 'white',
+              border: '1px solid rgba(255,255,255,0.3)',
+              borderRadius: '12px',
+              padding: '4px 8px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.25)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
+            }}
+          >
+            {suggestion}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+});
+
 interface CustomerAiChatProps {
   isOpen: boolean;
   onToggle: () => void;
@@ -654,56 +713,12 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         </div>
 
         {/* Suggestion Chips */}
-        {React.useMemo(() => {
-          const isOnboarded = localStorage.getItem('orderfi-onboarding-completed');
-          const lastMessage = messages[messages.length - 1];
-          
-          let suggestions: string[] = [];
-          
-          if (!isOnboarded) {
-            suggestions = ["What's your restaurant called?", "Upload my menu", "Show me a demo"];
-          } else if (lastMessage?.content.includes('live on OrderFi')) {
-            suggestions = ["Generate QR code", "View dashboard", "Show menu"];
-          } else if (chatContext === 'operations') {
-            suggestions = ["Kitchen status", "Daily sales", "Menu analytics"];
-          } else {
-            suggestions = ["Take an order", "Menu updates", "Check inventory"];
-          }
-          
-          return suggestions.length > 0 ? (
-            <div style={{ padding: '8px 16px 0 16px' }}>
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                {suggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      const newState = { ...chatState, inputValue: suggestion };
-                      setChatState(newState);
-                    }}
-                    style={{
-                      backgroundColor: 'rgba(255,255,255,0.15)',
-                      color: 'white',
-                      border: '1px solid rgba(255,255,255,0.3)',
-                      borderRadius: '12px',
-                      padding: '4px 8px',
-                      fontSize: '11px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.25)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
-                    }}
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : null;
-        }, [chatContext, messages.length])}
+        <SuggestionChips 
+          chatContext={chatContext}
+          messages={messages}
+          chatState={chatState}
+          setChatState={setChatState}
+        />
 
         {/* Input */}
         <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
