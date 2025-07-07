@@ -536,9 +536,10 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                       style={{
                         padding: '12px 16px',
                         borderRadius: message.type === 'user' ? '20px 20px 8px 20px' : '20px 20px 20px 8px',
-                        backgroundColor: message.type === 'user' ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.2)',
+                        backgroundColor: message.type === 'user' ? '#ffffff' : '#1f2937',
                         color: message.type === 'user' ? '#111827' : 'white',
-                        border: '1px solid rgba(255,255,255,0.3)'
+                        border: '1px solid rgba(255,255,255,0.3)',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                       }}
                     >
                       <p style={{ margin: 0, fontSize: '15px', lineHeight: '1.4' }}>{message.content}</p>
@@ -560,10 +561,11 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
               {isLoading && (
                 <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <div style={{
-                    backgroundColor: 'rgba(255,255,255,0.2)',
+                    backgroundColor: '#1f2937',
                     borderRadius: '20px 20px 20px 8px',
                     padding: '12px 16px',
-                    border: '1px solid rgba(255,255,255,0.2)'
+                    border: '1px solid rgba(255,255,255,0.3)',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <div className="w-2 h-2 bg-white/70 rounded-full animate-bounce"></div>
@@ -583,9 +585,10 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
             <div style={{ flex: 1, position: 'relative' }}>
               <div style={{
                 borderRadius: '22px',
-                backgroundColor: 'rgba(255,255,255,0.9)',
+                backgroundColor: '#ffffff',
                 border: '1px solid rgba(255,255,255,0.3)',
-                position: 'relative'
+                position: 'relative',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}>
                 <input
                   value={inputValue}
