@@ -172,9 +172,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               <div className="flex items-center justify-center">
                 <Button
                   onClick={() => setChatOpen(!isChatOpen)}
-                  size={isCollapsed ? "sm" : "lg"}
                   className={`relative overflow-hidden border-0 shadow-lg transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
-                    isCollapsed ? 'w-8 h-8 p-0' : 'w-full'
+                    isCollapsed ? 'w-8 h-8 p-0' : 'w-full h-12 px-4 py-3'
                   } ${
                     isChatOpen 
                       ? 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 hover:from-orange-500 hover:via-red-600 hover:to-pink-700' 
