@@ -443,7 +443,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
       {/* Clean chat dialog with perfect rounded corners */}
       <div 
         style={{
-          background: 'linear-gradient(145deg, #f97316, #ec4899)',
+          background: 'linear-gradient(145deg, rgba(249, 115, 22, 0.85), rgba(236, 72, 153, 0.85))',
           borderRadius: '28px',
           overflow: 'hidden',
           width: '100%',
