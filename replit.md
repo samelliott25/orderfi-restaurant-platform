@@ -134,15 +134,16 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
-- July 7, 2025. Successfully replaced Carter One with Rock Salt font and maintained mixed branding
+- July 7, 2025. Successfully replaced Carter One with Rock Salt font and implemented AI Journal
   - Swapped all Carter One font references to Rock Salt throughout application (headings, titles, navigation)
   - Updated Google Fonts import from Carter One to Rock Salt in index.html
   - Applied black color styling for Rock Salt font (black in light mode, white in dark mode)
-  - Maintained mixed OrderFi branding: "Order" in Rock Salt, "Fi" in Playwrite AU VIC cursive
+  - Updated OrderFi branding in sidebar to use unified Playwrite font for "OrderFi" as single word
   - Fixed all missed font references in tokenrewards.tsx and other admin pages
   - Created AI-powered OrderFi Journal component replacing Quick Actions with real-time business insights
   - Built backend API endpoint using OpenAI GPT-4o for generating daily sales summaries
   - Fixed database schema issues by adding missing transaction_id and cost_price columns
+  - Attempted ChatOps button sizing adjustments (ongoing UI refinement needed)
 - July 7, 2025. Completed comprehensive typography standardization across entire application
   - Applied SUSE font universally using wildcard CSS selector for all text elements
   - Updated StandardLayout and all admin pages to use Carter One font for headings
