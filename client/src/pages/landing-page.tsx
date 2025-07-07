@@ -113,17 +113,33 @@ export default function LandingPage() {
               className={`
                 relative overflow-hidden w-full py-4 sm:py-6 text-lg sm:text-xl font-normal text-white 
                 shadow-xl transition-all duration-300 transform rounded-xl
-                bg-gradient-to-r from-orange-500 via-red-500 to-pink-500
-                hover:from-orange-600 hover:via-red-600 hover:to-pink-600
                 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/50
                 active:scale-95 active:shadow-lg
                 dark-mode-button
                 ${isClicked ? 'animate-pulse scale-95' : ''}
-                before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent 
-                before:via-white/20 before:to-transparent before:-translate-x-full 
-                hover:before:translate-x-full before:transition-transform before:duration-700
               `}
+              style={{
+                background: 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)'
+              }}
             >
+              {/* Animated background effect */}
+              <div className="absolute inset-0 opacity-30">
+                <div className="absolute inset-0 animate-spin" style={{ animationDuration: '8s' }}>
+                  <div className="w-full h-full rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                </div>
+              </div>
+              
+              {/* Floating particles */}
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="w-1 h-1 absolute bg-white/80 rounded-full animate-pulse" 
+                     style={{ top: '25%', left: '15%', animationDelay: '0s', animationDuration: '2s' }}></div>
+                <div className="w-1 h-1 absolute bg-white/60 rounded-full animate-pulse" 
+                     style={{ top: '60%', left: '75%', animationDelay: '0.5s', animationDuration: '2.5s' }}></div>
+                <div className="w-0.5 h-0.5 absolute bg-white/70 rounded-full animate-pulse" 
+                     style={{ top: '40%', left: '85%', animationDelay: '1s', animationDuration: '3s' }}></div>
+                <div className="w-1 h-1 absolute bg-white/50 rounded-full animate-pulse" 
+                     style={{ top: '75%', left: '20%', animationDelay: '1.5s', animationDuration: '2.2s' }}></div>
+              </div>
               <span className="relative z-10 flex items-center justify-center gap-2">
                 <svg 
                   className="w-4 h-4 ai-sparkle-1" 
