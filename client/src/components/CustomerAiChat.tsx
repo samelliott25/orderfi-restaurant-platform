@@ -589,13 +589,24 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ flex: 1, position: 'relative' }}>
-              <div style={{
-                borderRadius: '22px',
-                backgroundColor: '#ffffff',
-                border: '1px solid rgba(255,255,255,0.3)',
-                position: 'relative',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-              }}>
+              <div 
+                className="relative"
+                style={{
+                  borderRadius: '22px',
+                  background: 'linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4, #3b82f6)',
+                  backgroundSize: '300% 100%',
+                  animation: 'gradientShift 3s ease infinite',
+                  padding: '1px'
+                }}
+              >
+                <div style={{
+                  borderRadius: '21px',
+                  backgroundColor: '#ffffff',
+                  position: 'relative',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                  width: '100%',
+                  height: '100%'
+                }}>
                 <input
                   value={inputValue}
                   onChange={handleInputChange}
@@ -661,6 +672,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 <Send className="w-4 h-4" />
               )}
             </button>
+          </div>
           </div>
         </div>
       </div>

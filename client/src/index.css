@@ -49,6 +49,19 @@ body, p, span, div, button, input, textarea, select, .content-text {
   }
 }
 
+/* Gradient border animation for chat input */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .animate-page-turn {
   animation: page-turn 1.2s ease-in-out forwards;
   transform-style: preserve-3d;
