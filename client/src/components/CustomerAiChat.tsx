@@ -594,8 +594,25 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 backgroundColor: '#ffffff',
                 border: '1px solid rgba(255,255,255,0.3)',
                 position: 'relative',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                overflow: 'hidden'
               }}>
+                {/* Animated electric border effect */}
+                <div 
+                  className="animate-spin"
+                  style={{
+                    position: 'absolute',
+                    top: '-3px',
+                    left: '-3px',
+                    right: '-3px',
+                    bottom: '-3px',
+                    background: 'conic-gradient(from 0deg, transparent 70%, #8b5cf6 85%, #06b6d4 95%, #8b5cf6 100%, transparent 110%)',
+                    borderRadius: '26px',
+                    animationDuration: '2s',
+                    zIndex: -1,
+                    opacity: 0.8
+                  }}
+                ></div>
                 <input
                   value={inputValue}
                   onChange={handleInputChange}
