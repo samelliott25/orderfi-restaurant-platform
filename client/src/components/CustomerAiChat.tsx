@@ -251,6 +251,7 @@ const getPersistedPosition = (): Position => {
 
 export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const { isSidebarMode, setIsSidebarMode, chatState, setChatState, isLoading, setIsLoading } = useChatContext();
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [position, setPosition] = useState<Position>(getPersistedPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -260,6 +261,24 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const hasAnimatedRef = useRef(false);
 
   const { messages, inputValue, isListening } = chatState;
+
+  // Detect dark mode
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+    
+    checkDarkMode();
+    
+    // Watch for changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['class'] 
+    });
+    
+    return () => observer.disconnect();
+  }, []);
 
   // Portal animation from chat button
   useEffect(() => {
@@ -562,7 +581,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                       style={{
                         padding: '12px 16px',
                         borderRadius: message.type === 'user' ? '20px 20px 8px 20px' : '20px 20px 20px 8px',
-                        backgroundColor: message.type === 'user' ? '#ffffff' : '#8b5a96',
+                        backgroundColor: message.type === 'user' ? '#ffffff' : isDarkMode ? '#1f2937' : '#8b5a96',
                         color: message.type === 'user' ? '#111827' : 'white',
                         border: '1px solid rgba(255,255,255,0.3)',
                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
@@ -587,7 +606,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
               {isLoading && (
                 <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <div style={{
-                    backgroundColor: '#8b5a96',
+                    backgroundColor: isDarkMode ? '#1f2937' : '#8b5a96',
                     borderRadius: '20px 20px 20px 8px',
                     padding: '12px 16px',
                     border: '1px solid rgba(255,255,255,0.3)',
