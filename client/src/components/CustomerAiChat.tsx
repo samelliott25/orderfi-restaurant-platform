@@ -417,8 +417,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
             : 'inset-0 left-[60px] w-[calc(100vw-60px)] h-screen md:inset-auto md:left-auto md:w-96 md:h-[520px]'
         }`}
         style={isSidebarMode ? {
-          background: 'rgba(0, 0, 0, 0.2)',
-          backdropFilter: 'blur(4px)'
+          background: 'rgba(0, 0, 0, 0.3)'
         } : {
           // Desktop positioning only (mobile uses CSS classes above)
           ...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
@@ -426,8 +425,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
             top: `${position.y}%`,
             transform: 'translate(0, 0)'
           } : {}),
-          background: 'rgba(0, 0, 0, 0.2)',
-          backdropFilter: 'blur(4px)'
+          background: 'rgba(0, 0, 0, 0.3)'
         }}
         onClick={onToggle}
       />
