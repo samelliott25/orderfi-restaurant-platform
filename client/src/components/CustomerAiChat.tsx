@@ -479,7 +479,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {/* Modern iOS-style avatar with OrderFi theme */}
-              <div className="w-10 h-10 rounded-full bg-white/20 shadow-[0_2px_8px_rgba(0,0,0,0.2)] flex items-center justify-center backdrop-blur-sm border border-white/30">
+              <div className="w-10 h-10 rounded-full bg-white/20 shadow-[0_2px_8px_rgba(0,0,0,0.2)] flex items-center justify-center border border-white/30">
                 <Bot className="w-5 h-5 text-white drop-shadow-sm" />
               </div>
               <div>
@@ -494,7 +494,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
               {/* Snap to sidebar arrow button */}
               <button
                 onClick={toggleSidebarMode}
-                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 backdrop-blur-sm border border-white/30"
+                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 border border-white/30"
                 title={isSidebarMode ? "Float chat" : "Snap to sidebar"}
               >
                 {isSidebarMode ? (
@@ -506,7 +506,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
               {/* iOS-style close button */}
               <button
                 onClick={onToggle}
-                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 backdrop-blur-sm border border-white/30"
+                className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center shadow-[0_1px_3px_rgba(0,0,0,0.2)] active:scale-95 border border-white/30"
               >
                 <X className="w-4 h-4 text-white" />
               </button>
@@ -581,7 +581,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         <div className="relative px-4 py-3 border-t border-white/20">
           <div className="flex items-center space-x-3">
             <div className="flex-1 relative">
-              <div className="relative rounded-[22px] bg-white/90 backdrop-blur-sm border border-white/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
+              <div className="relative rounded-[22px] bg-white/90 border border-white/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
                 <input
                   value={inputValue}
                   onChange={handleInputChange}
