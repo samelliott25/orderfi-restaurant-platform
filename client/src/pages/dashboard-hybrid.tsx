@@ -329,7 +329,7 @@ export default function HybridDashboard() {
         {/* Chart Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-normal text-foreground font-heading">Revenue Performance</h2>
+            <h2 className="text-xl font-normal text-foreground carter-one-font">Revenue Performance</h2>
             <div className="flex gap-2">
               {timeframes.map((tf) => (
                 <Button
@@ -403,7 +403,7 @@ export default function HybridDashboard() {
           {/* Live Orders */}
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground font-heading font-normal flex items-center gap-2">
+              <CardTitle className="text-foreground carter-one-font font-normal flex items-center gap-2">
                 <Activity className="w-5 h-5 text-orange-500" />
                 Live Orders
               </CardTitle>
@@ -435,7 +435,7 @@ export default function HybridDashboard() {
           {/* Quick Actions */}
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground font-heading font-normal flex items-center gap-2">
+              <CardTitle className="text-foreground carter-one-font font-normal flex items-center gap-2">
                 <Zap className="w-5 h-5 text-yellow-500" />
                 Quick Actions
               </CardTitle>
