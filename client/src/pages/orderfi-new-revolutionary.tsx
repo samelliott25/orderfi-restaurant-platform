@@ -30,7 +30,7 @@ export default function OrderFiNew() {
         <div className="container mx-auto px-4 py-8 pb-32">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent mb-2">
               Welcome to OrderFi
             </h1>
             <p className="text-gray-600 text-lg">
@@ -48,7 +48,7 @@ export default function OrderFiNew() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Button className="w-full bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white">
+                <Button className="w-full bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white">
                   Order Now
                 </Button>
               </CardContent>
@@ -119,7 +119,7 @@ export default function OrderFiNew() {
           </div>
 
           {/* Rewards Card */}
-          <Card className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white mb-8">
+          <Card className="bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 text-white mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Star className="h-5 w-5" />
@@ -293,7 +293,7 @@ export default function OrderFiNew() {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500"
+            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500"
             onClick={() => setLocation('/dashboard')}
           >
             <Home className="h-4 w-4 text-orange-500" />
@@ -303,7 +303,7 @@ export default function OrderFiNew() {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600"
+            className="flex flex-col items-center gap-1 text-transparent bg-clip-text bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600"
             onClick={() => setLocation('/dashboard')}
           >
             <Calendar className="h-4 w-4 text-orange-500" />

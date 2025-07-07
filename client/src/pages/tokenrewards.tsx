@@ -81,7 +81,7 @@ export default function TokenRewards() {
       <div className="max-w-4xl mx-auto space-y-6">
 
         {/* Current Status Card - Matching OrderFi Design */}
-        <Card className="bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white border-0">
+        <Card className="bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 text-white border-0">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>

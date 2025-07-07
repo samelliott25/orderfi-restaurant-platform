@@ -174,8 +174,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   }`}
                   style={{
                     background: isChatOpen 
-                      ? 'conic-gradient(from 0deg, #f97316, #ef4444, #ec4899, #f97316)' 
-                      : 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)',
+                      ? 'conic-gradient(from 0deg, #F5A623, #f97316, #ec4899, #F5A623)' 
+                      : 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)',
                     borderRadius: isCollapsed ? '50%' : '12px'
                   }}
                 >

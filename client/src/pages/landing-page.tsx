@@ -41,7 +41,7 @@ export default function LandingPage() {
       {showTransition && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           {/* Background with keyhole reveal animation */}
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 animate-keyhole-reveal">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 animate-keyhole-reveal">
             {/* Overlay gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
           </div>
@@ -51,7 +51,7 @@ export default function LandingPage() {
             {/* OrderFi Logo - Same container as home page */}
             <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
               <div className="text-center">
-                <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
+                <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
                   OrderFi
                 </div>
               </div>
@@ -92,7 +92,7 @@ export default function LandingPage() {
           {/* OrderFi Logo - Animated SVG */}
           <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-7xl sm:text-8xl md:text-9xl font-normal bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font px-4 py-6 gentle-glow hover-float">
+              <div className="text-7xl sm:text-8xl md:text-9xl font-normal bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font px-4 py-6 gentle-glow hover-float">
                 OrderFi
               </div>
               
@@ -119,7 +119,7 @@ export default function LandingPage() {
                 ${isClicked ? 'animate-pulse scale-95' : ''}
               `}
               style={{
-                background: 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #ec4899 100%)'
+                background: 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)'
               }}
             >
               {/* Animated background effect */}

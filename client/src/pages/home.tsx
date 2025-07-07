@@ -43,7 +43,7 @@ export default function HomePage() {
       {showTransition && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           {/* Background with keyhole reveal animation */}
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 animate-keyhole-reveal">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 animate-keyhole-reveal">
             {/* Overlay gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
           </div>
@@ -53,7 +53,7 @@ export default function HomePage() {
             {/* OrderFi Logo - Same container as home page */}
             <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
               <div className="text-center">
-                <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
+                <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
                   OrderFi
                 </div>
               </div>
@@ -94,7 +94,7 @@ export default function HomePage() {
           {/* OrderFi Logo - Animated SVG */}
           <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font px-4 py-6 gentle-glow hover-float">
+              <div className="text-7xl sm:text-8xl md:text-9xl font-bold bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font px-4 py-6 gentle-glow hover-float">
                 OrderFi
               </div>
               
@@ -115,7 +115,7 @@ export default function HomePage() {
               className={`
                 relative overflow-hidden w-full py-4 sm:py-6 text-lg sm:text-xl font-bold text-white 
                 shadow-xl transition-all duration-300 transform rounded-xl
-                bg-gradient-to-r from-orange-500 via-red-500 to-pink-500
+                bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500
                 hover:from-orange-600 hover:via-red-600 hover:to-pink-600
                 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/50
                 active:scale-95 active:shadow-lg
