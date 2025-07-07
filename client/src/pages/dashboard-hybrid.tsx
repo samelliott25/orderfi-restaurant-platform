@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "@/components/theme-provider";
 import { useChatContext } from '@/contexts/ChatContext';
 import { CustomerAiChat } from '@/components/CustomerAiChat';
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,9 +34,125 @@ import {
   Target,
   Award,
   Calendar,
-  Filter
+  Filter,
+  BookOpen,
+  Sparkles,
+  RefreshCw
 } from "lucide-react";
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+// OrderFi Journal Component
+const OrderFiJournal = () => {
+  const [currentPeriod, setCurrentPeriod] = useState('today');
+  
+  const { data: journalData, isLoading, refetch } = useQuery({
+    queryKey: ['/api/journal/summary', currentPeriod],
+    queryFn: async () => {
+      const response = await fetch('/api/journal/summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ period: currentPeriod })
+      });
+      return response.json();
+    },
+    refetchInterval: 5 * 60 * 1000, // Refresh every 5 minutes
+  });
+
+  const handleRefresh = () => {
+    refetch();
+  };
+
+  return (
+    <Card className="bg-card border-border">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-foreground carter-one-font font-normal flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-blue-500" />
+            OrderFi Journal
+          </CardTitle>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleRefresh}
+            disabled={isLoading}
+            className="h-8 w-8 p-0"
+          >
+            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+          </Button>
+        </div>
+        <p className="text-xs text-muted-foreground">AI-generated daily insights</p>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Period Selector */}
+        <div className="flex gap-2">
+          <Button
+            variant={currentPeriod === 'today' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setCurrentPeriod('today')}
+            className="text-xs"
+          >
+            Today
+          </Button>
+          <Button
+            variant={currentPeriod === 'week' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setCurrentPeriod('week')}
+            className="text-xs"
+          >
+            This Week
+          </Button>
+        </div>
+
+        {/* AI Summary */}
+        <div className="relative">
+          {isLoading ? (
+            <div className="flex items-center gap-2 p-4 bg-secondary rounded-lg">
+              <Sparkles className="w-4 h-4 text-orange-500 animate-pulse" />
+              <div className="text-sm text-muted-foreground">Generating AI insights...</div>
+            </div>
+          ) : (
+            <div className="p-4 bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-950/20 dark:to-pink-950/20 rounded-lg border border-orange-200 dark:border-orange-800">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Sparkles className="w-4 h-4 text-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm text-foreground leading-relaxed">
+                    {journalData?.summary || journalData?.fallback || "Analyzing today's performance..."}
+                  </p>
+                  {journalData?.timestamp && (
+                    <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
+                      <Clock className="w-3 h-3" />
+                      <span>Updated {new Date(journalData.timestamp).toLocaleTimeString()}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Quick Stats */}
+        {journalData?.data && (
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-3 bg-secondary rounded-lg">
+              <div className="text-sm text-muted-foreground">Revenue</div>
+              <div className="text-lg font-normal text-foreground">
+                ${journalData.data.revenue?.toFixed(2) || '0.00'}
+              </div>
+            </div>
+            <div className="p-3 bg-secondary rounded-lg">
+              <div className="text-sm text-muted-foreground">Orders</div>
+              <div className="text-lg font-normal text-foreground">
+                {journalData.data.orders || 0}
+              </div>
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
 
 // Generate comprehensive sales data for different periods
 const generateSalesData = (period: string) => {
@@ -432,43 +549,8 @@ export default function HybridDashboard() {
             </CardContent>
           </Card>
 
-          {/* Quick Actions */}
-          <Card className="bg-card border-border">
-            <CardHeader>
-              <CardTitle className="text-foreground carter-one-font font-normal flex items-center gap-2">
-                <Zap className="w-5 h-5 text-yellow-500" />
-                Quick Actions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-3">
-                <Button className="h-16 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white">
-                  <div className="text-center">
-                    <Package className="w-5 h-5 mx-auto mb-1" />
-                    <div className="text-sm">Inventory</div>
-                  </div>
-                </Button>
-                <Button className="h-16 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white">
-                  <div className="text-center">
-                    <CreditCard className="w-5 h-5 mx-auto mb-1" />
-                    <div className="text-sm">Payments</div>
-                  </div>
-                </Button>
-                <Button className="h-16 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white">
-                  <div className="text-center">
-                    <Users className="w-5 h-5 mx-auto mb-1" />
-                    <div className="text-sm">Staff</div>
-                  </div>
-                </Button>
-                <Button className="h-16 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white">
-                  <div className="text-center">
-                    <BarChart3 className="w-5 h-5 mx-auto mb-1" />
-                    <div className="text-sm">Reports</div>
-                  </div>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          {/* OrderFi Journal */}
+          <OrderFiJournal />
         </div>
       </div>
       

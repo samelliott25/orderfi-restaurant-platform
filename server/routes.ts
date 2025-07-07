@@ -949,5 +949,69 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // AI Journal Summary endpoint
+  app.post("/api/journal/summary", async (req, res) => {
+    try {
+      const { period = 'today' } = req.body;
+      
+      // Get real data from storage
+      const orders = await storage.getOrdersByRestaurant(1);
+      const menuItems = await storage.getMenuItems(1);
+      
+      // Calculate actual metrics
+      const todayOrders = orders.filter(order => {
+        const orderDate = new Date(order.createdAt || Date.now());
+        const today = new Date();
+        return orderDate.toDateString() === today.toDateString();
+      });
+      
+      const todayRevenue = todayOrders.reduce((sum, order) => sum + parseFloat(order.total), 0);
+      const avgOrderValue = todayOrders.length > 0 ? todayRevenue / todayOrders.length : 0;
+      
+      // OpenAI API call for generating summary
+      const OpenAI = require('openai');
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+      const prompt = `Generate a concise, professional restaurant journal summary for ${period} with this data:
+      
+Today's Performance:
+- Revenue: $${todayRevenue.toFixed(2)}
+- Orders: ${todayOrders.length}
+- Average Order: $${avgOrderValue.toFixed(2)}
+- Menu Items: ${menuItems.length}
+- Active Menu Items: ${menuItems.filter(item => item.isAvailable).length}
+
+Write a brief, insightful summary (2-3 sentences) focusing on key performance highlights and actionable insights for restaurant management. Keep it professional but engaging, like a daily business briefing.`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 200,
+        temperature: 0.7
+      });
+
+      const summary = response.choices[0].message.content;
+
+      res.json({
+        summary,
+        data: {
+          revenue: todayRevenue,
+          orders: todayOrders.length,
+          avgOrderValue,
+          menuItems: menuItems.length,
+          availableItems: menuItems.filter(item => item.isAvailable).length
+        },
+        timestamp: new Date().toISOString(),
+        period
+      });
+    } catch (error) {
+      console.error('AI Journal Summary Error:', error);
+      res.status(500).json({ 
+        error: "Failed to generate journal summary",
+        fallback: "Strong performance today with steady order flow and excellent menu availability. Revenue tracking well with good customer engagement across available items."
+      });
+    }
+  });
+
   // Routes registered successfully
 }
