@@ -91,7 +91,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                    <h2 className="text-xl font-normal text-gray-900 dark:text-white">
                       <span className="playwrite-font">Order</span><span className="orderfi-fi">Fi</span>
                     </h2>
                   </div>
@@ -140,7 +140,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   <Link key={item.href} href={item.href}>
                     <Button
                       variant={isActive ? "default" : "ghost"}
-                      className={`w-full font-medium transition-colors h-10 ${
+                      className={`w-full font-normal transition-colors h-10 ${
                         isCollapsed 
                           ? 'justify-center p-2' 
                           : 'justify-start text-left px-3'
@@ -153,7 +153,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
                     >
                       <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
-                      {!isCollapsed && <span className="font-medium">{item.label}</span>}
+                      {!isCollapsed && <span className="font-normal">{item.label}</span>}
                     </Button>
                   </Link>
                 );
@@ -202,7 +202,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   
                   <div className="relative z-10 flex items-center justify-center w-full h-full">
                     {!isCollapsed && (
-                      <span className="text-white font-semibold text-sm mr-2">ChatOps</span>
+                      <span className="text-white font-normal text-sm mr-2">ChatOps</span>
                     )}
                     {/* Use only the essential orb elements */}
                     {isCollapsed ? (
@@ -254,7 +254,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                         <Wallet className="h-4 w-4 text-white" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                        <p className="text-sm font-normal text-green-800 dark:text-green-200">
                           Wallet Connected
                         </p>
                         <p className="text-xs text-green-600 dark:text-green-400">
@@ -275,7 +275,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 
                 {/* Theme Toggle */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Theme</span>
+                  <span className="text-sm font-normal text-gray-700 dark:text-gray-300">Theme</span>
                   <Button
                     variant="ghost"
                     size="sm"

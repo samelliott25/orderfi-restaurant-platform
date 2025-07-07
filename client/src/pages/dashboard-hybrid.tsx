@@ -201,7 +201,7 @@ export default function HybridDashboard() {
               <ChefHat className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground font-heading">Dashboard</h1>
+              <h1 className="text-xl font-normal text-foreground font-heading">Dashboard</h1>
               <p className="text-sm text-muted-foreground">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function HybridDashboard() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
+              className={`flex items-center gap-2 px-4 py-3 text-sm font-normal whitespace-nowrap border-b-2 transition-colors ${
                 activeTab === tab.id
                   ? 'border-orange-500 text-orange-500'
                   : 'border-transparent text-muted-foreground hover:text-foreground'
@@ -249,11 +249,11 @@ export default function HybridDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <Card className="bg-card border-border">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Revenue Today</CardTitle>
+              <CardTitle className="text-sm font-normal text-muted-foreground">Revenue Today</CardTitle>
               <DollarSign className="w-4 h-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{formatCurrency(metrics.revenue.current)}</div>
+              <div className="text-2xl font-normal text-foreground">{formatCurrency(metrics.revenue.current)}</div>
               <div className="flex items-center gap-1 text-sm">
                 {metrics.revenue.trend === 'up' ? (
                   <TrendingUp className="w-3 h-3 text-green-500" />
@@ -270,11 +270,11 @@ export default function HybridDashboard() {
 
           <Card className="bg-card border-border">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Orders</CardTitle>
+              <CardTitle className="text-sm font-normal text-muted-foreground">Orders</CardTitle>
               <ShoppingCart className="w-4 h-4 text-blue-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{metrics.orders.current}</div>
+              <div className="text-2xl font-normal text-foreground">{metrics.orders.current}</div>
               <div className="flex items-center gap-1 text-sm">
                 <TrendingUp className="w-3 h-3 text-green-500" />
                 <span className="text-green-500">+{metrics.orders.change}%</span>
@@ -285,11 +285,11 @@ export default function HybridDashboard() {
 
           <Card className="bg-card border-border">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Customers</CardTitle>
+              <CardTitle className="text-sm font-normal text-muted-foreground">Customers</CardTitle>
               <Users className="w-4 h-4 text-purple-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{metrics.customers.current}</div>
+              <div className="text-2xl font-normal text-foreground">{metrics.customers.current}</div>
               <div className="flex items-center gap-1 text-sm">
                 <TrendingUp className="w-3 h-3 text-green-500" />
                 <span className="text-green-500">+{metrics.customers.change}%</span>
@@ -300,11 +300,11 @@ export default function HybridDashboard() {
 
           <Card className="bg-card border-border">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Avg Order</CardTitle>
+              <CardTitle className="text-sm font-normal text-muted-foreground">Avg Order</CardTitle>
               <Target className="w-4 h-4 text-orange-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{formatCurrency(metrics.avgOrder.current)}</div>
+              <div className="text-2xl font-normal text-foreground">{formatCurrency(metrics.avgOrder.current)}</div>
               <div className="flex items-center gap-1 text-sm">
                 <TrendingDown className="w-3 h-3 text-red-500" />
                 <span className="text-red-500">{metrics.avgOrder.change}%</span>
@@ -406,12 +406,12 @@ export default function HybridDashboard() {
                     <div className="flex items-center gap-3">
                       <div className={`w-3 h-3 rounded-full ${getStatusColor(order.status)}`}></div>
                       <div>
-                        <div className="text-sm font-medium text-foreground">{order.id}</div>
+                        <div className="text-sm font-normal text-foreground">{order.id}</div>
                         <div className="text-xs text-muted-foreground">{order.customer} • {order.items}</div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-medium text-foreground">{formatCurrency(order.total)}</div>
+                      <div className="text-sm font-normal text-foreground">{formatCurrency(order.total)}</div>
                       <div className="text-xs text-muted-foreground">{order.time}</div>
                     </div>
                   </div>

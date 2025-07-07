@@ -134,6 +134,18 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 7, 2025. Completed comprehensive typography refinement removing all bold fonts
+  - Eliminated all font-bold, font-semibold, and font-medium classes throughout application
+  - Changed all text elements to use font-normal (400 weight) for consistent, clean appearance
+  - Updated dashboard metrics, headers, navigation tabs, and card titles to normal weight
+  - Applied changes to sidebar branding, landing page logo, and all UI components
+  - Maintained Futura for headings and Arial for content with consistent normal weight
+  - Created refined, elegant typography system without any bold emphasis
+- July 7, 2025. Implemented mixed font branding with "Order" in Futura and "Fi" in Playwrite cursive
+  - Created sophisticated OrderFi logo using Futura for "Order" and Playwrite AU VIC for "Fi"
+  - Applied mixed font styling to sidebar and dashboard headers
+  - Landing page maintains full Playwrite cursive font for elegant branding
+  - Differentiated brand presentation: landing uses full cursive, app interface uses mixed fonts
 - July 7, 2025. Implemented hybrid dashboard redesign blending CoinGecko structure with restaurant operations
   - Created comprehensive dashboard-hybrid.tsx combining CoinGecko-style layout with restaurant-specific features
   - Integrated theme-aware design using app's light/dark theme system with OrderFi orange-pink gradient branding
