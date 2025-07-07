@@ -669,6 +669,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 </button>
               </div>
             </div>
+            </div>
             
             <button
               onClick={handleSendMessage}
@@ -692,7 +693,6 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 <Send className="w-4 h-4" />
               )}
             </button>
-          </div>
           </div>
         </div>
       </div>
