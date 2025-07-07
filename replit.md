@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 7, 2025. Chat dialog rounded corners issue remains unresolved
+  - Multiple attempts to fix blur effects and rounded corner rendering
+  - Tried removing backdrop-blur, simplifying structure, using inline styles
+  - Issue persists despite various CSS approaches and structural changes
+  - User expressed significant frustration with repeated unsuccessful attempts
+  - Marked as known issue requiring different approach or investigation
 - July 7, 2025. Made dashboard responsive to chat sidebar width changes
   - Added dynamic right padding (pr-80) when chat dialog is open
   - Dashboard content now adjusts width smoothly with 300ms transition
