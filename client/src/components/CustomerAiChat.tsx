@@ -410,31 +410,38 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   }
 
   return (
-    <div 
-      ref={chatRef}
-      className={`fixed z-50 transition-all ${
-        shouldAnimate ? 'animate-in slide-in-from-bottom-4 duration-500' : ''
-      } ${
-        isDragging ? 'cursor-grabbing' : 'cursor-grab'
-      } ${
-        isSidebarMode 
-          ? 'w-80 h-screen top-0 right-0' 
-          : // Mobile: Full screen with sidebar space, Desktop: Normal size
-            'inset-0 left-[60px] w-[calc(100vw-60px)] h-screen md:inset-auto md:left-auto md:w-96 md:h-[520px]'
-      }`}
-      style={isSidebarMode ? {
-        opacity: 0.9
-      } : {
-        // Desktop positioning only (mobile uses CSS classes above)
-        ...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
-          left: `${position.x}%`,
-          top: `${position.y}%`,
-          transform: 'translate(0, 0)'
-        } : {}),
-        opacity: 0.9
-      }}
-      onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
-    >
+    <>
+      {/* Backdrop blur overlay */}
+      <div 
+        className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 transition-all duration-300"
+        onClick={onToggle}
+      />
+      
+      <div 
+        ref={chatRef}
+        className={`fixed z-50 transition-all ${
+          shouldAnimate ? 'animate-in slide-in-from-bottom-4 duration-500' : ''
+        } ${
+          isDragging ? 'cursor-grabbing' : 'cursor-grab'
+        } ${
+          isSidebarMode 
+            ? 'w-80 h-screen top-0 right-0' 
+            : // Mobile: Full screen with sidebar space, Desktop: Normal size
+              'inset-0 left-[60px] w-[calc(100vw-60px)] h-screen md:inset-auto md:left-auto md:w-96 md:h-[520px]'
+        }`}
+        style={isSidebarMode ? {
+          opacity: 0.9
+        } : {
+          // Desktop positioning only (mobile uses CSS classes above)
+          ...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
+            left: `${position.x}%`,
+            top: `${position.y}%`,
+            transform: 'translate(0, 0)'
+          } : {}),
+          opacity: 0.9
+        }}
+        onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
+      >
       {/* iOS-style glass card with OrderFi gradient theme - translucent */}
       <div className="w-full h-full rounded-[28px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-[20px] border border-white/20"
            style={{
@@ -602,6 +609,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
