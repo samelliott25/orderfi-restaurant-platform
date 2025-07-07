@@ -213,14 +213,9 @@ export default function HybridDashboard() {
       {/* Header - At Top of Page */}
       <div className="border-b border-border px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center">
-              <ChefHat className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-normal text-foreground font-heading">Dashboard</h1>
-              <p className="text-sm text-muted-foreground">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
-            </div>
+          <div>
+            <h1 className="text-xl font-normal text-foreground font-heading">Dashboard</h1>
+            <p className="text-sm text-muted-foreground">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
           </div>
           <div className="flex items-center gap-3">
             <Badge variant="outline" className="bg-green-500/20 text-green-400 border-green-500/30">
