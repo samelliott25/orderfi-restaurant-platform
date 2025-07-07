@@ -261,20 +261,18 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
 
   const { messages, inputValue, isListening } = chatState;
 
-  // Track whether chat should animate on mount
+  // Portal animation from chat button
   useEffect(() => {
-    // Only animate if this is the first time opening (not a page navigation)
-    const chatOpenKey = 'orderfi-chat-first-open';
-    const hasOpenedBefore = sessionStorage.getItem(chatOpenKey);
-    
-    if (isOpen && !hasOpenedBefore) {
+    if (isOpen && !hasAnimatedRef.current) {
       setShouldAnimate(true);
-      sessionStorage.setItem(chatOpenKey, 'true');
+      hasAnimatedRef.current = true;
+      // Reset animation flag after completion
+      const timer = setTimeout(() => {
+        setShouldAnimate(false);
+      }, 600);
+      return () => clearTimeout(timer);
     } else if (!isOpen) {
-      // Clear the flag when chat is closed so it can animate again when reopened
-      sessionStorage.removeItem(chatOpenKey);
-      setShouldAnimate(false);
-    } else {
+      hasAnimatedRef.current = false;
       setShouldAnimate(false);
     }
   }, [isOpen]);
@@ -436,9 +434,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
       
       <div 
         ref={chatRef}
-        className={`fixed z-50 transition-all ${
-          shouldAnimate ? 'animate-in slide-in-from-bottom-4 duration-500' : ''
-        } ${
+        className={`fixed z-50 transition-all duration-500 ease-out ${
           isDragging ? 'cursor-grabbing' : 'cursor-grab'
         } ${
           isSidebarMode 
@@ -447,7 +443,11 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
               'inset-0 left-[60px] w-[calc(100vw-60px)] h-screen md:inset-auto md:left-auto md:w-96 md:h-[520px]'
         }`}
         style={isSidebarMode ? {
-          opacity: 0.9
+          opacity: 0.9,
+          ...(shouldAnimate ? {
+            transformOrigin: 'bottom right',
+            animation: 'portalFromButton 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+          } : {})
         } : {
           // Desktop positioning only (mobile uses CSS classes above)
           ...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
@@ -455,7 +455,11 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
             top: `${position.y}%`,
             transform: 'translate(0, 0)'
           } : {}),
-          opacity: 0.9
+          opacity: 0.9,
+          ...(shouldAnimate ? {
+            transformOrigin: 'bottom center',
+            animation: 'portalFromButtonMobile 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+          } : {})
         }}
         onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
       >

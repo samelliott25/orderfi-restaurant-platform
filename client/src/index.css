@@ -2929,4 +2929,35 @@ html {
   100% { transform: rotate(-360deg); }
 }
 
+/* Portal animation for chat appearing from button - Facebook Messenger style */
+@keyframes portalFromButton {
+  0% {
+    transform: scale(0) translateY(100%);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05) translateY(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 0.9;
+  }
+}
+
+@keyframes portalFromButtonMobile {
+  0% {
+    transform: scale(0) translateY(50vh);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.02) translateY(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 0.9;
+  }
+}
+
 
