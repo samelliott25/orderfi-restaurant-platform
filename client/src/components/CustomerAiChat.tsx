@@ -522,32 +522,10 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                 </div>
               </div>
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <h3 style={{ color: 'white', fontSize: '15px', fontWeight: '600', margin: 0 }}>ChatOps</h3>
-                  <select
-                    value={chatContext}
-                    onChange={(e) => setChatContext(e.target.value as any)}
-                    style={{
-                      backgroundColor: 'rgba(255,255,255,0.2)',
-                      color: 'white',
-                      border: '1px solid rgba(255,255,255,0.3)',
-                      borderRadius: '8px',
-                      padding: '2px 6px',
-                      fontSize: '10px',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <option value="customer" style={{ color: 'black' }}>Orders</option>
-                    <option value="onboarding" style={{ color: 'black' }}>Setup</option>
-                    <option value="operations" style={{ color: 'black' }}>Ops</option>
-                  </select>
-                </div>
+                <h3 style={{ color: 'white', fontSize: '15px', fontWeight: '600', margin: 0 }}>ChatOps</h3>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }}></div>
-                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '13px', margin: 0 }}>
-                    {chatContext === 'onboarding' ? 'Setup Mode' : 
-                     chatContext === 'operations' ? 'Operations' : 'Online'}
-                  </p>
+                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '13px', margin: 0 }}>Online</p>
                 </div>
               </div>
             </div>
@@ -672,6 +650,59 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
             </div>
           </ScrollArea>
         </div>
+
+        {/* Suggestion Chips */}
+        {(() => {
+          const isOnboarded = localStorage.getItem('orderfi-onboarding-completed');
+          const recentMessages = messages.slice(-3);
+          const lastMessage = messages[messages.length - 1];
+          
+          let suggestions: string[] = [];
+          
+          if (!isOnboarded) {
+            suggestions = ["What's your restaurant called?", "Upload my menu", "Show me a demo"];
+          } else if (lastMessage?.content.includes('live on OrderFi')) {
+            suggestions = ["Generate QR code", "View dashboard", "Show menu"];
+          } else if (chatContext === 'operations') {
+            suggestions = ["Kitchen status", "Daily sales", "Menu analytics"];
+          } else {
+            suggestions = ["Take an order", "Menu updates", "Check inventory"];
+          }
+          
+          return suggestions.length > 0 ? (
+            <div style={{ padding: '8px 16px 0 16px' }}>
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                {suggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      const newState = { ...chatState, inputValue: suggestion };
+                      setChatState(newState);
+                    }}
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.15)',
+                      color: 'white',
+                      border: '1px solid rgba(255,255,255,0.3)',
+                      borderRadius: '12px',
+                      padding: '4px 8px',
+                      fontSize: '11px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
+                    }}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null;
+        })()}
 
         {/* Input */}
         <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
