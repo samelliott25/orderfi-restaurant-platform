@@ -16,6 +16,11 @@
 .carter-one-font {
   font-family: "Carter One", cursive !important;
   font-weight: 400;
+  background: linear-gradient(135deg, #f97316, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(249, 115, 22, 0.2);
 }
 
 /* Global font theme - Futura for headings, Arial for content */
