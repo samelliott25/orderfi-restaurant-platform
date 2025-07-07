@@ -420,7 +420,7 @@ export default function AdminInventoryPage() {
                         }}>
                     <CardHeader>
                       <div className="flex justify-between items-center">
-                        <CardTitle className="text-lg" style={{ color: 'hsl(215, 28%, 25%)' }}>{category}</CardTitle>
+                        <CardTitle className="text-lg carter-one-font" style={{ color: 'hsl(215, 28%, 25%)' }}>{category}</CardTitle>
                         <div className="flex items-center gap-2">
                           <Badge 
                             variant="secondary"
@@ -635,7 +635,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
       {/* Basic Information */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Basic Information</CardTitle>
+          <CardTitle className="text-lg carter-one-font">Basic Information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -687,7 +687,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
       {/* Pricing */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Pricing</CardTitle>
+          <CardTitle className="text-lg carter-one-font">Pricing</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
@@ -728,7 +728,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
       {/* Inventory Management */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Inventory & Availability</CardTitle>
+          <CardTitle className="text-lg carter-one-font">Inventory & Availability</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center space-x-2">
@@ -773,7 +773,7 @@ function MenuItemForm({ item, onSave, onCancel }: MenuItemFormProps) {
       {/* Additional Options */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Additional Options</CardTitle>
+          <CardTitle className="text-lg carter-one-font">Additional Options</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
