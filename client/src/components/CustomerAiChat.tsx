@@ -684,7 +684,10 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                cursor: !inputValue.trim() || isLoading ? 'not-allowed' : 'pointer'
+                cursor: !inputValue.trim() || isLoading ? 'not-allowed' : 'pointer',
+                zIndex: 10,
+                position: 'relative',
+                flexShrink: 0
               }}
             >
               {isLoading ? (
