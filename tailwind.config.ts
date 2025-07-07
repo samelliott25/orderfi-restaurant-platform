@@ -6,10 +6,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'heading': ['"Yeseva One"', 'serif'],
-        'content': ['"Nunito Sans"', 'sans-serif'],
-        'sans': ['"Nunito Sans"', 'Inter', 'system-ui', 'sans-serif'],
-        'serif': ['"Yeseva One"', 'Georgia', 'Times New Roman', 'serif'],
+        'heading': ['"Ubuntu"', 'sans-serif'],
+        'content': ['"Open Sans"', 'sans-serif'],
+        'sans': ['"Open Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        'serif': ['Georgia', 'Times New Roman', 'serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
