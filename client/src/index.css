@@ -12,6 +12,12 @@
   font-weight: 400;
 }
 
+/* Carter One font class for special titles */
+.carter-one-font {
+  font-family: "Carter One", cursive !important;
+  font-weight: 400;
+}
+
 /* Global font theme - Futura for headings, Arial for content */
 h1, h2, h3, h4, h5, h6, .orderfi-brand {
   font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
