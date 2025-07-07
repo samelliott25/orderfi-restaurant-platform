@@ -9,7 +9,7 @@ import { ChatProvider } from "@/contexts/ChatContext";
 import { Sidebar } from "@/components/Sidebar";
 import HomePage from "@/pages/home";
 import LandingPage from "@/pages/landing-page";
-import CryptoStyleDashboard from "@/pages/dashboard-crypto-style";
+import HybridDashboard from "@/pages/dashboard-hybrid";
 import Web3DappPage from "@/pages/web3-dapp";
 import OrderFiNew from "@/pages/orderfi-new";
 import OrderFiSimple from "./pages/orderfi-simple";
@@ -88,7 +88,7 @@ function Router() {
         <Route path="/landing-page" component={LandingPage} />
         
         {/* Dashboard - Default Home */}
-        <Route path="/" component={CryptoStyleDashboard} />
+        <Route path="/" component={HybridDashboard} />
         
         {/* Customer-Facing Mobile Interface */}
         <Route path="/customer" component={OrderFiNew} />
@@ -99,7 +99,7 @@ function Router() {
         <Route path="/test-three" component={TestThree} />
         
         {/* Back Office Dashboard */}
-        <Route path="/dashboard" component={CryptoStyleDashboard} />
+        <Route path="/dashboard" component={HybridDashboard} />
         
         {/* MVP Venue Console - 8 Admin Pages */}
         <Route path="/inventory" component={AdminInventoryPage} />
