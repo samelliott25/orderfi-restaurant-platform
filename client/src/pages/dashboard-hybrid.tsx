@@ -207,7 +207,9 @@ export default function HybridDashboard() {
   const timeframes = ['24H', '7D', '30D', '90D'];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className={`min-h-screen bg-background text-foreground transition-all duration-300 ${
+      isOpen ? 'pr-80' : 'pr-0'
+    }`}>
       {/* Header - At Top of Page */}
       <div className="border-b border-border px-6 py-4">
         <div className="flex items-center justify-between">

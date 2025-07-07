@@ -134,6 +134,22 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 7, 2025. Made dashboard responsive to chat sidebar width changes
+  - Added dynamic right padding (pr-80) when chat dialog is open
+  - Dashboard content now adjusts width smoothly with 300ms transition
+  - Prevents content overlap when AI chat sidebar is activated
+  - Maintains proper spacing and readability during chat interactions
+- July 7, 2025. Fixed sidebar navigation persistence for dashboard page
+  - Removed "/dashboard" from hideNavigation array to show sidebar on dashboard
+  - Dashboard page now displays sidebar consistently when accessed via navigation
+  - Resolved issue where clicking dashboard icon would hide the sidebar
+  - Ensured proper navigation functionality throughout admin interface
+- July 7, 2025. Enhanced chart visibility for restaurant operating hours
+  - Updated chart to show 9:00 AM to 12:00 AM (midnight) operating schedule
+  - Added realistic peak hour patterns: lunch (11 AM-2 PM) and dinner (6 PM-9 PM)
+  - Improved chart grid lines with darker grey color (#6b7280) for better visibility
+  - Enhanced X/Y axis labels with darker color (#374151) for light mode readability
+  - Operating hours now accurately reflect 15-hour restaurant schedule
 - July 7, 2025. Completed comprehensive typography refinement removing all bold fonts
   - Eliminated all font-bold, font-semibold, and font-medium classes throughout application
   - Changed all text elements to use font-normal (400 weight) for consistent, clean appearance
