@@ -23,6 +23,10 @@ interface ChatContextType {
   setChatState: (state: ChatState) => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
+  chatContext: 'customer' | 'onboarding' | 'operations';
+  setChatContext: (context: 'customer' | 'onboarding' | 'operations') => void;
+  onboardingState: any;
+  setOnboardingState: (state: any) => void;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -66,6 +70,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [chatState, setChatState] = useState<ChatState>(getInitialChatState);
   const [isLoading, setIsLoading] = useState(false);
+  const [chatContext, setChatContext] = useState<'customer' | 'onboarding' | 'operations'>('customer');
+  const [onboardingState, setOnboardingState] = useState<any>({ step: 'welcome' });
 
   // Persist sidebar mode state
   useEffect(() => {
@@ -80,6 +86,22 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem('orderfi-chat-open');
     if (saved) {
       setIsOpen(JSON.parse(saved));
+    }
+  }, []);
+
+  // Persist chat context
+  useEffect(() => {
+    const saved = localStorage.getItem('orderfi-chat-context');
+    if (saved) {
+      setChatContext(JSON.parse(saved));
+    }
+  }, []);
+
+  // Persist onboarding state
+  useEffect(() => {
+    const saved = localStorage.getItem('orderfi-onboarding-state');
+    if (saved) {
+      setOnboardingState(JSON.parse(saved));
     }
   }, []);
 
@@ -98,6 +120,16 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(newState));
   };
 
+  const handleSetChatContext = (context: 'customer' | 'onboarding' | 'operations') => {
+    setChatContext(context);
+    localStorage.setItem('orderfi-chat-context', JSON.stringify(context));
+  };
+
+  const handleSetOnboardingState = (state: any) => {
+    setOnboardingState(state);
+    localStorage.setItem('orderfi-onboarding-state', JSON.stringify(state));
+  };
+
   return (
     <ChatContext.Provider value={{ 
       isSidebarMode, 
@@ -107,7 +139,11 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       chatState,
       setChatState: handleSetChatState,
       isLoading,
-      setIsLoading
+      setIsLoading,
+      chatContext,
+      setChatContext: handleSetChatContext,
+      onboardingState,
+      setOnboardingState: handleSetOnboardingState
     }}>
       {children}
     </ChatContext.Provider>

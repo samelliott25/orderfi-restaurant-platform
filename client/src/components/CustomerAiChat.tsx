@@ -309,13 +309,22 @@ const getPersistedPosition = (): Position => {
 };
 
 export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
-  const { isSidebarMode, setIsSidebarMode, chatState, setChatState, isLoading, setIsLoading } = useChatContext();
+  const { 
+    isSidebarMode, 
+    setIsSidebarMode, 
+    chatState, 
+    setChatState, 
+    isLoading, 
+    setIsLoading,
+    chatContext,
+    setChatContext,
+    onboardingState,
+    setOnboardingState
+  } = useChatContext();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [position, setPosition] = useState<Position>(getPersistedPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [chatContext, setChatContext] = useState<'customer' | 'onboarding' | 'operations'>('customer');
-  const [onboardingState, setOnboardingState] = useState<any>({ step: 'welcome' });
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
@@ -324,10 +333,15 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
 
   const { messages, inputValue, isListening } = chatState;
 
-  // Auto-prompt for onboarding when chat is first opened - only once
+  // Auto-prompt for onboarding when chat is first opened - only once per session
   useEffect(() => {
-    if (isOpen && messages.length === 1 && !localStorage.getItem('orderfi-onboarding-completed') && !hasPromptedOnboarding.current) {
+    const isOnboarded = localStorage.getItem('orderfi-onboarding-completed');
+    const hasShownWelcome = sessionStorage.getItem('orderfi-welcome-shown');
+    
+    if (isOpen && messages.length === 1 && !isOnboarded && !hasShownWelcome && !hasPromptedOnboarding.current) {
       hasPromptedOnboarding.current = true;
+      sessionStorage.setItem('orderfi-welcome-shown', 'true');
+      
       // Set to onboarding mode and show welcome message
       setChatContext('onboarding');
       const onboardingWelcome: ChatMessage = {
@@ -348,7 +362,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
       };
       setChatState(newState);
     }
-  }, [isOpen, messages.length]);
+  }, [isOpen, messages.length, setChatContext, setChatState, chatState]);
 
   // Detect dark mode
   useEffect(() => {
