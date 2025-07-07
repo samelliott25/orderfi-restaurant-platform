@@ -467,7 +467,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 justifyContent: 'center',
                 border: '1px solid rgba(255,255,255,0.3)'
               }}>
-                <Bot className="w-5 h-5 text-white" />
+                <Star className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h3 style={{ color: 'white', fontSize: '15px', fontWeight: '600', margin: 0 }}>ChatOps</h3>
