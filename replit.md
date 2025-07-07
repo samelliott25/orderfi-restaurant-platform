@@ -134,15 +134,15 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
-- July 7, 2025. Implemented revolutionary 10-minute onboarding system to outcompete traditional POS providers
-  - Created comprehensive onboarding flow with 4-step process: venue name, menu upload, preview, and activation
-  - Built AI-powered menu parsing using OpenAI GPT-4o for both image and text menu uploads
-  - Implemented drag-and-drop interface with instant menu categorization and item extraction
-  - Added QR code preview generation for immediate customer experience testing
-  - Created "Skip to Demo Mode" for instant playground access without barriers
-  - Designed gradient-themed onboarding UI with progress tracking and Rock Salt typography
-  - Updated landing page to redirect to onboarding flow instead of dashboard
-  - Built backend menu parser with multer file upload and OpenAI Vision API integration
+- July 7, 2025. Integrated revolutionary conversational onboarding directly into ChatOps interface
+  - Built comprehensive onboarding chat handler using OpenAI GPT-4o for natural language restaurant setup
+  - Created 4-step conversational flow: welcome → venue name → menu upload → review → completion
+  - Implemented AI-powered menu parsing for both image uploads and text input through chat
+  - Added context switching in ChatOps header: Orders, Setup, Operations modes
+  - Built backend onboarding service with state management and OpenAI Vision API integration
+  - Users can now set up complete restaurants through natural conversation in under 10 minutes
+  - Eliminated need for separate onboarding page - everything happens in ChatOps
+  - Added dynamic status indicators showing current onboarding step
   - Removed all bold font styling from Rock Salt elements throughout entire application
   - Enhanced CSS with !important declarations to ensure consistent normal font weight
   - Applied typography refinements: OrderFi (Playwrite), headings (Rock Salt normal), body (SUSE)

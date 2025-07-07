@@ -19,6 +19,7 @@ import {
 } from "@shared/schema";
 import multer from 'multer';
 import { parseMenuHandler, uploadMiddleware } from "./routes/menu-parser";
+import { processOnboardingMessage } from "./services/onboarding-chat";
 import ttsRouter from "./routes/tts.js";
 import { validateRequest, createRateLimit, securityHeaders, requestLogger, errorHandler } from "./middleware/security.js";
 import { cacheManager } from "./services/cache-manager.js";
@@ -320,7 +321,7 @@ export async function registerRoutes(app: Express): Promise<void> {
   app.post("/api/chat", async (req, res) => {
     try {
       // Support both formats for flexibility with language detection
-      const { message, messages, restaurantId = 1, sessionId = 'default-session', conversationHistory = [], language } = req.body;
+      const { message, messages, restaurantId = 1, sessionId = 'default-session', conversationHistory = [], language, context } = req.body;
       
       let userMessage = message;
       
@@ -332,6 +333,26 @@ export async function registerRoutes(app: Express): Promise<void> {
       
       if (!userMessage) {
         return res.status(400).json({ error: "Message is required" });
+      }
+
+      // Handle onboarding context
+      if (context === 'onboarding') {
+        const onboardingResponse = await processOnboardingMessage(userMessage, sessionId, req.body);
+        
+        const chatMessage = await storage.createChatMessage({
+          sessionId,
+          role: 'assistant',
+          content: onboardingResponse.message,
+          timestamp: new Date()
+        });
+        
+        return res.json({ 
+          response: onboardingResponse.message,
+          message: onboardingResponse.message,
+          messageId: chatMessage.id,
+          action: onboardingResponse.action,
+          data: onboardingResponse.data
+        });
       }
 
       // Get restaurant context

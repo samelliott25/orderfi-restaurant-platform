@@ -255,6 +255,8 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const [position, setPosition] = useState<Position>(getPersistedPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [chatContext, setChatContext] = useState<'customer' | 'onboarding' | 'operations'>('customer');
+  const [onboardingState, setOnboardingState] = useState<any>({ step: 'welcome' });
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
@@ -495,10 +497,32 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                 </div>
               </div>
               <div>
-                <h3 style={{ color: 'white', fontSize: '15px', fontWeight: '600', margin: 0 }}>ChatOps</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <h3 style={{ color: 'white', fontSize: '15px', fontWeight: '600', margin: 0 }}>ChatOps</h3>
+                  <select
+                    value={chatContext}
+                    onChange={(e) => setChatContext(e.target.value as any)}
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.2)',
+                      color: 'white',
+                      border: '1px solid rgba(255,255,255,0.3)',
+                      borderRadius: '8px',
+                      padding: '2px 6px',
+                      fontSize: '10px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <option value="customer" style={{ color: 'black' }}>Orders</option>
+                    <option value="onboarding" style={{ color: 'black' }}>Setup</option>
+                    <option value="operations" style={{ color: 'black' }}>Ops</option>
+                  </select>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }}></div>
-                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '13px', margin: 0 }}>Online</p>
+                  <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '13px', margin: 0 }}>
+                    {chatContext === 'onboarding' ? 'Setup Mode' : 
+                     chatContext === 'operations' ? 'Operations' : 'Online'}
+                  </p>
                 </div>
               </div>
             </div>
