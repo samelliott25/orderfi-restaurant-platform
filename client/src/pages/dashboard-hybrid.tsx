@@ -201,7 +201,7 @@ export default function HybridDashboard() {
               <ChefHat className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground playwrite-font">OrderFi Restaurant #1</h1>
+              <h1 className="text-xl font-bold text-foreground font-heading">OrderFi Restaurant #1</h1>
               <p className="text-sm text-muted-foreground">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
             </div>
           </div>
@@ -317,7 +317,7 @@ export default function HybridDashboard() {
         {/* Chart Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-foreground playwrite-font">Revenue Performance</h2>
+            <h2 className="text-xl font-semibold text-foreground font-heading">Revenue Performance</h2>
             <div className="flex gap-2">
               {timeframes.map((tf) => (
                 <Button
@@ -391,7 +391,7 @@ export default function HybridDashboard() {
           {/* Live Orders */}
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground playwrite-font flex items-center gap-2">
+              <CardTitle className="text-foreground font-heading flex items-center gap-2">
                 <Activity className="w-5 h-5 text-orange-500" />
                 Live Orders
               </CardTitle>
@@ -423,7 +423,7 @@ export default function HybridDashboard() {
           {/* Quick Actions */}
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground playwrite-font flex items-center gap-2">
+              <CardTitle className="text-foreground font-heading flex items-center gap-2">
                 <Zap className="w-5 h-5 text-yellow-500" />
                 Quick Actions
               </CardTitle>
