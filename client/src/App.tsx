@@ -42,7 +42,6 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/customer',
     '/landing-page', 
     '/not-found', 
-    '/dashboard',
     '/tokenrewards',
     '/network', 
     '/inventory',
