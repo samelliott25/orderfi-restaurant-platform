@@ -562,7 +562,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
                       style={{
                         padding: '12px 16px',
                         borderRadius: message.type === 'user' ? '20px 20px 8px 20px' : '20px 20px 20px 8px',
-                        backgroundColor: message.type === 'user' ? '#ffffff' : '#1f2937',
+                        backgroundColor: message.type === 'user' ? '#ffffff' : '#ff8c42',
                         color: message.type === 'user' ? '#111827' : 'white',
                         border: '1px solid rgba(255,255,255,0.3)',
                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
@@ -587,7 +587,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
               {isLoading && (
                 <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <div style={{
-                    backgroundColor: '#1f2937',
+                    backgroundColor: '#ff8c42',
                     borderRadius: '20px 20px 20px 8px',
                     padding: '12px 16px',
                     border: '1px solid rgba(255,255,255,0.3)',
