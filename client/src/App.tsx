@@ -20,6 +20,7 @@ import TestThree from "@/pages/test-three";
 import VisualizationPlatform from "@/pages/visualization-platform";
 import SimpleVisualization from "@/pages/simple-visualization";
 import { useEffect, useState } from "react";
+import { useChatContext } from "@/contexts/ChatContext";
 
 // Import all 8 MVP Venue Console admin pages
 import AdminInventoryPage from "@/pages/admin/inventory";
@@ -34,6 +35,7 @@ import AdminSettingsPage from "@/pages/admin/settings";
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isAppLoaded, setIsAppLoaded] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState('256px');
   
   // Hide navigation on pages that have their own header/navigation (StandardLayout or custom headers)
   const hideNavigation = [
@@ -61,6 +63,29 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     }, 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Track sidebar width changes
+  useEffect(() => {
+    const updateSidebarWidth = () => {
+      const width = getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width');
+      setSidebarWidth(width || '256px');
+    };
+
+    // Initial update
+    updateSidebarWidth();
+
+    // Watch for changes
+    const observer = new MutationObserver(() => {
+      updateSidebarWidth();
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['style']
+    });
+
+    return () => observer.disconnect();
+  }, []);
   
   // Special handling for dashboard to remove padding
   const isDashboard = location === '/' || location === '/dashboard';
@@ -70,9 +95,13 @@ function AppLayout({ children }: { children: React.ReactNode }) {
       {!hideNavigation && <Sidebar />}
       
       {/* Main content with sidebar offset */}
-      <main className={`${
-        !hideNavigation ? "ml-80" : ""
-      } flex-1 h-screen ${isDashboard ? 'overflow-auto' : 'overflow-auto p-6'}`} style={{ backgroundColor: isDashboard ? undefined : '#fcfcfc' }}>
+      <main 
+        className={`flex-1 h-screen ${isDashboard ? 'overflow-auto' : 'overflow-auto p-6'}`} 
+        style={{ 
+          marginLeft: !hideNavigation ? sidebarWidth : '0',
+          backgroundColor: isDashboard ? undefined : '#fcfcfc' 
+        }}
+      >
         {children}
       </main>
     </div>
