@@ -447,25 +447,25 @@ export default function HybridDashboard() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-3">
-                <Button className="h-16 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
+                <Button className="h-16 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white">
                   <div className="text-center">
                     <Package className="w-5 h-5 mx-auto mb-1" />
                     <div className="text-sm">Inventory</div>
                   </div>
                 </Button>
-                <Button className="h-16 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
+                <Button className="h-16 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white">
                   <div className="text-center">
                     <CreditCard className="w-5 h-5 mx-auto mb-1" />
                     <div className="text-sm">Payments</div>
                   </div>
                 </Button>
-                <Button className="h-16 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600">
+                <Button className="h-16 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white">
                   <div className="text-center">
                     <Users className="w-5 h-5 mx-auto mb-1" />
                     <div className="text-sm">Staff</div>
                   </div>
                 </Button>
-                <Button className="h-16 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600">
+                <Button className="h-16 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white">
                   <div className="text-center">
                     <BarChart3 className="w-5 h-5 mx-auto mb-1" />
                     <div className="text-sm">Reports</div>
