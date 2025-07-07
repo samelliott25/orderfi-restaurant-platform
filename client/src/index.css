@@ -16,11 +16,12 @@
 .rock-salt-font {
   font-family: "Rock Salt", cursive !important;
   font-weight: 400;
-  background: linear-gradient(135deg, #f97316, #ec4899);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 2px 4px rgba(249, 115, 22, 0.2);
+  color: #000000;
+}
+
+/* Dark mode version */
+.dark .rock-salt-font {
+  color: #ffffff;
 }
 
 /* Global font theme - Futura for headings, Arial for content */
