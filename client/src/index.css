@@ -13,9 +13,9 @@
   font-weight: 400;
 }
 
-/* Rock Salt font class for special titles */
+/* Playwrite font class for special titles - changed from Rock Salt */
 .rock-salt-font {
-  font-family: "Rock Salt", cursive !important;
+  font-family: "Playwrite AU VIC", cursive !important;
   font-weight: 400 !important;
   color: #000000;
 }

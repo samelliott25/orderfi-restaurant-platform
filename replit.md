@@ -134,9 +134,11 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
-- July 7, 2025. Fixed ChatOps styling and navigation persistence issues
+- July 7, 2025. Updated typography system and ChatOps styling
+  - Changed all Rock Salt font usage back to Playwrite font throughout application
+  - Enhanced speech bubble styling: user bubbles white in light mode, gradient purple in dark mode
+  - ChatOps bubbles use light orange tint in light mode, purple to pink gradient in dark mode
   - Resolved page navigation reloading by moving chat state to global context with localStorage persistence
-  - Updated speech bubble colors: user messages orange, ChatOps messages white in light mode
   - Applied pink to deep purple gradient background for dark mode ChatOps interface
   - Completely disabled animation triggers that caused state reset during page changes
   - ChatOps maintains full conversation history and context across all navigation
@@ -394,6 +396,6 @@ Changelog:
 Preferred communication style: Simple, everyday language.
 Typography preferences: 
 - OrderFi logo/brand name must always use Playwrite font
-- Rock Salt font for headings and titles (in black color)
+- Playwrite font for headings and titles (changed from Rock Salt)
 - SUSE font for body text
 ```
