@@ -78,8 +78,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           <div className="flex items-center justify-between">
             {!isCollapsed ? (
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 animate-pulse flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-white animate-spin" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 dark:text-white playwrite-font">OrderFi</h2>
@@ -87,8 +87,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               </div>
             ) : (
               <div className="w-full flex justify-center">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-white" />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 animate-pulse flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-white animate-spin" />
                 </div>
               </div>
             )}
@@ -143,18 +143,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 ChatOps
               </Button>
 
-              {/* Logout Button */}
-              <Link href="/landing-page">
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="w-full text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 font-medium border border-red-200 dark:border-red-800"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
-              </Link>
-
               {/* Wallet Connection */}
               {!isConnected ? (
                 <WalletConnectDialog>
@@ -186,6 +174,18 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 <Moon className="absolute h-4 w-4 mr-2 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
               </Button>
+
+              {/* Logout Button - At the very bottom */}
+              <Link href="/landing-page">
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="w-full text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 font-medium border border-red-200 dark:border-red-800"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              </Link>
             </>
           ) : (
             <>
