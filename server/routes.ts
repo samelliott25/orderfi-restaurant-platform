@@ -18,6 +18,7 @@ import {
   insertChatMessageSchema 
 } from "@shared/schema";
 import multer from 'multer';
+import { parseMenuHandler, uploadMiddleware } from "./routes/menu-parser";
 import ttsRouter from "./routes/tts.js";
 import { validateRequest, createRateLimit, securityHeaders, requestLogger, errorHandler } from "./middleware/security.js";
 import { cacheManager } from "./services/cache-manager.js";
@@ -37,6 +38,10 @@ export async function registerRoutes(app: Express): Promise<void> {
       version: process.env.npm_package_version || "1.0.0"
     });
   });
+
+  // Menu parsing route for onboarding
+  app.post("/api/parse-menu", uploadMiddleware, parseMenuHandler);
+
   // Restaurant routes
   app.get("/api/restaurants", async (req, res) => {
     try {

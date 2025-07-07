@@ -28,6 +28,7 @@ import AdminInventoryStockPage from "@/pages/admin/inventory-stock";
 import AdminOrdersPage from "@/pages/admin/orders-new";
 import AdminPaymentsPage from "@/pages/admin/payments";
 import AdminStockPage from "@/pages/admin/stock";
+import OnboardingPage from "@/pages/onboarding";
 import AdminStaffPage from "@/pages/admin/staff";
 import AdminReportingPage from "@/pages/admin/reporting";
 import AdminSettingsPage from "@/pages/admin/settings";
@@ -112,6 +113,9 @@ function Router() {
       <Switch>
         {/* Landing Page */}
         <Route path="/landing-page" component={LandingPage} />
+        
+        {/* Onboarding Flow */}
+        <Route path="/onboarding" component={OnboardingPage} />
         
         {/* Dashboard - Default Home */}
         <Route path="/" component={HybridDashboard} />

@@ -134,16 +134,18 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
-- July 7, 2025. Successfully replaced Carter One with Rock Salt font and implemented AI Journal
-  - Swapped all Carter One font references to Rock Salt throughout application (headings, titles, navigation)
-  - Updated Google Fonts import from Carter One to Rock Salt in index.html
-  - Applied black color styling for Rock Salt font (black in light mode, white in dark mode)
-  - Updated OrderFi branding in sidebar to use unified Playwrite font for "OrderFi" as single word
-  - Fixed all missed font references in tokenrewards.tsx and other admin pages
-  - Created AI-powered OrderFi Journal component replacing Quick Actions with real-time business insights
-  - Built backend API endpoint using OpenAI GPT-4o for generating daily sales summaries
-  - Fixed database schema issues by adding missing transaction_id and cost_price columns
-  - Attempted ChatOps button sizing adjustments (ongoing UI refinement needed)
+- July 7, 2025. Implemented revolutionary 10-minute onboarding system to outcompete traditional POS providers
+  - Created comprehensive onboarding flow with 4-step process: venue name, menu upload, preview, and activation
+  - Built AI-powered menu parsing using OpenAI GPT-4o for both image and text menu uploads
+  - Implemented drag-and-drop interface with instant menu categorization and item extraction
+  - Added QR code preview generation for immediate customer experience testing
+  - Created "Skip to Demo Mode" for instant playground access without barriers
+  - Designed gradient-themed onboarding UI with progress tracking and Rock Salt typography
+  - Updated landing page to redirect to onboarding flow instead of dashboard
+  - Built backend menu parser with multer file upload and OpenAI Vision API integration
+  - Removed all bold font styling from Rock Salt elements throughout entire application
+  - Enhanced CSS with !important declarations to ensure consistent normal font weight
+  - Applied typography refinements: OrderFi (Playwrite), headings (Rock Salt normal), body (SUSE)
 - July 7, 2025. Completed comprehensive typography standardization across entire application
   - Applied SUSE font universally using wildcard CSS selector for all text elements
   - Updated StandardLayout and all admin pages to use Carter One font for headings
