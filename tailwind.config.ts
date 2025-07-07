@@ -6,9 +6,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'heading': ['"Mr Dafoe"', 'cursive'],
-        'content': ['"Roboto"', 'sans-serif'],
-        'sans': ['"Roboto"', 'Inter', 'system-ui', 'sans-serif'],
+        'heading': ['"Big John"', 'sans-serif'],
+        'content': ['"Oxygen"', 'sans-serif'],
+        'sans': ['"Oxygen"', 'Inter', 'system-ui', 'sans-serif'],
         'serif': ['Georgia', 'Times New Roman', 'serif'],
       },
       borderRadius: {
