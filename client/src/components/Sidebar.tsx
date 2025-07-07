@@ -91,7 +91,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white playwrite-font">OrderFi</h2>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                      <span className="playwrite-font">Order</span><span className="orderfi-fi">Fi</span>
+                    </h2>
                   </div>
                 </div>
               ) : (

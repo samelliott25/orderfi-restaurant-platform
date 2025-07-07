@@ -201,7 +201,9 @@ export default function HybridDashboard() {
               <ChefHat className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground font-heading">OrderFi Restaurant #1</h1>
+              <h1 className="text-xl font-bold text-foreground">
+                <span className="playwrite-font">Order</span><span className="orderfi-fi">Fi</span> Restaurant #1
+              </h1>
               <p className="text-sm text-muted-foreground">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
             </div>
           </div>
