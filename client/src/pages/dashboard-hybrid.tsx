@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { StandardLayout } from "@/components/StandardLayout";
+import { useTheme } from "@/components/theme-provider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -146,6 +147,7 @@ const generateMetrics = () => ({
 });
 
 export default function HybridDashboard() {
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState('overview');
   const [timeframe, setTimeframe] = useState('24H');
   const [metrics, setMetrics] = useState(generateMetrics());
@@ -189,17 +191,17 @@ export default function HybridDashboard() {
 
   return (
     <StandardLayout>
-      <div className="min-h-screen bg-slate-950 text-white">
+      <div className="min-h-screen bg-background text-foreground">
         {/* Header */}
-        <div className="border-b border-gray-800 px-6 py-4">
+        <div className="border-b border-border px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center">
                 <ChefHat className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white playwrite-font">OrderFi Restaurant #1</h1>
-                <p className="text-sm text-gray-400">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
+                <h1 className="text-xl font-bold text-foreground playwrite-font">OrderFi Restaurant #1</h1>
+                <p className="text-sm text-muted-foreground">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -207,7 +209,7 @@ export default function HybridDashboard() {
                 <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
                 LIVE
               </Badge>
-              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
                 <Bell className="w-4 h-4" />
               </Button>
             </div>
@@ -215,7 +217,7 @@ export default function HybridDashboard() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="border-b border-gray-800">
+        <div className="border-b border-border">
           <div className="flex overflow-x-auto px-6">
             {[
               { id: 'overview', label: 'Overview', icon: BarChart3 },
@@ -230,7 +232,7 @@ export default function HybridDashboard() {
                 className={`flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
                   activeTab === tab.id
                     ? 'border-orange-500 text-orange-500'
-                    : 'border-transparent text-gray-400 hover:text-white'
+                    : 'border-transparent text-muted-foreground hover:text-foreground'
                 }`}
               >
                 <tab.icon className="w-4 h-4" />
@@ -244,13 +246,13 @@ export default function HybridDashboard() {
         <div className="p-6">
           {/* Key Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-300">Revenue Today</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">Revenue Today</CardTitle>
                 <DollarSign className="w-4 h-4 text-green-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-white">{formatCurrency(metrics.revenue.current)}</div>
+                <div className="text-2xl font-bold text-foreground">{formatCurrency(metrics.revenue.current)}</div>
                 <div className="flex items-center gap-1 text-sm">
                   {metrics.revenue.trend === 'up' ? (
                     <TrendingUp className="w-3 h-3 text-green-500" />
@@ -260,52 +262,52 @@ export default function HybridDashboard() {
                   <span className={metrics.revenue.trend === 'up' ? 'text-green-500' : 'text-red-500'}>
                     {metrics.revenue.change > 0 ? '+' : ''}{metrics.revenue.change}%
                   </span>
-                  <span className="text-gray-400">vs yesterday</span>
+                  <span className="text-muted-foreground">vs yesterday</span>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-300">Orders</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">Orders</CardTitle>
                 <ShoppingCart className="w-4 h-4 text-blue-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-white">{metrics.orders.current}</div>
+                <div className="text-2xl font-bold text-foreground">{metrics.orders.current}</div>
                 <div className="flex items-center gap-1 text-sm">
                   <TrendingUp className="w-3 h-3 text-green-500" />
                   <span className="text-green-500">+{metrics.orders.change}%</span>
-                  <span className="text-gray-400">vs yesterday</span>
+                  <span className="text-muted-foreground">vs yesterday</span>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-300">Customers</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">Customers</CardTitle>
                 <Users className="w-4 h-4 text-purple-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-white">{metrics.customers.current}</div>
+                <div className="text-2xl font-bold text-foreground">{metrics.customers.current}</div>
                 <div className="flex items-center gap-1 text-sm">
                   <TrendingUp className="w-3 h-3 text-green-500" />
                   <span className="text-green-500">+{metrics.customers.change}%</span>
-                  <span className="text-gray-400">vs yesterday</span>
+                  <span className="text-muted-foreground">vs yesterday</span>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-300">Avg Order</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">Avg Order</CardTitle>
                 <Target className="w-4 h-4 text-orange-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-white">{formatCurrency(metrics.avgOrder.current)}</div>
+                <div className="text-2xl font-bold text-foreground">{formatCurrency(metrics.avgOrder.current)}</div>
                 <div className="flex items-center gap-1 text-sm">
                   <TrendingDown className="w-3 h-3 text-red-500" />
                   <span className="text-red-500">{metrics.avgOrder.change}%</span>
-                  <span className="text-gray-400">vs yesterday</span>
+                  <span className="text-muted-foreground">vs yesterday</span>
                 </div>
               </CardContent>
             </Card>
@@ -314,7 +316,7 @@ export default function HybridDashboard() {
           {/* Chart Section */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-white playwrite-font">Revenue Performance</h2>
+              <h2 className="text-xl font-semibold text-foreground playwrite-font">Revenue Performance</h2>
               <div className="flex gap-2">
                 {timeframes.map((tf) => (
                   <Button
@@ -325,7 +327,7 @@ export default function HybridDashboard() {
                     className={`${
                       timeframe === tf
                         ? 'bg-orange-500 text-white border-orange-500'
-                        : 'bg-transparent text-gray-400 border-gray-700 hover:bg-gray-800'
+                        : 'bg-transparent text-muted-foreground border-border hover:bg-secondary'
                     }`}
                   >
                     {tf}
@@ -334,7 +336,7 @@ export default function HybridDashboard() {
               </div>
             </div>
 
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardContent className="p-6">
                 <div className="h-80 w-full">
                   <ResponsiveContainer width="100%" height="100%">
@@ -345,23 +347,23 @@ export default function HybridDashboard() {
                           <stop offset="95%" stopColor="#f97316" stopOpacity={0}/>
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                       <XAxis 
                         dataKey="time" 
-                        stroke="#9ca3af"
+                        stroke="hsl(var(--muted-foreground))"
                         fontSize={12}
                       />
                       <YAxis 
-                        stroke="#9ca3af"
+                        stroke="hsl(var(--muted-foreground))"
                         fontSize={12}
                         tickFormatter={(value) => `$${value}`}
                       />
                       <Tooltip 
                         contentStyle={{ 
-                          backgroundColor: '#1f2937',
-                          border: '1px solid #374151',
+                          backgroundColor: 'hsl(var(--popover))',
+                          border: '1px solid hsl(var(--border))',
                           borderRadius: '8px',
-                          color: 'white'
+                          color: 'hsl(var(--popover-foreground))'
                         }}
                         formatter={(value, name) => [
                           typeof value === 'number' ? formatCurrency(value) : value,
@@ -386,9 +388,9 @@ export default function HybridDashboard() {
           {/* Tab Content */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Live Orders */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-white playwrite-font flex items-center gap-2">
+                <CardTitle className="text-foreground playwrite-font flex items-center gap-2">
                   <Activity className="w-5 h-5 text-orange-500" />
                   Live Orders
                 </CardTitle>
@@ -398,18 +400,18 @@ export default function HybridDashboard() {
                   {liveOrders.map((order) => (
                     <div
                       key={order.id}
-                      className="flex items-center justify-between p-3 bg-gray-800 rounded-lg"
+                      className="flex items-center justify-between p-3 bg-secondary rounded-lg"
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-3 h-3 rounded-full ${getStatusColor(order.status)}`}></div>
                         <div>
-                          <div className="text-sm font-medium text-white">{order.id}</div>
-                          <div className="text-xs text-gray-400">{order.customer} • {order.items}</div>
+                          <div className="text-sm font-medium text-foreground">{order.id}</div>
+                          <div className="text-xs text-muted-foreground">{order.customer} • {order.items}</div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm font-medium text-white">{formatCurrency(order.total)}</div>
-                        <div className="text-xs text-gray-400">{order.time}</div>
+                        <div className="text-sm font-medium text-foreground">{formatCurrency(order.total)}</div>
+                        <div className="text-xs text-muted-foreground">{order.time}</div>
                       </div>
                     </div>
                   ))}
@@ -418,9 +420,9 @@ export default function HybridDashboard() {
             </Card>
 
             {/* Quick Actions */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-white playwrite-font flex items-center gap-2">
+                <CardTitle className="text-foreground playwrite-font flex items-center gap-2">
                   <Zap className="w-5 h-5 text-yellow-500" />
                   Quick Actions
                 </CardTitle>
