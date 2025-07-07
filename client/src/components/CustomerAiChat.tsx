@@ -464,20 +464,16 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
       >
       {/* iOS-style glass card with OrderFi gradient theme - translucent */}
-      <div className="w-full h-full shadow-[0_8px_32px_rgba(0,0,0,0.25)] relative rounded-[28px] overflow-hidden"
+      <div className="w-full h-full rounded-[28px] overflow-hidden"
            style={{
              background: 'linear-gradient(145deg, hsl(25, 95%, 53%) 0%, hsl(340, 82%, 52%) 100%)',
-             boxShadow: `
-               0 8px 32px rgba(0, 0, 0, 0.15),
-               0 2px 8px rgba(0, 0, 0, 0.1),
-               inset 0 1px 0 rgba(255, 255, 255, 0.2)
-             `
+             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)'
            }}>
         
 
         
         {/* iOS-style header with frosted glass effect */}
-        <div className="relative px-6 py-4 border-b border-white/20" style={{ borderTopLeftRadius: '28px', borderTopRightRadius: '28px' }}>
+        <div className="relative px-6 py-4 border-b border-white/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {/* Modern iOS-style avatar with OrderFi theme */}
@@ -580,7 +576,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
         </div>
 
         {/* iOS-style input bar with OrderFi theme */}
-        <div className="relative px-4 py-3 border-t border-white/20" style={{ borderBottomLeftRadius: '28px', borderBottomRightRadius: '28px' }}>
+        <div className="relative px-4 py-3 border-t border-white/20">
           <div className="flex items-center space-x-3">
             <div className="flex-1 relative">
               <div className="relative rounded-[22px] bg-white/90 backdrop-blur-sm border border-white/30 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
