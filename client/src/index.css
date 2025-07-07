@@ -38,8 +38,34 @@ h1, h2, h3, h4, h5, h6, .orderfi-brand {
   font-weight: 400;
 }
 
-/* Content and body text - Use SUSE */
-body, p, span, div, button, input, textarea, select, .content-text {
+/* Content and body text - Use SUSE for ALL text elements */
+*, 
+*::before, 
+*::after,
+body, 
+p, 
+span, 
+div, 
+button, 
+input, 
+textarea, 
+select, 
+label,
+a,
+li,
+td,
+th,
+small,
+strong,
+em,
+code,
+pre,
+.content-text,
+.text-sm,
+.text-xs,
+.text-lg,
+.text-xl,
+.text-2xl {
   font-family: "SUSE", Arial, Helvetica, sans-serif;
   font-weight: 400;
 }
