@@ -133,14 +133,14 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         <div className={`shrink-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-1 space-y-1' : 'p-2 space-y-1'}`}>
           {!isCollapsed ? (
             <>
-              {/* AI Chat Button */}
+              {/* ChatOps Button */}
               <Button
                 onClick={() => setChatOpen(!isChatOpen)}
                 className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white shadow-lg transition-all duration-300 font-medium"
                 size="sm"
               >
-                <Sparkles className="h-4 w-4 mr-2" />
-                AI Chat
+                <Sparkles className="h-4 w-4 mr-2 animate-pulse" />
+                ChatOps
               </Button>
 
               {/* Logout Button */}
@@ -159,7 +159,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {!isConnected ? (
                 <WalletConnectDialog>
                   <Button
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white shadow-lg transition-all duration-300"
+                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg transition-all duration-300"
                     size="sm"
                     disabled={isConnecting}
                   >
@@ -189,13 +189,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             </>
           ) : (
             <>
-              {/* Collapsed AI Chat */}
+              {/* Collapsed ChatOps */}
               <Button
                 onClick={() => setChatOpen(!isChatOpen)}
                 className="w-full h-8 p-1 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white shadow-lg transition-all duration-300"
-                title="AI Chat"
+                title="ChatOps"
               >
-                <Sparkles className="h-4 w-4" />
+                <Sparkles className="h-4 w-4 animate-pulse" />
               </Button>
 
               {/* Collapsed Logout */}
@@ -214,7 +214,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {!isConnected ? (
                 <WalletConnectDialog>
                   <Button
-                    className="w-full h-8 p-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white shadow-lg transition-all duration-300"
+                    className="w-full h-8 p-1 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg transition-all duration-300"
                     disabled={isConnecting}
                     title="Connect Wallet"
                   >
