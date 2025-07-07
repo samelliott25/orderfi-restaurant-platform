@@ -542,7 +542,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
       <div 
         style={{
           background: isDarkMode 
-            ? 'linear-gradient(145deg, rgba(88, 28, 135, 0.85), rgba(17, 24, 39, 0.9))'
+            ? 'linear-gradient(145deg, rgba(236, 72, 153, 0.85), rgba(88, 28, 135, 0.85))'
             : 'linear-gradient(145deg, rgba(249, 115, 22, 0.85), rgba(236, 72, 153, 0.85))',
           borderRadius: '28px',
           overflow: 'hidden',

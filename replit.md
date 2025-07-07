@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 7, 2025. Fixed ChatOps styling and navigation persistence issues
+  - Resolved page navigation reloading by moving chat state to global context with localStorage persistence
+  - Updated speech bubble colors: user messages orange, ChatOps messages white in light mode
+  - Applied pink to deep purple gradient background for dark mode ChatOps interface
+  - Completely disabled animation triggers that caused state reset during page changes
+  - ChatOps maintains full conversation history and context across all navigation
 - July 7, 2025. Completed fully conversational onboarding system within ChatOps interface
   - Built comprehensive onboarding chat handler using OpenAI GPT-4o for natural language restaurant setup
   - Created 4-step conversational flow: welcome → venue name → menu upload → review → completion
