@@ -129,8 +129,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </nav>
         </div>
         
-        {/* Footer Actions - responsive to page length */}
-        <div className={`shrink-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-1 space-y-1' : 'p-2 space-y-1'} min-h-[180px] flex flex-col justify-end`}>
+        {/* Footer Actions */}
+        <div className={`shrink-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-1 space-y-1' : 'p-2 space-y-1'}`}>
           {!isCollapsed ? (
             <>
               {/* AI Chat Button */}
