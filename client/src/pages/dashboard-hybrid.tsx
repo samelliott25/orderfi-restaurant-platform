@@ -515,6 +515,9 @@ export default function HybridDashboard() {
 
         {/* Tab Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* OrderFi Journal */}
+          <OrderFiJournal />
+
           {/* Live Orders */}
           <Card className="bg-card border-border">
             <CardHeader>
@@ -546,9 +549,6 @@ export default function HybridDashboard() {
               </div>
             </CardContent>
           </Card>
-
-          {/* OrderFi Journal */}
-          <OrderFiJournal />
         </div>
       </div>
       {/* AI Chat Dialog */}
