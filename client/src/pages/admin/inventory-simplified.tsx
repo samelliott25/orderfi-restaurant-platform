@@ -28,7 +28,7 @@ const FilterChip = ({ label, isActive, onClick, onRemove, icon: Icon, tooltip, v
           variant={isActive ? "default" : "outline"}
           size="sm"
           onClick={onClick}
-          className={`flex items-center gap-2 h-11 px-4 text-sm font-medium transition-all duration-200 ${
+          className={`flex items-center gap-2 h-11 px-4 text-sm font-normal transition-all duration-200 ${
             isActive 
               ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-md' 
               : 'hover:bg-orange-50 hover:border-orange-200'
@@ -80,7 +80,7 @@ const RecentItem = ({ name, action, time, category }: { name: string; action: st
       }`}></div>
       <div className="flex-1">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium truncate">{name}</span>
+          <span className="text-sm font-normal truncate">{name}</span>
           {category && (
             <Badge variant="outline" className="text-xs px-1.5 py-0.5">
               {category}
@@ -100,12 +100,12 @@ const TopMoverItem = ({ name, trend, sales, price }: { name: string; trend: 'up'
     <CardContent className="p-4">
       <div className="flex items-center justify-between">
         <div className="flex-1">
-          <h4 className="font-medium text-sm truncate">{name}</h4>
+          <h4 className="font-normal text-sm truncate">{name}</h4>
           <div className="flex items-center gap-2 mt-1">
             <TrendingUp size={12} className={trend === 'up' ? 'text-green-500' : 'text-red-500 rotate-180'} />
             <span className="text-xs text-gray-500">{sales} sold today</span>
           </div>
-          <div className="text-xs font-medium text-green-600 mt-1">
+          <div className="text-xs font-normal text-green-600 mt-1">
             ${price.toFixed(2)}
           </div>
         </div>
@@ -416,8 +416,8 @@ export default function SimplifiedInventoryPage() {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white playwrite-font">Inventory</h1>
-              <p className="text-gray-600 dark:text-gray-400">
+              <h1 className="text-2xl font-normal text-foreground rock-salt-font">Inventory</h1>
+              <p className="text-muted-foreground">
                 Manage your {totalItems} menu items with ease • Quick access to everything you need
               </p>
             </div>
@@ -489,18 +489,18 @@ export default function SimplifiedInventoryPage() {
           {showHelp && (
             <Card className="bg-blue-50 border-blue-200">
               <CardContent className="p-4">
-                <h3 className="font-semibold text-blue-900 mb-2">Getting Started</h3>
+                <h3 className="font-normal text-foreground mb-2">Getting Started</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div>
-                    <p className="font-medium text-blue-800">1. Search or Voice</p>
+                    <p className="font-normal text-foreground">1. Search or Voice</p>
                     <p className="text-blue-700">Type in the search bar or click "Voice" to speak</p>
                   </div>
                   <div>
-                    <p className="font-medium text-blue-800">2. Use Filter Chips</p>
+                    <p className="font-normal text-foreground">2. Use Filter Chips</p>
                     <p className="text-blue-700">Click chips like "Low Stock" to filter items</p>
                   </div>
                   <div>
-                    <p className="font-medium text-blue-800">3. Tap to Edit</p>
+                    <p className="font-normal text-foreground">3. Tap to Edit</p>
                     <p className="text-blue-700">Click any item card to edit details</p>
                   </div>
                 </div>
@@ -514,7 +514,7 @@ export default function SimplifiedInventoryPage() {
           <TabsList className="grid w-full grid-cols-4 h-16 bg-gray-100 dark:bg-gray-800">
             <TabsTrigger value="overview" className="flex flex-col items-center justify-center space-y-1 h-14 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
               <BarChart3 size={18} />
-              <span className="text-xs font-medium">Overview</span>
+              <span className="text-xs font-normal">Overview</span>
               <span className="text-[10px] opacity-75">Key metrics</span>
             </TabsTrigger>
             <TabsTrigger value="categories" className="flex flex-col items-center justify-center space-y-1 h-14 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
