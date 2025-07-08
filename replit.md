@@ -134,6 +134,17 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 8, 2025. Implemented comprehensive manager-friendly UX improvements following supermarket self-checkout patterns
+  - Added first-time user coach marks with 4-step guided tour: Welcome → Search/Voice → Filter Chips → Tap to Edit
+  - Enhanced filter chips with tooltips showing descriptions and voice commands for each filter
+  - Created suggestion chips for quick actions (Show Categories, Reorder Items, Top Movers, Add New Item)
+  - Improved tabs with clear labels and descriptions (Overview/Key metrics, Categories/By type, Search Items/Find & filter, Reports/Analytics)
+  - Added contextual help panel with 3-step getting started guide accessible via Quick Help button
+  - Enhanced recent activity with color-coded status indicators (red=low stock, green=updated, blue=changed, orange=default)
+  - Improved top movers component with price information and trend arrows (↗️↘️)
+  - Added "Take Tour" button for managers to replay coach marks anytime
+  - Applied large touch-friendly buttons (44x44px minimum) throughout interface
+  - Generated realistic recent activity and top movers from authentic menu data instead of mock data
 - July 8, 2025. Restored sophisticated inventory-simplified.tsx after accidental overwrite during syntax error fix
   - Recreated user-friendly simplified inventory interface for non-technical restaurant managers
   - Restored visual filter chips (Low Stock, Under $10, Vegan, Gluten Free, High Value) replacing complex dropdowns

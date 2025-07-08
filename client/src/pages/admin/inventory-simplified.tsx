@@ -126,8 +126,60 @@ export default function SimplifiedInventoryPage() {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [isFirstVisit, setIsFirstVisit] = useState(false);
+  const [showCoachMarks, setShowCoachMarks] = useState(false);
+  const [coachStep, setCoachStep] = useState(0);
   const { toast } = useToast();
+
+  // Check for first visit and show coach marks
+  useState(() => {
+    const hasVisited = localStorage.getItem('inventory-simplified-visited');
+    if (!hasVisited) {
+      setTimeout(() => setShowCoachMarks(true), 1000);
+      localStorage.setItem('inventory-simplified-visited', 'true');
+    }
+  });
+
+  // Coach mark steps
+  const coachSteps = [
+    {
+      title: "Welcome to Simplified Inventory!",
+      description: "Let's walk through the 3 key ways to manage your menu items",
+      target: "search-section",
+      position: "bottom"
+    },
+    {
+      title: "1. Search or Voice",
+      description: "Type in the search bar or click 'Voice' to speak what you're looking for",
+      target: "search-input",
+      position: "bottom"
+    },
+    {
+      title: "2. Use Filter Chips",
+      description: "Click these chips to quickly filter items like 'Low Stock' or 'Under $10'",
+      target: "filter-chips",
+      position: "bottom"
+    },
+    {
+      title: "3. Tap to Edit",
+      description: "Click any item card to edit details, update stock, or change prices",
+      target: "item-cards",
+      position: "top"
+    }
+  ];
+
+  const nextCoachStep = () => {
+    if (coachStep < coachSteps.length - 1) {
+      setCoachStep(coachStep + 1);
+    } else {
+      setShowCoachMarks(false);
+      setCoachStep(0);
+    }
+  };
+
+  const skipCoachMarks = () => {
+    setShowCoachMarks(false);
+    setCoachStep(0);
+  };
 
   // Fetch menu items
   const { data: menuItems = [], isLoading } = useQuery<MenuItem[]>({
@@ -392,6 +444,25 @@ export default function SimplifiedInventoryPage() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="lg" 
+                      className="h-12 text-gray-600 hover:text-gray-800"
+                      onClick={() => { setShowCoachMarks(true); setCoachStep(0); }}
+                    >
+                      <Info size={16} className="mr-2" />
+                      Take Tour
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Walk through the key features again</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
                     <Button size="lg" className="h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
                       <Plus size={16} className="mr-2" />
                       Add New Item
@@ -627,11 +698,11 @@ export default function SimplifiedInventoryPage() {
           {/* Search Items Tab Content */}
           <TabsContent value="items" className="space-y-6">
             {/* Enhanced Search with Voice and Visual Filters */}
-            <Card>
+            <Card id="search-section">
               <CardContent className="p-6">
                 <div className="space-y-4">
                   {/* Search Bar with Voice */}
-                  <div className="flex gap-3">
+                  <div className="flex gap-3" id="search-input">
                     <div className="relative flex-1">
                       <Search size={16} className="absolute left-3 top-4 text-gray-400" />
                       <Input
@@ -654,7 +725,7 @@ export default function SimplifiedInventoryPage() {
                   </div>
 
                   {/* Enhanced Visual Filter Chips with Tooltips */}
-                  <div className="space-y-3">
+                  <div className="space-y-3" id="filter-chips">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Filter by:</span>
                       <Info size={14} className="text-gray-400" />
@@ -714,7 +785,7 @@ export default function SimplifiedInventoryPage() {
             </Card>
 
             {/* Filtered Items Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="item-cards">
               {filteredItems.map((item: MenuItem) => {
                 const stockStatus = getStockStatus(item);
                 const IconComponent = stockStatus.icon;
@@ -849,6 +920,52 @@ export default function SimplifiedInventoryPage() {
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* Coach Marks Overlay for First-Time Users */}
+        {showCoachMarks && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+            <Card className="max-w-md mx-4 bg-white shadow-xl border-2 border-orange-200">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                    <HelpCircle size={20} className="text-orange-500" />
+                    {coachSteps[coachStep].title}
+                  </CardTitle>
+                  <Button variant="ghost" size="sm" onClick={skipCoachMarks} className="text-gray-400 hover:text-gray-600">
+                    <X size={16} />
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-gray-700">{coachSteps[coachStep].description}</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex space-x-1">
+                    {coachSteps.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`w-2 h-2 rounded-full ${
+                          index === coachStep ? 'bg-orange-500' : 'bg-gray-300'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={skipCoachMarks}>
+                      Skip Tour
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      onClick={nextCoachStep}
+                      className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                    >
+                      {coachStep === coachSteps.length - 1 ? 'Got it!' : 'Next'}
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </StandardLayout>
   );
