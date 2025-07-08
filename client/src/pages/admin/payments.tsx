@@ -274,7 +274,7 @@ export default function PaymentsPage() {
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight carter-one-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-normal tracking-tight rock-salt-font">
               Payment Center
             </h1>
             <p className="text-muted-foreground mt-2">
