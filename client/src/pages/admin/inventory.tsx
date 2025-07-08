@@ -47,8 +47,8 @@ export default function AdminInventoryPage() {
 
   // Fetch menu items for restaurant ID 1
   const { data: menuItems = [], isLoading } = useQuery({
-    queryKey: ['/api/menu-items', 1],
-    queryFn: () => fetch('/api/menu-items/1').then(res => res.json())
+    queryKey: ['/api/restaurants/1/menu'],
+    queryFn: () => fetch('/api/restaurants/1/menu').then(res => res.json())
   });
 
   // Strategic color-coded metrics

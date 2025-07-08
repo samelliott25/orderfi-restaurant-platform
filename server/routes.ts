@@ -83,10 +83,13 @@ export async function registerRoutes(app: Express): Promise<void> {
   app.get("/api/restaurants/:id/menu", async (req, res) => {
     try {
       const restaurantId = parseInt(req.params.id);
+      console.log(`Fetching menu items for restaurant ${restaurantId}`);
       const menuItems = await storage.getMenuItems(restaurantId);
+      console.log(`Found ${menuItems.length} menu items`);
       res.json(menuItems);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch menu items" });
+      console.error("Error fetching menu items:", error);
+      res.status(500).json({ message: "Failed to fetch menu items", error: error.message });
     }
   });
 
