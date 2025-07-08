@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -178,6 +178,9 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
             <Edit size={20} />
             Edit Product: {item.name}
           </DialogTitle>
+          <DialogDescription>
+            Edit all aspects of this menu item including pricing, inventory, voice commands, and availability settings.
+          </DialogDescription>
         </DialogHeader>
 
         <Accordion type="multiple" defaultValue={["basic", "pricing"]} className="space-y-4">
@@ -381,6 +384,16 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
                 </p>
               </div>
               <div>
+                <Label htmlFor="searchKeywords">Search Keywords</Label>
+                <Input
+                  id="searchKeywords"
+                  value={formData.searchKeywords || ''}
+                  onChange={(e) => handleFieldChange('searchKeywords', e.target.value)}
+                  placeholder="Keywords for full-text search (buffalo, spicy, chicken)"
+                  className="mt-1"
+                />
+              </div>
+              <div>
                 <Label htmlFor="dietaryTags">Dietary Tags</Label>
                 <Input
                   id="dietaryTags"
@@ -394,6 +407,134 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
                 <Button onClick={() => handleSave('Voice & AI')} size="sm">
                   <Save size={16} className="mr-2" />
                   Save Voice Settings
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Media & Branding */}
+          <AccordionItem value="media">
+            <AccordionTrigger className={`flex items-center gap-2 ${savedSections.includes('Media & Branding') ? 'text-green-600' : ''}`}>
+              <Upload size={16} />
+              Media & Branding
+              {savedSections.includes('Media & Branding') && <CheckCircle size={16} className="text-green-600" />}
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div>
+                <Label htmlFor="imageUrl">Main Image URL</Label>
+                <Input
+                  id="imageUrl"
+                  value={formData.imageUrl || ''}
+                  onChange={(e) => handleFieldChange('imageUrl', e.target.value)}
+                  placeholder="https://example.com/image.jpg"
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="colorAccent">Color Accent (Hex)</Label>
+                <Input
+                  id="colorAccent"
+                  value={formData.colorAccent || '#f97316'}
+                  onChange={(e) => handleFieldChange('colorAccent', e.target.value)}
+                  placeholder="#f97316"
+                  className="mt-1"
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={() => handleSave('Media & Branding')} size="sm">
+                  <Save size={16} className="mr-2" />
+                  Save Media Settings
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Compliance & Nutrition */}
+          <AccordionItem value="compliance">
+            <AccordionTrigger className={`flex items-center gap-2 ${savedSections.includes('Compliance') ? 'text-green-600' : ''}`}>
+              <AlertTriangle size={16} />
+              Compliance & Nutrition
+              {savedSections.includes('Compliance') && <CheckCircle size={16} className="text-green-600" />}
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div>
+                <Label htmlFor="allergenWarnings">Allergen Warnings</Label>
+                <Input
+                  id="allergenWarnings"
+                  value={formData.allergenWarnings ? formData.allergenWarnings.join(', ') : ''}
+                  onChange={(e) => handleFieldChange('allergenWarnings', e.target.value.split(', ').filter(Boolean))}
+                  placeholder="e.g., Contains nuts, dairy, gluten"
+                  className="mt-1"
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="calories">Calories</Label>
+                  <Input
+                    id="calories"
+                    type="number"
+                    value={formData.calories || ''}
+                    onChange={(e) => handleFieldChange('calories', parseInt(e.target.value))}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="servingSize">Serving Size (g)</Label>
+                  <Input
+                    id="servingSize"
+                    type="number"
+                    value={formData.servingSize || ''}
+                    onChange={(e) => handleFieldChange('servingSize', parseInt(e.target.value))}
+                    className="mt-1"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={() => handleSave('Compliance')} size="sm">
+                  <Save size={16} className="mr-2" />
+                  Save Compliance Info
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Variants & Modifiers */}
+          <AccordionItem value="variants">
+            <AccordionTrigger className={`flex items-center gap-2 ${savedSections.includes('Variants') ? 'text-green-600' : ''}`}>
+              <Tag size={16} />
+              Variants & Modifiers
+              {savedSections.includes('Variants') && <CheckCircle size={16} className="text-green-600" />}
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div>
+                <Label htmlFor="variantGroups">Variant Groups</Label>
+                <Textarea
+                  id="variantGroups"
+                  value={formData.variantGroups || ''}
+                  onChange={(e) => handleFieldChange('variantGroups', e.target.value)}
+                  placeholder="Size: Small, Medium, Large&#10;Flavor: Original, Spicy, BBQ"
+                  className="mt-1"
+                  rows={3}
+                />
+                <p className="text-sm text-muted-foreground mt-1">
+                  Enter each variant group on a new line with format: "Group: option1, option2, option3"
+                </p>
+              </div>
+              <div>
+                <Label htmlFor="modifierSets">Modifier Sets</Label>
+                <Textarea
+                  id="modifierSets"
+                  value={formData.modifierSets || ''}
+                  onChange={(e) => handleFieldChange('modifierSets', e.target.value)}
+                  placeholder="Add extra cheese (+$2.00)&#10;No onions (free)&#10;Extra spicy (free)"
+                  className="mt-1"
+                  rows={3}
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={() => handleSave('Variants')} size="sm">
+                  <Save size={16} className="mr-2" />
+                  Save Variants
                 </Button>
               </div>
             </AccordionContent>
