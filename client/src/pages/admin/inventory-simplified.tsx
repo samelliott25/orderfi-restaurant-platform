@@ -6,8 +6,14 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { MenuItem } from '@/shared/schema';
-import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info, ShoppingCart, RefreshCw, ChevronRight } from 'lucide-react';
+import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info, ShoppingCart, RefreshCw, ChevronRight, Edit, Save, Upload, Tag, Percent } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import StandardLayout from '@/components/StandardLayout';
 
@@ -120,8 +126,298 @@ const TopMoverItem = ({ name, trend, sales, price }: { name: string; trend: 'up'
   </Card>
 );
 
+// Edit Product Dialog Component
+const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
+  item: MenuItem;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (updatedItem: MenuItem) => void;
+}) => {
+  const [formData, setFormData] = useState(item);
+  const [savedSections, setSavedSections] = useState<string[]>([]);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    setFormData(item);
+  }, [item]);
+
+  const handleSave = (section: string) => {
+    // Show saved feedback
+    setSavedSections(prev => [...prev, section]);
+    toast({
+      title: "Saved",
+      description: `${section} information updated successfully`,
+      duration: 2000,
+    });
+    
+    // Remove saved indicator after 3 seconds
+    setTimeout(() => {
+      setSavedSections(prev => prev.filter(s => s !== section));
+    }, 3000);
+  };
+
+  const handleFieldChange = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const calculateMargin = () => {
+    const salePrice = parseFloat(formData.price) || 0;
+    const costPrice = parseFloat(formData.costPrice?.toString() || '0') || 0;
+    if (salePrice === 0) return 0;
+    return ((salePrice - costPrice) / salePrice * 100).toFixed(2);
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Edit size={20} />
+            Edit Product: {item.name}
+          </DialogTitle>
+        </DialogHeader>
+
+        <Accordion type="multiple" defaultValue={["basic", "pricing"]} className="space-y-4">
+          {/* Basic Item Info */}
+          <AccordionItem value="basic">
+            <AccordionTrigger className={`flex items-center gap-2 ${savedSections.includes('Basic Info') ? 'text-green-600' : ''}`}>
+              <Package size={16} />
+              Basic Item Info
+              {savedSections.includes('Basic Info') && <CheckCircle size={16} className="text-green-600" />}
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => handleFieldChange('name', e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="category">Category</Label>
+                  <Select value={formData.category} onValueChange={(value) => handleFieldChange('category', value)}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Bar Snacks">Bar Snacks</SelectItem>
+                      <SelectItem value="Buffalo Wings">Buffalo Wings</SelectItem>
+                      <SelectItem value="Dawgs">Dawgs</SelectItem>
+                      <SelectItem value="Tacos">Tacos</SelectItem>
+                      <SelectItem value="Plant Powered">Plant Powered</SelectItem>
+                      <SelectItem value="Burgers">Burgers</SelectItem>
+                      <SelectItem value="From our grill">From our grill</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  value={formData.description || ''}
+                  onChange={(e) => handleFieldChange('description', e.target.value)}
+                  className="mt-1"
+                  rows={3}
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={() => handleSave('Basic Info')} size="sm">
+                  <Save size={16} className="mr-2" />
+                  Save Basic Info
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Pricing & Cost */}
+          <AccordionItem value="pricing">
+            <AccordionTrigger className={`flex items-center gap-2 ${savedSections.includes('Pricing') ? 'text-green-600' : ''}`}>
+              <DollarSign size={16} />
+              Pricing & Cost
+              {savedSections.includes('Pricing') && <CheckCircle size={16} className="text-green-600" />}
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="price">Sale Price</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    step="0.01"
+                    value={formData.price}
+                    onChange={(e) => handleFieldChange('price', e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="costPrice">Cost Price (COGS)</Label>
+                  <Input
+                    id="costPrice"
+                    type="number"
+                    step="0.01"
+                    value={formData.costPrice || ''}
+                    onChange={(e) => handleFieldChange('costPrice', e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label>Margin</Label>
+                  <div className="flex items-center gap-2 mt-1">
+                    <Percent size={16} className="text-muted-foreground" />
+                    <span className="text-lg font-semibold">{calculateMargin()}%</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={() => handleSave('Pricing')} size="sm">
+                  <Save size={16} className="mr-2" />
+                  Save Pricing
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Inventory & Ordering */}
+          <AccordionItem value="inventory">
+            <AccordionTrigger className={`flex items-center gap-2 ${savedSections.includes('Inventory') ? 'text-green-600' : ''}`}>
+              <Package size={16} />
+              Inventory & Ordering
+              {savedSections.includes('Inventory') && <CheckCircle size={16} className="text-green-600" />}
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="trackInventory"
+                  checked={formData.trackInventory}
+                  onCheckedChange={(checked) => handleFieldChange('trackInventory', checked)}
+                />
+                <Label htmlFor="trackInventory">Track Inventory</Label>
+              </div>
+              {formData.trackInventory && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="currentStock">Current Stock</Label>
+                    <Input
+                      id="currentStock"
+                      type="number"
+                      value={formData.currentStock || ''}
+                      onChange={(e) => handleFieldChange('currentStock', parseInt(e.target.value))}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="lowStockThreshold">Low Stock Threshold</Label>
+                    <Input
+                      id="lowStockThreshold"
+                      type="number"
+                      value={formData.lowStockThreshold || ''}
+                      onChange={(e) => handleFieldChange('lowStockThreshold', parseInt(e.target.value))}
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
+              )}
+              <div className="flex justify-end">
+                <Button onClick={() => handleSave('Inventory')} size="sm">
+                  <Save size={16} className="mr-2" />
+                  Save Inventory
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Availability */}
+          <AccordionItem value="availability">
+            <AccordionTrigger className={`flex items-center gap-2 ${savedSections.includes('Availability') ? 'text-green-600' : ''}`}>
+              <CheckCircle size={16} />
+              Availability & Status
+              {savedSections.includes('Availability') && <CheckCircle size={16} className="text-green-600" />}
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="isAvailable"
+                  checked={formData.isAvailable}
+                  onCheckedChange={(checked) => handleFieldChange('isAvailable', checked)}
+                />
+                <Label htmlFor="isAvailable">Available for Sale</Label>
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={() => handleSave('Availability')} size="sm">
+                  <Save size={16} className="mr-2" />
+                  Save Availability
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Voice & AI Integration */}
+          <AccordionItem value="voice">
+            <AccordionTrigger className={`flex items-center gap-2 ${savedSections.includes('Voice & AI') ? 'text-green-600' : ''}`}>
+              <Mic size={16} />
+              Voice & AI Integration
+              {savedSections.includes('Voice & AI') && <CheckCircle size={16} className="text-green-600" />}
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div>
+                <Label htmlFor="voiceAliases">Voice Aliases</Label>
+                <Textarea
+                  id="voiceAliases"
+                  value={formData.voiceAliases ? formData.voiceAliases.join(', ') : ''}
+                  onChange={(e) => handleFieldChange('voiceAliases', e.target.value.split(', ').filter(Boolean))}
+                  placeholder="Enter voice aliases separated by commas (e.g., pep pizza, pepper pie)"
+                  className="mt-1"
+                  rows={2}
+                />
+                <p className="text-sm text-muted-foreground mt-1">
+                  Voice hint: "Add voice alias [alias name]"
+                </p>
+              </div>
+              <div>
+                <Label htmlFor="dietaryTags">Dietary Tags</Label>
+                <Input
+                  id="dietaryTags"
+                  value={formData.dietaryTags ? formData.dietaryTags.join(', ') : ''}
+                  onChange={(e) => handleFieldChange('dietaryTags', e.target.value.split(', ').filter(Boolean))}
+                  placeholder="e.g., Vegan, Gluten-Free, Dairy-Free"
+                  className="mt-1"
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={() => handleSave('Voice & AI')} size="sm">
+                  <Save size={16} className="mr-2" />
+                  Save Voice Settings
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
+        <div className="flex justify-between pt-4 border-t">
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button onClick={() => onSave(formData)} className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
+            Save All Changes
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 export default function SimplifiedInventoryPage() {
   const [activeTab, setActiveTab] = useState('overview');
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [isListening, setIsListening] = useState(false);
@@ -812,10 +1108,11 @@ export default function SimplifiedInventoryPage() {
                   <Card 
                     key={item.id} 
                     className="hover:shadow-lg hover:scale-[1.02] transition-all duration-200 cursor-pointer border-l-4 border-l-orange-500 group hover:border-l-orange-600"
-                    onClick={() => toast({ 
-                      title: "Edit Item", 
-                      description: `Opening ${item.name} for editing...` 
-                    })}
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setEditingItem(item);
+                      setIsEditDialogOpen(true);
+                    }}
                   >
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
@@ -991,6 +1288,29 @@ export default function SimplifiedInventoryPage() {
               </CardContent>
             </Card>
           </div>
+        )}
+
+        {/* Edit Product Dialog */}
+        {editingItem && (
+          <EditProductDialog
+            item={editingItem}
+            isOpen={isEditDialogOpen}
+            onClose={() => {
+              setIsEditDialogOpen(false);
+              setEditingItem(null);
+              setSelectedItem(null);
+            }}
+            onSave={(updatedItem) => {
+              // Here you would normally update the item in the database
+              toast({
+                title: "Product Updated",
+                description: `${updatedItem.name} has been successfully updated.`,
+              });
+              setIsEditDialogOpen(false);
+              setEditingItem(null);
+              setSelectedItem(null);
+            }}
+          />
         )}
       </div>
 
