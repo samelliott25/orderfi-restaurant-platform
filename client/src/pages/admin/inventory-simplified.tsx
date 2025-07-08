@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MenuItem } from '@/shared/schema';
 import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -33,7 +34,7 @@ const FilterChip = ({ label, isActive, onClick, onRemove }: {
 );
 
 export default function SimplifiedInventoryPage() {
-  const [activeTab, setActiveTab] = useState('categories');
+  const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [isListening, setIsListening] = useState(false);
@@ -129,14 +130,12 @@ export default function SimplifiedInventoryPage() {
       return;
     }
 
+    setIsListening(true);
     const recognition = new (window as any).webkitSpeechRecognition();
+    
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.lang = 'en-US';
-
-    recognition.onstart = () => {
-      setIsListening(true);
-    };
 
     recognition.onend = () => {
       setIsListening(false);
@@ -192,45 +191,29 @@ export default function SimplifiedInventoryPage() {
           </Button>
         </div>
 
-        {/* Quick action buttons */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Button
-            variant={activeTab === 'overview' ? 'default' : 'outline'}
-            onClick={() => setActiveTab('overview')}
-            className="h-16 flex flex-col items-center justify-center space-y-1"
-          >
-            <BarChart3 size={20} />
-            <span className="text-sm">Dashboard</span>
-          </Button>
-          <Button
-            variant={activeTab === 'categories' ? 'default' : 'outline'}
-            onClick={() => setActiveTab('categories')}
-            className="h-16 flex flex-col items-center justify-center space-y-1"
-          >
-            <Package size={20} />
-            <span className="text-sm">By Category</span>
-          </Button>
-          <Button
-            variant={activeTab === 'items' ? 'default' : 'outline'}
-            onClick={() => setActiveTab('items')}
-            className="h-16 flex flex-col items-center justify-center space-y-1"
-          >
-            <Search size={20} />
-            <span className="text-sm">Search Items</span>
-          </Button>
-          <Button
-            variant={activeTab === 'reports' ? 'default' : 'outline'}
-            onClick={() => setActiveTab('reports')}
-            className="h-16 flex flex-col items-center justify-center space-y-1"
-          >
-            <TrendingUp size={20} />
-            <span className="text-sm">Reports</span>
-          </Button>
-        </div>
+        {/* Navigation Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="overview" className="flex flex-col items-center space-y-1">
+              <BarChart3 size={16} />
+              <span className="text-xs">Dashboard</span>
+            </TabsTrigger>
+            <TabsTrigger value="categories" className="flex flex-col items-center space-y-1">
+              <Package size={16} />
+              <span className="text-xs">By Category</span>
+            </TabsTrigger>
+            <TabsTrigger value="items" className="flex flex-col items-center space-y-1">
+              <Search size={16} />
+              <span className="text-xs">Search Items</span>
+            </TabsTrigger>
+            <TabsTrigger value="reports" className="flex flex-col items-center space-y-1">
+              <TrendingUp size={16} />
+              <span className="text-xs">Reports</span>
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Content based on active view */}
-        {activeTab === 'overview' && (
-          <div className="space-y-6">
+          {/* Overview Tab Content */}
+          <TabsContent value="overview" className="space-y-6">
             {/* Key metrics cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Card>
@@ -297,11 +280,10 @@ export default function SimplifiedInventoryPage() {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        )}
+          </TabsContent>
 
-        {activeTab === 'categories' && (
-          <div className="space-y-6">
+          {/* Categories Tab Content */}
+          <TabsContent value="categories" className="space-y-6">
             {/* Group items by category */}
             {Object.entries(
               menuItems.reduce((acc: Record<string, MenuItem[]>, item: MenuItem) => {
@@ -363,11 +345,10 @@ export default function SimplifiedInventoryPage() {
                 </div>
               </div>
             ))}
-          </div>
-        )}
+          </TabsContent>
 
-        {activeTab === 'items' && (
-          <div className="space-y-6">
+          {/* Items Tab Content */}
+          <TabsContent value="items" className="space-y-6">
             {/* Search and filters */}
             <div className="space-y-4">
               <div className="flex gap-2">
@@ -407,13 +388,6 @@ export default function SimplifiedInventoryPage() {
                   </Button>
                 )}
               </div>
-
-              {/* Active filters display */}
-              {activeFilters.length > 0 && (
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Showing {filteredItems.length} of {totalItems} items
-                </div>
-              )}
             </div>
 
             {/* Items grid */}
@@ -426,14 +400,11 @@ export default function SimplifiedInventoryPage() {
                   <Card key={item.id} className="hover:shadow-md transition-shadow cursor-pointer">
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg font-medium truncate">
+                        <CardTitle className="text-base font-medium truncate">
                           {item.name}
                         </CardTitle>
-                        <IconComponent size={16} className={stockStatus.color} />
+                        <IconComponent size={14} className={stockStatus.color} />
                       </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {item.category}
-                      </p>
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center justify-between">
@@ -449,33 +420,37 @@ export default function SimplifiedInventoryPage() {
                           Stock: {item.currentStock || 0} units
                         </div>
                       )}
+                      {item.description && (
+                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-2 line-clamp-2">
+                          {item.description}
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 );
               })}
             </div>
-          </div>
-        )}
+          </TabsContent>
 
-        {activeTab === 'reports' && (
-          <div className="space-y-6">
+          {/* Reports Tab Content */}
+          <TabsContent value="reports" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Inventory Reports</CardTitle>
+                <CardTitle>Quick Reports</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Button variant="outline" className="w-full justify-start">
-                    <TrendingUp size={16} className="mr-2" />
-                    Stock Level Report
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <DollarSign size={16} className="mr-2" />
-                    Value Analysis Report
+                    <BarChart3 size={16} className="mr-2" />
+                    Inventory Performance Report
                   </Button>
                   <Button variant="outline" className="w-full justify-start">
                     <Package size={16} className="mr-2" />
-                    Category Performance Report
+                    Category Sales Report
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <TrendingUp size={16} className="mr-2" />
+                    Top Performing Items
                   </Button>
                   <Button variant="outline" className="w-full justify-start">
                     <AlertTriangle size={16} className="mr-2" />
@@ -484,8 +459,8 @@ export default function SimplifiedInventoryPage() {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        )}
+          </TabsContent>
+        </Tabs>
       </div>
     </StandardLayout>
   );

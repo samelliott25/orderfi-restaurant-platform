@@ -49,3 +49,5 @@ export function StandardLayout({
     </div>
   );
 }
+
+export default StandardLayout;
