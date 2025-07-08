@@ -30,7 +30,7 @@ import {
 
 const menuItems = [
   { icon: BarChart3, label: "Dashboard", href: "/dashboard" },
-  { icon: ChefHat, label: "Inventory", href: "/inventory" },
+  { icon: ChefHat, label: "Inventory", href: "/inventory-simplified" },
   { icon: ShoppingCart, label: "Orders", href: "/orders" },
   { icon: CreditCard, label: "Payments", href: "/payments" },
   { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
