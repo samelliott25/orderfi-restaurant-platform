@@ -37,10 +37,13 @@ export default function AdminInventoryPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
+  const [priceFilter, setPriceFilter] = useState<string>("all"); // all, under-10, 10-20, over-20
+  const [stockFilter, setStockFilter] = useState<string>("all"); // all, low-stock, out-of-stock, in-stock
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [isAddItemDialogOpen, setIsAddItemDialogOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -61,17 +64,61 @@ export default function AdminInventoryPage() {
     sum + (parseFloat(item.price) * (item.currentStock || 0)), 0
   );
 
-  // Filter items based on search and filters
+  // Enhanced faceted filtering with multiple dimensions
   const filteredItems = menuItems.filter((item: MenuItem) => {
+    const price = parseFloat(item.price);
+    const stock = item.currentStock || 0;
+    const lowStockThreshold = item.lowStockThreshold || 5;
+    
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          item.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          item.aliases?.some(alias => alias.toLowerCase().includes(searchTerm.toLowerCase()));
+    
     const matchesCategory = categoryFilter === "all" || item.category === categoryFilter;
+    
     const matchesAvailability = availabilityFilter === "all" || 
                                (availabilityFilter === "available" && item.isAvailable) ||
                                (availabilityFilter === "unavailable" && !item.isAvailable);
-    return matchesSearch && matchesCategory && matchesAvailability;
+    
+    const matchesPrice = priceFilter === "all" ||
+                        (priceFilter === "under-10" && price < 10) ||
+                        (priceFilter === "10-20" && price >= 10 && price <= 20) ||
+                        (priceFilter === "over-20" && price > 20);
+    
+    const matchesStock = stockFilter === "all" ||
+                        (stockFilter === "low-stock" && item.trackInventory && stock <= lowStockThreshold) ||
+                        (stockFilter === "out-of-stock" && item.trackInventory && stock === 0) ||
+                        (stockFilter === "in-stock" && item.trackInventory && stock > lowStockThreshold);
+    
+    return matchesSearch && matchesCategory && matchesAvailability && matchesPrice && matchesStock;
   });
+
+  // Generate active filter chips for UI
+  const generateActiveFilters = () => {
+    const filters: string[] = [];
+    if (categoryFilter !== "all") filters.push(`Category: ${categoryFilter}`);
+    if (availabilityFilter !== "all") filters.push(`Status: ${availabilityFilter}`);
+    if (priceFilter !== "all") {
+      const priceLabels = {
+        "under-10": "Under $10",
+        "10-20": "$10-$20", 
+        "over-20": "Over $20"
+      };
+      filters.push(`Price: ${priceLabels[priceFilter as keyof typeof priceLabels]}`);
+    }
+    if (stockFilter !== "all") {
+      const stockLabels = {
+        "low-stock": "Low Stock",
+        "out-of-stock": "Out of Stock",
+        "in-stock": "In Stock"
+      };
+      filters.push(`Stock: ${stockLabels[stockFilter as keyof typeof stockLabels]}`);
+    }
+    if (searchTerm) filters.push(`Search: "${searchTerm}"`);
+    return filters;
+  };
+
+  const activeFilterChips = generateActiveFilters();
 
   const categorySet = new Set<string>();
   menuItems.forEach((item: MenuItem) => categorySet.add(item.category));
@@ -193,7 +240,67 @@ export default function AdminInventoryPage() {
                     <SelectItem value="unavailable">Unavailable</SelectItem>
                   </SelectContent>
                 </Select>
+                <Select value={priceFilter} onValueChange={setPriceFilter}>
+                  <SelectTrigger className="w-32">
+                    <SelectValue placeholder="Price" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Prices</SelectItem>
+                    <SelectItem value="under-10">Under $10</SelectItem>
+                    <SelectItem value="10-20">$10-$20</SelectItem>
+                    <SelectItem value="over-20">Over $20</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={stockFilter} onValueChange={setStockFilter}>
+                  <SelectTrigger className="w-32">
+                    <SelectValue placeholder="Stock" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Stock</SelectItem>
+                    <SelectItem value="in-stock">In Stock</SelectItem>
+                    <SelectItem value="low-stock">Low Stock</SelectItem>
+                    <SelectItem value="out-of-stock">Out of Stock</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
+              
+              {/* Active Filter Chips */}
+              {activeFilterChips.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <span className="text-sm text-muted-foreground">Active filters:</span>
+                  {activeFilterChips.map((filter, index) => (
+                    <Badge 
+                      key={index} 
+                      variant="secondary"
+                      className="text-xs cursor-pointer hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                      onClick={() => {
+                        // Clear individual filters based on chip content
+                        if (filter.startsWith("Category:")) setCategoryFilter("all");
+                        if (filter.startsWith("Status:")) setAvailabilityFilter("all");
+                        if (filter.startsWith("Price:")) setPriceFilter("all");
+                        if (filter.startsWith("Stock:")) setStockFilter("all");
+                        if (filter.startsWith("Search:")) setSearchTerm("");
+                      }}
+                    >
+                      {filter} ×
+                    </Badge>
+                  ))}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setCategoryFilter("all");
+                      setAvailabilityFilter("all");
+                      setPriceFilter("all");
+                      setStockFilter("all");
+                      setSearchTerm("");
+                    }}
+                    className="h-6 px-2 text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    Clear all
+                  </Button>
+                </div>
+              )}
               
               <div className="flex gap-2">
                 <Button
@@ -225,7 +332,7 @@ export default function AdminInventoryPage() {
 
         {/* Strategic Color-Coded View Options with OrderFi Gradient */}
         <Tabs defaultValue="kanban" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-slate-100 dark:bg-slate-800">
+          <TabsList className="grid w-full grid-cols-4 bg-slate-100 dark:bg-slate-800">
             <TabsTrigger 
               value="visual" 
               className="flex items-center gap-2 data-[state=active]:text-white"
@@ -251,6 +358,14 @@ export default function AdminInventoryPage() {
             >
               <Layers className="h-4 w-4" />
               Category Boards
+            </TabsTrigger>
+            <TabsTrigger 
+              value="insights" 
+              className="flex items-center gap-2 data-[state=active]:text-white"
+              style={{ color: 'hsl(215, 28%, 35%)' }}
+            >
+              <BarChart3 className="h-4 w-4" />
+              Insights
             </TabsTrigger>
           </TabsList>
 
@@ -542,6 +657,178 @@ export default function AdminInventoryPage() {
                   </Card>
                 );
               })}
+            </div>
+          </TabsContent>
+
+          {/* Aggregate Insights Dashboard */}
+          <TabsContent value="insights" className="mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              {/* Category Value Distribution - Treemap Style */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="rock-salt-font">Category Value Distribution</CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    Visual breakdown of inventory value by category
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {categories.map((category) => {
+                      const categoryItems = filteredItems.filter(item => item.category === category);
+                      const categoryValue = categoryItems.reduce((sum, item) => 
+                        sum + (parseFloat(item.price) * (item.currentStock || 0)), 0);
+                      const percentage = totalValue > 0 ? (categoryValue / totalValue) * 100 : 0;
+                      
+                      return (
+                        <div key={category} className="relative">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-sm font-medium">{category}</span>
+                            <span className="text-sm text-muted-foreground">
+                              ${categoryValue.toFixed(2)} ({percentage.toFixed(1)}%)
+                            </span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-6 relative overflow-hidden">
+                            <div 
+                              className="h-full rounded-full transition-all duration-500"
+                              style={{ 
+                                width: `${Math.max(percentage, 2)}%`,
+                                background: `linear-gradient(90deg, 
+                                  hsl(${(categories.indexOf(category) * 360) / categories.length}, 70%, 60%),
+                                  hsl(${(categories.indexOf(category) * 360) / categories.length}, 70%, 45%)
+                                )`
+                              }}
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <span className="text-xs font-medium text-white drop-shadow-sm">
+                                {categoryItems.length} items
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Stock Health Heatmap */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="rock-salt-font">Stock Health Matrix</CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    Inventory status heatmap across all categories
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-2">
+                    {menuItems.map((item) => {
+                      const stock = item.currentStock || 0;
+                      const threshold = item.lowStockThreshold || 5;
+                      const stockLevel = !item.trackInventory ? 'no-track' : 
+                                       stock === 0 ? 'out' : 
+                                       stock <= threshold ? 'low' : 'good';
+                      
+                      const colorMap = {
+                        'good': 'bg-green-500',
+                        'low': 'bg-yellow-500', 
+                        'out': 'bg-red-500',
+                        'no-track': 'bg-gray-300'
+                      };
+                      
+                      return (
+                        <div 
+                          key={item.id}
+                          className={`h-12 ${colorMap[stockLevel]} rounded-sm cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center group relative`}
+                          title={`${item.name} - ${stockLevel === 'no-track' ? 'Not tracked' : `Stock: ${stock}`}`}
+                        >
+                          <span className="text-xs text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity text-center px-1">
+                            {item.name.slice(0, 8)}
+                          </span>
+                          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                            {item.name} - {stockLevel === 'no-track' ? 'Not tracked' : `Stock: ${stock}`}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="flex items-center gap-4 mt-4 text-xs">
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
+                      <span>Good Stock</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div>
+                      <span>Low Stock</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 bg-red-500 rounded-sm"></div>
+                      <span>Out of Stock</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-3 h-3 bg-gray-300 rounded-sm"></div>
+                      <span>Not Tracked</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Top Performance Metrics */}
+              <Card className="lg:col-span-2">
+                <CardHeader>
+                  <CardTitle className="rock-salt-font">Performance Insights</CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    Key metrics and trends across menu categories
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    {/* Highest Value Category */}
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-orange-600">
+                        ${Math.max(...categories.map(cat => 
+                          filteredItems.filter(item => item.category === cat)
+                            .reduce((sum, item) => sum + (parseFloat(item.price) * (item.currentStock || 0)), 0)
+                        )).toFixed(2)}
+                      </div>
+                      <div className="text-sm text-muted-foreground">Highest Category Value</div>
+                      <div className="text-xs mt-1">
+                        {categories.find(cat => {
+                          const value = filteredItems.filter(item => item.category === cat)
+                            .reduce((sum, item) => sum + (parseFloat(item.price) * (item.currentStock || 0)), 0);
+                          return value === Math.max(...categories.map(c => 
+                            filteredItems.filter(item => item.category === c)
+                              .reduce((sum, item) => sum + (parseFloat(item.price) * (item.currentStock || 0)), 0)
+                          ));
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Average Item Price */}
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-pink-600">
+                        ${(filteredItems.reduce((sum, item) => sum + parseFloat(item.price), 0) / filteredItems.length).toFixed(2)}
+                      </div>
+                      <div className="text-sm text-muted-foreground">Average Item Price</div>
+                      <div className="text-xs mt-1">
+                        Across {filteredItems.length} items
+                      </div>
+                    </div>
+
+                    {/* Stock Efficiency */}
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-600">
+                        {Math.round((availableItems / totalItems) * 100)}%
+                      </div>
+                      <div className="text-sm text-muted-foreground">Stock Efficiency</div>
+                      <div className="text-xs mt-1">
+                        {availableItems} of {totalItems} available
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
         </Tabs>
