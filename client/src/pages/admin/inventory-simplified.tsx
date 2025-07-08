@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MenuItem } from '@/shared/schema';
-import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle } from 'lucide-react';
+import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import StandardLayout from '@/components/StandardLayout';
 
@@ -115,11 +115,15 @@ export default function SimplifiedInventoryPage() {
     { name: 'Plant-Powered Tacos', trend: 'up' as const, sales: 28 },
   ];
 
-  // Enhanced filter logic
+  // Enhanced filter logic with voice search optimization
   const filteredItems = menuItems.filter((item: MenuItem) => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = searchTerm.length < 2 || 
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()));
+      (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      // Voice-friendly aliases for fuzzy matching
+      (item.aliases && item.aliases.some(alias => alias.toLowerCase().includes(searchTerm.toLowerCase()))) ||
+      (item.keywords && item.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase())));
 
     const matchesFilters = activeFilters.length === 0 || activeFilters.every(filter => {
       switch (filter) {
@@ -199,17 +203,33 @@ export default function SimplifiedInventoryPage() {
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       setSearchTerm(transcript);
+      
+      // Enhanced voice search with instant feedback
+      const matchingItems = menuItems.filter((item: MenuItem) => {
+        const searchLower = transcript.toLowerCase();
+        return item.name.toLowerCase().includes(searchLower) ||
+               item.category.toLowerCase().includes(searchLower) ||
+               (item.description && item.description.toLowerCase().includes(searchLower)) ||
+               (item.aliases && item.aliases.some(alias => alias.toLowerCase().includes(searchLower)));
+      });
+      
       toast({
-        title: "Voice command received",
-        description: `Searching for: "${transcript}"`,
+        title: "Voice search complete",
+        description: `Found ${matchingItems.length} items for "${transcript}"`,
       });
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (event: any) => {
       setIsListening(false);
+      const errorMessage = event.error === 'no-speech' 
+        ? "No speech detected. Please try again."
+        : event.error === 'network' 
+          ? "Network error. Please check your connection."
+          : "Could not recognize speech. Please try again.";
+      
       toast({
         title: "Voice error",
-        description: "Could not recognize speech. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     };
@@ -456,8 +476,9 @@ export default function SimplifiedInventoryPage() {
                       size="lg"
                       onClick={handleVoiceCommand}
                       className={`h-12 px-6 ${isListening ? 'bg-red-100 dark:bg-red-900 border-red-300' : ''}`}
+                      title="Voice Search - Say item names, categories, or descriptions"
                     >
-                      <Mic size={16} className={`mr-2 ${isListening ? 'text-red-500' : ''}`} />
+                      <Mic size={16} className={`mr-2 ${isListening ? 'text-red-500 animate-pulse' : ''}`} />
                       {isListening ? 'Listening...' : 'Voice'}
                     </Button>
                   </div>
@@ -481,11 +502,23 @@ export default function SimplifiedInventoryPage() {
                     )}
                   </div>
 
-                  {/* Active Filter Summary */}
+                  {/* Active Filter Summary with Enhanced Search Feedback */}
                   {(activeFilters.length > 0 || searchTerm) && (
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <span>Showing {filteredItems.length} of {totalItems} items</span>
-                      {searchTerm && <Badge variant="outline">Search: "{searchTerm}"</Badge>}
+                    <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                      <Package size={14} className="text-gray-400" />
+                      <span className="font-medium">
+                        Showing {filteredItems.length} of {totalItems} items
+                      </span>
+                      {searchTerm && (
+                        <Badge variant="outline" className="bg-orange-100 text-orange-800 border-orange-200">
+                          Search: "{searchTerm}"
+                        </Badge>
+                      )}
+                      {activeFilters.length > 0 && (
+                        <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">
+                          {activeFilters.length} filter{activeFilters.length > 1 ? 's' : ''} active
+                        </Badge>
+                      )}
                     </div>
                   )}
                 </div>
