@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { StandardLayout } from '@/components/StandardLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MenuItem } from '@/shared/schema';
-import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X } from 'lucide-react';
+import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import StandardLayout from '@/components/StandardLayout';
 
 // Filter chip component for visual filtering
 const FilterChip = ({ label, isActive, onClick, onRemove }: {
@@ -17,199 +16,221 @@ const FilterChip = ({ label, isActive, onClick, onRemove }: {
   onClick: () => void;
   onRemove: () => void;
 }) => (
-  <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm cursor-pointer transition-colors ${
-    isActive 
-      ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white' 
-      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-  }`}>
-    <span onClick={onClick}>{label}</span>
+  <Button
+    variant={isActive ? "default" : "outline"}
+    size="sm"
+    onClick={onClick}
+    className="flex items-center gap-1"
+  >
+    {label}
     {isActive && (
-      <X 
-        size={14} 
-        className="cursor-pointer hover:bg-white/20 rounded-full p-0.5" 
-        onClick={onRemove}
-      />
+      <X size={12} onClick={(e) => {
+        e.stopPropagation();
+        onRemove();
+      }} />
     )}
-  </div>
-);
-
-// Recent items component
-const RecentItems = ({ items }: { items: MenuItem[] }) => (
-  <div className="mb-4">
-    <h3 className="text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">Recently Updated</h3>
-    <div className="flex gap-2 flex-wrap">
-      {items.slice(0, 5).map((item) => (
-        <Badge key={item.id} variant="outline" className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">
-          {item.name}
-        </Badge>
-      ))}
-    </div>
-  </div>
-);
-
-// Top movers component
-const TopMovers = ({ items }: { items: MenuItem[] }) => (
-  <div className="mb-4">
-    <h3 className="text-sm font-medium mb-2 text-gray-600 dark:text-gray-400">Top Items</h3>
-    <div className="flex gap-2 flex-wrap">
-      {items.slice(0, 3).map((item) => (
-        <Badge key={item.id} variant="secondary" className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">
-          <TrendingUp size={12} className="mr-1" />
-          {item.name}
-        </Badge>
-      ))}
-    </div>
-  </div>
+  </Button>
 );
 
 export default function SimplifiedInventoryPage() {
+  const [activeTab, setActiveTab] = useState('categories');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState('overview');
   const [isListening, setIsListening] = useState(false);
-  
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
   // Fetch menu items
-  const { data: menuItems = [], isLoading } = useQuery({
-    queryKey: ['/api/restaurants/1/menu'],
-    queryFn: () => fetch('/api/restaurants/1/menu').then(res => res.json())
+  const { data: menuItems = [], isLoading } = useQuery<MenuItem[]>({
+    queryKey: ['/api/menu-items'],
   });
 
   // Calculate key metrics
   const totalItems = menuItems.length;
   const availableItems = menuItems.filter((item: MenuItem) => item.isAvailable).length;
   const lowStockItems = menuItems.filter((item: MenuItem) => 
-    item.trackInventory && item.currentStock !== null && item.currentStock <= (item.lowStockThreshold || 5)
+    item.trackInventory && (item.currentStock || 0) < (item.lowStockThreshold || 10)
   ).length;
   const totalValue = menuItems.reduce((sum: number, item: MenuItem) => 
     sum + (parseFloat(item.price) * (item.currentStock || 0)), 0
   );
 
-  // Filter options with easy-to-understand labels
+  // Filter options
   const filterOptions = [
-    { id: 'low-stock', label: 'Low Stock', icon: AlertTriangle, color: 'text-red-500' },
-    { id: 'under-10', label: 'Under $10', icon: DollarSign, color: 'text-green-500' },
-    { id: 'under-20', label: 'Under $20', icon: DollarSign, color: 'text-blue-500' },
-    { id: 'vegan', label: 'Vegan', icon: Package, color: 'text-green-600' },
-    { id: 'gluten-free', label: 'Gluten Free', icon: Package, color: 'text-purple-500' },
+    { id: 'low-stock', label: 'Low Stock', icon: AlertTriangle },
+    { id: 'under-10', label: 'Under $10', icon: DollarSign },
+    { id: 'vegan', label: 'Vegan', icon: Package },
+    { id: 'gluten-free', label: 'Gluten Free', icon: CheckCircle },
   ];
 
-  // Filter items based on search and active filters
+  // Filter logic
   const filteredItems = menuItems.filter((item: MenuItem) => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    const matchesFilters = activeFilters.every(filter => {
+      item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    const matchesFilters = activeFilters.length === 0 || activeFilters.every(filter => {
       switch (filter) {
         case 'low-stock':
-          return item.trackInventory && item.currentStock !== null && item.currentStock <= (item.lowStockThreshold || 5);
+          return item.trackInventory && (item.currentStock || 0) < (item.lowStockThreshold || 10);
         case 'under-10':
           return parseFloat(item.price) < 10;
-        case 'under-20':
-          return parseFloat(item.price) < 20;
         case 'vegan':
-          return item.description?.toLowerCase().includes('vegan');
+          return item.dietaryTags && item.dietaryTags.includes('vegan');
         case 'gluten-free':
-          return item.description?.toLowerCase().includes('gf') || item.description?.toLowerCase().includes('gluten');
+          return item.dietaryTags && item.dietaryTags.includes('gluten-free');
         default:
           return true;
       }
     });
-    
+
     return matchesSearch && matchesFilters;
   });
 
-  // Handle voice command
-  const handleVoiceCommand = () => {
-    setIsListening(true);
-    // Simulate voice recognition
-    setTimeout(() => {
-      setIsListening(false);
-      toast({
-        title: "Voice command ready",
-        description: "Say 'show low stock' or 'add new item'"
-      });
-    }, 2000);
-  };
-
-  // Toggle filter
   const toggleFilter = (filterId: string) => {
     setActiveFilters(prev => 
       prev.includes(filterId) 
-        ? prev.filter(f => f !== filterId)
+        ? prev.filter(id => id !== filterId)
         : [...prev, filterId]
     );
   };
 
-  // Remove filter
   const removeFilter = (filterId: string) => {
-    setActiveFilters(prev => prev.filter(f => f !== filterId));
+    setActiveFilters(prev => prev.filter(id => id !== filterId));
   };
 
-  // Clear all filters
   const clearAllFilters = () => {
     setActiveFilters([]);
-    setSearchTerm('');
   };
 
-  // Get stock status color and icon
   const getStockStatus = (item: MenuItem) => {
-    if (!item.trackInventory) return { color: 'text-gray-500', icon: Package, label: 'Not Tracked' };
+    if (!item.trackInventory) {
+      return { label: 'Always Available', color: 'text-green-600', icon: CheckCircle };
+    }
     
     const stock = item.currentStock || 0;
-    const threshold = item.lowStockThreshold || 5;
+    const threshold = item.lowStockThreshold || 10;
     
-    if (stock <= threshold) return { color: 'text-red-500', icon: AlertTriangle, label: 'Low Stock' };
-    if (stock <= threshold * 2) return { color: 'text-yellow-500', icon: Package, label: 'Moderate' };
-    return { color: 'text-green-500', icon: Package, label: 'Healthy' };
+    if (stock === 0) {
+      return { label: 'Out of Stock', color: 'text-red-600', icon: AlertTriangle };
+    } else if (stock < threshold) {
+      return { label: 'Low Stock', color: 'text-yellow-600', icon: AlertTriangle };
+    } else {
+      return { label: 'In Stock', color: 'text-green-600', icon: CheckCircle };
+    }
+  };
+
+  const handleVoiceCommand = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      toast({
+        title: "Voice not supported",
+        description: "Your browser doesn't support voice recognition",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const recognition = new (window as any).webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setSearchTerm(transcript);
+      toast({
+        title: "Voice command received",
+        description: `Searching for: "${transcript}"`,
+      });
+    };
+
+    recognition.onerror = () => {
+      setIsListening(false);
+      toast({
+        title: "Voice error",
+        description: "Could not recognize speech. Please try again.",
+        variant: "destructive",
+      });
+    };
+
+    recognition.start();
   };
 
   if (isLoading) {
     return (
-      <StandardLayout>
-        <div className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400">Loading inventory...</p>
-          </div>
+      <StandardLayout title="Inventory Management">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Loading inventory...</div>
         </div>
       </StandardLayout>
     );
   }
 
   return (
-    <StandardLayout>
+    <StandardLayout title="Inventory Management">
       <div className="space-y-6">
-        {/* Header with clear title */}
-        <div className="flex items-center justify-between">
+        {/* Header with Add New Item button */}
+        <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold playwrite-font text-gray-900 dark:text-white">
-              Inventory Management
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Simplified Inventory
             </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              Manage your {totalItems} menu items with ease
+            </p>
           </div>
-          <Button 
-            onClick={() => toast({ title: "Add Item", description: "Add new item functionality" })}
-            className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
-          >
+          <Button>
             <Plus size={16} className="mr-2" />
             Add New Item
           </Button>
         </div>
 
-        {/* Main navigation tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="items">Item List</TabsTrigger>
-            <TabsTrigger value="categories">Categories</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
-          </TabsList>
+        {/* Quick action buttons */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Button
+            variant={activeTab === 'overview' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('overview')}
+            className="h-16 flex flex-col items-center justify-center space-y-1"
+          >
+            <BarChart3 size={20} />
+            <span className="text-sm">Dashboard</span>
+          </Button>
+          <Button
+            variant={activeTab === 'categories' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('categories')}
+            className="h-16 flex flex-col items-center justify-center space-y-1"
+          >
+            <Package size={20} />
+            <span className="text-sm">By Category</span>
+          </Button>
+          <Button
+            variant={activeTab === 'items' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('items')}
+            className="h-16 flex flex-col items-center justify-center space-y-1"
+          >
+            <Search size={20} />
+            <span className="text-sm">Search Items</span>
+          </Button>
+          <Button
+            variant={activeTab === 'reports' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('reports')}
+            className="h-16 flex flex-col items-center justify-center space-y-1"
+          >
+            <TrendingUp size={20} />
+            <span className="text-sm">Reports</span>
+          </Button>
+        </div>
 
-          {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-6">
+        {/* Content based on active view */}
+        {activeTab === 'overview' && (
+          <div className="space-y-6">
             {/* Key metrics cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Card>
@@ -219,25 +240,19 @@ export default function SimplifiedInventoryPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {totalItems}
-                  </div>
+                  <div className="text-2xl font-bold">{totalItems}</div>
                 </CardContent>
               </Card>
-              
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Available Now
+                    Available Items
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-600">
-                    {availableItems}
-                  </div>
+                  <div className="text-2xl font-bold text-green-600">{availableItems}</div>
                 </CardContent>
               </Card>
-              
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -245,57 +260,121 @@ export default function SimplifiedInventoryPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-red-500">
-                    {lowStockItems}
-                  </div>
+                  <div className="text-2xl font-bold text-yellow-600">{lowStockItems}</div>
                 </CardContent>
               </Card>
-              
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Inventory Value
+                    Total Value
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-blue-600">
-                    ${totalValue.toFixed(0)}
+                  <div className="text-2xl font-bold text-blue-600">${totalValue.toFixed(2)}</div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Recent Activity */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Activity</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Korean Fried Chicken Taco stock updated</span>
+                    <span className="text-xs text-gray-500">2 hours ago</span>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Cape Byron Beef Burger price changed</span>
+                    <span className="text-xs text-gray-500">4 hours ago</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Buffalo Wings running low on stock</span>
+                    <span className="text-xs text-gray-500">6 hours ago</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
-            {/* Recent items and top movers */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Recent Activity</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <RecentItems items={menuItems} />
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Popular Items</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <TopMovers items={menuItems} />
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
+        {activeTab === 'categories' && (
+          <div className="space-y-6">
+            {/* Group items by category */}
+            {Object.entries(
+              menuItems.reduce((acc: Record<string, MenuItem[]>, item: MenuItem) => {
+                if (!acc[item.category]) acc[item.category] = [];
+                acc[item.category].push(item);
+                return acc;
+              }, {})
+            ).map(([category, items]) => (
+              <div key={category} className="space-y-4">
+                {/* Category Header */}
+                <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {category}
+                  </h3>
+                  <Badge variant="outline" className="text-sm">
+                    {items.length} items
+                  </Badge>
+                </div>
+                
+                {/* Category Items Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {items.map((item: MenuItem) => {
+                    const stockStatus = getStockStatus(item);
+                    const IconComponent = stockStatus.icon;
+                    
+                    return (
+                      <Card key={item.id} className="hover:shadow-md transition-shadow cursor-pointer">
+                        <CardHeader className="pb-2">
+                          <div className="flex items-center justify-between">
+                            <CardTitle className="text-base font-medium truncate">
+                              {item.name}
+                            </CardTitle>
+                            <IconComponent size={14} className={stockStatus.color} />
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex items-center justify-between">
+                            <div className="text-lg font-bold text-gray-900 dark:text-white">
+                              ${parseFloat(item.price).toFixed(2)}
+                            </div>
+                            <Badge variant="outline" className={stockStatus.color}>
+                              {stockStatus.label}
+                            </Badge>
+                          </div>
+                          {item.trackInventory && (
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                              Stock: {item.currentStock || 0} units
+                            </div>
+                          )}
+                          {item.description && (
+                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-2 line-clamp-2">
+                              {item.description}
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
-          {/* Items List Tab */}
-          <TabsContent value="items" className="space-y-4">
-            {/* Search and filter bar */}
+        {activeTab === 'items' && (
+          <div className="space-y-6">
+            {/* Search and filters */}
             <div className="space-y-4">
               <div className="flex gap-2">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Search size={16} className="absolute left-3 top-3 text-gray-400" />
                   <Input
-                    placeholder="Search items or say what you want..."
+                    placeholder="Search items, categories, or descriptions..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-9"
@@ -375,84 +454,38 @@ export default function SimplifiedInventoryPage() {
                 );
               })}
             </div>
-          </TabsContent>
+          </div>
+        )}
 
-          {/* Categories Tab */}
-          <TabsContent value="categories" className="space-y-6">
-            {/* Group items by category */}
-            {Object.entries(
-              menuItems.reduce((acc: Record<string, MenuItem[]>, item: MenuItem) => {
-                if (!acc[item.category]) acc[item.category] = [];
-                acc[item.category].push(item);
-                return acc;
-              }, {})
-            ).map(([category, items]) => (
-              <div key={category} className="space-y-4">
-                {/* Category Header */}
-                <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    {category}
-                  </h3>
-                  <Badge variant="outline" className="text-sm">
-                    {items.length} items
-                  </Badge>
+        {activeTab === 'reports' && (
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Inventory Reports</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <Button variant="outline" className="w-full justify-start">
+                    <TrendingUp size={16} className="mr-2" />
+                    Stock Level Report
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <DollarSign size={16} className="mr-2" />
+                    Value Analysis Report
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Package size={16} className="mr-2" />
+                    Category Performance Report
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <AlertTriangle size={16} className="mr-2" />
+                    Low Stock Alert Report
+                  </Button>
                 </div>
-                
-                {/* Category Items Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {items.map((item: MenuItem) => {
-                    const stockStatus = getStockStatus(item);
-                    const IconComponent = stockStatus.icon;
-                    
-                    return (
-                      <Card key={item.id} className="hover:shadow-md transition-shadow cursor-pointer">
-                        <CardHeader className="pb-2">
-                          <div className="flex items-center justify-between">
-                            <CardTitle className="text-base font-medium truncate">
-                              {item.name}
-                            </CardTitle>
-                            <IconComponent size={14} className={stockStatus.color} />
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="flex items-center justify-between">
-                            <div className="text-lg font-bold text-gray-900 dark:text-white">
-                              ${parseFloat(item.price).toFixed(2)}
-                            </div>
-                            <Badge variant="outline" className={stockStatus.color}>
-                              {stockStatus.label}
-                            </Badge>
-                          </div>
-                          {item.trackInventory && (
-                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                              Stock: {item.currentStock || 0} units
-                            </div>
-                          )}
-                          {item.description && (
-                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-2 line-clamp-2">
-                              {item.description}
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </TabsContent>
-
-          {/* Reports Tab */}
-          <TabsContent value="reports">
-            <div className="text-center py-12">
-              <TrendingUp size={48} className="mx-auto text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Reports & Analytics</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                View detailed reports on inventory performance and trends
-              </p>
-            </div>
-          </TabsContent>
-        </Tabs>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </StandardLayout>
   );
