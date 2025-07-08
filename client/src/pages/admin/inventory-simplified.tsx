@@ -378,14 +378,68 @@ export default function SimplifiedInventoryPage() {
           </TabsContent>
 
           {/* Categories Tab */}
-          <TabsContent value="categories">
-            <div className="text-center py-12">
-              <Package size={48} className="mx-auto text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Categories View</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Organize your menu items by category for easier management
-              </p>
-            </div>
+          <TabsContent value="categories" className="space-y-6">
+            {/* Group items by category */}
+            {Object.entries(
+              menuItems.reduce((acc: Record<string, MenuItem[]>, item: MenuItem) => {
+                if (!acc[item.category]) acc[item.category] = [];
+                acc[item.category].push(item);
+                return acc;
+              }, {})
+            ).map(([category, items]) => (
+              <div key={category} className="space-y-4">
+                {/* Category Header */}
+                <div className="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {category}
+                  </h3>
+                  <Badge variant="outline" className="text-sm">
+                    {items.length} items
+                  </Badge>
+                </div>
+                
+                {/* Category Items Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {items.map((item: MenuItem) => {
+                    const stockStatus = getStockStatus(item);
+                    const IconComponent = stockStatus.icon;
+                    
+                    return (
+                      <Card key={item.id} className="hover:shadow-md transition-shadow cursor-pointer">
+                        <CardHeader className="pb-2">
+                          <div className="flex items-center justify-between">
+                            <CardTitle className="text-base font-medium truncate">
+                              {item.name}
+                            </CardTitle>
+                            <IconComponent size={14} className={stockStatus.color} />
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex items-center justify-between">
+                            <div className="text-lg font-bold text-gray-900 dark:text-white">
+                              ${parseFloat(item.price).toFixed(2)}
+                            </div>
+                            <Badge variant="outline" className={stockStatus.color}>
+                              {stockStatus.label}
+                            </Badge>
+                          </div>
+                          {item.trackInventory && (
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                              Stock: {item.currentStock || 0} units
+                            </div>
+                          )}
+                          {item.description && (
+                            <div className="text-xs text-gray-500 dark:text-gray-500 mt-2 line-clamp-2">
+                              {item.description}
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </TabsContent>
 
           {/* Reports Tab */}
