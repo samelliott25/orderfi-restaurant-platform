@@ -1031,6 +1031,76 @@ export default function SimplifiedInventoryPage() {
     }
   };
 
+  const getCategoryTheme = (category: string) => {
+    const themes = {
+      'Bar Snacks': {
+        primary: 'from-amber-500 to-orange-500',
+        secondary: 'border-amber-300 dark:border-amber-700',
+        bg: 'bg-amber-50 dark:bg-amber-900/10',
+        text: 'text-amber-800 dark:text-amber-200',
+        accent: 'bg-amber-100 dark:bg-amber-900/20',
+        icon: '🥨',
+        borderLeft: 'border-l-amber-500'
+      },
+      'Buffalo Wings': {
+        primary: 'from-red-500 to-orange-600',
+        secondary: 'border-red-300 dark:border-red-700',
+        bg: 'bg-red-50 dark:bg-red-900/10',
+        text: 'text-red-800 dark:text-red-200',
+        accent: 'bg-red-100 dark:bg-red-900/20',
+        icon: '🍗',
+        borderLeft: 'border-l-red-500'
+      },
+      'Dawgs': {
+        primary: 'from-yellow-500 to-orange-500',
+        secondary: 'border-yellow-300 dark:border-yellow-700',
+        bg: 'bg-yellow-50 dark:bg-yellow-900/10',
+        text: 'text-yellow-800 dark:text-yellow-200',
+        accent: 'bg-yellow-100 dark:bg-yellow-900/20',
+        icon: '🌭',
+        borderLeft: 'border-l-yellow-500'
+      },
+      'Tacos': {
+        primary: 'from-lime-500 to-green-500',
+        secondary: 'border-lime-300 dark:border-lime-700',
+        bg: 'bg-lime-50 dark:bg-lime-900/10',
+        text: 'text-lime-800 dark:text-lime-200',
+        accent: 'bg-lime-100 dark:bg-lime-900/20',
+        icon: '🌮',
+        borderLeft: 'border-l-lime-500'
+      },
+      'Plant Powered': {
+        primary: 'from-green-500 to-emerald-600',
+        secondary: 'border-green-300 dark:border-green-700',
+        bg: 'bg-green-50 dark:bg-green-900/10',
+        text: 'text-green-800 dark:text-green-200',
+        accent: 'bg-green-100 dark:bg-green-900/20',
+        icon: '🌱',
+        borderLeft: 'border-l-green-500'
+      },
+      'Burgers': {
+        primary: 'from-orange-500 to-red-500',
+        secondary: 'border-orange-300 dark:border-orange-700',
+        bg: 'bg-orange-50 dark:bg-orange-900/10',
+        text: 'text-orange-800 dark:text-orange-200',
+        accent: 'bg-orange-100 dark:bg-orange-900/20',
+        icon: '🍔',
+        borderLeft: 'border-l-orange-500'
+      },
+      'From our grill': {
+        primary: 'from-slate-500 to-gray-600',
+        secondary: 'border-slate-300 dark:border-slate-700',
+        bg: 'bg-slate-50 dark:bg-slate-900/10',
+        text: 'text-slate-800 dark:text-slate-200',
+        accent: 'bg-slate-100 dark:bg-slate-900/20',
+        icon: '🔥',
+        borderLeft: 'border-l-slate-500'
+      }
+    };
+    
+    return themes[category] || themes['Bar Snacks'];
+  };
+
   const handleVoiceCommand = () => {
     if (!('webkitSpeechRecognition' in window)) {
       toast({
@@ -1317,15 +1387,17 @@ export default function SimplifiedInventoryPage() {
                 acc[item.category].push(item);
                 return acc;
               }, {})
-            ).map(([category, items]) => (
-              <Card key={category} className="hover:shadow-md transition-shadow">
+            ).map(([category, items]) => {
+              const categoryTheme = getCategoryTheme(category);
+              return (
+              <Card key={category} className={`hover:shadow-md transition-shadow ${categoryTheme.bg} border-l-4 ${categoryTheme.borderLeft}`}>
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                      <Package size={18} />
+                    <CardTitle className={`text-lg font-semibold ${categoryTheme.text} flex items-center gap-2`}>
+                      <span className="text-xl">{categoryTheme.icon}</span>
                       {category}
                     </CardTitle>
-                    <Badge variant="outline" className="text-sm">
+                    <Badge variant="outline" className={`text-sm ${categoryTheme.secondary} ${categoryTheme.text}`}>
                       {items.length} items
                     </Badge>
                   </div>
@@ -1334,13 +1406,22 @@ export default function SimplifiedInventoryPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {items.map((item: MenuItem) => {
                       const stockStatus = getStockStatus(item);
+                      const itemTheme = getCategoryTheme(item.category);
                       const IconComponent = stockStatus.icon;
                       
                       return (
-                        <Card key={item.id} className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-orange-500">
+                        <Card 
+                          key={item.id} 
+                          className={`hover:shadow-md transition-shadow cursor-pointer border-l-4 ${itemTheme.borderLeft} ${itemTheme.bg}`}
+                          onClick={() => {
+                            setSelectedItem(item);
+                            setEditingItem(item);
+                            setIsEditDialogOpen(true);
+                          }}
+                        >
                           <CardHeader className="pb-2">
                             <div className="flex items-center justify-between">
-                              <CardTitle className="text-base font-medium truncate">
+                              <CardTitle className={`text-base font-medium truncate ${itemTheme.text}`}>
                                 {item.name}
                               </CardTitle>
                               <div className={`p-1 rounded-full ${stockStatus.bgColor}`}>
@@ -1350,7 +1431,7 @@ export default function SimplifiedInventoryPage() {
                           </CardHeader>
                           <CardContent>
                             <div className="flex items-center justify-between mb-2">
-                              <div className="text-lg font-bold text-gray-900 dark:text-white">
+                              <div className={`text-lg font-bold bg-gradient-to-r ${itemTheme.primary} bg-clip-text text-transparent`}>
                                 ${parseFloat(item.price).toFixed(2)}
                               </div>
                               <Badge variant="outline" className={`${stockStatus.color} border-current`}>
@@ -1358,12 +1439,12 @@ export default function SimplifiedInventoryPage() {
                               </Badge>
                             </div>
                             {item.trackInventory && (
-                              <div className="text-sm text-gray-600 dark:text-gray-400">
+                              <div className="text-sm text-muted-foreground">
                                 Stock: {item.currentStock || 0} units
                               </div>
                             )}
                             {item.description && (
-                              <div className="text-xs text-gray-500 dark:text-gray-500 mt-2 line-clamp-2">
+                              <div className="text-xs text-muted-foreground mt-2 line-clamp-2">
                                 {item.description}
                               </div>
                             )}
@@ -1374,7 +1455,8 @@ export default function SimplifiedInventoryPage() {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+            );
+            })}
           </TabsContent>
 
           {/* Search Items Tab Content */}
@@ -1496,12 +1578,13 @@ export default function SimplifiedInventoryPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="item-cards">
                 {filteredItems.map((item: MenuItem) => {
                 const stockStatus = getStockStatus(item);
+                const categoryTheme = getCategoryTheme(item.category);
                 const IconComponent = stockStatus.icon;
                 
                 return (
                   <Card 
                     key={item.id} 
-                    className="hover:shadow-lg hover:scale-[1.02] transition-all duration-200 cursor-pointer border-l-4 border-l-orange-500 group hover:border-l-orange-600"
+                    className={`hover:shadow-lg hover:scale-[1.02] transition-all duration-200 cursor-pointer border-l-4 ${categoryTheme.borderLeft} group hover:shadow-xl ${categoryTheme.bg}`}
                     onClick={() => {
                       setSelectedItem(item);
                       setEditingItem(item);
@@ -1510,20 +1593,23 @@ export default function SimplifiedInventoryPage() {
                   >
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base font-medium truncate group-hover:text-orange-600 transition-colors">
-                          {item.name}
-                        </CardTitle>
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg">{categoryTheme.icon}</span>
+                          <CardTitle className={`text-base font-medium truncate ${categoryTheme.text} group-hover:opacity-80 transition-opacity`}>
+                            {item.name}
+                          </CardTitle>
+                        </div>
                         <div className={`p-1 rounded-full ${stockStatus.bgColor}`}>
                           <IconComponent size={12} className={stockStatus.color} />
                         </div>
                       </div>
-                      <Badge variant="outline" className="text-xs w-fit">
+                      <Badge variant="outline" className={`text-xs w-fit ${categoryTheme.secondary} ${categoryTheme.text}`}>
                         {item.category}
                       </Badge>
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center justify-between mb-2">
-                        <div className="text-lg font-bold text-gray-900 dark:text-white">
+                        <div className={`text-lg font-bold bg-gradient-to-r ${categoryTheme.primary} bg-clip-text text-transparent`}>
                           ${parseFloat(item.price).toFixed(2)}
                         </div>
                         <Badge variant="outline" className={`${stockStatus.color} border-current`}>
@@ -1531,19 +1617,19 @@ export default function SimplifiedInventoryPage() {
                         </Badge>
                       </div>
                       {item.trackInventory && (
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                        <div className="text-sm text-muted-foreground">
                           Stock: {item.currentStock || 0} units
                         </div>
                       )}
                       {item.description && (
-                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-2 line-clamp-2">
+                        <div className="text-xs text-muted-foreground mt-2 line-clamp-2">
                           {item.description}
                         </div>
                       )}
                       {item.dietaryTags && item.dietaryTags.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-2">
                           {item.dietaryTags.map(tag => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
+                            <Badge key={tag} variant="secondary" className={`text-xs ${categoryTheme.accent}`}>
                               {tag}
                             </Badge>
                           ))}
