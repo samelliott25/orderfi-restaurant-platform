@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { MenuItem } from '@/shared/schema';
-import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info, ShoppingCart, RefreshCw, ChevronRight, Edit, Save, Upload, Tag, Percent } from 'lucide-react';
+import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info, ShoppingCart, RefreshCw, ChevronRight, Edit, Save, Upload, Tag, Percent, Calendar, Users, Barcode, Settings, Image } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import StandardLayout from '@/components/StandardLayout';
 
@@ -260,6 +260,29 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
                   />
                 </div>
                 <div>
+                  <Label htmlFor="taxRate">Tax Rate (%)</Label>
+                  <Input
+                    id="taxRate"
+                    type="number"
+                    step="0.01"
+                    value={formData.taxRate || ''}
+                    onChange={(e) => handleFieldChange('taxRate', e.target.value)}
+                    placeholder="8.25"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="loyaltyPoints">Loyalty Points</Label>
+                  <Input
+                    id="loyaltyPoints"
+                    type="number"
+                    value={formData.loyaltyPoints || ''}
+                    onChange={(e) => handleFieldChange('loyaltyPoints', parseInt(e.target.value))}
+                    placeholder="Points earned per purchase"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
                   <Label htmlFor="costPrice">Cost Price (COGS)</Label>
                   <Input
                     id="costPrice"
@@ -325,6 +348,59 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
                       className="mt-1"
                     />
                   </div>
+                  <div>
+                    <Label htmlFor="unitOfMeasure">Unit of Measure</Label>
+                    <Select value={formData.unitOfMeasure || 'ea'} onValueChange={(value) => handleFieldChange('unitOfMeasure', value)}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ea">Each (ea)</SelectItem>
+                        <SelectItem value="kg">Kilograms (kg)</SelectItem>
+                        <SelectItem value="g">Grams (g)</SelectItem>
+                        <SelectItem value="lb">Pounds (lb)</SelectItem>
+                        <SelectItem value="oz">Ounces (oz)</SelectItem>
+                        <SelectItem value="l">Liters (l)</SelectItem>
+                        <SelectItem value="ml">Milliliters (ml)</SelectItem>
+                        <SelectItem value="gal">Gallons (gal)</SelectItem>
+                        <SelectItem value="qt">Quarts (qt)</SelectItem>
+                        <SelectItem value="pt">Pints (pt)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="supplier">Supplier</Label>
+                    <Input
+                      id="supplier"
+                      value={formData.supplier || ''}
+                      onChange={(e) => handleFieldChange('supplier', e.target.value)}
+                      placeholder="Vendor/Supplier name"
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="purchaseUnitCost">Purchase Unit Cost</Label>
+                    <Input
+                      id="purchaseUnitCost"
+                      type="number"
+                      step="0.01"
+                      value={formData.purchaseUnitCost || ''}
+                      onChange={(e) => handleFieldChange('purchaseUnitCost', e.target.value)}
+                      placeholder="Cost per unit for POs"
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="orderMultiple">Order Multiple (Pack Size)</Label>
+                    <Input
+                      id="orderMultiple"
+                      type="number"
+                      value={formData.orderMultiple || ''}
+                      onChange={(e) => handleFieldChange('orderMultiple', parseInt(e.target.value))}
+                      placeholder="Pack size for auto-reorders"
+                      className="mt-1"
+                    />
+                  </div>
                 </div>
               )}
               <div className="flex justify-end">
@@ -344,13 +420,37 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
               {savedSections.includes('Availability') && <CheckCircle size={16} className="text-green-600" />}
             </AccordionTrigger>
             <AccordionContent className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="isAvailable"
-                  checked={formData.isAvailable}
-                  onCheckedChange={(checked) => handleFieldChange('isAvailable', checked)}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="isAvailable"
+                    checked={formData.isAvailable}
+                    onCheckedChange={(checked) => handleFieldChange('isAvailable', checked)}
+                  />
+                  <Label htmlFor="isAvailable">Available for Sale</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="soldOut"
+                    checked={formData.soldOut || false}
+                    onCheckedChange={(checked) => handleFieldChange('soldOut', checked)}
+                  />
+                  <Label htmlFor="soldOut">Sold Out (Manual Override)</Label>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="availabilityWindow">Availability Window</Label>
+                <Textarea
+                  id="availabilityWindow"
+                  value={formData.availabilityWindow || ''}
+                  onChange={(e) => handleFieldChange('availabilityWindow', e.target.value)}
+                  placeholder="Monday-Friday: 11:00-22:00&#10;Saturday: 10:00-23:00&#10;Sunday: 12:00-21:00"
+                  className="mt-1"
+                  rows={3}
                 />
-                <Label htmlFor="isAvailable">Available for Sale</Label>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Enter availability by day and time range
+                </p>
               </div>
               <div className="flex justify-end">
                 <Button onClick={() => handleSave('Availability')} size="sm">
@@ -384,14 +484,47 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
                 </p>
               </div>
               <div>
-                <Label htmlFor="searchKeywords">Search Keywords</Label>
-                <Input
-                  id="searchKeywords"
-                  value={formData.searchKeywords || ''}
-                  onChange={(e) => handleFieldChange('searchKeywords', e.target.value)}
-                  placeholder="Keywords for full-text search (buffalo, spicy, chicken)"
+                <Label htmlFor="triggerPhrases">Trigger Phrases</Label>
+                <Textarea
+                  id="triggerPhrases"
+                  value={formData.triggerPhrases ? formData.triggerPhrases.join('\n') : ''}
+                  onChange={(e) => handleFieldChange('triggerPhrases', e.target.value.split('\n').filter(Boolean))}
+                  placeholder="what's in this?&#10;any nuts?&#10;how spicy is it?"
                   className="mt-1"
+                  rows={3}
                 />
+                <p className="text-sm text-muted-foreground mt-1">
+                  Questions customers might ask about this item
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="searchKeywords">Search Keywords</Label>
+                  <Input
+                    id="searchKeywords"
+                    value={formData.searchKeywords || ''}
+                    onChange={(e) => handleFieldChange('searchKeywords', e.target.value)}
+                    placeholder="Keywords for full-text search (buffalo, spicy, chicken)"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="intentTag">Intent Tag</Label>
+                  <Select value={formData.intentTag || 'add_to_order'} onValueChange={(value) => handleFieldChange('intentTag', value)}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="add_to_order">Add to Order</SelectItem>
+                      <SelectItem value="filter_vegan">Filter Vegan</SelectItem>
+                      <SelectItem value="filter_gluten_free">Filter Gluten Free</SelectItem>
+                      <SelectItem value="filter_spicy">Filter Spicy</SelectItem>
+                      <SelectItem value="allergen_info">Allergen Info</SelectItem>
+                      <SelectItem value="nutrition_info">Nutrition Info</SelectItem>
+                      <SelectItem value="customization">Customization</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div>
                 <Label htmlFor="dietaryTags">Dietary Tags</Label>
@@ -431,14 +564,48 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
                 />
               </div>
               <div>
-                <Label htmlFor="colorAccent">Color Accent (Hex)</Label>
-                <Input
-                  id="colorAccent"
-                  value={formData.colorAccent || '#f97316'}
-                  onChange={(e) => handleFieldChange('colorAccent', e.target.value)}
-                  placeholder="#f97316"
+                <Label htmlFor="galleryUrls">Gallery Images (Additional Photos)</Label>
+                <Textarea
+                  id="galleryUrls"
+                  value={formData.galleryUrls ? formData.galleryUrls.join('\n') : ''}
+                  onChange={(e) => handleFieldChange('galleryUrls', e.target.value.split('\n').filter(Boolean))}
+                  placeholder="https://example.com/image2.jpg&#10;https://example.com/image3.jpg"
                   className="mt-1"
+                  rows={3}
                 />
+                <p className="text-sm text-muted-foreground mt-1">
+                  Enter one image URL per line
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="colorAccent">Color Accent (Hex)</Label>
+                  <Input
+                    id="colorAccent"
+                    value={formData.colorAccent || '#f97316'}
+                    onChange={(e) => handleFieldChange('colorAccent', e.target.value)}
+                    placeholder="#f97316"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="iconBadge">Icon/Badge</Label>
+                  <Select value={formData.iconBadge || ''} onValueChange={(value) => handleFieldChange('iconBadge', value)}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Select badge" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">None</SelectItem>
+                      <SelectItem value="new">🆕 New</SelectItem>
+                      <SelectItem value="popular">🔥 Popular</SelectItem>
+                      <SelectItem value="vegan">🌱 Vegan</SelectItem>
+                      <SelectItem value="gf">⚡ Gluten-Free</SelectItem>
+                      <SelectItem value="spicy">🌶️ Spicy</SelectItem>
+                      <SelectItem value="healthy">💚 Healthy</SelectItem>
+                      <SelectItem value="chef">👨‍🍳 Chef's Special</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div className="flex justify-end">
                 <Button onClick={() => handleSave('Media & Branding')} size="sm">
@@ -531,10 +698,96 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
                   rows={3}
                 />
               </div>
+              <div>
+                <Label htmlFor="defaultModifiers">Default Modifiers (Pre-checked)</Label>
+                <Input
+                  id="defaultModifiers"
+                  value={formData.defaultModifiers ? formData.defaultModifiers.join(', ') : ''}
+                  onChange={(e) => handleFieldChange('defaultModifiers', e.target.value.split(', ').filter(Boolean))}
+                  placeholder="Medium sauce, Regular fries"
+                  className="mt-1"
+                />
+                <p className="text-sm text-muted-foreground mt-1">
+                  Modifiers that are pre-selected by default
+                </p>
+              </div>
               <div className="flex justify-end">
                 <Button onClick={() => handleSave('Variants')} size="sm">
                   <Save size={16} className="mr-2" />
                   Save Variants
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Integrations & Metadata */}
+          <AccordionItem value="integrations">
+            <AccordionTrigger className={`flex items-center gap-2 ${savedSections.includes('Integrations') ? 'text-green-600' : ''}`}>
+              <Settings size={16} />
+              Integrations & Metadata
+              {savedSections.includes('Integrations') && <CheckCircle size={16} className="text-green-600" />}
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="stripeProductId">Stripe Product ID</Label>
+                  <Input
+                    id="stripeProductId"
+                    value={formData.stripeProductId || ''}
+                    onChange={(e) => handleFieldChange('stripeProductId', e.target.value)}
+                    placeholder="prod_xxxxxxxxxxxxx"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="accountingSku">Accounting SKU</Label>
+                  <Input
+                    id="accountingSku"
+                    value={formData.accountingSku || ''}
+                    onChange={(e) => handleFieldChange('accountingSku', e.target.value)}
+                    placeholder="SKU for QuickBooks/Xero"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="barcode">Barcode/UPC</Label>
+                  <Input
+                    id="barcode"
+                    value={formData.barcode || ''}
+                    onChange={(e) => handleFieldChange('barcode', e.target.value)}
+                    placeholder="123456789012"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="qrCode">QR Code Data</Label>
+                  <Input
+                    id="qrCode"
+                    value={formData.qrCode || ''}
+                    onChange={(e) => handleFieldChange('qrCode', e.target.value)}
+                    placeholder="Custom QR code data"
+                    className="mt-1"
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="customAttributes">Custom Attributes (JSON)</Label>
+                <Textarea
+                  id="customAttributes"
+                  value={formData.customAttributes || ''}
+                  onChange={(e) => handleFieldChange('customAttributes', e.target.value)}
+                  placeholder='{"preparation_time": 15, "kitchen_station": "grill", "special_instructions": "Cook well-done"}'
+                  className="mt-1"
+                  rows={3}
+                />
+                <p className="text-sm text-muted-foreground mt-1">
+                  JSON format for plugin integrations and custom data
+                </p>
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={() => handleSave('Integrations')} size="sm">
+                  <Save size={16} className="mr-2" />
+                  Save Integration Data
                 </Button>
               </div>
             </AccordionContent>
