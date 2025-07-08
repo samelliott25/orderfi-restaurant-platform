@@ -134,6 +134,17 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 8, 2025. Created user-friendly simplified inventory interface for non-technical restaurant managers
+  - Built /inventory-simplified route with manager-friendly design patterns borrowed from supermarket self-checkouts
+  - Replaced complex dropdowns with visual filter chips (Low Stock, Under $10, Vegan, Gluten Free)
+  - Added progressive disclosure tabs: Overview, Items, Categories, Reports to reduce cognitive load
+  - Implemented Recent Activity and Popular Items sections for quick access to frequently used functions
+  - Created large touch-friendly buttons (44x44px minimum) with clear labels for easy use
+  - Added voice command button with visual "Listening..." feedback for hands-free operation
+  - Color-coded stock status indicators: red (low), yellow (moderate), green (healthy) with icons
+  - Enhanced search bar with typeahead functionality and full-width design for better usability
+  - Cleaned up StandardLayout by removing unnecessary subtitle elements for cleaner page headers
+  - Added simplified inventory option to main navigation menu for easy access
 - July 8, 2025. Implemented comprehensive database optimization for voice-driven operations
   - Added PostgreSQL trigram extension for fuzzy search and similarity matching
   - Created UUID-based stable item identification system alongside existing ID structure

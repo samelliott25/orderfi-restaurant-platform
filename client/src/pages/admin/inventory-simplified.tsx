@@ -189,9 +189,6 @@ export default function SimplifiedInventoryPage() {
             <h1 className="text-2xl font-bold playwrite-font text-gray-900 dark:text-white">
               Inventory Management
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
-              Manage your {totalItems} menu items with simple tools
-            </p>
           </div>
           <Button 
             onClick={() => toast({ title: "Add Item", description: "Add new item functionality" })}

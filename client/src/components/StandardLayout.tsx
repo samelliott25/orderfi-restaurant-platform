@@ -39,7 +39,6 @@ export function StandardLayout({
             {/* Page Header */}
             <div className="mb-6">
               <h1 className="text-2xl text-foreground rock-salt-font">{title}</h1>
-              <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
             </div>
             
             {/* Page Content */}
