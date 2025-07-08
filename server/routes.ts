@@ -846,6 +846,35 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // ChatOps automation endpoints
+  app.post('/api/chatops', async (req, res) => {
+    try {
+      const { callChatOps } = await import('./chatops-automation');
+      const { message, restaurantId } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ error: 'Message is required' });
+      }
+      
+      const result = await callChatOps(message, restaurantId || 1);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post('/api/chatops/monitor-stock', async (req, res) => {
+    try {
+      const { autoMonitorStock } = await import('./chatops-automation');
+      const { restaurantId } = req.body;
+      
+      const result = await autoMonitorStock(restaurantId || 1);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   // Provider migration endpoint
   app.post("/api/deployment/migrate", async (req, res) => {
     try {

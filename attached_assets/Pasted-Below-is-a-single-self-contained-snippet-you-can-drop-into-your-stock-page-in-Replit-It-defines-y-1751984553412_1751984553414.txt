@@ -1,0 +1,130 @@
+Below is a single, self-contained snippet you can drop into your /stock page in Replit. It defines your ChatOps system prompt, all the function schemas for automated stock→PO→invoice→report workflows, and even a cron job example to kick off scheduled reports.
+
+javascript
+Copy
+Edit
+import OpenAI from "openai";
+import cron from "node-cron";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+// ————— 1. System Prompt —————
+const systemPrompt = `
+You are ChatOps, the autonomous AI agent powering the /stock page of OrderFi. 
+Your mission: fully automate inventory, purchase‐order, invoicing and reporting:
+ • Monitor stock levels & auto-create POs when items dip below their reorder thresholds.
+ • When a PO status flips to "received", auto-generate & email a supplier invoice.
+ • Schedule & send daily_sales, weekly_inventory, and monthly_payables reports.
+ • Log every action in Recent Activity and push notifications via email or Slack.
+
+Use ONLY the defined functions. After each call, reply with a concise confirmation message.
+`;
+
+// ————— 2. Function Schemas —————
+const functions = [
+  {
+    name: "list_low_stock",
+    description: "Return all items below their reorder threshold for a venue.",
+    parameters: {
+      type: "object",
+      properties: {
+        venueId: { type: "string" }
+      },
+      required: ["venueId"]
+    }
+  },
+  {
+    name: "create_purchase_order",
+    description: "Create a purchase order for a supplier when stock is low.",
+    parameters: {
+      type: "object",
+      properties: {
+        itemId:     { type: "string" },
+        quantity:   { type: "integer" },
+        supplierId: { type: "string" }
+      },
+      required: ["itemId","quantity","supplierId"]
+    }
+  },
+  {
+    name: "generate_invoice",
+    description: "Generate and email an invoice for a received purchase order.",
+    parameters: {
+      type: "object",
+      properties: {
+        supplierId: { type: "string" },
+        poId:       { type: "string" }
+      },
+      required: ["supplierId","poId"]
+    }
+  },
+  {
+    name: "generate_report",
+    description: "Compile a report and email it to stakeholders.",
+    parameters: {
+      type: "object",
+      properties: {
+        report_type: { type: "string", enum: ["daily_sales","weekly_inventory","monthly_payables"] },
+        email_to:    { type: "string", format: "email" }
+      },
+      required: ["report_type","email_to"]
+    }
+  },
+  {
+    name: "record_payment",
+    description: "Record a payment against an invoice.",
+    parameters: {
+      type: "object",
+      properties: {
+        invoiceId:     { type: "string" },
+        amount:        { type: "number" },
+        paymentMethod: { type: "string", enum: ["bank","crypto","card"] }
+      },
+      required: ["invoiceId","amount","paymentMethod"]
+    }
+  }
+];
+
+// ————— 3. ChatOps Invocation Helper —————
+async function callChatOps(userMessage) {
+  const res = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: userMessage }
+    ],
+    functions,
+    function_call: "auto"
+  });
+
+  const msg = res.choices[0].message;
+  if (msg.function_call) {
+    const { name, arguments: args } = msg.function_call;
+    // dispatch to your backend here...
+    console.log(`→ ChatOps calls ${name} with`, args);
+    // e.g. await backend[name](JSON.parse(args));
+    return `✅ Executed ${name}`;
+  }
+  return msg.content;
+}
+
+// ————— 4. Scheduled Reports (example) —————
+// Every day at 07:00, send the daily sales report:
+cron.schedule("0 7 * * *", async () => {
+  await callChatOps(`SYSTEM: run generate_report with {"report_type":"daily_sales","email_to":"manager@restaurant.com"}`);
+});
+
+// You can add similar cron jobs for weekly_inventory and monthly_payables.
+
+// ————— 5. Export for /stock page —————
+export { callChatOps };
+How this ties everything together
+System prompt blends your invoicing blueprint (Xero/QuickBooks inspiration) with the ChatOps automation logic (auto‐reorder, invoice on receipt, scheduled reports).
+
+Functions cover low-stock checks, PO creation, invoice generation, report emailing, and payment recording.
+
+callChatOps() handles every guest or manager request on /stock—whether ad-hoc (“Show low stock”) or event-driven.
+
+node-cron shows you how to wire in absolutely hands-off, scheduled workflows.
+
+Paste this into your /stock page (or a shared helper file), hook up the backend dispatches, and you’ll have a fully autonomous, AI-driven stock & invoicing module ready to outpace every legacy POS.
