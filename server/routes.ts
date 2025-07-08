@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import OpenAI from 'openai';
 import ordersRouter from "./routes/orders";
 import kitchenPrintingRouter from "./routes/kitchen-printing";
 import { paymentEngine } from "./services/payment-engine";
@@ -1006,7 +1007,6 @@ export async function registerRoutes(app: Express): Promise<void> {
       const avgOrderValue = todayOrders.length > 0 ? todayRevenue / todayOrders.length : 0;
       
       // OpenAI API call for generating summary
-      const OpenAI = require('openai');
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
       const prompt = `Generate a concise, professional restaurant journal summary for ${period} with this data:
@@ -1067,7 +1067,6 @@ Write a brief, insightful summary (2-3 sentences) focusing on key performance hi
       const avgOrders = recentOrders.length;
       
       // OpenAI API call for generating forecast
-      const OpenAI = require('openai');
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
       const prompt = `As a restaurant analytics AI, generate a data-driven forecast for ${period} based on this data:
