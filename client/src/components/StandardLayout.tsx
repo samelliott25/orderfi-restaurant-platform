@@ -36,11 +36,6 @@ export function StandardLayout({
       >
         <ScrollArea className="h-full bg-transparent">
           <div className="p-6">
-            {/* Page Header */}
-            <div className="mb-6">
-              <h1 className="text-2xl text-foreground rock-salt-font">{title}</h1>
-            </div>
-            
             {/* Page Content */}
             {children}
           </div>
