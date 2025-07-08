@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { MenuItem } from '@/shared/schema';
-import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info, ShoppingCart, RefreshCw } from 'lucide-react';
+import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info, ShoppingCart, RefreshCw, ChevronRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import StandardLayout from '@/components/StandardLayout';
 
@@ -477,11 +477,19 @@ export default function SimplifiedInventoryPage() {
             </div>
           </div>
 
-          {/* Voice Suggestion Chips (Woolworths-style) */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Quick Actions:</span>
+          {/* Icon Pills for Primary Actions */}
+          <div className="flex items-center gap-3">
             {voiceSuggestions.map((suggestion, index) => (
-              <SuggestionChip key={index} {...suggestion} />
+              <Button
+                key={index}
+                variant="outline"
+                size="sm"
+                onClick={suggestion.action}
+                className="flex items-center gap-2 h-10 px-4 bg-background hover:bg-muted transition-colors"
+              >
+                <suggestion.icon size={16} className="text-orange-500" />
+                <span className="text-sm font-medium">{suggestion.label}</span>
+              </Button>
             ))}
           </div>
 
@@ -511,26 +519,18 @@ export default function SimplifiedInventoryPage() {
 
         {/* Progressive Disclosure Tabs with Enhanced Labels */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 h-16 bg-gray-100 dark:bg-gray-800">
-            <TabsTrigger value="overview" className="flex flex-col items-center justify-center space-y-1 h-14 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
-              <BarChart3 size={18} />
-              <span className="text-xs font-normal">Overview</span>
-              <span className="text-[10px] opacity-75">Key metrics</span>
+          <TabsList className="grid w-full grid-cols-3 h-14 bg-muted">
+            <TabsTrigger value="overview" className="flex items-center justify-center gap-2 h-12 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:font-semibold">
+              <BarChart3 size={16} />
+              <span className="text-sm">Overview</span>
             </TabsTrigger>
-            <TabsTrigger value="categories" className="flex flex-col items-center justify-center space-y-1 h-14 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
-              <Package size={18} />
-              <span className="text-xs font-medium">Categories</span>
-              <span className="text-[10px] opacity-75">By type</span>
+            <TabsTrigger value="browse" className="flex items-center justify-center gap-2 h-12 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:font-semibold">
+              <Search size={16} />
+              <span className="text-sm">Browse</span>
             </TabsTrigger>
-            <TabsTrigger value="items" className="flex flex-col items-center justify-center space-y-1 h-14 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
-              <Search size={18} />
-              <span className="text-xs font-medium">Search Items</span>
-              <span className="text-[10px] opacity-75">Find & filter</span>
-            </TabsTrigger>
-            <TabsTrigger value="reports" className="flex flex-col items-center justify-center space-y-1 h-14 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
-              <TrendingUp size={18} />
-              <span className="text-xs font-medium">Reports</span>
-              <span className="text-[10px] opacity-75">Analytics</span>
+            <TabsTrigger value="reports" className="flex items-center justify-center gap-2 h-12 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:font-semibold">
+              <TrendingUp size={16} />
+              <span className="text-sm">Reports</span>
             </TabsTrigger>
           </TabsList>
 
@@ -688,7 +688,7 @@ export default function SimplifiedInventoryPage() {
           </TabsContent>
 
           {/* Search Items Tab Content */}
-          <TabsContent value="items" className="space-y-6">
+          <TabsContent value="browse" className="space-y-6">
             {/* Enhanced Search with Voice and Visual Filters */}
             <Card id="search-section">
               <CardContent className="p-6">
@@ -985,6 +985,27 @@ export default function SimplifiedInventoryPage() {
             </Card>
           </div>
         )}
+      </div>
+
+      {/* Floating Action Button (FAB) - Fitts's Law optimized */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="lg"
+                className="h-14 w-14 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-200"
+                onClick={() => toast({ title: "Add New Item", description: "Opening item creation form..." })}
+              >
+                <Plus size={24} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="left">
+              <p>Add New Item</p>
+              <p className="text-xs text-muted-foreground">Voice: "Add new item"</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </StandardLayout>
   );
