@@ -32,7 +32,8 @@ import {
   DoorOpen,
   Bot,
   Send,
-  RefreshCw
+  RefreshCw,
+  Box
 } from "lucide-react";
 
 const menuItems = [

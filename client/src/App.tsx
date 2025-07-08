@@ -48,6 +48,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/network', 
     '/inventory',
     '/inventory-simplified',
+    '/stock',
     '/inventory-stock',
     '/orders',
     '/payments',
