@@ -125,98 +125,110 @@ const OrderFiJournal = () => {
           </div>
         </div>
 
-        {/* Top-Level Financials */}
-        <div className="space-y-2">
-          <h3 className="text-sm font-normal text-foreground">Top-Level Financials</h3>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Gross Sales:</span>
-              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.grossSales)}</span>
+        {/* Key Metrics Cards */}
+        <div className="grid grid-cols-3 gap-2">
+          <div className="p-3 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 rounded-lg border border-green-200 dark:border-green-800">
+            <div className="flex items-center gap-2 mb-1">
+              <DollarSign className="w-4 h-4 text-green-600" />
+              <span className="text-xs text-muted-foreground">Net Sales</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Net Sales:</span>
-              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.netSales)}</span>
+            <div className="text-lg font-normal text-foreground">{formatCurrency(dailySalesData.topLevel.netSales)}</div>
+            <div className="text-xs text-muted-foreground">{dailySalesData.topLevel.totalTransactions} orders</div>
+          </div>
+          
+          <div className="p-3 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+            <div className="flex items-center gap-2 mb-1">
+              <TrendingUp className="w-4 h-4 text-blue-600" />
+              <span className="text-xs text-muted-foreground">Avg Order</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Taxes:</span>
-              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.taxesCollected)}</span>
+            <div className="text-lg font-normal text-foreground">{formatCurrency(dailySalesData.topLevel.avgOrderValue)}</div>
+            <div className="text-xs text-muted-foreground">+12% vs yesterday</div>
+          </div>
+          
+          <div className="p-3 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-lg border border-purple-200 dark:border-purple-800">
+            <div className="flex items-center gap-2 mb-1">
+              <Wallet className="w-4 h-4 text-purple-600" />
+              <span className="text-xs text-muted-foreground">Tips</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Tips:</span>
-              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.tipsReceived)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Orders:</span>
-              <span className="text-foreground">{dailySalesData.topLevel.totalTransactions}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Avg Order:</span>
-              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.avgOrderValue)}</span>
-            </div>
+            <div className="text-lg font-normal text-foreground">{formatCurrency(dailySalesData.topLevel.tipsReceived)}</div>
+            <div className="text-xs text-muted-foreground">12.3% of sales</div>
           </div>
         </div>
 
-        {/* Sales by Category */}
+        {/* Sales Breakdown with Visual Progress */}
         <div className="space-y-2">
-          <h3 className="text-sm font-normal text-foreground">Sales by Category</h3>
-          <div className="space-y-1">
+          <h3 className="text-sm font-normal text-foreground flex items-center gap-2">
+            <PieChart className="w-4 h-4 text-orange-500" />
+            Sales Breakdown
+          </h3>
+          <div className="space-y-2">
             {dailySalesData.breakdown.byCategory.map((category, index) => (
-              <div key={index} className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">{category.name}</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-foreground">{formatCurrency(category.sales)}</span>
-                  <span className="text-muted-foreground">({category.percentage}%)</span>
+              <div key={index} className="space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">{category.name}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-foreground">{formatCurrency(category.sales)}</span>
+                    <span className="text-muted-foreground">({category.percentage}%)</span>
+                  </div>
                 </div>
+                <Progress value={category.percentage} className="h-1" />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Top Items */}
+        {/* Top Performers */}
         <div className="space-y-2">
-          <h3 className="text-sm font-normal text-foreground">Top Items</h3>
+          <h3 className="text-sm font-normal text-foreground flex items-center gap-2">
+            <Award className="w-4 h-4 text-yellow-500" />
+            Top Performers
+          </h3>
           <div className="space-y-1">
             {dailySalesData.breakdown.topItems.map((item, index) => (
-              <div key={index} className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">{item.name}</span>
+              <div key={index} className="flex items-center justify-between p-2 bg-secondary rounded">
                 <div className="flex items-center gap-2">
-                  <span className="text-foreground">{item.sold} sold</span>
-                  <span className="text-foreground">{formatCurrency(item.sales)}</span>
+                  <div className={`w-2 h-2 rounded-full ${index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-500'}`}></div>
+                  <span className="text-xs text-foreground">{item.name}</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="text-muted-foreground">{item.sold} sold</span>
+                  <span className="text-foreground font-medium">{formatCurrency(item.sales)}</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Order Channels */}
-        <div className="space-y-2">
-          <h3 className="text-sm font-normal text-foreground">Order Channels</h3>
-          <div className="space-y-1">
-            {dailySalesData.channels.map((channel, index) => (
-              <div key={index} className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">{channel.name}</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-foreground">{channel.orders} orders</span>
-                  <span className="text-foreground">{formatCurrency(channel.sales)}</span>
+        {/* Payment & Channel Split */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <h3 className="text-xs font-normal text-foreground flex items-center gap-1">
+              <CreditCard className="w-3 h-3 text-blue-500" />
+              Payments
+            </h3>
+            <div className="space-y-1">
+              {dailySalesData.payments.map((payment, index) => (
+                <div key={index} className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">{payment.method}</span>
+                  <span className="text-foreground">{payment.percentage}%</span>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-
-        {/* Payment Methods */}
-        <div className="space-y-2">
-          <h3 className="text-sm font-normal text-foreground">Payment Methods</h3>
-          <div className="space-y-1">
-            {dailySalesData.payments.map((payment, index) => (
-              <div key={index} className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">{payment.method}</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-foreground">{formatCurrency(payment.amount)}</span>
-                  <span className="text-muted-foreground">({payment.percentage}%)</span>
+          
+          <div className="space-y-2">
+            <h3 className="text-xs font-normal text-foreground flex items-center gap-1">
+              <Globe className="w-3 h-3 text-green-500" />
+              Channels
+            </h3>
+            <div className="space-y-1">
+              {dailySalesData.channels.map((channel, index) => (
+                <div key={index} className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">{channel.name}</span>
+                  <span className="text-foreground">{channel.orders}</span>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </CardContent>
