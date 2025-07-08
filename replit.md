@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 8, 2025. Enhanced inventory page with category-based organization for better menu management
+  - Changed default view from "Visual Cards" to "Category Boards" for improved menu organization
+  - Updated data table to group items by category with clear category headers and item counts
+  - Each category displays as a separate section with authentic Loose Moose menu items organized properly
+  - Both tabbed views (Category Boards and Data Table) now show menu items grouped by their real categories
+  - Improved user experience for managing 48 authentic menu items across 7 categories
 - July 8, 2025. Successfully imported 48 authentic Loose Moose menu items from real Gennari Group website
   - Extracted complete menu data from official Loose Moose HTML file attached by user
   - Imported all 7 authentic categories: Bar Snacks, Buffalo Wings, Dawgs, Tacos, Plant Powered, Burgers, From our grill

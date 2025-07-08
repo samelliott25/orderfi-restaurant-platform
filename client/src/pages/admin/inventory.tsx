@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { StandardLayout } from "@/components/StandardLayout";
 import { InventoryGrid } from "@/components/inventory/InventoryGrid";
@@ -224,7 +224,7 @@ export default function AdminInventoryPage() {
         </Card>
 
         {/* Strategic Color-Coded View Options with OrderFi Gradient */}
-        <Tabs defaultValue="visual" className="w-full">
+        <Tabs defaultValue="kanban" className="w-full">
           <TabsList className="grid w-full grid-cols-3 bg-slate-100 dark:bg-slate-800">
             <TabsTrigger 
               value="visual" 
@@ -302,96 +302,127 @@ export default function AdminInventoryPage() {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      filteredItems.map((item: MenuItem) => {
-                        const price = parseFloat(item.price);
-                        const cost = parseFloat(item.costPrice || '0');
-                        const margin = cost > 0 ? ((price - cost) / price * 100) : 0;
-                        const isLowStock = item.trackInventory && 
-                          item.currentStock !== null && 
-                          item.currentStock <= (item.lowStockThreshold || 5);
-
+                      categories.map((category: string) => {
+                        const categoryItems = filteredItems.filter((item: MenuItem) => item.category === category);
+                        if (categoryItems.length === 0) return null;
+                        
                         return (
-                          <TableRow key={item.id}>
-                            <TableCell>
-                              <input type="checkbox" className="rounded" />
-                            </TableCell>
-                            <TableCell>
-                              <div>
-                                <div className="">{item.name}</div>
-                                <div className="text-sm text-muted-foreground truncate max-w-xs">
-                                  {item.description}
-                                </div>
-                                {item.aliases && item.aliases.length > 0 && (
-                                  <div className="text-xs text-blue-600 mt-1">
-                                    Also: {item.aliases.slice(0, 2).join(', ')}
-                                  </div>
-                                )}
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Badge variant="outline">{item.category}</Badge>
-                            </TableCell>
-                            <TableCell className="" style={{ color: 'hsl(340, 82%, 45%)' }}>${price.toFixed(2)}</TableCell>
-                            <TableCell className="text-slate-600">${cost.toFixed(2)}</TableCell>
-                            <TableCell>
-                              <span className={`${
-                                margin > 50 ? "text-emerald-600" : 
-                                margin > 30 ? "" : 
-                                ""
-                              }`}
-                              style={{
-                                color: margin > 50 ? 'hsl(160, 84%, 39%)' :
-                                       margin > 30 ? 'hsl(25, 95%, 53%)' :
-                                       'hsl(0, 84%, 60%)'
-                              }}>
-                                {margin.toFixed(1)}%
-                              </span>
-                            </TableCell>
-                            <TableCell>
-                              {item.trackInventory ? (
-                                <div className="flex items-center gap-2">
-                                  <span className={``}
-                                        style={{ color: isLowStock ? 'hsl(25, 95%, 53%)' : 'hsl(215, 28%, 35%)' }}>
-                                    {item.currentStock || 0}
-                                  </span>
-                                  {isLowStock && <AlertTriangle className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />}
-                                </div>
-                              ) : (
-                                <span className="text-muted-foreground">Not tracked</span>
-                              )}
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center gap-2">
-                                {item.isAvailable ? (
-                                  <Eye className="h-4 w-4 text-green-500" />
-                                ) : (
-                                  <EyeOff className="h-4 w-4 text-red-500" />
-                                )}
-                                <Badge variant={item.isAvailable ? "default" : "secondary"}>
-                                  {item.isAvailable ? "Available" : "Hidden"}
-                                </Badge>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center gap-1">
-                                <div className="w-12 bg-slate-200 rounded-full h-2">
-                                  <div 
-                                    className="h-2 rounded-full transition-all" 
+                          <React.Fragment key={category}>
+                            {/* Category Header Row */}
+                            <TableRow className="bg-slate-50 dark:bg-slate-900/50">
+                              <TableCell colSpan={10} className="py-3">
+                                <div className="flex items-center justify-between">
+                                  <h3 className="rock-salt-font text-lg" style={{ color: 'hsl(215, 28%, 25%)' }}>
+                                    {category}
+                                  </h3>
+                                  <Badge 
+                                    variant="secondary"
+                                    className="text-xs"
                                     style={{ 
-                                      width: `${Math.min((item.popularityScore || 0), 100)}%`,
-                                      background: 'linear-gradient(135deg, hsl(25, 95%, 53%), hsl(340, 82%, 52%))'
+                                      backgroundColor: 'hsl(215, 28%, 17%, 0.1)',
+                                      color: 'hsl(215, 28%, 35%)'
                                     }}
-                                  />
+                                  >
+                                    {categoryItems.length} items
+                                  </Badge>
                                 </div>
-                                <span className="text-sm text-slate-600">{item.popularityScore || 0}</span>
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <Button variant="ghost" size="sm" onClick={() => handleItemClick(item)}>
-                                <Edit2 className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
+                              </TableCell>
+                            </TableRow>
+                            
+                            {/* Category Items */}
+                            {categoryItems.map((item: MenuItem) => {
+                              const price = parseFloat(item.price);
+                              const cost = parseFloat(item.costPrice || '0');
+                              const margin = cost > 0 ? ((price - cost) / price * 100) : 0;
+                              const isLowStock = item.trackInventory && 
+                                item.currentStock !== null && 
+                                item.currentStock <= (item.lowStockThreshold || 5);
+
+                              return (
+                                <TableRow key={item.id}>
+                                  <TableCell>
+                                    <input type="checkbox" className="rounded" />
+                                  </TableCell>
+                                  <TableCell>
+                                    <div>
+                                      <div className="">{item.name}</div>
+                                      <div className="text-sm text-muted-foreground truncate max-w-xs">
+                                        {item.description}
+                                      </div>
+                                      {item.aliases && item.aliases.length > 0 && (
+                                        <div className="text-xs text-blue-600 mt-1">
+                                          Also: {item.aliases.slice(0, 2).join(', ')}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Badge variant="outline">{item.category}</Badge>
+                                  </TableCell>
+                                  <TableCell className="" style={{ color: 'hsl(340, 82%, 45%)' }}>${price.toFixed(2)}</TableCell>
+                                  <TableCell className="text-slate-600">${cost.toFixed(2)}</TableCell>
+                                  <TableCell>
+                                    <span className={`${
+                                      margin > 50 ? "text-emerald-600" : 
+                                      margin > 30 ? "" : 
+                                      ""
+                                    }`}
+                                    style={{
+                                      color: margin > 50 ? 'hsl(160, 84%, 39%)' :
+                                             margin > 30 ? 'hsl(25, 95%, 53%)' :
+                                             'hsl(0, 84%, 60%)'
+                                    }}>
+                                      {margin.toFixed(1)}%
+                                    </span>
+                                  </TableCell>
+                                  <TableCell>
+                                    {item.trackInventory ? (
+                                      <div className="flex items-center gap-2">
+                                        <span className={``}
+                                              style={{ color: isLowStock ? 'hsl(25, 95%, 53%)' : 'hsl(215, 28%, 35%)' }}>
+                                          {item.currentStock || 0}
+                                        </span>
+                                        {isLowStock && <AlertTriangle className="h-4 w-4" style={{ color: 'hsl(25, 95%, 53%)' }} />}
+                                      </div>
+                                    ) : (
+                                      <span className="text-muted-foreground">Not tracked</span>
+                                    )}
+                                  </TableCell>
+                                  <TableCell>
+                                    <div className="flex items-center gap-2">
+                                      {item.isAvailable ? (
+                                        <Eye className="h-4 w-4 text-green-500" />
+                                      ) : (
+                                        <EyeOff className="h-4 w-4 text-red-500" />
+                                      )}
+                                      <Badge variant={item.isAvailable ? "default" : "secondary"}>
+                                        {item.isAvailable ? "Available" : "Hidden"}
+                                      </Badge>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>
+                                    <div className="flex items-center gap-1">
+                                      <div className="w-12 bg-slate-200 rounded-full h-2">
+                                        <div 
+                                          className="h-2 rounded-full transition-all" 
+                                          style={{ 
+                                            width: `${Math.min((item.popularityScore || 0), 100)}%`,
+                                            background: 'linear-gradient(135deg, hsl(25, 95%, 53%), hsl(340, 82%, 52%))'
+                                          }}
+                                        />
+                                      </div>
+                                      <span className="text-sm text-slate-600">{item.popularityScore || 0}</span>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell className="text-right">
+                                    <Button variant="ghost" size="sm" onClick={() => handleItemClick(item)}>
+                                      <Edit2 className="h-4 w-4" />
+                                    </Button>
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          </React.Fragment>
                         );
                       })
                     )}
