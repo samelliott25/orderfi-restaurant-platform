@@ -7,9 +7,6 @@ import { WalletConnectDialog } from "@/components/WalletConnectDialog";
 import { useTheme } from "@/components/theme-provider";
 import { useChatContext } from "@/contexts/ChatContext";
 import React, { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Home, 
@@ -31,8 +28,6 @@ import {
   ChevronRight,
   DoorOpen,
   Bot,
-  Send,
-  RefreshCw,
   Box
 } from "lucide-react";
 
@@ -66,135 +61,19 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   const [showExitDialog, setShowExitDialog] = useState(false);
   const { toast } = useToast();
   
-  // ChatOps state
-  const [showChatOpsDialog, setShowChatOpsDialog] = useState(false);
-  const [chatOpsMessage, setChatOpsMessage] = useState('');
-  const [chatOpsLoading, setChatOpsLoading] = useState(false);
-  const [chatOpsHistory, setChatOpsHistory] = useState<Array<{message: string, response: string, timestamp: string}>>([]);
-  const [contextualSuggestions, setContextualSuggestions] = useState<string[]>([]);
+
 
   const handleExitApp = () => {
     setShowExitDialog(false);
     setLocation('/landing-page');
   };
 
-  // Generate contextual suggestions based on current page
-  const getContextualSuggestions = (currentPath: string) => {
-    const pathSuggestions = {
-      '/dashboard': [
-        'Show me today\'s sales performance',
-        'Generate daily revenue report',
-        'Check order completion rates'
-      ],
-      '/inventory': [
-        'Check for low stock items',
-        'Create purchase orders for restocking',
-        'Generate inventory valuation report'
-      ],
-      '/inventory-simplified': [
-        'Check for low stock items',
-        'Create purchase orders for restocking',
-        'Generate inventory valuation report'
-      ],
-      '/orders': [
-        'Show pending orders',
-        'Process order refunds',
-        'Generate order completion report'
-      ],
-      '/payments': [
-        'Record supplier payment',
-        'Generate payment summary',
-        'Show outstanding invoices'
-      ],
-      '/tokenrewards': [
-        'Check reward point balances',
-        'Generate loyalty program report',
-        'Process token redemptions'
-      ],
-      '/stock': [
-        'Perform stock count verification',
-        'Create purchase orders for low stock',
-        'Generate supplier invoices'
-      ],
-      '/staff': [
-        'Show staff performance metrics',
-        'Generate payroll report',
-        'Check staff scheduling'
-      ],
-      '/reporting': [
-        'Generate comprehensive business report',
-        'Show profit and loss analysis',
-        'Create tax preparation summary'
-      ]
-    };
-    
-    return pathSuggestions[currentPath] || [
-      'Show me today\'s business overview',
-      'Generate daily operations report',
-      'Check system status'
-    ];
-  };
 
-  // ChatOps automation function
-  const handleChatOps = async (message: string) => {
-    setChatOpsLoading(true);
-    
-    try {
-      const response = await fetch('/api/chatops', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message,
-          restaurantId: 1
-        })
-      });
-      
-      const result = await response.json();
-      
-      if (result.success) {
-        const newEntry = {
-          message,
-          response: result.message || JSON.stringify(result.result),
-          timestamp: new Date().toLocaleTimeString()
-        };
-        
-        setChatOpsHistory(prev => [newEntry, ...prev.slice(0, 9)]); // Keep last 10 entries
-        
-        toast({
-          title: "ChatOps Executed",
-          description: result.action || "Command processed successfully",
-        });
-      } else {
-        toast({
-          title: "ChatOps Error",
-          description: result.error || "Failed to process command",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Connection Error",
-        description: "Unable to connect to ChatOps system",
-        variant: "destructive",
-      });
-    } finally {
-      setChatOpsLoading(false);
-      setChatOpsMessage('');
-    }
-  };
 
-  const handleChatOpsSubmit = () => {
-    if (chatOpsMessage.trim()) {
-      handleChatOps(chatOpsMessage.trim());
-    }
-  };
-
-  // Enhanced ChatOps button click handler
+  // ChatOps button click handler
   const handleChatOpsClick = () => {
-    setContextualSuggestions(getContextualSuggestions(location));
-    setShowChatOpsDialog(true);
+    // Open the original chat interface
+    setChatOpen(!isChatOpen);
   };
 
   // Update CSS custom property for sidebar width and persist state
@@ -311,12 +190,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   className={`relative overflow-hidden border-0 shadow-lg transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
                     isCollapsed ? 'w-8 h-8 p-0' : 'w-full'
                   } ${
-                    showChatOpsDialog 
+                    isChatOpen 
                       ? 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 hover:from-orange-500 hover:via-red-600 hover:to-pink-700' 
                       : 'bg-gradient-to-br from-orange-500 via-red-600 to-pink-700 hover:from-orange-600 hover:via-red-700 hover:to-pink-800'
                   }`}
                   style={{
-                    background: showChatOpsDialog 
+                    background: isChatOpen 
                       ? 'conic-gradient(from 0deg, #F5A623, #f97316, #ec4899, #F5A623)' 
                       : 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)',
                     borderRadius: isCollapsed ? '50%' : '12px'
@@ -488,95 +367,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         </div>
       </div>
 
-      {/* Enhanced ChatOps Dialog */}
-      <Dialog open={showChatOpsDialog} onOpenChange={setShowChatOpsDialog}>
-        <DialogContent className="max-w-2xl max-h-[80vh]">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Bot size={20} />
-              ChatOps Automation
-            </DialogTitle>
-            <DialogDescription>
-              Smart automation for {location === '/inventory' || location === '/inventory-simplified' ? 'inventory management' : 
-                location === '/stock' ? 'stock operations' : 
-                location === '/orders' ? 'order processing' : 
-                location === '/payments' ? 'payment processing' : 
-                location === '/dashboard' ? 'business operations' : 'restaurant operations'}. 
-              Commands are contextual to your current page.
-            </DialogDescription>
-          </DialogHeader>
 
-          <div className="space-y-4">
-            {/* Contextual Suggestions */}
-            {contextualSuggestions.length > 0 && (
-              <div className="space-y-2">
-                <Label className="text-sm font-medium flex items-center gap-2">
-                  <Bot size={16} />
-                  Suggested for {location === '/inventory' || location === '/inventory-simplified' ? 'Inventory' : 
-                    location === '/stock' ? 'Stock' : 
-                    location === '/orders' ? 'Orders' : 
-                    location === '/payments' ? 'Payments' : 
-                    location === '/dashboard' ? 'Dashboard' : 'Current Page'}
-                </Label>
-                <div className="flex flex-wrap gap-2">
-                  {contextualSuggestions.map((suggestion, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleChatOps(suggestion)}
-                      disabled={chatOpsLoading}
-                      className="text-xs"
-                    >
-                      {suggestion}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Command Input */}
-            <div className="flex gap-2">
-              <Input
-                placeholder="Enter automation command..."
-                value={chatOpsMessage}
-                onChange={(e) => setChatOpsMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleChatOpsSubmit()}
-                disabled={chatOpsLoading}
-              />
-              <Button 
-                onClick={handleChatOpsSubmit}
-                disabled={chatOpsLoading || !chatOpsMessage.trim()}
-              >
-                {chatOpsLoading ? (
-                  <RefreshCw size={16} className="animate-spin" />
-                ) : (
-                  <Send size={16} />
-                )}
-              </Button>
-            </div>
-
-            {/* ChatOps History */}
-            {chatOpsHistory.length > 0 && (
-              <div className="space-y-2 max-h-60 overflow-y-auto">
-                <Label className="text-sm font-medium">Recent Commands</Label>
-                {chatOpsHistory.map((entry, index) => (
-                  <Card key={index} className="p-3">
-                    <div className="text-sm">
-                      <div className="font-medium text-blue-600 mb-1">
-                        {entry.timestamp}: {entry.message}
-                      </div>
-                      <div className="text-muted-foreground">
-                        {entry.response}
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* Exit Confirmation Dialog */}
       <Dialog open={showExitDialog} onOpenChange={setShowExitDialog}>
