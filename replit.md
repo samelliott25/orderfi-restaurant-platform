@@ -134,6 +134,14 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 8, 2025. Successfully imported 48 authentic Loose Moose menu items from real Gennari Group website
+  - Extracted complete menu data from official Loose Moose HTML file attached by user
+  - Imported all 7 authentic categories: Bar Snacks, Buffalo Wings, Dawgs, Tacos, Plant Powered, Burgers, From our grill
+  - Added 48 real menu items with accurate descriptions, prices, and dietary tags (GF, vegan, etc.)
+  - Replaced all previously fabricated menu items with authentic data sourced directly from restaurant
+  - Database now contains genuine Loose Moose menu from Cape Byron Black Angus beef to Korean fried chicken
+  - All menu items include real pricing, authentic descriptions, and proper categorization
+  - Maintained data integrity policy by using only authentic restaurant data from official source
 - July 7, 2025. Updated typography system and ChatOps styling
   - Changed all Rock Salt font usage back to Playwrite font throughout application
   - Enhanced speech bubble styling: user bubbles white in light mode, gradient purple in dark mode
