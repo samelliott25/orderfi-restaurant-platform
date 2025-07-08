@@ -44,6 +44,8 @@ import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, Cartesia
 // Daily Sales Summary Component
 const OrderFiJournal = () => {
   const [currentPeriod, setCurrentPeriod] = useState('today');
+  const [forecastData, setForecastData] = useState<any>(null);
+  const [forecastLoading, setForecastLoading] = useState(false);
   
   // Mock data for comprehensive daily sales summary
   const dailySalesData = {
@@ -87,10 +89,45 @@ const OrderFiJournal = () => {
       { type: 'Comped items', amount: 65, count: 5 },
       { type: 'Voided orders', amount: 180, count: 4 }
     ],
-    aiSummary: "Today you had 192 orders with a net sales total of $3,900. Your busiest hour was 6–7pm, and Cheeseburgers were your top seller again. You had $180 in voids, mostly due to incorrect drink entries. Espresso Martinis outsold Mojitos 3:1 — you may want to feature them on the weekend promo."
+    aiSummary: "Today you had 192 orders with a net sales total of $3,900. Your busiest hour was 6–7pm, and Cheeseburgers were your top seller again. You had $180 in voids, mostly due to incorrect drink entries. Espresso Martinis outsold Mojitos 3:1 — you may want to feature them on the weekend promo.",
+    // Historical data for forecasting
+    historical: {
+      lastWeek: [3200, 3450, 3800, 4100, 4230, 3900, 3650],
+      lastMonth: [3800, 3950, 4200, 3900, 4100, 3850, 4000, 3750, 3900, 4300, 4100, 3800, 4200, 3900, 4000, 3700, 3900, 4150, 3950, 4200, 3800, 3900, 4100, 3850, 4000, 3750, 3900, 4230, 3900, 3650],
+      seasonality: "Tuesday",
+      weather: "Sunny, 72°F",
+      events: ["Live music tonight", "Happy hour 5-7pm"]
+    }
   };
 
   const formatCurrency = (amount: number) => `$${amount.toFixed(2)}`;
+
+  // Generate AI forecast
+  const generateForecast = async () => {
+    if (forecastLoading) return;
+    
+    setForecastLoading(true);
+    try {
+      const response = await fetch('/api/ai-forecast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          currentData: dailySalesData,
+          historical: dailySalesData.historical,
+          period: 'tomorrow'
+        })
+      });
+      
+      if (response.ok) {
+        const forecast = await response.json();
+        setForecastData(forecast);
+      }
+    } catch (error) {
+      console.error('Failed to generate forecast:', error);
+    } finally {
+      setForecastLoading(false);
+    }
+  };
 
   return (
     <Card className="bg-card border-border">
@@ -230,6 +267,94 @@ const OrderFiJournal = () => {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* AI Forecast Section */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-normal text-foreground flex items-center gap-2">
+              <Zap className="w-4 h-4 text-cyan-500" />
+              AI Forecast
+            </h3>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={generateForecast}
+              disabled={forecastLoading}
+              className="h-6 px-2 text-xs"
+            >
+              {forecastLoading ? (
+                <RefreshCw className="w-3 h-3 animate-spin" />
+              ) : (
+                'Generate'
+              )}
+            </Button>
+          </div>
+          
+          {forecastLoading && (
+            <div className="flex items-center gap-2 p-3 bg-secondary rounded-lg">
+              <Zap className="w-4 h-4 text-cyan-500 animate-pulse" />
+              <span className="text-xs text-muted-foreground">Analyzing patterns and generating forecast...</span>
+            </div>
+          )}
+          
+          {forecastData && (
+            <div className="p-3 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-950/20 dark:to-blue-950/20 rounded-lg border border-cyan-200 dark:border-cyan-800">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
+                    <Zap className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-foreground">Tomorrow's Forecast</span>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="space-y-1">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Expected Sales:</span>
+                      <span className="text-foreground font-medium">{formatCurrency(forecastData.expectedSales)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Confidence:</span>
+                      <span className="text-foreground">{forecastData.confidence}%</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Orders:</span>
+                      <span className="text-foreground font-medium">{forecastData.expectedOrders}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Change:</span>
+                      <span className={`font-medium ${forecastData.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {forecastData.change >= 0 ? '+' : ''}{forecastData.change}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-2 p-2 bg-white/50 dark:bg-black/20 rounded text-xs">
+                  <p className="text-foreground leading-relaxed">
+                    {forecastData.insights}
+                  </p>
+                </div>
+                
+                {forecastData.recommendations && (
+                  <div className="mt-2">
+                    <div className="text-xs text-muted-foreground mb-1">Recommendations:</div>
+                    <ul className="text-xs space-y-1">
+                      {forecastData.recommendations.map((rec: string, index: number) => (
+                        <li key={index} className="flex items-start gap-1">
+                          <span className="text-cyan-500 mt-0.5">•</span>
+                          <span className="text-foreground">{rec}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

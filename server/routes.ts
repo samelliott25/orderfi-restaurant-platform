@@ -1050,5 +1050,95 @@ Write a brief, insightful summary (2-3 sentences) focusing on key performance hi
     }
   });
 
+  // AI Forecast endpoint
+  app.post("/api/ai-forecast", async (req, res) => {
+    try {
+      const { currentData, historical, period = 'tomorrow' } = req.body;
+      
+      // Get real data from storage
+      const orders = await storage.getOrdersByRestaurant(1);
+      
+      // Calculate historical averages
+      const recentOrders = orders.slice(-30); // Last 30 orders
+      const avgRevenue = recentOrders.length > 0 
+        ? recentOrders.reduce((sum, order) => sum + parseFloat(order.total), 0) / recentOrders.length
+        : currentData.topLevel.netSales;
+      
+      const avgOrders = recentOrders.length;
+      
+      // OpenAI API call for generating forecast
+      const OpenAI = require('openai');
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+      const prompt = `As a restaurant analytics AI, generate a data-driven forecast for ${period} based on this data:
+
+Current Performance:
+- Today's Sales: $${currentData.topLevel.netSales}
+- Orders: ${currentData.topLevel.totalTransactions}
+- Average Order Value: $${currentData.topLevel.avgOrderValue}
+
+Historical Context:
+- Recent 30-order average revenue: $${avgRevenue.toFixed(2)}
+- Historical trend: ${historical.lastWeek.join(', ')}
+- Day: ${historical.seasonality}
+- Weather: ${historical.weather}
+- Events: ${historical.events.join(', ')}
+
+Sales Breakdown:
+- Food: ${currentData.breakdown.byCategory[0].percentage}%
+- Drinks: ${currentData.breakdown.byCategory[1].percentage}%
+- Other: ${currentData.breakdown.byCategory[2].percentage}%
+
+Top Performers:
+${currentData.breakdown.topItems.map(item => `- ${item.name}: ${item.sold} sold, $${item.sales}`).join('\n')}
+
+Provide a JSON response with:
+{
+  "expectedSales": number (tomorrow's predicted revenue),
+  "expectedOrders": number (predicted order count),
+  "confidence": number (0-100),
+  "change": number (percentage change vs today),
+  "insights": "brief explanation of the forecast",
+  "recommendations": ["actionable suggestion 1", "suggestion 2"]
+}
+
+Base predictions on historical patterns, seasonal trends, weather impact, and current performance trajectory.`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages: [{ role: "user", content: prompt }],
+        response_format: { type: "json_object" },
+        max_tokens: 500,
+        temperature: 0.7
+      });
+
+      const forecast = JSON.parse(response.choices[0].message.content);
+
+      res.json({
+        ...forecast,
+        timestamp: new Date().toISOString(),
+        period,
+        basedOn: {
+          currentSales: currentData.topLevel.netSales,
+          historicalAverage: avgRevenue,
+          dataPoints: recentOrders.length
+        }
+      });
+    } catch (error) {
+      console.error('AI Forecast Error:', error);
+      res.status(500).json({ 
+        error: "Failed to generate forecast",
+        fallback: {
+          expectedSales: 4100,
+          expectedOrders: 195,
+          confidence: 75,
+          change: 5.1,
+          insights: "Based on historical patterns, expect similar performance with slight growth due to seasonal trends.",
+          recommendations: ["Monitor peak hours closely", "Ensure adequate inventory for top items"]
+        }
+      });
+    }
+  });
+
   // Routes registered successfully
 }
