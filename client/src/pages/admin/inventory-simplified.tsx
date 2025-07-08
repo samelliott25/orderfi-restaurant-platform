@@ -181,10 +181,15 @@ export default function SimplifiedInventoryPage() {
     setCoachStep(0);
   };
 
-  // Fetch menu items
-  const { data: menuItems = [], isLoading } = useQuery<MenuItem[]>({
-    queryKey: ['/api/menu-items'],
+  // Fetch menu items (using default restaurant ID 1)
+  const { data: menuItems = [], isLoading, error } = useQuery<MenuItem[]>({
+    queryKey: ['/api/restaurants/1/menu'],
   });
+
+  // Debug logging
+  console.log('Menu items loaded:', menuItems.length, 'items');
+  console.log('Is loading:', isLoading);
+  console.log('Error:', error);
 
   // Calculate key metrics
   const totalItems = menuItems.length;
@@ -784,9 +789,35 @@ export default function SimplifiedInventoryPage() {
               </CardContent>
             </Card>
 
+            {/* Loading State */}
+            {isLoading && (
+              <Card>
+                <CardContent className="text-center py-12">
+                  <RefreshCw className="h-8 w-8 mx-auto mb-4 text-gray-400 animate-spin" />
+                  <h3 className="text-lg font-medium mb-2">Loading menu items...</h3>
+                  <p className="text-gray-500">Please wait while we fetch your inventory data</p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Error State */}
+            {error && (
+              <Card>
+                <CardContent className="text-center py-12">
+                  <AlertTriangle className="h-8 w-8 mx-auto mb-4 text-red-400" />
+                  <h3 className="text-lg font-medium mb-2">Error loading menu items</h3>
+                  <p className="text-gray-500 mb-4">There was a problem loading your inventory data</p>
+                  <Button onClick={() => window.location.reload()}>
+                    Try Again
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+
             {/* Filtered Items Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="item-cards">
-              {filteredItems.map((item: MenuItem) => {
+            {!isLoading && !error && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="item-cards">
+                {filteredItems.map((item: MenuItem) => {
                 const stockStatus = getStockStatus(item);
                 const IconComponent = stockStatus.icon;
                 
@@ -837,9 +868,10 @@ export default function SimplifiedInventoryPage() {
                   </Card>
                 );
               })}
-            </div>
+              </div>
+            )}
 
-            {filteredItems.length === 0 && (
+            {filteredItems.length === 0 && !isLoading && !error && (
               <Card>
                 <CardContent className="text-center py-12">
                   <Package className="h-12 w-12 mx-auto mb-4 text-gray-400" />
