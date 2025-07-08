@@ -194,7 +194,7 @@ const SuggestionChips = React.memo(({ chatContext, messages, chatState, setChatS
 }) => {
   const [location] = useLocation();
   const [currentSuggestions, setCurrentSuggestions] = useState<string[]>([]);
-  const isOnboarded = localStorage.getItem('orderfi-onboarding-completed');
+  const isOnboarded = localStorage.getItem('orderfi-onboarding-completed') === 'true';
   const lastMessage = messages[messages.length - 1];
   
   // Generate contextual suggestions based on current page
@@ -253,17 +253,21 @@ const SuggestionChips = React.memo(({ chatContext, messages, chatState, setChatS
   useEffect(() => {
     let newSuggestions: string[] = [];
     
+    // For testing, let's set onboarding as completed
+    localStorage.setItem('orderfi-onboarding-completed', 'true');
+    
+    console.log('Debug: location =', location, 'isOnboarded =', isOnboarded, 'chatContext =', chatContext);
+    
     if (!isOnboarded) {
       newSuggestions = ["What's your restaurant called?", "Upload my menu", "Show me a demo"];
     } else if (lastMessage?.content.includes('live on OrderFi')) {
       newSuggestions = ["Generate QR code", "View dashboard", "Show menu"];
-    } else if (chatContext === 'operations') {
-      // Use contextual suggestions based on current page
-      newSuggestions = getContextualSuggestions(location);
     } else {
-      newSuggestions = ["Take an order", "Menu updates", "Check inventory"];
+      // Always use contextual suggestions based on current page when onboarded
+      newSuggestions = getContextualSuggestions(location);
     }
     
+    console.log('Debug: newSuggestions =', newSuggestions);
     setCurrentSuggestions(newSuggestions);
   }, [location, isOnboarded, lastMessage, chatContext]);
   
@@ -396,7 +400,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
 
   // Auto-prompt for onboarding - only once per browser session
   useEffect(() => {
-    const isOnboarded = localStorage.getItem('orderfi-onboarding-completed');
+    const isOnboarded = localStorage.getItem('orderfi-onboarding-completed') === 'true';
     const hasShownWelcome = sessionStorage.getItem('orderfi-welcome-shown');
     
     // Only trigger if: chat opened for first time AND not onboarded AND welcome not shown AND messages is just default

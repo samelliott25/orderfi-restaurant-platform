@@ -70,7 +70,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [chatState, setChatState] = useState<ChatState>(getInitialChatState);
   const [isLoading, setIsLoading] = useState(false);
-  const [chatContext, setChatContext] = useState<'customer' | 'onboarding' | 'operations'>('customer');
+  const [chatContext, setChatContext] = useState<'customer' | 'onboarding' | 'operations'>('operations');
   const [onboardingState, setOnboardingState] = useState<any>({ step: 'welcome' });
 
   // Persist sidebar mode state
