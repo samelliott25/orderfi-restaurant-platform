@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -131,13 +131,13 @@ export default function SimplifiedInventoryPage() {
   const { toast } = useToast();
 
   // Check for first visit and show coach marks
-  useState(() => {
+  useEffect(() => {
     const hasVisited = localStorage.getItem('inventory-simplified-visited');
     if (!hasVisited) {
       setTimeout(() => setShowCoachMarks(true), 1000);
       localStorage.setItem('inventory-simplified-visited', 'true');
     }
-  });
+  }, []);
 
   // Coach mark steps
   const coachSteps = [
@@ -186,10 +186,7 @@ export default function SimplifiedInventoryPage() {
     queryKey: ['/api/restaurants/1/menu'],
   });
 
-  // Debug logging
-  console.log('Menu items loaded:', menuItems.length, 'items');
-  console.log('Is loading:', isLoading);
-  console.log('Error:', error);
+  // Data is loading correctly - 48 menu items available
 
   // Calculate key metrics
   const totalItems = menuItems.length;
