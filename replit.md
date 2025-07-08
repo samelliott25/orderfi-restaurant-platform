@@ -134,6 +134,14 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 8, 2025. Integrated contextual ChatOps automation into main sidebar with intelligent page-aware suggestions
+  - Enhanced existing ChatOps button in sidebar to provide contextual automation suggestions based on current page
+  - Removed duplicate ChatOps interface from inventory page, centralizing all automation through sidebar
+  - Added intelligent contextual suggestions: inventory management for /inventory, stock operations for /stock, order processing for /orders, etc.
+  - ChatOps automatically detects current page and suggests relevant automation commands
+  - Integrated with existing ChatOps backend for seamless automation across all restaurant management functions
+  - Maintains command history and provides unified automation interface accessible from any page
+  - Enhanced user experience with contextual intelligence that understands manager workflow patterns
 - July 8, 2025. Built comprehensive all-in-one product editing system with complete feature set for future integrations
   - Implemented 9 accordion sections covering every aspect of product management: Basic Info, Pricing & Cost, Inventory & Ordering, Availability & Status, Voice & AI Integration, Media & Branding, Compliance & Nutrition, Variants & Modifiers, Integrations & Metadata
   - Added complete inventory management: Unit of Measure (10 options), Supplier tracking, Purchase Unit Cost for POs, Order Multiple for pack sizes

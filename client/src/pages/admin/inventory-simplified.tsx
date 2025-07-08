@@ -818,10 +818,7 @@ export default function SimplifiedInventoryPage() {
   const [showHelp, setShowHelp] = useState(false);
   const [showCoachMarks, setShowCoachMarks] = useState(false);
   const [coachStep, setCoachStep] = useState(0);
-  const [chatOpsMessage, setChatOpsMessage] = useState('');
-  const [chatOpsLoading, setChatOpsLoading] = useState(false);
-  const [showChatOps, setShowChatOps] = useState(false);
-  const [chatOpsHistory, setChatOpsHistory] = useState<Array<{message: string, response: string, timestamp: string}>>([]);
+
   const { toast } = useToast();
 
   // Check for first visit and show coach marks
@@ -1037,61 +1034,7 @@ export default function SimplifiedInventoryPage() {
 
 
 
-  // ChatOps automation function
-  const handleChatOps = async (message: string) => {
-    setChatOpsLoading(true);
-    
-    try {
-      const response = await fetch('/api/chatops', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message,
-          restaurantId: 1
-        })
-      });
-      
-      const result = await response.json();
-      
-      if (result.success) {
-        const newEntry = {
-          message,
-          response: result.message || JSON.stringify(result.result),
-          timestamp: new Date().toLocaleTimeString()
-        };
-        
-        setChatOpsHistory(prev => [newEntry, ...prev.slice(0, 9)]); // Keep last 10 entries
-        
-        toast({
-          title: "ChatOps Executed",
-          description: result.action || "Command processed successfully",
-        });
-      } else {
-        toast({
-          title: "ChatOps Error",
-          description: result.error || "Failed to process command",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Connection Error",
-        description: "Unable to connect to ChatOps system",
-        variant: "destructive",
-      });
-    } finally {
-      setChatOpsLoading(false);
-      setChatOpsMessage('');
-    }
-  };
 
-  const handleChatOpsSubmit = () => {
-    if (chatOpsMessage.trim()) {
-      handleChatOps(chatOpsMessage.trim());
-    }
-  };
 
   const handleVoiceCommand = () => {
     if (!('webkitSpeechRecognition' in window)) {
@@ -1754,90 +1697,7 @@ export default function SimplifiedInventoryPage() {
           </div>
         )}
 
-        {/* ChatOps Dialog */}
-        <Dialog open={showChatOps} onOpenChange={setShowChatOps}>
-          <DialogContent className="max-w-2xl max-h-[80vh]">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
-                <Bot size={20} />
-                ChatOps Automation
-              </DialogTitle>
-              <DialogDescription>
-                Automate inventory management with AI-powered commands. Try saying "check low stock" or "create purchase orders".
-              </DialogDescription>
-            </DialogHeader>
 
-            <div className="space-y-4">
-              {/* Quick Commands */}
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleChatOps("Check for low stock items and create purchase orders if needed")}
-                  disabled={chatOpsLoading}
-                >
-                  Check Low Stock
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleChatOps("Generate weekly inventory report")}
-                  disabled={chatOpsLoading}
-                >
-                  Weekly Report
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleChatOps("Show me today's top performing items")}
-                  disabled={chatOpsLoading}
-                >
-                  Top Items
-                </Button>
-              </div>
-
-              {/* Command Input */}
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Enter automation command..."
-                  value={chatOpsMessage}
-                  onChange={(e) => setChatOpsMessage(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleChatOpsSubmit()}
-                  disabled={chatOpsLoading}
-                />
-                <Button 
-                  onClick={handleChatOpsSubmit}
-                  disabled={chatOpsLoading || !chatOpsMessage.trim()}
-                >
-                  {chatOpsLoading ? (
-                    <RefreshCw size={16} className="animate-spin" />
-                  ) : (
-                    <Send size={16} />
-                  )}
-                </Button>
-              </div>
-
-              {/* ChatOps History */}
-              {chatOpsHistory.length > 0 && (
-                <div className="space-y-2 max-h-60 overflow-y-auto">
-                  <Label className="text-sm font-medium">Recent Commands</Label>
-                  {chatOpsHistory.map((entry, index) => (
-                    <Card key={index} className="p-3">
-                      <div className="text-sm">
-                        <div className="font-medium text-blue-600 mb-1">
-                          {entry.timestamp}: {entry.message}
-                        </div>
-                        <div className="text-muted-foreground">
-                          {entry.response}
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-              )}
-            </div>
-          </DialogContent>
-        </Dialog>
 
         {/* Edit Product Dialog */}
         {editingItem && (
@@ -1863,15 +1723,7 @@ export default function SimplifiedInventoryPage() {
         )}
       </div>
 
-      {/* ChatOps Automation Button */}
-      <Button
-        onClick={() => setShowChatOps(true)}
-        className="fixed bottom-4 left-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg z-50"
-        size="lg"
-      >
-        <Bot size={20} className="mr-2" />
-        ChatOps
-      </Button>
+
 
       {/* Floating Action Button (FAB) - Fitts's Law optimized */}
       <div className="fixed bottom-6 right-6 z-50">
