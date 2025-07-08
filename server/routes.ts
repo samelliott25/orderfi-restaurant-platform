@@ -42,6 +42,48 @@ export async function registerRoutes(app: Express): Promise<void> {
     });
   });
 
+  // Enhanced voice search endpoint leveraging database optimizations
+  app.post('/api/restaurants/:id/voice-search', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { query, searchType = 'natural' } = req.body;
+      
+      if (!query || typeof query !== 'string') {
+        return res.status(400).json({ error: 'Query is required and must be a string' });
+      }
+
+      const restaurantId = parseInt(id);
+      if (isNaN(restaurantId)) {
+        return res.status(400).json({ error: 'Invalid restaurant ID' });
+      }
+
+      // Use different search strategies based on searchType
+      let results = [];
+      
+      if (searchType === 'natural') {
+        // Natural language search using unified search materialized view
+        results = await storage.searchMenuItemsNatural(restaurantId, query);
+      } else if (searchType === 'fuzzy') {
+        // Fuzzy search using trigram similarity
+        results = await storage.searchMenuItemsFuzzy(restaurantId, query);
+      } else {
+        // Default combined search
+        results = await storage.searchMenuItemsCombined(restaurantId, query);
+      }
+
+      res.json({
+        query,
+        searchType,
+        results,
+        count: results.length,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('Voice search error:', error);
+      res.status(500).json({ error: 'Internal server error during voice search' });
+    }
+  });
+
   // Menu parsing route for onboarding
   app.post("/api/parse-menu", uploadMiddleware, parseMenuHandler);
 

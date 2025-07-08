@@ -25,6 +25,7 @@ import { useChatContext } from "@/contexts/ChatContext";
 
 // Import all 8 MVP Venue Console admin pages
 import AdminInventoryPage from "@/pages/admin/inventory";
+import SimplifiedInventoryPage from "@/pages/admin/inventory-simplified";
 import AdminInventoryStockPage from "@/pages/admin/inventory-stock";
 import AdminOrdersPage from "@/pages/admin/orders-new";
 import AdminPaymentsPage from "@/pages/admin/payments";
@@ -47,6 +48,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/tokenrewards',
     '/network', 
     '/inventory',
+    '/inventory-simplified',
     '/inventory-stock',
     '/orders',
     '/payments',
@@ -133,6 +135,7 @@ function Router() {
         
         {/* MVP Venue Console - 8 Admin Pages */}
         <Route path="/inventory" component={AdminInventoryPage} />
+        <Route path="/inventory-simplified" component={SimplifiedInventoryPage} />
         <Route path="/inventory-stock" component={AdminInventoryStockPage} />
         <Route path="/orders" component={AdminOrdersPage} />
         <Route path="/payments" component={AdminPaymentsPage} />
