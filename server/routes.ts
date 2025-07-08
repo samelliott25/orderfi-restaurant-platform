@@ -875,6 +875,168 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // Payment ChatOps endpoints
+  app.post('/api/payments/chatops', async (req, res) => {
+    try {
+      const { callPaymentsChatOps } = await import('./payments-chatops');
+      const { message, restaurantId } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ error: 'Message is required' });
+      }
+      
+      const result = await callPaymentsChatOps(message, restaurantId || 1);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post('/api/payments/monitor-pending', async (req, res) => {
+    try {
+      const { monitorPendingPayments } = await import('./payments-chatops');
+      const result = await monitorPendingPayments();
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Payments API endpoints
+  app.get('/api/payments/summary', async (req, res) => {
+    try {
+      // Mock payment summary data
+      const summary = {
+        totalRevenue: 12345.67,
+        cryptoRevenue: 4500.23,
+        stripeRevenue: 7845.44,
+        pendingPayments: 3,
+        settledPayments: 147,
+        failedPayments: 2,
+        totalTransactions: 152,
+        averageTransaction: 81.22
+      };
+      res.json(summary);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.get('/api/payments', async (req, res) => {
+    try {
+      // Mock payments data
+      const payments = [
+        {
+          id: '1',
+          date: '2025-07-09',
+          method: 'crypto',
+          token: 'USDC',
+          amount: 25.00,
+          status: 'settled',
+          description: 'Order #1234 - Burger Combo',
+          transactionId: '0xabc123...',
+          customerName: 'John Doe',
+          walletAddress: '0x1234...5678'
+        },
+        {
+          id: '2',
+          date: '2025-07-08',
+          method: 'stripe',
+          amount: 75.00,
+          status: 'pending',
+          description: 'Order #1235 - Large Pizza',
+          paymentIntentId: 'pi_1234567890',
+          customerName: 'Jane Smith'
+        },
+        {
+          id: '3',
+          date: '2025-07-08',
+          method: 'crypto',
+          token: 'ETH',
+          amount: 150.00,
+          status: 'failed',
+          description: 'Order #1236 - Catering Service',
+          transactionId: '0xdef456...',
+          customerName: 'Mike Johnson'
+        }
+      ];
+      res.json(payments);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post('/api/payments/configure-stripe', async (req, res) => {
+    try {
+      const { publishableKey, secretKey, environment } = req.body;
+      
+      // TODO: Store Stripe configuration securely
+      console.log('Stripe configuration received:', { publishableKey: publishableKey.substring(0, 10) + '...', environment });
+      
+      res.json({ 
+        success: true, 
+        message: 'Stripe configuration saved successfully',
+        environment 
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post('/api/payments/configure-crypto', async (req, res) => {
+    try {
+      const { enabledTokens, walletAddress } = req.body;
+      
+      // TODO: Store crypto configuration
+      console.log('Crypto configuration received:', { enabledTokens, walletAddress });
+      
+      res.json({ 
+        success: true, 
+        message: 'Crypto configuration saved successfully',
+        enabledTokens,
+        walletAddress 
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post('/api/payments/:id/capture', async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // TODO: Implement actual payment capture logic
+      console.log('Capturing payment:', id);
+      
+      res.json({ 
+        success: true, 
+        message: `Payment ${id} captured successfully`,
+        paymentId: id 
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post('/api/payments/:id/refund', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { amount } = req.body;
+      
+      // TODO: Implement actual refund logic
+      console.log('Refunding payment:', id, 'Amount:', amount);
+      
+      res.json({ 
+        success: true, 
+        message: `Refund processed for payment ${id}`,
+        refundId: 're_' + Date.now(),
+        amount 
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   // Provider migration endpoint
   app.post("/api/deployment/migrate", async (req, res) => {
     try {

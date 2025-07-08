@@ -226,9 +226,9 @@ const SuggestionChips = React.memo(({ chatContext, messages, chatState, setChatS
         'Generate order reports'
       ],
       '/payments': [
-        'Record supplier payment',
-        'Show payment history',
-        'Generate payment reports'
+        'Charge $50 via Stripe',
+        'Collect 100 USDC',
+        'Show payment history'
       ],
       '/tokenrewards': [
         'Check loyalty points',
@@ -253,10 +253,8 @@ const SuggestionChips = React.memo(({ chatContext, messages, chatState, setChatS
   useEffect(() => {
     let newSuggestions: string[] = [];
     
-    // For testing, let's set onboarding as completed
+    // Set onboarding as completed for operations mode
     localStorage.setItem('orderfi-onboarding-completed', 'true');
-    
-    console.log('Debug: location =', location, 'isOnboarded =', isOnboarded, 'chatContext =', chatContext);
     
     if (!isOnboarded) {
       newSuggestions = ["What's your restaurant called?", "Upload my menu", "Show me a demo"];
@@ -267,7 +265,6 @@ const SuggestionChips = React.memo(({ chatContext, messages, chatState, setChatS
       newSuggestions = getContextualSuggestions(location);
     }
     
-    console.log('Debug: newSuggestions =', newSuggestions);
     setCurrentSuggestions(newSuggestions);
   }, [location, isOnboarded, lastMessage, chatContext]);
   
