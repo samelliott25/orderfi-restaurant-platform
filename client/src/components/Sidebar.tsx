@@ -299,7 +299,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  onClick={() => window.location.href = '/mobile-chat'}
+                  onClick={() => window.location.href = '/landing-page'}
                   className="w-full text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20"
                 >
                   <LogOut className="h-4 w-4 mr-2" />
@@ -352,7 +352,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 <Button 
                   variant="ghost" 
                   size="sm"
-                  onClick={() => window.location.href = '/mobile-chat'}
+                  onClick={() => window.location.href = '/landing-page'}
                   className="w-full h-10 p-2 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20"
                   title="Log out"
                 >

@@ -178,7 +178,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       {/* Bottom Actions - Fixed at Bottom */}
       <div className="border-t p-4 flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
         <Button asChild variant="ghost" className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50">
-          <Link href="/mobile-chat">
+          <Link href="/landing-page">
             <LogOut className="h-4 w-4 mr-3" />
             Log out
           </Link>
