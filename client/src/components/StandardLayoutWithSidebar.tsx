@@ -121,7 +121,7 @@ export function StandardLayoutWithSidebar({
             variant="ghost"
             size="sm"
             className="w-full justify-start mb-3 text-red-600 hover:text-red-700 hover:bg-red-50"
-            onClick={() => setLocation('/customer')}
+            onClick={() => setLocation('/mobile-chat')}
           >
             <LogOut className={`h-4 w-4 ${sidebarCollapsed ? 'mx-auto' : 'mr-2'}`} />
             {!sidebarCollapsed && <span>Log out</span>}

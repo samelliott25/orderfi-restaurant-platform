@@ -19,6 +19,7 @@ import NotFound from "@/pages/not-found";
 import TestThree from "@/pages/test-three";
 import VisualizationPlatform from "@/pages/visualization-platform";
 import SimpleVisualization from "@/pages/simple-visualization";
+import MobileChatPage from "@/pages/mobile-chat";
 import { useEffect, useState } from "react";
 import { useChatContext } from "@/contexts/ChatContext";
 
@@ -120,6 +121,7 @@ function Router() {
         
         {/* Customer-Facing Mobile Interface */}
         <Route path="/customer" component={OrderFiNew} />
+        <Route path="/mobile-chat" component={MobileChatPage} />
         <Route path="/orderfi-simple" component={OrderFiSimple} />
         <Route path="/tokenrewards" component={TokenRewardsPage} />
         <Route path="/network" component={NetworkPage} />

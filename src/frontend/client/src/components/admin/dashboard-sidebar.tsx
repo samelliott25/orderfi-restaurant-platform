@@ -16,7 +16,8 @@ import {
   Bot,
   ChefHat,
   DollarSign,
-  Database
+  Database,
+  LogOut
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -178,9 +179,9 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
 
       {/* Bottom Actions - Fixed at Bottom */}
       <div className="border-t p-4 flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
-        <Button asChild variant="ghost" className="w-full justify-start hover:opacity-80" style={{ color: '#8b795e' }}>
+        <Button asChild variant="ghost" className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50">
           <Link href="/mobile-chat">
-            <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+            <LogOut className="h-4 w-4 mr-3" />
             Log out
           </Link>
         </Button>
