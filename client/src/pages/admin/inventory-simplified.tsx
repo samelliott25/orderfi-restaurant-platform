@@ -809,10 +809,17 @@ export default function SimplifiedInventoryPage() {
                 const IconComponent = stockStatus.icon;
                 
                 return (
-                  <Card key={item.id} className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-orange-500">
+                  <Card 
+                    key={item.id} 
+                    className="hover:shadow-lg hover:scale-[1.02] transition-all duration-200 cursor-pointer border-l-4 border-l-orange-500 group hover:border-l-orange-600"
+                    onClick={() => toast({ 
+                      title: "Edit Item", 
+                      description: `Opening ${item.name} for editing...` 
+                    })}
+                  >
                     <CardHeader className="pb-2">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-base font-medium truncate">
+                        <CardTitle className="text-base font-medium truncate group-hover:text-orange-600 transition-colors">
                           {item.name}
                         </CardTitle>
                         <div className={`p-1 rounded-full ${stockStatus.bgColor}`}>
