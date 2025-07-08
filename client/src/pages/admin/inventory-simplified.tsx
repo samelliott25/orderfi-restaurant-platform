@@ -538,52 +538,44 @@ export default function SimplifiedInventoryPage() {
           <TabsContent value="overview" className="space-y-6">
             {/* Key metrics cards with color coding */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Card className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                    <Package size={16} />
-                    Total Items
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{totalItems}</div>
-                  <p className="text-xs text-gray-500 mt-1">Across all categories</p>
+              <Card className="hover:shadow-md transition-shadow bg-card border-border">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Package className="w-4 h-4 text-orange-600" />
+                    <span className="text-xs text-muted-foreground">Total Items</span>
+                  </div>
+                  <div className="text-lg font-normal text-foreground">{totalItems}</div>
+                  <div className="text-xs text-muted-foreground">Across all categories</div>
                 </CardContent>
               </Card>
-              <Card className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                    <CheckCircle size={16} className="text-green-600" />
-                    Available Items
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-green-600">{availableItems}</div>
-                  <p className="text-xs text-gray-500 mt-1">Ready for orders</p>
+              <Card className="hover:shadow-md transition-shadow bg-card border-border">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                    <span className="text-xs text-muted-foreground">Available Items</span>
+                  </div>
+                  <div className="text-lg font-normal text-foreground">{availableItems}</div>
+                  <div className="text-xs text-muted-foreground">Ready for orders</div>
                 </CardContent>
               </Card>
-              <Card className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                    <AlertTriangle size={16} className="text-yellow-600" />
-                    Low Stock Items
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-yellow-600">{lowStockItems}</div>
-                  <p className="text-xs text-gray-500 mt-1">Need attention</p>
+              <Card className="hover:shadow-md transition-shadow bg-card border-border">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle className="w-4 h-4 text-yellow-600" />
+                    <span className="text-xs text-muted-foreground">Low Stock Items</span>
+                  </div>
+                  <div className="text-lg font-normal text-foreground">{lowStockItems}</div>
+                  <div className="text-xs text-muted-foreground">Need attention</div>
                 </CardContent>
               </Card>
-              <Card className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                    <DollarSign size={16} className="text-blue-600" />
-                    Inventory Value
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-blue-600">${totalValue.toFixed(2)}</div>
-                  <p className="text-xs text-gray-500 mt-1">Total stock value</p>
+              <Card className="hover:shadow-md transition-shadow bg-card border-border">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <DollarSign className="w-4 h-4 text-blue-600" />
+                    <span className="text-xs text-muted-foreground">Inventory Value</span>
+                  </div>
+                  <div className="text-lg font-normal text-foreground">${totalValue.toFixed(2)}</div>
+                  <div className="text-xs text-muted-foreground">Total stock value</div>
                 </CardContent>
               </Card>
             </div>
