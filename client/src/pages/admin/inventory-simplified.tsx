@@ -419,9 +419,7 @@ export default function SimplifiedInventoryPage() {
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white playwrite-font">
-                Simplified Inventory
-              </h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white playwrite-font">Inventory</h1>
               <p className="text-gray-600 dark:text-gray-400">
                 Manage your {totalItems} menu items with ease • Quick access to everything you need
               </p>
