@@ -31,7 +31,7 @@ const FilterChip = ({ label, isActive, onClick, onRemove, icon: Icon, tooltip, v
           className={`flex items-center gap-2 h-11 px-4 text-sm font-normal transition-all duration-200 ${
             isActive 
               ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-md' 
-              : 'hover:bg-orange-50 hover:border-orange-200'
+              : 'hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:border-orange-200 dark:hover:border-orange-800'
           }`}
         >
           {Icon && <Icon size={14} />}
@@ -62,7 +62,7 @@ const SuggestionChip = ({ label, onClick, icon: Icon }: {
     variant="ghost"
     size="sm"
     onClick={onClick}
-    className="flex items-center gap-2 h-8 px-3 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full"
+    className="flex items-center gap-2 h-8 px-3 text-xs bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground rounded-full transition-colors"
   >
     {Icon && <Icon size={12} />}
     {label}
@@ -479,7 +479,7 @@ export default function SimplifiedInventoryPage() {
 
           {/* Voice Suggestion Chips (Woolworths-style) */}
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500">Quick Actions:</span>
+            <span className="text-sm text-muted-foreground">Quick Actions:</span>
             {voiceSuggestions.map((suggestion, index) => (
               <SuggestionChip key={index} {...suggestion} />
             ))}
@@ -487,21 +487,21 @@ export default function SimplifiedInventoryPage() {
 
           {/* Help Panel */}
           {showHelp && (
-            <Card className="bg-blue-50 border-blue-200">
+            <Card className="bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
               <CardContent className="p-4">
                 <h3 className="font-normal text-foreground mb-2">Getting Started</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div>
                     <p className="font-normal text-foreground">1. Search or Voice</p>
-                    <p className="text-blue-700">Type in the search bar or click "Voice" to speak</p>
+                    <p className="text-blue-700 dark:text-blue-300">Type in the search bar or click "Voice" to speak</p>
                   </div>
                   <div>
                     <p className="font-normal text-foreground">2. Use Filter Chips</p>
-                    <p className="text-blue-700">Click chips like "Low Stock" to filter items</p>
+                    <p className="text-blue-700 dark:text-blue-300">Click chips like "Low Stock" to filter items</p>
                   </div>
                   <div>
                     <p className="font-normal text-foreground">3. Tap to Edit</p>
-                    <p className="text-blue-700">Click any item card to edit details</p>
+                    <p className="text-blue-700 dark:text-blue-300">Click any item card to edit details</p>
                   </div>
                 </div>
               </CardContent>
