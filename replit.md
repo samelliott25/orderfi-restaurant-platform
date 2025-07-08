@@ -134,6 +134,12 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 8, 2025. Enhanced ChatOps with contextual page-aware suggestions that automatically refresh on navigation
+  - Implemented location-aware suggestion system using wouter's useLocation hook
+  - Added contextual suggestions for each page: dashboard (sales/reports), inventory (stock/orders), stock (levels/reorders), orders (pending/status), payments (records/history), tokenrewards (loyalty/analytics), network (system/status)
+  - Created automatic refresh mechanism using useEffect to update suggestions when user navigates between pages
+  - Enhanced user experience with relevant quick actions based on current page context
+  - Suggestions now dynamically change as users move through different sections of the restaurant management system
 - July 8, 2025. Built comprehensive stock management page following detailed wireframe specifications
   - Created complete stock management interface with Stock Summary Cards showing Total SKUs, Below Threshold, Pending POs, and Overdue Invoices
   - Implemented floating ChatOps Panel with contextual quick commands for stock-specific automation

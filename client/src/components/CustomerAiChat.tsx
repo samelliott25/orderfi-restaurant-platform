@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useChatContext } from '@/contexts/ChatContext';
+import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -191,27 +192,87 @@ const SuggestionChips = React.memo(({ chatContext, messages, chatState, setChatS
   chatState: any;
   setChatState: (state: any) => void;
 }) => {
+  const [location] = useLocation();
+  const [currentSuggestions, setCurrentSuggestions] = useState<string[]>([]);
   const isOnboarded = localStorage.getItem('orderfi-onboarding-completed');
   const lastMessage = messages[messages.length - 1];
   
-  let suggestions: string[] = [];
+  // Generate contextual suggestions based on current page
+  const getContextualSuggestions = (currentPath: string) => {
+    const pathSuggestions = {
+      '/dashboard': [
+        'Show today\'s sales performance',
+        'Generate daily revenue report',
+        'Check order completion rates'
+      ],
+      '/inventory': [
+        'Show low stock items',
+        'Create purchase orders',
+        'Check inventory levels'
+      ],
+      '/inventory-simplified': [
+        'Show low stock items',
+        'Create purchase orders',
+        'Check inventory levels'
+      ],
+      '/stock': [
+        'Check stock levels',
+        'Generate purchase orders',
+        'Show reorder alerts'
+      ],
+      '/orders': [
+        'Show pending orders',
+        'Check order status',
+        'Generate order reports'
+      ],
+      '/payments': [
+        'Record supplier payment',
+        'Show payment history',
+        'Generate payment reports'
+      ],
+      '/tokenrewards': [
+        'Check loyalty points',
+        'Show reward analytics',
+        'Generate loyalty reports'
+      ],
+      '/network': [
+        'Check system status',
+        'Show network analytics',
+        'Generate system reports'
+      ]
+    };
+    
+    return pathSuggestions[currentPath] || [
+      'Show business overview',
+      'Generate daily report',
+      'Check system status'
+    ];
+  };
   
-  if (!isOnboarded) {
-    suggestions = ["What's your restaurant called?", "Upload my menu", "Show me a demo"];
-  } else if (lastMessage?.content.includes('live on OrderFi')) {
-    suggestions = ["Generate QR code", "View dashboard", "Show menu"];
-  } else if (chatContext === 'operations') {
-    suggestions = ["Kitchen status", "Daily sales", "Menu analytics"];
-  } else {
-    suggestions = ["Take an order", "Menu updates", "Check inventory"];
-  }
+  // Update suggestions when location changes
+  useEffect(() => {
+    let newSuggestions: string[] = [];
+    
+    if (!isOnboarded) {
+      newSuggestions = ["What's your restaurant called?", "Upload my menu", "Show me a demo"];
+    } else if (lastMessage?.content.includes('live on OrderFi')) {
+      newSuggestions = ["Generate QR code", "View dashboard", "Show menu"];
+    } else if (chatContext === 'operations') {
+      // Use contextual suggestions based on current page
+      newSuggestions = getContextualSuggestions(location);
+    } else {
+      newSuggestions = ["Take an order", "Menu updates", "Check inventory"];
+    }
+    
+    setCurrentSuggestions(newSuggestions);
+  }, [location, isOnboarded, lastMessage, chatContext]);
   
-  if (suggestions.length === 0) return null;
+  if (currentSuggestions.length === 0) return null;
 
   return (
     <div style={{ padding: '8px 16px 0 16px' }}>
       <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-        {suggestions.map((suggestion, index) => (
+        {currentSuggestions.map((suggestion, index) => (
           <button
             key={index}
             onClick={() => {
