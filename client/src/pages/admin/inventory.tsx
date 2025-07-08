@@ -145,21 +145,21 @@ export default function AdminInventoryPage() {
         {/* Strategic Color-Coded Dashboard Metrics - OrderFi Brand Colors */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Slate Zone: Inventory Overview */}
-          <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700">
+          <Card className="border-slate-200 bg-slate-50 dark:bg-slate-800/80 dark:border-slate-600">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm text-slate-700 dark:text-slate-300 rock-salt-font">Total Items</CardTitle>
-              <Package className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+              <CardTitle className="text-sm text-slate-700 dark:text-slate-100 rock-salt-font">Total Items</CardTitle>
+              <Package className="h-4 w-4 text-slate-600 dark:text-slate-300" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl text-slate-800 dark:text-slate-200">{totalItems}</div>
-              <p className="text-xs text-slate-600 dark:text-slate-400">
+              <div className="text-2xl text-slate-800 dark:text-slate-50">{totalItems}</div>
+              <p className="text-xs text-slate-600 dark:text-slate-300">
                 {availableItems} available
               </p>
             </CardContent>
           </Card>
 
           {/* OrderFi Orange Zone: Attention Needed */}
-          <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20 dark:border-orange-700" 
+          <Card className="border-orange-200 bg-orange-50 dark:bg-orange-900/40 dark:border-orange-600" 
                 style={{ borderColor: 'hsl(25, 95%, 53%, 0.3)', backgroundColor: 'hsl(25, 95%, 53%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm rock-salt-font" style={{ color: 'hsl(25, 95%, 35%)' }}>Low Stock</CardTitle>
@@ -174,7 +174,7 @@ export default function AdminInventoryPage() {
           </Card>
 
           {/* OrderFi Pink Zone: Financial Health */}
-          <Card className="border-pink-200 bg-pink-50 dark:bg-pink-950/20 dark:border-pink-700"
+          <Card className="border-pink-200 bg-pink-50 dark:bg-pink-900/40 dark:border-pink-600"
                 style={{ borderColor: 'hsl(340, 82%, 52%, 0.3)', backgroundColor: 'hsl(340, 82%, 52%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm rock-salt-font" style={{ color: 'hsl(340, 82%, 35%)' }}>Inventory Value</CardTitle>
@@ -189,7 +189,7 @@ export default function AdminInventoryPage() {
           </Card>
 
           {/* Slate Blue Zone: Performance Metrics */}
-          <Card className="border-slate-200 bg-slate-50 dark:bg-slate-950/20 dark:border-slate-700"
+          <Card className="border-slate-200 bg-slate-50 dark:bg-slate-800/60 dark:border-slate-600"
                 style={{ borderColor: 'hsl(215, 28%, 17%, 0.3)', backgroundColor: 'hsl(215, 28%, 17%, 0.05)' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm rock-salt-font" style={{ color: 'hsl(215, 28%, 25%)' }}>Performance</CardTitle>
@@ -205,7 +205,7 @@ export default function AdminInventoryPage() {
         </div>
 
         {/* Search & Filter Bar with OrderFi Gradient Accent */}
-        <Card className="border-slate-200 bg-slate-50/50 dark:bg-slate-900/50 dark:border-slate-700"
+        <Card className="border-slate-200 bg-slate-50/50 dark:bg-slate-800/70 dark:border-slate-600"
               style={{ background: 'linear-gradient(135deg, hsl(25, 95%, 53%, 0.03), hsl(340, 82%, 52%, 0.03))' }}>
           <CardHeader>
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -332,7 +332,7 @@ export default function AdminInventoryPage() {
 
         {/* Strategic Color-Coded View Options with OrderFi Gradient */}
         <Tabs defaultValue="kanban" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-slate-100 dark:bg-slate-800">
+          <TabsList className="grid w-full grid-cols-4 bg-slate-100 dark:bg-slate-700/80">
             <TabsTrigger 
               value="visual" 
               className="flex items-center gap-2 data-[state=active]:text-white"
@@ -424,7 +424,7 @@ export default function AdminInventoryPage() {
                         return (
                           <React.Fragment key={category}>
                             {/* Category Header Row */}
-                            <TableRow className="bg-slate-50 dark:bg-slate-900/50">
+                            <TableRow className="bg-slate-50 dark:bg-slate-800/60">
                               <TableCell colSpan={10} className="py-3">
                                 <div className="flex items-center justify-between">
                                   <h3 className="rock-salt-font text-lg" style={{ color: 'hsl(215, 28%, 25%)' }}>
@@ -559,7 +559,7 @@ export default function AdminInventoryPage() {
                 ).length;
 
                 return (
-                  <Card key={category} className="h-fit border-slate-200 bg-slate-50 dark:bg-slate-950/20"
+                  <Card key={category} className="h-fit border-slate-200 bg-slate-50 dark:bg-slate-800/70 dark:border-slate-600"
                         style={{ 
                           background: 'linear-gradient(135deg, hsl(25, 95%, 53%, 0.02), hsl(340, 82%, 52%, 0.02))',
                           borderColor: 'hsl(215, 28%, 17%, 0.2)'
