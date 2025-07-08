@@ -295,17 +295,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   </Button>
                 </div>
 
-                {/* Logout Button */}
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={() => window.location.href = '/landing-page'}
-                  className="w-full text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Log out
-                </Button>
-
                 {/* Exit App Button */}
                 <Button 
                   variant="ghost" 
@@ -346,17 +335,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 >
                   <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                   <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                </Button>
-
-                {/* Collapsed Logout */}
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={() => window.location.href = '/landing-page'}
-                  className="w-full h-10 p-2 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20"
-                  title="Log out"
-                >
-                  <LogOut className="h-5 w-5" />
                 </Button>
 
                 {/* Collapsed Exit App */}
