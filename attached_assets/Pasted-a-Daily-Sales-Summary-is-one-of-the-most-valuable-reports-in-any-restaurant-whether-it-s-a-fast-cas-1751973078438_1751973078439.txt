@@ -1,0 +1,86 @@
+a Daily Sales Summary is one of the most valuable reports in any restaurant, whether it’s a fast-casual bar or a fine-dining venue. It helps the operator quickly answer:
+
+“Did we make money today? What sold, what didn’t, and where did we lose or gain efficiency?”
+
+Let’s break it down into what a restaurant manager or owner actually wants to see, and how to translate that into your OrderFi AI POS MVP.
+
+✅ Core Sections in a Daily Sales Summary
+📊 1. Top-Level Financials
+Metric	Example	Notes
+Gross Sales	$4,230.00	Before tax/discounts
+Net Sales	$3,900.00	After discounts, voids
+Taxes Collected	$330.00	GST/VAT etc.
+Tips Received	$480.00	From card/cash
+Total Transactions	192	# of orders (separate from guests)
+Average Order Value	$20.31	Net Sales / Transactions
+
+🍽️ 2. Sales Breakdown
+By Category:
+Food: $2,400
+
+Drinks: $1,200
+
+Retail/Merch: $300
+
+By Item:
+Item	Sold	Sales	Avg Price
+Cheeseburger	62	$868	$14.00
+Espresso Martini	39	$663	$17.00
+Fries	48	$384	$8.00
+
+By Modifier:
+“Extra cheese” added 18 times
+
+“No onion” 6 times
+
+“Vegan option” used 12 times
+
+🧾 3. Order Channels / Types
+Channel	Orders	Sales
+Dine-in	145	$3,300
+Takeaway	30	$480
+Online/QR	17	$420
+
+💳 4. Payments Summary
+Method	Amount	%
+Credit Card	$3,200	82%
+Crypto	$360	9%
+Cash	$340	9%
+
+📉 5. Discounts & Voids
+Type	Amount	Count
+Staff discount	$120	9
+Comped items	$65	5
+Voided orders	$180	4
+
+👨‍🍳 6. Staff Performance (optional)
+Name	Orders Taken	Upsells	Tips
+Jess	72	14	$180
+Kai	48	9	$120
+
+⏱️ 7. Hourly Sales Trends
+Hour	Sales
+11am–12pm	$320
+12pm–1pm	$780
+6pm–7pm	$1,020
+
+Helps track peak hours and staffing needs
+
+🧠 BONUS: AI-Powered Summary (OrderFi style)
+“Today you had 192 orders with a net sales total of $3,900. Your busiest hour was 6–7pm, and Cheeseburgers were your top seller again. You had $180 in voids, mostly due to incorrect drink entries. Espresso Martinis outsold Mojitos 3:1 — you may want to feature them on the weekend promo.”
+
+🛠️ Implementation in OrderFi (MVP Feature Spec)
+/admin/sales-summary → daily report view
+
+Use TanStack Table + Chart.js for graphs
+
+Export options: PDF, CSV, or email report
+
+Option to filter by:
+
+Date
+
+Staff member
+
+Service type (dine-in, online)
+

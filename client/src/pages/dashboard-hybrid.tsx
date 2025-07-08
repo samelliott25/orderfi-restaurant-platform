@@ -41,114 +41,184 @@ import {
 } from "lucide-react";
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-// OrderFi Journal Component
+// Daily Sales Summary Component
 const OrderFiJournal = () => {
   const [currentPeriod, setCurrentPeriod] = useState('today');
   
-  const { data: journalData, isLoading, refetch } = useQuery({
-    queryKey: ['/api/journal/summary', currentPeriod],
-    queryFn: async () => {
-      const response = await fetch('/api/journal/summary', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ period: currentPeriod })
-      });
-      return response.json();
+  // Mock data for comprehensive daily sales summary
+  const dailySalesData = {
+    topLevel: {
+      grossSales: 4230.00,
+      netSales: 3900.00,
+      taxesCollected: 330.00,
+      tipsReceived: 480.00,
+      totalTransactions: 192,
+      avgOrderValue: 20.31
     },
-    refetchInterval: 5 * 60 * 1000, // Refresh every 5 minutes
-  });
-
-  const handleRefresh = () => {
-    refetch();
+    breakdown: {
+      byCategory: [
+        { name: 'Food', sales: 2400, percentage: 61.5 },
+        { name: 'Drinks', sales: 1200, percentage: 30.8 },
+        { name: 'Retail/Merch', sales: 300, percentage: 7.7 }
+      ],
+      topItems: [
+        { name: 'Cheeseburger', sold: 62, sales: 868, avgPrice: 14.00 },
+        { name: 'Espresso Martini', sold: 39, sales: 663, avgPrice: 17.00 },
+        { name: 'Fries', sold: 48, sales: 384, avgPrice: 8.00 }
+      ],
+      modifiers: [
+        { name: 'Extra cheese', count: 18 },
+        { name: 'No onion', count: 6 },
+        { name: 'Vegan option', count: 12 }
+      ]
+    },
+    channels: [
+      { name: 'Dine-in', orders: 145, sales: 3300, percentage: 84.6 },
+      { name: 'Takeaway', orders: 30, sales: 480, percentage: 12.3 },
+      { name: 'Online/QR', orders: 17, sales: 420, percentage: 10.8 }
+    ],
+    payments: [
+      { method: 'Credit Card', amount: 3200, percentage: 82 },
+      { method: 'Crypto', amount: 360, percentage: 9 },
+      { method: 'Cash', amount: 340, percentage: 9 }
+    ],
+    discountsVoids: [
+      { type: 'Staff discount', amount: 120, count: 9 },
+      { type: 'Comped items', amount: 65, count: 5 },
+      { type: 'Voided orders', amount: 180, count: 4 }
+    ],
+    aiSummary: "Today you had 192 orders with a net sales total of $3,900. Your busiest hour was 6–7pm, and Cheeseburgers were your top seller again. You had $180 in voids, mostly due to incorrect drink entries. Espresso Martinis outsold Mojitos 3:1 — you may want to feature them on the weekend promo."
   };
+
+  const formatCurrency = (amount: number) => `$${amount.toFixed(2)}`;
 
   return (
     <Card className="bg-card border-border">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-foreground rock-salt-font font-normal flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-blue-500" />
-            OrderFi Journal
+            <BarChart3 className="w-5 h-5 text-green-500" />
+            Daily Sales Summary
           </CardTitle>
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleRefresh}
-            disabled={isLoading}
             className="h-8 w-8 p-0"
           >
-            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw className="w-4 h-4" />
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground">AI-generated daily insights</p>
+        <p className="text-xs text-muted-foreground">Comprehensive daily performance report</p>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Period Selector */}
-        <div className="flex gap-2">
-          <Button
-            variant={currentPeriod === 'today' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setCurrentPeriod('today')}
-            className="text-xs"
-          >
-            Today
-          </Button>
-          <Button
-            variant={currentPeriod === 'week' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setCurrentPeriod('week')}
-            className="text-xs"
-          >
-            This Week
-          </Button>
-        </div>
-
         {/* AI Summary */}
-        <div className="relative">
-          {isLoading ? (
-            <div className="flex items-center gap-2 p-4 bg-secondary rounded-lg">
-              <Sparkles className="w-4 h-4 text-orange-500 animate-pulse" />
-              <div className="text-sm text-muted-foreground">Generating AI insights...</div>
+        <div className="p-3 bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-950/20 dark:to-pink-950/20 rounded-lg border border-orange-200 dark:border-orange-800">
+          <div className="flex items-start gap-3">
+            <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <Sparkles className="w-3 h-3 text-white" />
             </div>
-          ) : (
-            <div className="p-4 bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-950/20 dark:to-pink-950/20 rounded-lg border border-orange-200 dark:border-orange-800">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="w-4 h-4 text-white" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm text-foreground leading-relaxed">
-                    {journalData?.summary || journalData?.fallback || "Analyzing today's performance..."}
-                  </p>
-                  {journalData?.timestamp && (
-                    <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-                      <Clock className="w-3 h-3" />
-                      <span>Updated {new Date(journalData.timestamp).toLocaleTimeString()}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Quick Stats */}
-        {journalData?.data && (
-          <div className="grid grid-cols-2 gap-3">
-            <div className="p-3 bg-secondary rounded-lg">
-              <div className="text-sm text-muted-foreground">Revenue</div>
-              <div className="text-lg font-normal text-foreground">
-                ${journalData.data.revenue?.toFixed(2) || '0.00'}
-              </div>
-            </div>
-            <div className="p-3 bg-secondary rounded-lg">
-              <div className="text-sm text-muted-foreground">Orders</div>
-              <div className="text-lg font-normal text-foreground">
-                {journalData.data.orders || 0}
-              </div>
+            <div className="flex-1">
+              <p className="text-xs text-foreground leading-relaxed">
+                {dailySalesData.aiSummary}
+              </p>
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Top-Level Financials */}
+        <div className="space-y-2">
+          <h3 className="text-sm font-normal text-foreground">Top-Level Financials</h3>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Gross Sales:</span>
+              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.grossSales)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Net Sales:</span>
+              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.netSales)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Taxes:</span>
+              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.taxesCollected)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Tips:</span>
+              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.tipsReceived)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Orders:</span>
+              <span className="text-foreground">{dailySalesData.topLevel.totalTransactions}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Avg Order:</span>
+              <span className="text-foreground">{formatCurrency(dailySalesData.topLevel.avgOrderValue)}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Sales by Category */}
+        <div className="space-y-2">
+          <h3 className="text-sm font-normal text-foreground">Sales by Category</h3>
+          <div className="space-y-1">
+            {dailySalesData.breakdown.byCategory.map((category, index) => (
+              <div key={index} className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">{category.name}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-foreground">{formatCurrency(category.sales)}</span>
+                  <span className="text-muted-foreground">({category.percentage}%)</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Top Items */}
+        <div className="space-y-2">
+          <h3 className="text-sm font-normal text-foreground">Top Items</h3>
+          <div className="space-y-1">
+            {dailySalesData.breakdown.topItems.map((item, index) => (
+              <div key={index} className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">{item.name}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-foreground">{item.sold} sold</span>
+                  <span className="text-foreground">{formatCurrency(item.sales)}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Order Channels */}
+        <div className="space-y-2">
+          <h3 className="text-sm font-normal text-foreground">Order Channels</h3>
+          <div className="space-y-1">
+            {dailySalesData.channels.map((channel, index) => (
+              <div key={index} className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">{channel.name}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-foreground">{channel.orders} orders</span>
+                  <span className="text-foreground">{formatCurrency(channel.sales)}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Payment Methods */}
+        <div className="space-y-2">
+          <h3 className="text-sm font-normal text-foreground">Payment Methods</h3>
+          <div className="space-y-1">
+            {dailySalesData.payments.map((payment, index) => (
+              <div key={index} className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">{payment.method}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-foreground">{formatCurrency(payment.amount)}</span>
+                  <span className="text-muted-foreground">({payment.percentage}%)</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
