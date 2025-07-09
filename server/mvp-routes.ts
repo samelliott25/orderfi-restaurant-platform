@@ -133,6 +133,20 @@ router.post('/api/login/guest', async (req, res) => {
   }
 });
 
+// Menu endpoints
+router.get('/api/menu/:restaurantId', async (req, res) => {
+  try {
+    const restaurantId = parseInt(req.params.restaurantId);
+    console.log(`Fetching menu items for restaurant ${restaurantId}`);
+    const menuItems = await storage.getMenuItems(restaurantId);
+    console.log(`Found ${menuItems.length} menu items`);
+    res.json(menuItems);
+  } catch (error) {
+    console.error('Error fetching menu items:', error);
+    res.status(500).json({ error: 'Failed to fetch menu items' });
+  }
+});
+
 // Get categories
 router.get('/api/categories', async (req, res) => {
   try {

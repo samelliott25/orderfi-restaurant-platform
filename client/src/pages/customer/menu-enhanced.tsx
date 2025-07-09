@@ -60,28 +60,32 @@ export default function EnhancedCustomerMenu() {
 
   // Voice recognition setup
   useEffect(() => {
-    if ('webkitSpeechRecognition' in window) {
-      const SpeechRecognition = window.webkitSpeechRecognition;
-      const recognitionInstance = new SpeechRecognition();
-      recognitionInstance.continuous = false;
-      recognitionInstance.interimResults = false;
-      recognitionInstance.lang = 'en-US';
+    if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
+      try {
+        const SpeechRecognition = (window as any).webkitSpeechRecognition;
+        const recognitionInstance = new SpeechRecognition();
+        recognitionInstance.continuous = false;
+        recognitionInstance.interimResults = false;
+        recognitionInstance.lang = 'en-US';
 
-      recognitionInstance.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript.toLowerCase();
-        handleVoiceCommand(transcript);
-      };
+        recognitionInstance.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript.toLowerCase();
+          handleVoiceCommand(transcript);
+        };
 
-      recognitionInstance.onend = () => {
-        setIsListening(false);
-      };
+        recognitionInstance.onend = () => {
+          setIsListening(false);
+        };
 
-      recognitionInstance.onerror = (event: any) => {
-        console.error('Speech recognition error:', event.error);
-        setIsListening(false);
-      };
+        recognitionInstance.onerror = (event: any) => {
+          console.error('Speech recognition error:', event.error);
+          setIsListening(false);
+        };
 
-      setRecognition(recognitionInstance);
+        setRecognition(recognitionInstance);
+      } catch (error) {
+        console.error('Voice recognition setup failed:', error);
+      }
     }
   }, []);
 
@@ -135,16 +139,21 @@ export default function EnhancedCustomerMenu() {
 
   const toggleVoiceRecognition = () => {
     if (!recognition) {
-      alert('Voice recognition is not supported in this browser.');
+      console.log('Voice recognition is not supported in this browser.');
       return;
     }
 
-    if (isListening) {
-      recognition.stop();
+    try {
+      if (isListening) {
+        recognition.stop();
+        setIsListening(false);
+      } else {
+        recognition.start();
+        setIsListening(true);
+      }
+    } catch (error) {
+      console.error('Voice recognition error:', error);
       setIsListening(false);
-    } else {
-      recognition.start();
-      setIsListening(true);
     }
   };
 

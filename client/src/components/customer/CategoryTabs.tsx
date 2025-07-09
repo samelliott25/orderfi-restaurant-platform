@@ -10,7 +10,8 @@ import {
   IceCream, 
   Pizza,
   Salad,
-  Soup
+  Soup,
+  Leaf
 } from 'lucide-react';
 
 interface Category {
@@ -28,13 +29,13 @@ interface CategoryTabsProps {
 
 const defaultCategories: Category[] = [
   { id: 'all', name: 'All', icon: Utensils, count: 48 },
-  { id: 'starters', name: 'Starters', icon: Soup, count: 8 },
-  { id: 'mains', name: 'Mains', icon: Pizza, count: 12 },
+  { id: 'bar snacks', name: 'Bar Snacks', icon: Soup, count: 8 },
+  { id: 'buffalo wings', name: 'Buffalo Wings', icon: Pizza, count: 12 },
   { id: 'burgers', name: 'Burgers', icon: Sandwich, count: 6 },
-  { id: 'salads', name: 'Salads', icon: Salad, count: 4 },
-  { id: 'drinks', name: 'Drinks', icon: Coffee, count: 10 },
-  { id: 'desserts', name: 'Desserts', icon: IceCream, count: 6 },
-  { id: 'alcohol', name: 'Alcohol', icon: Wine, count: 8 }
+  { id: 'tacos', name: 'Tacos', icon: Salad, count: 4 },
+  { id: 'plant powered', name: 'Plant Powered', icon: Leaf, count: 4 },
+  { id: 'dawgs', name: 'Dawgs', icon: Coffee, count: 10 },
+  { id: 'from our grill', name: 'From Our Grill', icon: IceCream, count: 6 }
 ];
 
 export function CategoryTabs({ 
