@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ChatProvider } from "@/contexts/ChatContext";
+import { CartProvider } from "@/contexts/CartContext";
 import { Sidebar } from "@/components/Sidebar";
 import HomePage from "@/pages/home";
 import LandingPage from "@/pages/landing-page";
@@ -37,6 +38,8 @@ import AdminSettingsPage from "@/pages/admin/settings";
 // Customer MVP Pages
 import CustomerLogin from "@/pages/customer/login";
 import CustomerMenu from "@/pages/customer/menu";
+import EnhancedCustomerMenu from "@/pages/customer/menu-enhanced";
+import ScanPage from "@/pages/customer/scan";
 import CustomerCart from "@/pages/customer/cart";
 import CustomerCheckout from "@/pages/customer/checkout";
 import OrderStatus from "@/pages/customer/order-status";
@@ -50,8 +53,10 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   // Hide navigation on pages that have their own header/navigation (StandardLayout or custom headers)
   const hideNavigation = [
     '/customer',
+    '/scan',
     '/login',
     '/menu',
+    '/menu-simple',
     '/cart',
     '/checkout',
     '/order-status',
@@ -135,8 +140,10 @@ function Router() {
         <Route path="/" component={HybridDashboard} />
         
         {/* Customer MVP Self-Ordering App */}
+        <Route path="/scan" component={ScanPage} />
         <Route path="/login" component={CustomerLogin} />
-        <Route path="/menu" component={CustomerMenu} />
+        <Route path="/menu" component={EnhancedCustomerMenu} />
+        <Route path="/menu-simple" component={CustomerMenu} />
         <Route path="/cart" component={CustomerCart} />
         <Route path="/checkout" component={CustomerCheckout} />
         <Route path="/order-status/:orderId" component={OrderStatus} />
@@ -176,10 +183,12 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <ChatProvider>
-            <OperationsAiProvider>
-              <Toaster />
-              <Router />
-            </OperationsAiProvider>
+            <CartProvider>
+              <OperationsAiProvider>
+                <Toaster />
+                <Router />
+              </OperationsAiProvider>
+            </CartProvider>
           </ChatProvider>
         </TooltipProvider>
       </QueryClientProvider>

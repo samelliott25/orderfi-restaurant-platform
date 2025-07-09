@@ -1,0 +1,94 @@
+Below is a single, comprehensive Replit prompt that will scaffold out a me&u-inspired QR-ordering interface—complete with header, category carousel, menu grid, item modals and cart drawer—using React + Tailwind. It’s not a pixel-perfect clone (we’re avoiding direct copying), but it’ll give you the same layouts, patterns and feel:
+
+txt
+Copy
+Edit
+You are ChatOps, my AI dev assistant. I want to “rip” the UX patterns from the world’s leading QR-ordering app (me&u) to jump-start my own self-ordering MVP. Please generate:
+
+1. A new React app scaffold (`npx create-react-app frontend`), installed with:
+   - `react-router-dom`
+   - `tailwindcss` (configured for dark mode)
+   - `@headlessui/react` for accessible modals and tabs
+   - `@heroicons/react` for icons
+
+2. A `/src/App.js` that sets up routes:
+   - `/scan` — QR scanner + “Continue as guest”
+   - `/menu` — main menu browsing
+   - `/cart` — cart drawer slide-out
+   - `/status` — order status
+
+3. **Tailwind config** (`tailwind.config.js`) enabling dark mode and your brand gradient (orange→pink).
+
+4. **Core components** under `/src/components/`:
+   - `Header.jsx`  
+     • Shows venue name/table, search input, cart icon badge.  
+   - `CategoryTabs.jsx`  
+     • Horizontally scrollable, icon+label tabs (e.g. Starters, Mains, Drinks).  
+     • Uses HeadlessUI’s `<Tab>` for ARIA and keyboard nav.
+   - `MenuGrid.jsx`  
+     • Responsive 2-4-column grid of `ItemCard` components.
+   - `ItemCard.jsx`  
+     • Card with image, name, price, “+” button. Hover reveals quick-info.  
+   - `ItemModal.jsx`  
+     • Opens when “+” clicked, shows full description, list of modifier checkboxes with live price update, “Add to Cart” button.
+   - `CartDrawer.jsx`  
+     • Slide-in from right; lists cart items, qty controls, subtotal, tip input, “Checkout” button.
+   - `CheckoutForm.jsx`  
+     • Stripe Elements card input; on submit calls backend endpoint and navigates to `/status`.
+   - `StatusTracker.jsx`  
+     • Polls order status and displays a 4-step timeline.
+
+5. **Pages** in `/src/pages/` that import the above components:
+   - `ScanPage.jsx`  
+     • Uses `navigator.xr` or a stub QR-scanner component; on success saves `sessionId` to localStorage and redirects to `/menu`.
+   - `MenuPage.jsx`  
+     • Renders `<Header>` + `<CategoryTabs>` + `<MenuGrid>`.
+   - `CartPage.jsx`  
+     • Renders `<CartDrawer>`.
+   - `CheckoutPage.jsx`  
+     • Renders `<Header>` + `<CheckoutForm>`.
+   - `StatusPage.jsx`  
+     • Renders `<Header>` + `<StatusTracker>`.
+
+6. **Global state** via a lightweight Context (`CartContext`) to hold sessionId, cart items, voice-ordering toggle.
+
+7. **Styling notes**:
+   - Dark background `bg-gray-900`, text `text-gray-100`.  
+   - Accent buttons: `bg-gradient-to-r from-orange-500 to-pink-500` with `hover:from-pink-500 to-orange-500`.  
+   - Minimum touch targets 48×48px for all buttons.
+
+8. **Development scripts** in root `package.json`:
+   ```jsonc
+   {
+     "scripts": {
+       "start": "concurrently \"npm run server\" \"npm run client\"",
+       "server": "node server.js",
+       "client": "cd frontend && npm start"
+     }
+   }
+Comments in each file explaining:
+
+Why we chose a horizontal tab for categories (mimics me&u’s top nav)
+
+How the grid adapts at different breakpoints (mobile/tablet/desktop)
+
+How the modal and drawer use HeadlessUI for accessibility
+
+Please generate all the above files in one batch, with full code and comments. Focus on nailing the layout and interactions; stub out actual API calls with fetch('/api/...').
+
+markdown
+Copy
+Edit
+
+---
+
+**Why this covers me&u’s top patterns:**
+
+- **Header + QR fallback** mirrors their instant scan-or-guest entry.  
+- **Scrollable category tabs** exactly how they let you jump between menu sections.  
+- **Grid of clean, image-driven item cards** for fast, visual browsing.  
+- **Modals for detailed customization** instead of full-page drills.  
+- **Persistent cart drawer** so guests never lose context.
+
+Pasting that into Replit’s AI panel will spin up your front-end scaffold ready to hook into your Node/Express backend and Stripe checkout—getting your MVP in front of users in days, not weeks.
+::contentReference[oaicite:0]{index=0}
