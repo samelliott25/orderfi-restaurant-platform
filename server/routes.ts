@@ -32,6 +32,10 @@ const upload = multer({ storage: multer.memoryStorage() });
 export async function registerRoutes(app: Express): Promise<void> {
   // Warm cache on startup
   await cacheManager.warmCache();
+  
+  // Register MVP routes first
+  const { mvpRoutes } = await import('./mvp-routes');
+  app.use(mvpRoutes);
 
   // Health check endpoint for Docker
   app.get("/api/health", (req, res) => {

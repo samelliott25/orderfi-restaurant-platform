@@ -34,6 +34,14 @@ import AdminStaffPage from "@/pages/admin/staff";
 import AdminReportingPage from "@/pages/admin/reporting";
 import AdminSettingsPage from "@/pages/admin/settings";
 
+// Customer MVP Pages
+import CustomerLogin from "@/pages/customer/login";
+import CustomerMenu from "@/pages/customer/menu";
+import CustomerCart from "@/pages/customer/cart";
+import CustomerCheckout from "@/pages/customer/checkout";
+import OrderStatus from "@/pages/customer/order-status";
+import CustomerSettings from "@/pages/customer/settings";
+
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isAppLoaded, setIsAppLoaded] = useState(false);
@@ -42,6 +50,11 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   // Hide navigation on pages that have their own header/navigation (StandardLayout or custom headers)
   const hideNavigation = [
     '/customer',
+    '/login',
+    '/menu',
+    '/cart',
+    '/checkout',
+    '/order-status',
     '/landing-page', 
     '/not-found', 
     '/tokenrewards',
@@ -56,7 +69,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/staff',
     '/reporting',
     '/settings'
-  ].includes(location);
+  ].includes(location) || location.startsWith('/order-status/');
 
   // Set app loaded state and change background after initial render
   useEffect(() => {
@@ -120,6 +133,14 @@ function Router() {
 
         {/* Dashboard - Default Home */}
         <Route path="/" component={HybridDashboard} />
+        
+        {/* Customer MVP Self-Ordering App */}
+        <Route path="/login" component={CustomerLogin} />
+        <Route path="/menu" component={CustomerMenu} />
+        <Route path="/cart" component={CustomerCart} />
+        <Route path="/checkout" component={CustomerCheckout} />
+        <Route path="/order-status/:orderId" component={OrderStatus} />
+        <Route path="/settings" component={CustomerSettings} />
         
         {/* Customer-Facing Mobile Interface */}
         <Route path="/customer" component={OrderFiNew} />

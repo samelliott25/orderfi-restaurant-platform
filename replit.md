@@ -134,6 +134,21 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 
 ```
 Changelog:
+- July 9, 2025. Implemented complete customer-facing MVP self-ordering application with full flow
+  - Created comprehensive customer onboarding with QR code login, wallet connection, and guest mode
+  - Built complete menu browsing system with category-based navigation and voice command integration
+  - Implemented shopping cart with quantity management, modifier selection, and tip calculation
+  - Created streamlined checkout process with credit card forms and "pay at counter" option
+  - Added real-time order status tracking with progress indicators and completion feedback
+  - Built customer settings page with voice preferences, notifications, and payment defaults
+  - Integrated MVP backend routes with mock storage for rapid deployment and testing
+  - Fixed wouter navigation imports and established clean customer-focused routing structure
+  - Created mobile-first responsive design optimized for tablet and phone self-ordering
+  - Implemented voice ordering capabilities with WebKit speech recognition for accessibility
+  - Added comprehensive error handling and authentication flow for secure customer sessions
+  - Built foundation for future Stripe integration while maintaining MVP functionality
+  - Applied consistent OrderFi branding with orange-pink gradients and Playwrite font styling
+  - Created lean, market-ready V1 focused on essential self-ordering flow: login → menu → cart → checkout → status tracking
 - July 8, 2025. Implemented comprehensive payments page with Stripe and crypto integration following detailed specifications
   - Created complete /payments interface with Summary, History, and Settings tabs following Stripe dashboard patterns
   - Built payment summary cards showing Total Revenue, Crypto Revenue, Stripe Revenue with trend indicators
