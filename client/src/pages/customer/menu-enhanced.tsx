@@ -6,6 +6,7 @@ import { Header } from '@/components/customer/Header';
 import { CategoryTabs } from '@/components/customer/CategoryTabs';
 import { MenuGrid } from '@/components/customer/MenuGrid';
 import { CartDrawer } from '@/components/customer/CartDrawer';
+import { QuickReorder } from '@/components/customer/QuickReorder';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Mic, MicOff, ShoppingCart } from 'lucide-react';
@@ -218,6 +219,10 @@ export default function EnhancedCustomerMenu() {
         activeCategory={selectedCategory}
         onCategoryChange={handleCategoryChange}
       />
+
+      <div className="px-4 py-2">
+        <QuickReorder />
+      </div>
 
       <MenuGrid
         items={menuItems}
