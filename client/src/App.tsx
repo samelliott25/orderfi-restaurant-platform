@@ -57,6 +57,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/login',
     '/menu',
     '/menu-simple',
+    '/mobileapp',
     '/cart',
     '/checkout',
     '/order-status',
@@ -138,8 +139,10 @@ function Router() {
 
         {/* Dashboard - Default Home */}
         <Route path="/" component={HybridDashboard} />
+        <Route path="/dashboard" component={HybridDashboard} />
         
-        {/* Customer MVP Self-Ordering App */}
+        {/* Mobile App - QR Ordering System */}
+        <Route path="/mobileapp" component={EnhancedCustomerMenu} />
         <Route path="/scan" component={ScanPage} />
         <Route path="/login" component={CustomerLogin} />
         <Route path="/menu" component={EnhancedCustomerMenu} />
@@ -147,7 +150,6 @@ function Router() {
         <Route path="/cart" component={CustomerCart} />
         <Route path="/checkout" component={CustomerCheckout} />
         <Route path="/order-status/:orderId" component={OrderStatus} />
-        <Route path="/settings" component={CustomerSettings} />
         
         {/* Customer-Facing Mobile Interface */}
         <Route path="/customer" component={OrderFiNew} />
@@ -157,9 +159,7 @@ function Router() {
         <Route path="/network" component={NetworkPage} />
         <Route path="/web3-order" component={Web3DappPage} />
         <Route path="/test-three" component={TestThree} />
-        
-        {/* Back Office Dashboard */}
-        <Route path="/dashboard" component={HybridDashboard} />
+        <Route path="/settings" component={CustomerSettings} />
         
         {/* MVP Venue Console - 8 Admin Pages */}
         <Route path="/inventory" component={SimplifiedInventoryPage} />

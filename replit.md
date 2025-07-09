@@ -173,6 +173,14 @@ node scripts/agent-orchestrator.js
 
 ```
 Changelog:
+- July 9, 2025. Updated navigation structure for better user experience
+  - Set /dashboard as the default home page route instead of /menu
+  - Added "Mobile App" tab in sidebar navigation linking to /mobileapp route
+  - /mobileapp route now serves the enhanced QR ordering system (menu-enhanced.tsx)
+  - /menu route maintained for backward compatibility
+  - Updated hideNavigation array to include /mobileapp for clean mobile interface
+  - Enhanced sidebar with Smartphone icon for Mobile App navigation
+  - Improved route organization: dashboard is admin home, /mobileapp is customer interface
 - July 9, 2025. Created autonomous development agent with taste-driven feature prioritization
   - Built competitive analysis system that identifies 30+ competitor features from major QR ordering platforms
   - Implemented AI-powered taste engine using GPT-4o for feature evaluation against 5 weighted criteria
