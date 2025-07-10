@@ -11,8 +11,8 @@ export default function InventoryStockPage() {
     >
       <div className="space-y-6">
         {/* Header Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
+        <div className="flex flex-col space-y-3 mb-6 w-full">
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Items</CardTitle>
               <Package className="h-4 w-4 text-muted-foreground" />
@@ -23,7 +23,7 @@ export default function InventoryStockPage() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Low Stock</CardTitle>
               <AlertTriangle className="h-4 w-4 text-orange-500" />
@@ -34,7 +34,7 @@ export default function InventoryStockPage() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
               <TrendingDown className="h-4 w-4 text-red-500" />
@@ -45,7 +45,7 @@ export default function InventoryStockPage() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Inventory Value</CardTitle>
               <TrendingUp className="h-4 w-4 text-green-500" />

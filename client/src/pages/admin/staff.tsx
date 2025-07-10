@@ -11,8 +11,8 @@ export default function StaffPage() {
     >
       <div className="space-y-6">
         {/* Header Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
+        <div className="flex flex-col space-y-3 mb-6 w-full">
+        <Card className="w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Staff</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
@@ -23,7 +23,7 @@ export default function StaffPage() {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Now</CardTitle>
             <Clock className="h-4 w-4 text-green-500" />
@@ -34,7 +34,7 @@ export default function StaffPage() {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">New This Month</CardTitle>
             <UserPlus className="h-4 w-4 text-blue-500" />
@@ -45,7 +45,7 @@ export default function StaffPage() {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Access Levels</CardTitle>
             <Shield className="h-4 w-4 text-orange-500" />

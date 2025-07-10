@@ -308,9 +308,9 @@ export default function PaymentsPage() {
           {/* Summary Tab */}
           <TabsContent value="summary" className="space-y-6">
             {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="flex flex-col space-y-3 mb-6 w-full">
               {/* Total Revenue */}
-              <Card className="hover:shadow-lg transition-shadow duration-200">
+              <Card className="w-full hover:shadow-lg transition-shadow duration-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
                   <DollarSign className="h-4 w-4 text-muted-foreground" />
@@ -325,7 +325,7 @@ export default function PaymentsPage() {
               </Card>
 
               {/* Crypto Revenue */}
-              <Card className="hover:shadow-lg transition-shadow duration-200">
+              <Card className="w-full hover:shadow-lg transition-shadow duration-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Crypto Revenue</CardTitle>
                   <Bitcoin className="h-4 w-4 text-muted-foreground" />
@@ -340,7 +340,7 @@ export default function PaymentsPage() {
               </Card>
 
               {/* Stripe Revenue */}
-              <Card className="hover:shadow-lg transition-shadow duration-200">
+              <Card className="w-full hover:shadow-lg transition-shadow duration-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Stripe Revenue</CardTitle>
                   <CreditCard className="h-4 w-4 text-muted-foreground" />
@@ -355,7 +355,7 @@ export default function PaymentsPage() {
               </Card>
 
               {/* Settings Quick Access */}
-              <Card className="hover:shadow-lg transition-shadow duration-200 cursor-pointer" onClick={() => setActiveTab('settings')}>
+              <Card className="w-full hover:shadow-lg transition-shadow duration-200 cursor-pointer" onClick={() => setActiveTab('settings')}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Quick Setup</CardTitle>
                   <Settings className="h-4 w-4 text-muted-foreground" />

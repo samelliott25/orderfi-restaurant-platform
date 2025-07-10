@@ -58,8 +58,8 @@ export default function AdminOrdersPage() {
     <StandardLayout title="Orders Management" subtitle="Kitchen video system and floor plan management">
       <div className="space-y-6">
         {/* Quick Stats */}
-        <div className="grid gap-4 md:grid-cols-3">
-          <Card>
+        <div className="flex flex-col space-y-3 mb-6 w-full">
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Orders</CardTitle>
               <ChefHat className="h-4 w-4 text-muted-foreground" />
@@ -70,7 +70,7 @@ export default function AdminOrdersPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Ready for Pickup</CardTitle>
               <Clock className="h-4 w-4 text-muted-foreground" />
@@ -81,7 +81,7 @@ export default function AdminOrdersPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Completed Today</CardTitle>
               <CheckCircle className="h-4 w-4 text-muted-foreground" />
