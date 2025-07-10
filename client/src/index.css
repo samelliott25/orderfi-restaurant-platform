@@ -7,64 +7,22 @@ html, body {
   max-width: 100% !important;
 }
 
-/* Settings page mobile and desktop fix */
-.settings-mobile-fix,
-.settings-mobile-fix * {
-  box-sizing: border-box !important;
-  overflow-x: hidden !important;
+/* Settings page layout fix */
+[data-testid="settings-page"] {
+  overflow-x: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
 }
 
-/* Mobile specific rules */
-@media screen and (max-width: 768px) {
-  [data-testid="settings-page"],
-  .settings-mobile-fix,
-  .settings-mobile-fix * {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
-  }
-  
-  /* Force cards to full width on mobile */
-  .settings-mobile-fix .card,
-  .settings-mobile-fix [data-radix-card],
-  .settings-mobile-fix [role="tabpanel"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    margin: 0 !important;
-  }
-  
-  /* Normal padding for mobile - flush right edge */
-  .settings-mobile-fix {
-    padding-left: 8px !important;
-    padding-right: 0 !important;
-  }
-  
-  /* Add subtle right border to define card edge */
-  .settings-mobile-fix .card {
-    border-right: 1px solid hsl(var(--border)) !important;
-    box-shadow: 2px 0 4px -2px rgba(0,0,0,0.1) !important;
-  }
+[data-testid="settings-page"] * {
+  box-sizing: border-box;
 }
 
-/* Desktop specific rules - respect sidebar boundary and chat area */
-@media screen and (min-width: 769px) {
-  .settings-mobile-fix .card,
-  .settings-mobile-fix [data-radix-card],
-  .settings-mobile-fix [role="tabpanel"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    margin: 0 !important;
-  }
-  
-  /* When chat is open, ensure cards don't overlap */
-  .chat-sidebar-open .settings-mobile-fix {
-    padding-right: 0 !important;
-    margin-right: 0 !important;
-  }
+[data-testid="settings-page"] .card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 /* Custom font class for OrderFi logo - Playwrite for landing page */

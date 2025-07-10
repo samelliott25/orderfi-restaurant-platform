@@ -39,15 +39,15 @@ export function StandardLayout({
       
       {/* Main Content Area */}
       <div 
-        className="h-full bg-background transition-all duration-300 relative overflow-x-hidden" 
+        className="h-full bg-background transition-all duration-300 relative" 
         style={{ 
           marginLeft: isMobile ? '0px' : 'var(--sidebar-width, 256px)',
           marginRight: (isSidebarMode && isOpen && !isMobile) ? '320px' : '0px',
           width: isMobile ? '100vw' : `calc(100vw - var(--sidebar-width, 256px) - ${(isSidebarMode && isOpen && !isMobile) ? '320px' : '0px'})`
         }}
       >
-        <ScrollArea className="h-full bg-transparent overflow-x-hidden">
-          <div className="w-full overflow-x-hidden">
+        <ScrollArea className="h-full bg-transparent">
+          <div className="w-full">
             {/* Page Content */}
             {children}
           </div>
