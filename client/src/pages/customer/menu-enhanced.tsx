@@ -103,6 +103,7 @@ export default function EnhancedCustomerMenu() {
 
   const handleVoiceCommand = (transcript: string) => {
     console.log('Voice command:', transcript);
+    console.log('Menu items loaded:', menuItems.length);
     
     // Handle navigation commands
     if (transcript.includes('cart') || transcript.includes('checkout')) {
@@ -183,15 +184,24 @@ export default function EnhancedCustomerMenu() {
     // Handle natural language ordering
     if (transcript.includes('order') || transcript.includes('want') || transcript.includes('like')) {
       const keywords = extractFoodKeywords(transcript);
-      if (keywords) {
+      console.log('Natural language keywords:', keywords);
+      if (keywords && keywords.trim()) {
         setSearchQuery(keywords);
+        console.log('Natural language search query set to:', keywords);
         return;
       }
     }
     
     // Handle direct item search with keyword extraction
     const keywords = extractFoodKeywords(transcript);
-    setSearchQuery(keywords);
+    console.log('Extracted keywords:', keywords);
+    if (keywords && keywords.trim()) {
+      setSearchQuery(keywords);
+      console.log('Search query updated to:', keywords);
+    } else {
+      console.log('No keywords extracted, using full transcript');
+      setSearchQuery(transcript);
+    }
   };
 
   const toggleVoiceRecognition = () => {
