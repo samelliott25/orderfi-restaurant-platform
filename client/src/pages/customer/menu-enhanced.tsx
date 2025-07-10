@@ -125,17 +125,73 @@ export default function EnhancedCustomerMenu() {
       return;
     }
     
-    // Handle search commands
+    // Enhanced food item extraction for natural language
+    const extractFoodKeywords = (text: string): string => {
+      // Remove common ordering phrases
+      const cleanedText = text
+        .replace(/\b(i want to|i'd like to|i would like to|can i have|give me|order|get)\b/gi, '')
+        .replace(/\b(a|an|the|some|one|two|three|four|five)\b/gi, '')
+        .replace(/\b(please|thanks|thank you)\b/gi, '')
+        .trim();
+      
+      // Extract food-related keywords by matching against menu items
+      const foodKeywords: string[] = [];
+      
+      // Check for exact menu item matches
+      menuItems.forEach(item => {
+        const itemName = item.name.toLowerCase();
+        const itemWords = itemName.split(/\s+/);
+        
+        // Check if any words from the item name are in the transcript
+        itemWords.forEach(word => {
+          if (word.length > 2 && cleanedText.includes(word)) {
+            foodKeywords.push(word);
+          }
+        });
+        
+        // Check for partial matches
+        if (cleanedText.includes(itemName) || itemName.includes(cleanedText)) {
+          foodKeywords.push(itemName);
+        }
+      });
+      
+      // If no specific menu items found, extract potential food words
+      if (foodKeywords.length === 0) {
+        const commonFoodWords = ['burger', 'pizza', 'chicken', 'beef', 'fish', 'salad', 'sandwich', 'wings', 'fries', 'taco', 'pasta', 'soup', 'steak', 'rice', 'noodles'];
+        const words = cleanedText.toLowerCase().split(/\s+/);
+        
+        words.forEach(word => {
+          if (commonFoodWords.includes(word)) {
+            foodKeywords.push(word);
+          }
+        });
+      }
+      
+      return foodKeywords.length > 0 ? foodKeywords.join(' ') : cleanedText;
+    };
+    
+    // Handle search commands with better extraction
     if (transcript.includes('search') || transcript.includes('find')) {
       const searchTerms = transcript.replace(/search|find/g, '').trim();
       if (searchTerms) {
-        setSearchQuery(searchTerms);
+        const keywords = extractFoodKeywords(searchTerms);
+        setSearchQuery(keywords);
       }
       return;
     }
     
-    // Handle direct item search
-    setSearchQuery(transcript);
+    // Handle natural language ordering
+    if (transcript.includes('order') || transcript.includes('want') || transcript.includes('like')) {
+      const keywords = extractFoodKeywords(transcript);
+      if (keywords) {
+        setSearchQuery(keywords);
+        return;
+      }
+    }
+    
+    // Handle direct item search with keyword extraction
+    const keywords = extractFoodKeywords(transcript);
+    setSearchQuery(keywords);
   };
 
   const toggleVoiceRecognition = () => {
