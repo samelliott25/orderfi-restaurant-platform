@@ -677,9 +677,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
       {/* Clean chat dialog with perfect rounded corners */}
       <div 
         style={{
-          background: isDarkMode 
-            ? 'linear-gradient(145deg, rgb(236, 72, 153), rgb(88, 28, 135))'
-            : 'linear-gradient(145deg, rgb(249, 115, 22), rgb(236, 72, 153))',
+          background: 'linear-gradient(145deg, rgb(249, 115, 22), rgb(236, 72, 153))',
           borderRadius: isSidebarMode ? '28px' : (isMobile ? '0px' : '28px'),
           overflow: 'hidden',
           width: '100%',
