@@ -70,12 +70,14 @@ export default function SettingsPage() {
 
       {/* Settings Tabs */}
       <Tabs defaultValue="general" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="restaurant">Restaurant</TabsTrigger>
-          <TabsTrigger value="integrations">Integrations</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 min-w-max">
+            <TabsTrigger value="general" className="text-xs sm:text-sm">General</TabsTrigger>
+            <TabsTrigger value="restaurant" className="text-xs sm:text-sm">Restaurant</TabsTrigger>
+            <TabsTrigger value="integrations" className="text-xs sm:text-sm">Integrations</TabsTrigger>
+            <TabsTrigger value="notifications" className="text-xs sm:text-sm">Notifications</TabsTrigger>
+          </TabsList>
+        </div>
         
         <TabsContent value="general" className="space-y-4">
           <Card>
@@ -86,7 +88,7 @@ export default function SettingsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="notifications">Enable Notifications</Label>
@@ -130,7 +132,7 @@ export default function SettingsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="restaurant-name">Restaurant Name</Label>
@@ -170,62 +172,62 @@ export default function SettingsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center justify-between">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                <div className="p-3 sm:p-4 border rounded-lg">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center gap-3">
-                      <CreditCard className="h-8 w-8 text-blue-500" />
-                      <div>
-                        <p className="font-medium">Stripe Payments</p>
-                        <p className="text-sm text-muted-foreground">Payment processing</p>
+                      <CreditCard className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500 flex-shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-sm sm:text-base truncate">Stripe Payments</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground truncate">Payment processing</p>
                       </div>
                     </div>
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 self-start sm:self-center">
                       Connected
                     </Badge>
                   </div>
                 </div>
                 
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center justify-between">
+                <div className="p-3 sm:p-4 border rounded-lg">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center gap-3">
-                      <Brain className="h-8 w-8 text-purple-500" />
-                      <div>
-                        <p className="font-medium">OpenAI GPT-4</p>
-                        <p className="text-sm text-muted-foreground">AI chat assistant</p>
+                      <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-purple-500 flex-shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-sm sm:text-base truncate">OpenAI GPT-4</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground truncate">AI chat assistant</p>
                       </div>
                     </div>
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 self-start sm:self-center">
                       Connected
                     </Badge>
                   </div>
                 </div>
                 
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center justify-between">
+                <div className="p-3 sm:p-4 border rounded-lg">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center gap-3">
-                      <Globe className="h-8 w-8 text-orange-500" />
-                      <div>
-                        <p className="font-medium">Blockchain Network</p>
-                        <p className="text-sm text-muted-foreground">Web3 payments</p>
+                      <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500 flex-shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-sm sm:text-base truncate">Blockchain Network</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground truncate">Web3 payments</p>
                       </div>
                     </div>
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 self-start sm:self-center">
                       Connected
                     </Badge>
                   </div>
                 </div>
                 
-                <div className="p-4 border rounded-lg">
-                  <div className="flex items-center justify-between">
+                <div className="p-3 sm:p-4 border rounded-lg">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center gap-3">
-                      <Activity className="h-8 w-8 text-gray-400" />
-                      <div>
-                        <p className="font-medium">Kitchen Printer</p>
-                        <p className="text-sm text-muted-foreground">Order printing</p>
+                      <Activity className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400 flex-shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-sm sm:text-base truncate">Kitchen Printer</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground truncate">Order printing</p>
                       </div>
                     </div>
-                    <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+                    <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 self-start sm:self-center">
                       Setup Required
                     </Badge>
                   </div>
@@ -245,31 +247,31 @@ export default function SettingsPage() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="order-notifications">New Order Alerts</Label>
-                    <p className="text-sm text-muted-foreground">Get notified when new orders arrive</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="flex-1">
+                    <Label htmlFor="order-notifications" className="text-sm sm:text-base">New Order Alerts</Label>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Get notified when new orders arrive</p>
                   </div>
                   <Switch id="order-notifications" checked={true} />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="low-stock">Low Stock Warnings</Label>
-                    <p className="text-sm text-muted-foreground">Alert when inventory runs low</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="flex-1">
+                    <Label htmlFor="low-stock" className="text-sm sm:text-base">Low Stock Warnings</Label>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Alert when inventory runs low</p>
                   </div>
                   <Switch id="low-stock" checked={true} />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="payment-alerts">Payment Notifications</Label>
-                    <p className="text-sm text-muted-foreground">Notify on successful payments</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="flex-1">
+                    <Label htmlFor="payment-alerts" className="text-sm sm:text-base">Payment Notifications</Label>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Notify on successful payments</p>
                   </div>
                   <Switch id="payment-alerts" checked={false} />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="system-updates">System Updates</Label>
-                    <p className="text-sm text-muted-foreground">Important system notifications</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="flex-1">
+                    <Label htmlFor="system-updates" className="text-sm sm:text-base">System Updates</Label>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Important system notifications</p>
                   </div>
                   <Switch id="system-updates" checked={true} />
                 </div>
