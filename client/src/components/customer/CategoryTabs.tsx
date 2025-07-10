@@ -45,8 +45,8 @@ export function CategoryTabs({
 }: CategoryTabsProps) {
   return (
     <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <ScrollArea className="w-full">
-        <div className="flex space-x-1 p-2">
+      <ScrollArea className="w-full" orientation="horizontal">
+        <div className="flex space-x-1 p-2 w-max">
           {categories.map((category) => {
             const IconComponent = category.icon;
             const isActive = activeCategory === category.id;
