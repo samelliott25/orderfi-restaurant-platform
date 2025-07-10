@@ -9,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Settings, Globe, Bell, Shield, Palette, Brain, Sparkles, Activity, Store, Clock, Users, CreditCard } from "lucide-react";
 import { useState } from "react";
-import "@/styles/mobile-fix.css";
 
 export default function SettingsPage() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -71,8 +70,8 @@ export default function SettingsPage() {
         </div>
 
         {/* Settings Tabs */}
-        <Tabs defaultValue="general" className="space-y-4 w-full overflow-x-hidden">
-          <div className="w-full overflow-x-hidden">
+        <Tabs defaultValue="general" className="space-y-4 w-full">
+          <div className="w-full">
             <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
               <TabsTrigger value="general" className="text-xs sm:text-sm">General</TabsTrigger>
               <TabsTrigger value="restaurant" className="text-xs sm:text-sm">Restaurant</TabsTrigger>
@@ -81,8 +80,8 @@ export default function SettingsPage() {
             </TabsList>
           </div>
         
-        <TabsContent value="general" className="space-y-4 w-full overflow-x-hidden">
-          <Card className="w-full overflow-x-hidden">
+        <TabsContent value="general" className="space-y-4 w-full">
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Settings className="h-5 w-5 text-orange-500" />
@@ -125,8 +124,8 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="restaurant" className="space-y-4 w-full overflow-x-hidden">
-          <Card className="w-full overflow-x-hidden">
+        <TabsContent value="restaurant" className="space-y-4 w-full">
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Store className="h-5 w-5 text-orange-500" />
@@ -165,8 +164,8 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="integrations" className="space-y-4 w-full overflow-x-hidden">
-          <Card className="w-full overflow-x-hidden">
+        <TabsContent value="integrations" className="space-y-4 w-full">
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Globe className="h-5 w-5 text-orange-500" />
@@ -239,8 +238,8 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="notifications" className="space-y-4 w-full overflow-x-hidden">
-          <Card className="w-full overflow-x-hidden">
+        <TabsContent value="notifications" className="space-y-4 w-full">
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Bell className="h-5 w-5 text-orange-500" />
