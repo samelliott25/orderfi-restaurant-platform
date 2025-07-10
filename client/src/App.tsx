@@ -15,6 +15,7 @@ import TokenRewardsPage from "@/pages/tokenrewards";
 import NotFound from "@/pages/not-found";
 import { useEffect, useState } from "react";
 import { useChatContext } from "@/contexts/ChatContext";
+import { CustomerAiChat } from "@/components/CustomerAiChat";
 
 // Redirect component for menu route
 function MenuRedirect() {
@@ -48,6 +49,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState('256px');
+  const { isOpen, setIsOpen } = useChatContext();
   
   // Hide navigation on pages that have their own header/navigation (customer flows and special pages)
   const hideNavigation = [
@@ -101,6 +103,8 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background">
       {children}
+      {/* Global Chat Instance - Persists Across All Navigation */}
+      <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
     </div>
   );
 }

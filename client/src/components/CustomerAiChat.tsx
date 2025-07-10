@@ -649,7 +649,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
       <div 
         ref={chatRef}
         className={`fixed z-50 ${
-          isDragging ? 'cursor-grabbing transition-none' : 'cursor-grab transition-all duration-500 ease-out'
+          isDragging ? 'cursor-grabbing transition-none' : 'cursor-grab'
         } ${
           isSidebarMode 
             ? 'w-80 h-full top-0 right-0 bottom-0' 

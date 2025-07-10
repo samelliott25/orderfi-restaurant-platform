@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sidebar } from '@/components/Sidebar';
-import { CustomerAiChat } from '@/components/CustomerAiChat';
 import { useChatContext } from '@/contexts/ChatContext';
 import { OrderFiPageHeader } from '@/components/ui/design-system';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
@@ -37,7 +36,6 @@ export function StandardLayout({
           />
         )}
         {children}
-        <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
       </div>
     );
   }
@@ -48,10 +46,8 @@ export function StandardLayout({
       {/* Sidebar - Fixed width component */}
       <Sidebar />
       
-      {/* Main Content Area - Takes remaining space and adjusts for chat */}
-      <main className={`flex-1 overflow-auto bg-background transition-all duration-300 ${
-        isOpen ? 'pr-80' : 'pr-0'
-      }`}>
+      {/* Main Content Area - Takes remaining space */}
+      <main className="flex-1 overflow-auto bg-background">
         <div className="h-full">
           {/* Page Header */}
           {showHeader && title && (
@@ -67,9 +63,7 @@ export function StandardLayout({
           </div>
         </div>
       </main>
-      
-      {/* ChatOps Dialog for Admin Layout */}
-      <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
+
     </div>
   );
 }
