@@ -43,7 +43,7 @@ export function StandardLayout({
         style={{ 
           marginLeft: isMobile ? '0px' : 'var(--sidebar-width, 256px)',
           marginRight: (isSidebarMode && isOpen && !isMobile) ? '320px' : '0px',
-          width: isMobile ? '100vw' : `calc(100vw - var(--sidebar-width, 256px) - ${(isSidebarMode && isOpen) ? '320px' : '0px'})`
+          width: isMobile ? '100vw' : `calc(100vw - var(--sidebar-width, 256px) - ${(isSidebarMode && isOpen && !isMobile) ? '320px' : '0px'})`
         }}
       >
         <ScrollArea className="h-full bg-transparent overflow-x-hidden">

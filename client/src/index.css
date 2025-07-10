@@ -41,7 +41,7 @@ html, body {
   }
 }
 
-/* Desktop specific rules - respect sidebar boundary */
+/* Desktop specific rules - respect sidebar boundary and chat area */
 @media screen and (min-width: 769px) {
   .settings-mobile-fix .card,
   .settings-mobile-fix [data-radix-card],
@@ -50,6 +50,12 @@ html, body {
     max-width: 100% !important;
     min-width: 0 !important;
     margin: 0 !important;
+  }
+  
+  /* When chat is open, ensure cards don't overlap */
+  .chat-sidebar-open .settings-mobile-fix {
+    padding-right: 0 !important;
+    margin-right: 0 !important;
   }
 }
 
