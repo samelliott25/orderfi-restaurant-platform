@@ -1,0 +1,21 @@
+/* Mobile Fix for Settings Page - Force Full Width */
+@media (max-width: 768px) {
+  .settings-mobile-fix {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+  
+  .settings-mobile-fix * {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+  .settings-mobile-fix .card,
+  .settings-mobile-fix [data-radix-select-content] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}

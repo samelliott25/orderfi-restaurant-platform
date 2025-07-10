@@ -22,7 +22,7 @@ export function StandardLayout({
   const { isSidebarMode, isOpen, setIsOpen } = useChatContext();
 
   return (
-    <div className={`h-screen bg-background ${className}`}>
+    <div className={`h-screen bg-background overflow-x-hidden ${className}`}>
       {/* Sidebar */}
       <Sidebar />
       
@@ -35,8 +35,8 @@ export function StandardLayout({
           width: `calc(100vw - var(--sidebar-width, 256px) - ${(isSidebarMode && isOpen) ? '320px' : '0px'})`
         }}
       >
-        <ScrollArea className="h-full bg-transparent">
-          <div className="w-full max-w-full overflow-x-hidden">
+        <ScrollArea className="h-full bg-transparent overflow-x-hidden">
+          <div className="w-full overflow-x-hidden">
             {/* Page Content */}
             {children}
           </div>
