@@ -4,6 +4,7 @@ import fs from "fs";
 import OpenAI from "openai";
 import { runTasteDrivenDevelopment } from "./taste-engine-simple.js";
 import { runUIDiscoveryPipeline } from "./ui-discovery-engine.js";
+import { UIInfraUpgradeEngine } from "./ui-infra-upgrade-engine.js";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -323,13 +324,29 @@ async function main() {
     process.exit(1);
   }
   
-  // Check for UI upgrade flag
+  // Check for UI upgrade flags
   const uiUpgradeFlag = process.argv.includes('--ui-upgrade');
+  const uiInfraUpgradeFlag = process.argv.includes('--ui-infra-upgrade');
   
   try {
     let summary;
     
-    if (uiUpgradeFlag) {
+    if (uiInfraUpgradeFlag) {
+      console.log("\n🚀 UI Infrastructure Upgrade Mode Activated");
+      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+      
+      // Run extreme UI infrastructure upgrade
+      const uiInfraEngine = new UIInfraUpgradeEngine();
+      const infraResults = await uiInfraEngine.runUIInfraUpgrade();
+      
+      summary = {
+        mode: "ui-infra-upgrade",
+        ...infraResults,
+        timestamp: new Date().toISOString(),
+        success: infraResults.implementationsCreated > 0
+      };
+      
+    } else if (uiUpgradeFlag) {
       console.log("\n🎨 UI Discovery Mode Activated");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
       
@@ -378,6 +395,8 @@ async function main() {
     console.log("• latest-iteration-summary.json - Current iteration results");
     console.log("• agent-history.json - Complete agent history");
     console.log("• feature-taste-history.json - Feature evaluation history");
+    console.log("• ui-innovation-catalog.json - UI infrastructure upgrade catalog");
+    console.log("• ui-tests.json - UI component test results");
     
     if (uiUpgradeFlag) {
       console.log("• ui-discovery-report.json - UI inspiration analysis");

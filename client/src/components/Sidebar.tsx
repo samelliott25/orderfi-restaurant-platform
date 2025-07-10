@@ -29,12 +29,14 @@ import {
   DoorOpen,
   Bot,
   Box,
-  Smartphone
+  Smartphone,
+  Sparkles
 } from "lucide-react";
 
 const menuItems = [
   { icon: BarChart3, label: "Dashboard", href: "/dashboard" },
   { icon: Smartphone, label: "Mobile App", href: "/mobileapp" },
+  { icon: Sparkles, label: "UI Showcase", href: "/ui-showcase" },
   { icon: ChefHat, label: "Inventory", href: "/inventory" },
   { icon: ShoppingCart, label: "Orders", href: "/orders" },
   { icon: CreditCard, label: "Payments", href: "/payments" },

@@ -44,6 +44,7 @@ import ScanPage from "@/pages/customer/scan";
 import CustomerCart from "@/pages/customer/cart";
 import CustomerCheckout from "@/pages/customer/checkout";
 import OrderStatus from "@/pages/customer/order-status";
+import UIShowcase from "@/pages/ui-showcase";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -132,6 +133,9 @@ function Router() {
         
         {/* Token Rewards (keeping as separate feature) */}
         <Route path="/tokenrewards" component={TokenRewardsPage} />
+        
+        {/* UI Showcase */}
+        <Route path="/ui-showcase" component={UIShowcase} />
         
         {/* Essential Admin Pages */}
         <Route path="/inventory" component={SimplifiedInventoryPage} />
