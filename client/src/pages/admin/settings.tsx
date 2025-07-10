@@ -23,8 +23,8 @@ export default function SettingsPage() {
     >
       <div className="p-4 lg:p-6 w-full overflow-x-hidden">
         {/* Header Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 w-full min-w-0">
-          <Card>
+        <div className="flex flex-col space-y-4 mb-6 w-full">
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Integrations</CardTitle>
               <Globe className="h-4 w-4 text-muted-foreground" />
@@ -35,7 +35,7 @@ export default function SettingsPage() {
             </CardContent>
           </Card>
         
-          <Card>
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Notifications</CardTitle>
               <Bell className="h-4 w-4 text-blue-500" />
@@ -46,7 +46,7 @@ export default function SettingsPage() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Security Level</CardTitle>
               <Shield className="h-4 w-4 text-green-500" />
@@ -57,7 +57,7 @@ export default function SettingsPage() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Theme</CardTitle>
               <Palette className="h-4 w-4 text-orange-500" />
