@@ -34,7 +34,7 @@ export function StandardLayout({
           marginRight: (isSidebarMode && isOpen) ? '320px' : '0px'
         }}
       >
-        <ScrollArea className="h-full bg-transparent w-full">
+        <ScrollArea className="h-full bg-transparent">
           <div className="w-full">
             {/* Page Content */}
             {children}
