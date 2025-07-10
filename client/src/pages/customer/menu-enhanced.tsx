@@ -338,7 +338,7 @@ export default function EnhancedCustomerMenu() {
   }
 
   return (
-    <StandardLayout showSidebar={true} showHeader={false}>
+    <StandardLayout showSidebar={false} showHeader={false}>
       <Header
         venueName="OrderFi Restaurant"
         tableNumber="Table 12"

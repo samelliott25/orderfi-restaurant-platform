@@ -193,7 +193,7 @@ Changelog:
   - Root cause: Two conflicting layout systems (AppLayout with marginLeft vs StandardLayout with flexbox)
   - Solution: Unified all pages under single StandardLayout with configurable showSidebar/showHeader flags
   - StandardLayout handles both admin pages (with sidebar) and customer pages (without sidebar)
-  - Mobile app (/mobileapp) now uses showSidebar=true to support active/inactive customer features
+  - Mobile app (/mobileapp) now uses showSidebar=false for full-width customer experience without sidebar constraints
   - Dashboard and admin pages use default showSidebar=true for management interface
   - Eliminated complex AppLayout marginLeft calculations causing spacing inconsistencies
   - All pages now use clean flexbox-based layout system with proper content alignment
