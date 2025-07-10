@@ -578,7 +578,7 @@ export default function HybridDashboard() {
         </div>
         {/* Navigation Tabs */}
         <div className="border-b border-border rounded-lg mb-6">
-          <div className="flex overflow-x-auto px-6">
+          <div className="flex overflow-x-auto">
           {[
             { id: 'overview', label: 'Overview', icon: BarChart3 },
             { id: 'orders', label: 'Live Orders', icon: ShoppingCart },
