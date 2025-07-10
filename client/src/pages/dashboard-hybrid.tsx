@@ -537,7 +537,7 @@ export default function HybridDashboard() {
       title="Restaurant Dashboard" 
       subtitle="Live performance metrics and operational insights"
     >
-      <div className={`transition-all duration-300 ${
+      <div className={`space-y-6 transition-all duration-300 ${
         isOpen && isSidebarMode ? 'pr-80' : 'pr-0'
       }`}>
         {/* Status Bar */}
@@ -602,8 +602,6 @@ export default function HybridDashboard() {
           </div>
         </div>
         
-        {/* Main Content */}
-        <div className="space-y-6">
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <Card className="bg-card border-border">
@@ -785,7 +783,6 @@ export default function HybridDashboard() {
         
         {/* AI Chat Dialog */}
         <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
-        </div>
       </div>
     </StandardLayout>
   );
