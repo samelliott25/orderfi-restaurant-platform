@@ -41,6 +41,12 @@ html, body {
     padding-left: 8px !important;
     padding-right: 0 !important;
   }
+  
+  /* Add subtle right border to define card edge */
+  .settings-mobile-fix .card {
+    border-right: 1px solid hsl(var(--border)) !important;
+    box-shadow: 2px 0 4px -2px rgba(0,0,0,0.1) !important;
+  }
 }
 
 /* Desktop specific rules - respect sidebar boundary and chat area */
