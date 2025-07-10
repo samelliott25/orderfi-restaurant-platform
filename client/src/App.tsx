@@ -11,40 +11,27 @@ import { Sidebar } from "@/components/Sidebar";
 import HomePage from "@/pages/home";
 import LandingPage from "@/pages/landing-page";
 import HybridDashboard from "@/pages/dashboard-hybrid";
-import Web3DappPage from "@/pages/web3-dapp";
-import OrderFiNew from "@/pages/orderfi-new";
-import OrderFiSimple from "./pages/orderfi-simple";
 import TokenRewardsPage from "@/pages/tokenrewards";
-import NetworkPage from "@/pages/network";
 import NotFound from "@/pages/not-found";
-import TestThree from "@/pages/test-three";
-import VisualizationPlatform from "@/pages/visualization-platform";
-import SimpleVisualization from "@/pages/simple-visualization";
-import MobileChatPage from "@/pages/mobile-chat";
 import { useEffect, useState } from "react";
 import { useChatContext } from "@/contexts/ChatContext";
 
-// Import all 8 MVP Venue Console admin pages
+// Import Essential Admin Pages
 import SimplifiedInventoryPage from "@/pages/admin/inventory-simplified";
-import AdminInventoryStockPage from "@/pages/admin/inventory-stock";
-import AdminInventoryStockPageFixed from "@/pages/admin/inventory-stock-fixed";
 import AdminOrdersPage from "@/pages/admin/orders-new";
 import AdminPaymentsPage from "@/pages/admin/payments";
 import AdminStockPage from "@/pages/admin/stock";
-
 import AdminStaffPage from "@/pages/admin/staff";
 import AdminReportingPage from "@/pages/admin/reporting";
 import AdminSettingsPage from "@/pages/admin/settings";
 
 // Customer MVP Pages
 import CustomerLogin from "@/pages/customer/login";
-import CustomerMenu from "@/pages/customer/menu";
 import EnhancedCustomerMenu from "@/pages/customer/menu-enhanced";
 import ScanPage from "@/pages/customer/scan";
 import CustomerCart from "@/pages/customer/cart";
 import CustomerCheckout from "@/pages/customer/checkout";
 import OrderStatus from "@/pages/customer/order-status";
-import CustomerSettings from "@/pages/customer/settings";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -53,28 +40,21 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   
   // Hide navigation on pages that have their own header/navigation (StandardLayout or custom headers)
   const hideNavigation = [
-    '/customer',
     '/scan',
     '/login',
-    '/menu',
-    '/menu-simple',
     '/cart',
     '/checkout',
     '/order-status',
     '/landing-page', 
     '/not-found', 
     '/tokenrewards',
-    '/network', 
     '/inventory',
-    '/inventory-simplified',
     '/stock',
-    '/inventory-stock',
     '/orders',
     '/payments',
-    '/stock',
     '/staff',
     '/reporting',
-    '/customer-settings'
+    '/settings'
   ].includes(location) || location.startsWith('/order-status/');
 
 
@@ -156,25 +136,15 @@ function Router() {
             return null;
           }}
         </Route>
-        <Route path="/menu-simple" component={CustomerMenu} />
         <Route path="/cart" component={CustomerCart} />
         <Route path="/checkout" component={CustomerCheckout} />
         <Route path="/order-status/:orderId" component={OrderStatus} />
         
-        {/* Customer-Facing Mobile Interface */}
-        <Route path="/customer" component={OrderFiNew} />
-        <Route path="/mobile-chat" component={MobileChatPage} />
-        <Route path="/orderfi-simple" component={OrderFiSimple} />
+        {/* Token Rewards (keeping as separate feature) */}
         <Route path="/tokenrewards" component={TokenRewardsPage} />
-        <Route path="/network" component={NetworkPage} />
-        <Route path="/web3-order" component={Web3DappPage} />
-        <Route path="/test-three" component={TestThree} />
-        <Route path="/customer-settings" component={CustomerSettings} />
         
-        {/* MVP Venue Console - 8 Admin Pages */}
+        {/* Essential Admin Pages */}
         <Route path="/inventory" component={SimplifiedInventoryPage} />
-        <Route path="/inventory-stock" component={AdminInventoryStockPage} />
-        <Route path="/inventory-stock-fixed" component={AdminInventoryStockPageFixed} />
         <Route path="/orders" component={AdminOrdersPage} />
         <Route path="/payments" component={AdminPaymentsPage} />
         <Route path="/stock" component={AdminStockPage} />

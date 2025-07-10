@@ -173,6 +173,15 @@ node scripts/agent-orchestrator.js
 
 ```
 Changelog:
+- July 10, 2025. Comprehensive cleanup of redundant and obsolete pages for streamlined application architecture
+  - Removed redundant pages: inventory-stock, inventory-stock-fixed, menu-simple, customer-settings, customer, mobile-chat, network, web3-order, test-three, orderfi-simple
+  - Consolidated routing to essential pages only: dashboard, mobileapp, inventory, orders, payments, stock, staff, reporting, settings
+  - Network functionality will be integrated as subheading in settings page as requested
+  - Eliminated duplicate routes causing React hooks errors and navigation conflicts
+  - Streamlined application to core customer QR ordering + admin management functionality
+  - Maintained tokenrewards as separate feature page for blockchain loyalty system
+  - Cleaned up all import statements and removed unused component references
+  - Application now has clear separation: customer interface (/mobileapp) and admin interface (standardized pages)
 - July 10, 2025. MAJOR BREAKTHROUGH: Implemented proper responsive design fundamentals across all admin pages
   - Root cause identified: Layout issues were due to lack of responsive design, not StandardLayout problems
   - Applied flexbox layout principles: `flex h-screen` container with `flex-shrink-0` sidebar and `flex-1` main content
