@@ -537,9 +537,7 @@ export default function HybridDashboard() {
       title="Restaurant Dashboard" 
       subtitle="Live performance metrics and operational insights"
     >
-      <div className={`space-y-6 transition-all duration-300 ${
-        isOpen && isSidebarMode ? 'pr-80' : 'pr-0'
-      }`}>
+      <div className="space-y-6">
         {/* Status Bar */}
         <div className="bg-card border border-border rounded-lg p-4 mb-6">
           <div className="flex items-center justify-between">

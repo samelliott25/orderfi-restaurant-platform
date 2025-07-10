@@ -173,6 +173,11 @@ node scripts/agent-orchestrator.js
 
 ```
 Changelog:
+- July 10, 2025. DASHBOARD PADDING ALIGNMENT FIX: Resolved dashboard left-hand padding misalignment with collapsed sidebar
+  - Root cause: Dashboard had extra chat sidebar padding logic (pr-80) conflicting with StandardLayout's built-in padding
+  - Solution: Removed chat sidebar padding from dashboard, matching settings page structure with simple space-y-6 div
+  - Dashboard now has identical left-hand alignment with all other admin pages when sidebar is collapsed
+  - Content properly aligns with collapsed sidebar boundary (w-16) maintaining layout consistency
 - July 10, 2025. ADA UI CONSISTENCY BREAKTHROUGH: Systematic fix of real UI inconsistencies after thorough analysis
   - Fixed typography chaos by removing ALL font-bold, font-semibold, font-medium classes across admin pages
   - Replaced hardcoded colors (text-gray-600, text-blue-500) with design tokens (text-muted-foreground)
