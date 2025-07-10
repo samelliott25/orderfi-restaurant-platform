@@ -594,8 +594,8 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         } ${
           isSidebarMode 
             ? 'w-80 h-full top-0 right-0 bottom-0' 
-            : // Mobile: Full screen with sidebar space, Desktop: Centered dialog
-              'inset-0 left-[60px] w-[calc(100vw-60px)] h-full md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
+            : // Mobile: Full width minus sidebar (collapsed=64px, expanded=256px), Desktop: Centered dialog
+              'inset-0 left-[var(--sidebar-width)] w-[calc(100vw-var(--sidebar-width))] h-full md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
         } ${
           isClosing ? 'animate-fade-out' : 'animate-fade-in'
         }`}
