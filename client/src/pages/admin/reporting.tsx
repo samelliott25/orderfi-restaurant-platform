@@ -61,7 +61,7 @@ export default function ReportingPage() {
       {/* Reporting Content */}
       <Card>
         <CardHeader>
-          <CardTitle className="rock-salt-font">Analytics Dashboard</CardTitle>
+          <CardTitle className="playwrite-font">Analytics Dashboard</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">

@@ -270,12 +270,15 @@ export default function PaymentsPage() {
   const currentPayments = payments || mockPayments;
 
   return (
-    <StandardLayout title="Payments">
+    <StandardLayout 
+      title="Payments & Transactions"
+      subtitle="Process payments, manage transactions, and configure payment methods"
+    >
       <div data-testid="payments-page" className="space-y-6">
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-normal tracking-tight rock-salt-font">
+            <h1 className="text-3xl font-normal tracking-tight playwrite-font">
               Payment Center
             </h1>
             <p className="text-muted-foreground mt-2">

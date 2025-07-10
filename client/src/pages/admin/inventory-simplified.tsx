@@ -1096,7 +1096,10 @@ export default function SimplifiedInventoryPage() {
 
   if (isLoading) {
     return (
-      <StandardLayout title="Inventory Management">
+      <StandardLayout 
+        title="Inventory Management"
+        subtitle="Manage menu items, track inventory, and monitor stock levels"
+      >
         <div className="flex items-center justify-center h-64">
           <div className="text-lg">Loading inventory...</div>
         </div>
@@ -1105,13 +1108,16 @@ export default function SimplifiedInventoryPage() {
   }
 
   return (
-    <StandardLayout title="Inventory Management">
+    <StandardLayout 
+      title="Inventory Management"
+      subtitle="Manage menu items, track inventory, and monitor stock levels"
+    >
       <div className="space-y-6">
         {/* Enhanced Header with Manager-Friendly Language */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-normal text-foreground rock-salt-font">Inventory</h1>
+              <h1 className="text-2xl font-normal text-foreground playwrite-font">Inventory</h1>
               <p className="text-muted-foreground">
                 Manage your {totalItems} menu items with ease • Quick access to everything you need
               </p>

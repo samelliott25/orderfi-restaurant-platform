@@ -636,7 +636,10 @@ export default function StockPage() {
 
   if (isLoading) {
     return (
-      <StandardLayout>
+      <StandardLayout
+        title="Stock Management"
+        subtitle="Monitor inventory levels, manage suppliers, and automate reordering"
+      >
         <div className="flex items-center justify-center h-64">
           <RefreshCw className="h-8 w-8 animate-spin text-blue-600" />
         </div>
@@ -645,18 +648,11 @@ export default function StockPage() {
   }
 
   return (
-    <StandardLayout>
+    <StandardLayout
+      title="Stock Management"
+      subtitle="Monitor inventory levels, manage suppliers, and automate reordering"
+    >
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold">Stock Management</h1>
-          <div className="flex flex-wrap items-center gap-2">
-            <Button variant="outline" onClick={() => setChatOpsExpanded(true)}>
-              <Bot className="h-4 w-4 mr-2" />
-              ChatOps
-            </Button>
-          </div>
-        </div>
 
         {/* Stock Summary Cards */}
         <StockSummaryCards stockItems={stockItems} />

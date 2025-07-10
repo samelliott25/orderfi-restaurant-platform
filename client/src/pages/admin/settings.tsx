@@ -83,7 +83,7 @@ export default function SettingsPage() {
         <TabsContent value="general" className="space-y-4 w-full">
           <Card className="w-full">
             <CardHeader>
-              <CardTitle className="rock-salt-font flex items-center gap-2">
+              <CardTitle className="playwrite-font flex items-center gap-2">
                 <Settings className="h-5 w-5 text-orange-500" />
                 General Settings
               </CardTitle>
@@ -127,7 +127,7 @@ export default function SettingsPage() {
         <TabsContent value="restaurant" className="space-y-4 w-full">
           <Card className="w-full">
             <CardHeader>
-              <CardTitle className="rock-salt-font flex items-center gap-2">
+              <CardTitle className="playwrite-font flex items-center gap-2">
                 <Store className="h-5 w-5 text-orange-500" />
                 Restaurant Profile
               </CardTitle>
@@ -167,7 +167,7 @@ export default function SettingsPage() {
         <TabsContent value="integrations" className="space-y-4 w-full">
           <Card className="w-full">
             <CardHeader>
-              <CardTitle className="rock-salt-font flex items-center gap-2">
+              <CardTitle className="playwrite-font flex items-center gap-2">
                 <Globe className="h-5 w-5 text-orange-500" />
                 Connected Services
               </CardTitle>
@@ -241,7 +241,7 @@ export default function SettingsPage() {
         <TabsContent value="notifications" className="space-y-4 w-full">
           <Card className="w-full">
             <CardHeader>
-              <CardTitle className="rock-salt-font flex items-center gap-2">
+              <CardTitle className="playwrite-font flex items-center gap-2">
                 <Bell className="h-5 w-5 text-orange-500" />
                 Notification Preferences
               </CardTitle>

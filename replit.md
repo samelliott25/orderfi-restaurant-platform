@@ -173,6 +173,14 @@ node scripts/agent-orchestrator.js
 
 ```
 Changelog:
+- July 10, 2025. Fixed all duplicate headers and inconsistent fonts across admin pages
+  - Fixed duplicate StandardLayout calls in inventory-simplified.tsx and stock.tsx that were causing React hooks errors
+  - Added proper titles and subtitles to all admin pages: Payments & Transactions, Inventory Management, Stock Management
+  - Standardized all font classes from rock-salt-font to playwrite-font for consistent OrderFi branding
+  - Fixed settings.tsx to use playwrite-font for all card titles instead of rock-salt-font
+  - Removed duplicate page headers that conflicted with StandardLayout component headers
+  - All admin pages now have consistent StandardLayout structure with proper titles and subtitles
+  - Eliminated all font inconsistencies and duplicate heading issues as requested
 - July 10, 2025. Comprehensive cleanup of redundant and obsolete pages for streamlined application architecture
   - Removed redundant pages: inventory-stock, inventory-stock-fixed, menu-simple, customer-settings, customer, mobile-chat, network, web3-order, test-three, orderfi-simple
   - Consolidated routing to essential pages only: dashboard, mobileapp, inventory, orders, payments, stock, staff, reporting, settings
