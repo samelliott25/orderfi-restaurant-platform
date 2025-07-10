@@ -16,6 +16,17 @@ import NotFound from "@/pages/not-found";
 import { useEffect, useState } from "react";
 import { useChatContext } from "@/contexts/ChatContext";
 
+// Redirect component for menu route
+function MenuRedirect() {
+  const [, navigate] = useLocation();
+  
+  useEffect(() => {
+    navigate('/mobileapp');
+  }, [navigate]);
+  
+  return null;
+}
+
 // Import Essential Admin Pages
 import SimplifiedInventoryPage from "@/pages/admin/inventory-simplified";
 import AdminOrdersPage from "@/pages/admin/orders-new";
@@ -110,15 +121,7 @@ function Router() {
         <Route path="/mobileapp" component={EnhancedCustomerMenu} />
         <Route path="/scan" component={ScanPage} />
         <Route path="/login" component={CustomerLogin} />
-        <Route path="/menu">
-          {() => {
-            const [, navigate] = useLocation();
-            useEffect(() => {
-              navigate('/mobileapp');
-            }, [navigate]);
-            return null;
-          }}
-        </Route>
+        <Route path="/menu" component={MenuRedirect} />
         <Route path="/cart" component={CustomerCart} />
         <Route path="/checkout" component={CustomerCheckout} />
         <Route path="/order-status/:orderId" component={OrderStatus} />
