@@ -44,6 +44,8 @@ export default function EnhancedCustomerMenu() {
   const [isListening, setIsListening] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [recognition, setRecognition] = useState<any>(null);
+  const [currentTranscript, setCurrentTranscript] = useState('');
+  const [interimTranscript, setInterimTranscript] = useState('');
   
   const { cart, addToCart, updateQuantity, removeFromCart, getTotalItems } = useCart();
 
@@ -66,16 +68,34 @@ export default function EnhancedCustomerMenu() {
         const SpeechRecognition = (window as any).webkitSpeechRecognition;
         const recognitionInstance = new SpeechRecognition();
         recognitionInstance.continuous = false;
-        recognitionInstance.interimResults = false;
+        recognitionInstance.interimResults = true;
         recognitionInstance.lang = 'en-US';
 
         recognitionInstance.onresult = (event: any) => {
-          const transcript = event.results[0][0].transcript.toLowerCase();
-          handleVoiceCommand(transcript);
+          let interimTranscript = '';
+          let finalTranscript = '';
+
+          for (let i = 0; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscript += transcript;
+            } else {
+              interimTranscript += transcript;
+            }
+          }
+
+          setInterimTranscript(interimTranscript);
+          setCurrentTranscript(finalTranscript + interimTranscript);
+
+          if (finalTranscript) {
+            handleVoiceCommand(finalTranscript.toLowerCase());
+          }
         };
 
         recognitionInstance.onend = () => {
           setIsListening(false);
+          setCurrentTranscript('');
+          setInterimTranscript('');
         };
 
         recognitionInstance.onerror = (event: any) => {
@@ -104,6 +124,13 @@ export default function EnhancedCustomerMenu() {
   const handleVoiceCommand = (transcript: string) => {
     console.log('Voice command:', transcript);
     console.log('Menu items loaded:', menuItems.length);
+    
+    // Wait for menu items to load before processing
+    if (menuItems.length === 0) {
+      console.log('Menu items not loaded yet, retrying in 500ms');
+      setTimeout(() => handleVoiceCommand(transcript), 500);
+      return;
+    }
     
     // Handle navigation commands
     if (transcript.includes('cart') || transcript.includes('checkout')) {
@@ -329,6 +356,26 @@ export default function EnhancedCustomerMenu() {
         onRemoveItem={removeFromCart}
         onCheckout={handleCheckout}
       />
+
+      {/* Real-time speech transcript display */}
+      {(isListening || currentTranscript) && (
+        <div className="fixed bottom-20 left-4 right-4 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              {isListening ? 'Listening...' : 'Processing...'}
+            </span>
+          </div>
+          <div className="text-lg text-gray-900 dark:text-gray-100">
+            {currentTranscript || 'Say something...'}
+            {interimTranscript && (
+              <span className="text-gray-500 dark:text-gray-400 italic">
+                {interimTranscript}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
