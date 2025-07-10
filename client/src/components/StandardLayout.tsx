@@ -48,8 +48,10 @@ export function StandardLayout({
       {/* Sidebar - Fixed width component */}
       <Sidebar />
       
-      {/* Main Content Area - Takes remaining space */}
-      <main className="flex-1 overflow-auto bg-background">
+      {/* Main Content Area - Takes remaining space and adjusts for chat */}
+      <main className={`flex-1 overflow-auto bg-background transition-all duration-300 ${
+        isOpen ? 'pr-80' : 'pr-0'
+      }`}>
         <div className="h-full">
           {/* Page Header */}
           {showHeader && title && (

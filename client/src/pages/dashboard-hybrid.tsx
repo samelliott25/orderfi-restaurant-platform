@@ -778,9 +778,6 @@ export default function HybridDashboard() {
             </CardContent>
           </Card>
         </div>
-        
-        {/* AI Chat Dialog */}
-        <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
       </div>
     </StandardLayout>
   );
