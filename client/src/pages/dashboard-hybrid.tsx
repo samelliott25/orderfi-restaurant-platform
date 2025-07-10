@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import StandardLayout from '@/components/StandardLayout';
+import { OrderFiMetricCard, OrderFiCard, OrderFiButton, OrderFiHeading, OrderFiSpacing } from '@/components/ui/design-system';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   DollarSign, 
@@ -531,30 +533,52 @@ export default function HybridDashboard() {
   const timeframes = ['24H', '7D', '30D', '90D'];
 
   return (
-    <div className={`min-h-screen bg-background text-foreground transition-all duration-300 ${
-      isOpen && isSidebarMode ? 'pr-80' : 'pr-0'
-    }`}>
-      {/* Header - At Top of Page */}
-      <div className="border-b border-border px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="font-normal text-foreground rock-salt-font text-[24px]">Dashboard</h1>
-            <p className="text-sm text-muted-foreground">Live Dashboard • {currentTime.toLocaleTimeString()}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Badge variant="outline" className="bg-green-500/20 text-green-400 border-green-500/30">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
-              LIVE
-            </Badge>
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-              <Bell className="w-4 h-4" />
-            </Button>
+    <StandardLayout 
+      title="Restaurant Dashboard" 
+      subtitle="Live performance metrics and operational insights"
+    >
+      <div className={`transition-all duration-300 ${
+        isOpen && isSidebarMode ? 'pr-80' : 'pr-0'
+      }`}>
+        {/* Status Bar */}
+        <div className="bg-card border border-border rounded-lg p-4 mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Badge variant="outline" className="bg-green-500/20 text-green-400 border-green-500/30">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                LIVE
+              </Badge>
+              <div className="text-sm text-muted-foreground">
+                System operational • Last updated: {currentTime.toLocaleTimeString()}
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <div className="text-sm text-muted-foreground">
+                  {currentTime.toLocaleDateString('en-US', { 
+                    weekday: 'long',
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </div>
+                <div className="text-lg font-normal text-foreground">
+                  {currentTime.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit'
+                  })}
+                </div>
+              </div>
+              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                <Bell className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-      {/* Navigation Tabs */}
-      <div className="border-b border-border">
-        <div className="flex overflow-x-auto px-6">
+        {/* Navigation Tabs */}
+        <div className="border-b border-border rounded-lg mb-6">
+          <div className="flex overflow-x-auto px-6">
           {[
             { id: 'overview', label: 'Overview', icon: BarChart3 },
             { id: 'orders', label: 'Live Orders', icon: ShoppingCart },
@@ -575,10 +599,11 @@ export default function HybridDashboard() {
               {tab.label}
             </button>
           ))}
+          </div>
         </div>
-      </div>
-      {/* Main Content */}
-      <div className="p-6">
+        
+        {/* Main Content */}
+        <div className="space-y-6">
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <Card className="bg-card border-border">
@@ -651,7 +676,7 @@ export default function HybridDashboard() {
         {/* Chart Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-normal text-foreground rock-salt-font">Revenue Performance</h2>
+            <OrderFiHeading level={2}>Revenue Performance</OrderFiHeading>
             <div className="flex gap-2">
               {timeframes.map((tf) => (
                 <Button
@@ -728,7 +753,7 @@ export default function HybridDashboard() {
           {/* Live Orders */}
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-foreground rock-salt-font font-normal flex items-center gap-2">
+              <CardTitle className="text-foreground playwrite-font font-normal flex items-center gap-2">
                 <Activity className="w-5 h-5 text-orange-500" />
                 Live Orders
               </CardTitle>
@@ -757,9 +782,11 @@ export default function HybridDashboard() {
             </CardContent>
           </Card>
         </div>
+        
+        {/* AI Chat Dialog */}
+        <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
+        </div>
       </div>
-      {/* AI Chat Dialog */}
-      <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
-    </div>
+    </StandardLayout>
   );
 }

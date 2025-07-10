@@ -95,8 +95,8 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total SKUs</p>
-              <p className="text-2xl font-bold">{totalSKUs}</p>
+              <p className="text-sm font-normal text-muted-foreground">Total SKUs</p>
+              <p className="text-2xl font-normal">{totalSKUs}</p>
             </div>
             <Package className="h-8 w-8 text-blue-600" />
           </div>
@@ -110,8 +110,8 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Below Threshold</p>
-              <p className="text-2xl font-bold text-orange-600">{belowThreshold}</p>
+              <p className="text-sm font-normal text-muted-foreground">Below Threshold</p>
+              <p className="text-2xl font-normal text-orange-600">{belowThreshold}</p>
             </div>
             <AlertTriangle className="h-8 w-8 text-orange-600" />
           </div>
@@ -127,8 +127,8 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Pending POs</p>
-              <p className="text-2xl font-bold text-blue-600">{pendingPOs}</p>
+              <p className="text-sm font-normal text-muted-foreground">Pending POs</p>
+              <p className="text-2xl font-normal text-blue-600">{pendingPOs}</p>
             </div>
             <RefreshCw className="h-8 w-8 text-blue-600" />
           </div>
@@ -142,8 +142,8 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Overdue Invoices</p>
-              <p className="text-2xl font-bold text-red-600">{overdueInvoices}</p>
+              <p className="text-sm font-normal text-muted-foreground">Overdue Invoices</p>
+              <p className="text-2xl font-normal text-red-600">{overdueInvoices}</p>
             </div>
             <Mail className="h-8 w-8 text-red-600" />
           </div>

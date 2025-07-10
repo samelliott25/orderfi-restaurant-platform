@@ -4,6 +4,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sidebar } from '@/components/Sidebar';
 import { CustomerAiChat } from '@/components/CustomerAiChat';
 import { useChatContext } from '@/contexts/ChatContext';
+import { OrderFiPageHeader } from '@/components/ui/design-system';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -44,16 +45,10 @@ export function StandardLayout({
         <div className="h-full">
           {/* Page Header */}
           {title && (
-            <div className="mb-6 px-4 sm:px-6 pt-4 sm:pt-6">
-              <h1 className="text-2xl sm:text-3xl font-normal tracking-tight playwrite-font">
-                {title}
-              </h1>
-              {subtitle && (
-                <p className="text-sm sm:text-base text-muted-foreground mt-2">
-                  {subtitle}
-                </p>
-              )}
-            </div>
+            <OrderFiPageHeader 
+              title={title}
+              subtitle={subtitle}
+            />
           )}
           
           {/* Page Content - No left/right padding so content extends to edges */}

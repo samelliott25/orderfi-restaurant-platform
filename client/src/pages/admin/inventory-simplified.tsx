@@ -1113,11 +1113,10 @@ export default function SimplifiedInventoryPage() {
       subtitle="Manage menu items, track inventory, and monitor stock levels"
     >
       <div className="space-y-6">
-        {/* Enhanced Header with Manager-Friendly Language */}
+        {/* Quick Actions - No duplicate header needed */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-normal text-foreground playwrite-font">Inventory</h1>
               <p className="text-muted-foreground">
                 Manage your {totalItems} menu items with ease • Quick access to everything you need
               </p>
