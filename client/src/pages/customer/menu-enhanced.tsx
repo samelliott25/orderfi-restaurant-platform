@@ -8,6 +8,8 @@ import { MenuGrid } from '@/components/customer/MenuGrid';
 import { CartDrawer } from '@/components/customer/CartDrawer';
 import { QuickReorder } from '@/components/customer/QuickReorder';
 import { FloatingActionButton } from '@/components/customer/FloatingActionButton';
+import { SpatialVoiceNav } from '@/components/SpatialVoiceNav';
+import { GestureZones } from '@/components/GestureZones';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Mic, MicOff, ShoppingCart } from 'lucide-react';
@@ -50,6 +52,8 @@ export default function EnhancedCustomerMenu() {
   const [recognition, setRecognition] = useState<any>(null);
   const [currentTranscript, setCurrentTranscript] = useState('');
   const [interimTranscript, setInterimTranscript] = useState('');
+  const [gestureEvent, setGestureEvent] = useState<string>('');
+  const [spatialPosition, setSpatialPosition] = useState<any>(null);
   const menuItemsRef = useRef<MenuItem[]>([]);
   
   const { cart, addToCart, updateQuantity, removeFromCart, getTotalItems } = useCart();
@@ -299,6 +303,103 @@ export default function EnhancedCustomerMenu() {
     navigate('/checkout');
   };
 
+  // Enhanced voice command handler with spatial feedback
+  const handleSpatialVoiceCommand = (command: string, confidence: number) => {
+    console.log(`Spatial voice command: "${command}" (${Math.round(confidence * 100)}% confidence)`);
+    setCurrentTranscript(command);
+    
+    // Trigger haptic feedback for successful commands
+    if (confidence > 0.7 && 'vibrate' in navigator) {
+      navigator.vibrate(50);
+    }
+    
+    handleVoiceCommand(command.toLowerCase());
+  };
+
+  // Gesture recognition handler
+  const handleGestureRecognized = (gesture: any) => {
+    setGestureEvent(`${gesture.type} ${gesture.direction || ''} gesture detected`);
+    console.log('Gesture recognized:', gesture);
+    
+    // Handle different gesture types
+    switch (gesture.type) {
+      case 'swipe':
+        if (gesture.direction === 'left') {
+          // Quick add first visible item
+          const firstItem = filteredItems[0];
+          if (firstItem) {
+            handleQuickAdd(firstItem);
+          }
+        } else if (gesture.direction === 'right') {
+          // Open cart
+          setIsCartOpen(true);
+        } else if (gesture.direction === 'up') {
+          // Navigate to previous category
+          const currentIndex = categories.findIndex(cat => cat.id === selectedCategory);
+          if (currentIndex > 0) {
+            setSelectedCategory(categories[currentIndex - 1].id);
+          }
+        } else if (gesture.direction === 'down') {
+          // Navigate to next category
+          const currentIndex = categories.findIndex(cat => cat.id === selectedCategory);
+          if (currentIndex < categories.length - 1) {
+            setSelectedCategory(categories[currentIndex + 1].id);
+          }
+        }
+        break;
+      case 'longPress':
+        // Open voice navigation
+        setIsVoiceEnabled(true);
+        break;
+      case 'doubleTap':
+        // Reorder last item
+        if (cart.length > 0) {
+          const lastItem = cart[cart.length - 1];
+          addToCart(lastItem.item, lastItem.modifiers, 1);
+        }
+        break;
+    }
+    
+    // Haptic feedback for gestures
+    if ('vibrate' in navigator) {
+      navigator.vibrate([30, 50, 30]);
+    }
+  };
+
+  // Quick action handler for gesture zones
+  const handleQuickAction = (action: string) => {
+    setGestureEvent(`Quick action: ${action}`);
+    console.log('Quick action:', action);
+    
+    switch (action) {
+      case 'addToCart':
+        const firstItem = filteredItems[0];
+        if (firstItem) {
+          handleQuickAdd(firstItem);
+        }
+        break;
+      case 'openCart':
+        setIsCartOpen(true);
+        break;
+      case 'favorites':
+        // Could integrate with favorites system
+        console.log('Favorites action triggered');
+        break;
+      case 'voice':
+        setIsVoiceEnabled(!isVoiceEnabled);
+        break;
+    }
+  };
+
+  // Quick add function for gesture integration
+  const handleQuickAdd = (item: MenuItem) => {
+    addToCart(item, [], 1);
+    // Success haptic feedback
+    if ('vibrate' in navigator) {
+      navigator.vibrate(100);
+    }
+  };
+
   const handleAddToCart = (item: MenuItem, modifiers: Modifier[], quantity: number) => {
     addToCart(item, modifiers, quantity);
     
@@ -341,6 +442,24 @@ export default function EnhancedCustomerMenu() {
 
   return (
     <StandardLayout showSidebar={true} showHeader={false}>
+      {/* UI Innovation Banner */}
+      <div className="bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-green-500/10 border-b border-purple-500/20 px-4 py-2">
+        <div className="flex items-center justify-between text-sm">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+            <span className="text-purple-300 font-medium">
+              UI Innovations Active: Glass Morphism • Spatial Voice • Gesture Zones
+            </span>
+          </div>
+          <button
+            onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
+            className="text-blue-300 hover:text-blue-200 text-xs underline"
+          >
+            {isVoiceEnabled ? 'Disable Voice' : 'Enable Voice'}
+          </button>
+        </div>
+      </div>
+
       <Header
         venueName="OrderFi Restaurant"
         tableNumber="Table 12"
@@ -378,6 +497,54 @@ export default function EnhancedCustomerMenu() {
         onRemoveItem={removeFromCart}
         onCheckout={handleCheckout}
       />
+
+      {/* UI Innovation Components */}
+      {isVoiceEnabled && (
+        <div className="fixed bottom-20 left-4 z-50">
+          <SpatialVoiceNav
+            onVoiceCommand={handleSpatialVoiceCommand}
+            onSpatialUpdate={setSpatialPosition}
+            enableHaptics={true}
+            spatialSensitivity={0.7}
+          />
+        </div>
+      )}
+
+      {/* Gesture Recognition Zone */}
+      <GestureZones
+        onGestureRecognized={handleGestureRecognized}
+        onQuickAction={handleQuickAction}
+        enableHaptics={true}
+        sensitivity={0.6}
+      />
+
+      {/* Innovation Status Indicators */}
+      {(gestureEvent || currentTranscript) && (
+        <div className="fixed top-20 right-4 z-40 space-y-2">
+          {gestureEvent && (
+            <div className="bg-green-500/20 backdrop-blur-sm border border-green-500/50 text-green-300 px-3 py-2 rounded-lg text-sm font-medium">
+              {gestureEvent}
+            </div>
+          )}
+          {currentTranscript && (
+            <div className="bg-blue-500/20 backdrop-blur-sm border border-blue-500/50 text-blue-300 px-3 py-2 rounded-lg text-sm font-medium">
+              Voice: "{currentTranscript}"
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Voice Toggle Button */}
+      <button
+        onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
+        className={`fixed bottom-32 right-4 z-50 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm ${
+          isVoiceEnabled 
+            ? 'bg-blue-500/20 border-2 border-blue-500 text-blue-300' 
+            : 'bg-gray-500/20 border-2 border-gray-500 text-gray-400'
+        }`}
+      >
+        <Mic className="w-5 h-5" />
+      </button>
 
       {/* Real-time speech transcript display */}
       {(isListening || currentTranscript) && (

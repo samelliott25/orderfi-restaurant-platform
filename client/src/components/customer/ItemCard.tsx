@@ -2,6 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Leaf, Wheat } from 'lucide-react';
+import { GlassMorphismCard } from '@/components/GlassMorphismCard';
 
 interface MenuItem {
   id: number;
@@ -38,7 +39,14 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
                        item.name.toLowerCase().includes('gf');
 
   return (
-    <Card className="group hover:shadow-2xl hover:shadow-orange-500/25 hover:-translate-y-1 transition-all duration-500 cursor-pointer overflow-hidden border-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+    <GlassMorphismCard 
+      className="group cursor-pointer min-h-[320px]"
+      blurIntensity={20}
+      depth={2}
+      enableHover={true}
+      gradient="from-white/25 via-white/15 to-white/10 dark:from-gray-800/30 dark:via-gray-700/20 dark:to-gray-600/10"
+      data-testid={`item-card-${item.id}`}
+    >
       <div onClick={onAddClick} className="relative">
         {/* Image placeholder with enhanced gradient */}
         <div className="aspect-[4/3] bg-gradient-to-br from-orange-200 via-pink-200 to-purple-200 dark:from-orange-900/30 dark:via-pink-900/30 dark:to-purple-900/30 flex items-center justify-center relative overflow-hidden">
@@ -72,7 +80,7 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
         </div>
       </div>
 
-      <CardContent className="p-5 space-y-4">
+      <div className="p-5 space-y-4">
         <div className="space-y-3">
           <div className="flex items-start justify-between">
             <h3 className="font-bold text-base leading-tight line-clamp-2 text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
@@ -117,7 +125,7 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
             <Plus className="h-5 w-5" />
           </Button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </GlassMorphismCard>
   );
 }
