@@ -36,10 +36,10 @@ html, body {
     margin: 0 !important;
   }
   
-  /* Normal padding for mobile */
+  /* Normal padding for mobile - flush right edge */
   .settings-mobile-fix {
     padding-left: 8px !important;
-    padding-right: 8px !important;
+    padding-right: 0 !important;
   }
 }
 
