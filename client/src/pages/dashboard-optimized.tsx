@@ -227,6 +227,7 @@ export default function OptimizedDashboard() {
   const [liveOrders, setLiveOrders] = useState(generateLiveOrders());
   const [currentTime, setCurrentTime] = useState(new Date());
   const [userRole] = useState<'manager' | 'owner' | 'staff'>('manager'); // Simulate user role
+  const [lastUpdate, setLastUpdate] = useState(new Date());
 
   // Update time every second
   useEffect(() => {
@@ -236,12 +237,14 @@ export default function OptimizedDashboard() {
     return () => clearInterval(timer);
   }, []);
 
-  // Refresh data every 30 seconds
+  // Live data feed - refresh every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setMetrics(generateMetrics());
       setLiveOrders(generateLiveOrders());
-    }, 30000);
+      setAlerts(generateOperationalAlerts());
+      setLastUpdate(new Date());
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -404,18 +407,16 @@ export default function OptimizedDashboard() {
           </div>
         )}
 
-        {/* Quick Actions Footer (Mobile) */}
-        <div className="block md:hidden fixed bottom-20 left-4 right-4 z-40">
-          <div className="flex justify-center">
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-background/80 backdrop-blur-sm border-border"
-              onClick={() => window.location.reload()}
-            >
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Refresh Data
-            </Button>
+        {/* Live Feed Indicator */}
+        <div className="fixed bottom-4 left-4 z-40">
+          <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-2 flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-xs text-green-700 dark:text-green-300">
+              Live Feed • Updated {lastUpdate.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+              })}
+            </span>
           </div>
         </div>
       </div>
