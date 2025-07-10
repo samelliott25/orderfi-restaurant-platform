@@ -146,6 +146,14 @@ export default function EnhancedCustomerMenu() {
       
       console.log('Cleaned text:', cleanedText);
       
+      // Handle pluralization - convert plural to singular for broader matching
+      const normalizePlural = (word: string): string => {
+        if (word.endsWith('s') && word.length > 3) {
+          return word.slice(0, -1); // Remove 's' from end
+        }
+        return word;
+      };
+      
       // Extract food-related keywords by matching against menu items
       const foodKeywords: string[] = [];
       
@@ -156,34 +164,48 @@ export default function EnhancedCustomerMenu() {
         
         // Check if any words from the item name are in the transcript
         itemWords.forEach(word => {
-          if (word.length > 2 && cleanedText.toLowerCase().includes(word)) {
-            foodKeywords.push(word);
+          const normalizedWord = normalizePlural(word);
+          const normalizedCleanedText = cleanedText.toLowerCase();
+          
+          if (word.length > 2 && (
+            normalizedCleanedText.includes(word) || 
+            normalizedCleanedText.includes(normalizedWord) ||
+            normalizePlural(normalizedCleanedText).includes(normalizedWord)
+          )) {
+            foodKeywords.push(normalizedWord);
           }
         });
         
-        // Check for partial matches
-        if (cleanedText.toLowerCase().includes(itemName) || itemName.includes(cleanedText.toLowerCase())) {
-          foodKeywords.push(itemName);
+        // Check for partial matches with pluralization handling
+        const normalizedItemName = normalizePlural(itemName);
+        const normalizedCleanedText = normalizePlural(cleanedText.toLowerCase());
+        
+        if (normalizedCleanedText.includes(normalizedItemName) || 
+            normalizedItemName.includes(normalizedCleanedText)) {
+          foodKeywords.push(normalizedItemName);
         }
         
-        // Check voice aliases
+        // Check voice aliases with pluralization
         if (item.voice_aliases) {
           item.voice_aliases.forEach(alias => {
-            if (cleanedText.toLowerCase().includes(alias.toLowerCase())) {
-              foodKeywords.push(alias);
+            const normalizedAlias = normalizePlural(alias.toLowerCase());
+            if (normalizedCleanedText.includes(normalizedAlias) || 
+                cleanedText.toLowerCase().includes(alias.toLowerCase())) {
+              foodKeywords.push(normalizedAlias);
             }
           });
         }
       });
       
-      // If no specific menu items found, extract potential food words
+      // If no specific menu items found, extract potential food words with pluralization
       if (foodKeywords.length === 0) {
-        const commonFoodWords = ['burger', 'burgers', 'pizza', 'chicken', 'beef', 'fish', 'salad', 'sandwich', 'wings', 'fries', 'taco', 'tacos', 'pasta', 'soup', 'steak', 'rice', 'noodles', 'nachos'];
+        const commonFoodWords = ['burger', 'pizza', 'chicken', 'beef', 'fish', 'salad', 'sandwich', 'wing', 'fries', 'taco', 'pasta', 'soup', 'steak', 'rice', 'noodles', 'nacho'];
         const words = cleanedText.toLowerCase().split(/\s+/);
         
         words.forEach(word => {
-          if (commonFoodWords.includes(word)) {
-            foodKeywords.push(word);
+          const normalizedWord = normalizePlural(word);
+          if (commonFoodWords.includes(normalizedWord) || commonFoodWords.includes(word)) {
+            foodKeywords.push(normalizedWord);
           }
         });
       }

@@ -33,10 +33,55 @@ export function MenuGrid({ items, onAddToCart, searchQuery = '', activeCategory 
 
   // Filter items based on search and category
   const filteredItems = items.filter(item => {
-    const matchesSearch = searchQuery === '' || 
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.voice_aliases?.some(alias => alias.toLowerCase().includes(searchQuery.toLowerCase()));
+    if (searchQuery === '') {
+      const matchesCategory = activeCategory === 'all' || 
+        item.category.toLowerCase() === activeCategory.toLowerCase() ||
+        item.category.toLowerCase().includes(activeCategory.toLowerCase());
+      return matchesCategory;
+    }
+
+    // Enhanced search with pluralization handling
+    const normalizeForSearch = (text: string): string => {
+      return text.toLowerCase().replace(/s$/, ''); // Remove trailing 's' for pluralization
+    };
+
+    const searchTerms = searchQuery.toLowerCase().split(/\s+/);
+    const itemName = item.name.toLowerCase();
+    const itemDescription = item.description.toLowerCase();
+    const itemCategory = item.category.toLowerCase();
+    
+    // Check if ANY search term matches ANY part of the item
+    const matchesSearch = searchTerms.some(term => {
+      const normalizedTerm = normalizeForSearch(term);
+      const normalizedItemName = normalizeForSearch(itemName);
+      const normalizedDescription = normalizeForSearch(itemDescription);
+      
+      const directMatch = itemName.includes(term) || itemDescription.includes(term) || itemCategory.includes(term);
+      const normalizedMatch = normalizedItemName.includes(normalizedTerm) || normalizedDescription.includes(normalizedTerm) || normalizeForSearch(itemCategory).includes(normalizedTerm);
+      const reverseMatch = term.includes(normalizedItemName.split(' ')[0]);
+      const aliasMatch = item.voice_aliases?.some(alias => 
+        alias.toLowerCase().includes(term) || 
+        normalizeForSearch(alias.toLowerCase()).includes(normalizedTerm)
+      );
+      
+      const matches = directMatch || normalizedMatch || reverseMatch || aliasMatch;
+      
+      // Debug logging for search
+      if (matches) {
+        console.log(`SEARCH MATCH: "${term}" found in "${item.name}"`, {
+          term,
+          normalizedTerm,
+          itemName,
+          normalizedItemName,
+          directMatch,
+          normalizedMatch,
+          reverseMatch,
+          aliasMatch
+        });
+      }
+      
+      return matches;
+    });
 
     const matchesCategory = activeCategory === 'all' || 
       item.category.toLowerCase() === activeCategory.toLowerCase() ||
