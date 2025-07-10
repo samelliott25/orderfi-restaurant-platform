@@ -15,11 +15,12 @@ interface MenuItem {
   id: number;
   name: string;
   description: string;
-  price: number;
+  price: string | number; // Handle both string and number prices
   category: string;
   image_url?: string;
   voice_aliases?: string[];
   modifiers?: Modifier[];
+  aliases?: string[]; // Database uses aliases instead of voice_aliases
 }
 
 interface Modifier {
@@ -50,18 +51,18 @@ export default function EnhancedCustomerMenu() {
   
   const { cart, addToCart, updateQuantity, removeFromCart, getTotalItems } = useCart();
 
-  // Fetch menu items
+  // Fetch menu items from real database
   const { data: menuItems = [], isLoading, error } = useQuery<MenuItem[]>({
-    queryKey: ['/api/menu/1'],
+    queryKey: ['/api/restaurants/1/menu'],
     queryFn: async () => {
-      console.log('Fetching menu items...');
-      const response = await fetch('/api/menu/1');
+      console.log('Fetching menu items from database...');
+      const response = await fetch('/api/restaurants/1/menu');
       console.log('Response status:', response.status);
       if (!response.ok) {
         throw new Error('Failed to fetch menu items');
       }
       const data = await response.json();
-      console.log('Menu items received:', data.length);
+      console.log('Menu items received from database:', data.length);
       return data;
     },
   });

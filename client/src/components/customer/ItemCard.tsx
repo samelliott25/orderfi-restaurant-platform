@@ -7,10 +7,11 @@ interface MenuItem {
   id: number;
   name: string;
   description: string;
-  price: number;
+  price: number | string;
   image_url?: string;
   category: string;
   voice_aliases?: string[];
+  aliases?: string[];
   modifiers?: Modifier[];
 }
 
@@ -24,7 +25,7 @@ interface Modifier {
 interface ItemCardProps {
   item: MenuItem;
   onAddClick: () => void;
-  formatPrice: (price: number) => string;
+  formatPrice: (price: number | string) => string;
 }
 
 export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {

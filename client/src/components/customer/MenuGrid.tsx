@@ -6,10 +6,11 @@ interface MenuItem {
   id: number;
   name: string;
   description: string;
-  price: number;
+  price: number | string;
   image_url?: string;
   category: string;
   voice_aliases?: string[];
+  aliases?: string[];
   modifiers?: Modifier[];
 }
 
@@ -59,7 +60,8 @@ export function MenuGrid({ items, onAddToCart, searchQuery = '', activeCategory 
       const directMatch = itemName.includes(term) || itemDescription.includes(term) || itemCategory.includes(term);
       const normalizedMatch = normalizedItemName.includes(normalizedTerm) || normalizedDescription.includes(normalizedTerm) || normalizeForSearch(itemCategory).includes(normalizedTerm);
       const reverseMatch = term.includes(normalizedItemName.split(' ')[0]);
-      const aliasMatch = item.voice_aliases?.some(alias => 
+      const aliasesToCheck = item.voice_aliases || item.aliases || [];
+      const aliasMatch = aliasesToCheck.some(alias => 
         alias.toLowerCase().includes(term) || 
         normalizeForSearch(alias.toLowerCase()).includes(normalizedTerm)
       );
@@ -103,8 +105,9 @@ export function MenuGrid({ items, onAddToCart, searchQuery = '', activeCategory 
     }
   };
 
-  const formatPrice = (price: number) => {
-    return `$${price.toFixed(2)}`;
+  const formatPrice = (price: number | string) => {
+    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+    return `$${numPrice.toFixed(2)}`;
   };
 
   if (filteredItems.length === 0) {
