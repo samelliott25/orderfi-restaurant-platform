@@ -93,7 +93,11 @@ export default function EnhancedCustomerMenu() {
           setCurrentTranscript(finalTranscript + interimTranscript);
 
           if (finalTranscript) {
-            handleVoiceCommand(finalTranscript.toLowerCase());
+            // Store the transcript to process after menu loads
+            const processCommand = () => {
+              handleVoiceCommand(finalTranscript.toLowerCase());
+            };
+            processCommand();
           }
         };
 
@@ -126,14 +130,69 @@ export default function EnhancedCustomerMenu() {
     }))
   ];
 
-  // Update ref when menu items change
+  // Debug effect to track data loading and update ref
   useEffect(() => {
+    console.log('Menu data state change:', {
+      isLoading,
+      error: error?.message,
+      menuItemsCount: menuItems.length,
+      menuItems: menuItems.slice(0, 2) // Show first 2 items
+    });
     menuItemsRef.current = menuItems;
-  }, [menuItems]);
+  }, [isLoading, error, menuItems]);
 
   const handleVoiceCommand = useCallback((transcript: string) => {
     console.log('Voice command:', transcript);
-    console.log('Menu items available:', menuItemsRef.current.length);
+    console.log('Menu items loaded:', menuItemsRef.current.length);
+    console.log('Current loading state:', isLoading);
+    console.log('Current error:', error);
+    
+    // If menu is still loading, wait for it to finish
+    if (isLoading || menuItemsRef.current.length === 0) {
+      console.log('Waiting for menu data to load...');
+      const maxRetries = 50; // 5 second timeout
+      let retryCount = 0;
+      
+      const checkData = () => {
+        retryCount++;
+        if (menuItemsRef.current.length > 0) {
+          console.log('Menu data loaded, processing voice command');
+          processVoiceCommand(transcript, menuItemsRef.current);
+        } else if (retryCount < maxRetries) {
+          setTimeout(checkData, 100);
+        } else {
+          console.log('Timeout waiting for menu data');
+        }
+      };
+      setTimeout(checkData, 100);
+      return;
+    }
+    
+    processVoiceCommand(transcript, menuItemsRef.current);
+  }, [isLoading, error]);
+
+  const processVoiceCommand = (transcript: string, currentMenuItems: MenuItem[]) => {
+    
+    // Handle navigation commands
+    if (transcript.includes('cart') || transcript.includes('checkout')) {
+      setIsCartOpen(true);
+      return;
+    }
+    
+    if (transcript.includes('menu') || transcript.includes('back')) {
+      setIsCartOpen(false);
+      return;
+    }
+    
+    // Handle category commands
+    const categoryMatch = categories.find(cat => 
+      transcript.includes(cat.name.toLowerCase())
+    );
+    
+    if (categoryMatch) {
+      setSelectedCategory(categoryMatch.id);
+      return;
+    }
     
     // Enhanced food item extraction for natural language
     const extractFoodKeywords = (text: string): string => {
@@ -150,7 +209,7 @@ export default function EnhancedCustomerMenu() {
       const foodKeywords: string[] = [];
       
       // Check for exact menu item matches first
-      menuItemsRef.current.forEach(item => {
+      currentMenuItems.forEach(item => {
         const itemName = item.name.toLowerCase();
         const itemWords = itemName.split(/\s+/);
         
@@ -193,40 +252,18 @@ export default function EnhancedCustomerMenu() {
       return result;
     };
     
-    // Handle navigation commands
-    if (transcript.includes('cart') || transcript.includes('checkout')) {
-      setIsCartOpen(true);
-      return;
-    }
-    
-    if (transcript.includes('menu') || transcript.includes('back')) {
-      setIsCartOpen(false);
-      return;
-    }
-    
-    // Handle category commands
-    const categoryMatch = categories.find(cat => 
-      transcript.includes(cat.name.toLowerCase())
-    );
-    
-    if (categoryMatch) {
-      setSelectedCategory(categoryMatch.id);
-      return;
-    }
-    
     // Handle search commands with better extraction
     if (transcript.includes('search') || transcript.includes('find')) {
       const searchTerms = transcript.replace(/search|find/g, '').trim();
       if (searchTerms) {
         const keywords = extractFoodKeywords(searchTerms);
         setSearchQuery(keywords);
-        console.log('Search command, keywords:', keywords);
       }
       return;
     }
     
     // Handle natural language ordering
-    if (transcript.includes('order') || transcript.includes('want') || transcript.includes('like') || transcript.includes('show')) {
+    if (transcript.includes('order') || transcript.includes('want') || transcript.includes('like')) {
       const keywords = extractFoodKeywords(transcript);
       console.log('Natural language keywords:', keywords);
       if (keywords && keywords.trim()) {
@@ -238,15 +275,15 @@ export default function EnhancedCustomerMenu() {
     
     // Handle direct item search with keyword extraction
     const keywords = extractFoodKeywords(transcript);
-    console.log('Direct search keywords:', keywords);
+    console.log('Extracted keywords:', keywords);
     if (keywords && keywords.trim()) {
       setSearchQuery(keywords);
-      console.log('Direct search query updated to:', keywords);
+      console.log('Search query updated to:', keywords);
     } else {
       console.log('No keywords extracted, using full transcript');
       setSearchQuery(transcript);
     }
-  }, [categories]);
+  };
 
   const toggleVoiceRecognition = () => {
     if (!recognition) {
