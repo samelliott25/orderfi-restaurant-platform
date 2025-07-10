@@ -308,16 +308,16 @@ export default function PaymentsPage() {
 
           {/* Summary Tab */}
           <TabsContent value="summary" className="space-y-6">
-            {/* Summary Cards */}
-            <div className="flex flex-col space-y-3 mb-6 w-full">
+            {/* Summary Cards - Responsive Grid */}
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
               {/* Total Revenue */}
-              <Card className="w-full hover:shadow-lg transition-shadow duration-200">
+              <Card className="hover:shadow-lg transition-shadow duration-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
                   <DollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{formatCurrency(currentSummary.totalRevenue)}</div>
+                  <div className="text-xl sm:text-2xl font-bold">{formatCurrency(currentSummary.totalRevenue)}</div>
                   <div className="flex items-center text-xs text-muted-foreground">
                     <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
                     +12.5% from last month
@@ -326,7 +326,7 @@ export default function PaymentsPage() {
               </Card>
 
               {/* Crypto Revenue */}
-              <Card className="w-full hover:shadow-lg transition-shadow duration-200">
+              <Card className="hover:shadow-lg transition-shadow duration-200">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Crypto Revenue</CardTitle>
                   <Bitcoin className="h-4 w-4 text-muted-foreground" />

@@ -11,48 +11,48 @@ export default function InventoryStockPage() {
       subtitle="Stock levels, reorder points, and supplier management"
     >
       <div data-testid="inventory-page" className="space-y-6">
-        {/* Header Stats */}
-        <div className="flex flex-col space-y-3 mb-6 w-full">
-          <Card className="w-full">
+        {/* Header Stats - Responsive Grid */}
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Items</CardTitle>
               <Package className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">1,247</div>
+              <div className="text-xl sm:text-2xl font-bold">1,247</div>
               <p className="text-xs text-muted-foreground">+12% from last month</p>
             </CardContent>
           </Card>
           
-          <Card className="w-full">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Low Stock</CardTitle>
               <AlertTriangle className="h-4 w-4 text-orange-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-orange-600">23</div>
+              <div className="text-xl sm:text-2xl font-bold text-orange-600">23</div>
               <p className="text-xs text-muted-foreground">Need reorder</p>
             </CardContent>
           </Card>
           
-          <Card className="w-full">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
               <TrendingDown className="h-4 w-4 text-red-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-red-600">7</div>
+              <div className="text-xl sm:text-2xl font-bold text-red-600">7</div>
               <p className="text-xs text-muted-foreground">Immediate action needed</p>
             </CardContent>
           </Card>
           
-          <Card className="w-full">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Inventory Value</CardTitle>
               <TrendingUp className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">$45,892</div>
+              <div className="text-xl sm:text-2xl font-bold text-green-600">$45,892</div>
               <p className="text-xs text-muted-foreground">+5.4% from last week</p>
             </CardContent>
           </Card>

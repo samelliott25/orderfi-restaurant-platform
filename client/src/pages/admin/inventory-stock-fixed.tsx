@@ -12,14 +12,14 @@ export default function InventoryStockPageFixed() {
 
   return (
     <div className="flex h-screen bg-background">
-      {/* Sidebar - Fixed width, responsive */}
-      <aside className="flex-shrink-0 w-16 lg:w-64">
+      {/* Sidebar - Collapsed by default */}
+      <aside className="flex-shrink-0 w-16">
         <Sidebar />
       </aside>
       
-      {/* Main Content Area - Fluid, responsive */}
-      <main className="flex-1 overflow-auto bg-background">
-        <div className="w-full p-4 sm:p-6">
+      {/* Main Content Area - Full width to screen edge */}
+      <main className="flex-1 overflow-auto bg-background w-full">
+        <div className="w-full min-w-0 p-4 sm:p-6">
           {/* Page Header */}
           <div className="mb-6">
             <h1 className="text-2xl sm:text-3xl font-normal tracking-tight playwrite-font">

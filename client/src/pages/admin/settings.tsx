@@ -23,48 +23,48 @@ export default function SettingsPage() {
       subtitle="Restaurant preferences, integrations, and system configuration"
     >
       <div data-testid="settings-page" className="space-y-6">
-        {/* Header Stats */}
-        <div className="flex flex-col space-y-3 mb-6 w-full">
-          <Card className="w-full">
+        {/* Header Stats - Responsive Grid */}
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Integrations</CardTitle>
               <Globe className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">8</div>
+              <div className="text-xl sm:text-2xl font-bold">8</div>
               <p className="text-xs text-muted-foreground">Connected services</p>
             </CardContent>
           </Card>
         
-          <Card className="w-full">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Notifications</CardTitle>
               <Bell className="h-4 w-4 text-blue-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">12</div>
+              <div className="text-xl sm:text-2xl font-bold">12</div>
               <p className="text-xs text-muted-foreground">Active alerts</p>
             </CardContent>
           </Card>
           
-          <Card className="w-full">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Security Level</CardTitle>
               <Shield className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">High</div>
+              <div className="text-xl sm:text-2xl font-bold">High</div>
               <p className="text-xs text-muted-foreground">All systems secure</p>
             </CardContent>
           </Card>
           
-          <Card className="w-full">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Theme</CardTitle>
               <Palette className="h-4 w-4 text-orange-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">OrderFi</div>
+              <div className="text-xl sm:text-2xl font-bold">OrderFi</div>
               <p className="text-xs text-muted-foreground">Custom brand theme</p>
             </CardContent>
           </Card>

@@ -58,9 +58,9 @@ export default function AdminOrdersPage() {
   return (
     <StandardLayout title="Orders Management" subtitle="Kitchen video system and floor plan management">
       <div data-testid="orders-page" className="space-y-6">
-        {/* Quick Stats */}
-        <div className="flex flex-col space-y-3 mb-6 w-full">
-          <Card className="w-full">
+        {/* Quick Stats - Responsive Grid */}
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Orders</CardTitle>
               <ChefHat className="h-4 w-4 text-muted-foreground" />

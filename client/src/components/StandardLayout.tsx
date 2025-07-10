@@ -33,30 +33,36 @@ export function StandardLayout({
   }, []);
 
   return (
-    <div className={`h-screen bg-background overflow-x-hidden ${className}`}>
-      {/* Sidebar */}
-      <Sidebar />
+    <div className={`flex h-screen bg-background ${className}`}>
+      {/* Sidebar - Collapsed by default */}
+      <aside className="flex-shrink-0 w-16">
+        <Sidebar />
+      </aside>
       
-      {/* Main Content Area */}
-      <div 
-        className="h-full bg-background transition-all duration-300 relative" 
-        style={{ 
-          marginLeft: isMobile ? '0px' : 'var(--sidebar-width, 256px)',
-          marginRight: (isSidebarMode && isOpen && !isMobile) ? '320px' : '0px',
-        }}
-      >
-        <ScrollArea className="h-full w-full bg-transparent">
-          <div className="w-full min-w-0 p-6">
-            {/* Page Content */}
-            {children}
-          </div>
-        </ScrollArea>
-      </div>
+      {/* Main Content Area - Full width to screen edge */}
+      <main className="flex-1 overflow-auto bg-background w-full">
+        <div className="w-full min-w-0 p-4 sm:p-6">
+          {/* Page Header */}
+          {title && (
+            <div className="mb-6">
+              <h1 className="text-2xl sm:text-3xl font-normal tracking-tight playwrite-font">
+                {title}
+              </h1>
+              {subtitle && (
+                <p className="text-sm sm:text-base text-muted-foreground mt-2">
+                  {subtitle}
+                </p>
+              )}
+            </div>
+          )}
+          
+          {/* Page Content */}
+          {children}
+        </div>
+      </main>
       
-      {/* AI Chat Dialog - positioned outside main content but accounting for sidebar */}
+      {/* AI Chat Dialog */}
       <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
-
-
     </div>
   );
 }
