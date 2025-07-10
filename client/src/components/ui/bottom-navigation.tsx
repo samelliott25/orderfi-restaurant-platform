@@ -49,7 +49,7 @@ export function BottomNavigation({ className }: BottomNavigationProps) {
 
   return (
     <nav className={cn(
-      "fixed bottom-0 left-0 right-0 z-30 bg-background border-t border-border",
+      "fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border",
       "px-4 py-2 safe-area-inset-bottom",
       className
     )}>
