@@ -22,6 +22,7 @@ export function StandardLayout({
   const [, setLocation] = useLocation();
   const { isSidebarMode, isOpen, setIsOpen } = useChatContext();
   const [isMobile, setIsMobile] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(64); // Default collapsed width
 
   useEffect(() => {
     const checkMobile = () => {
@@ -33,15 +34,34 @@ export function StandardLayout({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Listen for sidebar width changes from CSS custom property
+  useEffect(() => {
+    const updateSidebarWidth = () => {
+      const width = getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width');
+      setSidebarWidth(parseInt(width) || 64);
+    };
+    
+    updateSidebarWidth();
+    
+    // Listen for storage changes to update width
+    const handleStorageChange = () => {
+      updateSidebarWidth();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   return (
-    <div className={`flex h-screen bg-background ${className}`}>
-      {/* Sidebar - Collapsed by default */}
-      <aside className="flex-shrink-0 w-16">
-        <Sidebar />
-      </aside>
+    <div className={`bg-background ${className}`}>
+      {/* Sidebar - Fixed positioning, handled by Sidebar component */}
+      <Sidebar />
       
-      {/* Main Content Area - Full width to screen edge */}
-      <main className="flex-1 overflow-auto bg-background">
+      {/* Main Content Area - With left margin to account for fixed sidebar */}
+      <main 
+        className="min-h-screen overflow-auto bg-background transition-all duration-300" 
+        style={{ marginLeft: `${sidebarWidth}px` }}
+      >
         <div className="h-full">
           {/* Page Header */}
           {title && (
@@ -51,7 +71,7 @@ export function StandardLayout({
             />
           )}
           
-          {/* Page Content - No left/right padding so content extends to edges */}
+          {/* Page Content */}
           <div className="px-4 sm:px-6 pb-4 sm:pb-6">
             {children}
           </div>
