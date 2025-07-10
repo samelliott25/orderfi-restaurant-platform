@@ -167,37 +167,48 @@ export default function EnhancedCustomerMenu() {
     
     // Enhanced food item extraction for natural language
     const extractFoodKeywords = (text: string): string => {
-      // Remove common ordering phrases
+      // Remove common ordering phrases and command words
       const cleanedText = text
-        .replace(/\b(i want to|i'd like to|i would like to|can i have|give me|order|get)\b/gi, '')
-        .replace(/\b(a|an|the|some|one|two|three|four|five)\b/gi, '')
+        .replace(/\b(i want to|i'd like to|i would like to|can i have|give me|order|get|show me|find|search)\b/gi, '')
+        .replace(/\b(a|an|the|some|one|two|three|four|five|all)\b/gi, '')
         .replace(/\b(please|thanks|thank you)\b/gi, '')
         .trim();
+      
+      console.log('Cleaned text:', cleanedText);
       
       // Extract food-related keywords by matching against menu items
       const foodKeywords: string[] = [];
       
-      // Check for exact menu item matches
+      // Check for exact menu item matches first
       menuItems.forEach(item => {
         const itemName = item.name.toLowerCase();
         const itemWords = itemName.split(/\s+/);
         
         // Check if any words from the item name are in the transcript
         itemWords.forEach(word => {
-          if (word.length > 2 && cleanedText.includes(word)) {
+          if (word.length > 2 && cleanedText.toLowerCase().includes(word)) {
             foodKeywords.push(word);
           }
         });
         
         // Check for partial matches
-        if (cleanedText.includes(itemName) || itemName.includes(cleanedText)) {
+        if (cleanedText.toLowerCase().includes(itemName) || itemName.includes(cleanedText.toLowerCase())) {
           foodKeywords.push(itemName);
+        }
+        
+        // Check voice aliases
+        if (item.voice_aliases) {
+          item.voice_aliases.forEach(alias => {
+            if (cleanedText.toLowerCase().includes(alias.toLowerCase())) {
+              foodKeywords.push(alias);
+            }
+          });
         }
       });
       
       // If no specific menu items found, extract potential food words
       if (foodKeywords.length === 0) {
-        const commonFoodWords = ['burger', 'pizza', 'chicken', 'beef', 'fish', 'salad', 'sandwich', 'wings', 'fries', 'taco', 'pasta', 'soup', 'steak', 'rice', 'noodles'];
+        const commonFoodWords = ['burger', 'burgers', 'pizza', 'chicken', 'beef', 'fish', 'salad', 'sandwich', 'wings', 'fries', 'taco', 'tacos', 'pasta', 'soup', 'steak', 'rice', 'noodles', 'nachos'];
         const words = cleanedText.toLowerCase().split(/\s+/);
         
         words.forEach(word => {
@@ -207,7 +218,9 @@ export default function EnhancedCustomerMenu() {
         });
       }
       
-      return foodKeywords.length > 0 ? foodKeywords.join(' ') : cleanedText;
+      const result = foodKeywords.length > 0 ? [...new Set(foodKeywords)].join(' ') : cleanedText;
+      console.log('Food keywords extracted:', result);
+      return result;
     };
     
     // Handle search commands with better extraction
