@@ -1116,7 +1116,7 @@ export default function SimplifiedInventoryPage() {
                 Manage your {totalItems} menu items with ease • Quick access to everything you need
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -1151,21 +1151,6 @@ export default function SimplifiedInventoryPage() {
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Walk through the key features again</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button size="lg" className="h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
-                      <Plus size={16} className="mr-2" />
-                      Add New Item
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Create a new menu item</p>
-                    <p className="text-xs text-gray-400">Voice: "Add new item"</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -1394,6 +1379,24 @@ export default function SimplifiedInventoryPage() {
 
           {/* Search Items Tab Content */}
           <TabsContent value="browse" className="space-y-6">
+            {/* Add New Item Button */}
+            <div className="flex justify-end">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button size="lg" className="h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
+                      <Plus size={16} className="mr-2" />
+                      Add New Item
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Create a new menu item</p>
+                    <p className="text-xs text-gray-400">Voice: "Add new item"</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            
             {/* Enhanced Search with Voice and Visual Filters */}
             <Card id="search-section">
               <CardContent className="p-6">
