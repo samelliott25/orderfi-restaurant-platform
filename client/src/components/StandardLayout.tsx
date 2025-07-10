@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sidebar } from '@/components/Sidebar';
@@ -20,6 +20,17 @@ export function StandardLayout({
 }: StandardLayoutProps) {
   const [, setLocation] = useLocation();
   const { isSidebarMode, isOpen, setIsOpen } = useChatContext();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <div className={`h-screen bg-background overflow-x-hidden ${className}`}>
@@ -30,9 +41,9 @@ export function StandardLayout({
       <div 
         className="h-full bg-background transition-all duration-300 relative overflow-x-hidden" 
         style={{ 
-          marginLeft: 'var(--sidebar-width, 256px)',
-          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px',
-          width: `calc(100vw - var(--sidebar-width, 256px) - ${(isSidebarMode && isOpen) ? '320px' : '0px'})`
+          marginLeft: isMobile ? '0px' : 'var(--sidebar-width, 256px)',
+          marginRight: (isSidebarMode && isOpen && !isMobile) ? '320px' : '0px',
+          width: isMobile ? '100vw' : `calc(100vw - var(--sidebar-width, 256px) - ${(isSidebarMode && isOpen) ? '320px' : '0px'})`
         }}
       >
         <ScrollArea className="h-full bg-transparent overflow-x-hidden">
