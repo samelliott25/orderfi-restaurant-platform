@@ -403,8 +403,8 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
     const isOnboarded = localStorage.getItem('orderfi-onboarding-completed') === 'true';
     const hasShownWelcome = sessionStorage.getItem('orderfi-welcome-shown');
     
-    // Only trigger if: chat opened for first time AND not onboarded AND welcome not shown AND messages is just default
-    if (isOpen && !isOnboarded && !hasShownWelcome && !hasPromptedOnboarding.current && messages.length === 1) {
+    // Only trigger if: chat opened for first time AND not onboarded AND welcome not shown AND messages is just default AND it's the very first open
+    if (isOpen && !isOnboarded && !hasShownWelcome && !hasPromptedOnboarding.current && messages.length === 1 && messages[0].content.includes("Hi! I'm your AI assistant")) {
       hasPromptedOnboarding.current = true;
       sessionStorage.setItem('orderfi-welcome-shown', 'true');
       
@@ -426,7 +426,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         messages: [...messages, onboardingWelcome]
       });
     }
-  }, [isOpen]); // Only depend on isOpen to prevent retriggering
+  }, [isOpen, messages.length]); // More specific dependency to prevent unnecessary triggers
 
   // Detect dark mode
   useEffect(() => {
@@ -454,7 +454,13 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
     };
 
     const updateMobileState = () => {
-      setIsMobile(window.innerWidth <= 768);
+      const isMobileScreen = window.innerWidth <= 768;
+      setIsMobile(isMobileScreen);
+      
+      // Auto-set full-width mode for mobile (override sidebar mode)
+      if (isMobileScreen && isSidebarMode) {
+        setIsSidebarMode(false);
+      }
     };
 
     // Initial checks
@@ -478,7 +484,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
       window.removeEventListener('sidebarToggle', handleSidebarToggle);
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isSidebarMode, setIsSidebarMode]);
 
   // Animation completely disabled to prevent page change issues
 
@@ -698,27 +704,29 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <button
-                onClick={toggleSidebarMode}
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  backgroundColor: 'rgba(255,255,255,0.2)',
-                  border: '1px solid rgba(255,255,255,0.3)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer'
-                }}
-                title={isSidebarMode ? "Float chat" : "Snap to sidebar"}
-              >
-                {isSidebarMode ? (
-                  <Move className="w-4 h-4 text-white" />
-                ) : (
-                  <ChevronRight className="w-4 h-4 text-white" />
-                )}
-              </button>
+              {!isMobile && (
+                <button
+                  onClick={toggleSidebarMode}
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(255,255,255,0.2)',
+                    border: '1px solid rgba(255,255,255,0.3)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer'
+                  }}
+                  title={isSidebarMode ? "Float chat" : "Snap to sidebar"}
+                >
+                  {isSidebarMode ? (
+                    <Move className="w-4 h-4 text-white" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4 text-white" />
+                  )}
+                </button>
+              )}
               <button
                 onClick={() => {
                   setIsSidebarMode(true);
