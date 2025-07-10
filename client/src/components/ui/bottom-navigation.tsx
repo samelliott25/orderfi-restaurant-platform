@@ -1,7 +1,7 @@
 import { Home, ShoppingCart, ClipboardList, User, Search } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
-import { useCartContext } from '@/contexts/CartContext';
+import { useCart } from '@/contexts/CartContext';
 
 interface NavItem {
   icon: React.ReactNode;
@@ -16,7 +16,7 @@ interface BottomNavigationProps {
 
 export function BottomNavigation({ className }: BottomNavigationProps) {
   const [location] = useLocation();
-  const { getTotalItems } = useCartContext();
+  const { getTotalItems } = useCart();
   
   const navItems: NavItem[] = [
     {
