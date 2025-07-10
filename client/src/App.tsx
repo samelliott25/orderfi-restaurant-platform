@@ -57,7 +57,6 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/login',
     '/menu',
     '/menu-simple',
-    '/mobileapp',
     '/cart',
     '/checkout',
     '/order-status',
@@ -77,8 +76,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/settings'
   ].includes(location) || location.startsWith('/order-status/');
 
-  // Debug log to see the current location and hideNavigation state
-  console.log('Current location:', location, 'Hide navigation:', hideNavigation);
+
 
   // Set app loaded state and change background after initial render
   useEffect(() => {
