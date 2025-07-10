@@ -348,29 +348,28 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   </div>
                 )}
                 
-                {/* Collapsed Theme Toggle and Exit App - Side by Side */}
-                <div className="flex gap-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                    className="flex-1 h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
-                    title="Toggle Theme"
-                  >
-                    <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                  </Button>
+                {/* Collapsed Theme Toggle */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                  className="w-full h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                  title="Toggle Theme"
+                >
+                  <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                  <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                </Button>
 
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => setShowExitDialog(true)}
-                    className="flex-1 h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
-                    title="Exit App"
-                  >
-                    <DoorOpen className="h-4 w-4" />
-                  </Button>
-                </div>
+                {/* Collapsed Exit App */}
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setShowExitDialog(true)}
+                  className="w-full h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                  title="Exit App"
+                >
+                  <DoorOpen className="h-5 w-5" />
+                </Button>
               </>
             )}
           </div>
