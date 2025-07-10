@@ -5,6 +5,9 @@ import StandardLayout from '@/components/StandardLayout';
 import { ExecutiveSummary } from '@/components/dashboard/ExecutiveSummary';
 import { SwipeableMetricCards } from '@/components/dashboard/SwipeableMetricCards';
 import { TouchOptimizedTabs } from '@/components/dashboard/TouchOptimizedTabs';
+import { PersonalizationEngine } from '@/components/dashboard/PersonalizationEngine';
+import { InstantActions } from '@/components/dashboard/InstantActions';
+import { GestureEnhancedDashboard } from '@/components/dashboard/GestureEnhancedDashboard';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -223,6 +226,7 @@ export default function OptimizedDashboard() {
   const [alerts, setAlerts] = useState(generateOperationalAlerts());
   const [liveOrders, setLiveOrders] = useState(generateLiveOrders());
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [userRole] = useState<'manager' | 'owner' | 'staff'>('manager'); // Simulate user role
 
   // Update time every second
   useEffect(() => {
@@ -322,12 +326,19 @@ export default function OptimizedDashboard() {
     }
   ];
 
+  const dashboardViews = ['executive', 'operations', 'orders', 'analytics'];
+
   return (
     <StandardLayout 
       title="Restaurant Dashboard" 
       subtitle="Optimized for mobile-first operations"
     >
-      <div className="space-y-6">
+      <GestureEnhancedDashboard
+        onViewChange={setActiveView}
+        currentView={activeView}
+        views={dashboardViews}
+      >
+        <div className="space-y-6">
         {/* Navigation Tabs */}
         <TouchOptimizedTabs
           tabs={dashboardTabs}
@@ -352,12 +363,24 @@ export default function OptimizedDashboard() {
 
         {/* Operations Command Center */}
         {activeView === 'operations' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <CommandCenter 
-              alerts={alerts}
-              onAlertAction={handleAlertAction}
-            />
-            <LiveOrdersDisplay orders={liveOrders} />
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <CommandCenter 
+                alerts={alerts}
+                onAlertAction={handleAlertAction}
+              />
+              <LiveOrdersDisplay orders={liveOrders} />
+            </div>
+            
+            {/* AI Personalization and Instant Actions */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <PersonalizationEngine 
+                userRole={userRole}
+                currentTime={currentTime}
+                metrics={metrics}
+              />
+              <InstantActions />
+            </div>
           </div>
         )}
 
@@ -400,7 +423,8 @@ export default function OptimizedDashboard() {
             </Button>
           </div>
         </div>
-      </div>
+        </div>
+      </GestureEnhancedDashboard>
     </StandardLayout>
   );
 }

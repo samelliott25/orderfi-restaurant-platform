@@ -120,9 +120,9 @@ function Router() {
         
 
         {/* Dashboard - Default Home */}
-        <Route path="/" component={HybridDashboard} />
-        <Route path="/dashboard" component={HybridDashboard} />
-        <Route path="/dashboard-optimized" component={OptimizedDashboard} />
+        <Route path="/" component={OptimizedDashboard} />
+        <Route path="/dashboard" component={OptimizedDashboard} />
+        <Route path="/dashboard-hybrid" component={HybridDashboard} />
         
         {/* Mobile App - QR Ordering System */}
         <Route path="/mobileapp" component={EnhancedCustomerMenu} />
