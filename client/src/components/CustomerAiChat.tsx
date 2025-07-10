@@ -387,6 +387,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const [position, setPosition] = useState<Position>(getPersistedPosition);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isClosing, setIsClosing] = useState(false);
   // Removed shouldAnimate to prevent page change animations
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
@@ -571,7 +572,16 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
     setChatState(newState);
   };
 
-  if (!isOpen) {
+  const handleClose = () => {
+    setIsClosing(true);
+    // Delay the actual close to allow animation to complete
+    setTimeout(() => {
+      setIsClosing(false);
+      onToggle();
+    }, 300); // 300ms animation duration
+  };
+
+  if (!isOpen && !isClosing) {
     return null;
   }
 
@@ -586,6 +596,8 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
             ? 'w-80 h-full top-0 right-0 bottom-0' 
             : // Mobile: Full screen with sidebar space, Desktop: Centered dialog
               'inset-0 left-[60px] w-[calc(100vw-60px)] h-full md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
+        } ${
+          isClosing ? 'animate-fade-out' : 'animate-fade-in'
         }`}
         style={isSidebarMode ? {
           opacity: 1.0
@@ -688,7 +700,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                 <Minus className="w-4 h-4 text-white" />
               </button>
               <button
-                onClick={onToggle}
+                onClick={handleClose}
                 style={{
                   width: '32px',
                   height: '32px',
