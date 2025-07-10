@@ -277,14 +277,6 @@ export default function PaymentsPage() {
       <div data-testid="payments-page" className="space-y-6">
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-normal tracking-tight playwrite-font">
-              Payment Center
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              Manage Stripe and crypto payments, view transaction history, and configure payment settings
-            </p>
-          </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 px-3 py-1.5 bg-green-100 dark:bg-green-900 rounded-full">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
