@@ -401,17 +401,17 @@ export default function EnhancedCustomerMenu() {
 
       {/* Real-time speech transcript display */}
       {(isListening || currentTranscript) && (
-        <div className="fixed bottom-20 left-4 right-4 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
+        <div className="fixed bottom-20 left-4 right-4 z-50 bg-background border border-border rounded-lg shadow-lg p-4">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="text-sm font-medium text-muted-foreground">
               {isListening ? 'Listening...' : 'Processing...'}
             </span>
           </div>
-          <div className="text-lg text-gray-900 dark:text-gray-100">
+          <div className="text-lg text-foreground">
             {currentTranscript || 'Say something...'}
             {interimTranscript && (
-              <span className="text-gray-500 dark:text-gray-400 italic">
+              <span className="text-muted-foreground italic">
                 {interimTranscript}
               </span>
             )}
