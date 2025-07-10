@@ -654,26 +654,25 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
           isSidebarMode 
             ? 'w-80 h-full top-0 right-0 bottom-0' 
             : // Mobile: Full screen layout, Desktop: Centered dialog
-              'top-0 bottom-0 h-full md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
+              isMobile
+                ? 'top-0 bottom-0 h-full w-full'
+                : 'top-1/2 left-1/2 w-96 h-[520px] -translate-x-1/2 -translate-y-1/2'
         } ${
           isClosing ? 'animate-fade-out' : (isOpening ? 'animate-fade-in' : '')
         }`}
         style={isSidebarMode ? {
           opacity: 1.0
+        } : isMobile ? {
+          // Mobile: Full width minus sidebar
+          left: sidebarWidth,
+          width: `calc(100vw - ${sidebarWidth})`,
+          right: '0',
+          opacity: 1.0
         } : {
-          // Mobile: Full width minus sidebar, Desktop: Centered positioning
-          ...(isMobile ? {
-            left: sidebarWidth,
-            width: `calc(100vw - ${sidebarWidth})`,
-            right: '0'
-          } : {
-            left: `${position.x}%`,
-            top: `${position.y}%`,
-            transform: 'translate(-50%, -50%)'
-          }),
+          // Desktop: Use Tailwind positioning
           opacity: 1.0
         }}
-        onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
+        onMouseDown={!isSidebarMode && isMobile ? handleMouseDown : undefined}
       >
       {/* Clean chat dialog with perfect rounded corners */}
       <div 
@@ -681,7 +680,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
           background: isDarkMode 
             ? 'linear-gradient(145deg, rgb(236, 72, 153), rgb(88, 28, 135))'
             : 'linear-gradient(145deg, rgb(249, 115, 22), rgb(236, 72, 153))',
-          borderRadius: isSidebarMode ? '28px' : '0px',
+          borderRadius: isSidebarMode ? '28px' : (isMobile ? '0px' : '28px'),
           overflow: 'hidden',
           width: '100%',
           height: '100%',
