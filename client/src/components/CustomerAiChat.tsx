@@ -489,14 +489,20 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
 
   // Handle opening animation
   useEffect(() => {
-    if (isOpen && !isOpening) {
+    if (isOpen) {
+      // Set opening state immediately when chat opens
       setIsOpening(true);
+      console.log('Setting isOpening to true');
+      
       // Reset opening state after animation completes
       const timer = setTimeout(() => {
         setIsOpening(false);
+        console.log('Setting isOpening to false');
       }, 300); // 300ms animation duration
       
       return () => clearTimeout(timer);
+    } else {
+      setIsOpening(false);
     }
   }, [isOpen]);
 
@@ -652,9 +658,11 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
             ? 'w-80 h-full top-0 right-0 bottom-0' 
             : // Mobile: Full screen layout, Desktop: Centered dialog
               'top-0 bottom-0 h-full md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
-        } ${
-          isClosing ? 'animate-fade-out' : (isOpening ? 'animate-fade-in' : '')
-        }`}
+        } ${(() => {
+          const animClass = isClosing ? 'animate-fade-out' : (isOpening ? 'animate-fade-in' : '');
+          console.log('Animation class:', animClass, 'isClosing:', isClosing, 'isOpening:', isOpening);
+          return animClass;
+        })()}`}
         style={isSidebarMode ? {
           opacity: 1.0
         } : {

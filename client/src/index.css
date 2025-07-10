@@ -1282,11 +1282,11 @@ html.light [role="menu"] {
 }
 
 .animate-fade-in {
-  animation: fade-in 0.3s ease-out;
+  animation: fade-in 0.3s ease-out !important;
 }
 
 .animate-fade-out {
-  animation: fade-out 0.3s ease-in;
+  animation: fade-out 0.3s ease-in !important;
 }
 
 .animate-in {
