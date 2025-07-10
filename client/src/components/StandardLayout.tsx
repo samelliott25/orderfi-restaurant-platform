@@ -23,7 +23,7 @@ export function StandardLayout({
   showSidebar = true,
   showHeader = true
 }: StandardLayoutProps) {
-  const { isOpen, setIsOpen } = useChatContext();
+  const { isOpen, setIsOpen, isSidebarMode } = useChatContext();
 
   if (!showSidebar) {
     // Customer/mobile layout - full width without sidebar
@@ -46,8 +46,13 @@ export function StandardLayout({
       {/* Sidebar - Fixed width component */}
       <Sidebar />
       
-      {/* Main Content Area - Takes remaining space */}
-      <main className="flex-1 overflow-auto bg-background">
+      {/* Main Content Area - Takes remaining space, adjusts for chat */}
+      <main 
+        className="flex-1 overflow-auto bg-background transition-all duration-300"
+        style={{
+          marginRight: isOpen && !isSidebarMode ? '384px' : isOpen && isSidebarMode ? '320px' : '0px' // 384px for floating dialog, 320px for sidebar mode
+        }}
+      >
         <div className="h-full">
           {/* Page Header */}
           {showHeader && title && (
