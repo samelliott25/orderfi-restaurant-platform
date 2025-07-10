@@ -3,18 +3,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Settings, Globe, Bell, Shield, Palette, Brain, Sparkles, Activity } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Settings, Globe, Bell, Shield, Palette, Brain, Sparkles, Activity, Store, Clock, Users, CreditCard } from "lucide-react";
 import { useState } from "react";
-import { useLayoutOptimization } from "@/hooks/useLayoutOptimization";
 
 export default function SettingsPage() {
-  const [layoutAiEnabled, setLayoutAiEnabled] = useState(true);
-  const [autoOptimize, setAutoOptimize] = useState(false);
-  const { suggestions, isAnalyzing, analyzeLayoutOptimization } = useLayoutOptimization();
-
-  const handleManualOptimization = () => {
-    analyzeLayoutOptimization('settings', 'admin_panel', []);
-  };
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [autoReorder, setAutoReorder] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(true);
 
   return (
     <StandardLayout 
@@ -68,107 +68,216 @@ export default function SettingsPage() {
         </Card>
       </div>
 
-      {/* Layout AI Settings */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="rock-salt-font flex items-center gap-2">
-            <Brain className="h-5 w-5 text-orange-500" />
-            Layout AI
-          </CardTitle>
-          <p className="text-sm text-muted-foreground">
-            AI-powered layout optimization analyzes your screen and usage patterns to suggest better dashboard arrangements.
-          </p>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* AI Status */}
-          <div className="flex items-center justify-between p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                <Activity className="h-4 w-4 text-white" />
+      {/* Settings Tabs */}
+      <Tabs defaultValue="general" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="general">General</TabsTrigger>
+          <TabsTrigger value="restaurant">Restaurant</TabsTrigger>
+          <TabsTrigger value="integrations">Integrations</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="general" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="rock-salt-font flex items-center gap-2">
+                <Settings className="h-5 w-5 text-orange-500" />
+                General Settings
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="notifications">Enable Notifications</Label>
+                    <Switch id="notifications" checked={notificationsEnabled} onCheckedChange={setNotificationsEnabled} />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="auto-reorder">Auto-reorder Stock</Label>
+                    <Switch id="auto-reorder" checked={autoReorder} onCheckedChange={setAutoReorder} />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="voice">Voice Recognition</Label>
+                    <Switch id="voice" checked={voiceEnabled} onCheckedChange={setVoiceEnabled} />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="dark-mode">Dark Mode</Label>
+                    <Switch id="dark-mode" checked={darkMode} onCheckedChange={setDarkMode} />
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="timezone">Timezone</Label>
+                    <Input id="timezone" value="Australia/Sydney" disabled />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="language">Language</Label>
+                    <Input id="language" value="English" disabled />
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="font-medium text-orange-800 dark:text-orange-200">AI Analysis Active</p>
-                <p className="text-sm text-orange-600 dark:text-orange-400">
-                  {suggestions.length} suggestions available
-                </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="restaurant" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="rock-salt-font flex items-center gap-2">
+                <Store className="h-5 w-5 text-orange-500" />
+                Restaurant Profile
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="restaurant-name">Restaurant Name</Label>
+                    <Input id="restaurant-name" value="Loose Moose" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="cuisine">Cuisine Type</Label>
+                    <Input id="cuisine" value="Modern Australian" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input id="phone" placeholder="+61 2 1234 5678" />
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Address</Label>
+                    <Textarea id="address" placeholder="Restaurant address" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea id="description" value="A modern Australian pub offering fresh, locally-sourced dishes with creative twists on classic favorites." />
+                  </div>
+                </div>
               </div>
-            </div>
-            <Badge variant="outline" className="border-orange-300 text-orange-700">
-              Enabled
-            </Badge>
-          </div>
-
-          {/* Controls */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">Enable Layout AI</label>
-                <Switch checked={layoutAiEnabled} onCheckedChange={setLayoutAiEnabled} />
-              </div>
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">Auto-optimize layouts</label>
-                <Switch checked={autoOptimize} onCheckedChange={setAutoOptimize} />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Button 
-                onClick={handleManualOptimization}
-                disabled={isAnalyzing || !layoutAiEnabled}
-                className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
-              >
-                <Sparkles className="h-4 w-4 mr-2" />
-                {isAnalyzing ? 'Analyzing...' : 'Generate Layout Suggestions'}
-              </Button>
-              <p className="text-xs text-muted-foreground">
-                Analyze current screen and generate layout optimization suggestions
-              </p>
-            </div>
-          </div>
-
-          {/* Recent Suggestions */}
-          {suggestions.length > 0 && (
-            <div className="space-y-3">
-              <h4 className="text-sm font-medium">Recent AI Suggestions</h4>
-              <div className="space-y-2 max-h-48 overflow-y-auto">
-                {suggestions.slice(0, 3).map((suggestion) => (
-                  <div key={suggestion.id} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">{suggestion.title}</p>
-                        <p className="text-xs text-muted-foreground mt-1">{suggestion.description}</p>
-                        <Badge variant="outline" className="mt-2">
-                          {Math.round(suggestion.confidence * 100)}% confidence
-                        </Badge>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="integrations" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="rock-salt-font flex items-center gap-2">
+                <Globe className="h-5 w-5 text-orange-500" />
+                Connected Services
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 border rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <CreditCard className="h-8 w-8 text-blue-500" />
+                      <div>
+                        <p className="font-medium">Stripe Payments</p>
+                        <p className="text-sm text-muted-foreground">Payment processing</p>
                       </div>
                     </div>
+                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                      Connected
+                    </Badge>
                   </div>
-                ))}
+                </div>
+                
+                <div className="p-4 border rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Brain className="h-8 w-8 text-purple-500" />
+                      <div>
+                        <p className="font-medium">OpenAI GPT-4</p>
+                        <p className="text-sm text-muted-foreground">AI chat assistant</p>
+                      </div>
+                    </div>
+                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                      Connected
+                    </Badge>
+                  </div>
+                </div>
+                
+                <div className="p-4 border rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Globe className="h-8 w-8 text-orange-500" />
+                      <div>
+                        <p className="font-medium">Blockchain Network</p>
+                        <p className="text-sm text-muted-foreground">Web3 payments</p>
+                      </div>
+                    </div>
+                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                      Connected
+                    </Badge>
+                  </div>
+                </div>
+                
+                <div className="p-4 border rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Activity className="h-8 w-8 text-gray-400" />
+                      <div>
+                        <p className="font-medium">Kitchen Printer</p>
+                        <p className="text-sm text-muted-foreground">Order printing</p>
+                      </div>
+                    </div>
+                    <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+                      Setup Required
+                    </Badge>
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Settings Content */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="rock-salt-font">System Configuration</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="outline">Restaurant Profile</Badge>
-              <Badge variant="outline">Payment Methods</Badge>
-              <Badge variant="outline">Integrations</Badge>
-              <Badge variant="outline">Notifications</Badge>
-              <Badge variant="outline">Security Settings</Badge>
-              <Badge variant="outline">Display Preferences</Badge>
-              <Badge variant="outline">Layout AI</Badge>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="notifications" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="rock-salt-font flex items-center gap-2">
+                <Bell className="h-5 w-5 text-orange-500" />
+                Notification Preferences
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="order-notifications">New Order Alerts</Label>
+                    <p className="text-sm text-muted-foreground">Get notified when new orders arrive</p>
+                  </div>
+                  <Switch id="order-notifications" checked={true} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="low-stock">Low Stock Warnings</Label>
+                    <p className="text-sm text-muted-foreground">Alert when inventory runs low</p>
+                  </div>
+                  <Switch id="low-stock" checked={true} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="payment-alerts">Payment Notifications</Label>
+                    <p className="text-sm text-muted-foreground">Notify on successful payments</p>
+                  </div>
+                  <Switch id="payment-alerts" checked={false} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="system-updates">System Updates</Label>
+                    <p className="text-sm text-muted-foreground">Important system notifications</p>
+                  </div>
+                  <Switch id="system-updates" checked={true} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </StandardLayout>
   );
 }
