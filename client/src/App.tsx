@@ -73,7 +73,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/stock',
     '/staff',
     '/reporting',
-    '/settings'
+    '/customer-settings'
   ].includes(location) || location.startsWith('/order-status/');
 
 
@@ -168,7 +168,7 @@ function Router() {
         <Route path="/network" component={NetworkPage} />
         <Route path="/web3-order" component={Web3DappPage} />
         <Route path="/test-three" component={TestThree} />
-        <Route path="/settings" component={CustomerSettings} />
+        <Route path="/customer-settings" component={CustomerSettings} />
         
         {/* MVP Venue Console - 8 Admin Pages */}
         <Route path="/inventory" component={SimplifiedInventoryPage} />

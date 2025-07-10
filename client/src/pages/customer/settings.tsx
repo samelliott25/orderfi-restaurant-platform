@@ -58,7 +58,7 @@ export default function CustomerSettings() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => navigate('/menu')}
+              onClick={() => navigate('/mobileapp')}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Menu

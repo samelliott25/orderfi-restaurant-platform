@@ -173,6 +173,12 @@ node scripts/agent-orchestrator.js
 
 ```
 Changelog:
+- July 10, 2025. Fixed settings page routing conflict and ensured admin settings shows sidebar
+  - Resolved duplicate /settings route that was causing customer settings to display instead of admin settings
+  - Changed customer settings route to /customer-settings to prevent conflicts  
+  - Admin settings at /settings now properly displays with sidebar and OrderFi theme
+  - Updated customer settings navigation to point to correct /mobileapp route
+  - Fixed React hooks error by eliminating route conflicts between customer and admin interfaces
 - July 9, 2025. Updated navigation structure for better user experience
   - Set /dashboard as the default home page route instead of /menu
   - Added "Mobile App" tab in sidebar navigation linking to /mobileapp route
