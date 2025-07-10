@@ -537,7 +537,7 @@ export default function HybridDashboard() {
       title="Restaurant Dashboard" 
       subtitle="Live performance metrics and operational insights"
     >
-      <div className="space-y-6">
+      <div className="space-y-6 px-4 sm:px-6">
         {/* Status Bar */}
         <div className="bg-card border border-border rounded-lg p-4 mb-6">
           <div className="flex items-center justify-between">
@@ -694,8 +694,8 @@ export default function HybridDashboard() {
 
           <Card className="bg-card border-border">
             <CardContent className="p-6">
-              <div className="h-80 w-full">
-                <ResponsiveContainer width="100%" height="100%">
+              <div className="h-80 w-full min-w-0">
+                <ResponsiveContainer width="100%" height="100%" minWidth={300}>
                   <AreaChart data={salesData}>
                     <defs>
                       <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">

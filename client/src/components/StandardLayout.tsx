@@ -34,22 +34,36 @@ export function StandardLayout({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Listen for sidebar width changes from CSS custom property
+  // Listen for sidebar width changes from CSS custom property and localStorage
   useEffect(() => {
     const updateSidebarWidth = () => {
       const width = getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width');
-      setSidebarWidth(parseInt(width) || 64);
+      const parsedWidth = parseInt(width) || 64;
+      setSidebarWidth(parsedWidth);
     };
     
+    // Initial update
     updateSidebarWidth();
     
-    // Listen for storage changes to update width
+    // Listen for CSS custom property changes
+    const observer = new MutationObserver(() => {
+      updateSidebarWidth();
+    });
+    
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
+    
+    // Listen for localStorage changes
     const handleStorageChange = () => {
       updateSidebarWidth();
     };
     
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    
+    // Cleanup
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   return (
@@ -71,8 +85,11 @@ export function StandardLayout({
             />
           )}
           
-          {/* Page Content */}
-          <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+          {/* Page Content - Add debug info */}
+          <div className="pb-4 sm:pb-6" style={{ border: '1px solid red' }}>
+            <div style={{ padding: '10px', background: '#f0f0f0', fontSize: '12px' }}>
+              Debug: Sidebar width: {sidebarWidth}px, Main margin: {sidebarWidth}px
+            </div>
             {children}
           </div>
         </div>
