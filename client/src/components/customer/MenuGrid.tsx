@@ -150,15 +150,15 @@ export function MenuGrid({ items, onAddToCart, searchQuery = '', activeCategory 
   if (activeCategory === 'all' && !searchQuery) {
     return (
       <>
-        <div className="space-y-8 p-4">
+        <div className="space-y-8 p-2">
           {sortedCategories.map((category) => (
             <div key={category} className="space-y-4">
-              <h2 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+              <h2 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent px-2">
                 {category}
               </h2>
-              <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+              <div className="flex gap-2 overflow-x-auto pb-2 px-2 scrollbar-hide">
                 {groupedItems[category].map((item) => (
-                  <div key={item.id} className="flex-shrink-0 w-64">
+                  <div key={item.id} className="flex-shrink-0 w-[85vw] sm:w-80 md:w-96 lg:w-[24rem] xl:w-[26rem]">
                     <ItemCard
                       item={item}
                       onAddClick={() => handleItemClick(item)}

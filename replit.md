@@ -180,7 +180,8 @@ Changelog:
   - Category headers use consistent OrderFi theme styling (playwrite-font, orange-to-pink gradient)
   - Grid layout maintained for specific category filtering and search results
   - Products ordered by logical category sequence: Starters, Mains, Desserts, then restaurant-specific categories
-  - Fixed-width cards (w-64) ensure consistent horizontal scrolling across all categories
+  - Responsive card widths maximize screen utilization: 85vw on mobile, progressively larger on desktop
+  - Reduced gaps and padding to maximize content area and improve mobile experience
 - July 10, 2025. CONSISTENT THEME APPLICATION: Applied unified font styling across all page headings for complete brand consistency
   - Updated OrderFiHeading component to use exact Header.tsx styling: font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent
   - Applied consistent styling to all customer pages: scan.tsx, order-status.tsx, checkout.tsx, cart.tsx
