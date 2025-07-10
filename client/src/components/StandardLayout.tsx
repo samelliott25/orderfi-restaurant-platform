@@ -28,14 +28,14 @@ export function StandardLayout({
       
       {/* Main Content Area */}
       <div 
-        className="h-full bg-background transition-all duration-300 relative" 
+        className="h-full bg-background transition-all duration-300 relative w-full" 
         style={{ 
           marginLeft: 'var(--sidebar-width, 256px)',
           marginRight: (isSidebarMode && isOpen) ? '320px' : '0px'
         }}
       >
-        <ScrollArea className="h-full bg-transparent">
-          <div className="p-4 lg:p-6">
+        <ScrollArea className="h-full bg-transparent w-full">
+          <div className="p-4 lg:p-6 w-full min-w-0">
             {/* Page Content */}
             {children}
           </div>
