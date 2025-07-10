@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 
 // OrderFi Brand Colors
 export const OrderFiColors = {
@@ -165,6 +166,7 @@ export const OrderFiPageHeader = ({
   className?: string;
 }) => (
   <div className={cn('mb-6 px-4 sm:px-6 pt-4 sm:pt-6', className)}>
+    <BreadcrumbNav />
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <OrderFiHeading level={1}>{title}</OrderFiHeading>

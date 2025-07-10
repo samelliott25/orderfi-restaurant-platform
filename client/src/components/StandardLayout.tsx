@@ -61,7 +61,6 @@ export function StandardLayout({
           
           {/* Page Content */}
           <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-            <BreadcrumbNav />
             {children}
           </div>
         </div>

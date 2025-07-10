@@ -40,7 +40,7 @@ export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
   if (breadcrumbItems.length <= 1) return null;
 
   return (
-    <nav className="flex items-center space-x-2 text-sm text-muted-foreground mb-4">
+    <nav className="flex items-center space-x-2 text-sm text-muted-foreground mb-2">
       {breadcrumbItems.map((item, index) => (
         <div key={item.href} className="flex items-center">
           {index > 0 && <ChevronRight className="h-4 w-4 mx-2" />}
