@@ -389,6 +389,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isClosing, setIsClosing] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState('64px');
+  const [isMobile, setIsMobile] = useState(false);
   // Removed shouldAnimate to prevent page change animations
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
@@ -445,23 +446,38 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
     return () => observer.disconnect();
   }, []);
 
-  // Listen for sidebar width changes
+  // Listen for sidebar width changes and mobile detection
   useEffect(() => {
     const updateSidebarWidth = () => {
       const width = getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width');
       setSidebarWidth(width || '64px');
     };
 
-    // Initial check
+    const updateMobileState = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Initial checks
     updateSidebarWidth();
+    updateMobileState();
 
     // Listen for sidebar toggle events
     const handleSidebarToggle = () => {
       updateSidebarWidth();
     };
 
+    // Listen for window resize events
+    const handleResize = () => {
+      updateMobileState();
+    };
+
     window.addEventListener('sidebarToggle', handleSidebarToggle);
-    return () => window.removeEventListener('sidebarToggle', handleSidebarToggle);
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('sidebarToggle', handleSidebarToggle);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Animation completely disabled to prevent page change issues
@@ -614,7 +630,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         } ${
           isSidebarMode 
             ? 'w-80 h-full top-0 right-0 bottom-0' 
-            : // Mobile: Full width minus sidebar, Desktop: Centered dialog
+            : // Mobile: Full screen layout, Desktop: Centered dialog
               'top-0 bottom-0 h-full md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
         } ${
           isClosing ? 'animate-fade-out' : 'animate-fade-in'
@@ -622,8 +638,8 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         style={isSidebarMode ? {
           opacity: 1.0
         } : {
-          // Mobile: Full width minus dynamic sidebar width, Desktop: Centered positioning
-          ...(typeof window !== 'undefined' && window.innerWidth <= 768 ? {
+          // Mobile: Full width minus sidebar, Desktop: Centered positioning
+          ...(isMobile ? {
             left: sidebarWidth,
             width: `calc(100vw - ${sidebarWidth})`,
             right: '0'
