@@ -794,24 +794,29 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                   }}
                 >
                   <div style={{ maxWidth: '85%' }}>
-                    <div
-                      style={{
-                        padding: '12px 16px',
-                        borderRadius: message.type === 'user' ? '20px 20px 8px 20px' : '20px 20px 20px 8px',
-                        background: message.type === 'user' 
-                          ? '#ffffff' // White background for user messages
-                          : isDarkMode 
-                            ? 'linear-gradient(135deg, rgba(147, 51, 234, 0.8), rgba(236, 72, 153, 0.7))' // Purple to pink gradient for ChatOps in dark mode
-                            : 'rgba(249, 115, 22, 0.1)', // Light orange tint for ChatOps in light mode
-                        color: message.type === 'user' 
-                          ? '#111827' // Dark text for user messages
-                          : isDarkMode ? 'white' : '#111827', // White text for ChatOps in dark mode, dark text in light mode
-                        border: '1px solid rgba(255,255,255,0.3)',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                      }}
-                    >
-                      <p style={{ margin: 0, fontSize: '15px', lineHeight: '1.4' }}>{message.content}</p>
-                    </div>
+                    {message.type === 'user' ? (
+                      <div
+                        style={{
+                          padding: '12px 16px',
+                          borderRadius: '20px 20px 8px 20px',
+                          background: '#ffffff',
+                          color: '#111827',
+                          border: '1px solid rgba(255,255,255,0.3)',
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                        }}
+                      >
+                        <p style={{ margin: 0, fontSize: '15px', lineHeight: '1.4' }}>{message.content}</p>
+                      </div>
+                    ) : (
+                      <div style={{ padding: '4px 0' }}>
+                        <p style={{ 
+                          margin: 0, 
+                          fontSize: '15px', 
+                          lineHeight: '1.6',
+                          color: 'rgba(255,255,255,0.9)'
+                        }}>{message.content}</p>
+                      </div>
+                    )}
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -827,20 +832,12 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                 </div>
               ))}
               {isLoading && (
-                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                  <div style={{
-                    background: isDarkMode 
-                      ? 'linear-gradient(135deg, rgba(147, 51, 234, 0.8), rgba(236, 72, 153, 0.7))' // Purple to pink gradient to match ChatOps bubble
-                      : 'rgba(249, 115, 22, 0.1)', // Light orange tint to match ChatOps bubble
-                    borderRadius: '20px 20px 20px 8px',
-                    padding: '12px 16px',
-                    border: '1px solid rgba(255,255,255,0.3)',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                  }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-start', maxWidth: '85%' }}>
+                  <div style={{ padding: '4px 0' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <div className={`w-2 h-2 rounded-full animate-bounce ${isDarkMode ? 'bg-white/70' : 'bg-orange-500'}`}></div>
-                      <div className={`w-2 h-2 rounded-full animate-bounce ${isDarkMode ? 'bg-white/70' : 'bg-orange-500'}`} style={{ animationDelay: '0.1s' }}></div>
-                      <div className={`w-2 h-2 rounded-full animate-bounce ${isDarkMode ? 'bg-white/70' : 'bg-orange-500'}`} style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce bg-white/70"></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce bg-white/70" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce bg-white/70" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
