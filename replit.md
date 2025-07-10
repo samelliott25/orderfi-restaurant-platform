@@ -173,6 +173,11 @@ node scripts/agent-orchestrator.js
 
 ```
 Changelog:
+- July 10, 2025. Reverted flush card changes and restored normal mobile layout with proper padding after user feedback
+  - Undid aggressive flush-to-edge styling that removed all padding and borders
+  - Restored normal mobile padding (8px left/right) for better readability
+  - Maintained responsive grid layout while preserving visual hierarchy
+  - Cards now have proper spacing and borders on mobile devices
 - July 10, 2025. Fixed settings page routing conflict and ensured admin settings shows sidebar
   - Resolved duplicate /settings route that was causing customer settings to display instead of admin settings
   - Changed customer settings route to /customer-settings to prevent conflicts  

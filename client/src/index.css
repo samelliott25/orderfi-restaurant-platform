@@ -22,6 +22,8 @@ html, body {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
   }
   
   /* Force cards to full width on mobile */
@@ -34,25 +36,10 @@ html, body {
     margin: 0 !important;
   }
   
-  /* Remove all padding that could cause overflow on mobile */
+  /* Normal padding for mobile */
   .settings-mobile-fix {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-  
-  /* Ensure cards extend to screen edges on mobile */
-  .settings-mobile-fix .flex.flex-col.space-y-3 {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-  
-  /* Force all cards to screen edges on mobile */
-  .settings-mobile-fix .card {
-    border-radius: 0 !important;
-    border-left: none !important;
-    border-right: none !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
   }
 }
 
