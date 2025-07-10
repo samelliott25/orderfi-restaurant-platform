@@ -21,7 +21,7 @@ export default function SettingsPage() {
       title="Settings & Configuration"
       subtitle="Restaurant preferences, integrations, and system configuration"
     >
-      <div data-testid="settings-page" className="space-y-6">
+      <div data-testid="settings-page" className="space-y-6 px-4 sm:px-6 pb-4 sm:pb-6">
         {/* Header Stats - Responsive Grid */}
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
           <Card>

@@ -41,10 +41,10 @@ export function StandardLayout({
       
       {/* Main Content Area - Full width to screen edge */}
       <main className="flex-1 overflow-auto bg-background w-full">
-        <div className="w-full min-w-0 p-4 sm:p-6">
+        <div className="w-full min-w-0">
           {/* Page Header */}
           {title && (
-            <div className="mb-6">
+            <div className="mb-6 px-4 sm:px-6 pt-4 sm:pt-6">
               <h1 className="text-2xl sm:text-3xl font-normal tracking-tight playwrite-font">
                 {title}
               </h1>
