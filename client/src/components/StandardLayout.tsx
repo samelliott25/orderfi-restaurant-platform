@@ -67,6 +67,9 @@ export function StandardLayout({
           </div>
         </div>
       </main>
+      
+      {/* ChatOps Dialog for Admin Layout */}
+      <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
     </div>
   );
 }
