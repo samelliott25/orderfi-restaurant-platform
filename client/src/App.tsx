@@ -27,6 +27,7 @@ import { useChatContext } from "@/contexts/ChatContext";
 // Import all 8 MVP Venue Console admin pages
 import SimplifiedInventoryPage from "@/pages/admin/inventory-simplified";
 import AdminInventoryStockPage from "@/pages/admin/inventory-stock";
+import AdminInventoryStockPageFixed from "@/pages/admin/inventory-stock-fixed";
 import AdminOrdersPage from "@/pages/admin/orders-new";
 import AdminPaymentsPage from "@/pages/admin/payments";
 import AdminStockPage from "@/pages/admin/stock";
@@ -173,6 +174,7 @@ function Router() {
         {/* MVP Venue Console - 8 Admin Pages */}
         <Route path="/inventory" component={SimplifiedInventoryPage} />
         <Route path="/inventory-stock" component={AdminInventoryStockPage} />
+        <Route path="/inventory-stock-fixed" component={AdminInventoryStockPageFixed} />
         <Route path="/orders" component={AdminOrdersPage} />
         <Route path="/payments" component={AdminPaymentsPage} />
         <Route path="/stock" component={AdminStockPage} />
