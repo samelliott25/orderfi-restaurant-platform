@@ -588,7 +588,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
               'inset-0 left-[60px] w-[calc(100vw-60px)] h-full md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
         }`}
         style={isSidebarMode ? {
-          opacity: 0.9
+          opacity: 1.0
         } : {
           // Desktop positioning only (mobile uses CSS classes above)
           ...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
@@ -596,7 +596,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
             top: `${position.y}%`,
             transform: 'translate(-50%, -50%)'
           } : {}),
-          opacity: 0.9
+          opacity: 1.0
         }}
         onMouseDown={!isSidebarMode ? handleMouseDown : undefined}
       >
@@ -604,9 +604,9 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
       <div 
         style={{
           background: isDarkMode 
-            ? 'linear-gradient(145deg, rgba(236, 72, 153, 0.85), rgba(88, 28, 135, 0.85))'
-            : 'linear-gradient(145deg, rgba(249, 115, 22, 0.85), rgba(236, 72, 153, 0.85))',
-          borderRadius: '28px',
+            ? 'linear-gradient(145deg, rgb(236, 72, 153), rgb(88, 28, 135))'
+            : 'linear-gradient(145deg, rgb(249, 115, 22), rgb(236, 72, 153))',
+          borderRadius: isSidebarMode ? '28px' : '0px',
           overflow: 'hidden',
           width: '100%',
           height: '100%',
