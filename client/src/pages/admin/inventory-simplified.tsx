@@ -1173,19 +1173,21 @@ export default function SimplifiedInventoryPage() {
           </div>
 
           {/* Icon Pills for Primary Actions */}
-          <div className="flex items-center gap-3">
-            {voiceSuggestions.map((suggestion, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                size="sm"
-                onClick={suggestion.action}
-                className="flex items-center gap-2 h-10 px-4 bg-background hover:bg-muted transition-colors"
-              >
-                <suggestion.icon size={16} className="text-orange-500" />
-                <span className="text-sm font-medium">{suggestion.label}</span>
-              </Button>
-            ))}
+          <div className="overflow-x-auto">
+            <div className="flex items-center gap-3 w-max pb-1">
+              {voiceSuggestions.map((suggestion, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  size="sm"
+                  onClick={suggestion.action}
+                  className="flex items-center gap-2 h-10 px-4 bg-background hover:bg-muted transition-colors"
+                >
+                  <suggestion.icon size={16} className="text-orange-500" />
+                  <span className="text-sm font-medium">{suggestion.label}</span>
+                </Button>
+              ))}
+            </div>
           </div>
 
           {/* Help Panel */}
