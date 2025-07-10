@@ -38,30 +38,33 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
                        item.name.toLowerCase().includes('gf');
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden">
+    <Card className="group hover:shadow-2xl hover:shadow-orange-500/25 hover:-translate-y-1 transition-all duration-500 cursor-pointer overflow-hidden border-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
       <div onClick={onAddClick} className="relative">
-        {/* Image placeholder */}
-        <div className="aspect-[4/3] bg-gradient-to-br from-orange-100 to-pink-100 dark:from-orange-900/20 dark:to-pink-900/20 flex items-center justify-center">
+        {/* Image placeholder with enhanced gradient */}
+        <div className="aspect-[4/3] bg-gradient-to-br from-orange-200 via-pink-200 to-purple-200 dark:from-orange-900/30 dark:via-pink-900/30 dark:to-purple-900/30 flex items-center justify-center relative overflow-hidden">
           {item.image_url ? (
             <img 
               src={item.image_url} 
               alt={item.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className="text-6xl opacity-20">🍽️</div>
+            <div className="text-6xl opacity-30 group-hover:scale-110 transition-transform duration-500">🍽️</div>
           )}
+          
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         </div>
         
-        {/* Quick add button overlay */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+        {/* Enhanced quick add button overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent transition-all duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
           <Button
             onClick={(e) => {
               e.stopPropagation();
               onAddClick();
             }}
             size="sm"
-            className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white shadow-lg"
+            className="bg-white/90 hover:bg-white text-orange-600 hover:text-orange-700 shadow-lg backdrop-blur-sm transform scale-90 group-hover:scale-100 transition-all duration-300 font-semibold"
           >
             <Plus className="h-4 w-4 mr-1" />
             Quick Add
@@ -69,32 +72,34 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
         </div>
       </div>
 
-      <CardContent className="p-4 space-y-3">
-        <div className="space-y-2">
+      <CardContent className="p-5 space-y-4">
+        <div className="space-y-3">
           <div className="flex items-start justify-between">
-            <h3 className="font-semibold text-sm leading-tight line-clamp-2">
+            <h3 className="font-bold text-base leading-tight line-clamp-2 text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
               {item.name}
             </h3>
-            <span className="font-bold text-sm text-orange-600 dark:text-orange-400 ml-2 flex-shrink-0">
-              {formatPrice(item.price)}
-            </span>
+            <div className="ml-3 flex-shrink-0">
+              <span className="font-bold text-lg text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 px-3 py-1 rounded-full">
+                {formatPrice(item.price)}
+              </span>
+            </div>
           </div>
           
-          <p className="text-xs text-muted-foreground line-clamp-2">
+          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
             {item.description}
           </p>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-1">
+        <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center space-x-2">
             {isVegetarian && (
-              <Badge variant="secondary" className="text-xs px-2 py-1">
+              <Badge variant="secondary" className="text-xs px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800">
                 <Leaf className="h-3 w-3 mr-1" />
                 Vegan
               </Badge>
             )}
             {isGlutenFree && (
-              <Badge variant="secondary" className="text-xs px-2 py-1">
+              <Badge variant="secondary" className="text-xs px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800">
                 <Wheat className="h-3 w-3 mr-1" />
                 GF
               </Badge>
@@ -107,9 +112,9 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
               onAddClick();
             }}
             size="sm"
-            className="h-8 w-8 p-0 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+            className="h-10 w-10 p-0 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 hover:scale-110 transition-transform duration-200 shadow-lg"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-5 w-5" />
           </Button>
         </div>
       </CardContent>

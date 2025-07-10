@@ -7,6 +7,7 @@ import { CategoryTabs } from '@/components/customer/CategoryTabs';
 import { MenuGrid } from '@/components/customer/MenuGrid';
 import { CartDrawer } from '@/components/customer/CartDrawer';
 import { QuickReorder } from '@/components/customer/QuickReorder';
+import { FloatingActionButton } from '@/components/customer/FloatingActionButton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Mic, MicOff, ShoppingCart } from 'lucide-react';
@@ -366,28 +367,46 @@ export default function EnhancedCustomerMenu() {
         activeCategory={selectedCategory}
       />
 
-      {/* Voice recognition button */}
-      <div className="fixed bottom-6 left-6 z-40">
-        <Button
-          onClick={toggleVoiceRecognition}
-          className={`h-14 w-14 rounded-full p-0 shadow-lg transition-all duration-300 ${
-            isListening 
-              ? 'bg-red-500 hover:bg-red-600 animate-pulse' 
-              : 'bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600'
-          }`}
-        >
-          {isListening ? (
-            <MicOff className="h-6 w-6 text-white" />
-          ) : (
-            <Mic className="h-6 w-6 text-white" />
+      {/* Enhanced voice recognition button */}
+      <div className="fixed bottom-8 left-8 z-40">
+        <div className="relative">
+          <Button
+            onClick={toggleVoiceRecognition}
+            className={`h-16 w-16 rounded-full p-0 shadow-2xl transition-all duration-500 hover:scale-110 ${
+              isListening 
+                ? 'bg-red-500 hover:bg-red-600 animate-pulse shadow-red-500/50' 
+                : 'bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 shadow-orange-500/30'
+            }`}
+          >
+            {isListening ? (
+              <MicOff className="h-7 w-7 text-white" />
+            ) : (
+              <Mic className="h-7 w-7 text-white" />
+            )}
+          </Button>
+          
+          {/* Animated pulse ring */}
+          {isListening && (
+            <div className="absolute inset-0 rounded-full bg-red-500/30 animate-ping"></div>
           )}
-        </Button>
-        {isListening && (
-          <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-background border rounded-lg px-3 py-1 shadow-lg">
-            <p className="text-sm text-foreground">Listening...</p>
-          </div>
-        )}
+          
+          {/* Listening tooltip */}
+          {isListening && (
+            <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-red-200 dark:border-red-800 rounded-xl px-4 py-2 shadow-lg">
+              <p className="text-sm text-red-600 dark:text-red-400 font-medium">🎙️ Listening...</p>
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-200 dark:border-t-red-800"></div>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Floating Action Button */}
+      <FloatingActionButton
+        onCartClick={() => setIsCartOpen(true)}
+        onFavoritesClick={() => console.log('Favorites clicked')}
+        onRewardClick={() => navigate('/tokenrewards')}
+        cartItemCount={getTotalItems()}
+      />
 
       {/* Cart drawer */}
       <CartDrawer

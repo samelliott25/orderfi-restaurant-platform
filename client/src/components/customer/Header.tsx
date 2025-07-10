@@ -30,27 +30,30 @@ export function Header({
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-      <div className="flex items-center justify-between px-4 py-3">
+    <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 border-b border-orange-200/50 dark:border-orange-700/50 shadow-lg shadow-orange-500/10">
+      <div className="flex items-center justify-between px-6 py-4">
         {/* Left: Venue info */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-4">
+          <div className="h-12 w-12 bg-gradient-to-br from-orange-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+            <span className="text-white font-bold text-xl">🍽️</span>
+          </div>
           <div className="flex flex-col">
-            <h1 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+            <h1 className="font-bold text-xl playwrite-font bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
               {venueName}
             </h1>
-            <p className="text-sm text-muted-foreground">{tableNumber}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">{tableNumber}</p>
           </div>
         </div>
 
         {/* Right: Search and cart */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <div className="relative hidden sm:block">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
             <Input
-              placeholder="Search menu..."
+              placeholder="Search delicious items..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="pl-10 w-64"
+              className="pl-12 w-72 h-12 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400 rounded-xl text-base"
             />
           </div>
           
@@ -58,13 +61,13 @@ export function Header({
             variant="ghost"
             size="sm"
             onClick={onCartClick}
-            className="relative p-2 h-10 w-10"
+            className="relative p-3 h-12 w-12 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30 rounded-xl transition-all duration-300 hover:scale-105"
           >
-            <ShoppingCart className="h-5 w-5" />
+            <ShoppingCart className="h-6 w-6 text-orange-600 dark:text-orange-400" />
             {cartItemCount > 0 && (
               <Badge 
                 variant="destructive" 
-                className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
+                className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 flex items-center justify-center text-sm bg-gradient-to-r from-pink-500 to-orange-500 font-bold animate-pulse"
               >
                 {cartItemCount}
               </Badge>
@@ -74,14 +77,14 @@ export function Header({
       </div>
 
       {/* Mobile search bar */}
-      <div className="px-4 pb-3 sm:hidden">
+      <div className="px-6 pb-4 sm:hidden">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           <Input
-            placeholder="Search menu..."
+            placeholder="Search delicious items..."
             value={searchQuery}
             onChange={handleSearchChange}
-            className="pl-10 w-full"
+            className="pl-12 w-full h-12 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400 rounded-xl text-base"
           />
         </div>
       </div>

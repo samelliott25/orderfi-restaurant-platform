@@ -44,9 +44,9 @@ export function CategoryTabs({
   onCategoryChange 
 }: CategoryTabsProps) {
   return (
-    <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="border-b border-orange-200/50 dark:border-orange-700/50 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/50 dark:supports-[backdrop-filter]:bg-gray-900/50">
       <ScrollArea className="w-full" orientation="horizontal">
-        <div className="flex space-x-1 p-2 w-max">
+        <div className="flex space-x-2 p-4 w-max">
           {categories.map((category) => {
             const IconComponent = category.icon;
             const isActive = activeCategory === category.id;
@@ -58,16 +58,20 @@ export function CategoryTabs({
                 size="sm"
                 onClick={() => onCategoryChange(category.id)}
                 className={cn(
-                  "flex-shrink-0 flex items-center space-x-2 px-4 py-2 rounded-full min-w-fit",
-                  isActive && "bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600"
+                  "flex-shrink-0 flex items-center space-x-3 px-6 py-3 rounded-2xl min-w-fit transition-all duration-300 hover:scale-105 hover:shadow-lg",
+                  isActive 
+                    ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600 shadow-lg shadow-orange-500/25" 
+                    : "bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-orange-300 dark:hover:border-orange-600"
                 )}
               >
-                <IconComponent className="h-4 w-4" />
-                <span className="font-medium">{category.name}</span>
+                <IconComponent className={cn("h-5 w-5", isActive ? "text-white" : "text-orange-600 dark:text-orange-400")} />
+                <span className={cn("font-semibold text-sm", isActive ? "text-white" : "text-gray-700 dark:text-gray-300")}>{category.name}</span>
                 {category.count && (
                   <span className={cn(
-                    "text-xs px-1.5 py-0.5 rounded-full",
-                    isActive ? "bg-white/20" : "bg-muted"
+                    "text-xs px-2 py-1 rounded-full font-bold",
+                    isActive 
+                      ? "bg-white/25 text-white" 
+                      : "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400"
                   )}>
                     {category.count}
                   </span>
