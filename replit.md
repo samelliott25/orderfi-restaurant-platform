@@ -177,8 +177,8 @@ Changelog:
   - Set /dashboard as the default home page route instead of /menu
   - Added "Mobile App" tab in sidebar navigation linking to /mobileapp route
   - /mobileapp route now serves the enhanced QR ordering system (menu-enhanced.tsx)
-  - /menu route maintained for backward compatibility
-  - Updated hideNavigation array to include /mobileapp for clean mobile interface
+  - /menu route now redirects to /mobileapp to eliminate duplication
+  - Removed /mobileapp from hideNavigation array so sidebar is visible for testing
   - Enhanced sidebar with Smartphone icon for Mobile App navigation
   - Improved route organization: dashboard is admin home, /mobileapp is customer interface
 - July 9, 2025. Created autonomous development agent with taste-driven feature prioritization

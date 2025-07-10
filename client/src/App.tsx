@@ -146,7 +146,15 @@ function Router() {
         <Route path="/mobileapp" component={EnhancedCustomerMenu} />
         <Route path="/scan" component={ScanPage} />
         <Route path="/login" component={CustomerLogin} />
-        <Route path="/menu" component={EnhancedCustomerMenu} />
+        <Route path="/menu">
+          {() => {
+            const [, navigate] = useLocation();
+            useEffect(() => {
+              navigate('/mobileapp');
+            }, [navigate]);
+            return null;
+          }}
+        </Route>
         <Route path="/menu-simple" component={CustomerMenu} />
         <Route path="/cart" component={CustomerCart} />
         <Route path="/checkout" component={CustomerCheckout} />
