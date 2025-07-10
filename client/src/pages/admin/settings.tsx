@@ -21,9 +21,9 @@ export default function SettingsPage() {
       title="Settings & Configuration"
       subtitle="Restaurant preferences, integrations, and system configuration"
     >
-      <div className="p-4 lg:p-6 w-full">
+      <div className="p-4 lg:p-6 w-full overflow-x-hidden">
         {/* Header Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 w-full min-w-0">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Integrations</CardTitle>
@@ -70,9 +70,9 @@ export default function SettingsPage() {
         </div>
 
         {/* Settings Tabs */}
-        <Tabs defaultValue="general" className="space-y-4">
-          <div className="overflow-x-auto">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 min-w-max">
+        <Tabs defaultValue="general" className="space-y-4 w-full min-w-0">
+          <div className="w-full overflow-x-auto">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
               <TabsTrigger value="general" className="text-xs sm:text-sm">General</TabsTrigger>
               <TabsTrigger value="restaurant" className="text-xs sm:text-sm">Restaurant</TabsTrigger>
               <TabsTrigger value="integrations" className="text-xs sm:text-sm">Integrations</TabsTrigger>
@@ -80,8 +80,8 @@ export default function SettingsPage() {
             </TabsList>
           </div>
         
-        <TabsContent value="general" className="space-y-4">
-          <Card>
+        <TabsContent value="general" className="space-y-4 w-full min-w-0">
+          <Card className="w-full min-w-0">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Settings className="h-5 w-5 text-orange-500" />
@@ -124,8 +124,8 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="restaurant" className="space-y-4">
-          <Card>
+        <TabsContent value="restaurant" className="space-y-4 w-full min-w-0">
+          <Card className="w-full min-w-0">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Store className="h-5 w-5 text-orange-500" />
@@ -164,18 +164,18 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="integrations" className="space-y-4">
-          <Card>
+        <TabsContent value="integrations" className="space-y-4 w-full min-w-0">
+          <Card className="w-full min-w-0">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Globe className="h-5 w-5 text-orange-500" />
                 Connected Services
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                <div className="p-3 sm:p-4 border rounded-lg">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <CardContent className="space-y-4 w-full min-w-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 w-full min-w-0">
+                <div className="p-3 sm:p-4 border rounded-lg w-full min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 w-full min-w-0">
                     <div className="flex items-center gap-3">
                       <CreditCard className="h-6 w-6 sm:h-8 sm:w-8 text-blue-500 flex-shrink-0" />
                       <div className="min-w-0 flex-1">
@@ -189,8 +189,8 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 
-                <div className="p-3 sm:p-4 border rounded-lg">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div className="p-3 sm:p-4 border rounded-lg w-full min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 w-full min-w-0">
                     <div className="flex items-center gap-3">
                       <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-purple-500 flex-shrink-0" />
                       <div className="min-w-0 flex-1">
@@ -204,8 +204,8 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 
-                <div className="p-3 sm:p-4 border rounded-lg">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div className="p-3 sm:p-4 border rounded-lg w-full min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 w-full min-w-0">
                     <div className="flex items-center gap-3">
                       <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500 flex-shrink-0" />
                       <div className="min-w-0 flex-1">
@@ -219,8 +219,8 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 
-                <div className="p-3 sm:p-4 border rounded-lg">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div className="p-3 sm:p-4 border rounded-lg w-full min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 w-full min-w-0">
                     <div className="flex items-center gap-3">
                       <Activity className="h-6 w-6 sm:h-8 sm:w-8 text-gray-400 flex-shrink-0" />
                       <div className="min-w-0 flex-1">
@@ -238,8 +238,8 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="notifications" className="space-y-4">
-          <Card>
+        <TabsContent value="notifications" className="space-y-4 w-full min-w-0">
+          <Card className="w-full min-w-0">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Bell className="h-5 w-5 text-orange-500" />
