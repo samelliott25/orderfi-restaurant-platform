@@ -125,6 +125,64 @@ export function MenuGrid({ items, onAddToCart, searchQuery = '', activeCategory 
     );
   }
 
+  // Group items by category for horizontal scrolling layout
+  const groupedItems = filteredItems.reduce((acc, item) => {
+    const category = item.category;
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(item);
+    return acc;
+  }, {} as Record<string, MenuItem[]>);
+
+  // Define category order for better UX
+  const categoryOrder = ['Starters', 'Mains', 'Desserts', 'Bar Snacks', 'Buffalo Wings', 'Dawgs', 'Tacos', 'Plant Powered', 'Burgers', 'From our grill'];
+  const sortedCategories = Object.keys(groupedItems).sort((a, b) => {
+    const aIndex = categoryOrder.indexOf(a);
+    const bIndex = categoryOrder.indexOf(b);
+    if (aIndex === -1 && bIndex === -1) return a.localeCompare(b);
+    if (aIndex === -1) return 1;
+    if (bIndex === -1) return -1;
+    return aIndex - bIndex;
+  });
+
+  // If showing all categories or no search, show category-based horizontal scrolling
+  if (activeCategory === 'all' && !searchQuery) {
+    return (
+      <>
+        <div className="space-y-8 p-4">
+          {sortedCategories.map((category) => (
+            <div key={category} className="space-y-4">
+              <h2 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+                {category}
+              </h2>
+              <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                {groupedItems[category].map((item) => (
+                  <div key={item.id} className="flex-shrink-0 w-64">
+                    <ItemCard
+                      item={item}
+                      onAddClick={() => handleItemClick(item)}
+                      formatPrice={formatPrice}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <ItemModal
+          item={selectedItem}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onAddToCart={handleAddToCart}
+          formatPrice={formatPrice}
+        />
+      </>
+    );
+  }
+
+  // For specific category or search results, show grid layout
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">

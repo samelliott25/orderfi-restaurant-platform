@@ -7,6 +7,16 @@ html, body {
   max-width: 100% !important;
 }
 
+/* Horizontal scrolling utility - hide scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
 /* Settings page specific layout fix */
 [data-testid="settings-page"] {
   overflow-x: hidden;
