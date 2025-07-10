@@ -11,6 +11,7 @@ import { Sidebar } from "@/components/Sidebar";
 import HomePage from "@/pages/home";
 import LandingPage from "@/pages/landing-page";
 import HybridDashboard from "@/pages/dashboard-hybrid";
+import OptimizedDashboard from "@/pages/dashboard-optimized";
 import TokenRewardsPage from "@/pages/tokenrewards";
 import NotFound from "@/pages/not-found";
 import { useEffect, useState } from "react";
@@ -121,6 +122,7 @@ function Router() {
         {/* Dashboard - Default Home */}
         <Route path="/" component={HybridDashboard} />
         <Route path="/dashboard" component={HybridDashboard} />
+        <Route path="/dashboard-optimized" component={OptimizedDashboard} />
         
         {/* Mobile App - QR Ordering System */}
         <Route path="/mobileapp" component={EnhancedCustomerMenu} />
