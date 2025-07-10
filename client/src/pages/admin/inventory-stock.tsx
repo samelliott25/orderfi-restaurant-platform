@@ -2,6 +2,7 @@ import { StandardLayout } from "@/components/StandardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Package, AlertTriangle, TrendingUp, TrendingDown } from "lucide-react";
+import "@/styles/mobile-fix.css";
 
 export default function InventoryStockPage() {
   return (
@@ -9,7 +10,7 @@ export default function InventoryStockPage() {
       title="Inventory Management"
       subtitle="Stock levels, reorder points, and supplier management"
     >
-      <div className="space-y-6">
+      <div data-testid="inventory-page" className="space-y-6">
         {/* Header Stats */}
         <div className="flex flex-col space-y-3 mb-6 w-full">
           <Card className="w-full">

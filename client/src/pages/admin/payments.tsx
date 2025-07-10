@@ -42,6 +42,7 @@ import {
   Globe,
   Zap
 } from 'lucide-react';
+import "@/styles/mobile-fix.css";
 
 interface Payment {
   id: string;
@@ -270,7 +271,7 @@ export default function PaymentsPage() {
 
   return (
     <StandardLayout title="Payments">
-      <div className="space-y-6">
+      <div data-testid="payments-page" className="space-y-6">
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>

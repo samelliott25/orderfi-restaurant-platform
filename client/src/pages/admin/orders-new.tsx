@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, ChefHat, CheckCircle, Users, MapPin } from "lucide-react";
+import "@/styles/mobile-fix.css";
 
 export default function AdminOrdersPage() {
   // Mock order data
@@ -56,7 +57,7 @@ export default function AdminOrdersPage() {
 
   return (
     <StandardLayout title="Orders Management" subtitle="Kitchen video system and floor plan management">
-      <div className="space-y-6">
+      <div data-testid="orders-page" className="space-y-6">
         {/* Quick Stats */}
         <div className="flex flex-col space-y-3 mb-6 w-full">
           <Card className="w-full">

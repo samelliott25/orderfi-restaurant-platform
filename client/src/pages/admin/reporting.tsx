@@ -2,6 +2,7 @@ import { StandardLayout } from "@/components/StandardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BarChart3, TrendingUp, DollarSign, Target } from "lucide-react";
+import "@/styles/mobile-fix.css";
 
 export default function ReportingPage() {
   return (
@@ -9,7 +10,7 @@ export default function ReportingPage() {
       title="Reporting & Analytics"
       subtitle="Sales reports, performance metrics, and business insights"
     >
-      <div className="space-y-6">
+      <div data-testid="reporting-page" className="space-y-6">
         {/* Header Stats */}
         <div className="flex flex-col space-y-3 mb-6 w-full">
         <Card className="w-full">
