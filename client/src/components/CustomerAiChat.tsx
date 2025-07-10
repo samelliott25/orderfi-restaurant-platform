@@ -799,11 +799,12 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                         style={{
                           padding: '12px 16px',
                           borderRadius: '20px 20px 8px 20px',
-                          background: 'rgba(255,255,255,0.9)',
+                          background: 'rgba(255,255,255,0.15)',
                           color: '#111827',
-                          border: '1px solid rgba(255,255,255,0.3)',
-                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                          backdropFilter: 'blur(8px)'
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                          backdropFilter: 'blur(16px)',
+                          WebkitBackdropFilter: 'blur(16px)'
                         }}
                       >
                         <p style={{ margin: 0, fontSize: '15px', lineHeight: '1.4' }}>{message.content}</p>
