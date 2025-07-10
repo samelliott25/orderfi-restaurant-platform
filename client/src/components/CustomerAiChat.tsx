@@ -388,6 +388,7 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isClosing, setIsClosing] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState('64px');
   const [isMobile, setIsMobile] = useState(false);
   // Removed shouldAnimate to prevent page change animations
@@ -485,6 +486,19 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
       window.removeEventListener('resize', handleResize);
     };
   }, [isSidebarMode, setIsSidebarMode]);
+
+  // Handle opening animation
+  useEffect(() => {
+    if (isOpen && !isOpening) {
+      setIsOpening(true);
+      // Reset opening state after animation completes
+      const timer = setTimeout(() => {
+        setIsOpening(false);
+      }, 300); // 300ms animation duration
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   // Animation completely disabled to prevent page change issues
 
@@ -639,7 +653,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
             : // Mobile: Full screen layout, Desktop: Centered dialog
               'top-0 bottom-0 h-full md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
         } ${
-          isClosing ? 'animate-fade-out' : 'animate-fade-in'
+          isClosing ? 'animate-fade-out' : (isOpening ? 'animate-fade-in' : '')
         }`}
         style={isSidebarMode ? {
           opacity: 1.0
