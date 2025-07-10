@@ -82,6 +82,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   useEffect(() => {
     document.documentElement.style.setProperty('--sidebar-width', isCollapsed ? '64px' : '256px');
     localStorage.setItem('sidebar-collapsed', isCollapsed.toString());
+    
+    // Dispatch custom event to notify StandardLayout of sidebar state change
+    window.dispatchEvent(new CustomEvent('sidebarToggle'));
   }, [isCollapsed]);
 
   return (

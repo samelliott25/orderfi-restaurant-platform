@@ -694,8 +694,8 @@ export default function HybridDashboard() {
 
           <Card className="bg-card border-border">
             <CardContent className="p-6">
-              <div className="h-80 w-full min-w-0">
-                <ResponsiveContainer width="100%" height="100%" minWidth={300}>
+              <div className="h-80 w-full">
+                <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={salesData}>
                     <defs>
                       <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
