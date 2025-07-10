@@ -28,14 +28,15 @@ export function StandardLayout({
       
       {/* Main Content Area */}
       <div 
-        className="h-full bg-background transition-all duration-300 relative w-full" 
+        className="h-full bg-background transition-all duration-300 relative overflow-x-hidden" 
         style={{ 
           marginLeft: 'var(--sidebar-width, 256px)',
-          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px'
+          marginRight: (isSidebarMode && isOpen) ? '320px' : '0px',
+          width: `calc(100vw - var(--sidebar-width, 256px) - ${(isSidebarMode && isOpen) ? '320px' : '0px'})`
         }}
       >
         <ScrollArea className="h-full bg-transparent">
-          <div className="w-full">
+          <div className="w-full max-w-full overflow-x-hidden">
             {/* Page Content */}
             {children}
           </div>
