@@ -648,16 +648,12 @@ export default function StockPage() {
     <StandardLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">Stock Management</h1>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" onClick={() => setChatOpsExpanded(true)}>
               <Bot className="h-4 w-4 mr-2" />
               ChatOps
-            </Button>
-            <Button className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Item
             </Button>
           </div>
         </div>
@@ -674,6 +670,14 @@ export default function StockPage() {
           </TabsList>
 
           <TabsContent value="stock-health" className="space-y-4">
+            {/* Add Item Button */}
+            <div className="flex justify-end">
+              <Button className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
+                <Plus className="h-4 w-4 mr-2" />
+                Add Item
+              </Button>
+            </div>
+            
             {/* Search and Filter Bar */}
             <div className="flex items-center gap-4">
               <div className="relative flex-1">
