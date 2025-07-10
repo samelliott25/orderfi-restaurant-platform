@@ -158,7 +158,7 @@ export function MenuGrid({ items, onAddToCart, searchQuery = '', activeCategory 
               </h2>
               <div className="flex gap-3 overflow-x-auto pb-2 pl-4 sm:pl-6 scrollbar-hide">
                 {groupedItems[category].map((item) => (
-                  <div key={item.id} className="flex-shrink-0 w-[calc(100vw-20rem)] sm:w-[calc(100vw-18rem)] md:w-[calc(100vw-16rem)] lg:w-[calc(100vw-14rem)] xl:w-[calc(100vw-12rem)]">
+                  <div key={item.id} className="flex-shrink-0 w-80 sm:w-96 md:w-[28rem] lg:w-[32rem] xl:w-[36rem]">
                     <ItemCard
                       item={item}
                       onAddClick={() => handleItemClick(item)}
