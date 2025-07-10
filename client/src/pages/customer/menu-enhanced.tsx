@@ -211,7 +211,7 @@ export default function EnhancedCustomerMenu() {
         cartItemCount={getTotalItems()}
         onSearchChange={handleSearchChange}
         onCartClick={() => setIsCartOpen(true)}
-        onMenuClick={() => console.log('Menu clicked')}
+        onMenuClick={() => {}}
       />
 
       <CategoryTabs
