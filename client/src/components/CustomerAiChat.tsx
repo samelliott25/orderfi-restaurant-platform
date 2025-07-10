@@ -404,30 +404,33 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
     const isOnboarded = localStorage.getItem('orderfi-onboarding-completed') === 'true';
     const hasShownWelcome = sessionStorage.getItem('orderfi-welcome-shown');
     
-    // Only trigger if: chat opened for first time AND not onboarded AND welcome not shown AND messages is just default AND it's the very first open
-    if (isOpen && !isOnboarded && !hasShownWelcome && !hasPromptedOnboarding.current && messages.length === 1 && messages[0].content.includes("Hi! I'm your AI assistant")) {
-      hasPromptedOnboarding.current = true;
-      sessionStorage.setItem('orderfi-welcome-shown', 'true');
-      
-      setChatContext('onboarding');
-      const onboardingWelcome: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        type: 'assistant',
-        content: `Welcome to OrderFi! 🍽️ 
+    // Only trigger if: chat opened for first time AND not onboarded AND welcome not shown AND it's the very first open
+    if (isOpen && !isOnboarded && !hasShownWelcome && !hasPromptedOnboarding.current) {
+      // Check if we have only the default message
+      if (messages.length === 1 && messages[0].content.includes("Hi! I'm your AI assistant")) {
+        hasPromptedOnboarding.current = true;
+        sessionStorage.setItem('orderfi-welcome-shown', 'true');
+        
+        setChatContext('onboarding');
+        const onboardingWelcome: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'assistant',
+          content: `Welcome to OrderFi! 🍽️ 
 
 I'll help you set up your restaurant in just a few minutes through conversation - no forms or complexity.
 
 Ready to get started? Just tell me your restaurant's name and I'll guide you through the rest!`,
-        timestamp: new Date(),
-        status: 'sent'
-      };
-      
-      setChatState({
-        ...chatState,
-        messages: [...messages, onboardingWelcome]
-      });
+          timestamp: new Date(),
+          status: 'sent'
+        };
+        
+        setChatState({
+          ...chatState,
+          messages: [...messages, onboardingWelcome]
+        });
+      }
     }
-  }, [isOpen, messages.length]); // More specific dependency to prevent unnecessary triggers
+  }, [isOpen]); // Only depend on isOpen to prevent navigation refreshes
 
   // Detect dark mode
   useEffect(() => {
@@ -487,24 +490,18 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
     };
   }, [isSidebarMode, setIsSidebarMode]);
 
-  // Handle opening animation
+  // Handle opening animation - only trigger once when opening
   useEffect(() => {
-    if (isOpen) {
-      // Set opening state immediately when chat opens
+    if (isOpen && !isOpening && !isClosing) {
       setIsOpening(true);
-      console.log('Setting isOpening to true');
-      
       // Reset opening state after animation completes
       const timer = setTimeout(() => {
         setIsOpening(false);
-        console.log('Setting isOpening to false');
       }, 300); // 300ms animation duration
       
       return () => clearTimeout(timer);
-    } else {
-      setIsOpening(false);
     }
-  }, [isOpen]);
+  }, [isOpen, isOpening, isClosing]);
 
   // Animation completely disabled to prevent page change issues
 
@@ -658,11 +655,9 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
             ? 'w-80 h-full top-0 right-0 bottom-0' 
             : // Mobile: Full screen layout, Desktop: Centered dialog
               'top-0 bottom-0 h-full md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
-        } ${(() => {
-          const animClass = isClosing ? 'animate-fade-out' : (isOpening ? 'animate-fade-in' : '');
-          console.log('Animation class:', animClass, 'isClosing:', isClosing, 'isOpening:', isOpening);
-          return animClass;
-        })()}`}
+        } ${
+          isClosing ? 'animate-fade-out' : (isOpening ? 'animate-fade-in' : '')
+        }`}
         style={isSidebarMode ? {
           opacity: 1.0
         } : {
