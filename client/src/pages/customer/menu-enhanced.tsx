@@ -186,9 +186,10 @@ export default function EnhancedCustomerMenu() {
           foodKeywords.push(normalizedItemName);
         }
         
-        // Check voice aliases with pluralization
-        if (item.voice_aliases) {
-          item.voice_aliases.forEach(alias => {
+        // Check voice aliases with pluralization (database uses 'aliases' field)
+        const aliasesToCheck = item.voice_aliases || item.aliases || [];
+        if (aliasesToCheck.length > 0) {
+          aliasesToCheck.forEach(alias => {
             const normalizedAlias = normalizePlural(alias.toLowerCase());
             if (normalizedCleanedText.includes(normalizedAlias) || 
                 cleanedText.toLowerCase().includes(alias.toLowerCase())) {
@@ -209,6 +210,15 @@ export default function EnhancedCustomerMenu() {
             foodKeywords.push(normalizedWord);
           }
         });
+      }
+      
+      // Debug logging for burger search
+      if (cleanedText.includes('burger') || cleanedText.includes('burgers')) {
+        console.log('BURGER SEARCH DEBUG:');
+        console.log('- Cleaned text:', cleanedText);
+        console.log('- Food keywords found:', foodKeywords);
+        console.log('- Available burger items:', menuItemsRef.current.filter(item => 
+          item.name.toLowerCase().includes('burger')).map(item => item.name));
       }
       
       const result = foodKeywords.length > 0 ? [...new Set(foodKeywords)].join(' ') : cleanedText;
@@ -248,23 +258,13 @@ export default function EnhancedCustomerMenu() {
       return;
     }
     
-    // Handle natural language ordering
-    if (transcript.includes('order') || transcript.includes('want') || transcript.includes('like') || transcript.includes('show')) {
-      const keywords = extractFoodKeywords(transcript);
-      console.log('Natural language keywords:', keywords);
-      if (keywords && keywords.trim()) {
-        setSearchQuery(keywords);
-        console.log('Natural language search query set to:', keywords);
-        return;
-      }
-    }
-    
-    // Handle direct item search with keyword extraction
+    // Handle natural language ordering and general search
     const keywords = extractFoodKeywords(transcript);
-    console.log('Direct search keywords:', keywords);
+    console.log('Extracted keywords:', keywords);
+    
     if (keywords && keywords.trim()) {
       setSearchQuery(keywords);
-      console.log('Direct search query updated to:', keywords);
+      console.log('Search query set to:', keywords);
     } else {
       console.log('No keywords extracted, using full transcript');
       setSearchQuery(transcript);
