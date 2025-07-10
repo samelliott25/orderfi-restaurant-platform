@@ -65,9 +65,6 @@ export function StandardLayout({
           </div>
         </div>
       </main>
-      
-      {/* AI Chat Dialog */}
-      <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
     </div>
   );
 }
