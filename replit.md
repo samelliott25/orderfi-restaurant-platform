@@ -188,6 +188,14 @@ node scripts/agent-orchestrator.js --ui-upgrade
 
 ```
 Changelog:
+- July 10, 2025. CHATOPS CONSISTENCY FIX: Applied unified styling across light and dark modes for chat interface
+  - Chat card background uses consistent orange-to-pink gradient in both light and dark modes
+  - User message bubbles now use white background with dark text consistently
+  - ChatOps message bubbles use light orange tint with dark text consistently
+  - Loading animation dots use consistent orange color across all modes
+  - Fixed web view ChatOps positioning with proper desktop dialog layout and removed problematic dragging
+  - Global chat instance in App.tsx prevents flickering during navigation between pages
+  - Eliminated duplicate CustomerAiChat instances that were causing React hooks errors
 - July 10, 2025. HORIZONTAL CATEGORY SCROLLING: Implemented category-based product organization with left-to-right scrolling layout
   - Mobile app (/mobileapp) now organizes products by categories (Starters, Mains, Desserts, etc.)
   - Each category displays as horizontal scrolling row with products arranged side-by-side

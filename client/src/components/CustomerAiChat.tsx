@@ -799,15 +799,9 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                         padding: '12px 16px',
                         borderRadius: message.type === 'user' ? '20px 20px 8px 20px' : '20px 20px 20px 8px',
                         background: message.type === 'user' 
-                          ? isDarkMode 
-                            ? 'linear-gradient(135deg, rgba(88, 28, 135, 0.9), rgba(124, 58, 237, 0.8))' // Deep purple gradient for user
-                            : '#ffffff' // White background in light mode
-                          : isDarkMode 
-                            ? 'linear-gradient(135deg, rgba(147, 51, 234, 0.8), rgba(236, 72, 153, 0.7))' // Purple to pink gradient for ChatOps
-                            : 'rgba(249, 115, 22, 0.1)', // Light orange tint in light mode
-                        color: message.type === 'user' 
-                          ? isDarkMode ? 'white' : '#111827' // Dark text on white in light mode
-                          : isDarkMode ? 'white' : '#111827',
+                          ? '#ffffff' // White background for user messages
+                          : 'rgba(249, 115, 22, 0.1)', // Light orange tint for ChatOps messages
+                        color: '#111827', // Dark text for all messages
                         border: '1px solid rgba(255,255,255,0.3)',
                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                       }}
@@ -831,18 +825,16 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
               {isLoading && (
                 <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                   <div style={{
-                    background: isDarkMode 
-                      ? 'linear-gradient(135deg, rgba(147, 51, 234, 0.8), rgba(236, 72, 153, 0.7))' // Purple to pink gradient to match ChatOps bubble
-                      : 'rgba(249, 115, 22, 0.1)', // Light orange tint to match ChatOps bubble
+                    background: 'rgba(249, 115, 22, 0.1)', // Light orange tint to match ChatOps bubble
                     borderRadius: '20px 20px 20px 8px',
                     padding: '12px 16px',
                     border: '1px solid rgba(255,255,255,0.3)',
                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <div className={`w-2 h-2 rounded-full animate-bounce ${isDarkMode ? 'bg-white/70' : 'bg-orange-500'}`}></div>
-                      <div className={`w-2 h-2 rounded-full animate-bounce ${isDarkMode ? 'bg-white/70' : 'bg-orange-500'}`} style={{ animationDelay: '0.1s' }}></div>
-                      <div className={`w-2 h-2 rounded-full animate-bounce ${isDarkMode ? 'bg-white/70' : 'bg-orange-500'}`} style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce bg-orange-500"></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce bg-orange-500" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce bg-orange-500" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
