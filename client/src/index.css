@@ -7,7 +7,7 @@ html, body {
   max-width: 100% !important;
 }
 
-/* Settings page layout fix */
+/* Settings page specific layout fix */
 [data-testid="settings-page"] {
   overflow-x: hidden;
   box-sizing: border-box;
