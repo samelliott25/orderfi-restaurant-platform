@@ -3,6 +3,7 @@
 import fs from "fs";
 import OpenAI from "openai";
 import { runTasteDrivenDevelopment } from "./taste-engine-simple.js";
+import { runUIDiscoveryPipeline } from "./ui-discovery-engine.js";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -231,6 +232,73 @@ Be specific and provide production-ready code.
     return summary;
   }
 
+  async implementUIComponent(uiImplementation) {
+    console.log(`🎨 Implementing UI component: ${uiImplementation.componentName}`);
+    
+    const results = {
+      success: false,
+      filesCreated: [],
+      filesModified: [],
+      errors: [],
+      component: uiImplementation.componentName
+    };
+
+    try {
+      // Create the React component
+      if (uiImplementation.code) {
+        fs.writeFileSync(uiImplementation.filePath, uiImplementation.code);
+        results.filesCreated.push(uiImplementation.filePath);
+        console.log(`✅ Created ${uiImplementation.filePath}`);
+      }
+
+      // Create Storybook story if provided
+      if (uiImplementation.storybook) {
+        const storyPath = uiImplementation.filePath.replace('.tsx', '.stories.tsx');
+        fs.writeFileSync(storyPath, uiImplementation.storybook);
+        results.filesCreated.push(storyPath);
+        console.log(`✅ Created Storybook story: ${storyPath}`);
+      }
+
+      // Create Cypress tests if provided
+      if (uiImplementation.tests) {
+        const testPath = `cypress/e2e/${uiImplementation.componentName.toLowerCase()}.cy.ts`;
+        fs.writeFileSync(testPath, uiImplementation.tests);
+        results.filesCreated.push(testPath);
+        console.log(`✅ Created Cypress test: ${testPath}`);
+      }
+
+      // Update UI tests tracking
+      const uiTestResults = {
+        component: uiImplementation.componentName,
+        timestamp: new Date().toISOString(),
+        files: results.filesCreated,
+        integrationSteps: uiImplementation.integrationSteps || [],
+        dependencies: uiImplementation.dependencies || []
+      };
+
+      // Save UI test results
+      const existingTests = this.loadUITestResults();
+      existingTests.push(uiTestResults);
+      fs.writeFileSync("ui-tests.json", JSON.stringify(existingTests, null, 2));
+
+      results.success = true;
+      
+    } catch (error) {
+      console.error(`❌ Failed to implement UI component: ${error.message}`);
+      results.errors.push(error.message);
+    }
+
+    return results;
+  }
+
+  loadUITestResults() {
+    try {
+      return JSON.parse(fs.readFileSync("ui-tests.json", "utf8"));
+    } catch {
+      return [];
+    }
+  }
+
   getStats() {
     return {
       totalIterations: this.history.iterations,
@@ -255,9 +323,45 @@ async function main() {
     process.exit(1);
   }
   
+  // Check for UI upgrade flag
+  const uiUpgradeFlag = process.argv.includes('--ui-upgrade');
+  
   try {
-    // Run one iteration
-    const summary = await agent.runAutonomousIteration();
+    let summary;
+    
+    if (uiUpgradeFlag) {
+      console.log("\n🎨 UI Discovery Mode Activated");
+      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+      
+      // Run UI discovery pipeline
+      const uiReport = await runUIDiscoveryPipeline();
+      
+      // Integrate UI discoveries into feature implementation
+      if (uiReport.readyImplementations.length > 0) {
+        console.log(`\n🚀 Implementing top UI innovation: ${uiReport.readyImplementations[0].componentName}`);
+        const implementation = await agent.implementUIComponent(uiReport.readyImplementations[0]);
+        
+        summary = {
+          mode: "ui-discovery",
+          discoveries: uiReport.discoveries,
+          implementations: uiReport.implementations,
+          success: implementation.success,
+          timestamp: new Date().toISOString(),
+          topUI: uiReport.readyImplementations[0]
+        };
+      } else {
+        summary = {
+          mode: "ui-discovery",
+          discoveries: uiReport.discoveries,
+          implementations: 0,
+          success: false,
+          message: "No implementable UI innovations found"
+        };
+      }
+    } else {
+      // Run standard autonomous iteration
+      summary = await agent.runAutonomousIteration();
+    }
     
     // Display final stats
     const stats = agent.getStats();
@@ -275,12 +379,28 @@ async function main() {
     console.log("• agent-history.json - Complete agent history");
     console.log("• feature-taste-history.json - Feature evaluation history");
     
+    if (uiUpgradeFlag) {
+      console.log("• ui-discovery-report.json - UI inspiration analysis");
+      console.log("• ui-discovery-catalog.json - UI inspiration catalog");
+      console.log("• ui-tests.json - UI component test results");
+    }
+    
     if (summary.success) {
-      console.log(`\n✅ Successfully implemented: ${summary.feature}`);
-      console.log("The app now has enhanced capabilities based on competitive analysis!");
+      if (summary.mode === "ui-discovery") {
+        console.log(`\n✅ Successfully implemented UI component: ${summary.topUI?.componentName}`);
+        console.log("The app now has enhanced UI based on design inspiration!");
+      } else {
+        console.log(`\n✅ Successfully implemented: ${summary.feature}`);
+        console.log("The app now has enhanced capabilities based on competitive analysis!");
+      }
     } else {
-      console.log(`\n❌ Implementation failed for: ${summary.feature}`);
-      console.log("Check the error logs and try again.");
+      if (summary.mode === "ui-discovery") {
+        console.log(`\n❌ UI Discovery implementation failed`);
+        console.log(summary.message || "Check the error logs and try again.");
+      } else {
+        console.log(`\n❌ Implementation failed for: ${summary.feature}`);
+        console.log("Check the error logs and try again.");
+      }
     }
     
   } catch (error) {
