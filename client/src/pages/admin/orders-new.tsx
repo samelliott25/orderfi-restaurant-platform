@@ -62,33 +62,33 @@ export default function AdminOrdersPage() {
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Orders</CardTitle>
+              <CardTitle className="text-sm font-normal">Active Orders</CardTitle>
               <ChefHat className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">12</div>
+              <div className="text-2xl font-normal">12</div>
               <p className="text-xs text-muted-foreground">Currently being prepared</p>
             </CardContent>
           </Card>
 
           <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Ready for Pickup</CardTitle>
+              <CardTitle className="text-sm font-normal">Ready for Pickup</CardTitle>
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">3</div>
+              <div className="text-2xl font-normal">3</div>
               <p className="text-xs text-muted-foreground">Waiting for customers</p>
             </CardContent>
           </Card>
 
           <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Completed Today</CardTitle>
+              <CardTitle className="text-sm font-normal">Completed Today</CardTitle>
               <CheckCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">47</div>
+              <div className="text-2xl font-normal">47</div>
               <p className="text-xs text-muted-foreground">Orders fulfilled</p>
             </CardContent>
           </Card>

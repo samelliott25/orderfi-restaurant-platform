@@ -101,7 +101,7 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
             <Package className="h-8 w-8 text-blue-600" />
           </div>
           <div className="mt-2">
-            <p className="text-xs text-gray-500">Total Value: ${totalValue.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground">Total Value: ${totalValue.toLocaleString()}</p>
           </div>
         </CardContent>
       </Card>
@@ -133,7 +133,7 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
             <RefreshCw className="h-8 w-8 text-blue-600" />
           </div>
           <div className="mt-2">
-            <p className="text-xs text-gray-500">Awaiting approval</p>
+            <p className="text-xs text-muted-foreground">Awaiting approval</p>
           </div>
         </CardContent>
       </Card>
@@ -148,7 +148,7 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
             <Mail className="h-8 w-8 text-red-600" />
           </div>
           <div className="mt-2">
-            <p className="text-xs text-gray-500">Requires attention</p>
+            <p className="text-xs text-muted-foreground">Requires attention</p>
           </div>
         </CardContent>
       </Card>
@@ -208,7 +208,7 @@ const ChatOpsPanel = ({ onCommand, isExpanded, onToggle }: {
           <CardContent className="space-y-4">
             {/* Quick Commands */}
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Quick Commands</Label>
+              <Label className="text-sm font-normal">Quick Commands</Label>
               <div className="flex flex-wrap gap-1">
                 {quickCommands.slice(0, 3).map((cmd, index) => (
                   <Button
@@ -281,9 +281,9 @@ const ActivityFeed = ({ activities }: { activities: StockActivity[] }) => {
               <div key={activity.id} className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded">
                 {getActivityIcon(activity.type)}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium">{activity.action}</p>
-                  <p className="text-xs text-gray-500 truncate">{activity.details}</p>
-                  <p className="text-xs text-gray-400">{activity.timestamp}</p>
+                  <p className="text-sm font-normal">{activity.action}</p>
+                  <p className="text-xs text-muted-foreground truncate">{activity.details}</p>
+                  <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
                 </div>
               </div>
             ))}
@@ -677,7 +677,7 @@ export default function StockPage() {
             {/* Search and Filter Bar */}
             <div className="flex items-center gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search items, categories, or suppliers..."
                   value={searchTerm}
@@ -688,7 +688,7 @@ export default function StockPage() {
                   variant="ghost"
                   size="sm"
                   onClick={handleVoiceCommand}
-                  className={`absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 ${isListening ? 'text-red-500' : 'text-gray-400'}`}
+                  className={`absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 ${isListening ? 'text-red-500' : 'text-muted-foreground'}`}
                 >
                   <Mic className="h-4 w-4" />
                 </Button>
@@ -720,19 +720,19 @@ export default function StockPage() {
                 <CardTitle>Auto-Reorder Settings</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4">Configure automatic reordering rules and thresholds.</p>
+                <p className="text-muted-foreground mb-4">Configure automatic reordering rules and thresholds.</p>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium">Auto-Reorder Enabled</p>
-                      <p className="text-sm text-gray-500">Automatically create purchase orders when items are low</p>
+                      <p className="font-normal">Auto-Reorder Enabled</p>
+                      <p className="text-sm text-muted-foreground">Automatically create purchase orders when items are low</p>
                     </div>
                     <Button variant="outline">Configure</Button>
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium">Weekly Reports</p>
-                      <p className="text-sm text-gray-500">Generate and email weekly stock reports</p>
+                      <p className="font-normal">Weekly Reports</p>
+                      <p className="text-sm text-muted-foreground">Generate and email weekly stock reports</p>
                     </div>
                     <Button variant="outline">Schedule</Button>
                   </div>

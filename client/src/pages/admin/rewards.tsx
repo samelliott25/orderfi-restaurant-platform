@@ -75,7 +75,7 @@ export default function AdminRewardsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight" style={{ color: '#8b795e' }}>
+            <h1 className="text-3xl font-normal tracking-tight playwrite-font" style={{ color: '#8b795e' }}>
               $MIMI Rewards
             </h1>
             <p className="text-sm" style={{ color: '#8b795e' }}>
@@ -105,13 +105,13 @@ export default function AdminRewardsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium" style={{ color: '#8b795e' }}>
+              <CardTitle className="text-sm font-normal" style={{ color: '#8b795e' }}>
                 Total Earned
               </CardTitle>
               <DollarSign className="h-4 w-4" style={{ color: '#8b795e' }} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold" style={{ color: '#8b795e' }}>
+              <div className="text-2xl font-normal" style={{ color: '#8b795e' }}>
                 ${rewardData.totalEarned.toLocaleString()}
               </div>
               <p className="text-xs" style={{ color: '#8b795e' }}>

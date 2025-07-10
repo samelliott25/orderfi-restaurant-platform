@@ -528,7 +528,7 @@ export default function PaymentsPage() {
                             </TableCell>
                             <TableCell>{payment.description}</TableCell>
                             <TableCell>{payment.customerName}</TableCell>
-                            <TableCell className="text-right font-medium">
+                            <TableCell className="text-right font-normal">
                               {formatCurrency(payment.amount)}
                             </TableCell>
                             <TableCell>
