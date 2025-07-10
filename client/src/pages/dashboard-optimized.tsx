@@ -7,7 +7,7 @@ import { SwipeableMetricCards } from '@/components/dashboard/SwipeableMetricCard
 import { TouchOptimizedTabs } from '@/components/dashboard/TouchOptimizedTabs';
 import { PersonalizationEngine } from '@/components/dashboard/PersonalizationEngine';
 import { InstantActions } from '@/components/dashboard/InstantActions';
-import { GestureEnhancedDashboard } from '@/components/dashboard/GestureEnhancedDashboard';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -326,25 +326,20 @@ export default function OptimizedDashboard() {
     }
   ];
 
-  const dashboardViews = ['executive', 'operations', 'orders', 'analytics'];
-
   return (
     <StandardLayout 
       title="Restaurant Dashboard" 
       subtitle="Optimized for mobile-first operations"
     >
-      <GestureEnhancedDashboard
-        onViewChange={setActiveView}
-        currentView={activeView}
-        views={dashboardViews}
-      >
-        <div className="space-y-6">
+      <div className="space-y-6">
         {/* Navigation Tabs */}
         <TouchOptimizedTabs
           tabs={dashboardTabs}
           activeTab={activeView}
           onTabChange={setActiveView}
         />
+        
+
 
         {/* Executive Summary View */}
         {activeView === 'executive' && (
@@ -423,8 +418,7 @@ export default function OptimizedDashboard() {
             </Button>
           </div>
         </div>
-        </div>
-      </GestureEnhancedDashboard>
+      </div>
     </StandardLayout>
   );
 }
