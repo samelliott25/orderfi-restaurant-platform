@@ -157,7 +157,7 @@ export default function OrderStatus() {
       <div className="sticky top-0 z-10 bg-background border-b">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl rock-salt-font">Order Status</h1>
+            <h1 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Order Status</h1>
             <Button
               variant="outline"
               onClick={() => navigate('/menu')}

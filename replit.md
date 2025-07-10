@@ -173,11 +173,18 @@ node scripts/agent-orchestrator.js
 
 ```
 Changelog:
+- July 10, 2025. CONSISTENT THEME APPLICATION: Applied unified font styling across all page headings for complete brand consistency
+  - Updated OrderFiHeading component to use exact Header.tsx styling: font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent
+  - Applied consistent styling to all customer pages: scan.tsx, order-status.tsx, checkout.tsx, cart.tsx
+  - All page headings now use identical typography, size, positioning, and gradient color fill
+  - Eliminated inconsistent font usage (rock-salt-font vs playwrite-font) across customer interface
+  - OrderFiCard component titles also updated to maintain design system consistency
+  - Complete visual consistency achieved across admin dashboard and customer QR ordering interface
 - July 10, 2025. LAYOUT ARCHITECTURE UNIFICATION: Solved root cause of inconsistent spacing across all pages
   - Root cause: Two conflicting layout systems (AppLayout with marginLeft vs StandardLayout with flexbox)
   - Solution: Unified all pages under single StandardLayout with configurable showSidebar/showHeader flags
   - StandardLayout handles both admin pages (with sidebar) and customer pages (without sidebar)
-  - Mobile app (/mobileapp) correctly uses showSidebar=false for full-width customer experience
+  - Mobile app (/mobileapp) now uses showSidebar=true to support active/inactive customer features
   - Dashboard and admin pages use default showSidebar=true for management interface
   - Eliminated complex AppLayout marginLeft calculations causing spacing inconsistencies
   - All pages now use clean flexbox-based layout system with proper content alignment

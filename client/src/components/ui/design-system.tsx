@@ -31,13 +31,13 @@ export const OrderFiHeading = ({
   className?: string;
 }) => {
   const Tag = `h${level}` as keyof JSX.IntrinsicElements;
-  const baseClasses = 'playwrite-font font-normal tracking-tight';
+  const baseClasses = 'font-semibold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent';
   
   const sizeClasses = {
-    1: 'text-2xl sm:text-3xl',
-    2: 'text-xl sm:text-2xl',
-    3: 'text-lg sm:text-xl',
-    4: 'text-base sm:text-lg'
+    1: 'text-lg',
+    2: 'text-lg',
+    3: 'text-lg',
+    4: 'text-lg'
   };
 
   return (
@@ -76,7 +76,7 @@ export const OrderFiCard = ({
   <Card className={cn('border-2 border-border/50 shadow-sm', className)}>
     {title && (
       <CardHeader className={cn('pb-3', headerClassName)}>
-        <CardTitle className="playwrite-font text-lg font-normal">
+        <CardTitle className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
           {title}
         </CardTitle>
         {subtitle && (

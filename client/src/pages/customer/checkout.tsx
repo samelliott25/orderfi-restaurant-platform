@@ -141,7 +141,7 @@ export default function CustomerCheckout() {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Cart
             </Button>
-            <h1 className="text-2xl rock-salt-font">Checkout</h1>
+            <h1 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Checkout</h1>
           </div>
         </div>
       </div>
