@@ -584,8 +584,8 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         } ${
           isSidebarMode 
             ? 'w-80 h-screen top-0 right-0' 
-            : // Mobile: Full screen with sidebar space, Desktop: Normal size
-              'inset-0 left-[60px] w-[calc(100vw-60px)] h-screen md:inset-auto md:left-auto md:w-96 md:h-[520px]'
+            : // Mobile: Full screen with sidebar space, Desktop: Centered dialog
+              'inset-0 left-[60px] w-[calc(100vw-60px)] h-screen md:top-1/2 md:left-1/2 md:w-96 md:h-[520px] md:transform md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto'
         }`}
         style={isSidebarMode ? {
           opacity: 0.9
@@ -594,7 +594,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
           ...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
             left: `${position.x}%`,
             top: `${position.y}%`,
-            transform: 'translate(0, 0)'
+            transform: 'translate(-50%, -50%)'
           } : {}),
           opacity: 0.9
         }}
@@ -616,7 +616,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         }}>
         
         {/* Header */}
-        <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.2)' }}>
+        <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.2)', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
@@ -708,9 +708,9 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         </div>
 
         {/* Messages */}
-        <div style={{ flex: 1, overflow: 'hidden', padding: '12px 16px' }}>
-          <ScrollArea ref={scrollAreaRef} className="h-full">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ flex: 1, overflow: 'hidden', padding: '12px 16px', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          <ScrollArea ref={scrollAreaRef} className="flex-1">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', minHeight: '100%' }}>
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -778,15 +778,17 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         </div>
 
         {/* Suggestion Chips */}
-        <SuggestionChips 
-          chatContext={chatContext}
-          messages={messages}
-          chatState={chatState}
-          setChatState={setChatState}
-        />
+        <div style={{ flexShrink: 0 }}>
+          <SuggestionChips 
+            chatContext={chatContext}
+            messages={messages}
+            chatState={chatState}
+            setChatState={setChatState}
+          />
+        </div>
 
         {/* Input */}
-        <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+        <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ flex: 1, position: 'relative' }}>
               <div 
