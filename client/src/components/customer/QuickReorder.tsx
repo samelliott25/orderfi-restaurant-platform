@@ -56,10 +56,10 @@ export function QuickReorder() {
   };
 
   return (
-    <Card className="mb-6 border-orange-200 bg-gradient-to-r from-orange-50 to-pink-50">
+    <Card className="mb-6 border-orange-200 dark:border-orange-700 bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-950 dark:to-pink-950">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-lg">
-          <Clock className="h-5 w-5 text-orange-600" />
+          <Clock className="h-5 w-5 text-orange-600 dark:text-orange-400" />
           Quick Reorder
           <Badge variant="secondary" className="ml-auto">
             {formatDate(lastOrder.date)}
@@ -72,12 +72,12 @@ export function QuickReorder() {
           {lastOrder.items.map((item, index) => (
             <div key={index} className="flex justify-between items-center">
               <span>{item.quantity}x {item.name}</span>
-              <span className="text-orange-600 font-medium">${item.price.toFixed(2)}</span>
+              <span className="text-orange-600 dark:text-orange-400 font-medium">${item.price.toFixed(2)}</span>
             </div>
           ))}
           <div className="border-t border-border pt-2 mt-2 flex justify-between items-center font-semibold">
             <span>Total:</span>
-            <span className="text-orange-600">${lastOrder.total.toFixed(2)}</span>
+            <span className="text-orange-600 dark:text-orange-400">${lastOrder.total.toFixed(2)}</span>
           </div>
         </div>
         
