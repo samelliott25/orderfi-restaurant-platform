@@ -694,48 +694,12 @@ export default function HybridDashboard() {
 
           <Card className="bg-card border-border">
             <CardContent className="p-6">
-              <div className="h-80 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={salesData}>
-                    <defs>
-                      <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#f97316" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#f97316" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#6b7280" />
-                    <XAxis 
-                      dataKey="time" 
-                      stroke="#374151"
-                      fontSize={12}
-                    />
-                    <YAxis 
-                      stroke="#374151"
-                      fontSize={12}
-                      tickFormatter={(value) => `$${value}`}
-                    />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--popover))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px',
-                        color: 'hsl(var(--popover-foreground))'
-                      }}
-                      formatter={(value, name) => [
-                        typeof value === 'number' ? formatCurrency(value) : value,
-                        name === 'revenue' ? 'Revenue' : 'Orders'
-                      ]}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="revenue"
-                      stroke="#f97316"
-                      strokeWidth={2}
-                      fillOpacity={1}
-                      fill="url(#revenueGradient)"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
+              <div className="h-80 w-full flex items-center justify-center bg-secondary/20 rounded-lg">
+                <div className="text-center">
+                  <Activity className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">Chart temporarily disabled</p>
+                  <p className="text-sm text-muted-foreground">Layout optimization in progress</p>
+                </div>
               </div>
             </CardContent>
           </Card>
