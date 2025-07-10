@@ -40,8 +40,8 @@ export function StandardLayout({
       </aside>
       
       {/* Main Content Area - Full width to screen edge */}
-      <main className="flex-1 overflow-auto bg-background w-full">
-        <div className="w-full min-w-0">
+      <main className="flex-1 overflow-auto bg-background">
+        <div className="h-full">
           {/* Page Header */}
           {title && (
             <div className="mb-6 px-4 sm:px-6 pt-4 sm:pt-6">
@@ -56,8 +56,10 @@ export function StandardLayout({
             </div>
           )}
           
-          {/* Page Content */}
-          {children}
+          {/* Page Content - No left/right padding so content extends to edges */}
+          <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+            {children}
+          </div>
         </div>
       </main>
       
