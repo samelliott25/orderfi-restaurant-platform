@@ -34,9 +34,12 @@ class MockStorage {
     // Return mock menu items for MVP
     return [
       { id: 1, name: 'Classic Burger', description: 'Juicy beef patty with lettuce, tomato, onion', price: 12.99, category: 'Burgers', image_url: null, voice_aliases: ['burger', 'classic'] },
-      { id: 2, name: 'Buffalo Wings', description: 'Crispy wings with spicy buffalo sauce', price: 9.99, category: 'Buffalo Wings', image_url: null, voice_aliases: ['wings', 'buffalo'] },
-      { id: 3, name: 'Chicken Tacos', description: 'Grilled chicken with fresh salsa and cilantro', price: 8.99, category: 'Tacos', image_url: null, voice_aliases: ['tacos', 'chicken'] },
-      { id: 4, name: 'Loaded Nachos', description: 'Tortilla chips with cheese, jalapeños, and sour cream', price: 7.99, category: 'Bar Snacks', image_url: null, voice_aliases: ['nachos', 'chips'] }
+      { id: 2, name: 'Cheeseburger', description: 'Classic beef patty with melted cheddar cheese', price: 13.99, category: 'Burgers', image_url: null, voice_aliases: ['burger', 'cheese'] },
+      { id: 3, name: 'BBQ Bacon Burger', description: 'Beef patty with crispy bacon and BBQ sauce', price: 15.99, category: 'Burgers', image_url: null, voice_aliases: ['burger', 'bbq', 'bacon'] },
+      { id: 4, name: 'Veggie Burger', description: 'Plant-based patty with avocado and sprouts', price: 11.99, category: 'Burgers', image_url: null, voice_aliases: ['burger', 'veggie', 'vegan'] },
+      { id: 5, name: 'Buffalo Wings', description: 'Crispy wings with spicy buffalo sauce', price: 9.99, category: 'Buffalo Wings', image_url: null, voice_aliases: ['wings', 'buffalo'] },
+      { id: 6, name: 'Chicken Tacos', description: 'Grilled chicken with fresh salsa and cilantro', price: 8.99, category: 'Tacos', image_url: null, voice_aliases: ['tacos', 'chicken'] },
+      { id: 7, name: 'Loaded Nachos', description: 'Tortilla chips with cheese, jalapeños, and sour cream', price: 7.99, category: 'Bar Snacks', image_url: null, voice_aliases: ['nachos', 'chips'] }
     ];
   }
   
