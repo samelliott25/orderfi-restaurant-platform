@@ -51,7 +51,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
-  const { isOpen: isChatOpen, setIsOpen: setChatOpen } = useChatContext();
+  const { isOpen: isChatOpen, setIsOpen: setChatOpen, setIsSidebarMode } = useChatContext();
   const [isCollapsed, setIsCollapsed] = useState(() => {
     // Persist sidebar state in localStorage
     const saved = localStorage.getItem('sidebar-collapsed');
@@ -74,7 +74,11 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   // ChatOps button click handler
   const handleChatOpsClick = () => {
-    // Open the original chat interface
+    if (!isChatOpen) {
+      // Set sidebar mode when opening from sidebar
+      setIsSidebarMode(true);
+    }
+    // Toggle the chat interface
     setChatOpen(!isChatOpen);
   };
 
