@@ -368,7 +368,7 @@ export default function EnhancedCustomerMenu() {
       />
 
       {/* Enhanced voice recognition button */}
-      <div className="fixed bottom-8 left-8 z-40">
+      <div className="fixed bottom-24 left-8 z-40">
         <div className="relative">
           <Button
             onClick={toggleVoiceRecognition}
