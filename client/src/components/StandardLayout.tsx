@@ -35,7 +35,7 @@ export function StandardLayout({
         }}
       >
         <ScrollArea className="h-full bg-transparent w-full">
-          <div className="p-4 lg:p-6 w-full min-w-0">
+          <div className="w-full">
             {/* Page Content */}
             {children}
           </div>

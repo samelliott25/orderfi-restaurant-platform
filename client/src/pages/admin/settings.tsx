@@ -21,9 +21,9 @@ export default function SettingsPage() {
       title="Settings & Configuration"
       subtitle="Restaurant preferences, integrations, and system configuration"
     >
-      <div className="w-full">
+      <div className="w-full p-4 lg:p-6">
         {/* Header Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 w-full">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Integrations</CardTitle>
@@ -70,8 +70,8 @@ export default function SettingsPage() {
         </div>
 
         {/* Settings Tabs */}
-        <Tabs defaultValue="general" className="space-y-4">
-          <div className="overflow-x-auto">
+        <Tabs defaultValue="general" className="space-y-4 w-full">
+          <div className="overflow-x-auto w-full">
             <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 min-w-max">
               <TabsTrigger value="general" className="text-xs sm:text-sm">General</TabsTrigger>
               <TabsTrigger value="restaurant" className="text-xs sm:text-sm">Restaurant</TabsTrigger>
@@ -80,8 +80,8 @@ export default function SettingsPage() {
             </TabsList>
           </div>
         
-        <TabsContent value="general" className="space-y-4">
-          <Card>
+        <TabsContent value="general" className="space-y-4 w-full">
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Settings className="h-5 w-5 text-orange-500" />
@@ -124,8 +124,8 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="restaurant" className="space-y-4">
-          <Card>
+        <TabsContent value="restaurant" className="space-y-4 w-full">
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Store className="h-5 w-5 text-orange-500" />
@@ -164,8 +164,8 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="integrations" className="space-y-4">
-          <Card>
+        <TabsContent value="integrations" className="space-y-4 w-full">
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Globe className="h-5 w-5 text-orange-500" />
@@ -238,8 +238,8 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
         
-        <TabsContent value="notifications" className="space-y-4">
-          <Card>
+        <TabsContent value="notifications" className="space-y-4 w-full">
+          <Card className="w-full">
             <CardHeader>
               <CardTitle className="rock-salt-font flex items-center gap-2">
                 <Bell className="h-5 w-5 text-orange-500" />
