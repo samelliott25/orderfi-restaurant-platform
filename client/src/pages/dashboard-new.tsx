@@ -474,9 +474,7 @@ export default function RestaurantDashboard() {
 
   return (
     <StandardLayout title="Restaurant Dashboard" subtitle="AI-Powered Command Center">
-      <div 
-        className={`space-y-6 transition-all duration-300 ${(isSidebarMode && isOpen) ? 'dashboard-chat-sidebar' : ''}`}
-      >
+      <div className="space-y-6">
         {/* Real-time System Status Bar */}
         <div className="bg-gradient-to-r from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-700 rounded-lg p-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
