@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-07-10T14:00:37.180Z",
+  "discoveries": 0,
+  "analyzed": 0,
+  "implementations": 0,
+  "topIdeas": [],
+  "readyImplementations": [],
+  "stats": {
+    "avgInnovationScore": null,
+    "avgRelevanceScore": null,
+    "avgTechnicalFeasibility": null
+  }
+}
