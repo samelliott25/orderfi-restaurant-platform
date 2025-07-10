@@ -9,8 +9,9 @@ export default function ReportingPage() {
       title="Reporting & Analytics"
       subtitle="Sales reports, performance metrics, and business insights"
     >
-      {/* Header Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="space-y-6">
+        {/* Header Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Today's Revenue</CardTitle>
@@ -74,6 +75,7 @@ export default function ReportingPage() {
           </div>
         </CardContent>
       </Card>
+      </div>
     </StandardLayout>
   );
 }

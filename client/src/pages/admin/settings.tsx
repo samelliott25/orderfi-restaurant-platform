@@ -22,7 +22,7 @@ export default function SettingsPage() {
       title="Settings & Configuration"
       subtitle="Restaurant preferences, integrations, and system configuration"
     >
-      <div data-testid="settings-page" className="p-4 lg:p-6 w-full max-w-full">
+      <div data-testid="settings-page" className="space-y-6">
         {/* Header Stats */}
         <div className="flex flex-col space-y-3 mb-6 w-full">
           <Card className="w-full">

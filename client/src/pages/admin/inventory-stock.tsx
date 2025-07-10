@@ -1,15 +1,15 @@
-import { StandardLayoutWithSidebar } from "@/components/StandardLayoutWithSidebar";
+import { StandardLayout } from "@/components/StandardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Package, AlertTriangle, TrendingUp, TrendingDown } from "lucide-react";
 
 export default function InventoryStockPage() {
   return (
-    <StandardLayoutWithSidebar 
+    <StandardLayout 
       title="Inventory Management"
       subtitle="Stock levels, reorder points, and supplier management"
     >
-      <div className="p-6 space-y-6">
+      <div className="space-y-6">
         {/* Header Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
@@ -82,6 +82,6 @@ export default function InventoryStockPage() {
           </CardContent>
         </Card>
       </div>
-    </StandardLayoutWithSidebar>
+    </StandardLayout>
   );
 }

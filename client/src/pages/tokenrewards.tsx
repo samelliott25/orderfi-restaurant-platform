@@ -78,7 +78,7 @@ export default function TokenRewards() {
 
   return (
     <StandardLayout title="Token Rewards" subtitle="Earn your share of the network">
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="space-y-6">
 
         {/* Current Status Card - Matching OrderFi Design */}
         <Card className="bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 text-white border-0">
