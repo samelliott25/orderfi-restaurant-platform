@@ -11,16 +11,37 @@ interface StandardLayoutProps {
   title?: string;
   subtitle?: string;
   className?: string;
+  showSidebar?: boolean; // Control whether to show sidebar
+  showHeader?: boolean;  // Control whether to show header
 }
 
 export function StandardLayout({ 
   children, 
   title = "OrderFi", 
   subtitle = "Smart Restaurant Assistant",
-  className = ""
+  className = "",
+  showSidebar = true,
+  showHeader = true
 }: StandardLayoutProps) {
   const { isOpen, setIsOpen } = useChatContext();
 
+  if (!showSidebar) {
+    // Customer/mobile layout - full width without sidebar
+    return (
+      <div className={`min-h-screen bg-background ${className}`}>
+        {showHeader && title && (
+          <OrderFiPageHeader 
+            title={title}
+            subtitle={subtitle}
+          />
+        )}
+        {children}
+        <CustomerAiChat isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
+      </div>
+    );
+  }
+
+  // Admin layout - with sidebar
   return (
     <div className={`flex h-screen bg-background ${className}`}>
       {/* Sidebar - Fixed width component */}
@@ -30,7 +51,7 @@ export function StandardLayout({
       <main className="flex-1 overflow-auto bg-background">
         <div className="h-full">
           {/* Page Header */}
-          {title && (
+          {showHeader && title && (
             <OrderFiPageHeader 
               title={title}
               subtitle={subtitle}

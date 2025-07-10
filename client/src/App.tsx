@@ -38,7 +38,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const [isAppLoaded, setIsAppLoaded] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState('256px');
   
-  // Hide navigation on pages that have their own header/navigation (StandardLayout or custom headers)
+  // Hide navigation on pages that have their own header/navigation (customer flows and special pages)
   const hideNavigation = [
     '/scan',
     '/login',
@@ -46,17 +46,8 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/checkout',
     '/order-status',
     '/landing-page', 
-    '/not-found', 
-    '/tokenrewards',
-    '/inventory',
-    '/stock',
-    '/orders',
-    '/payments',
-    '/staff',
-    '/reporting',
-    '/settings',
-    '/dashboard',
-    '/'
+    '/not-found',
+    '/mobileapp'
   ].includes(location) || location.startsWith('/order-status/');
 
 
@@ -97,18 +88,8 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const isDashboard = location === '/' || location === '/dashboard';
   
   return (
-    <div className="min-h-screen bg-background flex">
-      {!hideNavigation && <Sidebar />}
-      
-      {/* Main content with sidebar offset */}
-      <main 
-        className={`flex-1 h-screen overflow-auto`} 
-        style={{ 
-          marginLeft: !hideNavigation ? sidebarWidth : '0'
-        }}
-      >
-        {children}
-      </main>
+    <div className="min-h-screen bg-background">
+      {children}
     </div>
   );
 }

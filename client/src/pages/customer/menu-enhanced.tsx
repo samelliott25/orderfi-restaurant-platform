@@ -10,6 +10,7 @@ import { QuickReorder } from '@/components/customer/QuickReorder';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Mic, MicOff, ShoppingCart } from 'lucide-react';
+import StandardLayout from '@/components/StandardLayout';
 
 interface MenuItem {
   id: number;
@@ -337,7 +338,7 @@ export default function EnhancedCustomerMenu() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <StandardLayout showSidebar={false} showHeader={false}>
       <Header
         venueName="OrderFi Restaurant"
         tableNumber="Table 12"
@@ -416,6 +417,6 @@ export default function EnhancedCustomerMenu() {
           </div>
         </div>
       )}
-    </div>
+    </StandardLayout>
   );
 }
