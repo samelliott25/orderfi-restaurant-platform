@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StandardLayout } from '@/components/StandardLayout';
+import { FloatingActionButton } from '@/components/ui/floating-action-button';
+import { PaymentTableSkeleton, DashboardCardsSkeleton } from '@/components/ui/skeleton-loader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -40,7 +42,9 @@ import {
   Key,
   Shield,
   Globe,
-  Zap
+  Zap,
+  FileText,
+  BarChart3
 } from 'lucide-react';
 import "@/styles/mobile-fix.css";
 
@@ -759,6 +763,34 @@ export default function PaymentsPage() {
           </TabsContent>
         </Tabs>
       </div>
+      {/* Floating Action Button */}
+      <FloatingActionButton 
+        actions={[
+          {
+            icon: <Plus className="h-5 w-5" />,
+            label: "New Payment",
+            onClick: () => {
+              // TODO: Open new payment dialog
+              console.log('New payment clicked');
+            }
+          },
+          {
+            icon: <FileText className="h-5 w-5" />,
+            label: "Export Report",
+            onClick: () => {
+              // TODO: Export payments data
+              console.log('Export report clicked');
+            },
+            variant: 'secondary'
+          },
+          {
+            icon: <BarChart3 className="h-5 w-5" />,
+            label: "Analytics",
+            onClick: () => setActiveTab('summary'),
+            variant: 'secondary'
+          }
+        ]}
+      />
     </StandardLayout>
   );
 }

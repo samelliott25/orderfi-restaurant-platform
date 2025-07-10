@@ -5,6 +5,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { CustomerAiChat } from '@/components/CustomerAiChat';
 import { useChatContext } from '@/contexts/ChatContext';
 import { OrderFiPageHeader } from '@/components/ui/design-system';
+import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -60,6 +61,7 @@ export function StandardLayout({
           
           {/* Page Content */}
           <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+            <BreadcrumbNav />
             {children}
           </div>
         </div>

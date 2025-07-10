@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Mic, MicOff, ShoppingCart } from 'lucide-react';
 import StandardLayout from '@/components/StandardLayout';
+import { BottomNavigation } from '@/components/ui/bottom-navigation';
 
 interface MenuItem {
   id: number;
@@ -417,6 +418,9 @@ export default function EnhancedCustomerMenu() {
           </div>
         </div>
       )}
+
+      {/* Bottom Navigation for Mobile */}
+      <BottomNavigation />
     </StandardLayout>
   );
 }
