@@ -130,9 +130,9 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform that revolut
 - **Configuration**: Environment-based configuration with TypeScript
 - **Testing**: Production testing suite with automated health checks
 
-## Autonomous Development Agent
+## ADA (Autonomous Development Agent)
 
-OrderFi now includes a sophisticated autonomous development agent that can:
+OrderFi now includes ADA, a sophisticated autonomous development agent that can:
 
 ### Competitive Analysis & Feature Discovery
 - **Competitor Feature Scraping**: Analyzes top QR ordering platforms (me&u, Mr Yum, Toast)
@@ -156,17 +156,17 @@ OrderFi now includes a sophisticated autonomous development agent that can:
 
 ### Usage Instructions
 ```bash
-# Run taste analysis only
+# Run ADA taste analysis only
 node scripts/run-taste-analysis.js
 
-# Run full autonomous development iteration
+# Run full ADA autonomous development iteration
 node scripts/agent-orchestrator.js
 ```
 
-### Generated Reports
+### ADA Generated Reports
 - `taste-driven-development-report.json`: Full competitive analysis and feature rankings
 - `latest-iteration-summary.json`: Current implementation results
-- `agent-history.json`: Complete agent decision history
+- `agent-history.json`: Complete ADA decision history
 - `feature-taste-history.json`: Feature evaluation tracking
 
 ## Changelog
@@ -623,4 +623,7 @@ Typography preferences:
 - OrderFi logo/brand name must always use Playwrite font
 - Playwrite font for headings and titles (changed from Rock Salt)
 - SUSE font for body text
+Development workflow:
+- Use "ADA" as shorthand for Autonomous Development Agent
+- When user asks for ADA, run competitive analysis and refinement process
 ```
