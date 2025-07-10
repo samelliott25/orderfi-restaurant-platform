@@ -54,7 +54,9 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/payments',
     '/staff',
     '/reporting',
-    '/settings'
+    '/settings',
+    '/dashboard',
+    '/'
   ].includes(location) || location.startsWith('/order-status/');
 
 

@@ -19,63 +19,15 @@ export function StandardLayout({
   subtitle = "Smart Restaurant Assistant",
   className = ""
 }: StandardLayoutProps) {
-  const [, setLocation] = useLocation();
-  const { isSidebarMode, isOpen, setIsOpen } = useChatContext();
-  const [isMobile, setIsMobile] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState(64); // Default collapsed width
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Listen for sidebar state changes from localStorage
-  useEffect(() => {
-    const updateSidebarWidth = () => {
-      const isCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
-      setSidebarWidth(isCollapsed ? 64 : 256);
-    };
-    
-    // Initial update
-    updateSidebarWidth();
-    
-    // Listen for localStorage changes
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'sidebar-collapsed') {
-        updateSidebarWidth();
-      }
-    };
-    
-    window.addEventListener('storage', handleStorageChange);
-    
-    // Also listen for custom events from the sidebar component
-    const handleSidebarToggle = () => {
-      setTimeout(updateSidebarWidth, 0); // Wait for localStorage to update
-    };
-    
-    window.addEventListener('sidebarToggle', handleSidebarToggle);
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('sidebarToggle', handleSidebarToggle);
-    };
-  }, []);
+  const { isOpen, setIsOpen } = useChatContext();
 
   return (
-    <div className={`bg-background ${className}`}>
-      {/* Sidebar - Fixed positioning, handled by Sidebar component */}
+    <div className={`flex h-screen bg-background ${className}`}>
+      {/* Sidebar - Fixed width component */}
       <Sidebar />
       
-      {/* Main Content Area - With left margin to account for fixed sidebar */}
-      <main 
-        className="min-h-screen overflow-auto bg-background transition-all duration-300" 
-        style={{ marginLeft: `${sidebarWidth}px` }}
-      >
+      {/* Main Content Area - Takes remaining space */}
+      <main className="flex-1 overflow-auto bg-background">
         <div className="h-full">
           {/* Page Header */}
           {title && (
