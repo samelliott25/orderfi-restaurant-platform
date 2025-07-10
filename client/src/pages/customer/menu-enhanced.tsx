@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { useCart } from '@/contexts/CartContext';
@@ -53,11 +53,15 @@ export default function EnhancedCustomerMenu() {
   const { data: menuItems = [], isLoading, error } = useQuery<MenuItem[]>({
     queryKey: ['/api/menu/1'],
     queryFn: async () => {
+      console.log('Fetching menu items...');
       const response = await fetch('/api/menu/1');
+      console.log('Response status:', response.status);
       if (!response.ok) {
         throw new Error('Failed to fetch menu items');
       }
-      return response.json();
+      const data = await response.json();
+      console.log('Menu items received:', data.length);
+      return data;
     },
   });
 
@@ -121,16 +125,24 @@ export default function EnhancedCustomerMenu() {
     }))
   ];
 
-  const handleVoiceCommand = (transcript: string) => {
+  // Debug effect to track data loading
+  useEffect(() => {
+    console.log('Menu data state change:', {
+      isLoading,
+      error: error?.message,
+      menuItemsCount: menuItems.length,
+      menuItems: menuItems.slice(0, 2) // Show first 2 items
+    });
+  }, [isLoading, error, menuItems]);
+
+  const handleVoiceCommand = useCallback((transcript: string) => {
     console.log('Voice command:', transcript);
     console.log('Menu items loaded:', menuItems.length);
+    console.log('Current loading state:', isLoading);
+    console.log('Current error:', error);
     
-    // Wait for menu items to load before processing
-    if (menuItems.length === 0) {
-      console.log('Menu items not loaded yet, retrying in 500ms');
-      setTimeout(() => handleVoiceCommand(transcript), 500);
-      return;
-    }
+    // Process command even if menu items aren't loaded yet
+    // This will at least set the search query for when data loads
     
     // Handle navigation commands
     if (transcript.includes('cart') || transcript.includes('checkout')) {
@@ -229,7 +241,7 @@ export default function EnhancedCustomerMenu() {
       console.log('No keywords extracted, using full transcript');
       setSearchQuery(transcript);
     }
-  };
+  }, [menuItems, isLoading, error]);
 
   const toggleVoiceRecognition = () => {
     if (!recognition) {
