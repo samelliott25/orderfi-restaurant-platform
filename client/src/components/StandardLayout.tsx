@@ -86,7 +86,7 @@ export function StandardLayout({
           )}
           
           {/* Page Content */}
-          <div className="pb-4 sm:pb-6">
+          <div className="px-4 sm:px-6 pb-4 sm:pb-6">
             {children}
           </div>
         </div>
