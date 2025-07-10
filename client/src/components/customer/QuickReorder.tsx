@@ -67,7 +67,7 @@ export function QuickReorder() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-muted-foreground">
           <p className="font-medium mb-2">Your last order:</p>
           {lastOrder.items.map((item, index) => (
             <div key={index} className="flex justify-between items-center">
@@ -75,7 +75,7 @@ export function QuickReorder() {
               <span className="text-orange-600 font-medium">${item.price.toFixed(2)}</span>
             </div>
           ))}
-          <div className="border-t pt-2 mt-2 flex justify-between items-center font-semibold">
+          <div className="border-t border-border pt-2 mt-2 flex justify-between items-center font-semibold">
             <span>Total:</span>
             <span className="text-orange-600">${lastOrder.total.toFixed(2)}</span>
           </div>
