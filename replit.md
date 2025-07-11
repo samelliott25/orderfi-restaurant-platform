@@ -193,17 +193,16 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 
 ```
 Changelog:
-- January 11, 2025. NEUBRUTALIST DESIGN SYSTEM OVERRIDE: Successfully replaced 2026 design system with bold, chunky neubrutalist aesthetics per user request
-  - Completely overrode 2026 design system with neubrutalist styling (--brutal-black, --brutal-white, --brutal-red, --brutal-blue, --brutal-yellow)
-  - Implemented chunky typography with Arial Black font, 900 font-weight, uppercase text, and wide letter spacing
-  - Created neubrutalist components: .neubrutalist-card, .neubrutalist-button, .neubrutalist-heading, .neubrutalist-grid
-  - Added bold shadow system with 8px 8px 0px black shadows and hover transforms
-  - Applied aggressive color palette: pure black borders, high-contrast backgrounds, bold primary colors
-  - Updated CreativeCardStack component to use neubrutalist grid layout instead of complex transforms
-  - Added prominent "NEUBRUTALIST DESIGN ACTIVE" banners to mobile app with bold, unapologetic messaging
-  - Converted mobile app header and search to neubrutalist styling with chunky buttons and bold typography
-  - Fixed CSS import order issues by moving @import statements after @tailwind directives
-  - Design philosophy: BOLD • CHUNKY • UNAPOLOGETIC brutalist aesthetics replacing soft 2026 trends
+- January 11, 2025. CLEANED UP UI DESIGN: Removed complex UI upgrades and returned to clean glassmorphism design per user preference
+  - Removed neubrutalist design system after user feedback ("looks crap")
+  - Cleaned up CSS imports by removing 2026 design system and creative layout system imports
+  - Restored clean glassmorphism design with subtle backdrop blur effects (bg-white/90 backdrop-blur-md)
+  - Simplified CreativeCardStack component to use clean card layout instead of complex transforms
+  - Removed creative masonry grid from mobile app in favor of simple, clean menu item cards
+  - Applied consistent glassmorphism styling: semi-transparent backgrounds, rounded corners, subtle shadows
+  - Maintained OrderFi brand colors (#8b795e) with clean, professional interface
+  - User preference: Clean glassmorphism design over complex UI innovations or brutalist aesthetics
+  - Design philosophy: Simple, clean, professional glassmorphism effects without overwhelming visual elements
 - January 11, 2025. CSS EXPERT CREATIVE LAYOUT UPGRADE IMPLEMENTATION: Successfully implemented comprehensive CSS Creative Layout System with advanced patterns, micro-interactions, and production-ready components
   - Created modular design system with 150+ CSS classes and comprehensive token system (color, spacing, typography, radius, elevation scales)
   - Implemented advanced layout patterns: layered card stacks with 3D transforms, responsive masonry grids, split-screen layouts, custom clip-path shapes

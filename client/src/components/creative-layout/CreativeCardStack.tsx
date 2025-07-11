@@ -14,27 +14,23 @@ interface CreativeCardStackProps {
 export function CreativeCardStack({ title, cards, className = '' }: CreativeCardStackProps) {
   return (
     <div className={`creative-card-stack ${className}`}>
-      <h3 className="neubrutalist-heading lg text-center mb-6">{title}</h3>
-      <div className="neubrutalist-grid">
+      <h3 className="text-xl font-semibold mb-6 text-center text-gray-800">{title}</h3>
+      <div className="space-y-4">
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`neubrutalist-item ${card.accent === 'primary' ? 'large' : card.accent === 'secondary' ? 'tall' : ''}`}
+            className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300"
           >
-            <div className="neubrutalist-heading md mb-4">
-              {card.title}
-            </div>
-            <p className="text-black font-black text-sm uppercase tracking-wide mb-4">
-              {card.content}
-            </p>
-            <div className="flex justify-between items-center">
-              <span className="text-xs font-black text-black">
-                CARD {index + 1}
-              </span>
-              <div className="neubrutalist-button secondary text-xs">
-                LAYER {index + 1}
-              </div>
-            </div>
+            <CardHeader className="p-0 pb-3">
+              <CardTitle className="text-lg font-semibold text-gray-800">
+                {card.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {card.content}
+              </p>
+            </CardContent>
           </div>
         ))}
       </div>

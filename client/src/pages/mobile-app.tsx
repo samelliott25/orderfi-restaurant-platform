@@ -121,46 +121,43 @@ export default function MobileAppPage() {
 
   return (
     <div className="min-h-screen pb-20" style={{ backgroundColor: '#fff0cc' }}>
-      {/* Neubrutalist Design Override Banner */}
-      <div className="neubrutalist-card colored text-center m-4">
-        <div className="neubrutalist-heading md">
-          NEUBRUTALIST DESIGN ACTIVE
-        </div>
-        <p className="text-sm mt-2 font-black">BOLD • CHUNKY • UNAPOLOGETIC</p>
-      </div>
-      
-      {/* Header - Neubrutalist Style */}
-      <div className="neubrutalist-card m-4 p-4">
+      {/* Header */}
+      <div className="sticky top-0 z-10 p-4 border-b bg-white/90 backdrop-blur-md" style={{ borderColor: '#e5cf97' }}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="neubrutalist-button secondary p-2">
-              <span className="text-white font-black text-sm">M</span>
+            <div className="w-8 h-8 rounded-full bg-[#8b795e] flex items-center justify-center">
+              <span className="text-white font-bold text-sm">M</span>
             </div>
             <div>
-              <p className="neubrutalist-heading md text-black">DELIVER TO</p>
+              <p className="text-sm" style={{ color: '#8b795e' }}>Deliver to</p>
               <div className="flex items-center gap-1">
-                <MapPin className="w-4 h-4 text-black" />
-                <span className="font-black text-sm text-black">CURRENT LOCATION</span>
+                <MapPin className="w-4 h-4" style={{ color: '#8b795e' }} />
+                <span className="font-semibold text-sm" style={{ color: '#8b795e' }}>Current Location</span>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Bell className="w-6 h-6 text-black" />
-            <Heart className="w-6 h-6 text-black" />
+            <Bell className="w-6 h-6" style={{ color: '#8b795e' }} />
+            <Heart className="w-6 h-6" style={{ color: '#8b795e' }} />
           </div>
         </div>
 
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-black" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#8b795e' }} />
           <input
             type="text"
-            placeholder="SEARCH FOR FOOD..."
-            className="neubrutalist-input w-full pl-10 pr-4"
+            placeholder="Search for food, restaurants..."
+            className="w-full pl-10 pr-4 py-3 rounded-xl border bg-white/90 backdrop-blur-sm"
+            style={{ borderColor: '#e5cf97', color: '#8b795e' }}
           />
-          <button className="neubrutalist-button absolute right-2 top-1/2 transform -translate-y-1/2 p-2">
-            <Filter className="w-5 h-5 text-white" />
-          </button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2"
+          >
+            <Filter className="w-5 h-5" style={{ color: '#8b795e' }} />
+          </Button>
         </div>
       </div>
 
@@ -208,26 +205,46 @@ export default function MobileAppPage() {
         </div>
       </div>
 
-      {/* Menu Items with Creative Layout */}
-      <div className="px-4 space-y-4">
+      {/* Menu Items */}
+      <div className="p-4 space-y-4">
         <h3 className="font-bold text-lg" style={{ color: '#8b795e' }}>
           {selectedCategory === 'popular' ? 'Popular Items' : 
            selectedCategory === 'healthy' ? 'Healthy Options' :
            categories.find(c => c.id === selectedCategory)?.name || 'Menu Items'}
         </h3>
         
-        <CreativeMasonryGrid 
-          items={filteredItems.map((item, index) => ({
-            id: item.id,
-            title: item.name,
-            content: `${item.description.substring(0, 100)}... $${item.price}`,
-            height: index % 3 === 0 ? 'tall' : index % 2 === 0 ? 'medium' : 'short',
-            color: item.tags.includes('Popular') ? 'primary' : 
-                   item.tags.includes('Bestseller') ? 'secondary' : 
-                   item.tags.includes('Spicy') ? 'accent' : 'neutral'
-          }))}
-          className="masonry-grid-mobile"
-        />
+        {filteredItems.map((item) => (
+          <div key={item.id} className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-4">
+              <div className="text-4xl">{item.image}</div>
+              <div className="flex-1">
+                <h3 className="font-bold text-lg mb-1" style={{ color: '#8b795e' }}>
+                  {item.name}
+                </h3>
+                <p className="text-gray-600 text-sm mb-2">{item.description}</p>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-1">
+                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    <span className="text-sm text-gray-600">{item.rating}</span>
+                  </div>
+                  <span className="text-gray-400">•</span>
+                  <span className="text-sm text-gray-600">{item.deliveryTime}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-lg" style={{ color: '#8b795e' }}>
+                    ${item.price}
+                  </span>
+                  <Button 
+                    size="sm" 
+                    className="bg-[#8b795e] hover:bg-[#6d5d4f] text-white"
+                  >
+                    Add to Cart
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Bottom Navigation */}
