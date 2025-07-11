@@ -281,69 +281,70 @@ export default function CustomerCart() {
               <div className="relative">
                 <h3 className="text-xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-4">Order Summary</h3>
                 <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>{formatPrice(getSubtotal())}</span>
-                </div>
-                
-                <div className="flex justify-between">
-                  <span>Tax (8.875%)</span>
-                  <span>{formatPrice(getTaxAmount())}</span>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label>Tip</Label>
-                  <div className="flex space-x-2">
-                    {[15, 18, 20, 25].map((percent) => (
-                      <Button
-                        key={percent}
-                        variant={tipPercent === percent ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => {
-                          setTipPercent(percent);
-                          setTipAmount(0);
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>{formatPrice(getSubtotal())}</span>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <span>Tax (8.875%)</span>
+                    <span>{formatPrice(getTaxAmount())}</span>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label>Tip</Label>
+                    <div className="flex space-x-2">
+                      {[15, 18, 20, 25].map((percent) => (
+                        <Button
+                          key={percent}
+                          variant={tipPercent === percent ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => {
+                            setTipPercent(percent);
+                            setTipAmount(0);
+                          }}
+                          className="flex-1"
+                        >
+                          {percent}%
+                        </Button>
+                      ))}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Label htmlFor="custom-tip" className="text-sm">Custom:</Label>
+                      <Input
+                        id="custom-tip"
+                        type="number"
+                        placeholder="0.00"
+                        value={tipAmount > 0 ? (tipAmount / 100).toFixed(2) : ''}
+                        onChange={(e) => {
+                          const value = parseFloat(e.target.value) || 0;
+                          setTipAmount(Math.round(value * 100));
+                          setTipPercent(0);
                         }}
                         className="flex-1"
-                      >
-                        {percent}%
-                      </Button>
-                    ))}
+                      />
+                    </div>
+                    <div className="flex justify-between text-sm text-muted-foreground">
+                      <span>Tip Amount</span>
+                      <span>{formatPrice(getTipAmount())}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Label htmlFor="custom-tip" className="text-sm">Custom:</Label>
-                    <Input
-                      id="custom-tip"
-                      type="number"
-                      placeholder="0.00"
-                      value={tipAmount > 0 ? (tipAmount / 100).toFixed(2) : ''}
-                      onChange={(e) => {
-                        const value = parseFloat(e.target.value) || 0;
-                        setTipAmount(Math.round(value * 100));
-                        setTipPercent(0);
-                      }}
-                      className="flex-1"
-                    />
+                  
+                  <Separator />
+                  
+                  <div className="flex justify-between text-lg font-semibold">
+                    <span>Total</span>
+                    <span>{formatPrice(getTotal())}</span>
                   </div>
-                  <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>Tip Amount</span>
-                    <span>{formatPrice(getTipAmount())}</span>
-                  </div>
+                  
+                  <Button
+                    onClick={() => navigate('/checkout')}
+                    className="w-full h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-medium"
+                  >
+                    <CreditCard className="w-5 h-5 mr-2" />
+                    Proceed to Checkout
+                  </Button>
                 </div>
-                
-                <Separator />
-                
-                <div className="flex justify-between text-lg font-semibold">
-                  <span>Total</span>
-                  <span>{formatPrice(getTotal())}</span>
-                </div>
-                
-                <Button
-                  onClick={() => navigate('/checkout')}
-                  className="w-full h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-medium"
-                >
-                  <CreditCard className="w-5 h-5 mr-2" />
-                  Proceed to Checkout
-                </Button>
               </div>
             </div>
           </div>
