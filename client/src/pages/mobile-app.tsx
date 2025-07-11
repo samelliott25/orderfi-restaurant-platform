@@ -120,131 +120,171 @@ export default function MobileAppPage() {
     : menuItems.filter(item => item.category === selectedCategory);
 
   return (
-    <div className="min-h-screen pb-20" style={{ backgroundColor: '#fff0cc' }}>
-      {/* Header */}
-      <div className="sticky top-0 z-10 p-4 border-b bg-white/90 backdrop-blur-md" style={{ borderColor: '#e5cf97' }}>
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#8b795e] flex items-center justify-center">
-              <span className="text-white font-bold text-sm">M</span>
-            </div>
-            <div>
-              <p className="text-sm" style={{ color: '#8b795e' }}>Deliver to</p>
-              <div className="flex items-center gap-1">
-                <MapPin className="w-4 h-4" style={{ color: '#8b795e' }} />
-                <span className="font-semibold text-sm" style={{ color: '#8b795e' }}>Current Location</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Bell className="w-6 h-6" style={{ color: '#8b795e' }} />
-            <Heart className="w-6 h-6" style={{ color: '#8b795e' }} />
-          </div>
-        </div>
-
-        {/* Search Bar */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#8b795e' }} />
-          <input
-            type="text"
-            placeholder="Search for food, restaurants..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border bg-white/90 backdrop-blur-sm"
-            style={{ borderColor: '#e5cf97', color: '#8b795e' }}
-          />
-          <Button
-            variant="ghost"
-            size="sm"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2"
-          >
-            <Filter className="w-5 h-5" style={{ color: '#8b795e' }} />
-          </Button>
-        </div>
-      </div>
-
-      {/* Hero Banner */}
+    <div className="min-h-screen pb-20" style={{ backgroundColor: '#e8f5e9' }}>
+      {/* Header - Mamo Style */}
       <div className="p-4">
-        <Card className="bg-gradient-to-r from-[#8b795e] to-[#6d5d4f] text-white border-0">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-bold mb-2">Satisfy Your Cravings</h2>
-                <p className="text-sm opacity-90 mb-4">Free delivery on orders over $25</p>
-                <Button 
-                  size="sm"
-                  className="bg-white text-[#8b795e] hover:bg-gray-100"
-                >
-                  Order Now
-                </Button>
-              </div>
-              <div className="text-6xl">🍔</div>
+        <div className="flex items-center justify-between mb-8">
+          <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">
+            <span className="text-white font-bold text-lg">O</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
+              <Bell className="w-4 h-4 text-white" />
             </div>
-          </CardContent>
-        </Card>
-      </div>
+            <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
+              <Heart className="w-4 h-4 text-white" />
+            </div>
+          </div>
+        </div>
 
-      {/* Categories */}
-      <div className="px-4 mb-4">
-        <h3 className="font-bold text-lg mb-3" style={{ color: '#8b795e' }}>Categories</h3>
-        <div className="flex gap-3 overflow-x-auto">
-          {categories.map((category) => (
-            <Button
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSelectedCategory(category.id)}
-              className={`whitespace-nowrap ${
-                selectedCategory === category.id 
-                  ? 'bg-[#8b795e] text-white' 
-                  : 'border-[#8b795e] text-[#8b795e] bg-white'
-              }`}
-            >
-              <span className="mr-2">{category.icon}</span>
-              {category.name}
-            </Button>
-          ))}
+        {/* Hero Section */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2" style={{ lineHeight: '1.1' }}>
+            Hi! I'm OrderFi.
+          </h1>
+          <p className="text-lg text-gray-600 mb-6">
+            Smart with food.<br />
+            Easy on the taste buds.
+          </p>
+          <button className="bg-yellow-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition-colors">
+            Get started!
+          </button>
+        </div>
+
+        {/* Description */}
+        <div className="mb-8">
+          <p className="text-gray-700 leading-relaxed">
+            OrderFi helps you order,<br />
+            pay, and enjoy<br />
+            your food – step by<br />
+            step, without the wait.
+          </p>
         </div>
       </div>
 
-      {/* Menu Items */}
-      <div className="p-4 space-y-4">
-        <h3 className="font-bold text-lg" style={{ color: '#8b795e' }}>
-          {selectedCategory === 'popular' ? 'Popular Items' : 
-           selectedCategory === 'healthy' ? 'Healthy Options' :
-           categories.find(c => c.id === selectedCategory)?.name || 'Menu Items'}
-        </h3>
+      {/* How OrderFi Works */}
+      <div className="px-4 mb-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">How OrderFi works:</h2>
         
-        {filteredItems.map((item) => (
-          <div key={item.id} className="bg-white/90 backdrop-blur-md rounded-xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-            <div className="flex items-center gap-4">
-              <div className="text-4xl">{item.image}</div>
-              <div className="flex-1">
-                <h3 className="font-bold text-lg mb-1" style={{ color: '#8b795e' }}>
-                  {item.name}
-                </h3>
-                <p className="text-gray-600 text-sm mb-2">{item.description}</p>
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-sm text-gray-600">{item.rating}</span>
-                  </div>
-                  <span className="text-gray-400">•</span>
-                  <span className="text-sm text-gray-600">{item.deliveryTime}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-lg" style={{ color: '#8b795e' }}>
-                    ${item.price}
-                  </span>
-                  <Button 
-                    size="sm" 
-                    className="bg-[#8b795e] hover:bg-[#6d5d4f] text-white"
-                  >
-                    Add to Cart
-                  </Button>
-                </div>
+        <div className="space-y-4">
+          {/* Step 1 - White Card */}
+          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+            <div className="flex items-start justify-between mb-4">
+              <span className="text-sm text-gray-500 font-medium">Step 1</span>
+              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
+                <span className="text-white text-sm">✓</span>
               </div>
             </div>
+            <div className="mb-4">
+              <div className="w-8 h-8 border-2 border-gray-800 rounded-lg flex items-center justify-center mb-3">
+                <Search className="w-4 h-4 text-gray-800" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800">
+                Browse our menu
+              </h3>
+            </div>
           </div>
-        ))}
+
+          {/* Step 2 - Yellow Card */}
+          <div className="bg-yellow-200 rounded-3xl p-6 shadow-sm">
+            <div className="flex items-start justify-between mb-4">
+              <span className="text-sm text-gray-700 font-medium">Step 2</span>
+              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
+                <span className="text-white text-sm">✓</span>
+              </div>
+            </div>
+            <div className="mb-4">
+              <div className="w-8 h-8 border-2 border-gray-800 rounded-lg flex items-center justify-center mb-3">
+                <ShoppingCart className="w-4 h-4 text-gray-800" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800">
+                Add to cart
+              </h3>
+            </div>
+          </div>
+
+          {/* Step 3 - Light Green Card */}
+          <div className="bg-green-200 rounded-3xl p-6 shadow-sm">
+            <div className="flex items-start justify-between mb-4">
+              <span className="text-sm text-gray-700 font-medium">Step 3</span>
+              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
+                <span className="text-white text-sm">✓</span>
+              </div>
+            </div>
+            <div className="mb-4">
+              <div className="w-8 h-8 border-2 border-gray-800 rounded-lg flex items-center justify-center mb-3">
+                <Utensils className="w-4 h-4 text-gray-800" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800">
+                Enjoy your meal
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Menu Preview Cards */}
+      <div className="p-4 space-y-4">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">Popular dishes</h3>
+        
+        {/* Menu Item Cards in Mamo Style */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+              <span className="text-2xl">🍔</span>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-gray-800">Burgers</h3>
+              <p className="text-sm text-gray-600">Fresh, juicy, delicious</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-yellow-100 rounded-3xl p-6 shadow-sm">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 bg-yellow-200 rounded-full flex items-center justify-center">
+              <span className="text-2xl">🍕</span>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-gray-800">Pizza</h3>
+              <p className="text-sm text-gray-600">Wood-fired perfection</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-green-100 rounded-3xl p-6 shadow-sm">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center">
+              <span className="text-2xl">🥗</span>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-gray-800">Salads</h3>
+              <p className="text-sm text-gray-600">Fresh and healthy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="p-4 mb-8">
+        <div className="bg-gray-800 rounded-3xl p-6 text-center">
+          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-3xl">O</span>
+          </div>
+          <p className="text-white text-sm mb-6">
+            OrderFi helps you track, order, and<br />
+            enjoy your food – step by<br />
+            step, without the stress.
+          </p>
+          <div className="flex gap-3 justify-center">
+            <button className="bg-green-400 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-green-500 transition-colors">
+              Connect Menu
+            </button>
+            <button className="bg-yellow-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition-colors">
+              Get started!
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Bottom Navigation */}
