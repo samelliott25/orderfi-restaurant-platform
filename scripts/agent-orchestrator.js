@@ -5,6 +5,7 @@ import OpenAI from "openai";
 import { runTasteDrivenDevelopment } from "./taste-engine-simple.js";
 import { runUIDiscoveryPipeline } from "./ui-discovery-engine.js";
 import { UIInfraUpgradeEngine } from "./ui-infra-upgrade-engine.js";
+import { POSBackOfficeUpgrade } from "./pos-backoffice-upgrade.js";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -327,11 +328,30 @@ async function main() {
   // Check for UI upgrade flags
   const uiUpgradeFlag = process.argv.includes('--ui-upgrade');
   const uiInfraUpgradeFlag = process.argv.includes('--ui-infra-upgrade');
+  const posBackOfficeUpgradeFlag = process.argv.includes('--pos-backoffice-upgrade');
   
   try {
     let summary;
     
-    if (uiInfraUpgradeFlag) {
+    if (posBackOfficeUpgradeFlag) {
+      console.log("\n🏢 POS Back Office UI/UX Discovery Mode Activated");
+      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+      
+      // Run POS Back Office upgrade
+      const posUpgrade = new POSBackOfficeUpgrade();
+      const posResults = await posUpgrade.run();
+      
+      summary = {
+        mode: "pos-backoffice-upgrade",
+        platformsAnalyzed: posResults.metadata.totalPlatforms,
+        patternsDiscovered: posResults.metadata.totalPatterns,
+        implementationsGenerated: posResults.metadata.totalImplementations,
+        success: posResults.metadata.totalImplementations > 0,
+        timestamp: new Date().toISOString(),
+        topRecommendations: posResults.recommendations.immediateImplementations.slice(0, 3)
+      };
+      
+    } else if (uiInfraUpgradeFlag) {
       console.log("\n🚀 UI Infrastructure Upgrade Mode Activated");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
       
@@ -404,8 +424,19 @@ async function main() {
       console.log("• ui-tests.json - UI component test results");
     }
     
+    if (posBackOfficeUpgradeFlag) {
+      console.log("• pos-backoffice-discovery-report.json - POS platform analysis");
+      console.log("• pos-ui-catalog.json - POS UI pattern catalog");
+      console.log("• Generated React components in client/src/components/pos-backoffice/");
+    }
+    
     if (summary.success) {
-      if (summary.mode === "ui-discovery") {
+      if (summary.mode === "pos-backoffice-upgrade") {
+        console.log(`\n✅ Successfully analyzed ${summary.platformsAnalyzed} POS platforms`);
+        console.log(`📊 Discovered ${summary.patternsDiscovered} UI patterns`);
+        console.log(`🛠️ Generated ${summary.implementationsGenerated} React components`);
+        console.log("The app now has enhanced back-office UI based on leading POS systems!");
+      } else if (summary.mode === "ui-discovery") {
         console.log(`\n✅ Successfully implemented UI component: ${summary.topUI?.componentName}`);
         console.log("The app now has enhanced UI based on design inspiration!");
       } else {
@@ -413,7 +444,10 @@ async function main() {
         console.log("The app now has enhanced capabilities based on competitive analysis!");
       }
     } else {
-      if (summary.mode === "ui-discovery") {
+      if (summary.mode === "pos-backoffice-upgrade") {
+        console.log(`\n❌ POS Back Office upgrade failed`);
+        console.log("Check the error logs and try again.");
+      } else if (summary.mode === "ui-discovery") {
         console.log(`\n❌ UI Discovery implementation failed`);
         console.log(summary.message || "Check the error logs and try again.");
       } else {
