@@ -956,3 +956,5 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
     </>
   );
 }
+
+export default CustomerAiChat;
