@@ -54,6 +54,7 @@ import OrderStatus from "@/pages/customer/order-status";
 
 import DashboardMobile from "@/pages/dashboard-mobile";
 import TestMobile from "@/pages/test-mobile";
+import Design2026 from "@/pages/design-2026";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -167,6 +168,9 @@ function Router() {
         {/* New Restaurant Operations Pages */}
         <Route path="/kitchen" component={KitchenPage} />
         <Route path="/tables" component={TablesPage} />
+        
+        {/* Design Innovation */}
+        <Route path="/design-2026" component={Design2026} />
         
         <Route component={NotFound} />
       </Switch>

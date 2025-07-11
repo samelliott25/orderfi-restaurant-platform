@@ -416,6 +416,9 @@ pre,
   }
 }
 
+/* Import 2026 Design System */
+@import './styles/2026-design-system.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
