@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { MenuItem } from '@/shared/schema';
-import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info, ShoppingCart, RefreshCw, ChevronRight, Edit, Save, Upload, Tag, Percent, Calendar, Users, Barcode, Settings, Image, Bot, Send } from 'lucide-react';
+import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info, ShoppingCart, RefreshCw, ChevronRight, Edit, Save, Upload, Tag, Percent, Calendar, Users, Barcode, Settings, Image, Bot, Send, Brain, Zap, Target, Lightbulb, Bell, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import StandardLayout from '@/components/StandardLayout';
 
@@ -74,6 +74,174 @@ const SuggestionChip = ({ label, onClick, icon: Icon }: {
     {label}
   </Button>
 );
+
+// Smart notification component
+const SmartNotification = ({ notification, onDismiss, onAction }: {
+  notification: {
+    id: string;
+    type: 'urgent' | 'warning' | 'info' | 'success';
+    title: string;
+    message: string;
+    action?: { label: string; onClick: () => void };
+    priority: number;
+    timeLeft?: string;
+  };
+  onDismiss: () => void;
+  onAction?: () => void;
+}) => {
+  const icons = {
+    urgent: AlertTriangle,
+    warning: Bell,
+    info: Info,
+    success: CheckCircle
+  };
+
+  const colors = {
+    urgent: 'bg-red-50 border-red-200 dark:bg-red-950/20 dark:border-red-800',
+    warning: 'bg-orange-50 border-orange-200 dark:bg-orange-950/20 dark:border-orange-800',
+    info: 'bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-800',
+    success: 'bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-800'
+  };
+
+  const textColors = {
+    urgent: 'text-red-700 dark:text-red-300',
+    warning: 'text-orange-700 dark:text-orange-300',
+    info: 'text-blue-700 dark:text-blue-300',
+    success: 'text-green-700 dark:text-green-300'
+  };
+
+  const Icon = icons[notification.type];
+
+  return (
+    <div className={`p-3 rounded-lg border ${colors[notification.type]} mb-2`}>
+      <div className="flex items-start gap-3">
+        <Icon size={16} className={`mt-0.5 ${textColors[notification.type]}`} />
+        <div className="flex-1">
+          <div className="flex items-center justify-between">
+            <h4 className={`font-medium text-sm ${textColors[notification.type]}`}>
+              {notification.title}
+            </h4>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onDismiss}
+              className="h-6 w-6 p-0 hover:bg-transparent"
+            >
+              <X size={12} />
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground mt-1">{notification.message}</p>
+          {notification.timeLeft && (
+            <p className="text-xs text-muted-foreground mt-1">
+              <Clock size={10} className="inline mr-1" />
+              {notification.timeLeft}
+            </p>
+          )}
+          {notification.action && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={notification.action.onClick}
+              className="mt-2 h-7 text-xs"
+            >
+              {notification.action.label}
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// AI-powered predictive search component
+const PredictiveSearch = ({ onSearch, onVoiceSearch }: {
+  onSearch: (query: string) => void;
+  onVoiceSearch: () => void;
+}) => {
+  const [query, setQuery] = useState('');
+  const [predictions, setPredictions] = useState<string[]>([]);
+  const [isListening, setIsListening] = useState(false);
+
+  // Simulate AI predictions based on context
+  const generatePredictions = (input: string) => {
+    if (input.length < 2) return [];
+    
+    const commonQueries = [
+      'buffalo wings low stock',
+      'ingredients expiring soon',
+      'high cost items',
+      'menu items by category',
+      'supplier orders pending',
+      'waste tracking reports',
+      'profit margin analysis'
+    ];
+
+    return commonQueries
+      .filter(q => q.toLowerCase().includes(input.toLowerCase()))
+      .slice(0, 3);
+  };
+
+  const handleInputChange = (value: string) => {
+    setQuery(value);
+    setPredictions(generatePredictions(value));
+    onSearch(value);
+  };
+
+  return (
+    <div className="relative">
+      <div className="flex items-center gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+          <Input
+            placeholder="AI-powered search: Try 'low stock buffalo' or 'expiring ingredients'"
+            value={query}
+            onChange={(e) => handleInputChange(e.target.value)}
+            className="pl-10 pr-4"
+          />
+          {predictions.length > 0 && (
+            <div className="absolute top-full left-0 right-0 bg-background border rounded-lg mt-1 z-10 shadow-lg">
+              {predictions.map((prediction, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setQuery(prediction);
+                    onSearch(prediction);
+                    setPredictions([]);
+                  }}
+                  className="w-full text-left px-3 py-2 text-sm hover:bg-muted transition-colors first:rounded-t-lg last:rounded-b-lg"
+                >
+                  <Sparkles size={12} className="inline mr-2 text-orange-500" />
+                  {prediction}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setIsListening(!isListening);
+                  onVoiceSearch();
+                }}
+                className={`h-10 px-3 ${isListening ? 'bg-orange-100 dark:bg-orange-900/20 border-orange-300 dark:border-orange-700' : ''}`}
+              >
+                <Mic size={16} className={isListening ? 'text-orange-600' : 'text-muted-foreground'} />
+                {isListening && <span className="ml-2 text-xs">Listening...</span>}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Voice search: "Show me low stock items" or "Find buffalo wings"</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+    </div>
+  );
+};
 
 // Enhanced recent activity item component
 const RecentItem = ({ name, action, time, category }: { name: string; action: string; time: string; category?: string }) => (
@@ -818,6 +986,33 @@ export default function SimplifiedInventoryPage() {
   const [showHelp, setShowHelp] = useState(false);
   const [showCoachMarks, setShowCoachMarks] = useState(false);
   const [coachStep, setCoachStep] = useState(0);
+  const [notifications, setNotifications] = useState([
+    {
+      id: '1',
+      type: 'urgent' as const,
+      title: 'Low Stock Alert',
+      message: 'Buffalo Wings below threshold (3 units remaining)',
+      priority: 1,
+      timeLeft: '2 hours until dinner rush',
+      action: { label: 'Reorder Now', onClick: () => toast({ title: 'Reorder initiated for Buffalo Wings' }) }
+    },
+    {
+      id: '2',
+      type: 'warning' as const,
+      title: 'Expiring Soon',
+      message: 'Lettuce expires in 2 days - consider daily special promotion',
+      priority: 2,
+      action: { label: 'Create Special', onClick: () => toast({ title: 'Daily special suggestion created' }) }
+    },
+    {
+      id: '3',
+      type: 'info' as const,
+      title: 'AI Insight',
+      message: 'Burger sales up 15% this week - consider increasing patty orders',
+      priority: 3,
+      action: { label: 'Adjust Orders', onClick: () => toast({ title: 'Order adjustments suggested' }) }
+    }
+  ]);
 
   const { toast } = useToast();
 
@@ -1113,6 +1308,36 @@ export default function SimplifiedInventoryPage() {
       subtitle="Manage menu items, track inventory, and monitor stock levels"
     >
       <div className="space-y-6">
+        {/* Smart Notifications Panel */}
+        {notifications.length > 0 && (
+          <div className="bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-950/20 dark:to-pink-950/20 rounded-lg p-4 border border-orange-200 dark:border-orange-800">
+            <div className="flex items-center gap-2 mb-3">
+              <Brain className="w-5 h-5 text-orange-600" />
+              <h3 className="font-medium text-orange-700 dark:text-orange-300">Smart Alerts</h3>
+              <Badge variant="outline" className="text-xs bg-orange-100 border-orange-300 text-orange-700">
+                {notifications.length} Active
+              </Badge>
+            </div>
+            <div className="grid gap-2">
+              {notifications.slice(0, 3).map((notification) => (
+                <SmartNotification
+                  key={notification.id}
+                  notification={notification}
+                  onDismiss={() => setNotifications(prev => prev.filter(n => n.id !== notification.id))}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Enhanced Search */}
+        <div className="space-y-4">
+          <PredictiveSearch
+            onSearch={setSearchTerm}
+            onVoiceSearch={() => setIsListening(!isListening)}
+          />
+        </div>
+
         {/* Quick Actions - No duplicate header needed */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
