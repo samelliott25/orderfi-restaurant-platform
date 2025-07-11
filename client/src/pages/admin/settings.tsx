@@ -24,49 +24,61 @@ export default function SettingsPage() {
       <div data-testid="settings-page" className="space-y-6">
         {/* Header Stats - Responsive Grid */}
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal">Active Integrations</CardTitle>
-              <Globe className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-xl sm:text-2xl font-normal">8</div>
-              <p className="text-xs text-muted-foreground">Connected services</p>
-            </CardContent>
-          </Card>
+          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
+            <div className="relative flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Active Integrations</p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">8</p>
+                <p className="text-xs text-muted-foreground">Connected services</p>
+              </div>
+              <div className="p-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
+                <Globe className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </div>
         
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal">Notifications</CardTitle>
-              <Bell className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-xl sm:text-2xl font-normal">12</div>
-              <p className="text-xs text-muted-foreground">Active alerts</p>
-            </CardContent>
-          </Card>
+          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/10"></div>
+            <div className="relative flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Notifications</p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">12</p>
+                <p className="text-xs text-muted-foreground">Active alerts</p>
+              </div>
+              <div className="p-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500">
+                <Bell className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </div>
           
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal">Security Level</CardTitle>
-              <Shield className="h-4 w-4 text-green-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-xl sm:text-2xl font-normal">High</div>
-              <p className="text-xs text-muted-foreground">All systems secure</p>
-            </CardContent>
-          </Card>
+          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10"></div>
+            <div className="relative flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-green-600 dark:text-green-400">Security Level</p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">High</p>
+                <p className="text-xs text-muted-foreground">All systems secure</p>
+              </div>
+              <div className="p-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500">
+                <Shield className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </div>
           
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal">Theme</CardTitle>
-              <Palette className="h-4 w-4 text-orange-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-xl sm:text-2xl font-normal">OrderFi</div>
-              <p className="text-xs text-muted-foreground">Custom brand theme</p>
-            </CardContent>
-          </Card>
+          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+            <div className="relative flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Theme</p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">OrderFi</p>
+                <p className="text-xs text-muted-foreground">Custom brand theme</p>
+              </div>
+              <div className="p-2 rounded-full bg-gradient-to-r from-orange-500 to-pink-500">
+                <Palette className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Settings Tabs */}

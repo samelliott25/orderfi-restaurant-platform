@@ -91,67 +91,61 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-      <Card className="hover:shadow-md transition-shadow">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-normal text-muted-foreground">Total SKUs</p>
-              <p className="text-2xl font-normal">{totalSKUs}</p>
-            </div>
-            <Package className="h-8 w-8 text-blue-600" />
-          </div>
-          <div className="mt-2">
+      <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
+        <div className="relative flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total SKUs</p>
+            <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">{totalSKUs}</p>
             <p className="text-xs text-muted-foreground">Total Value: ${totalValue.toLocaleString()}</p>
           </div>
-        </CardContent>
-      </Card>
+          <div className="p-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
+            <Package className="h-6 w-6 text-white" />
+          </div>
+        </div>
+      </div>
 
-      <Card className="hover:shadow-md transition-shadow">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-normal text-muted-foreground">Below Threshold</p>
-              <p className="text-2xl font-normal text-orange-600">{belowThreshold}</p>
-            </div>
-            <AlertTriangle className="h-8 w-8 text-orange-600" />
+      <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/10"></div>
+        <div className="relative flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Below Threshold</p>
+            <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">{belowThreshold}</p>
+            <p className="text-xs text-red-600 font-medium">{((belowThreshold / totalSKUs) * 100).toFixed(1)}% of inventory</p>
           </div>
-          <div className="mt-2">
-            <Badge variant="destructive" className="text-xs">
-              {((belowThreshold / totalSKUs) * 100).toFixed(1)}% of inventory
-            </Badge>
+          <div className="p-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500">
+            <AlertTriangle className="h-6 w-6 text-white" />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card className="hover:shadow-md transition-shadow">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-normal text-muted-foreground">Pending POs</p>
-              <p className="text-2xl font-normal text-blue-600">{pendingPOs}</p>
-            </div>
-            <RefreshCw className="h-8 w-8 text-blue-600" />
-          </div>
-          <div className="mt-2">
+      <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10"></div>
+        <div className="relative flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Pending POs</p>
+            <p className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{pendingPOs}</p>
             <p className="text-xs text-muted-foreground">Awaiting approval</p>
           </div>
-        </CardContent>
-      </Card>
+          <div className="p-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
+            <RefreshCw className="h-6 w-6 text-white" />
+          </div>
+        </div>
+      </div>
 
-      <Card className="hover:shadow-md transition-shadow">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-normal text-muted-foreground">Overdue Invoices</p>
-              <p className="text-2xl font-normal text-red-600">{overdueInvoices}</p>
-            </div>
-            <Mail className="h-8 w-8 text-red-600" />
+      <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+        <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-pink-500/10"></div>
+        <div className="relative flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-red-600 dark:text-red-400">Overdue Invoices</p>
+            <p className="text-2xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">{overdueInvoices}</p>
+            <p className="text-xs text-red-600 font-medium">Requires attention</p>
           </div>
-          <div className="mt-2">
-            <p className="text-xs text-muted-foreground">Requires attention</p>
+          <div className="p-2 rounded-full bg-gradient-to-r from-red-500 to-pink-500">
+            <Mail className="h-6 w-6 text-white" />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

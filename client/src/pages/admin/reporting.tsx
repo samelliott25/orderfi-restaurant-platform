@@ -13,49 +13,61 @@ export default function ReportingPage() {
       <div data-testid="reporting-page" className="space-y-6">
         {/* Header Stats - Responsive Grid */}
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Today's Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold">$14,530</div>
-            <p className="text-xs text-muted-foreground">+8.2% from yesterday</p>
-          </CardContent>
-        </Card>
+        <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10"></div>
+          <div className="relative flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-green-600 dark:text-green-400">Today's Revenue</p>
+              <p className="text-2xl font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">$14,530</p>
+              <p className="text-xs text-green-600 font-medium">+8.2% from yesterday</p>
+            </div>
+            <div className="p-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500">
+              <DollarSign className="h-6 w-6 text-white" />
+            </div>
+          </div>
+        </div>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Performance Score</CardTitle>
-            <Target className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold">94%</div>
-            <p className="text-xs text-muted-foreground">Above target</p>
-          </CardContent>
-        </Card>
+        <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10"></div>
+          <div className="relative flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Performance Score</p>
+              <p className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">94%</p>
+              <p className="text-xs text-purple-600 font-medium">Above target</p>
+            </div>
+            <div className="p-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
+              <Target className="h-6 w-6 text-white" />
+            </div>
+          </div>
+        </div>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Growth Rate</CardTitle>
-            <TrendingUp className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold">+15.3%</div>
-            <p className="text-xs text-muted-foreground">Monthly growth</p>
-          </CardContent>
-        </Card>
+        <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10"></div>
+          <div className="relative flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Growth Rate</p>
+              <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">+15.3%</p>
+              <p className="text-xs text-blue-600 font-medium">Monthly growth</p>
+            </div>
+            <div className="p-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500">
+              <TrendingUp className="h-6 w-6 text-white" />
+            </div>
+          </div>
+        </div>
         
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Reports Generated</CardTitle>
-            <BarChart3 className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-xl sm:text-2xl font-bold">42</div>
-            <p className="text-xs text-muted-foreground">This month</p>
-          </CardContent>
-        </Card>
+        <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/10"></div>
+          <div className="relative flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Reports Generated</p>
+              <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">42</p>
+              <p className="text-xs text-muted-foreground">This month</p>
+            </div>
+            <div className="p-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500">
+              <BarChart3 className="h-6 w-6 text-white" />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Reporting Content */}

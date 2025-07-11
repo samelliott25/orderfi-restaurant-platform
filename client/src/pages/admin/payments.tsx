@@ -310,19 +310,19 @@ export default function PaymentsPage() {
             {/* Summary Cards - Responsive Grid */}
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
               {/* Total Revenue */}
-              <Card className="hover:shadow-lg transition-shadow duration-200">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-                  <DollarSign className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-xl sm:text-2xl font-bold">{formatCurrency(currentSummary.totalRevenue)}</div>
-                  <div className="flex items-center text-xs text-muted-foreground">
-                    <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
-                    +12.5% from last month
+              <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10"></div>
+                <div className="relative flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-green-600 dark:text-green-400">Total Revenue</p>
+                    <p className="text-2xl font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">{formatCurrency(currentSummary.totalRevenue)}</p>
+                    <p className="text-xs text-green-600 font-medium">+12.5% from last month</p>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="p-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500">
+                    <DollarSign className="h-6 w-6 text-white" />
+                  </div>
+                </div>
+              </div>
 
               {/* Crypto Revenue */}
               <Card className="hover:shadow-lg transition-shadow duration-200">

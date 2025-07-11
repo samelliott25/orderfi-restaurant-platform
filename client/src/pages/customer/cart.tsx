@@ -136,9 +136,10 @@ export default function CustomerCart() {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Card className="w-full max-w-md mx-4">
-          <CardContent className="text-center py-8">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="w-full max-w-md mx-4 relative overflow-hidden rounded-xl p-8 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+          <div className="relative text-center">
             <div className="text-6xl mb-4">🛒</div>
             <h2 className="text-2xl font-semibold mb-2">Your cart is empty</h2>
             <p className="text-muted-foreground mb-4">
@@ -146,51 +147,56 @@ export default function CustomerCart() {
             </p>
             <Button 
               onClick={() => navigate('/menu')}
-              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 hover:scale-105 transition-all duration-200"
             >
               Browse Menu
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background border-b">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate('/menu')}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Menu
-              </Button>
-              <h1 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Your Cart</h1>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button
-                variant={isVoiceEnabled ? "default" : "outline"}
-                size="sm"
-                onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
-              >
-                <Mic className="w-4 h-4 mr-1" />
-                Voice
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={clearCart}
-                className="text-red-600 border-red-200 hover:bg-red-50"
-              >
-                <Trash2 className="w-4 h-4 mr-1" />
-                Clear Cart
-              </Button>
+      <div className="sticky top-0 z-10 relative overflow-hidden p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border-b border-white/20 shadow-lg">
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-pink-500/10"></div>
+        <div className="relative">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate('/menu')}
+                  className="hover:bg-white/20 transition-colors"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Menu
+                </Button>
+                <h1 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Your Cart</h1>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant={isVoiceEnabled ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
+                  className="hover:bg-white/20 transition-colors"
+                >
+                  <Mic className="w-4 h-4 mr-1" />
+                  Voice
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={clearCart}
+                  className="text-red-600 border-red-200 hover:bg-red-50 hover:bg-white/20 transition-colors"
+                >
+                  <Trash2 className="w-4 h-4 mr-1" />
+                  Clear Cart
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -201,8 +207,9 @@ export default function CustomerCart() {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {cart.map((item, index) => (
-              <Card key={`${item.id}-${index}`}>
-                <CardContent className="p-4">
+              <div key={`${item.id}-${index}`} className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-pink-500/5"></div>
+                <div className="relative">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg">{item.name}</h3>
@@ -262,18 +269,18 @@ export default function CustomerCart() {
                       {formatPrice((item.price_cents + item.modifiers.reduce((sum, mod) => sum + mod.price_delta, 0)) * item.quantity)}
                     </span>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-24">
-              <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <div className="sticky top-24 relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+              <div className="relative">
+                <h3 className="text-xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-4">Order Summary</h3>
+                <div className="space-y-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
                   <span>{formatPrice(getSubtotal())}</span>
@@ -337,8 +344,8 @@ export default function CustomerCart() {
                   <CreditCard className="w-5 h-5 mr-2" />
                   Proceed to Checkout
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </div>

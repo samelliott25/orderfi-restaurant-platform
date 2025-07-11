@@ -60,38 +60,47 @@ export default function AdminOrdersPage() {
       <div data-testid="orders-page" className="space-y-6">
         {/* Quick Stats - Responsive Grid */}
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal">Active Orders</CardTitle>
-              <ChefHat className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-normal">12</div>
-              <p className="text-xs text-muted-foreground">Currently being prepared</p>
-            </CardContent>
-          </Card>
+          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/10"></div>
+            <div className="relative flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Active Orders</p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">12</p>
+                <p className="text-xs text-muted-foreground">Currently being prepared</p>
+              </div>
+              <div className="p-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500">
+                <ChefHat className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </div>
 
-          <Card className="w-full">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal">Ready for Pickup</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-normal">3</div>
-              <p className="text-xs text-muted-foreground">Waiting for customers</p>
-            </CardContent>
-          </Card>
+          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
+            <div className="relative flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Ready for Pickup</p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">3</p>
+                <p className="text-xs text-muted-foreground">Waiting for customers</p>
+              </div>
+              <div className="p-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
+                <Clock className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </div>
 
-          <Card className="w-full">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-normal">Completed Today</CardTitle>
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-normal">47</div>
-              <p className="text-xs text-muted-foreground">Orders fulfilled</p>
-            </CardContent>
-          </Card>
+          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10"></div>
+            <div className="relative flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-green-600 dark:text-green-400">Completed Today</p>
+                <p className="text-2xl font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">47</p>
+                <p className="text-xs text-muted-foreground">Orders fulfilled</p>
+              </div>
+              <div className="p-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500">
+                <CheckCircle className="h-6 w-6 text-white" />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Orders List */}

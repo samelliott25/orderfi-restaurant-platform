@@ -128,20 +128,24 @@ export default function CustomerCheckout() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background border-b">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate('/cart')}
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Cart
-            </Button>
-            <h1 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Checkout</h1>
+      <div className="sticky top-0 z-10 relative overflow-hidden p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border-b border-white/20 shadow-lg">
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-pink-500/10"></div>
+        <div className="relative">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate('/cart')}
+                className="hover:bg-white/20 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Cart
+              </Button>
+              <h1 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Checkout</h1>
+            </div>
           </div>
         </div>
       </div>
@@ -149,11 +153,10 @@ export default function CustomerCheckout() {
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Payment Form */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Payment Information</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+            <div className="relative">
+              <h3 className="text-xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-6">Payment Information</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4">
                   <div>
@@ -284,67 +287,68 @@ export default function CustomerCheckout() {
                   )}
                 </Button>
               </form>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {/* Order Summary */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                {cart.map((item, index) => (
-                  <div key={`${item.id}-${index}`} className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <h4 className="font-medium">{item.name}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Qty: {item.quantity} × {formatPrice(item.price_cents)}
-                      </p>
-                      {item.modifiers.length > 0 && (
-                        <div className="mt-1 space-x-1">
-                          {item.modifiers.map((modifier) => (
-                            <Badge key={modifier.id} variant="secondary" className="text-xs">
-                              {modifier.name}
-                            </Badge>
-                          ))}
+          <div className="relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+            <div className="relative">
+              <h3 className="text-xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-4">Order Summary</h3>
+                <div className="space-y-4">
+                  <div className="space-y-3">
+                    {cart.map((item, index) => (
+                      <div key={`${item.id}-${index}`} className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <h4 className="font-medium">{item.name}</h4>
+                          <p className="text-sm text-muted-foreground">
+                            Qty: {item.quantity} × {formatPrice(item.price_cents)}
+                          </p>
+                          {item.modifiers.length > 0 && (
+                            <div className="mt-1 space-x-1">
+                              {item.modifiers.map((modifier) => (
+                                <Badge key={modifier.id} variant="secondary" className="text-xs">
+                                  {modifier.name}
+                                </Badge>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                    <span className="font-medium">
-                      {formatPrice((item.price_cents + item.modifiers.reduce((sum, mod) => sum + mod.price_delta, 0)) * item.quantity)}
-                    </span>
+                        <span className="font-medium">
+                          {formatPrice((item.price_cents + item.modifiers.reduce((sum, mod) => sum + mod.price_delta, 0)) * item.quantity)}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                  
+                  <Separator />
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span>Subtotal</span>
+                      <span>{formatPrice(getSubtotal())}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span>Tax (8.875%)</span>
+                      <span>{formatPrice(getTaxAmount())}</span>
+                    </div>
+                    
+                    <div className="flex justify-between">
+                      <span>Tip</span>
+                      <span>{formatPrice(getTipAmount())}</span>
+                    </div>
+                    
+                    <Separator />
+                    
+                    <div className="flex justify-between text-lg font-semibold">
+                      <span>Total</span>
+                      <span>{formatPrice(getTotal())}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              <Separator />
-              
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>{formatPrice(getSubtotal())}</span>
-                </div>
-                
-                <div className="flex justify-between">
-                  <span>Tax (8.875%)</span>
-                  <span>{formatPrice(getTaxAmount())}</span>
-                </div>
-                
-                <div className="flex justify-between">
-                  <span>Tip</span>
-                  <span>{formatPrice(getTipAmount())}</span>
-                </div>
-                
-                <Separator />
-                
-                <div className="flex justify-between text-lg font-semibold">
-                  <span>Total</span>
-                  <span>{formatPrice(getTotal())}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+            </div>
         </div>
       </div>
     </div>
