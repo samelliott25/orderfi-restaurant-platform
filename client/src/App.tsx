@@ -47,7 +47,6 @@ import CustomerCheckout from "@/pages/customer/checkout";
 import OrderStatus from "@/pages/customer/order-status";
 
 import DashboardMobile from "@/pages/dashboard-mobile";
-import DashboardMobileSimple from "@/pages/dashboard-mobile-simple";
 import TestMobile from "@/pages/test-mobile";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
@@ -128,7 +127,6 @@ function Router() {
         <Route path="/dashboard" component={OptimizedDashboard} />
         <Route path="/dashboard-hybrid" component={HybridDashboard} />
         <Route path="/dashboard-mobile" component={DashboardMobile} />
-        <Route path="/dashboard-mobile-simple" component={DashboardMobileSimple} />
         <Route path="/test-mobile" component={TestMobile} />
         
         {/* Mobile App - QR Ordering System */}
