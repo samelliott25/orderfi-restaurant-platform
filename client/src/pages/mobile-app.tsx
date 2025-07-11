@@ -121,6 +121,16 @@ export default function MobileAppPage() {
 
   return (
     <div className="min-h-screen pb-20" style={{ backgroundColor: '#fff0cc' }}>
+      {/* Creative Layout Enhancement Banner */}
+      <div className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white px-4 py-3 text-center shadow-lg">
+        <div className="flex items-center justify-center space-x-2 animate-pulse">
+          <div className="w-3 h-3 bg-white rounded-full"></div>
+          <span className="font-bold text-sm">CREATIVE LAYOUT SYSTEM ACTIVE</span>
+          <div className="w-3 h-3 bg-white rounded-full"></div>
+        </div>
+        <p className="text-xs mt-1 opacity-90">Enhanced with masonry grids, card stacks & floating animations</p>
+      </div>
+      
       {/* Header */}
       <div className="sticky top-0 z-10 p-4 border-b" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
         <div className="flex items-center justify-between mb-4">

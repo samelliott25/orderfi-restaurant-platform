@@ -416,15 +416,15 @@ pre,
   }
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Import 2026 Design System */
 @import './styles/2026-design-system.css';
 
 /* Import Creative Layout System */
 @import './styles/creative-layout-system.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   html, body, #root {
