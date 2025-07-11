@@ -45,7 +45,7 @@ import ScanPage from "@/pages/customer/scan";
 import CustomerCart from "@/pages/customer/cart";
 import CustomerCheckout from "@/pages/customer/checkout";
 import OrderStatus from "@/pages/customer/order-status";
-import UIShowcase from "@/pages/ui-showcase";
+
 import DashboardMobile from "@/pages/dashboard-mobile";
 import DashboardMobileSimple from "@/pages/dashboard-mobile-simple";
 import TestMobile from "@/pages/test-mobile";
@@ -142,9 +142,6 @@ function Router() {
         
         {/* Token Rewards (keeping as separate feature) */}
         <Route path="/tokenrewards" component={TokenRewardsPage} />
-        
-        {/* UI Showcase */}
-        <Route path="/ui-showcase" component={UIShowcase} />
         
         {/* Essential Admin Pages */}
         <Route path="/inventory" component={SimplifiedInventoryPage} />
