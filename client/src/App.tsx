@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { useChatContext } from "@/contexts/ChatContext";
 import CustomerAiChat from "@/components/CustomerAiChat";
 import SuperiorDashboard from "@/components/SuperiorDashboard";
+import HybridSuperiorDashboard from "@/components/HybridSuperiorDashboard";
 import { RealTimeProvider } from "@/components/RealTimeSync";
 import { ContextAwareUIProvider } from "@/components/ContextAwareUI";
 
@@ -131,19 +132,26 @@ function Router() {
         <Route path="/" component={() => (
           <RealTimeProvider>
             <ContextAwareUIProvider>
-              <SuperiorDashboard />
+              <HybridSuperiorDashboard />
             </ContextAwareUIProvider>
           </RealTimeProvider>
         )} />
         <Route path="/dashboard" component={() => (
           <RealTimeProvider>
             <ContextAwareUIProvider>
-              <SuperiorDashboard />
+              <HybridSuperiorDashboard />
             </ContextAwareUIProvider>
           </RealTimeProvider>
         )} />
         <Route path="/dashboard-hybrid" component={HybridDashboard} />
         <Route path="/dashboard-optimized" component={OptimizedDashboard} />
+        <Route path="/dashboard-superior" component={() => (
+          <RealTimeProvider>
+            <ContextAwareUIProvider>
+              <SuperiorDashboard />
+            </ContextAwareUIProvider>
+          </RealTimeProvider>
+        )} />
         <Route path="/dashboard-mobile" component={DashboardMobile} />
         <Route path="/test-mobile" component={TestMobile} />
         
