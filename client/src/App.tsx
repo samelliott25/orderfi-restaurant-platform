@@ -17,6 +17,9 @@ import NotFound from "@/pages/not-found";
 import { useEffect, useState } from "react";
 import { useChatContext } from "@/contexts/ChatContext";
 import CustomerAiChat from "@/components/CustomerAiChat";
+import SuperiorDashboard from "@/components/SuperiorDashboard";
+import { RealTimeProvider } from "@/components/RealTimeSync";
+import { ContextAwareUIProvider } from "@/components/ContextAwareUI";
 
 // Redirect component for menu route
 function MenuRedirect() {
@@ -125,9 +128,22 @@ function Router() {
         
 
         {/* Dashboard - Default Home */}
-        <Route path="/" component={OptimizedDashboard} />
-        <Route path="/dashboard" component={OptimizedDashboard} />
+        <Route path="/" component={() => (
+          <RealTimeProvider>
+            <ContextAwareUIProvider>
+              <SuperiorDashboard />
+            </ContextAwareUIProvider>
+          </RealTimeProvider>
+        )} />
+        <Route path="/dashboard" component={() => (
+          <RealTimeProvider>
+            <ContextAwareUIProvider>
+              <SuperiorDashboard />
+            </ContextAwareUIProvider>
+          </RealTimeProvider>
+        )} />
         <Route path="/dashboard-hybrid" component={HybridDashboard} />
+        <Route path="/dashboard-optimized" component={OptimizedDashboard} />
         <Route path="/dashboard-mobile" component={DashboardMobile} />
         <Route path="/test-mobile" component={TestMobile} />
         
