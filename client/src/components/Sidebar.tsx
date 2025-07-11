@@ -39,7 +39,8 @@ import {
   Mic,
   Timer,
   Clock,
-  Palette
+  Palette,
+  Layers
 } from "lucide-react";
 
 const menuItems = [
@@ -56,6 +57,7 @@ const menuItems = [
   { icon: Settings2, label: "Settings", href: "/settings" },
   { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
   { icon: Palette, label: "2026 Design", href: "/design-2026" },
+  { icon: Layers, label: "Creative Layout", href: "/creative-showcase" },
 ];
 
 interface SidebarProps {
