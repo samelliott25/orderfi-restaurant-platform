@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CollapsibleChat } from "@/components/CollapsibleChat";
+import { CreativeCardStack } from '@/components/creative-layout/CreativeCardStack';
+import { CreativeMasonryGrid } from '@/components/creative-layout/CreativeMasonryGrid';
+import { CreativeShapes, FloatingShapes } from '@/components/creative-layout/CreativeShapes';
 import { 
   Search, 
   Heart, 
@@ -202,7 +205,7 @@ export default function MobileAppPage() {
         </div>
       </div>
 
-      {/* Menu Items */}
+      {/* Menu Items with Creative Layout */}
       <div className="px-4 space-y-4">
         <h3 className="font-bold text-lg" style={{ color: '#8b795e' }}>
           {selectedCategory === 'popular' ? 'Popular Items' : 
@@ -210,62 +213,18 @@ export default function MobileAppPage() {
            categories.find(c => c.id === selectedCategory)?.name || 'Menu Items'}
         </h3>
         
-        <div className="grid gap-4">
-          {filteredItems.map((item) => (
-            <Card key={item.id} className="bg-background border" style={{ borderColor: '#e5cf97' }}>
-              <CardContent className="p-4">
-                <div className="flex gap-4">
-                  <div className="text-4xl">{item.image}</div>
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-bold text-lg" style={{ color: '#8b795e' }}>
-                        {item.name}
-                      </h4>
-                      <span className="font-bold text-lg" style={{ color: '#8b795e' }}>
-                        ${item.price}
-                      </span>
-                    </div>
-                    
-                    <p className="text-sm mb-3" style={{ color: '#8b795e' }}>
-                      {item.description}
-                    </p>
-                    
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        <span className="text-sm font-medium">{item.rating}</span>
-                      </div>
-                      <div className="flex items-center gap-1" style={{ color: '#8b795e' }}>
-                        <Clock className="w-4 h-4" />
-                        <span className="text-sm">{item.deliveryTime}</span>
-                      </div>
-                      <div className="flex items-center gap-1" style={{ color: '#8b795e' }}>
-                        <Truck className="w-4 h-4" />
-                        <span className="text-sm">Free Delivery</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-2">
-                        {item.tags.slice(0, 2).map((tag, index) => (
-                          <Badge key={index} variant="secondary" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                      <Button 
-                        size="sm"
-                        className="bg-[#8b795e] hover:bg-[#6d5d4f] text-white"
-                      >
-                        Add to Cart
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <CreativeMasonryGrid 
+          items={filteredItems.map((item, index) => ({
+            id: item.id,
+            title: item.name,
+            content: `${item.description.substring(0, 100)}... $${item.price}`,
+            height: index % 3 === 0 ? 'tall' : index % 2 === 0 ? 'medium' : 'short',
+            color: item.tags.includes('Popular') ? 'primary' : 
+                   item.tags.includes('Bestseller') ? 'secondary' : 
+                   item.tags.includes('Spicy') ? 'accent' : 'neutral'
+          }))}
+          className="masonry-grid-mobile"
+        />
       </div>
 
       {/* Bottom Navigation */}

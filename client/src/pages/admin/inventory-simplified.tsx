@@ -13,6 +13,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { MenuItem } from '@/shared/schema';
+import { CreativeMasonryGrid } from '@/components/creative-layout/CreativeMasonryGrid';
+import { CreativeHeader } from '@/components/creative-layout/CreativeHeader';
+import { FloatingShapes } from '@/components/creative-layout/CreativeShapes';
 import { Search, Mic, Plus, Package, AlertTriangle, DollarSign, TrendingUp, X, BarChart3, CheckCircle, Star, Clock, HelpCircle, Info, ShoppingCart, RefreshCw, ChevronRight, Edit, Save, Upload, Tag, Percent, Calendar, Users, Barcode, Settings, Image, Bot, Send, Brain, Zap, Target, Lightbulb, Bell, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import StandardLayout from '@/components/StandardLayout';
@@ -1553,54 +1556,38 @@ export default function SimplifiedInventoryPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {items.map((item: MenuItem) => {
-                      const stockStatus = getStockStatus(item);
-                      const IconComponent = stockStatus.icon;
-                      
-                      return (
-                        <Card 
-                          key={item.id} 
-                          className="hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-orange-500"
-                          onClick={() => {
-                            setSelectedItem(item);
-                            setEditingItem(item);
-                            setIsEditDialogOpen(true);
-                          }}
-                        >
-                          <CardHeader className="pb-2">
-                            <div className="flex items-center justify-between">
-                              <CardTitle className="text-base font-medium truncate">
-                                {item.name}
-                              </CardTitle>
-                              <div className={`p-1 rounded-full ${stockStatus.bgColor}`}>
-                                <IconComponent size={12} className={stockStatus.color} />
-                              </div>
-                            </div>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="text-lg font-bold text-foreground">
-                                ${parseFloat(item.price).toFixed(2)}
-                              </div>
-                              <Badge variant="outline" className={`${stockStatus.color} border-current`}>
-                                {stockStatus.label}
-                              </Badge>
-                            </div>
-                            {item.trackInventory && (
-                              <div className="text-sm text-muted-foreground">
-                                Stock: {item.currentStock || 0} units
-                              </div>
-                            )}
-                            {item.description && (
-                              <div className="text-xs text-muted-foreground mt-2 line-clamp-2">
-                                {item.description}
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
-                      );
-                    })}
+                  <div className="relative">
+                    <FloatingShapes className="absolute inset-0 opacity-5 pointer-events-none" />
+                    <CreativeMasonryGrid
+                      items={items.map((item: MenuItem, index) => {
+                        const stockStatus = getStockStatus(item);
+                        return {
+                          id: item.id,
+                          title: item.name,
+                          content: `${item.description || ''} • $${parseFloat(item.price).toFixed(2)}`,
+                          height: index % 3 === 0 ? 'tall' : index % 2 === 0 ? 'medium' : 'short',
+                          color: stockStatus.color.includes('red') ? 'accent' : 
+                                stockStatus.color.includes('green') ? 'secondary' : 
+                                stockStatus.color.includes('yellow') ? 'primary' : 'neutral',
+                          metadata: {
+                            price: parseFloat(item.price),
+                            stock: item.currentStock || 0,
+                            status: stockStatus.label,
+                            category: item.category,
+                            trackInventory: item.trackInventory
+                          }
+                        };
+                      })}
+                      className="inventory-masonry"
+                      onItemClick={(item) => {
+                        const menuItem = items.find(i => i.id === item.id);
+                        if (menuItem) {
+                          setSelectedItem(menuItem);
+                          setEditingItem(menuItem);
+                          setIsEditDialogOpen(true);
+                        }
+                      }}
+                    />
                   </div>
                 </CardContent>
               </Card>

@@ -2,6 +2,9 @@ import { StandardLayout } from "@/components/StandardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { CreativeCardStack } from '@/components/creative-layout/CreativeCardStack';
+import { CreativeMasonryGrid } from '@/components/creative-layout/CreativeMasonryGrid';
+import { FloatingShapes } from '@/components/creative-layout/CreativeShapes';
 import { Clock, ChefHat, CheckCircle, Users, MapPin } from "lucide-react";
 import "@/styles/mobile-fix.css";
 
@@ -103,60 +106,27 @@ export default function AdminOrdersPage() {
           </div>
         </div>
 
-        {/* Orders List */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Orders</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {orders.map((order) => (
-                <div key={order.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-4">
-                  <div className="flex items-center space-x-4">
-                    {getStatusIcon(order.status)}
-                    <div>
-                      <div className="flex items-center space-x-2">
-                        <span className="font-medium">Order #{order.id}</span>
-                        <Badge className={getStatusColor(order.status)}>
-                          {order.status}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center space-x-4 text-sm text-muted-foreground mt-1">
-                        <span className="flex items-center">
-                          <Users className="h-3 w-3 mr-1" />
-                          {order.customerName}
-                        </span>
-                        <span className="flex items-center">
-                          <MapPin className="h-3 w-3 mr-1" />
-                          Table {order.table}
-                        </span>
-                        <span>{order.time}</span>
-                      </div>
-                      <div className="text-sm text-muted-foreground mt-1">
-                        Items: {order.items.join(", ")}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between sm:justify-end gap-2 flex-shrink-0">
-                    <span className="font-semibold">{order.total}</span>
-                    <div className="flex items-center gap-2">
-                      {order.status === 'preparing' && (
-                        <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
-                          Mark Ready
-                        </Button>
-                      )}
-                      {order.status === 'ready' && (
-                        <Button size="sm" variant="outline">
-                          Mark Picked Up
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Orders List with Creative Layout */}
+        <div className="relative">
+          <FloatingShapes className="absolute inset-0 opacity-20 pointer-events-none" />
+          <CreativeCardStack
+            cards={orders.map((order) => ({
+              id: order.id,
+              title: `Order #${order.id}`,
+              content: `${order.customerName} • Table ${order.table} • ${order.items.join(", ")}`,
+              status: order.status,
+              action: order.status === 'preparing' ? 'Mark Ready' : 
+                     order.status === 'ready' ? 'Mark Picked Up' : 'Complete',
+              metadata: {
+                time: order.time,
+                total: order.total,
+                table: order.table,
+                items: order.items
+              }
+            }))}
+            className="order-stack"
+          />
+        </div>
       </div>
     </StandardLayout>
   );

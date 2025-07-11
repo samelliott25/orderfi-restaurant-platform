@@ -4,6 +4,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CreativeCardStack } from '@/components/creative-layout/CreativeCardStack';
+import { CreativeSplitScreen } from '@/components/creative-layout/CreativeSplitScreen';
+import { CreativeHeader } from '@/components/creative-layout/CreativeHeader';
+import { FloatingShapes } from '@/components/creative-layout/CreativeShapes';
 import { Coins, Gift, Trophy, Star, TrendingUp, History, Wallet } from "lucide-react";
 import { StandardLayout } from "@/components/StandardLayout";
 
@@ -80,26 +84,69 @@ export default function TokenRewards() {
     <StandardLayout title="Token Rewards" subtitle="Earn your share of the network">
       <div className="space-y-6">
 
-        {/* Current Status Card - Matching OrderFi Design */}
-        <Card className="bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 text-white border-0">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-lg">OrderFi Tokens</h3>
-                <p className="text-2xl font-bold mt-1">{currentPoints.toLocaleString()}</p>
-                <p className="text-xs opacity-90 mt-1">Available Tokens</p>
-              </div>
-              <div className="text-right">
-                <Button variant="secondary" size="sm" className="bg-white/20 hover:bg-white/30 text-white border-0">
-                  Redeem
-                </Button>
-              </div>
-            </div>
-            <div className="mt-3 pt-3 border-t border-white/20">
-              <p className="text-xs opacity-90">Earn tokens with every order • 1 token = $0.10</p>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Creative Header with Token Status */}
+        <div className="relative">
+          <FloatingShapes className="absolute inset-0 opacity-15 pointer-events-none" />
+          <CreativeHeader 
+            title="OrderFi Tokens"
+            subtitle={`${currentPoints.toLocaleString()} tokens available • 1 token = $0.10`}
+            icon={<Coins className="w-6 h-6 text-orange-500" />}
+            className="mb-6"
+          />
+        </div>
+        
+        {/* Split Screen Layout for Token Overview */}
+        <CreativeSplitScreen
+          leftContent={
+            <Card className="bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 text-white border-0 h-full">
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-bold text-xl">Your Balance</h3>
+                    <p className="text-3xl font-bold mt-2">{currentPoints.toLocaleString()}</p>
+                    <p className="text-sm opacity-90 mt-1">Available Tokens</p>
+                  </div>
+                  <div className="pt-4 border-t border-white/20">
+                    <p className="text-sm opacity-90">Current Tier: {tier.name}</p>
+                    <div className="mt-2">
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>Progress to {nextTier?.name || 'Max Level'}</span>
+                        <span>{Math.round(progressToNext)}%</span>
+                      </div>
+                      <Progress value={progressToNext} className="h-2" />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          }
+          rightContent={
+            <Card className="h-full">
+              <CardContent className="p-6">
+                <h3 className="font-bold text-lg mb-4">Quick Actions</h3>
+                <div className="space-y-3">
+                  <Button className="w-full justify-start" variant="outline">
+                    <Gift className="w-4 h-4 mr-2" />
+                    Redeem Rewards
+                  </Button>
+                  <Button className="w-full justify-start" variant="outline">
+                    <Star className="w-4 h-4 mr-2" />
+                    Daily Check-in
+                  </Button>
+                  <Button className="w-full justify-start" variant="outline">
+                    <History className="w-4 h-4 mr-2" />
+                    Transaction History
+                  </Button>
+                  <Button className="w-full justify-start" variant="outline">
+                    <Wallet className="w-4 h-4 mr-2" />
+                    Connect Wallet
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          }
+          className="token-overview-split"
+        />
 
         <Tabs defaultValue="earn" className="w-full">
           <TabsList className="grid w-full grid-cols-4">

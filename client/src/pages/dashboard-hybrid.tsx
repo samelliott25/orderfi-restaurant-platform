@@ -10,6 +10,10 @@ import { Progress } from "@/components/ui/progress";
 import StandardLayout from '@/components/StandardLayout';
 import { OrderFiMetricCard, OrderFiCard, OrderFiButton, OrderFiHeading, OrderFiSpacing } from '@/components/ui/design-system';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CreativeCardStack } from '@/components/creative-layout/CreativeCardStack';
+import { CreativeMasonryGrid } from '@/components/creative-layout/CreativeMasonryGrid';
+import { CreativeHeader } from '@/components/creative-layout/CreativeHeader';
+import { FloatingShapes } from '@/components/creative-layout/CreativeShapes';
 import { 
   DollarSign, 
   Users, 
@@ -741,42 +745,38 @@ export default function HybridDashboard() {
           </Card>
         </div>
 
-        {/* Tab Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* OrderFi Journal */}
-          <OrderFiJournal />
+        {/* Tab Content with Creative Layouts */}
+        <div className="relative">
+          <FloatingShapes className="absolute inset-0 opacity-10 pointer-events-none" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* OrderFi Journal */}
+            <OrderFiJournal />
 
-          {/* Live Orders */}
-          <Card className="bg-card border-border">
-            <CardHeader>
-              <CardTitle className="text-foreground playwrite-font font-normal flex items-center gap-2">
-                <Activity className="w-5 h-5 text-orange-500" />
-                Live Orders
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3 max-h-96 overflow-auto">
-                {liveOrders.map((order) => (
-                  <div
-                    key={order.id}
-                    className="flex items-center justify-between p-3 bg-secondary rounded-lg"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${getStatusColor(order.status)}`}></div>
-                      <div>
-                        <div className="text-sm font-normal text-foreground">{order.id}</div>
-                        <div className="text-xs text-muted-foreground">{order.customer} • {order.items}</div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-normal text-foreground">{formatCurrency(order.total)}</div>
-                      <div className="text-xs text-muted-foreground">{order.time}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+            {/* Live Orders with Creative Card Stack */}
+            <div className="relative">
+              <CreativeHeader 
+                title="Live Orders" 
+                subtitle="Real-time order tracking"
+                icon={<Activity className="w-5 h-5 text-orange-500" />}
+                className="mb-4"
+              />
+              <CreativeCardStack
+                cards={liveOrders.map((order) => ({
+                  id: order.id,
+                  title: order.id,
+                  content: `${order.customer} • ${order.items}`,
+                  status: order.status,
+                  action: 'View Details',
+                  metadata: {
+                    total: formatCurrency(order.total),
+                    time: order.time,
+                    priority: order.priority
+                  }
+                }))}
+                className="live-orders-stack"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </StandardLayout>
