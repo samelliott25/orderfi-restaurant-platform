@@ -1,78 +1,176 @@
-/* OrderFi 2026 Fresh Design System */
+/* OrderFi Neubrutalist Design System - Bold & Unapologetic */
 
-/* Neubrutalism Elements */
+/* Core Neubrutalist Variables */
+:root {
+  --brutal-black: #000000;
+  --brutal-white: #ffffff;
+  --brutal-red: #ff0000;
+  --brutal-blue: #0000ff;
+  --brutal-yellow: #ffff00;
+  --brutal-green: #00ff00;
+  --brutal-pink: #ff00ff;
+  --brutal-orange: #ff6600;
+  
+  /* Brutal Typography */
+  --brutal-font-size-xl: 3rem;
+  --brutal-font-size-lg: 2rem;
+  --brutal-font-size-md: 1.5rem;
+  --brutal-letter-spacing: 0.1em;
+  
+  /* Brutal Shadows */
+  --brutal-shadow: 8px 8px 0px var(--brutal-black);
+  --brutal-shadow-lg: 12px 12px 0px var(--brutal-black);
+  --brutal-shadow-colored: 6px 6px 0px var(--brutal-red);
+  --brutal-inset: inset 4px 4px 0px var(--brutal-black);
+}
+
+/* Neubrutalist Cards */
 .neubrutalist-card {
-  background: #fff;
-  border: 4px solid #000;
-  box-shadow: 8px 8px 0 #000;
+  background: var(--brutal-white);
+  border: 4px solid var(--brutal-black);
+  box-shadow: var(--brutal-shadow);
   border-radius: 0;
   transition: transform 0.2s ease;
+  padding: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: var(--brutal-letter-spacing);
 }
 
 .neubrutalist-card:hover {
   transform: translate(-4px, -4px);
-  box-shadow: 12px 12px 0 #000;
+  box-shadow: var(--brutal-shadow-lg);
 }
 
+.neubrutalist-card.colored {
+  background: var(--brutal-yellow);
+  box-shadow: var(--brutal-shadow-colored);
+}
+
+/* Neubrutalist Buttons */
 .neubrutalist-button {
-  background: #FF6B35;
-  color: #fff;
-  border: 3px solid #000;
-  box-shadow: 4px 4px 0 #000;
+  background: var(--brutal-orange);
+  color: var(--brutal-white);
+  border: 4px solid var(--brutal-black);
+  box-shadow: var(--brutal-shadow);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--brutal-letter-spacing);
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .neubrutalist-button:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 #000;
+  box-shadow: 6px 6px 0 var(--brutal-black);
 }
 
-/* Glassmorphism Elements */
-.glassmorphism-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+.neubrutalist-button.primary {
+  background: var(--brutal-red);
 }
 
-.glassmorphism-nav {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.neubrutalist-button.secondary {
+  background: var(--brutal-blue);
 }
 
-/* Bento Grid System */
-.bento-grid {
+/* Neubrutalist Typography */
+.neubrutalist-heading {
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: var(--brutal-letter-spacing);
+  color: var(--brutal-black);
+  text-shadow: 4px 4px 0px var(--brutal-yellow);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.neubrutalist-heading.xl {
+  font-size: var(--brutal-font-size-xl);
+}
+
+.neubrutalist-heading.lg {
+  font-size: var(--brutal-font-size-lg);
+}
+
+.neubrutalist-heading.md {
+  font-size: var(--brutal-font-size-md);
+}
+
+/* Neubrutalist Grid System - Aggressive & Bold */
+.neubrutalist-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  padding: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
 }
 
-.bento-item {
-  background: #fff;
-  border-radius: 24px;
-  padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.neubrutalist-item {
+  background: var(--brutal-white);
+  border: 4px solid var(--brutal-black);
+  box-shadow: var(--brutal-shadow);
+  padding: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: var(--brutal-letter-spacing);
+  transition: all 0.2s ease;
 }
 
-.bento-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+.neubrutalist-item:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: var(--brutal-shadow-lg);
 }
 
-.bento-item.large {
+.neubrutalist-item.large {
   grid-column: span 2;
+  background: var(--brutal-yellow);
+  box-shadow: var(--brutal-shadow-colored);
 }
 
-.bento-item.tall {
+.neubrutalist-item.tall {
   grid-row: span 2;
+  background: var(--brutal-pink);
+  color: var(--brutal-white);
+}
+
+/* Neubrutalist Input Fields */
+.neubrutalist-input {
+  background: var(--brutal-white);
+  border: 4px solid var(--brutal-black);
+  box-shadow: var(--brutal-inset);
+  padding: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: var(--brutal-letter-spacing);
+  font-size: 1.2rem;
+}
+
+.neubrutalist-input:focus {
+  outline: none;
+  box-shadow: var(--brutal-shadow);
+  transform: translate(-2px, -2px);
+}
+
+/* Neubrutalist Menu Items */
+.neubrutalist-menu-item {
+  background: var(--brutal-white);
+  border: 4px solid var(--brutal-black);
+  box-shadow: var(--brutal-shadow);
+  padding: 1.5rem;
+  margin: 1rem 0;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: var(--brutal-letter-spacing);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.neubrutalist-menu-item:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--brutal-shadow-lg);
+  background: var(--brutal-yellow);
 }
 
 /* 2026 Color Palette */

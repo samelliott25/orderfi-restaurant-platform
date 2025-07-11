@@ -121,53 +121,46 @@ export default function MobileAppPage() {
 
   return (
     <div className="min-h-screen pb-20" style={{ backgroundColor: '#fff0cc' }}>
-      {/* Creative Layout Enhancement Banner */}
-      <div className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white px-4 py-3 text-center shadow-lg">
-        <div className="flex items-center justify-center space-x-2 animate-pulse">
-          <div className="w-3 h-3 bg-white rounded-full"></div>
-          <span className="font-bold text-sm">CREATIVE LAYOUT SYSTEM ACTIVE</span>
-          <div className="w-3 h-3 bg-white rounded-full"></div>
+      {/* Neubrutalist Design Override Banner */}
+      <div className="neubrutalist-card colored text-center m-4">
+        <div className="neubrutalist-heading md">
+          NEUBRUTALIST DESIGN ACTIVE
         </div>
-        <p className="text-xs mt-1 opacity-90">Enhanced with masonry grids, card stacks & floating animations</p>
+        <p className="text-sm mt-2 font-black">BOLD • CHUNKY • UNAPOLOGETIC</p>
       </div>
       
-      {/* Header */}
-      <div className="sticky top-0 z-10 p-4 border-b" style={{ backgroundColor: '#fff0cc', borderColor: '#e5cf97' }}>
+      {/* Header - Neubrutalist Style */}
+      <div className="neubrutalist-card m-4 p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#8b795e] flex items-center justify-center">
-              <span className="text-white font-bold text-sm">M</span>
+            <div className="neubrutalist-button secondary p-2">
+              <span className="text-white font-black text-sm">M</span>
             </div>
             <div>
-              <p className="text-sm" style={{ color: '#8b795e' }}>Deliver to</p>
+              <p className="neubrutalist-heading md text-black">DELIVER TO</p>
               <div className="flex items-center gap-1">
-                <MapPin className="w-4 h-4" style={{ color: '#8b795e' }} />
-                <span className="font-semibold text-sm" style={{ color: '#8b795e' }}>Current Location</span>
+                <MapPin className="w-4 h-4 text-black" />
+                <span className="font-black text-sm text-black">CURRENT LOCATION</span>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Bell className="w-6 h-6" style={{ color: '#8b795e' }} />
-            <Heart className="w-6 h-6" style={{ color: '#8b795e' }} />
+            <Bell className="w-6 h-6 text-black" />
+            <Heart className="w-6 h-6 text-black" />
           </div>
         </div>
 
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#8b795e' }} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-black" />
           <input
             type="text"
-            placeholder="Search for food, restaurants..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border bg-background"
-            style={{ borderColor: '#e5cf97', color: '#8b795e' }}
+            placeholder="SEARCH FOR FOOD..."
+            className="neubrutalist-input w-full pl-10 pr-4"
           />
-          <Button
-            variant="ghost"
-            size="sm"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2"
-          >
-            <Filter className="w-5 h-5" style={{ color: '#8b795e' }} />
-          </Button>
+          <button className="neubrutalist-button absolute right-2 top-1/2 transform -translate-y-1/2 p-2">
+            <Filter className="w-5 h-5 text-white" />
+          </button>
         </div>
       </div>
 
