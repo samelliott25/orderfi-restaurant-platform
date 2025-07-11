@@ -129,20 +129,8 @@ function Router() {
         
 
         {/* Dashboard - Default Home */}
-        <Route path="/" component={() => (
-          <RealTimeProvider>
-            <ContextAwareUIProvider>
-              <HybridSuperiorDashboard />
-            </ContextAwareUIProvider>
-          </RealTimeProvider>
-        )} />
-        <Route path="/dashboard" component={() => (
-          <RealTimeProvider>
-            <ContextAwareUIProvider>
-              <HybridSuperiorDashboard />
-            </ContextAwareUIProvider>
-          </RealTimeProvider>
-        )} />
+        <Route path="/" component={HybridDashboard} />
+        <Route path="/dashboard" component={HybridDashboard} />
         <Route path="/dashboard-hybrid" component={HybridDashboard} />
         <Route path="/dashboard-optimized" component={OptimizedDashboard} />
         <Route path="/dashboard-superior" component={() => (

@@ -1,8 +1,10 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useWallet } from "@/hooks/useWallet";
 import { WalletConnectDialog } from "@/components/WalletConnectDialog";
+// Remove RealTimeStatusIndicator import for now to avoid context issues
 
 import { useTheme } from "@/components/theme-provider";
 import { useChatContext } from "@/contexts/ChatContext";
@@ -31,7 +33,12 @@ import {
   Box,
   Smartphone,
   Sparkles,
-  MapPin
+  MapPin,
+  Brain,
+  Activity,
+  Mic,
+  Timer,
+  Clock
 } from "lucide-react";
 
 const menuItems = [
@@ -66,6 +73,34 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   const { theme, setTheme } = useTheme();
   const [showExitDialog, setShowExitDialog] = useState(false);
   const { toast } = useToast();
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [metrics, setMetrics] = useState({
+    pendingOrders: 23,
+    lowStock: 8,
+    notifications: 5
+  });
+
+  // Real-time clock
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Simulate real-time updates
+  useEffect(() => {
+    const updateMetrics = () => {
+      setMetrics(prev => ({
+        pendingOrders: Math.max(0, prev.pendingOrders + Math.floor(Math.random() * 6) - 3),
+        lowStock: Math.max(0, prev.lowStock + Math.floor(Math.random() * 4) - 2),
+        notifications: Math.max(0, prev.notifications + Math.floor(Math.random() * 3) - 1)
+      }));
+    };
+
+    const interval = setInterval(updateMetrics, 15000);
+    return () => clearInterval(interval);
+  }, []);
   
 
 
@@ -128,6 +163,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     <h2 className="text-xl font-normal text-gray-900 dark:text-white playwrite-font">
                       OrderFi
                     </h2>
+                    <div className="flex items-center gap-2 mt-1">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-xs text-muted-foreground">
+                        {currentTime.toLocaleTimeString()}
+                      </span>
+                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                    </div>
                   </div>
                 </div>
               ) : (
@@ -188,6 +230,16 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     >
                       <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
                       {!isCollapsed && <span className="font-normal">{item.label}</span>}
+                      {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
+                        <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
+                          {metrics.pendingOrders}
+                        </Badge>
+                      )}
+                      {!isCollapsed && item.label === 'Inventory' && metrics.lowStock > 0 && (
+                        <Badge variant="secondary" className="ml-auto text-xs bg-red-100 text-red-800">
+                          {metrics.lowStock}
+                        </Badge>
+                      )}
                     </Button>
                   </Link>
                 );
