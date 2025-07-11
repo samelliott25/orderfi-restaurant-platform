@@ -30,21 +30,23 @@ import {
   Bot,
   Box,
   Smartphone,
-  Sparkles
+  Sparkles,
+  MapPin
 } from "lucide-react";
 
 const menuItems = [
   { icon: BarChart3, label: "Dashboard", href: "/dashboard" },
   { icon: Smartphone, label: "Mobile App", href: "/mobileapp" },
-  { icon: Sparkles, label: "UI Showcase", href: "/ui-showcase" },
-  { icon: ChefHat, label: "Inventory", href: "/inventory" },
   { icon: ShoppingCart, label: "Orders", href: "/orders" },
+  { icon: ChefHat, label: "Kitchen", href: "/kitchen" },
+  { icon: MapPin, label: "Tables", href: "/tables" },
+  { icon: Package, label: "Inventory", href: "/inventory" },
   { icon: CreditCard, label: "Payments", href: "/payments" },
-  { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
-  { icon: Package, label: "Stock", href: "/stock" },
+  { icon: Box, label: "Stock", href: "/stock" },
   { icon: Users, label: "Staff", href: "/staff" },
   { icon: FileText, label: "Reporting", href: "/reporting" },
   { icon: Settings2, label: "Settings", href: "/settings" },
+  { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
 ];
 
 interface SidebarProps {

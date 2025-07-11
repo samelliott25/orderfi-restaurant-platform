@@ -325,42 +325,45 @@ export default function PaymentsPage() {
               </div>
 
               {/* Crypto Revenue */}
-              <Card className="hover:shadow-lg transition-shadow duration-200">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Crypto Revenue</CardTitle>
-                  <Bitcoin className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{formatCurrency(currentSummary.cryptoRevenue)}</div>
-                  <div className="flex items-center text-xs text-muted-foreground">
-                    <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
-                    +8.2% from last month
+              <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/10"></div>
+                <div className="relative flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Crypto Revenue</p>
+                    <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">{formatCurrency(currentSummary.cryptoRevenue)}</p>
+                    <p className="text-xs text-orange-600 font-medium">+8.2% from last month</p>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="p-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500">
+                    <Bitcoin className="h-6 w-6 text-white" />
+                  </div>
+                </div>
+              </div>
 
               {/* Stripe Revenue */}
-              <Card className="w-full hover:shadow-lg transition-shadow duration-200">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Stripe Revenue</CardTitle>
-                  <CreditCard className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{formatCurrency(currentSummary.stripeRevenue)}</div>
-                  <div className="flex items-center text-xs text-muted-foreground">
-                    <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
-                    +15.3% from last month
+              <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
+                <div className="relative flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Stripe Revenue</p>
+                    <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">{formatCurrency(currentSummary.stripeRevenue)}</p>
+                    <p className="text-xs text-blue-600 font-medium">+15.3% from last month</p>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="p-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
+                    <CreditCard className="h-6 w-6 text-white" />
+                  </div>
+                </div>
+              </div>
 
               {/* Settings Quick Access */}
-              <Card className="w-full hover:shadow-lg transition-shadow duration-200 cursor-pointer" onClick={() => setActiveTab('settings')}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Quick Setup</CardTitle>
-                  <Settings className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
+              <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer" onClick={() => setActiveTab('settings')}>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10"></div>
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Quick Setup</p>
+                    <div className="p-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
+                      <Settings className="h-4 w-4 text-white" />
+                    </div>
+                  </div>
                   <div className="space-y-2">
                     <Button size="sm" variant="outline" className="w-full justify-start">
                       <Key className="h-3 w-3 mr-2" />
@@ -371,8 +374,8 @@ export default function PaymentsPage() {
                       Enable Crypto
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
 
             {/* Recent Transactions */}
