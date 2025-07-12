@@ -441,163 +441,32 @@ export default function EnhancedCustomerMenu() {
   }
 
   return (
-    <div className="min-h-screen pb-20" style={{ backgroundColor: '#e8f5e9' }}>
-      {/* Header - Mamo Style */}
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-8">
-          <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">
-            <span className="text-white font-bold text-lg">O</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center cursor-pointer" onClick={() => setIsCartOpen(true)}>
-              <span className="text-white font-bold text-xs">{getTotalItems()}</span>
-            </div>
-          </div>
-        </div>
+    <StandardLayout showSidebar={true} showHeader={false}>
+      <Header
+        venueName="OrderFi Restaurant"
+        tableNumber="Table 12"
+        cartItemCount={getTotalItems()}
+        onSearchChange={handleSearchChange}
+        onCartClick={() => setIsCartOpen(true)}
+        onMenuClick={() => {}}
+      />
 
-        {/* Hero Section */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2" style={{ lineHeight: '1.1' }}>
-            Hi! I'm OrderFi.
-          </h1>
-          <p className="text-lg text-gray-600 mb-6">
-            Smart with food.<br />
-            Easy on the taste buds.
-          </p>
-          <button 
-            onClick={() => setIsCartOpen(true)}
-            className="bg-yellow-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition-colors"
-          >
-            Get started!
-          </button>
-        </div>
+      <CategoryTabs
+        categories={categories}
+        activeCategory={selectedCategory}
+        onCategoryChange={handleCategoryChange}
+      />
 
-        {/* Description */}
-        <div className="mb-8">
-          <p className="text-gray-700 leading-relaxed">
-            OrderFi helps you order,<br />
-            pay, and enjoy<br />
-            your food – step by<br />
-            step, without the stress.
-          </p>
-        </div>
+      <div className="px-4 py-2">
+        <QuickReorder />
       </div>
 
-      {/* How OrderFi Works */}
-      <div className="px-4 mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">How OrderFi works:</h2>
-        
-        <div className="space-y-4">
-          {/* Step 1 - White Card */}
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-            <div className="flex items-start justify-between mb-4">
-              <span className="text-sm text-gray-500 font-medium">Step 1</span>
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-                <span className="text-white text-sm">✓</span>
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="w-8 h-8 border-2 border-gray-800 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-gray-800 text-sm">🔍</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800">
-                Browse our menu
-              </h3>
-            </div>
-          </div>
-
-          {/* Step 2 - Yellow Card */}
-          <div className="bg-yellow-200 rounded-3xl p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-4">
-              <span className="text-sm text-gray-700 font-medium">Step 2</span>
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-                <span className="text-white text-sm">✓</span>
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="w-8 h-8 border-2 border-gray-800 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-gray-800 text-sm">🛒</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800">
-                Add to cart
-              </h3>
-            </div>
-          </div>
-
-          {/* Step 3 - Light Green Card */}
-          <div className="bg-green-200 rounded-3xl p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-4">
-              <span className="text-sm text-gray-700 font-medium">Step 3</span>
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-                <span className="text-white text-sm">✓</span>
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="w-8 h-8 border-2 border-gray-800 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-gray-800 text-sm">🍽️</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800">
-                Enjoy your meal
-              </h3>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Menu Preview Cards */}
-      <div className="p-4 space-y-4">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Popular dishes</h3>
-        
-        {/* Show real menu items in mamo style */}
-        {menuItems.slice(0, 3).map((item, index) => (
-          <div key={item.id} className={`rounded-3xl p-6 shadow-sm cursor-pointer hover:shadow-md transition-shadow ${
-            index === 0 ? 'bg-white border border-gray-100' : 
-            index === 1 ? 'bg-yellow-100' : 'bg-green-100'
-          }`} onClick={() => handleAddToCart(item, [], 1)}>
-            <div className="flex items-center gap-4 mb-4">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                index === 0 ? 'bg-blue-100' : 
-                index === 1 ? 'bg-yellow-200' : 'bg-green-200'
-              }`}>
-                <span className="text-2xl">{index === 0 ? '🍔' : index === 1 ? '🍕' : '🥗'}</span>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                <p className="text-sm text-gray-600">{item.description}</p>
-                <p className="text-sm font-semibold text-gray-800 mt-1">${item.price}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* CTA Section */}
-      <div className="p-4 mb-8">
-        <div className="bg-gray-800 rounded-3xl p-6 text-center">
-          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-3xl font-bold text-gray-800">O</span>
-          </div>
-          <p className="text-white text-sm mb-6">
-            OrderFi helps you track, order, and<br />
-            enjoy your food – step by<br />
-            step, without the stress.
-          </p>
-          <div className="flex gap-3 justify-center">
-            <button 
-              onClick={() => setIsCartOpen(true)}
-              className="bg-green-400 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-green-500 transition-colors"
-            >
-              View Cart ({getTotalItems()})
-            </button>
-            <button 
-              onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
-              className="bg-yellow-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition-colors"
-            >
-              {isVoiceEnabled ? 'Voice On' : 'Voice Off'}
-            </button>
-          </div>
-        </div>
-      </div>
+      <MenuGrid
+        items={menuItems}
+        onAddToCart={handleAddToCart}
+        searchQuery={searchQuery}
+        activeCategory={selectedCategory}
+      />
 
       {/* Cart drawer */}
       <CartDrawer
@@ -609,39 +478,76 @@ export default function EnhancedCustomerMenu() {
         onCheckout={handleCheckout}
       />
 
-      {/* Voice Commands (simplified) */}
+      {/* UI Innovation Components */}
       {isVoiceEnabled && (
-        <div className="fixed bottom-4 right-4 z-50">
-          <button
-            onClick={toggleVoiceRecognition}
-            className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${
-              isListening ? 'bg-red-500 text-white' : 'bg-gray-800 text-white'
-            }`}
-          >
-            {isListening ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
-          </button>
+        <div className="fixed bottom-20 left-4 z-50">
+          <SpatialVoiceNav
+            onVoiceCommand={handleSpatialVoiceCommand}
+            onSpatialUpdate={setSpatialPosition}
+            enableHaptics={true}
+            spatialSensitivity={0.7}
+          />
         </div>
       )}
 
+      {/* Gesture Recognition Zone */}
+      <GestureZones
+        onGestureRecognized={handleGestureRecognized}
+        onQuickAction={handleQuickAction}
+        enableHaptics={true}
+        sensitivity={0.6}
+      />
+
+      {/* Innovation Status Indicators */}
+      {(gestureEvent || currentTranscript) && (
+        <div className="fixed top-20 right-4 z-40 space-y-2">
+          {gestureEvent && (
+            <div className="bg-green-500/20 backdrop-blur-sm border border-green-500/50 text-green-300 px-3 py-2 rounded-lg text-sm font-medium">
+              {gestureEvent}
+            </div>
+          )}
+          {currentTranscript && (
+            <div className="bg-blue-500/20 backdrop-blur-sm border border-blue-500/50 text-blue-300 px-3 py-2 rounded-lg text-sm font-medium">
+              Voice: "{currentTranscript}"
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Voice Toggle Button */}
+      <button
+        onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
+        className={`fixed bottom-32 right-4 z-50 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm ${
+          isVoiceEnabled 
+            ? 'bg-blue-500/20 border-2 border-blue-500 text-blue-300' 
+            : 'bg-gray-500/20 border-2 border-gray-500 text-gray-400'
+        }`}
+      >
+        <Mic className="w-5 h-5" />
+      </button>
+
       {/* Real-time speech transcript display */}
       {(isListening || currentTranscript) && (
-        <div className="fixed bottom-20 left-4 right-4 z-50 bg-white border border-gray-200 rounded-2xl shadow-lg p-4">
+        <div className="fixed bottom-20 left-4 right-4 z-50 bg-background border border-border rounded-lg shadow-lg p-4">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium text-gray-600">
+            <span className="text-sm font-medium text-muted-foreground">
               {isListening ? 'Listening...' : 'Processing...'}
             </span>
           </div>
-          <div className="text-lg text-gray-800">
+          <div className="text-lg text-foreground">
             {currentTranscript || 'Say something...'}
             {interimTranscript && (
-              <span className="text-gray-500 italic">
+              <span className="text-muted-foreground italic">
                 {interimTranscript}
               </span>
             )}
           </div>
         </div>
       )}
-    </div>
+
+      {/* Bottom Navigation for Mobile */}
+      <BottomNavigation />
+    </StandardLayout>
   );
 }
