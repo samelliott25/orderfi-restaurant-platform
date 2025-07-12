@@ -28,6 +28,9 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       radius: Math.random() * 1.5 + 0.5, // Small dots
       opacity: Math.random() * 0.5 + 0.5, // Subtle glow
       speed: Math.random() * 0.5 + 0.1, // Base speed
+      baseSpeed: Math.random() * 0.2 + 0.1, // Constant gentle movement
+      twinkleSpeed: Math.random() * 0.02 + 0.01, // Twinkling effect
+      twinkleOffset: Math.random() * Math.PI * 2, // Random twinkling start
     }));
 
     // Draw function
@@ -51,12 +54,24 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
     };
 
     // Animation loop
+    let time = 0;
     const animate = () => {
-      // Update star positions based on velocity (scroll direction)
+      time += 0.01; // Time counter for twinkling
+      
+      // Update star positions based on velocity (scroll direction) + constant movement
       stars.forEach(star => {
-        star.y += velocity.current * star.speed; // Move down if scrolling up, up if down
-        if (star.y > canvas.height) star.y = 0; // Wrap around bottom
-        if (star.y < 0) star.y = canvas.height; // Wrap around top
+        // Constant gentle downward movement
+        star.y += star.baseSpeed;
+        
+        // Add scroll-based parallax movement
+        star.y += velocity.current * star.speed; 
+        
+        // Twinkling effect
+        star.opacity = 0.3 + 0.4 * Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
+        
+        // Wrap around screen
+        if (star.y > canvas.height) star.y = 0;
+        if (star.y < 0) star.y = canvas.height;
       });
 
       draw();
