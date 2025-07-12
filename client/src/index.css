@@ -17,6 +17,7 @@ html, body {
 body {
   background-color: #D3D3D3 !important; /* Cloud Grey */
   background-image: none !important;
+  color: #343637 !important; /* Charcoal Grey text */
 }
 
 /* Horizontal scrolling utility - hide scrollbar */
@@ -901,15 +902,16 @@ h3, .text-xl {
   }
   
   body {
-    @apply bg-background text-foreground;
+    background-color: #D3D3D3 !important; /* Cloud Grey */
+    color: #343637 !important; /* Charcoal Grey */
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 /* Prevent white screen flashes and support dark mode */
 html, body, #root {
-  background-color: hsl(var(--background)) !important;
-  color: hsl(var(--foreground)) !important;
+  background-color: #D3D3D3 !important; /* Cloud Grey */
+  color: #343637 !important; /* Charcoal Grey */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -926,6 +928,136 @@ html, body, #root {
   background-clip: text !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
+}
+
+/* Force color palette on all elements */
+.card, [class*="card"], .bg-card, [class*="bg-card"] {
+  background-color: #ffffff !important;
+  border-color: #D3D3D3 !important;
+  color: #343637 !important;
+}
+
+.bg-green-100, .bg-green-200, .bg-green-300, .bg-green-400, .bg-green-500 {
+  background-color: #E8F5F5 !important; /* Light Aqua tint */
+}
+
+.bg-blue-100, .bg-blue-200, .bg-blue-300, .bg-blue-400, .bg-blue-500 {
+  background-color: #E8F5F5 !important; /* Light Aqua tint */
+}
+
+.bg-purple-100, .bg-purple-200, .bg-purple-300, .bg-purple-400, .bg-purple-500 {
+  background-color: #FFE8D6 !important; /* Light Orange tint */
+}
+
+.bg-orange-100, .bg-orange-200, .bg-orange-300, .bg-orange-400, .bg-orange-500 {
+  background-color: #FFE8D6 !important; /* Light Orange tint */
+}
+
+.text-green-600, .text-green-700, .text-green-800 {
+  color: #075956 !important; /* Aqua Green */
+}
+
+.text-blue-600, .text-blue-700, .text-blue-800 {
+  color: #075956 !important; /* Aqua Green */
+}
+
+.text-purple-600, .text-purple-700, .text-purple-800 {
+  color: #FF5B05 !important; /* Bright Orange */
+}
+
+.text-orange-600, .text-orange-700, .text-orange-800 {
+  color: #FF5B05 !important; /* Bright Orange */
+}
+
+/* Universal color palette enforcement */
+* {
+  --tw-bg-opacity: 1 !important;
+}
+
+/* Override all background gradients */
+.bg-gradient-to-br, .bg-gradient-to-r, .bg-gradient-to-l, .bg-gradient-to-t, .bg-gradient-to-b {
+  background-image: linear-gradient(45deg, #FF5B05, #FF8C00) !important;
+}
+
+/* Override dashboard cards specifically */
+.dashboard-card, [class*="dashboard"], .metric-card, [class*="metric"] {
+  background-color: #ffffff !important;
+  border: 1px solid #D3D3D3 !important;
+  color: #343637 !important;
+}
+
+/* Override all colored backgrounds in dashboard */
+.dashboard-card .bg-green-100, 
+.dashboard-card .bg-blue-100, 
+.dashboard-card .bg-purple-100, 
+.dashboard-card .bg-orange-100,
+.metric-card .bg-green-100, 
+.metric-card .bg-blue-100, 
+.metric-card .bg-purple-100, 
+.metric-card .bg-orange-100 {
+  background-color: #E8F5F5 !important; /* Light Aqua tint */
+}
+
+/* Force all main app backgrounds */
+.main, .container, .dashboard, .content, [class*="dashboard"], [class*="main"] {
+  background-color: #D3D3D3 !important; /* Cloud Grey */
+}
+
+/* Override all button backgrounds */
+button, .button, [role="button"] {
+  background-color: #FF5B05 !important; /* Bright Orange */
+  color: #ffffff !important;
+}
+
+button:hover, .button:hover, [role="button"]:hover {
+  background-color: #e04e00 !important;
+}
+
+/* AGGRESSIVE METRIC CARD OVERRIDES */
+.metric-card[style*="background"], 
+.metric-card .bg-green-100,
+.metric-card .bg-blue-100,
+.metric-card .bg-purple-100,
+.metric-card .bg-orange-100,
+.executive-summary .bg-green-100,
+.executive-summary .bg-blue-100,
+.executive-summary .bg-purple-100,
+.executive-summary .bg-orange-100,
+div[class*="bg-green-"],
+div[class*="bg-blue-"],
+div[class*="bg-purple-"],
+div[class*="bg-orange-"] {
+  background-color: #FFE8D6 !important; /* Light Orange tint */
+  border-color: #FF5B05 !important;
+}
+
+/* Force all teal references to use Aqua Green */
+.text-teal-600, .text-teal-400, .text-teal-700 {
+  color: #075956 !important;
+}
+
+/* Force all orange references to use Bright Orange */
+.text-orange-600, .text-orange-400, .text-orange-700 {
+  color: #FF5B05 !important;
+}
+
+/* Override all main backgrounds with Cloud Grey */
+.StandardLayout, .main-content, .dashboard-content, .page-content {
+  background-color: #D3D3D3 !important;
+}
+
+/* Override all gradients */
+.bg-gradient-to-r, .bg-gradient-to-br, .bg-gradient-to-l, .bg-gradient-to-t, .bg-gradient-to-b {
+  background: linear-gradient(45deg, #FF5B05, #FF8C00) !important;
+}
+
+/* Override gradient from classes */
+.from-green-500, .from-blue-500, .from-purple-500, .from-orange-500 {
+  --tw-gradient-from: #FF5B05 !important;
+}
+
+.to-emerald-500, .to-cyan-500, .to-pink-500, .to-yellow-500 {
+  --tw-gradient-to: #FF8C00 !important;
 }
 
 /* Force dark mode styles with higher specificity - using sidebar gray colors */

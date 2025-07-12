@@ -116,7 +116,7 @@ export function ExecutiveSummary() {
       icon: DollarSign,
       trend: currentKPIData.revenue.trend,
       percentage: currentKPIData.revenue.percentage,
-      color: 'text-green-600 dark:text-green-400',
+      color: 'text-teal-600 dark:text-teal-400',
       gradient: 'from-green-500 to-emerald-500'
     },
     {
@@ -125,7 +125,7 @@ export function ExecutiveSummary() {
       icon: ShoppingCart,
       trend: currentKPIData.orders.trend,
       percentage: currentKPIData.orders.percentage,
-      color: 'text-blue-600 dark:text-blue-400',
+      color: 'text-teal-600 dark:text-teal-400',
       gradient: 'from-blue-500 to-cyan-500'
     },
     {
@@ -134,7 +134,7 @@ export function ExecutiveSummary() {
       icon: Users,
       trend: currentKPIData.customers.trend,
       percentage: currentKPIData.customers.percentage,
-      color: 'text-purple-600 dark:text-purple-400',
+      color: 'text-orange-600 dark:text-orange-400',
       gradient: 'from-purple-500 to-pink-500'
     },
     {
@@ -179,7 +179,7 @@ export function ExecutiveSummary() {
       {/* Header with Real-time Status */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold playwrite-font text-gradient">
             Executive Summary
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
@@ -188,7 +188,7 @@ export function ExecutiveSummary() {
         </div>
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <div className={`w-2 h-2 rounded-full ${wsConnected ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+            <div className={`w-2 h-2 rounded-full ${wsConnected ? 'animate-pulse' : ''}`} style={{backgroundColor: wsConnected ? '#075956' : '#D3D3D3'}}></div>
             <span className="text-sm text-muted-foreground">
               {wsConnected ? 'Live' : 'Offline'}
             </span>

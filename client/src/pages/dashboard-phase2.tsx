@@ -183,12 +183,12 @@ export default function DashboardPhase2() {
     <StandardLayout title="Phase 2 Dashboard" subtitle="Mobile-Optimized Restaurant Management">
       <div className="space-y-6">
         {/* Status Bar */}
-        <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+        <Card className="bg-gradient-to-r from-orange-50 to-yellow-50 border-orange-200" style={{backgroundColor: '#FFE8D6', borderColor: '#FF5B05'}}>
           <CardContent className="p-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <div className="w-3 h-3 rounded-full animate-pulse" style={{backgroundColor: '#075956'}}></div>
                   <span className="text-sm font-medium">System Online</span>
                 </div>
                 <div className="text-sm text-muted-foreground">
