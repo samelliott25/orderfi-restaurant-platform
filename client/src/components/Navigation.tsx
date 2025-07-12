@@ -24,7 +24,8 @@ import {
   CreditCard,
   TrendingUp,
   Package,
-  Settings2
+  Settings2,
+  Mic
 } from "lucide-react";
 
 const menuItems = [
@@ -36,6 +37,7 @@ const menuItems = [
   { icon: Package, label: "Stock", href: "/stock" },
   { icon: Users, label: "Staff", href: "/staff" },
   { icon: FileText, label: "Reporting", href: "/reporting" },
+  { icon: Mic, label: "Voice-First AI", href: "/voice-first-demo" },
   { icon: Settings2, label: "Settings", href: "/settings" },
 ];
 

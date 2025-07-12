@@ -1790,5 +1790,378 @@ Base predictions on historical patterns, seasonal trends, weather impact, and cu
     }
   });
 
+  // AI Voice Processing endpoint
+  app.post('/api/ai/process-voice', async (req, res) => {
+    try {
+      const { transcript, confidence, context, conversationHistory } = req.body;
+      
+      // Process with xAI Grok
+      const response = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.XAI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'grok-2-1212',
+          messages: [
+            {
+              role: 'system',
+              content: `You are OrderFi, a voice-first AI assistant for a restaurant ordering system. 
+              
+              Context: ${context}
+              Customer confidence: ${confidence}
+              
+              Analyze the customer's voice input and determine:
+              1. Intent (order_item, ui_adaptation, robot_command, general_inquiry)
+              2. Entities (food items, modifications, quantities)
+              3. Appropriate response with empathetic tone
+              4. Any actions needed (add to cart, modify order, etc.)
+              
+              Respond with structured JSON containing:
+              - intent: string
+              - entities: array of extracted entities
+              - response: natural language response
+              - actions: array of actions to take
+              - confidence: confidence in interpretation
+              
+              Keep responses conversational, helpful, and match the customer's energy level.`
+            },
+            ...conversationHistory.map(msg => ({
+              role: msg.type === 'user' ? 'user' : 'assistant',
+              content: msg.content
+            })),
+            {
+              role: 'user',
+              content: transcript
+            }
+          ],
+          temperature: 0.7,
+          max_tokens: 500
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error('xAI API error');
+      }
+      
+      const aiResult = await response.json();
+      let parsedResponse;
+      
+      try {
+        parsedResponse = JSON.parse(aiResult.choices[0].message.content);
+      } catch (parseError) {
+        // Fallback to simple response if JSON parsing fails
+        parsedResponse = {
+          intent: 'general_inquiry',
+          entities: [],
+          response: aiResult.choices[0].message.content,
+          actions: [],
+          confidence: 0.7
+        };
+      }
+      
+      res.json(parsedResponse);
+    } catch (error) {
+      console.error('AI voice processing error:', error);
+      
+      // Fallback response
+      res.json({
+        intent: 'general_inquiry',
+        entities: [],
+        response: "I'm here to help! Could you tell me what you'd like to order today?",
+        actions: [],
+        confidence: 0.5
+      });
+    }
+  });
+
+  // AI Personalization endpoint
+  app.post('/api/ai/personalize', async (req, res) => {
+    try {
+      const { profile, menuItems, contextualFactors } = req.body;
+      
+      // Process with xAI Grok for personalization
+      const response = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.XAI_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'grok-2-1212',
+          messages: [
+            {
+              role: 'system',
+              content: `You are an AI personalization engine for OrderFi restaurant. 
+              
+              Analyze the customer profile and contextual factors to provide personalized recommendations.
+              
+              Customer Profile: ${JSON.stringify(profile)}
+              Contextual Factors: ${JSON.stringify(contextualFactors)}
+              
+              Provide structured JSON response with:
+              - recommendations: array of recommended items with reasoning and confidence scores
+              - adaptations: interface and interaction adaptations
+              - insights: behavioral insights and opportunities
+              
+              Consider psychology principles:
+              - Mood alignment for food preferences
+              - Time-of-day eating patterns
+              - Weather influence on food choices
+              - Social and cultural factors
+              
+              Keep recommendations helpful and non-manipulative.`
+            },
+            {
+              role: 'user',
+              content: `Here are the available menu items: ${JSON.stringify(menuItems.slice(0, 20))}. Please provide personalized recommendations.`
+            }
+          ],
+          temperature: 0.8,
+          max_tokens: 1000
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error('xAI API error');
+      }
+      
+      const aiResult = await response.json();
+      let parsedResponse;
+      
+      try {
+        parsedResponse = JSON.parse(aiResult.choices[0].message.content);
+      } catch (parseError) {
+        // Fallback to rule-based recommendations
+        parsedResponse = generateRuleBasedPersonalization(profile, menuItems, contextualFactors);
+      }
+      
+      res.json(parsedResponse);
+    } catch (error) {
+      console.error('AI personalization error:', error);
+      
+      // Fallback to rule-based recommendations
+      const fallbackResponse = generateRuleBasedPersonalization(req.body.profile, req.body.menuItems, req.body.contextualFactors);
+      res.json(fallbackResponse);
+    }
+  });
+
+  // Robot Command Interface endpoint
+  app.post('/api/robots/command', async (req, res) => {
+    try {
+      const { command, parameters, priority = 'normal' } = req.body;
+      
+      // Validate command
+      const validCommands = ['prepare_order', 'deliver_order', 'clean_table', 'restock_inventory', 'status_check'];
+      if (!validCommands.includes(command)) {
+        return res.status(400).json({ error: 'Invalid robot command' });
+      }
+      
+      // Process robot command
+      const robotResponse = await processRobotCommand(command, parameters, priority);
+      
+      res.json({
+        success: true,
+        commandId: robotResponse.commandId,
+        estimatedCompletion: robotResponse.estimatedCompletion,
+        status: robotResponse.status
+      });
+    } catch (error) {
+      console.error('Robot command error:', error);
+      res.status(500).json({ error: 'Failed to process robot command' });
+    }
+  });
+
+  // Robot status endpoint
+  app.get('/api/robots/status', async (req, res) => {
+    try {
+      const robotStatus = await getRobotStatus();
+      res.json(robotStatus);
+    } catch (error) {
+      console.error('Robot status error:', error);
+      res.status(500).json({ error: 'Failed to get robot status' });
+    }
+  });
+
+  // Customer profile endpoint
+  app.get('/api/customers/:id/profile', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const orders = await storage.getOrders();
+      const customerOrders = orders.filter(order => order.customerId === id);
+      
+      if (customerOrders.length === 0) {
+        return res.status(404).json({ error: 'Customer profile not found' });
+      }
+      
+      // Build profile from order history
+      const profile = buildCustomerProfile(customerOrders);
+      res.json(profile);
+    } catch (error) {
+      console.error('Customer profile error:', error);
+      res.status(500).json({ error: 'Failed to get customer profile' });
+    }
+  });
+
   // Routes registered successfully
+}
+
+// Helper functions for AI processing
+function generateRuleBasedPersonalization(profile, menuItems, contextualFactors) {
+  const recommendations = [];
+  const timeOfDay = contextualFactors.timeOfDay;
+  const weather = contextualFactors.weather;
+  const mood = contextualFactors.mood;
+  
+  // Time-based filtering
+  const timeAppropriateItems = menuItems.filter(item => {
+    const itemName = item.name.toLowerCase();
+    switch (timeOfDay) {
+      case 'morning':
+        return itemName.includes('breakfast') || itemName.includes('coffee') || itemName.includes('egg');
+      case 'afternoon':
+        return itemName.includes('lunch') || itemName.includes('salad') || itemName.includes('sandwich');
+      case 'evening':
+        return itemName.includes('dinner') || itemName.includes('burger') || itemName.includes('pizza');
+      default:
+        return true;
+    }
+  });
+  
+  // Weather-based filtering
+  const weatherAppropriateItems = timeAppropriateItems.filter(item => {
+    const itemName = item.name.toLowerCase();
+    switch (weather) {
+      case 'cold':
+        return itemName.includes('soup') || itemName.includes('hot') || itemName.includes('warm');
+      case 'hot':
+        return itemName.includes('salad') || itemName.includes('cold') || itemName.includes('ice');
+      default:
+        return true;
+    }
+  });
+  
+  // Take top 6 items
+  const topItems = weatherAppropriateItems.slice(0, 6);
+  
+  topItems.forEach((item, index) => {
+    recommendations.push({
+      id: `rule-${item.id}`,
+      item: item,
+      score: 0.8 - (index * 0.1),
+      reasoning: `Great choice for ${timeOfDay} on a ${weather} day`,
+      confidence: 0.7,
+      category: 'contextual'
+    });
+  });
+  
+  return {
+    recommendations,
+    adaptations: {
+      interfaceTheme: mood === 'comfort' ? 'warm' : 'fresh',
+      layoutPreference: 'conversational',
+      interactionStyle: 'voice-first',
+      voicePersonality: 'friendly'
+    },
+    insights: [
+      {
+        type: 'preference',
+        title: 'Time-based Preference',
+        description: `You're ordering during ${timeOfDay} hours`,
+        confidence: 0.8,
+        actionable: true
+      }
+    ]
+  };
+}
+
+async function processRobotCommand(command, parameters, priority) {
+  // Simulate robot command processing
+  const commandId = `cmd_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  const estimatedTimes = {
+    'prepare_order': 15,
+    'deliver_order': 5,
+    'clean_table': 10,
+    'restock_inventory': 30,
+    'status_check': 1
+  };
+  
+  const estimatedCompletion = new Date(Date.now() + (estimatedTimes[command] * 60 * 1000));
+  
+  return {
+    commandId,
+    estimatedCompletion,
+    status: 'queued'
+  };
+}
+
+async function getRobotStatus() {
+  // Simulate robot status
+  return {
+    kitchen_robot_1: {
+      status: 'active',
+      currentTask: 'preparing_order',
+      batteryLevel: 85,
+      location: 'kitchen_station_2'
+    },
+    service_robot_1: {
+      status: 'active',
+      currentTask: 'delivering_order',
+      batteryLevel: 72,
+      location: 'dining_area'
+    },
+    cleaning_robot_1: {
+      status: 'charging',
+      currentTask: 'idle',
+      batteryLevel: 100,
+      location: 'charging_station'
+    }
+  };
+}
+
+function buildCustomerProfile(orders) {
+  // Analyze order history to build customer profile
+  const categories = {};
+  const totalSpent = orders.reduce((sum, order) => sum + order.total, 0);
+  const averageOrder = totalSpent / orders.length;
+  
+  orders.forEach(order => {
+    const items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
+    items.forEach(item => {
+      const category = item.category || 'other';
+      categories[category] = (categories[category] || 0) + 1;
+    });
+  });
+  
+  const favoriteCategories = Object.entries(categories)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([category]) => category);
+  
+  return {
+    id: orders[0].customerId,
+    preferences: {
+      dietary: [],
+      cuisines: favoriteCategories,
+      spiceLevel: 2,
+      priceRange: [averageOrder * 0.8, averageOrder * 1.2],
+      allergens: []
+    },
+    behavior: {
+      orderFrequency: orders.length,
+      averageOrderValue: averageOrder,
+      favoriteCategories,
+      orderTimes: ['evening'],
+      seasonalPreferences: {}
+    },
+    context: {
+      currentMood: 'happy',
+      timeOfDay: 'evening',
+      weather: 'sunny',
+      dayOfWeek: new Date().toLocaleDateString('en-US', { weekday: 'long' }),
+      isSpecialOccasion: false
+    }
+  };
 }

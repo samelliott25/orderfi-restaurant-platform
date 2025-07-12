@@ -1,0 +1,22 @@
+ADA, as the Autonomous Development Agent for OrderFi, I want you to lead a first-principles redesign of the entire app, focusing on human psychology, AI agent integration (especially LLM voice-to-text interfaces), and a future where robots replace human staff in hospitality. Reference all provided documents (e.g., ada-comprehensive-analysis.json for current state, 2026-design-research-report.json for trends like glassmorphism/bento grids, ui-innovation-catalog.json for concepts like Spatial Voice Navigation, competitive-analysis-summary.json for table stakes/differentiators, and ada-dashboard-analysis-report.json for UX patterns).
+
+Core Objective: Strip back to essentials—facilitate seamless ordering, payment, fulfillment, and feedback without human intermediaries. Assume the app will primarily interface with customers (via mobile/voice) and robots/AI systems (for kitchen/ops). Eliminate staff-facing POS elements (e.g., tablets/dashboards) as humans will be phased out.
+
+Key Guidelines:
+- **Human Psychology Integration**: Design for cognitive load reduction (chunking info, flow states), habit formation (dopamine rewards via quick wins), and multisensory engagement (voice, haptics, adaptive visuals). Use nudges for upselling but avoid overload. Ensure AI feels empathetic and trustworthy.
+- **AI Agents & LLM Voice-to-Text**: Make voice-first the default (e.g., via OpenAI/Anthropic APIs). LLMs handle conversational ordering, personalization (based on past data/weather/events from ada-inventory-analysis-report), and robot commands. Include sentiment analysis for mood-based suggestions.
+- **Creative Redesign Elements**:
+  - Layout: Single "conversational canvas" with dynamic bento grids that adapt via AI (e.g., voice command reshapes UI).
+  - UX Flow: QR/Voice entry → AI-guided menu (AR/3D viz from ui-innovation-catalog) → Auto-upsell → Voice payment → Robot status updates.
+  - Innovation: Build on docs—e.g., enhance Spatial Voice Navigation with robot integration; use Dynamic Glass Morphism for immersive order previews; add Contextual Gesture Zones for hybrid voice-gesture input.
+  - Robot-Focused: App as "brain" for bots—voice-to-text translates to API calls (e.g., inventory from ada-inventory-analysis-report, KDS from ada-comprehensive-analysis).
+- **Implementation Roadmap**:
+  - Phase 1: Core voice-first prototype (update menu_enhanced.tsx, cart.tsx, checkout.tsx).
+  - Phase 2: AI personalization engine (integrate with drizzle-orm for data).
+  - Phase 3: Robot API hooks (e.g., WebSockets for real-time).
+  - Output: Updated JSON reports (like ada-comprehensive-analysis.json format), new components/files, tests, and a visual wireframe description.
+- **Metrics for Success**: Aim for <1s response times, 95% voice accuracy, +30% order speed. Ensure accessibility (WCAG) and ethics (human fallback options).
+
+Generate: 1) High-level architecture diagram (text-based). 2) 5-7 new/updated components with code snippets. 3) Updated tsconfig/package.json if needed. 4) Test plan. 5) Potential risks/psych impacts.
+
+Execute this redesign iteratively—start with customer-facing flows, then backend AI integration.

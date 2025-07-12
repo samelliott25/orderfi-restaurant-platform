@@ -59,6 +59,7 @@ import TestMobile from "@/pages/test-mobile";
 import Design2026 from "@/pages/design-2026";
 import CreativeShowcase from "@/pages/creative-showcase";
 import GrokTest from "@/pages/grok-test";
+import VoiceFirstDemo from "@/pages/voice-first-demo";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -182,6 +183,9 @@ function Router() {
         
         {/* Grok AI Testing */}
         <Route path="/grok-test" component={GrokTest} />
+        
+        {/* Voice-First AI Demo */}
+        <Route path="/voice-first-demo" component={VoiceFirstDemo} />
         
         <Route component={NotFound} />
       </Switch>
