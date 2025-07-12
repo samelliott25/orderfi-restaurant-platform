@@ -841,6 +841,32 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // Phase 2 Implementation: Mobile optimization analysis
+  app.post('/api/grok/phase2-mobile-analysis', async (req, res) => {
+    try {
+      const { currentAdminPages } = req.body;
+      const { analyzeMobileOptimization } = await import('./grok');
+      const analysis = await analyzeMobileOptimization(currentAdminPages);
+      res.json(analysis);
+    } catch (error) {
+      console.error('Phase 2 mobile analysis error:', error);
+      res.status(500).json({ error: 'Failed to analyze mobile optimization' });
+    }
+  });
+
+  // Phase 2 Implementation: Generate mobile-optimized components
+  app.post('/api/grok/phase2-generate-components', async (req, res) => {
+    try {
+      const { specifications } = req.body;
+      const { generateMobileComponents } = await import('./grok');
+      const components = await generateMobileComponents(specifications);
+      res.json(components);
+    } catch (error) {
+      console.error('Phase 2 component generation error:', error);
+      res.status(500).json({ error: 'Failed to generate mobile components' });
+    }
+  });
+
   // Register customer chat routes
   const customerChatRouter = await import("./routes/customer-chat.js");
   app.use("/api/customer-chat", customerChatRouter.default);

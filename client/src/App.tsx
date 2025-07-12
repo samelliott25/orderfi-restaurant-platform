@@ -54,6 +54,7 @@ import CustomerCheckout from "@/pages/customer/checkout";
 import OrderStatus from "@/pages/customer/order-status";
 
 import DashboardMobile from "@/pages/dashboard-mobile";
+import DashboardPhase2 from "@/pages/dashboard-phase2";
 import TestMobile from "@/pages/test-mobile";
 import Design2026 from "@/pages/design-2026";
 import CreativeShowcase from "@/pages/creative-showcase";
@@ -145,6 +146,7 @@ function Router() {
           </RealTimeProvider>
         )} />
         <Route path="/dashboard-mobile" component={DashboardMobile} />
+        <Route path="/dashboard-phase2" component={DashboardPhase2} />
         <Route path="/test-mobile" component={TestMobile} />
         
         {/* Mobile App - QR Ordering System */}

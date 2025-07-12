@@ -102,6 +102,32 @@ export default function GrokTest() {
     },
   });
 
+  // Phase 2 mobile analysis mutation
+  const phase2MobileAnalysisMutation = useMutation({
+    mutationFn: (currentAdminPages: string) => 
+      apiRequest('/api/grok/phase2-mobile-analysis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentAdminPages }),
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/grok/phase2-mobile-analysis'] });
+    },
+  });
+
+  // Phase 2 component generation mutation
+  const phase2ComponentsMutation = useMutation({
+    mutationFn: (specifications: string) => 
+      apiRequest('/api/grok/phase2-generate-components', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ specifications }),
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/grok/phase2-generate-components'] });
+    },
+  });
+
   const handleFeatureTaste = () => {
     if (!featureDescription.trim()) return;
     featureTasteMutation.mutate({ featureDescription });
@@ -128,6 +154,30 @@ export default function GrokTest() {
 
   const handlePhase1Roadmap = (insights: string) => {
     phase1RoadmapMutation.mutate(insights);
+  };
+
+  const handlePhase2MobileAnalysis = () => {
+    const adminPagesDescription = `
+      Current OrderFi admin pages:
+      1. Dashboard (dashboard-hybrid.tsx): KPI cards, charts, tabs with Overview/Live Orders/Analytics
+      2. Inventory (inventory-simplified.tsx): Filter chips, suggestion chips, smart notifications
+      3. Orders (orders-new.tsx): Status cards, order management, responsive grid
+      4. Payments (payments.tsx): Payment summary, history table, configuration panels
+      5. Staff (staff.tsx): Staff management interface
+      6. Stock (stock.tsx): Stock management with activity feeds
+      7. Settings (settings.tsx): Configuration panels and settings
+      
+      Current mobile issues:
+      - Touch targets may be smaller than 44px
+      - Grid layouts not optimized for tablet use
+      - Limited swipe navigation patterns
+      - Progressive disclosure architecture needed
+    `;
+    phase2MobileAnalysisMutation.mutate(adminPagesDescription);
+  };
+
+  const handlePhase2GenerateComponents = (analysis: string) => {
+    phase2ComponentsMutation.mutate(analysis);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -431,6 +481,91 @@ export default function GrokTest() {
                   <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200 max-h-96 overflow-y-auto">
                     <p className="text-sm text-indigo-800 whitespace-pre-wrap">
                       {phase1RoadmapMutation.data.roadmap}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Phase 2 Mobile Analysis Card */}
+          <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Brain className="w-5 h-5 text-emerald-600" />
+                <span className="playwrite-font">Phase 2 Mobile Analysis</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-gray-600">
+                Analyze admin pages for mobile optimization opportunities with Toast, Square, and Lightspeed best practices.
+              </p>
+              <Button
+                onClick={handlePhase2MobileAnalysis}
+                disabled={phase2MobileAnalysisMutation.isPending}
+                className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700"
+              >
+                {phase2MobileAnalysisMutation.isPending ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Analyzing Mobile UX...
+                  </>
+                ) : (
+                  <>
+                    <Brain className="w-4 h-4 mr-2" />
+                    Run Phase 2 Analysis
+                  </>
+                )}
+              </Button>
+              {phase2MobileAnalysisMutation.data && (
+                <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                  <div className="space-y-2">
+                    <p className="text-xs text-emerald-600">
+                      Analysis completed: {new Date(phase2MobileAnalysisMutation.data.timestamp).toLocaleString()}
+                    </p>
+                    <p className="text-sm text-emerald-800 whitespace-pre-wrap max-h-60 overflow-y-auto">
+                      {phase2MobileAnalysisMutation.data.analysis}
+                    </p>
+                    <Button
+                      onClick={() => handlePhase2GenerateComponents(phase2MobileAnalysisMutation.data.analysis)}
+                      disabled={phase2ComponentsMutation.isPending}
+                      className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 mt-2"
+                    >
+                      {phase2ComponentsMutation.isPending ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Generating Components...
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="w-4 h-4 mr-2" />
+                          Generate Mobile Components
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Phase 2 Component Generation Display */}
+          {phase2ComponentsMutation.data && (
+            <Card className="bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-200 col-span-full">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Zap className="w-5 h-5 text-teal-600" />
+                  <span className="playwrite-font">Phase 2 Mobile Components</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <p className="text-xs text-teal-600">
+                    Components generated: {new Date(phase2ComponentsMutation.data.timestamp).toLocaleString()}
+                  </p>
+                  <div className="p-4 bg-teal-50 rounded-lg border border-teal-200 max-h-96 overflow-y-auto">
+                    <p className="text-sm text-teal-800 whitespace-pre-wrap">
+                      {phase2ComponentsMutation.data.components}
                     </p>
                   </div>
                 </div>

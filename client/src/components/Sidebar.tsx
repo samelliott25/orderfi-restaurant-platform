@@ -46,6 +46,7 @@ import {
 
 const menuItems = [
   { icon: BarChart3, label: "Dashboard", href: "/dashboard" },
+  { icon: Brain, label: "Phase 2 Dashboard", href: "/dashboard-phase2" },
   { icon: Smartphone, label: "Mobile App", href: "/mobileapp" },
   { icon: ShoppingCart, label: "Orders", href: "/orders" },
   { icon: ChefHat, label: "Kitchen", href: "/kitchen" },

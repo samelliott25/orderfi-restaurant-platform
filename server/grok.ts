@@ -134,6 +134,118 @@ export async function generatePhase1Roadmap(competitiveInsights: string): Promis
   }
 }
 
+// Phase 2 Implementation: Mobile optimization analysis with Grok-4
+export async function analyzeMobileOptimization(currentAdminPages: string): Promise<any> {
+  try {
+    const prompt = `Analyze the current OrderFi admin pages for mobile optimization opportunities. Focus on restaurant industry best practices from Toast, Square, and Lightspeed. Current pages: ${currentAdminPages}
+
+    MOBILE OPTIMIZATION ANALYSIS:
+
+    1. TOUCH TARGET REQUIREMENTS:
+       - Identify components that need 44px+ minimum touch targets
+       - Analyze button spacing and accessibility for tablet use
+       - Recommend touch-friendly interaction patterns
+
+    2. RESPONSIVE LAYOUT IMPROVEMENTS:
+       - Evaluate current grid systems for mobile/tablet compatibility
+       - Suggest stacked layouts for narrow screens
+       - Recommend swipe navigation patterns
+
+    3. PROGRESSIVE DISCLOSURE ARCHITECTURE:
+       - Design Executive Summary view (4 primary KPIs)
+       - Create Operational View (live orders, alerts)
+       - Build Analytics View (charts, forecasting)
+
+    4. COMPETITOR MOBILE PATTERNS:
+       - Toast POS mobile dashboard patterns
+       - Square mobile management interface
+       - Lightspeed tablet-optimized layouts
+
+    5. IMPLEMENTATION RECOMMENDATIONS:
+       - Specific React component modifications
+       - CSS/Tailwind improvements for touch interfaces
+       - Mobile-first design system enhancements
+
+    Provide detailed technical recommendations with code examples and implementation priorities.`;
+
+    const response = await openai.chat.completions.create({
+      model: "grok-2-1212",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 4000,
+      temperature: 0.3,
+    });
+
+    return {
+      analysis: response.choices[0].message.content,
+      timestamp: new Date().toISOString(),
+      source: "grok-2-1212",
+      analysisType: "mobile_optimization_analysis"
+    };
+  } catch (error) {
+    console.error('Mobile optimization analysis error:', error);
+    throw new Error('Failed to analyze mobile optimization');
+  }
+}
+
+// Phase 2 Implementation: Generate mobile-optimized components
+export async function generateMobileComponents(specifications: string): Promise<any> {
+  try {
+    const prompt = `Generate mobile-optimized React components for OrderFi admin pages based on these specifications: ${specifications}
+
+    COMPONENT GENERATION REQUIREMENTS:
+
+    1. EXECUTIVE SUMMARY COMPONENT:
+       - 4 primary KPIs: revenue, orders, customers, avg order value
+       - Real-time updates with WebSocket integration
+       - Touch-friendly card design with 44px+ touch targets
+       - Responsive grid: 1 column mobile, 2 columns tablet, 4 columns desktop
+
+    2. OPERATIONAL VIEW COMPONENT:
+       - Live orders display with status indicators
+       - Critical alerts and notifications
+       - Quick action buttons for common tasks
+       - Swipe navigation for order management
+
+    3. ANALYTICS VIEW COMPONENT:
+       - Chart integration with Recharts
+       - AI-powered forecasting display
+       - Mobile-optimized data visualization
+       - Touch-friendly chart interactions
+
+    4. MOBILE LAYOUT PATTERNS:
+       - Progressive disclosure architecture
+       - Stacked layouts for narrow screens
+       - Touch-optimized tabs and navigation
+       - Swipe gestures for efficiency
+
+    Generate complete TypeScript React components with:
+    - Proper TypeScript interfaces
+    - Tailwind CSS for styling
+    - Mobile-first responsive design
+    - Accessibility compliance
+    - Integration with existing OrderFi design system
+
+    Provide production-ready code with proper imports and structure.`;
+
+    const response = await openai.chat.completions.create({
+      model: "grok-2-1212",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 4000,
+      temperature: 0.2,
+    });
+
+    return {
+      components: response.choices[0].message.content,
+      timestamp: new Date().toISOString(),
+      source: "grok-2-1212",
+      componentType: "mobile_optimized_components"
+    };
+  } catch (error) {
+    console.error('Mobile component generation error:', error);
+    throw new Error('Failed to generate mobile components');
+  }
+}
+
 // Feature taste analysis with Grok's perspective
 export async function grokFeatureTaste(featureDescription: string): Promise<{
   rating: number,
