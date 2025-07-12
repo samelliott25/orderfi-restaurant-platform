@@ -32,14 +32,12 @@ interface VoiceState {
 interface VoiceFirstOrchestratorProps {
   onOrderUpdate?: (orderData: any) => void;
   onUIAdaptation?: (adaptationData: any) => void;
-  onRobotCommand?: (command: any) => void;
   className?: string;
 }
 
 export function VoiceFirstOrchestrator({
   onOrderUpdate,
   onUIAdaptation,
-  onRobotCommand,
   className = ''
 }: VoiceFirstOrchestratorProps) {
   const [voiceState, setVoiceState] = useState<VoiceState>({
@@ -204,8 +202,6 @@ export function VoiceFirstOrchestrator({
         onOrderUpdate?.(aiResult.orderData);
       } else if (aiResult.intent === 'ui_adaptation') {
         onUIAdaptation?.(aiResult.adaptationData);
-      } else if (aiResult.intent === 'robot_command') {
-        onRobotCommand?.(aiResult.robotCommand);
       }
 
       // Provide voice feedback

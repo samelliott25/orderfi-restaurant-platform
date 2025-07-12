@@ -490,7 +490,7 @@ export default function VoiceFirstDemo() {
       </div>
 
       {/* Custom Styles */}
-      <style jsx>{`
+      <style>{`
         .glass-morphism {
           background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(10px);

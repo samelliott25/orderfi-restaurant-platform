@@ -1947,42 +1947,7 @@ Base predictions on historical patterns, seasonal trends, weather impact, and cu
     }
   });
 
-  // Robot Command Interface endpoint
-  app.post('/api/robots/command', async (req, res) => {
-    try {
-      const { command, parameters, priority = 'normal' } = req.body;
-      
-      // Validate command
-      const validCommands = ['prepare_order', 'deliver_order', 'clean_table', 'restock_inventory', 'status_check'];
-      if (!validCommands.includes(command)) {
-        return res.status(400).json({ error: 'Invalid robot command' });
-      }
-      
-      // Process robot command
-      const robotResponse = await processRobotCommand(command, parameters, priority);
-      
-      res.json({
-        success: true,
-        commandId: robotResponse.commandId,
-        estimatedCompletion: robotResponse.estimatedCompletion,
-        status: robotResponse.status
-      });
-    } catch (error) {
-      console.error('Robot command error:', error);
-      res.status(500).json({ error: 'Failed to process robot command' });
-    }
-  });
-
-  // Robot status endpoint
-  app.get('/api/robots/status', async (req, res) => {
-    try {
-      const robotStatus = await getRobotStatus();
-      res.json(robotStatus);
-    } catch (error) {
-      console.error('Robot status error:', error);
-      res.status(500).json({ error: 'Failed to get robot status' });
-    }
-  });
+  // Removed robot automation endpoints as requested
 
   // Customer profile endpoint
   app.get('/api/customers/:id/profile', async (req, res) => {
@@ -2076,50 +2041,7 @@ function generateRuleBasedPersonalization(profile, menuItems, contextualFactors)
   };
 }
 
-async function processRobotCommand(command, parameters, priority) {
-  // Simulate robot command processing
-  const commandId = `cmd_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  
-  const estimatedTimes = {
-    'prepare_order': 15,
-    'deliver_order': 5,
-    'clean_table': 10,
-    'restock_inventory': 30,
-    'status_check': 1
-  };
-  
-  const estimatedCompletion = new Date(Date.now() + (estimatedTimes[command] * 60 * 1000));
-  
-  return {
-    commandId,
-    estimatedCompletion,
-    status: 'queued'
-  };
-}
-
-async function getRobotStatus() {
-  // Simulate robot status
-  return {
-    kitchen_robot_1: {
-      status: 'active',
-      currentTask: 'preparing_order',
-      batteryLevel: 85,
-      location: 'kitchen_station_2'
-    },
-    service_robot_1: {
-      status: 'active',
-      currentTask: 'delivering_order',
-      batteryLevel: 72,
-      location: 'dining_area'
-    },
-    cleaning_robot_1: {
-      status: 'charging',
-      currentTask: 'idle',
-      batteryLevel: 100,
-      location: 'charging_station'
-    }
-  };
-}
+// Robot functions removed as requested
 
 function buildCustomerProfile(orders) {
   // Analyze order history to build customer profile

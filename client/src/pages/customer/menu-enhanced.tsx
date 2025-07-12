@@ -8,11 +8,15 @@ import { MenuGrid } from '@/components/customer/MenuGrid';
 import { CartDrawer } from '@/components/customer/CartDrawer';
 import { QuickReorder } from '@/components/customer/QuickReorder';
 import { FloatingActionButton } from '@/components/customer/FloatingActionButton';
+import { VoiceFirstOrchestrator } from '@/components/voice/VoiceFirstOrchestrator';
+import { AIPersonalizationEngine } from '@/components/ai/AIPersonalizationEngine';
+import { NudgeEngine } from '@/components/ai/NudgeEngine';
 import { SpatialVoiceNav } from '@/components/SpatialVoiceNav';
 import { GestureZones } from '@/components/GestureZones';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Mic, MicOff, ShoppingCart } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Mic, MicOff, ShoppingCart, Brain, Sparkles } from 'lucide-react';
 import StandardLayout from '@/components/StandardLayout';
 import { BottomNavigation } from '@/components/ui/bottom-navigation';
 
@@ -54,6 +58,10 @@ export default function EnhancedCustomerMenu() {
   const [interimTranscript, setInterimTranscript] = useState('');
   const [gestureEvent, setGestureEvent] = useState<string>('');
   const [spatialPosition, setSpatialPosition] = useState<any>(null);
+  const [isVoiceFirstMode, setIsVoiceFirstMode] = useState(false);
+  const [personalizationResult, setPersonalizationResult] = useState<any>(null);
+  const [customerProfile, setCustomerProfile] = useState<any>(null);
+  const [nudgeResults, setNudgeResults] = useState<any>(null);
   const menuItemsRef = useRef<MenuItem[]>([]);
   
   const { cart, addToCart, updateQuantity, removeFromCart, getTotalItems } = useCart();
@@ -316,6 +324,42 @@ export default function EnhancedCustomerMenu() {
     handleVoiceCommand(command.toLowerCase());
   };
 
+  // Voice-first AI integration handlers
+  const handleOrderUpdate = useCallback((orderData: any) => {
+    console.log('Voice order update:', orderData);
+    if (orderData.items) {
+      orderData.items.forEach((item: any) => {
+        addToCart(item);
+      });
+    }
+  }, [addToCart]);
+
+  const handleUIAdaptation = useCallback((adaptationData: any) => {
+    console.log('UI adaptation:', adaptationData);
+    // Apply UI adaptations based on voice interaction
+    if (adaptationData.focusCategory) {
+      setSelectedCategory(adaptationData.focusCategory);
+    }
+    if (adaptationData.searchQuery) {
+      setSearchQuery(adaptationData.searchQuery);
+    }
+  }, []);
+
+  const handlePersonalizationUpdate = useCallback((result: any) => {
+    console.log('Personalization update:', result);
+    setPersonalizationResult(result);
+  }, []);
+
+  const handleProfileUpdate = useCallback((profile: any) => {
+    console.log('Profile update:', profile);
+    setCustomerProfile(profile);
+  }, []);
+
+  const handleNudgeUpdate = useCallback((nudges: any) => {
+    console.log('Nudge update:', nudges);
+    setNudgeResults(nudges);
+  }, []);
+
   // Gesture recognition handler
   const handleGestureRecognized = (gesture: any) => {
     setGestureEvent(`${gesture.type} ${gesture.direction || ''} gesture detected`);
@@ -467,6 +511,82 @@ export default function EnhancedCustomerMenu() {
         searchQuery={searchQuery}
         activeCategory={selectedCategory}
       />
+
+      {/* Voice-First AI Integration */}
+      <div className="px-4 py-2">
+        <div className="flex items-center space-x-2 mb-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsVoiceFirstMode(!isVoiceFirstMode)}
+            className={isVoiceFirstMode ? 'bg-orange-100 text-orange-800' : ''}
+          >
+            <Brain className="w-4 h-4 mr-1" />
+            {isVoiceFirstMode ? 'Voice AI Active' : 'Enable Voice AI'}
+          </Button>
+        </div>
+        
+        {/* Voice-First Components */}
+        {isVoiceFirstMode && (
+          <div className="space-y-4 mb-6">
+            <VoiceFirstOrchestrator
+              onOrderUpdate={handleOrderUpdate}
+              onUIAdaptation={handleUIAdaptation}
+              className="shadow-lg"
+            />
+            
+            <AIPersonalizationEngine
+              customerId="customer-123"
+              menuItems={menuItems}
+              onPersonalizationUpdate={handlePersonalizationUpdate}
+              onProfileUpdate={handleProfileUpdate}
+              className="shadow-lg"
+            />
+            
+            <NudgeEngine
+              customerId="customer-123"
+              currentCart={cart}
+              menuItems={menuItems}
+              onNudgeUpdate={handleNudgeUpdate}
+              className="shadow-lg"
+            />
+          </div>
+        )}
+        
+        {/* Personalized Recommendations */}
+        {personalizationResult && personalizationResult.recommendations && (
+          <Card className="mb-4 shadow-lg">
+            <CardContent className="p-4">
+              <h3 className="font-semibold playwrite-font mb-3 flex items-center">
+                <Sparkles className="w-4 h-4 mr-2 text-orange-500" />
+                AI Recommendations for You
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {personalizationResult.recommendations.slice(0, 4).map((rec: any, index: number) => (
+                  <div key={rec.id || index} className="p-3 bg-gradient-to-r from-orange-50 to-pink-50 rounded-lg">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-sm">{rec.item?.name || 'Unknown Item'}</h4>
+                        <p className="text-xs text-muted-foreground">{rec.reasoning}</p>
+                      </div>
+                      <Badge variant="outline" className="text-xs">
+                        {Math.round(rec.confidence * 100)}%
+                      </Badge>
+                    </div>
+                    <Button
+                      size="sm"
+                      onClick={() => rec.item && addToCart(rec.item)}
+                      className="w-full"
+                    >
+                      Add ${rec.item?.price || 0}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
 
       {/* Cart drawer */}
       <CartDrawer
