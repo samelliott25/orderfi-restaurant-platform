@@ -9,14 +9,8 @@ html, body {
 
 /* Mamo.bot Inspired Design System - Global Background */
 body {
-  background-color: #e8f5e9 !important; /* Soft mint green like mamo.bot */
-  background-image: none; /* Remove previous patterns */
-}
-
-/* Force body background universally - highest priority */
-html, body, #root, [data-reactroot] {
-  background-color: #e8f5e9 !important;
-  background-image: none !important;
+  background-color: #ffffff;
+  background-image: none;
 }
 
 .dark body {
@@ -124,33 +118,7 @@ pre,
   font-weight: 400;
 }
 
-/* MAMO.BOT INSPIRED DESIGN SYSTEM - Global Application */
-
-/* Transform all cards to mamo.bot style - comprehensive targeting */
-.card, [data-testid="card"], .bg-card, 
-[class*="bg-background"], [class*="bg-white"], [class*="bg-card"],
-.bg-background, .bg-white, .bg-card,
-div[class*="Card"], div[class*="card"], 
-div[class*="bg-"], div[class*="shadow"],
-[class*="border"][class*="rounded"],
-[class*="p-4"][class*="rounded"],
-[class*="p-6"][class*="rounded"] {
-  background-color: white !important;
-  border-radius: 24px !important; /* Rounded corners like mamo.bot */
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
-  transition: all 0.2s ease !important;
-}
-
-/* Target specific shadcn/ui component classes */
-[data-radix-collection-item], [data-radix-popper-content-wrapper] > div,
-div[class*="space-y-"][class*="grid"], div[class*="flex"][class*="flex-col"][class*="space-y-"] {
-  background-color: white !important;
-  border-radius: 24px !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
-  transition: all 0.2s ease !important;
-}
+/* Removed mamo.bot styling */
 
 .card:hover, [data-testid="card"]:hover, .bg-card:hover {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
@@ -313,126 +281,37 @@ input:focus, textarea:focus, select:focus, .input:focus {
   border-bottom: 1px solid #f3f4f6 !important;
 }
 
-/* Mobile responsiveness - maintain mamo.bot aesthetic */
+/* Mobile responsiveness */
 @media (max-width: 768px) {
   .card, [data-testid="card"], .bg-card {
-    margin: 8px !important;
-    border-radius: 20px !important;
+    margin: 8px;
   }
   
   h1, .text-4xl, .text-3xl {
-    font-size: 2rem !important;
+    font-size: 2rem;
   }
   
   .btn-primary, .bg-primary, .btn-secondary, .bg-secondary {
-    padding: 10px 20px !important;
-    font-size: 0.875rem !important;
+    padding: 10px 20px;
+    font-size: 0.875rem;
   }
 }
 
-/* Enhanced targeting for better coverage */
-/* Target standard Tailwind classes and force override */
-.bg-white, .bg-background, .bg-card, .bg-popover,
-div[class*="bg-white"], div[class*="bg-background"], div[class*="bg-card"],
-span[class*="bg-white"], span[class*="bg-background"], span[class*="bg-card"] {
-  background-color: white !important;
-}
-
-/* Force override for any element with background classes */
-[class*="bg-white"], [class*="bg-background"], [class*="bg-card"], [class*="bg-popover"] {
-  background-color: white !important;
-}
+/* Removed background overrides */
 
 /* Remove problematic global border-radius */
 
-/* Apply mamo.bot styling - soft mint green background and white cards */
-html body {
-  background-color: #e8f5e9 !important;
-}
+/* Removed mamo.bot styling */
 
-/* Apply mamo.bot card styling to all card-like elements */
-html body div[class*="bg-"], 
-html body div[class*="Card"], 
-html body div[class*="card"],
-html body div[class*="border"],
-html body div[class*="shadow"],
-html body div[class*="p-4"],
-html body div[class*="p-6"],
-html body div[class*="space-y-"] {
-  background-color: white !important;
-  border-radius: 24px !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
-  transition: all 0.2s ease !important;
-}
-
-/* Hover effects for interactive elements */
-html body div[class*="bg-"]:hover,
-html body div[class*="Card"]:hover,
-html body div[class*="card"]:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15) !important;
-}
+/* Removed card styling */
 
 /* Remove problematic button styling */
 
-/* mamo.bot typography - large, bold, friendly */
-html body h1, 
-html body h2, 
-html body h3,
-html body .text-3xl,
-html body .text-2xl,
-html body .text-xl {
-  font-size: 2rem !important;
-  font-weight: 700 !important;
-  line-height: 1.2 !important;
-  color: #1f2937 !important;
-}
-
-html body h1 {
-  font-size: 2.5rem !important;
-}
-
-/* mamo.bot colorful card variations */
-html body div[class*="bg-"]:nth-child(2) {
-  background-color: #fef3c7 !important; /* Light yellow card 2 */
-}
-
-html body div[class*="bg-"]:nth-child(3) {
-  background-color: #d1fae5 !important; /* Light green card 3 */
-}
-
-html body div[class*="bg-"]:nth-child(4) {
-  background-color: #dbeafe !important; /* Light blue card 4 */
-}
+/* Removed typography and card color styling */
 
 /* Remove problematic icon styling */
 
-/* Input styling like mamo.bot */
-html body input[type="text"],
-html body input[type="email"],
-html body input[type="password"],
-html body input[type="search"],
-html body textarea,
-html body select {
-  border-radius: 12px !important;
-  border: 1px solid #d1d5db !important;
-  padding: 12px 16px !important;
-  background-color: white !important;
-  font-size: 16px !important;
-  transition: all 0.2s ease !important;
-}
-
-html body input[type="text"]:focus,
-html body input[type="email"]:focus,
-html body input[type="password"]:focus,
-html body input[type="search"]:focus,
-html body textarea:focus,
-html body select:focus {
-  outline: none !important;
-  border-color: #fbbf24 !important;
-  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1) !important;
-}
+/* Removed input styling */
 
 .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl {
   border-radius: 24px !important;
@@ -456,25 +335,7 @@ button:hover, .button:hover, [role="button"]:hover {
   transform: translateY(-1px) !important;
 }
 
-/* Primary button colors */
-.bg-orange-500, .bg-orange-600, .bg-primary {
-  background-color: #fbbf24 !important;
-  color: #1f2937 !important;
-}
-
-.bg-orange-500:hover, .bg-orange-600:hover, .bg-primary:hover {
-  background-color: #f59e0b !important;
-}
-
-/* Secondary/green buttons */
-.bg-green-500, .bg-green-600, .bg-emerald-500 {
-  background-color: #10b981 !important;
-  color: #1f2937 !important;
-}
-
-.bg-green-500:hover, .bg-green-600:hover, .bg-emerald-500:hover {
-  background-color: #059669 !important;
-}
+/* Removed mamo.bot button colors */
 
 /* Dark mode adjustments */
 .dark .card, .dark [data-testid="card"], .dark .bg-card, .dark .bg-white, .dark .bg-background {
