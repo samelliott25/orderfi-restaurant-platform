@@ -37,10 +37,10 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
 
     // Draw function
     const draw = () => {
-      // Clear canvas with orange gradient
+      // Clear canvas with new color palette gradient
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#FF4500'); // Top orange
-      gradient.addColorStop(1, '#FFA500'); // Bottom yellow-orange
+      gradient.addColorStop(0, '#FF5B05'); // Bright Orange
+      gradient.addColorStop(1, '#FF8C00'); // Gradient Cloud (orange to yellow)
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -48,9 +48,9 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       stars.forEach(star => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`; // White dots for stars
+        ctx.fillStyle = `rgba(211, 211, 211, ${star.opacity})`; // Cloud Grey stars
         ctx.shadowBlur = 5; // Soft glow
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+        ctx.shadowColor = 'rgba(211, 211, 211, 0.5)';
         ctx.fill();
       });
     };

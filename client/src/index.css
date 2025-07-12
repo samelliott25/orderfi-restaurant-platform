@@ -10,12 +10,12 @@ html, body {
 /* Reset to original styling */
 
 .dark body {
-  background-color: #1a1a1a !important; /* Dark mode override */
+  background-color: #343637 !important; /* Charcoal Grey */
 }
 
-/* Reset body background completely */
+/* New color palette body background */
 body {
-  background-color: initial !important;
+  background-color: #D3D3D3 !important; /* Cloud Grey */
   background-image: none !important;
 }
 
@@ -127,10 +127,10 @@ pre,
   transform: translateY(-1px) !important;
 }
 
-/* Mamo.bot button styles */
+/* New color palette button styles */
 .btn-primary, .bg-primary, button[class*="bg-primary"] {
-  background-color: #fbbf24 !important; /* Yellow like mamo.bot */
-  color: #1f2937 !important;
+  background-color: #FF5B05 !important; /* Bright Orange */
+  color: #ffffff !important;
   border-radius: 9999px !important; /* Fully rounded */
   font-weight: 600 !important;
   padding: 12px 24px !important;
@@ -139,14 +139,14 @@ pre,
 }
 
 .btn-primary:hover, .bg-primary:hover, button[class*="bg-primary"]:hover {
-  background-color: #f59e0b !important;
+  background-color: #e04e00 !important;
   transform: translateY(-1px) !important;
 }
 
-/* Secondary buttons - green like mamo.bot */
+/* Secondary buttons - Aqua Green */
 .btn-secondary, .bg-secondary, button[class*="bg-secondary"] {
-  background-color: #10b981 !important;
-  color: #1f2937 !important;
+  background-color: #075956 !important;
+  color: #ffffff !important;
   border-radius: 9999px !important;
   font-weight: 600 !important;
   padding: 12px 24px !important;
@@ -155,34 +155,34 @@ pre,
 }
 
 .btn-secondary:hover, .bg-secondary:hover, button[class*="bg-secondary"]:hover {
-  background-color: #059669 !important;
+  background-color: #054742 !important;
   transform: translateY(-1px) !important;
 }
 
-/* Mamo.bot step cards - colorful variations */
+/* New color palette step cards */
 .step-card-1, .card:nth-child(1), .grid > .card:nth-child(1) {
   background-color: white !important;
-  border: 1px solid #e5e7eb !important;
+  border: 1px solid #D3D3D3 !important; /* Cloud Grey */
 }
 
 .step-card-2, .card:nth-child(2), .grid > .card:nth-child(2) {
-  background-color: #fef3c7 !important; /* Light yellow */
-  border: 1px solid #fbbf24 !important;
+  background-color: #FFE8D6 !important; /* Light Orange tint */
+  border: 1px solid #FF5B05 !important;
 }
 
 .step-card-3, .card:nth-child(3), .grid > .card:nth-child(3) {
-  background-color: #d1fae5 !important; /* Light green */
-  border: 1px solid #10b981 !important;
+  background-color: #E8F5F5 !important; /* Light Aqua tint */
+  border: 1px solid #075956 !important;
 }
 
 .step-card-4, .card:nth-child(4), .grid > .card:nth-child(4) {
-  background-color: #e0e7ff !important; /* Light blue */
-  border: 1px solid #6366f1 !important;
+  background-color: #F5F5F5 !important; /* Light Charcoal tint */
+  border: 1px solid #343637 !important;
 }
 
-/* Mamo.bot circle icons */
+/* New color palette circle icons */
 .icon-circle, .w-8.h-8.rounded-full, .w-10.h-10.rounded-full, .w-12.h-12.rounded-full {
-  background-color: #1f2937 !important;
+  background-color: #343637 !important; /* Charcoal Grey */
   color: white !important;
   border-radius: 50% !important;
   display: flex !important;
@@ -842,58 +842,58 @@ h3, .text-xl {
   }
 
   :root {
-    --background: 0 0% 98.8%;
-    --foreground: 240 10% 3.9%;
-    --card: 25 20% 96%;
-    --card-foreground: 240 10% 3.9%;
+    --background: 0 0% 83%;
+    --foreground: 210 11% 21%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 11% 21%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 25 100% 65%;
+    --popover-foreground: 210 11% 21%;
+    --primary: 14 100% 51%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 25 20% 92%;
-    --muted-foreground: 25 95% 53%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 25 100% 65%;
-    --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
-
-  .dark {
-    --background: 220 23% 9%;
-    --foreground: 0 0% 100%;
-    --card: 25 25% 12%;
-    --card-foreground: 0 0% 100%;
-    --popover: 220 23% 9%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 25 100% 65%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 17% 15%;
-    --secondary-foreground: 210 20% 78%;
-    --muted: 25 25% 15%;
-    --muted-foreground: 25 80% 65%;
-    --accent: 220 17% 15%;
+    --secondary: 179 100% 18%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 83%;
+    --muted-foreground: 210 11% 21%;
+    --accent: 179 100% 18%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 21%;
-    --input: 220 17% 15%;
-    --ring: 25 100% 65%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --border: 0 0% 83%;
+    --input: 0 0% 83%;
+    --ring: 14 100% 51%;
+    --radius: 0.5rem;
+    --chart-1: 14 100% 51%;
+    --chart-2: 179 100% 18%;
+    --chart-3: 210 11% 21%;
+    --chart-4: 0 0% 83%;
+    --chart-5: 33 100% 60%;
+  }
+
+  .dark {
+    --background: 210 11% 21%;
+    --foreground: 0 0% 100%;
+    --card: 210 11% 21%;
+    --card-foreground: 0 0% 100%;
+    --popover: 210 11% 21%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 14 100% 51%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 179 100% 18%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 11% 21%;
+    --muted-foreground: 0 0% 83%;
+    --accent: 179 100% 18%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 83%;
+    --input: 210 11% 21%;
+    --ring: 14 100% 51%;
+    --chart-1: 14 100% 51%;
+    --chart-2: 179 100% 18%;
+    --chart-3: 210 11% 21%;
+    --chart-4: 0 0% 83%;
+    --chart-5: 33 100% 60%;
   }
 
   * {
@@ -911,6 +911,21 @@ html, body, #root {
   background-color: hsl(var(--background)) !important;
   color: hsl(var(--foreground)) !important;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* New color palette text gradients */
+.text-gradient {
+  background: linear-gradient(45deg, #FF5B05, #FF8C00) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.text-gradient-secondary {
+  background: linear-gradient(45deg, #075956, #10B981) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
 /* Force dark mode styles with higher specificity - using sidebar gray colors */
