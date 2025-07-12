@@ -57,6 +57,7 @@ import DashboardMobile from "@/pages/dashboard-mobile";
 import TestMobile from "@/pages/test-mobile";
 import Design2026 from "@/pages/design-2026";
 import CreativeShowcase from "@/pages/creative-showcase";
+import GrokTest from "@/pages/grok-test";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -175,6 +176,9 @@ function Router() {
         {/* Design Innovation */}
         <Route path="/design-2026" component={Design2026} />
         <Route path="/creative-showcase" component={CreativeShowcase} />
+        
+        {/* Grok AI Testing */}
+        <Route path="/grok-test" component={GrokTest} />
         
         <Route component={NotFound} />
       </Switch>

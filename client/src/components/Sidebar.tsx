@@ -40,7 +40,8 @@ import {
   Timer,
   Clock,
   Palette,
-  Layers
+  Layers,
+  Zap
 } from "lucide-react";
 
 const menuItems = [
@@ -57,6 +58,7 @@ const menuItems = [
   { icon: FileText, label: "Reporting", href: "/reporting" },
   { icon: Settings2, label: "Settings", href: "/settings" },
   { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
+  { icon: Zap, label: "Grok AI", href: "/grok-test" },
   { icon: Palette, label: "2026 Design", href: "/design-2026" },
   { icon: Layers, label: "Creative Layout", href: "/creative-showcase" },
 ];

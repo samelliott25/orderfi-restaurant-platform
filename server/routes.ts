@@ -12,6 +12,7 @@ import { blockchainIntegrationService } from "./services/blockchain-integration"
 import { menuCategorizationService } from "./services/menu-categorization";
 import { kitchenPrinterService } from "./services/kitchen-printer";
 import { processChatMessage, processOperationsAiMessage, type ChatContext } from "./services/akash-chat";
+import { enhancedCompetitiveAnalysis, grokFeatureTaste, analyzeMenuImage, generateRestaurantStrategy, testGrokConnection } from "./grok";
 import { 
   insertRestaurantSchema, 
   insertMenuItemSchema, 
@@ -759,6 +760,65 @@ export async function registerRoutes(app: Express): Promise<void> {
 
   // Register TTS routes
   app.use("/api/tts", ttsRouter);
+
+  // Grok AI integration endpoints
+  app.post('/api/grok/competitive-analysis', async (req, res) => {
+    try {
+      const { competitorData } = req.body;
+      const analysis = await enhancedCompetitiveAnalysis(competitorData);
+      res.json({ analysis });
+    } catch (error) {
+      console.error('Grok competitive analysis error:', error);
+      res.status(500).json({ error: 'Failed to analyze competitor data' });
+    }
+  });
+
+  app.post('/api/grok/feature-taste', async (req, res) => {
+    try {
+      const { featureDescription } = req.body;
+      const result = await grokFeatureTaste(featureDescription);
+      res.json(result);
+    } catch (error) {
+      console.error('Grok feature taste error:', error);
+      res.status(500).json({ error: 'Failed to analyze feature taste' });
+    }
+  });
+
+  app.post('/api/grok/menu-analysis', upload.single('image'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'No image provided' });
+      }
+      
+      const base64Image = req.file.buffer.toString('base64');
+      const analysis = await analyzeMenuImage(base64Image);
+      res.json({ analysis });
+    } catch (error) {
+      console.error('Grok menu analysis error:', error);
+      res.status(500).json({ error: 'Failed to analyze menu image' });
+    }
+  });
+
+  app.post('/api/grok/restaurant-strategy', async (req, res) => {
+    try {
+      const { businessContext } = req.body;
+      const strategy = await generateRestaurantStrategy(businessContext);
+      res.json({ strategy });
+    } catch (error) {
+      console.error('Grok restaurant strategy error:', error);
+      res.status(500).json({ error: 'Failed to generate restaurant strategy' });
+    }
+  });
+
+  app.get('/api/grok/test-connection', async (req, res) => {
+    try {
+      const isConnected = await testGrokConnection();
+      res.json({ connected: isConnected });
+    } catch (error) {
+      console.error('Grok connection test error:', error);
+      res.status(500).json({ error: 'Failed to test Grok connection' });
+    }
+  });
 
   // Register customer chat routes
   const customerChatRouter = await import("./routes/customer-chat.js");
