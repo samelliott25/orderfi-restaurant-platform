@@ -76,7 +76,8 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/landing-page', 
     '/not-found',
     '/mobileapp',
-    '/dashboard-mobile'
+    '/dashboard-mobile',
+    '/kds'
   ].includes(location) || location.startsWith('/order-status/');
 
 
