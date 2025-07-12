@@ -180,12 +180,12 @@ export default function DashboardPhase2() {
 
 
   return (
-    <div className="glass-dashboard">
+    <div className="glass-dashboard-premium">
       <StandardLayout title="Phase 2 Dashboard" subtitle="Mobile-Optimized Restaurant Management">
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* Status Bar */}
-          <div className="glass-card">
-            <div className="p-4">
+          <div className="glass-card-premium">
+            <div className="p-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">

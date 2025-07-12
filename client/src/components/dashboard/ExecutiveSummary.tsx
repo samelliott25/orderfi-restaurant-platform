@@ -179,7 +179,7 @@ export function ExecutiveSummary() {
       {/* Header with Real-time Status */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold playwrite-font text-gradient">
+          <h2 className="text-2xl font-bold playwrite-font glass-text-premium" data-text="Executive Summary">
             Executive Summary
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
@@ -187,9 +187,9 @@ export function ExecutiveSummary() {
           </p>
         </div>
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <div className={`w-2 h-2 rounded-full ${wsConnected ? 'animate-pulse' : ''}`} style={{backgroundColor: wsConnected ? '#075956' : '#D3D3D3'}}></div>
-            <span className="text-sm text-muted-foreground">
+          <div className={`glass-status-premium ${wsConnected ? '' : 'offline'}`}>
+            <div className={`w-2 h-2 rounded-full ${wsConnected ? 'animate-pulse' : ''}`} style={{backgroundColor: wsConnected ? '#fff' : '#D3D3D3'}}></div>
+            <span>
               {wsConnected ? 'Live' : 'Offline'}
             </span>
           </div>
@@ -209,7 +209,7 @@ export function ExecutiveSummary() {
           return (
             <div 
               key={index} 
-              className="glass-metric-card glass-float glass-glow-orange cursor-pointer"
+              className="glass-metric-premium glass-float-premium glass-glow-premium cursor-pointer"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -220,14 +220,14 @@ export function ExecutiveSummary() {
                     <p className="text-sm font-medium text-muted-foreground">
                       {metric.label}
                     </p>
-                    <div className="text-3xl font-bold glass-text-gradient">
+                    <div className="text-3xl font-bold glass-text-premium" data-text={metric.value}>
                       {metric.value}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center space-x-1">
                   <TrendIcon className={`h-4 w-4 ${metric.trend === 'up' ? 'text-teal-600' : 'text-orange-600'}`} />
-                  <span className={`text-sm font-medium ${metric.trend === 'up' ? 'glass-text-secondary' : 'glass-text-gradient'}`}>
+                  <span className={`text-sm font-medium ${metric.trend === 'up' ? 'glass-text-secondary-premium' : 'glass-text-premium'}`}>
                     {metric.percentage.toFixed(1)}%
                   </span>
                 </div>
@@ -245,28 +245,28 @@ export function ExecutiveSummary() {
       {/* Quick Actions */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <button 
-          className="glass-button h-11 min-h-[44px] justify-start space-x-2 flex items-center"
+          className="glass-button-premium h-11 min-h-[44px] justify-start space-x-2 flex items-center"
           onClick={() => window.location.href = '/inventory'}
         >
           <Activity className="h-4 w-4" />
           <span>Check Inventory</span>
         </button>
         <button 
-          className="glass-button-secondary h-11 min-h-[44px] justify-start space-x-2 flex items-center"
+          className="glass-button-secondary-premium h-11 min-h-[44px] justify-start space-x-2 flex items-center"
           onClick={() => window.location.href = '/orders'}
         >
           <ShoppingCart className="h-4 w-4" />
           <span>View Orders</span>
         </button>
         <button 
-          className="glass-button h-11 min-h-[44px] justify-start space-x-2 flex items-center"
+          className="glass-button-premium h-11 min-h-[44px] justify-start space-x-2 flex items-center"
           onClick={() => window.location.href = '/kds'}
         >
           <Clock className="h-4 w-4" />
           <span>Kitchen Display</span>
         </button>
         <button 
-          className="glass-button-secondary h-11 min-h-[44px] justify-start space-x-2 flex items-center"
+          className="glass-button-secondary-premium h-11 min-h-[44px] justify-start space-x-2 flex items-center"
           onClick={() => window.location.href = '/payments'}
         >
           <DollarSign className="h-4 w-4" />
