@@ -40,10 +40,10 @@ export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: -1,
+    zIndex: 0,
     overflow: 'hidden',
     pointerEvents: 'none',
-    background: 'linear-gradient(135deg, #FF6B00 0%, #FFA500 100%)',
+    background: `linear-gradient(135deg, rgba(255, 107, 0, ${opacity}) 0%, rgba(255, 165, 0, ${opacity}) 100%)`,
     animation: `gradient-pulse ${durations.pulse} ease-in-out infinite`,
     ...style,
   };
@@ -161,10 +161,10 @@ export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
       <style>{`
         @keyframes gradient-pulse {
           0%, 100% {
-            background: linear-gradient(135deg, #FF6B00 0%, #FFA500 100%);
+            background: linear-gradient(135deg, rgba(255, 107, 0, ${opacity}) 0%, rgba(255, 165, 0, ${opacity}) 100%);
           }
           50% {
-            background: linear-gradient(135deg, #FF4500 0%, #FFD700 100%);
+            background: linear-gradient(135deg, rgba(255, 69, 0, ${opacity * 1.2}) 0%, rgba(255, 215, 0, ${opacity * 1.2}) 100%);
           }
         }
 

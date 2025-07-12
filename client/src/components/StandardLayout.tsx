@@ -8,6 +8,7 @@ import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import MovingTexturedBackground from './MovingTexturedBackground';
 import NovelMovingBackground from './NovelMovingBackground';
 import AnimatedBackground from './AnimatedBackground';
+import TestBackground from './TestBackground';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -47,13 +48,15 @@ export function StandardLayout({
   // Admin layout - with sidebar
   return (
     <div className={`flex h-screen bg-background ${className}`}>
-      <AnimatedBackground intensity="vibrant" speed="medium" />
+      <TestBackground />
       {/* Sidebar - Fixed width component */}
-      <Sidebar />
+      <div className="relative z-10">
+        <Sidebar />
+      </div>
       
       {/* Main Content Area - Takes remaining space, adjusts for chat */}
       <main 
-        className="flex-1 overflow-auto bg-background transition-all duration-300"
+        className="flex-1 overflow-auto bg-transparent transition-all duration-300 relative z-10"
         style={{
           marginRight: isOpen && !isSidebarMode ? '384px' : isOpen && isSidebarMode ? '320px' : '0px' // 384px for floating dialog, 320px for sidebar mode
         }}
