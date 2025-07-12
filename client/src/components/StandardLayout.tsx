@@ -46,7 +46,7 @@ export function StandardLayout({
   // Admin layout - with sidebar
   return (
     <div className={`flex h-screen bg-background ${className}`}>
-      <NovelMovingBackground intensity="medium" speed="medium" colorScheme="warm" />
+      <NovelMovingBackground intensity="vibrant" speed="medium" colorScheme="warm" />
       {/* Sidebar - Fixed width component */}
       <Sidebar />
       
