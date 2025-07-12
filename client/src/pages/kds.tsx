@@ -241,7 +241,9 @@ export default function KDS() {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <Sidebar />
+      <div className="fixed left-0 top-0 h-full z-50">
+        <Sidebar />
+      </div>
       <div className="flex-1 p-6 space-y-6 ml-0 md:ml-64">
         <div className="relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-xl">
           <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
