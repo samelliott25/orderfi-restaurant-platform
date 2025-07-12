@@ -8,6 +8,7 @@ import { Palette, Zap, Gauge, Star, Sparkles, Play, Pause } from 'lucide-react';
 import MovingTexturedBackground from '@/components/MovingTexturedBackground';
 import NovelMovingBackground from '@/components/NovelMovingBackground';
 import AnimatedBackground from '@/components/AnimatedBackground';
+import InteractiveStarryBackground from '@/components/InteractiveStarryBackground';
 
 export default function MovingBackgroundDemo() {
   const [intensity, setIntensity] = useState<'subtle' | 'medium' | 'vibrant'>('medium');
@@ -42,12 +43,8 @@ export default function MovingBackgroundDemo() {
 
   return (
     <div className="flex h-screen bg-background">
-      {/* Animated Background */}
-      <AnimatedBackground 
-        intensity={intensity} 
-        speed={speed} 
-        style={{ opacity: isPlaying ? undefined : 0.1 }}
-      />
+      {/* Interactive Starry Background */}
+      <InteractiveStarryBackground />
       
       {/* Sidebar */}
       <Sidebar />
@@ -58,10 +55,10 @@ export default function MovingBackgroundDemo() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-2">
-              Animated Background
+              Interactive Starry Background
             </h1>
             <p className="text-muted-foreground">
-              Sophisticated animated background with falling diagonal streaks, gradient pulse effects, and restaurant-themed visual elements
+              Canvas-based starry orange night with parallax scrolling, twinkling stars, and interactive movement - perfect for a warm, engaging food app experience
             </p>
           </div>
 

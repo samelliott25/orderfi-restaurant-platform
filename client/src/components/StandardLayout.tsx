@@ -8,7 +8,7 @@ import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import MovingTexturedBackground from './MovingTexturedBackground';
 import NovelMovingBackground from './NovelMovingBackground';
 import AnimatedBackground from './AnimatedBackground';
-import TestBackground from './TestBackground';
+import InteractiveStarryBackground from './InteractiveStarryBackground';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -32,27 +32,28 @@ export function StandardLayout({
   if (!showSidebar) {
     // Customer/mobile layout - full width without sidebar
     return (
-      <div className={`min-h-screen bg-background ${className}`}>
-        <AnimatedBackground intensity="medium" speed="medium" />
-        {showHeader && title && (
-          <OrderFiPageHeader 
-            title={title}
-            subtitle={subtitle}
-          />
-        )}
-        {children}
-      </div>
+      <InteractiveStarryBackground>
+        <div className={`min-h-screen bg-transparent ${className}`}>
+          {showHeader && title && (
+            <OrderFiPageHeader 
+              title={title}
+              subtitle={subtitle}
+            />
+          )}
+          {children}
+        </div>
+      </InteractiveStarryBackground>
     );
   }
 
   // Admin layout - with sidebar
   return (
-    <div className={`flex h-screen bg-background ${className}`}>
-      <TestBackground />
-      {/* Sidebar - Fixed width component */}
-      <div className="relative z-10">
-        <Sidebar />
-      </div>
+    <InteractiveStarryBackground>
+      <div className={`flex h-screen bg-transparent ${className}`}>
+        {/* Sidebar - Fixed width component */}
+        <div className="relative z-10">
+          <Sidebar />
+        </div>
       
       {/* Main Content Area - Takes remaining space, adjusts for chat */}
       <main 
@@ -77,7 +78,8 @@ export function StandardLayout({
         </div>
       </main>
 
-    </div>
+      </div>
+    </InteractiveStarryBackground>
   );
 }
 
