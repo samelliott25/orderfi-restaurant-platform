@@ -207,85 +207,71 @@ export function ExecutiveSummary() {
           const TrendIcon = metric.trend === 'up' ? ArrowUp : ArrowDown;
           
           return (
-            <Card 
+            <div 
               key={index} 
-              className="relative overflow-hidden backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+              className="glass-metric-card glass-float glass-glow-orange cursor-pointer"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${metric.gradient}/10`}></div>
-              <CardHeader className="relative pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    {metric.label}
-                  </CardTitle>
-                  <div className={`p-2 rounded-full bg-gradient-to-r ${metric.gradient}`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 rounded-full" style={{backgroundColor: 'rgba(255, 91, 5, 0.8)'}}>
                     <Icon className="h-4 w-4 text-white" />
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent className="relative">
-                <div className="space-y-2">
-                  <div className={`text-3xl font-bold bg-gradient-to-r ${metric.gradient} bg-clip-text text-transparent`}>
-                    {metric.value}
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge 
-                      variant={metric.trend === 'up' ? 'default' : 'destructive'}
-                      className={`flex items-center space-x-1 ${
-                        metric.trend === 'up' 
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
-                          : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-                      }`}
-                    >
-                      <TrendIcon className="h-3 w-3" />
-                      <span className="text-xs font-medium">
-                        {metric.percentage.toFixed(1)}%
-                      </span>
-                    </Badge>
-                    <span className="text-xs text-muted-foreground">
-                      vs yesterday
-                    </span>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">
+                      {metric.label}
+                    </p>
+                    <div className="text-3xl font-bold glass-text-gradient">
+                      {metric.value}
+                    </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex items-center space-x-1">
+                  <TrendIcon className={`h-4 w-4 ${metric.trend === 'up' ? 'text-teal-600' : 'text-orange-600'}`} />
+                  <span className={`text-sm font-medium ${metric.trend === 'up' ? 'glass-text-secondary' : 'glass-text-gradient'}`}>
+                    {metric.percentage.toFixed(1)}%
+                  </span>
+                </div>
+              </div>
+              <div className="mt-2">
+                <span className="text-xs text-muted-foreground">
+                  vs yesterday
+                </span>
+              </div>
+            </div>
           );
         })}
       </div>
 
       {/* Quick Actions */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        <Button 
-          variant="outline" 
-          className="h-11 min-h-[44px] justify-start space-x-2"
+        <button 
+          className="glass-button h-11 min-h-[44px] justify-start space-x-2 flex items-center"
           onClick={() => window.location.href = '/inventory'}
         >
           <Activity className="h-4 w-4" />
           <span>Check Inventory</span>
-        </Button>
-        <Button 
-          variant="outline" 
-          className="h-11 min-h-[44px] justify-start space-x-2"
+        </button>
+        <button 
+          className="glass-button-secondary h-11 min-h-[44px] justify-start space-x-2 flex items-center"
           onClick={() => window.location.href = '/orders'}
         >
           <ShoppingCart className="h-4 w-4" />
           <span>View Orders</span>
-        </Button>
-        <Button 
-          variant="outline" 
-          className="h-11 min-h-[44px] justify-start space-x-2"
+        </button>
+        <button 
+          className="glass-button h-11 min-h-[44px] justify-start space-x-2 flex items-center"
           onClick={() => window.location.href = '/kds'}
         >
           <Clock className="h-4 w-4" />
           <span>Kitchen Display</span>
-        </Button>
-        <Button 
-          variant="outline" 
-          className="h-11 min-h-[44px] justify-start space-x-2"
+        </button>
+        <button 
+          className="glass-button-secondary h-11 min-h-[44px] justify-start space-x-2 flex items-center"
           onClick={() => window.location.href = '/payments'}
         >
           <DollarSign className="h-4 w-4" />
           <span>Payments</span>
-        </Button>
+        </button>
       </div>
     </div>
   );
