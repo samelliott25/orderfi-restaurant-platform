@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sidebar } from '@/components/Sidebar';
 import { Palette, Zap, Gauge, Star, Sparkles, Play, Pause } from 'lucide-react';
 import MovingTexturedBackground from '@/components/MovingTexturedBackground';
+import NovelMovingBackground from '@/components/NovelMovingBackground';
 
 export default function MovingBackgroundDemo() {
   const [intensity, setIntensity] = useState<'subtle' | 'medium' | 'vibrant'>('medium');
@@ -40,10 +41,11 @@ export default function MovingBackgroundDemo() {
 
   return (
     <div className="flex h-screen bg-background">
-      {/* Moving Background */}
-      <MovingTexturedBackground 
+      {/* Novel Moving Background */}
+      <NovelMovingBackground 
         intensity={intensity} 
         speed={speed} 
+        colorScheme="warm"
         style={{ opacity: isPlaying ? undefined : 0.1 }}
       />
       
@@ -56,10 +58,10 @@ export default function MovingBackgroundDemo() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-2">
-              Moving Textured Background
+              Novel Moving Background
             </h1>
             <p className="text-muted-foreground">
-              Grok-4 generated sophisticated animated background for OrderFi
+              Grok-4 generated sophisticated animated background with floating particles, geometric patterns, and advanced visual effects
             </p>
           </div>
 
