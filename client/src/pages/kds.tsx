@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
-import { Clock, ChefHat, AlertCircle, CheckCircle2, X, Utensils } from 'lucide-react';
+import { Clock, ChefHat, AlertCircle, CheckCircle2, X, Utensils, Wifi, WifiOff, Timer } from 'lucide-react';
 import { Sidebar } from '@/components/Sidebar';
 
 interface Order {
@@ -34,6 +34,10 @@ const KDS_STATUSES = {
 export default function KDS() {
   const queryClient = useQueryClient();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [wsConnected, setWsConnected] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('disconnected');
+  const wsRef = useRef<WebSocket | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Update current time every minute
   useEffect(() => {
@@ -42,12 +46,108 @@ export default function KDS() {
     }, 60000);
     return () => clearInterval(timer);
   }, []);
+
+  // WebSocket connection management
+  useEffect(() => {
+    const connectWebSocket = () => {
+      if (wsRef.current?.readyState === WebSocket.OPEN) {
+        return;
+      }
+
+      setConnectionStatus('connecting');
+      const wsUrl = `ws://${window.location.host}/ws`;
+      const ws = new WebSocket(wsUrl);
+      
+      ws.onopen = () => {
+        console.log('KDS WebSocket connected');
+        setConnectionStatus('connected');
+        setWsConnected(true);
+        
+        // Subscribe to KDS orders channel
+        ws.send(JSON.stringify({
+          type: 'subscribe',
+          payload: { channel: 'kds-orders' }
+        }));
+        
+        // Clear any existing reconnect timeout
+        if (reconnectTimeoutRef.current) {
+          clearTimeout(reconnectTimeoutRef.current);
+          reconnectTimeoutRef.current = null;
+        }
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          handleWebSocketMessage(message);
+        } catch (error) {
+          console.error('Error parsing WebSocket message:', error);
+        }
+      };
+
+      ws.onclose = () => {
+        console.log('KDS WebSocket disconnected');
+        setConnectionStatus('disconnected');
+        setWsConnected(false);
+        
+        // Attempt to reconnect after 3 seconds
+        if (!reconnectTimeoutRef.current) {
+          reconnectTimeoutRef.current = setTimeout(() => {
+            console.log('Attempting to reconnect KDS WebSocket...');
+            connectWebSocket();
+          }, 3000);
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.error('KDS WebSocket error:', error);
+        setConnectionStatus('disconnected');
+        setWsConnected(false);
+      };
+
+      wsRef.current = ws;
+    };
+
+    connectWebSocket();
+
+    return () => {
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, []);
+
+  const handleWebSocketMessage = (message: any) => {
+    switch (message.type) {
+      case 'order-status-updated':
+        // Invalidate and refetch orders when status updates
+        queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] });
+        break;
+      case 'new-order':
+        // New order received
+        queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] });
+        break;
+      case 'active-orders':
+        // Real-time orders data
+        queryClient.setQueryData(['/api/kds/orders'], message.payload);
+        break;
+      case 'subscribed':
+        console.log(`Subscribed to channel: ${message.channel}`);
+        break;
+      case 'error':
+        console.error('WebSocket error:', message.message);
+        break;
+    }
+  };
   
-  // Fetch active orders with real-time polling
+  // Fetch active orders with WebSocket fallback to polling
   const { data: orders = [], isLoading, error } = useQuery<Order[]>({
     queryKey: ['/api/kds/orders'],
-    refetchInterval: 3000, // Poll every 3 seconds for real-time updates
-    staleTime: 0, // Always consider data stale for real-time updates
+    refetchInterval: wsConnected ? false : 5000, // Only poll when WebSocket is disconnected
+    staleTime: wsConnected ? 30000 : 0, // Longer stale time when WebSocket is connected
   });
 
   // Update order status mutation
@@ -139,34 +239,67 @@ export default function KDS() {
   const activeOrders = statusOrder.flatMap(status => groupedOrders[status] || []);
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <Sidebar />
       <div className="flex-1 p-6 space-y-6 ml-0 md:ml-64">
-        <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm">
-          <div className="flex items-center space-x-3">
-          <div className="p-2 bg-orange-100 rounded-full">
-            <ChefHat className="w-6 h-6 text-orange-600" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-              Kitchen Display System
-            </h1>
-            <p className="text-sm text-gray-600">
-              {currentTime.toLocaleTimeString()} • {orders.length} active orders
-            </p>
-          </div>
-        </div>
-          <div className="flex items-center space-x-2">
-            <Badge variant="outline" className="bg-green-100 text-green-800">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
-              Live
-            </Badge>
-            {orders.length > 0 && (
-              <Badge variant="outline" className="bg-blue-100 text-blue-800">
-                <Utensils className="w-3 h-3 mr-1" />
-                {orders.length} orders
-              </Badge>
-            )}
+        <div className="relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+          <div className="relative flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full">
+                <ChefHat className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+                  Kitchen Display System
+                </h1>
+                <div className="flex items-center space-x-4 mt-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
+                    <Clock className="w-4 h-4 mr-1" />
+                    {currentTime.toLocaleTimeString()}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
+                    <Utensils className="w-4 h-4 mr-1" />
+                    {orders.length} active orders
+                  </p>
+                  <div className="flex items-center space-x-2">
+                    {connectionStatus === 'connected' ? (
+                      <div className="flex items-center space-x-1 text-green-600">
+                        <Wifi className="w-4 h-4" />
+                        <span className="text-sm font-medium">Real-time</span>
+                      </div>
+                    ) : connectionStatus === 'connecting' ? (
+                      <div className="flex items-center space-x-1 text-yellow-600">
+                        <Timer className="w-4 h-4 animate-spin" />
+                        <span className="text-sm font-medium">Connecting...</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center space-x-1 text-red-600">
+                        <WifiOff className="w-4 h-4" />
+                        <span className="text-sm font-medium">Offline</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                onClick={() => queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] })}
+                disabled={updateStatusMutation.isPending}
+                className="bg-white/80 hover:bg-white border-white/20"
+              >
+                <Clock className="w-4 h-4 mr-2" />
+                Refresh
+              </Button>
+              {orders.length > 0 && (
+                <Badge variant="outline" className="bg-blue-100 text-blue-800">
+                  <Utensils className="w-3 h-3 mr-1" />
+                  {orders.length} orders
+                </Badge>
+              )}
+            </div>
           </div>
         </div>
 

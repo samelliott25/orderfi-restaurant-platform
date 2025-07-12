@@ -77,6 +77,31 @@ export default function GrokTest() {
     },
   });
 
+  // Phase 1 competitive analysis mutation
+  const phase1AnalysisMutation = useMutation({
+    mutationFn: () => 
+      apiRequest('/api/grok/phase1-competitive-analysis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/grok/phase1-competitive-analysis'] });
+    },
+  });
+
+  // Phase 1 roadmap generation mutation
+  const phase1RoadmapMutation = useMutation({
+    mutationFn: (competitiveInsights: string) => 
+      apiRequest('/api/grok/phase1-roadmap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ competitiveInsights }),
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/grok/phase1-roadmap'] });
+    },
+  });
+
   const handleFeatureTaste = () => {
     if (!featureDescription.trim()) return;
     featureTasteMutation.mutate({ featureDescription });
@@ -95,6 +120,14 @@ export default function GrokTest() {
   const handleMenuAnalysis = () => {
     if (!selectedFile) return;
     menuAnalysisMutation.mutate(selectedFile);
+  };
+
+  const handlePhase1Analysis = () => {
+    phase1AnalysisMutation.mutate();
+  };
+
+  const handlePhase1Roadmap = (insights: string) => {
+    phase1RoadmapMutation.mutate(insights);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -268,6 +301,67 @@ export default function GrokTest() {
             </CardContent>
           </Card>
 
+          {/* Phase 1 Competitive Analysis Card */}
+          <Card className="bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-200">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Zap className="w-5 h-5 text-purple-600" />
+                <span className="playwrite-font">Phase 1 Competitive Analysis</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-gray-600">
+                Comprehensive analysis of major restaurant POS systems including Toast, Square, Clover, Lightspeed, me&u, and Mr Yum.
+              </p>
+              <Button
+                onClick={handlePhase1Analysis}
+                disabled={phase1AnalysisMutation.isPending}
+                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+              >
+                {phase1AnalysisMutation.isPending ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Analyzing Market...
+                  </>
+                ) : (
+                  <>
+                    <Zap className="w-4 h-4 mr-2" />
+                    Run Phase 1 Analysis
+                  </>
+                )}
+              </Button>
+              {phase1AnalysisMutation.data && (
+                <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                  <div className="space-y-2">
+                    <p className="text-xs text-purple-600">
+                      Analysis completed: {new Date(phase1AnalysisMutation.data.timestamp).toLocaleString()}
+                    </p>
+                    <p className="text-sm text-purple-800 whitespace-pre-wrap max-h-60 overflow-y-auto">
+                      {phase1AnalysisMutation.data.analysis}
+                    </p>
+                    <Button
+                      onClick={() => handlePhase1Roadmap(phase1AnalysisMutation.data.analysis)}
+                      disabled={phase1RoadmapMutation.isPending}
+                      className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 mt-2"
+                    >
+                      {phase1RoadmapMutation.isPending ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Generating Roadmap...
+                        </>
+                      ) : (
+                        <>
+                          <Target className="w-4 h-4 mr-2" />
+                          Generate Phase 1 Roadmap
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
           {/* Menu Analysis */}
           <Card>
             <CardHeader>
@@ -319,6 +413,30 @@ export default function GrokTest() {
               )}
             </CardContent>
           </Card>
+
+          {/* Phase 1 Roadmap Display */}
+          {phase1RoadmapMutation.data && (
+            <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 border-indigo-200 col-span-full">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Target className="w-5 h-5 text-indigo-600" />
+                  <span className="playwrite-font">Phase 1 Development Roadmap</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <p className="text-xs text-indigo-600">
+                    Roadmap generated: {new Date(phase1RoadmapMutation.data.timestamp).toLocaleString()}
+                  </p>
+                  <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200 max-h-96 overflow-y-auto">
+                    <p className="text-sm text-indigo-800 whitespace-pre-wrap">
+                      {phase1RoadmapMutation.data.roadmap}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>

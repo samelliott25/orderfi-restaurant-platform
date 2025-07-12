@@ -52,20 +52,16 @@ export async function registerRoutes(app: Express): Promise<void> {
       await storage.updateOrderStatus(orderId, status);
       
       // Broadcast to all connected WebSocket clients
-      const message = JSON.stringify({
-        type: 'order-status-updated',
-        orderId,
-        status,
-        timestamp: new Date().toISOString()
-      });
-      
-      // Store reference to WebSocket clients (will be set up in setupWebSocket)
-      if (app.get('wsClients')) {
-        app.get('wsClients').forEach((client: any) => {
-          if (client.readyState === 1) { // WebSocket.OPEN
-            client.send(message);
+      const broadcast = app.get('wsBroadcast');
+      if (broadcast) {
+        broadcast({
+          type: 'order-status-updated',
+          payload: {
+            orderId,
+            status,
+            timestamp: new Date().toISOString()
           }
-        });
+        }, 'kds-orders');
       }
       
       res.json({ success: true });
@@ -820,6 +816,31 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // Phase 1 Implementation: Comprehensive competitive analysis
+  app.post('/api/grok/phase1-competitive-analysis', async (req, res) => {
+    try {
+      const { phase1CompetitiveAnalysis } = await import('./grok');
+      const analysis = await phase1CompetitiveAnalysis();
+      res.json(analysis);
+    } catch (error) {
+      console.error('Phase 1 competitive analysis error:', error);
+      res.status(500).json({ error: 'Failed to perform Phase 1 competitive analysis' });
+    }
+  });
+
+  // Phase 1 Implementation: Development roadmap generation
+  app.post('/api/grok/phase1-roadmap', async (req, res) => {
+    try {
+      const { competitiveInsights } = req.body;
+      const { generatePhase1Roadmap } = await import('./grok');
+      const roadmap = await generatePhase1Roadmap(competitiveInsights);
+      res.json(roadmap);
+    } catch (error) {
+      console.error('Phase 1 roadmap generation error:', error);
+      res.status(500).json({ error: 'Failed to generate Phase 1 roadmap' });
+    }
+  });
+
   // Register customer chat routes
   const customerChatRouter = await import("./routes/customer-chat.js");
   app.use("/api/customer-chat", customerChatRouter.default);
@@ -1498,19 +1519,17 @@ Base predictions on historical patterns, seasonal trends, weather impact, and cu
       
       const order = await storage.updateOrderStatus(parseInt(id), status);
       
-      // Broadcast to connected clients if available
-      const clients = app.get('wsClients');
-      if (clients) {
-        const broadcastMessage = JSON.stringify({
-          type: 'update-order',
-          order: { id: parseInt(id), status, timestamp: new Date().toISOString() }
-        });
-        
-        clients.forEach((client: any) => {
-          if (client.readyState === 1) {
-            client.send(broadcastMessage);
+      // Broadcast to connected WebSocket clients
+      const broadcast = app.get('wsBroadcast');
+      if (broadcast) {
+        broadcast({
+          type: 'order-status-updated',
+          payload: {
+            orderId: parseInt(id),
+            status,
+            timestamp: new Date().toISOString()
           }
-        });
+        }, 'kds-orders');
       }
       
       res.json(order);
