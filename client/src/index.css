@@ -348,24 +348,144 @@ html body * {
   border-radius: 24px !important;
 }
 
-/* Test if CSS is working - make everything red temporarily */
-html body * {
-  border: 2px solid red !important;
+/* Apply mamo.bot styling - soft mint green background and white cards */
+html body {
+  background-color: #e8f5e9 !important;
 }
 
-html body div[class*="bg-"] {
+/* Apply mamo.bot card styling to all card-like elements */
+html body div[class*="bg-"], 
+html body div[class*="Card"], 
+html body div[class*="card"],
+html body div[class*="border"],
+html body div[class*="shadow"],
+html body div[class*="p-4"],
+html body div[class*="p-6"],
+html body div[class*="space-y-"] {
   background-color: white !important;
   border-radius: 24px !important;
   border: 1px solid #e5e7eb !important;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease !important;
 }
 
-/* Force background for main content areas */
-html body div[class*="flex"], html body div[class*="grid"], html body div[class*="space-y-"] {
+/* Hover effects for interactive elements */
+html body div[class*="bg-"]:hover,
+html body div[class*="Card"]:hover,
+html body div[class*="card"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15) !important;
+}
+
+/* mamo.bot button styling */
+html body button, 
+html body [role="button"],
+html body .btn,
+html body input[type="button"],
+html body input[type="submit"] {
+  background-color: #fbbf24 !important; /* Yellow primary buttons like mamo.bot */
+  color: #1f2937 !important;
+  border: none !important;
+  border-radius: 50px !important; /* Fully rounded like mamo.bot */
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  transition: all 0.2s ease !important;
+  font-size: 14px !important;
+}
+
+html body button:hover,
+html body [role="button"]:hover,
+html body .btn:hover {
+  background-color: #f59e0b !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3) !important;
+}
+
+/* Secondary/green buttons */
+html body button.secondary,
+html body [class*="variant-secondary"],
+html body [class*="secondary"] {
+  background-color: #10b981 !important; /* Green secondary buttons like mamo.bot */
+  color: white !important;
+}
+
+html body button.secondary:hover,
+html body [class*="variant-secondary"]:hover,
+html body [class*="secondary"]:hover {
+  background-color: #059669 !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* mamo.bot typography - large, bold, friendly */
+html body h1, 
+html body h2, 
+html body h3,
+html body .text-3xl,
+html body .text-2xl,
+html body .text-xl {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  color: #1f2937 !important;
+}
+
+html body h1 {
+  font-size: 2.5rem !important;
+}
+
+/* mamo.bot colorful card variations */
+html body div[class*="bg-"]:nth-child(2) {
+  background-color: #fef3c7 !important; /* Light yellow card 2 */
+}
+
+html body div[class*="bg-"]:nth-child(3) {
+  background-color: #d1fae5 !important; /* Light green card 3 */
+}
+
+html body div[class*="bg-"]:nth-child(4) {
+  background-color: #dbeafe !important; /* Light blue card 4 */
+}
+
+/* mamo.bot dark circle icons */
+html body .icon,
+html body [class*="icon"],
+html body svg,
+html body [class*="lucide"] {
+  background-color: #1f2937 !important;
+  color: white !important;
+  border-radius: 50% !important;
+  padding: 8px !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Input styling like mamo.bot */
+html body input[type="text"],
+html body input[type="email"],
+html body input[type="password"],
+html body input[type="search"],
+html body textarea,
+html body select {
+  border-radius: 12px !important;
+  border: 1px solid #d1d5db !important;
+  padding: 12px 16px !important;
   background-color: white !important;
-  border-radius: 24px !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+  font-size: 16px !important;
+  transition: all 0.2s ease !important;
+}
+
+html body input[type="text"]:focus,
+html body input[type="email"]:focus,
+html body input[type="password"]:focus,
+html body input[type="search"]:focus,
+html body textarea:focus,
+html body select:focus {
+  outline: none !important;
+  border-color: #fbbf24 !important;
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1) !important;
 }
 
 .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl {
