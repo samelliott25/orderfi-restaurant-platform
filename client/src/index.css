@@ -343,10 +343,7 @@ span[class*="bg-white"], span[class*="bg-background"], span[class*="bg-card"] {
   background-color: white !important;
 }
 
-/* Ultimate override - use highest CSS specificity */
-html body * {
-  border-radius: 24px !important;
-}
+/* Remove problematic global border-radius */
 
 /* Apply mamo.bot styling - soft mint green background and white cards */
 html body {
@@ -377,44 +374,7 @@ html body div[class*="card"]:hover {
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15) !important;
 }
 
-/* mamo.bot button styling */
-html body button, 
-html body [role="button"],
-html body .btn,
-html body input[type="button"],
-html body input[type="submit"] {
-  background-color: #fbbf24 !important; /* Yellow primary buttons like mamo.bot */
-  color: #1f2937 !important;
-  border: none !important;
-  border-radius: 50px !important; /* Fully rounded like mamo.bot */
-  font-weight: 600 !important;
-  padding: 12px 24px !important;
-  transition: all 0.2s ease !important;
-  font-size: 14px !important;
-}
-
-html body button:hover,
-html body [role="button"]:hover,
-html body .btn:hover {
-  background-color: #f59e0b !important;
-  transform: scale(1.05) !important;
-  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3) !important;
-}
-
-/* Secondary/green buttons */
-html body button.secondary,
-html body [class*="variant-secondary"],
-html body [class*="secondary"] {
-  background-color: #10b981 !important; /* Green secondary buttons like mamo.bot */
-  color: white !important;
-}
-
-html body button.secondary:hover,
-html body [class*="variant-secondary"]:hover,
-html body [class*="secondary"]:hover {
-  background-color: #059669 !important;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
-}
+/* Remove problematic button styling */
 
 /* mamo.bot typography - large, bold, friendly */
 html body h1, 
@@ -446,21 +406,7 @@ html body div[class*="bg-"]:nth-child(4) {
   background-color: #dbeafe !important; /* Light blue card 4 */
 }
 
-/* mamo.bot dark circle icons */
-html body .icon,
-html body [class*="icon"],
-html body svg,
-html body [class*="lucide"] {
-  background-color: #1f2937 !important;
-  color: white !important;
-  border-radius: 50% !important;
-  padding: 8px !important;
-  width: 40px !important;
-  height: 40px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
+/* Remove problematic icon styling */
 
 /* Input styling like mamo.bot */
 html body input[type="text"],
