@@ -145,7 +145,7 @@ const SmartNotification = ({ notification, onDismiss, onAction }: {
               variant="outline"
               size="sm"
               onClick={notification.action.onClick}
-              className="mt-2 h-7 text-xs"
+              className="mt-2 h-11 min-h-[44px] text-xs"
             >
               {notification.action.label}
             </Button>
@@ -230,7 +230,7 @@ const PredictiveSearch = ({ onSearch, onVoiceSearch }: {
                   setIsListening(!isListening);
                   onVoiceSearch();
                 }}
-                className={`h-10 px-3 ${isListening ? 'bg-orange-100 dark:bg-orange-900/20 border-orange-300 dark:border-orange-700' : ''}`}
+                className={`h-11 min-w-[44px] px-3 ${isListening ? 'bg-orange-100 dark:bg-orange-900/20 border-orange-300 dark:border-orange-700' : ''}`}
               >
                 <Mic size={16} className={isListening ? 'text-orange-600' : 'text-muted-foreground'} />
                 {isListening && <span className="ml-2 text-xs">Listening...</span>}

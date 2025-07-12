@@ -41,7 +41,7 @@ import AdminStockPage from "@/pages/admin/stock";
 import AdminStaffPage from "@/pages/admin/staff";
 import AdminReportingPage from "@/pages/admin/reporting";
 import AdminSettingsPage from "@/pages/admin/settings";
-import KitchenPage from "@/pages/admin/kitchen";
+
 import TablesPage from "@/pages/admin/tables";
 import KDSPage from "@/pages/kds";
 
@@ -171,7 +171,7 @@ function Router() {
         <Route path="/settings" component={AdminSettingsPage} />
         
         {/* New Restaurant Operations Pages */}
-        <Route path="/kitchen" component={KitchenPage} />
+
         <Route path="/tables" component={TablesPage} />
         <Route path="/kds" component={KDSPage} />
         

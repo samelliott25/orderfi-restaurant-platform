@@ -286,11 +286,11 @@ export default function PaymentsPage() {
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span className="text-sm font-medium text-green-700 dark:text-green-300">Live</span>
             </div>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="h-11 min-w-[44px] px-4">
               <Download className="h-4 w-4 mr-2" />
               Export Data
             </Button>
-            <Button size="sm">
+            <Button size="sm" className="h-11 min-w-[44px] px-4">
               <Plus className="h-4 w-4 mr-2" />
               New Payment
             </Button>
@@ -365,11 +365,11 @@ export default function PaymentsPage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Button size="sm" variant="outline" className="w-full justify-start">
+                    <Button size="sm" variant="outline" className="w-full justify-start h-11 min-h-[44px]">
                       <Key className="h-3 w-3 mr-2" />
                       Configure Stripe
                     </Button>
-                    <Button size="sm" variant="outline" className="w-full justify-start">
+                    <Button size="sm" variant="outline" className="w-full justify-start h-11 min-h-[44px]">
                       <Wallet className="h-3 w-3 mr-2" />
                       Enable Crypto
                     </Button>
