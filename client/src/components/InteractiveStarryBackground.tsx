@@ -27,10 +27,12 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       y: Math.random() * canvas.height,
       radius: Math.random() * 1.5 + 0.5, // Small dots
       opacity: Math.random() * 0.5 + 0.5, // Subtle glow
-      speed: Math.random() * 0.5 + 0.1, // Base speed
-      baseSpeed: Math.random() * 0.2 + 0.1, // Constant gentle movement
+      speed: Math.random() * 2 + 0.5, // Scroll response speed
+      baseSpeed: Math.random() * 0.1 + 0.05, // Gentle constant movement
       twinkleSpeed: Math.random() * 0.02 + 0.01, // Twinkling effect
       twinkleOffset: Math.random() * Math.PI * 2, // Random twinkling start
+      driftX: Math.random() * 0.2 - 0.1, // Random horizontal drift
+      driftY: Math.random() * 0.2 - 0.1, // Random vertical drift
     }));
 
     // Draw function
@@ -58,20 +60,27 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
     const animate = () => {
       time += 0.01; // Time counter for twinkling
       
-      // Update star positions based on velocity (scroll direction) + constant movement
+      // Update star positions with multiple movement types
       stars.forEach(star => {
-        // Constant gentle downward movement
+        // Random floating movement
+        star.x += star.driftX;
+        star.y += star.driftY;
+        
+        // Constant gentle movement
         star.y += star.baseSpeed;
         
-        // Add scroll-based parallax movement
-        star.y += velocity.current * star.speed; 
+        // Strong scroll-based parallax movement
+        star.y += velocity.current * star.speed * 3; // Increased scroll response
+        star.x += velocity.current * star.speed * 0.5; // Slight horizontal movement too
         
         // Twinkling effect
         star.opacity = 0.3 + 0.4 * Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
         
-        // Wrap around screen
+        // Wrap around screen (all directions)
         if (star.y > canvas.height) star.y = 0;
         if (star.y < 0) star.y = canvas.height;
+        if (star.x > canvas.width) star.x = 0;
+        if (star.x < 0) star.x = canvas.width;
       });
 
       draw();
@@ -83,14 +92,16 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const delta = currentScrollY - lastScrollY.current;
-      velocity.current = delta > 0 ? 1 : -1; // Positive for down scroll (stars move up), negative for up
+      
+      // More responsive scroll velocity
+      velocity.current = delta * 0.1; // Use actual scroll delta for smoother response
       lastScrollY.current = currentScrollY;
 
-      // Dampen velocity over time for smooth stop
+      // Gradual dampening for smooth stop
       setTimeout(() => {
-        velocity.current *= 0.95; // Friction
-        if (Math.abs(velocity.current) < 0.1) velocity.current = 0;
-      }, 100);
+        velocity.current *= 0.85; // Faster dampening
+        if (Math.abs(velocity.current) < 0.05) velocity.current = 0;
+      }, 50);
     };
     window.addEventListener('scroll', handleScroll);
 
