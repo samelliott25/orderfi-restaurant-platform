@@ -29,6 +29,10 @@ app.get("/health", (req, res) => {
     // Create HTTP server from Express app
     const { createServer } = await import('http');
     const server = createServer(app);
+    
+    // Setup WebSocket for KDS
+    const { setupWebSocket } = await import('./websocket');
+    setupWebSocket(server, app);
 
     // Setup Vite or static serving
     if (app.get("env") === "development") {

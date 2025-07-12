@@ -48,6 +48,7 @@ const menuItems = [
   { icon: Smartphone, label: "Mobile App", href: "/mobileapp" },
   { icon: ShoppingCart, label: "Orders", href: "/orders" },
   { icon: ChefHat, label: "Kitchen", href: "/kitchen" },
+  { icon: Timer, label: "KDS", href: "/kds" },
   { icon: MapPin, label: "Tables", href: "/tables" },
   { icon: Package, label: "Inventory", href: "/inventory" },
   { icon: CreditCard, label: "Payments", href: "/payments" },

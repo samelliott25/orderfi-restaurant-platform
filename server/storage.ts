@@ -45,6 +45,10 @@ export interface IStorage {
   // Chat message methods
   getChatMessages(sessionId: string): Promise<ChatMessage[]>;
   createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
+  
+  // KDS methods  
+  getActiveOrders(): Promise<Order[]>;
+  updateOrderStatus(orderId: number, status: string): Promise<Order>;
 }
 
 export class MemStorage implements IStorage {
@@ -402,6 +406,23 @@ export class MemStorage implements IStorage {
     };
     this.chatMessages.set(id, message);
     return message;
+  }
+
+  // KDS methods
+  async getActiveOrders(): Promise<Order[]> {
+    return Array.from(this.orders.values()).filter(
+      (order) => order.status !== 'completed' && order.status !== 'cancelled'
+    );
+  }
+
+  async updateOrderStatus(orderId: number, status: string): Promise<Order> {
+    const order = this.orders.get(orderId);
+    if (!order) {
+      throw new Error('Order not found');
+    }
+    const updatedOrder: Order = { ...order, status };
+    this.orders.set(orderId, updatedOrder);
+    return updatedOrder;
   }
 }
 

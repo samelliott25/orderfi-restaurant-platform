@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { WebSocketServer } from 'ws';
 import { storage } from "./storage";
 import OpenAI from 'openai';
 import ordersRouter from "./routes/orders";
@@ -32,6 +33,46 @@ const upload = multer({ storage: multer.memoryStorage() });
 export async function registerRoutes(app: Express): Promise<void> {
   // Warm cache on startup
   await cacheManager.warmCache();
+  
+  // KDS WebSocket and API endpoints
+  app.get('/api/orders/active', async (req, res) => {
+    try {
+      const activeOrders = await storage.getActiveOrders();
+      res.json({ orders: activeOrders });
+    } catch (error) {
+      console.error('Error fetching active orders:', error);
+      res.status(500).json({ error: 'Failed to fetch active orders' });
+    }
+  });
+
+  app.post('/api/orders/update-status', async (req, res) => {
+    try {
+      const { orderId, status } = req.body;
+      await storage.updateOrderStatus(orderId, status);
+      
+      // Broadcast to all connected WebSocket clients
+      const message = JSON.stringify({
+        type: 'order-status-updated',
+        orderId,
+        status,
+        timestamp: new Date().toISOString()
+      });
+      
+      // Store reference to WebSocket clients (will be set up in setupWebSocket)
+      if (app.get('wsClients')) {
+        app.get('wsClients').forEach((client: any) => {
+          if (client.readyState === 1) { // WebSocket.OPEN
+            client.send(message);
+          }
+        });
+      }
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error updating order status:', error);
+      res.status(500).json({ error: 'Failed to update order status' });
+    }
+  });
   
   // Register MVP routes first
   const { mvpRoutes } = await import('./mvp-routes');
@@ -1376,6 +1417,110 @@ Base predictions on historical patterns, seasonal trends, weather impact, and cu
           recommendations: ["Monitor peak hours closely", "Ensure adequate inventory for top items"]
         }
       });
+    }
+  });
+
+  // KDS API endpoints
+  app.get('/api/kds/orders', async (req, res) => {
+    try {
+      const orders = await storage.getActiveOrders();
+      res.json(orders);
+    } catch (error) {
+      console.error('KDS orders error:', error);
+      res.status(500).json({ error: 'Failed to get active orders' });
+    }
+  });
+
+  app.patch('/api/kds/orders/:id/status', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      
+      const order = await storage.updateOrderStatus(parseInt(id), status);
+      
+      // Broadcast to connected clients if available
+      const clients = app.get('wsClients');
+      if (clients) {
+        const broadcastMessage = JSON.stringify({
+          type: 'update-order',
+          order: { id: parseInt(id), status, timestamp: new Date().toISOString() }
+        });
+        
+        clients.forEach((client: any) => {
+          if (client.readyState === 1) {
+            client.send(broadcastMessage);
+          }
+        });
+      }
+      
+      res.json(order);
+    } catch (error) {
+      console.error('KDS status update error:', error);
+      res.status(500).json({ error: 'Failed to update order status' });
+    }
+  });
+
+  // Test endpoint to create sample orders for KDS demo
+  app.post('/api/kds/test-orders', async (req, res) => {
+    try {
+      const sampleOrders = [
+        {
+          restaurantId: 1,
+          customerName: 'John Smith',
+          tableNumber: 'Table 5',
+          items: JSON.stringify([
+            { name: 'Classic Burger', quantity: 1, modifications: ['No onions', 'Extra cheese'] },
+            { name: 'Chips', quantity: 1, modifications: [] }
+          ]),
+          subtotal: '18.50',
+          tax: '1.48',
+          total: '19.98',
+          status: 'pending',
+          paymentMethod: 'credit'
+        },
+        {
+          restaurantId: 1,
+          customerName: 'Sarah Johnson',
+          tableNumber: 'Table 3',
+          items: JSON.stringify([
+            { name: 'Buffalo Wings', quantity: 12, modifications: ['Extra hot sauce', 'Blue cheese dip'] },
+            { name: 'Beer', quantity: 2, modifications: [] }
+          ]),
+          subtotal: '24.00',
+          tax: '1.92',
+          total: '25.92',
+          status: 'preparing',
+          paymentMethod: 'cash'
+        },
+        {
+          restaurantId: 1,
+          customerName: 'Mike Wilson',
+          tableNumber: 'Table 7',
+          items: JSON.stringify([
+            { name: 'Chicken Tacos', quantity: 3, modifications: ['No cilantro', 'Extra lime'] },
+            { name: 'Guacamole', quantity: 1, modifications: [] }
+          ]),
+          subtotal: '16.75',
+          tax: '1.34',
+          total: '18.09',
+          status: 'ready',
+          paymentMethod: 'usdc'
+        }
+      ];
+
+      const createdOrders = [];
+      for (const order of sampleOrders) {
+        const created = await storage.createOrder(order);
+        createdOrders.push(created);
+      }
+
+      res.json({ 
+        message: 'Sample orders created successfully',
+        orders: createdOrders 
+      });
+    } catch (error) {
+      console.error('Test orders creation error:', error);
+      res.status(500).json({ error: 'Failed to create test orders' });
     }
   });
 

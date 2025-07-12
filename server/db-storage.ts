@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/neon-http';
 import { neon } from '@neondatabase/serverless';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, ne } from 'drizzle-orm';
 import { 
   restaurants, 
   menuItems, 
@@ -212,5 +212,23 @@ export class DatabaseStorage implements IStorage {
       // Fallback to basic search
       return this.getMenuItems(restaurantId);
     }
+  }
+
+  // KDS methods
+  async getActiveOrders(): Promise<Order[]> {
+    return await db.select().from(orders).where(
+      and(
+        ne(orders.status, 'completed'),
+        ne(orders.status, 'cancelled')
+      )
+    );
+  }
+
+  async updateOrderStatus(orderId: number, status: string): Promise<Order> {
+    const result = await db.update(orders)
+      .set({ status })
+      .where(eq(orders.id, orderId))
+      .returning();
+    return result[0];
   }
 }
