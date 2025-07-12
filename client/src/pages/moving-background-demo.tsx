@@ -7,6 +7,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { Palette, Zap, Gauge, Star, Sparkles, Play, Pause } from 'lucide-react';
 import MovingTexturedBackground from '@/components/MovingTexturedBackground';
 import NovelMovingBackground from '@/components/NovelMovingBackground';
+import AnimatedBackground from '@/components/AnimatedBackground';
 
 export default function MovingBackgroundDemo() {
   const [intensity, setIntensity] = useState<'subtle' | 'medium' | 'vibrant'>('medium');
@@ -41,11 +42,10 @@ export default function MovingBackgroundDemo() {
 
   return (
     <div className="flex h-screen bg-background">
-      {/* Novel Moving Background */}
-      <NovelMovingBackground 
+      {/* Animated Background */}
+      <AnimatedBackground 
         intensity={intensity} 
         speed={speed} 
-        colorScheme="warm"
         style={{ opacity: isPlaying ? undefined : 0.1 }}
       />
       
@@ -58,10 +58,10 @@ export default function MovingBackgroundDemo() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-2">
-              Novel Moving Background
+              Animated Background
             </h1>
             <p className="text-muted-foreground">
-              Grok-4 generated sophisticated animated background with floating particles, geometric patterns, and advanced visual effects
+              Sophisticated animated background with falling diagonal streaks, gradient pulse effects, and restaurant-themed visual elements
             </p>
           </div>
 

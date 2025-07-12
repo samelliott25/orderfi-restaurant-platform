@@ -7,6 +7,7 @@ import { OrderFiPageHeader } from '@/components/ui/design-system';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 import MovingTexturedBackground from './MovingTexturedBackground';
 import NovelMovingBackground from './NovelMovingBackground';
+import AnimatedBackground from './AnimatedBackground';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -31,7 +32,7 @@ export function StandardLayout({
     // Customer/mobile layout - full width without sidebar
     return (
       <div className={`min-h-screen bg-background ${className}`}>
-        <NovelMovingBackground intensity="subtle" speed="slow" colorScheme="warm" />
+        <AnimatedBackground intensity="medium" speed="medium" />
         {showHeader && title && (
           <OrderFiPageHeader 
             title={title}
@@ -46,7 +47,7 @@ export function StandardLayout({
   // Admin layout - with sidebar
   return (
     <div className={`flex h-screen bg-background ${className}`}>
-      <NovelMovingBackground intensity="vibrant" speed="medium" colorScheme="warm" />
+      <AnimatedBackground intensity="vibrant" speed="medium" />
       {/* Sidebar - Fixed width component */}
       <Sidebar />
       
