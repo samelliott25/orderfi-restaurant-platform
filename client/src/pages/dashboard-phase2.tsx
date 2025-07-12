@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import StandardLayout from '@/components/StandardLayout';
-import ExecutiveSummary from '@/components/mobile-optimized/ExecutiveSummary';
-import OperationalView from '@/components/mobile-optimized/OperationalView';
-import AnalyticsView from '@/components/mobile-optimized/AnalyticsView';
+import { ExecutiveSummary } from '@/components/dashboard/ExecutiveSummary';
+import { OperationalView } from '@/components/dashboard/OperationalView';
+import { AnalyticsView } from '@/components/dashboard/AnalyticsView';
 import { 
   BarChart3, 
   Users, 
@@ -29,32 +29,11 @@ export default function DashboardPhase2() {
     return () => clearInterval(interval);
   }, []);
 
-  // Mock data for Executive Summary
-  const executiveData = {
-    revenue: {
-      current: 12450,
-      previous: 11200,
-      change: 11.2,
-      trend: 'up' as const
-    },
-    orders: {
-      current: 187,
-      previous: 165,
-      change: 13.3,
-      trend: 'up' as const
-    },
-    customers: {
-      current: 145,
-      previous: 132,
-      change: 9.8,
-      trend: 'up' as const
-    },
-    avgOrderValue: {
-      current: 66.58,
-      previous: 67.88,
-      change: -1.9,
-      trend: 'down' as const
-    }
+  // Progressive disclosure state management
+  const [refreshKey, setRefreshKey] = useState(0);
+  
+  const handleRefresh = () => {
+    setRefreshKey(prev => prev + 1);
   };
 
   // Mock data for Operational View
@@ -198,30 +177,7 @@ export default function DashboardPhase2() {
     ]
   };
 
-  const handleRefresh = () => {
-    // Refresh data logic
-    console.log('Refreshing data...');
-  };
 
-  const handleOrderAction = (orderId: string, action: string) => {
-    console.log(`Order ${orderId} - Action: ${action}`);
-  };
-
-  const handleDismissAlert = (alertId: string) => {
-    console.log(`Dismissing alert: ${alertId}`);
-  };
-
-  const handleViewDetails = (metric: string) => {
-    console.log(`Viewing details for: ${metric}`);
-  };
-
-  const handleExport = (format: 'pdf' | 'csv' | 'excel') => {
-    console.log(`Exporting as: ${format}`);
-  };
-
-  const handleApplyInsight = (insightId: string) => {
-    console.log(`Applying insight: ${insightId}`);
-  };
 
   return (
     <StandardLayout title="Phase 2 Dashboard" subtitle="Mobile-Optimized Restaurant Management">
@@ -280,32 +236,17 @@ export default function DashboardPhase2() {
 
           {/* Executive Summary Tab */}
           <TabsContent value="executive">
-            <ExecutiveSummary
-              data={executiveData}
-              onRefresh={handleRefresh}
-              onViewDetails={handleViewDetails}
-            />
+            <ExecutiveSummary key={`executive-${refreshKey}`} />
           </TabsContent>
 
           {/* Operations Tab */}
           <TabsContent value="operations">
-            <OperationalView
-              liveOrders={liveOrders}
-              alerts={alerts}
-              onRefresh={handleRefresh}
-              onOrderAction={handleOrderAction}
-              onDismissAlert={handleDismissAlert}
-            />
+            <OperationalView key={`operations-${refreshKey}`} />
           </TabsContent>
 
           {/* Analytics Tab */}
           <TabsContent value="analytics">
-            <AnalyticsView
-              data={analyticsData}
-              onRefresh={handleRefresh}
-              onExport={handleExport}
-              onApplyInsight={handleApplyInsight}
-            />
+            <AnalyticsView key={`analytics-${refreshKey}`} />
           </TabsContent>
         </Tabs>
       </div>

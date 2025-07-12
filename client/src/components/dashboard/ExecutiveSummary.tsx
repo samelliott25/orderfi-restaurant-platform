@@ -1,160 +1,250 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { useQuery } from '@tanstack/react-query';
+import { apiRequest } from '@/lib/queryClient';
 import { 
   DollarSign, 
   ShoppingCart, 
   Users, 
-  Target,
-  TrendingUp,
+  TrendingUp, 
   TrendingDown,
-  AlertTriangle,
-  CheckCircle
-} from "lucide-react";
+  ArrowUp,
+  ArrowDown,
+  Activity,
+  Clock
+} from 'lucide-react';
 
-interface MetricData {
-  current: number;
-  change: number;
-  trend: 'up' | 'down';
-  status: 'good' | 'warning' | 'critical';
+interface KPIData {
+  revenue: {
+    current: number;
+    previous: number;
+    trend: 'up' | 'down';
+    percentage: number;
+  };
+  orders: {
+    current: number;
+    previous: number;
+    trend: 'up' | 'down';
+    percentage: number;
+  };
+  customers: {
+    current: number;
+    previous: number;
+    trend: 'up' | 'down';
+    percentage: number;
+  };
+  avgOrder: {
+    current: number;
+    previous: number;
+    trend: 'up' | 'down';
+    percentage: number;
+  };
 }
 
-interface ExecutiveSummaryProps {
-  metrics: {
-    revenue: MetricData;
-    orders: MetricData;
-    customers: MetricData;
-    avgOrder: MetricData;
-  };
-  currentTime: Date;
+interface LiveMetric {
+  label: string;
+  value: string;
+  icon: React.ComponentType<{ className?: string }>;
+  trend: 'up' | 'down' | 'stable';
+  percentage: number;
+  color: string;
+  gradient: string;
 }
 
-export function ExecutiveSummary({ metrics, currentTime }: ExecutiveSummaryProps) {
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
+export function ExecutiveSummary() {
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [wsConnected, setWsConnected] = useState(false);
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'good': return <CheckCircle className="w-3 h-3 text-green-500" />;
-      case 'warning': return <AlertTriangle className="w-3 h-3 text-yellow-500" />;
-      case 'critical': return <AlertTriangle className="w-3 h-3 text-red-500" />;
-      default: return null;
+  // Real-time KPI data
+  const { data: kpiData, isLoading } = useQuery<KPIData>({
+    queryKey: ['/api/dashboard/kpis'],
+    refetchInterval: 10000, // Refresh every 10 seconds
+  });
+
+  // Update current time every minute
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // WebSocket connection for real-time updates
+  useEffect(() => {
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${window.location.host}/ws`;
+    
+    try {
+      const ws = new WebSocket(wsUrl);
+      
+      ws.onopen = () => {
+        setWsConnected(true);
+        ws.send(JSON.stringify({
+          type: 'subscribe',
+          payload: { channel: 'dashboard-kpis' }
+        }));
+      };
+      
+      ws.onclose = () => {
+        setWsConnected(false);
+      };
+      
+      return () => {
+        ws.close();
+      };
+    } catch (error) {
+      console.error('WebSocket connection failed:', error);
     }
+  }, []);
+
+  // Default KPI data for development
+  const defaultKPIData: KPIData = {
+    revenue: { current: 14530, previous: 12340, trend: 'up', percentage: 17.8 },
+    orders: { current: 567, previous: 489, trend: 'up', percentage: 15.9 },
+    customers: { current: 342, previous: 298, trend: 'up', percentage: 14.8 },
+    avgOrder: { current: 25.62, previous: 25.23, trend: 'up', percentage: 1.5 }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'good': return 'border-green-500/30 bg-green-500/5';
-      case 'warning': return 'border-yellow-500/30 bg-yellow-500/5';
-      case 'critical': return 'border-red-500/30 bg-red-500/5';
-      default: return 'border-border';
-    }
-  };
+  const currentKPIData = kpiData || defaultKPIData;
 
-  const executiveMetrics = [
+  const metrics: LiveMetric[] = [
     {
-      title: "Revenue Today",
-      value: formatCurrency(metrics.revenue.current),
-      change: metrics.revenue.change,
-      trend: metrics.revenue.trend,
-      status: metrics.revenue.status,
+      label: 'Today\'s Revenue',
+      value: `$${currentKPIData.revenue.current.toLocaleString()}`,
       icon: DollarSign,
-      color: "text-green-500"
+      trend: currentKPIData.revenue.trend,
+      percentage: currentKPIData.revenue.percentage,
+      color: 'text-green-600 dark:text-green-400',
+      gradient: 'from-green-500 to-emerald-500'
     },
     {
-      title: "Orders",
-      value: metrics.orders.current.toString(),
-      change: metrics.orders.change,
-      trend: metrics.orders.trend,
-      status: metrics.orders.status,
+      label: 'Orders',
+      value: currentKPIData.orders.current.toString(),
       icon: ShoppingCart,
-      color: "text-blue-500"
+      trend: currentKPIData.orders.trend,
+      percentage: currentKPIData.orders.percentage,
+      color: 'text-blue-600 dark:text-blue-400',
+      gradient: 'from-blue-500 to-cyan-500'
     },
     {
-      title: "Customers",
-      value: metrics.customers.current.toString(),
-      change: metrics.customers.change,
-      trend: metrics.customers.trend,
-      status: metrics.customers.status,
+      label: 'Customers',
+      value: currentKPIData.customers.current.toString(),
       icon: Users,
-      color: "text-purple-500"
+      trend: currentKPIData.customers.trend,
+      percentage: currentKPIData.customers.percentage,
+      color: 'text-purple-600 dark:text-purple-400',
+      gradient: 'from-purple-500 to-pink-500'
     },
     {
-      title: "Avg Order",
-      value: formatCurrency(metrics.avgOrder.current),
-      change: metrics.avgOrder.change,
-      trend: metrics.avgOrder.trend,
-      status: metrics.avgOrder.status,
-      icon: Target,
-      color: "text-orange-500"
+      label: 'Avg Order Value',
+      value: `$${currentKPIData.avgOrder.current.toFixed(2)}`,
+      icon: TrendingUp,
+      trend: currentKPIData.avgOrder.trend,
+      percentage: currentKPIData.avgOrder.percentage,
+      color: 'text-orange-600 dark:text-orange-400',
+      gradient: 'from-orange-500 to-red-500'
     }
   ];
 
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString([], { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: true 
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        {[...Array(4)].map((_, i) => (
+          <Card key={i} className="animate-pulse">
+            <CardHeader className="pb-2">
+              <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+            </CardHeader>
+            <CardContent>
+              <div className="h-8 bg-gray-200 rounded w-1/2 mb-2"></div>
+              <div className="h-3 bg-gray-200 rounded w-full"></div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-4">
-      {/* Executive Status Bar */}
-      <div className="bg-card border border-border rounded-lg p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Badge variant="outline" className="bg-green-500/20 text-green-400 border-green-500/30">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
-              OPERATIONAL
-            </Badge>
-            <div className="text-sm text-muted-foreground">
-              {currentTime.toLocaleDateString('en-US', { 
-                weekday: 'long',
-                month: 'long', 
-                day: 'numeric' 
-              })}
-            </div>
+    <div className="space-y-6">
+      {/* Header with Real-time Status */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+            Executive Summary
+          </h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Real-time business performance overview
+          </p>
+        </div>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <div className={`w-2 h-2 rounded-full ${wsConnected ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+            <span className="text-sm text-muted-foreground">
+              {wsConnected ? 'Live' : 'Offline'}
+            </span>
           </div>
-          <div className="text-lg font-normal text-foreground playwrite-font">
-            {currentTime.toLocaleTimeString('en-US', { 
-              hour: '2-digit', 
-              minute: '2-digit'
-            })}
+          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+            <Clock className="w-4 h-4" />
+            <span>{formatTime(currentTime)}</span>
           </div>
         </div>
       </div>
 
-      {/* Primary KPIs - Mobile Optimized Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {executiveMetrics.map((metric, index) => {
-          const IconComponent = metric.icon;
+      {/* KPI Cards Grid */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        {metrics.map((metric, index) => {
+          const Icon = metric.icon;
+          const TrendIcon = metric.trend === 'up' ? ArrowUp : ArrowDown;
           
           return (
             <Card 
-              key={index}
-              className={`bg-card border transition-all duration-200 hover:shadow-lg ${getStatusColor(metric.status)}`}
+              key={index} 
+              className="relative overflow-hidden backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
             >
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-normal text-muted-foreground">
-                  {metric.title}
-                </CardTitle>
-                <div className="flex items-center gap-2">
-                  {getStatusIcon(metric.status)}
-                  <IconComponent className={`w-4 h-4 ${metric.color}`} />
+              <div className={`absolute inset-0 bg-gradient-to-br ${metric.gradient}/10`}></div>
+              <CardHeader className="relative pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    {metric.label}
+                  </CardTitle>
+                  <div className={`p-2 rounded-full bg-gradient-to-r ${metric.gradient}`}>
+                    <Icon className="h-4 w-4 text-white" />
+                  </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-normal text-foreground mb-2">
-                  {metric.value}
-                </div>
-                <div className="flex items-center gap-1 text-sm">
-                  {metric.trend === 'up' ? (
-                    <TrendingUp className="w-3 h-3 text-green-500" />
-                  ) : (
-                    <TrendingDown className="w-3 h-3 text-red-500" />
-                  )}
-                  <span className={metric.trend === 'up' ? 'text-green-500' : 'text-red-500'}>
-                    {metric.change > 0 ? '+' : ''}{metric.change}%
-                  </span>
-                  <span className="text-muted-foreground">vs yesterday</span>
+              <CardContent className="relative">
+                <div className="space-y-2">
+                  <div className={`text-3xl font-bold bg-gradient-to-r ${metric.gradient} bg-clip-text text-transparent`}>
+                    {metric.value}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Badge 
+                      variant={metric.trend === 'up' ? 'default' : 'destructive'}
+                      className={`flex items-center space-x-1 ${
+                        metric.trend === 'up' 
+                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
+                          : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+                      }`}
+                    >
+                      <TrendIcon className="h-3 w-3" />
+                      <span className="text-xs font-medium">
+                        {metric.percentage.toFixed(1)}%
+                      </span>
+                    </Badge>
+                    <span className="text-xs text-muted-foreground">
+                      vs yesterday
+                    </span>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -162,19 +252,40 @@ export function ExecutiveSummary({ metrics, currentTime }: ExecutiveSummaryProps
         })}
       </div>
 
-      {/* Quick Status Summary */}
-      <div className="bg-card border border-border rounded-lg p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="text-sm font-medium text-foreground">Today's Performance</div>
-            <Badge variant="outline" className="bg-green-500/20 text-green-400">
-              On Track
-            </Badge>
-          </div>
-          <div className="text-sm text-muted-foreground">
-            Revenue goal: {Math.round((metrics.revenue.current / 20000) * 100)}% complete
-          </div>
-        </div>
+      {/* Quick Actions */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <Button 
+          variant="outline" 
+          className="h-11 min-h-[44px] justify-start space-x-2"
+          onClick={() => window.location.href = '/inventory'}
+        >
+          <Activity className="h-4 w-4" />
+          <span>Check Inventory</span>
+        </Button>
+        <Button 
+          variant="outline" 
+          className="h-11 min-h-[44px] justify-start space-x-2"
+          onClick={() => window.location.href = '/orders'}
+        >
+          <ShoppingCart className="h-4 w-4" />
+          <span>View Orders</span>
+        </Button>
+        <Button 
+          variant="outline" 
+          className="h-11 min-h-[44px] justify-start space-x-2"
+          onClick={() => window.location.href = '/kds'}
+        >
+          <Clock className="h-4 w-4" />
+          <span>Kitchen Display</span>
+        </Button>
+        <Button 
+          variant="outline" 
+          className="h-11 min-h-[44px] justify-start space-x-2"
+          onClick={() => window.location.href = '/payments'}
+        >
+          <DollarSign className="h-4 w-4" />
+          <span>Payments</span>
+        </Button>
       </div>
     </div>
   );

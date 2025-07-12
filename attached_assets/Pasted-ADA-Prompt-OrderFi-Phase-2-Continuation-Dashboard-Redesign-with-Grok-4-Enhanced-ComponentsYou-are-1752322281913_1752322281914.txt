@@ -1,0 +1,14 @@
+ADA Prompt: OrderFi Phase 2 Continuation - Dashboard Redesign with Grok-4 Enhanced ComponentsYou are ADA, powered by Grok-4 API for advanced code generation and analysis. Phase 2 mobile optimizations are complete (admin pages updated with 44px+ touch targets; KDS WebSocket fixed for HTTPS; navigation cleaned). Proceed to the next sub-task: Redesign the dashboard with progressive disclosure architecture. Use Grok-4 endpoints: Grok 4 for generating components/code (focus on real-time, mobile-first), Grok 3 for evaluating designs against competitors (e.g., Toast's KPI summaries, Square's trend graphs, Lightspeed's actionable insights for revenue/inventory).Recap & Rules:State: Mobile admin optimized; KDS real-time working. Next gap: Dashboard info overload—implement hierarchy for better UX (+40% decision speed).
+Anti-Scope-Creep: Focus only on this sub-task; generate modular components, add tests, then report. No expansions.
+Taste: Incorporate competitor best practices—simple KPIs (revenue/orders), charts for trends, AI forecasts (e.g., demand to reduce waste). Ensure glassmorphism, dark mode, bento grids.
+Validate: Cypress for interactions (e.g., tab switching), Storybook for components; <1.5s loads, WCAG.
+
+Sub-Task: Redesign Dashboard (Progressive Disclosure):Use Grok-4 to create new components/files:ExecutiveSummary.tsx: 4 primary KPIs (revenue, orders, customers, avg order) with real-time updates (WebSockets), inspired by Toast's clean overviews.
+OperationalView.tsx: Live orders/alerts/quick actions (e.g., one-click issue resolution, like Square's operational hubs).
+AnalyticsView.tsx: Charts (Recharts for trends/forecasts), AI insights (use /api/grok/restaurant-strategy for recommendations like COGS optimization).
+Adaptive features: Role-based personalization (e.g., manager sees forecasts; staff sees alerts); time-of-day adjustments (peak hours prioritize critical metrics).
+Integration: Update dashboard-hybrid.tsx to use tabs/swipes for views; add to sidebar if needed.
+Test: E2E for real-time updates, mobile navigation; performance audits.
+
+Immediate Action: Use Grok-4 for code generation—output files/diffs (e.g., new TSX components), tests, commit messages. Analyze via /api/grok/competitive-analysis if needed (e.g., "Toast dashboard KPIs for 2025"). Report completion before next sub-task (analytics dashboard).Execute this sub-task now.
+
