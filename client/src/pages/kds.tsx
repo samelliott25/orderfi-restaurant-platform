@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { Clock, ChefHat, AlertCircle, CheckCircle2, X, Utensils } from 'lucide-react';
+import { Sidebar } from '@/components/Sidebar';
 
 interface Order {
   id: number;
@@ -138,9 +139,11 @@ export default function KDS() {
   const activeOrders = statusOrder.flatMap(status => groupedOrders[status] || []);
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
-      <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm">
-        <div className="flex items-center space-x-3">
+    <div className="flex min-h-screen bg-gray-50">
+      <Sidebar />
+      <div className="flex-1 p-6 space-y-6 ml-0 md:ml-64">
+        <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm">
+          <div className="flex items-center space-x-3">
           <div className="p-2 bg-orange-100 rounded-full">
             <ChefHat className="w-6 h-6 text-orange-600" />
           </div>
@@ -153,36 +156,36 @@ export default function KDS() {
             </p>
           </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <Badge variant="outline" className="bg-green-100 text-green-800">
-            <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
-            Live
-          </Badge>
-          {orders.length > 0 && (
-            <Badge variant="outline" className="bg-blue-100 text-blue-800">
-              <Utensils className="w-3 h-3 mr-1" />
-              {orders.length} orders
+          <div className="flex items-center space-x-2">
+            <Badge variant="outline" className="bg-green-100 text-green-800">
+              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+              Live
             </Badge>
-          )}
+            {orders.length > 0 && (
+              <Badge variant="outline" className="bg-blue-100 text-blue-800">
+                <Utensils className="w-3 h-3 mr-1" />
+                {orders.length} orders
+              </Badge>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {activeOrders.map((order) => {
-          const statusConfig = getStatusConfig(order.status);
-          const StatusIcon = statusConfig.icon;
-          const orderItems = parseOrderItems(order.items);
-          const priority = getOrderPriority(order.createdAt);
-          
-          return (
-            <Card 
-              key={order.id} 
-              className={`relative hover:shadow-lg transition-shadow ${
-                priority === 'high' ? 'ring-2 ring-red-200 bg-red-50' :
-                priority === 'medium' ? 'ring-1 ring-yellow-200 bg-yellow-50' :
-                'bg-white'
-              }`}
-            >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {activeOrders.map((order) => {
+            const statusConfig = getStatusConfig(order.status);
+            const StatusIcon = statusConfig.icon;
+            const orderItems = parseOrderItems(order.items);
+            const priority = getOrderPriority(order.createdAt);
+            
+            return (
+              <Card 
+                key={order.id} 
+                className={`relative hover:shadow-lg transition-shadow ${
+                  priority === 'high' ? 'ring-2 ring-red-200 bg-red-50' :
+                  priority === 'medium' ? 'ring-1 ring-yellow-200 bg-yellow-50' :
+                  'bg-white'
+                }`}
+              >
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg font-semibold">
@@ -255,24 +258,25 @@ export default function KDS() {
                   </div>
                 )}
               </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {orders.length === 0 && (
-        <div className="text-center py-12">
-          <div className="bg-white rounded-lg shadow-sm p-8">
-            <ChefHat className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-600 mb-2">
-              No active orders
-            </h3>
-            <p className="text-gray-500">
-              New orders will appear here automatically
-            </p>
-          </div>
+              </Card>
+            );
+          })}
         </div>
-      )}
+
+        {orders.length === 0 && (
+          <div className="text-center py-12">
+            <div className="bg-white rounded-lg shadow-sm p-8">
+              <ChefHat className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-600 mb-2">
+                No active orders
+              </h3>
+              <p className="text-gray-500">
+                New orders will appear here automatically
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
