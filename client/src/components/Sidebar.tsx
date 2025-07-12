@@ -60,6 +60,7 @@ const menuItems = [
   { icon: Zap, label: "Grok AI", href: "/grok-test" },
   { icon: Palette, label: "2026 Design", href: "/design-2026" },
   { icon: Layers, label: "Creative Layout", href: "/creative-showcase" },
+  { icon: Sparkles, label: "Moving Background", href: "/moving-background-demo" },
 ];
 
 interface SidebarProps {

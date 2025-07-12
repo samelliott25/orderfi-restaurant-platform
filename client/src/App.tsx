@@ -60,6 +60,7 @@ import Design2026 from "@/pages/design-2026";
 import CreativeShowcase from "@/pages/creative-showcase";
 import GrokTest from "@/pages/grok-test";
 import VoiceFirstDemo from "@/pages/voice-first-demo";
+import MovingBackgroundDemo from "@/pages/moving-background-demo";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -186,6 +187,9 @@ function Router() {
         
         {/* Voice-First AI Demo */}
         <Route path="/voice-first-demo" component={VoiceFirstDemo} />
+        
+        {/* Moving Background Demo */}
+        <Route path="/moving-background-demo" component={MovingBackgroundDemo} />
         
         <Route component={NotFound} />
       </Switch>

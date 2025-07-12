@@ -5,6 +5,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { useChatContext } from '@/contexts/ChatContext';
 import { OrderFiPageHeader } from '@/components/ui/design-system';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import MovingTexturedBackground from './MovingTexturedBackground';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ export function StandardLayout({
     // Customer/mobile layout - full width without sidebar
     return (
       <div className={`min-h-screen bg-background ${className}`}>
+        <MovingTexturedBackground intensity="subtle" speed="slow" />
         {showHeader && title && (
           <OrderFiPageHeader 
             title={title}
@@ -43,6 +45,7 @@ export function StandardLayout({
   // Admin layout - with sidebar
   return (
     <div className={`flex h-screen bg-background ${className}`}>
+      <MovingTexturedBackground intensity="subtle" speed="medium" />
       {/* Sidebar - Fixed width component */}
       <Sidebar />
       

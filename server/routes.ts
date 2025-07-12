@@ -1949,6 +1949,74 @@ Base predictions on historical patterns, seasonal trends, weather impact, and cu
 
   // Removed robot automation endpoints as requested
 
+  // Grok-4 Moving Background Generator endpoint
+  app.post('/api/grok/generate-moving-background', async (req, res) => {
+    try {
+      const { style, colors, animation, complexity } = req.body;
+      
+      if (!process.env.XAI_API_KEY) {
+        return res.status(500).json({ error: 'XAI API key not configured' });
+      }
+      
+      const prompt = `You are a senior frontend developer specializing in advanced CSS animations and modern web design. Create a sophisticated moving textured background component for a restaurant ordering app called OrderFi.
+
+Requirements:
+- Style: ${style || 'Modern glassmorphism with subtle textures'}
+- Colors: ${colors || 'OrderFi orange (#f97316) to pink (#ec4899) gradient palette'}
+- Animation: ${animation || 'Smooth, continuous movement with layered effects'}
+- Complexity: ${complexity || 'Professional restaurant-grade visual appeal'}
+
+Generate a complete React component that includes:
+1. A MovingTexturedBackground component with TypeScript
+2. Advanced CSS animations using keyframes
+3. Multiple animated layers for depth and visual interest
+4. Smooth, performance-optimized animations
+5. Responsive design that works on all devices
+6. CSS variables for easy customization
+7. GPU acceleration for smooth performance
+
+The background should be:
+- Subtle enough not to interfere with text readability
+- Professional and appealing for restaurant customers
+- Optimized for performance with will-change and transform3d
+- Include gradient overlays, geometric patterns, or flowing shapes
+- Use modern CSS features like backdrop-filter, clip-path, or CSS Grid
+
+Return ONLY the complete React component code with embedded CSS, no explanations or markdown formatting.`;
+
+      const response = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.XAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'grok-2-1212',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.7,
+          max_tokens: 4000,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`XAI API error: ${response.status}`);
+      }
+
+      const result = await response.json();
+      const generatedCode = result.choices[0].message.content;
+
+      res.json({
+        success: true,
+        code: generatedCode,
+        timestamp: new Date().toISOString(),
+        model: 'grok-2-1212'
+      });
+    } catch (error) {
+      console.error('Grok background generation error:', error);
+      res.status(500).json({ error: 'Failed to generate moving background' });
+    }
+  });
+
   // Customer profile endpoint
   app.get('/api/customers/:id/profile', async (req, res) => {
     try {

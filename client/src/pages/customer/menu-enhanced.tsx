@@ -13,6 +13,7 @@ import { AIPersonalizationEngine } from '@/components/ai/AIPersonalizationEngine
 import { NudgeEngine } from '@/components/ai/NudgeEngine';
 import { SpatialVoiceNav } from '@/components/SpatialVoiceNav';
 import { GestureZones } from '@/components/GestureZones';
+import MovingTexturedBackground from '@/components/MovingTexturedBackground';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
