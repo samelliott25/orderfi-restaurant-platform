@@ -7,14 +7,16 @@ html, body {
   max-width: 100% !important;
 }
 
-/* Mamo.bot Inspired Design System - Global Background */
-body {
-  background-color: #ffffff;
-  background-image: none;
-}
+/* Reset to original styling */
 
 .dark body {
   background-color: #1a1a1a !important; /* Dark mode override */
+}
+
+/* Reset body background completely */
+body {
+  background-color: initial !important;
+  background-image: none !important;
 }
 
 /* Horizontal scrolling utility - hide scrollbar */
