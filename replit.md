@@ -193,6 +193,12 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 
 ```
 Changelog:
+- January 12, 2025. PHASE 2 DASHBOARD PROMOTION: Successfully replaced main dashboard with Phase 2 mobile-optimized version and applied mobile patterns to existing admin pages
+  - Promoted Phase 2 Dashboard to default dashboard route (/dashboard) replacing hybrid dashboard
+  - Updated root route (/) to use Phase 2 Dashboard as main entry point
+  - Removed duplicate "Phase 2 Dashboard" menu item from sidebar navigation
+  - Phase 2 Dashboard now serves as primary restaurant management interface with mobile-first design
+  - Fixed KDS sidebar positioning to remain static while scrolling with proper z-index layering
 - January 12, 2025. PHASE 2 MOBILE OPTIMIZATION COMPLETED: Successfully applied Phase 2 mobile patterns to existing admin pages with touch-friendly controls and cleaned up obsolete functionality
   - Applied mobile optimization patterns to existing admin pages: inventory-simplified.tsx, payments.tsx, orders-new.tsx with 44px+ touch targets
   - Updated all buttons across admin pages to use h-11 min-w-[44px] and min-h-[44px] for proper touch accessibility

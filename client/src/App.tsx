@@ -135,8 +135,8 @@ function Router() {
         
 
         {/* Dashboard - Default Home */}
-        <Route path="/" component={HybridDashboard} />
-        <Route path="/dashboard" component={HybridDashboard} />
+        <Route path="/" component={DashboardPhase2} />
+        <Route path="/dashboard" component={DashboardPhase2} />
         <Route path="/dashboard-hybrid" component={HybridDashboard} />
         <Route path="/dashboard-optimized" component={OptimizedDashboard} />
         <Route path="/dashboard-superior" component={() => (
