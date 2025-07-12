@@ -40,12 +40,17 @@ export const MovingTexturedBackground: React.FC<MovingTexturedBackgroundProps> =
     zIndex: -1,
     overflow: 'hidden',
     opacity: getIntensityOpacity(),
-    '--speed-duration': getSpeedDuration(),
     ...style,
-  } as React.CSSProperties;
+  };
 
   return (
-    <div className={`moving-textured-background ${className}`} style={backgroundStyle}>
+    <div 
+      className={`moving-textured-background ${className}`} 
+      style={{
+        ...backgroundStyle,
+        '--speed-duration': getSpeedDuration(),
+      } as React.CSSProperties}
+    >
       {/* Primary gradient layer */}
       <div className="gradient-layer-1" />
       

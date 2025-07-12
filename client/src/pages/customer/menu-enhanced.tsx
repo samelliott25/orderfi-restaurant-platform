@@ -545,10 +545,30 @@ export default function EnhancedCustomerMenu() {
             />
             
             <NudgeEngine
-              customerId="customer-123"
-              currentCart={cart}
-              menuItems={menuItems}
-              onNudgeUpdate={handleNudgeUpdate}
+              context={{
+                customerProfile: customerProfile,
+                currentOrder: cart,
+                orderHistory: [],
+                timeContext: {
+                  timeOfDay: new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening',
+                  dayOfWeek: new Date().toLocaleDateString('en-US', { weekday: 'long' }),
+                  rushPeriod: new Date().getHours() >= 11 && new Date().getHours() <= 14,
+                },
+                socialContext: {
+                  popularItems: [],
+                  trendingNow: [],
+                  peakOrders: 0,
+                  socialProof: false,
+                },
+                businessContext: {
+                  inventoryLevels: {},
+                  marginOptimization: false,
+                  promotionalPeriod: false,
+                },
+              }}
+              onNudgeTriggered={handleNudgeTriggered}
+              onItemAddedToCart={handleItemAddedToCart}
+              onNudgeDeclined={handleNudgeDeclined}
               className="shadow-lg"
             />
           </div>
