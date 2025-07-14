@@ -179,35 +179,7 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* Sidebar Button Override - Clean white/transparent design */
-.sidebar-nav button:not([class*="bg-gradient"]) {
-  background: rgba(255, 255, 255, 0.08) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  color: rgba(255, 255, 255, 0.7) !important;
-  box-shadow: none !important;
-  transition: all 0.3s ease !important;
-  font-weight: 400 !important;
-  border-radius: 8px !important;
-}
-
-.sidebar-nav button:not([class*="bg-gradient"]):hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  color: rgba(255, 255, 255, 1) !important;
-  transform: none !important;
-}
-
-.sidebar-nav button:not([class*="bg-gradient"]).active {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  color: rgba(255, 255, 255, 1) !important;
-}
-
-.sidebar-nav button:not([class*="bg-gradient"])::before,
-.sidebar-nav button:not([class*="bg-gradient"])::after {
-  display: none !important;
-}
+/* Remove problematic CSS overrides */
 
 .glass-button-premium::before {
   content: '';

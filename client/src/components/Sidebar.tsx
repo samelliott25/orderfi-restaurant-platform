@@ -226,8 +226,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           : 'justify-start text-left px-3'
                       } ${
                         isActive 
-                          ? "active" 
-                          : ""
+                          ? "bg-white/20 text-white border-white/30" 
+                          : "text-white/70 hover:text-white hover:bg-white/10 border-white/10"
                       } rounded-lg backdrop-blur-sm border`}
                       title={isCollapsed ? item.label : undefined}
                     >
