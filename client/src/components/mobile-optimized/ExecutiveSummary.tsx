@@ -132,9 +132,9 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
       change: formatPercentage(data.avgOrderValue.change),
       trend: data.avgOrderValue.trend,
       icon: TrendingUp,
-      color: 'from-orange-500 to-red-500',
-      bgColor: 'from-orange-50 to-red-50',
-      borderColor: 'border-orange-200'
+      color: 'from-blue-500 to-purple-500',
+      bgColor: 'from-blue-50 to-purple-50',
+      borderColor: 'border-blue-200'
     }
   ];
 

@@ -10,7 +10,7 @@ export const TestBackground = () => {
         right: 0,
         bottom: 0,
         zIndex: 0,
-        background: 'linear-gradient(135deg, #FF6B00 0%, #FFA500 100%)',
+        background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
         pointerEvents: 'none',
       }}
     >
@@ -21,7 +21,7 @@ export const TestBackground = () => {
           right: '20%',
           width: '20px',
           height: '200px',
-          background: 'linear-gradient(to bottom, #00FF7F 0%, #FFFF00 100%)',
+          background: 'linear-gradient(to bottom, #22c55e 0%, #3b82f6 100%)',
           borderRadius: '50px',
           opacity: 0.8,
           transform: 'rotate(-30deg)',
