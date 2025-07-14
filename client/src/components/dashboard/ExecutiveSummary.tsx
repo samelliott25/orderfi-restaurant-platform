@@ -179,7 +179,7 @@ export function ExecutiveSummary() {
       {/* Header with Real-time Status */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold playwrite-font glass-text-premium" data-text="Executive Summary">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             Executive Summary
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
@@ -187,8 +187,8 @@ export function ExecutiveSummary() {
           </p>
         </div>
         <div className="flex items-center space-x-4">
-          <div className={`glass-status-premium ${wsConnected ? '' : 'offline'}`}>
-            <div className={`w-2 h-2 rounded-full ${wsConnected ? 'animate-pulse' : ''}`} style={{backgroundColor: wsConnected ? '#fff' : '#D3D3D3'}}></div>
+          <div className={`flex items-center space-x-2 px-2 py-1 rounded-full ${wsConnected ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>
+            <div className={`w-2 h-2 rounded-full ${wsConnected ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
             <span>
               {wsConnected ? 'Live' : 'Offline'}
             </span>
@@ -207,71 +207,77 @@ export function ExecutiveSummary() {
           const TrendIcon = metric.trend === 'up' ? ArrowUp : ArrowDown;
           
           return (
-            <div 
+            <Card 
               key={index} 
-              className="glass-metric-premium glass-float-premium glass-glow-premium cursor-pointer"
+              className="hover:shadow-lg transition-shadow cursor-pointer"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <div className="p-2 rounded-full" style={{backgroundColor: 'rgba(255, 91, 5, 0.8)'}}>
-                    <Icon className="h-4 w-4 text-white" />
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900">
+                      <Icon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                    </div>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
                       {metric.label}
                     </p>
-                    <div className="text-3xl font-bold glass-text-premium" data-text={metric.value}>
+                    <div className="text-3xl font-bold text-gray-900 dark:text-white">
                       {metric.value}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center space-x-1">
                   <TrendIcon className={`h-4 w-4 ${metric.trend === 'up' ? 'text-teal-600' : 'text-orange-600'}`} />
-                  <span className={`text-sm font-medium ${metric.trend === 'up' ? 'glass-text-secondary-premium' : 'glass-text-premium'}`}>
+                  <span className={`text-sm font-medium ${metric.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
                     {metric.percentage.toFixed(1)}%
                   </span>
                 </div>
-              </div>
-              <div className="mt-2">
-                <span className="text-xs text-muted-foreground">
-                  vs yesterday
-                </span>
-              </div>
-            </div>
+                <div className="mt-2">
+                  <span className="text-xs text-muted-foreground">
+                    vs yesterday
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
           );
         })}
       </div>
 
       {/* Quick Actions */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        <button 
-          className="glass-button-premium h-11 min-h-[44px] justify-start space-x-2 flex items-center"
+        <Button 
+          variant="default"
+          className="h-11 min-h-[44px] justify-start space-x-2"
           onClick={() => window.location.href = '/inventory'}
         >
           <Activity className="h-4 w-4" />
           <span>Check Inventory</span>
-        </button>
-        <button 
-          className="glass-button-secondary-premium h-11 min-h-[44px] justify-start space-x-2 flex items-center"
+        </Button>
+        <Button 
+          variant="outline"
+          className="h-11 min-h-[44px] justify-start space-x-2"
           onClick={() => window.location.href = '/orders'}
         >
           <ShoppingCart className="h-4 w-4" />
           <span>View Orders</span>
-        </button>
-        <button 
-          className="glass-button-premium h-11 min-h-[44px] justify-start space-x-2 flex items-center"
+        </Button>
+        <Button 
+          variant="default"
+          className="h-11 min-h-[44px] justify-start space-x-2"
           onClick={() => window.location.href = '/kds'}
         >
           <Clock className="h-4 w-4" />
           <span>Kitchen Display</span>
-        </button>
-        <button 
-          className="glass-button-secondary-premium h-11 min-h-[44px] justify-start space-x-2 flex items-center"
+        </Button>
+        <Button 
+          variant="outline"
+          className="h-11 min-h-[44px] justify-start space-x-2"
           onClick={() => window.location.href = '/payments'}
         >
           <DollarSign className="h-4 w-4" />
           <span>Payments</span>
-        </button>
+        </Button>
       </div>
     </div>
   );

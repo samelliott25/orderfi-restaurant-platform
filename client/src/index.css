@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One:wght@400&family=Comfortaa:wght@300;400;700&family=Lobster:wght@400&family=Kalam:wght@400;700&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Allura&family=Seaweed+Script&family=Permanent+Marker&family=Satisfy&family=Molle:ital@1&family=Rancho:wght@400&family=Dongle:wght@300;400;700&display=swap');
 
-/* Import Advanced Glassmorphism Theme */
-@import './styles/advanced-glassmorphism.css';
+/* Remove Advanced Glassmorphism Theme */
 
 /* CRITICAL MOBILE FIX - NO HORIZONTAL SCROLL ON SETTINGS PAGE */
 html, body {
@@ -13,14 +12,13 @@ html, body {
 /* Reset to original styling */
 
 .dark body {
-  background-color: #343637 !important; /* Charcoal Grey */
+  background-color: #1f2937;
 }
 
-/* New color palette body background */
+/* Original clean background */
 body {
-  background-color: #D3D3D3 !important; /* Cloud Grey */
-  background-image: none !important;
-  color: #343637 !important; /* Charcoal Grey text */
+  background-color: #f8fafc;
+  color: #1f2937;
 }
 
 /* Horizontal scrolling utility - hide scrollbar */
