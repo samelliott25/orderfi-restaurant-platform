@@ -139,7 +139,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div className={`flex-shrink-0 h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 border-r border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 relative z-40 shadow-xl ${
+      <div className={`flex-shrink-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 relative z-40 shadow-xl ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}>
         <div className="flex flex-col h-full">
@@ -322,7 +322,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Footer Actions - Fixed to Bottom */}
-          <div className={`mt-auto border-t border-gray-200/30 dark:border-gray-700/30 bg-gradient-to-t from-gray-100/80 to-gray-50/80 dark:from-gray-800/80 dark:to-gray-900/80 backdrop-blur-sm ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
+          <div className={`mt-auto border-t border-gray-200/30 dark:border-gray-700/30 bg-gray-50 dark:bg-gray-800 ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
             {!isCollapsed ? (
               <>
                 {/* Wallet Connection Button */}
