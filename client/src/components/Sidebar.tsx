@@ -205,7 +205,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {/* Collapse Button */}
               <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-8 w-8 p-0 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-8 w-8 p-0 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               </button>
@@ -226,12 +226,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           : 'justify-start text-left px-3'
                       } ${
                         isActive 
-                          ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg" 
-                          : "text-white/90 hover:text-white hover:bg-white/10"
-                      } rounded-lg backdrop-blur-sm border border-white/20`}
+                          ? "bg-white/20 text-white border-white/30" 
+                          : "text-white/70 hover:text-white hover:bg-white/10 border-white/10"
+                      } rounded-lg backdrop-blur-sm border`}
                       title={isCollapsed ? item.label : undefined}
                     >
-                      <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
+                      <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
                       {!isCollapsed && <span className="font-normal">{item.label}</span>}
                       {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
                         <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
@@ -328,7 +328,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {!isConnected ? (
                   <WalletConnectDialog>
                     <button
-                      className="w-full h-10 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300 rounded-lg flex items-center justify-center"
+                      className="w-full h-10 bg-white/20 hover:bg-white/30 text-white border border-white/30 hover:border-white/50 transition-all duration-300 rounded-lg flex items-center justify-center backdrop-blur-sm"
                       disabled={isConnecting}
                     >
                       <Wallet className="h-5 w-5 mr-2" />
@@ -364,7 +364,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   <span className="text-sm font-normal text-white/70">Theme</span>
                   <button
                     onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                    className="h-8 w-8 p-0 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors"
+                    className="h-8 w-8 p-0 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors flex items-center justify-center"
                   >
                     <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -374,7 +374,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Exit App Button */}
                 <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg p-2 transition-colors flex items-center justify-center"
+                  className="w-full text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg p-2 transition-colors flex items-center justify-center backdrop-blur-sm border border-white/10 hover:border-white/20"
                 >
                   <DoorOpen className="h-4 w-4 mr-2" />
                   Exit App
@@ -386,7 +386,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {!isConnected ? (
                   <WalletConnectDialog>
                     <button
-                      className="w-full h-10 p-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300 rounded-lg"
+                      className="w-full h-10 p-2 bg-white/20 hover:bg-white/30 text-white border border-white/30 hover:border-white/50 transition-all duration-300 rounded-lg backdrop-blur-sm flex items-center justify-center"
                       disabled={isConnecting}
                       title="Connect Wallet"
                     >
@@ -402,7 +402,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Collapsed Theme Toggle */}
                 <button
                   onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="w-full h-10 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="w-full h-10 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors backdrop-blur-sm border border-white/10 hover:border-white/20 flex items-center justify-center"
                   title="Toggle Theme"
                 >
                   <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -412,7 +412,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Collapsed Exit App */}
                 <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full h-10 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="w-full h-10 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors backdrop-blur-sm border border-white/10 hover:border-white/20 flex items-center justify-center"
                   title="Exit App"
                 >
                   <DoorOpen className="h-5 w-5" />
