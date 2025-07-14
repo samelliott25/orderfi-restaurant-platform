@@ -903,44 +903,14 @@ h3, .text-xl {
   }
   
   body {
-    background-color: #D3D3D3 !important; /* Cloud Grey */
-    color: #343637 !important; /* Charcoal Grey */
+    @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
-/* Prevent white screen flashes and support dark mode */
-html, body, #root {
-  background-color: #D3D3D3 !important; /* Cloud Grey */
-  color: #343637 !important; /* Charcoal Grey */
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+/* Clean root styling */
 
-/* New color palette text gradients */
-.text-gradient {
-  background: linear-gradient(45deg, #FF5B05, #FF8C00) !important;
-  background-clip: text !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-}
-
-.text-gradient-secondary {
-  background: linear-gradient(45deg, #075956, #10B981) !important;
-  background-clip: text !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-}
-
-/* Force color palette on all elements */
-.card, [class*="card"], .bg-card, [class*="bg-card"] {
-  background-color: #ffffff !important;
-  border-color: #D3D3D3 !important;
-  color: #343637 !important;
-}
-
-.bg-green-100, .bg-green-200, .bg-green-300, .bg-green-400, .bg-green-500 {
-  background-color: #E8F5F5 !important; /* Light Aqua tint */
-}
+/* Clean card styling */
 
 /* Clean universal styles */
 

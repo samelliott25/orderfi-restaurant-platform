@@ -139,12 +139,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div className={`flex-shrink-0 h-screen glass-card-premium border-r border-white/20 transition-all duration-300 relative z-40 ${
+      <div className={`flex-shrink-0 h-screen bg-gray-900 border-r border-gray-700 transition-all duration-300 relative z-40 ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className={`border-b border-white/20 glass-card-premium ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
+          <div className={`border-b border-gray-700 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
@@ -167,12 +167,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-xl font-normal glass-text-premium playwrite-font" data-text="OrderFi">
+                    <h2 className="text-xl font-normal text-white playwrite-font">
                       OrderFi
                     </h2>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-xs text-gray-400">
                         {currentTime.toLocaleTimeString()}
                       </span>
                       <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
@@ -227,12 +227,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                       } ${
                         isActive 
                           ? "bg-white/20 text-white border-white/30" 
-                          : "text-white/70 hover:text-white hover:bg-white/10 border-white/10"
+                          : "text-white/90 hover:text-white hover:bg-white/10 border-white/10"
                       } rounded-lg backdrop-blur-sm border`}
                       title={isCollapsed ? item.label : undefined}
                     >
                       <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
-                      {!isCollapsed && <span className="font-normal">{item.label}</span>}
+                      {!isCollapsed && <span className="font-medium text-current">{item.label}</span>}
                       {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
                         <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
                           {metrics.pendingOrders}
