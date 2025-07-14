@@ -180,8 +180,7 @@ export default function DashboardPhase2() {
 
 
   return (
-    <div className="glass-dashboard-premium">
-      <StandardLayout title="Phase 2 Dashboard" subtitle="Mobile-Optimized Restaurant Management">
+    <StandardLayout title="Phase 2 Dashboard" subtitle="Mobile-Optimized Restaurant Management">
         <div className="space-y-8">
           {/* Status Bar */}
           <div className="glass-card-premium">
@@ -244,6 +243,5 @@ export default function DashboardPhase2() {
         </Tabs>
       </div>
     </StandardLayout>
-    </div>
   );
 }
