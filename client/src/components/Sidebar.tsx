@@ -139,12 +139,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div className={`flex-shrink-0 h-screen bg-gray-900 border-r border-gray-700 transition-all duration-300 relative z-40 ${
+      <div className={`flex-shrink-0 h-screen bg-gray-800/95 backdrop-blur-sm border-r border-gray-600 transition-all duration-300 relative z-40 ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className={`border-b border-gray-700 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
+          <div className={`border-b border-gray-600 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
@@ -205,7 +205,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {/* Collapse Button */}
               <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-8 w-8 p-0 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-8 w-8 p-0 text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-md transition-colors flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               </button>
@@ -226,8 +226,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           : 'justify-start text-left px-3'
                       } ${
                         isActive 
-                          ? "bg-white/20 text-white border-white/30" 
-                          : "text-white/90 hover:text-white hover:bg-white/10 border-white/10"
+                          ? "bg-blue-600/20 text-white border-blue-500/30" 
+                          : "text-gray-300 hover:text-white hover:bg-gray-700/50 border-gray-600/50"
                       } rounded-lg backdrop-blur-sm border`}
                       title={isCollapsed ? item.label : undefined}
                     >
