@@ -139,12 +139,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div className={`flex-shrink-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 relative z-40 ${
+      <div className={`flex-shrink-0 h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 border-r border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 relative z-40 shadow-xl ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className={`border-b border-gray-200 dark:border-gray-700 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
+          <div className={`border-b border-gray-200/30 dark:border-gray-700/30 backdrop-blur-sm ${isCollapsed ? 'p-3' : 'px-6 py-5'}`}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
@@ -167,15 +167,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-xl font-normal text-black dark:text-white playwrite-font">
+                    <h2 className="text-2xl font-medium bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent playwrite-font">
                       OrderFi
                     </h2>
-                    <div className="flex items-center gap-2 mt-1">
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-xs text-gray-800 dark:text-gray-200">
+                    <div className="flex items-center gap-2 mt-2">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-lg shadow-emerald-500/50"></div>
+                      <span className="text-xs font-medium text-gray-600 dark:text-gray-300 bg-gray-100/50 dark:bg-gray-800/50 px-2 py-1 rounded-full backdrop-blur-sm">
                         {currentTime.toLocaleTimeString()}
                       </span>
-                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50"></div>
                     </div>
                   </div>
                 </div>
@@ -205,7 +205,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {/* Collapse Button */}
               <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-8 w-8 p-0 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-9 w-9 p-0 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/20 ${isCollapsed ? 'ml-0' : ''}`}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               </button>
@@ -220,15 +220,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 return (
                   <Link key={item.href} href={item.href}>
                     <button
-                      className={`w-full font-normal transition-colors h-10 flex items-center ${
+                      className={`w-full font-medium transition-all duration-200 h-11 flex items-center ${
                         isCollapsed 
                           ? 'justify-center p-2' 
-                          : 'justify-start text-left px-3'
+                          : 'justify-start text-left px-4'
                       } ${
                         isActive 
-                          ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300" 
-                          : "text-gray-900 dark:text-gray-100 hover:text-black dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
-                      } rounded-lg`}
+                          ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-300 shadow-lg shadow-blue-500/20 border border-blue-200/50 dark:border-blue-700/50" 
+                          : "text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 dark:hover:from-gray-800 dark:hover:to-blue-900/20 hover:shadow-md"
+                      } rounded-xl backdrop-blur-sm`}
                       title={isCollapsed ? item.label : undefined}
                     >
                       <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
@@ -251,22 +251,23 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
 
           {/* AI Assistant Chat Orb - Fixed Position */}
-          <div className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'}`}>
+          <div className={`${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
             <div className="flex items-center justify-center">
               <button
                 onClick={handleChatOpsClick}
-                className={`relative overflow-hidden border-0 shadow-lg transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
-                  isCollapsed ? 'w-8 h-8 p-0' : 'w-full h-10'
+                className={`relative overflow-hidden border-0 shadow-xl transition-all duration-300 ease-out hover:scale-105 active:scale-95 backdrop-blur-sm ${
+                  isCollapsed ? 'w-10 h-10 p-0' : 'w-full h-12'
                 } ${
                   isChatOpen 
-                    ? 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 hover:from-orange-500 hover:via-red-600 hover:to-pink-700' 
-                    : 'bg-gradient-to-br from-orange-500 via-red-600 to-pink-700 hover:from-orange-600 hover:via-red-700 hover:to-pink-800'
+                    ? 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600' 
+                    : 'bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700'
                 }`}
                 style={{
                   background: isChatOpen 
-                    ? 'conic-gradient(from 0deg, #F5A623, #f97316, #ec4899, #F5A623)' 
-                    : 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)',
-                  borderRadius: isCollapsed ? '50%' : '12px'
+                    ? 'conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6)' 
+                    : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%)',
+                  borderRadius: isCollapsed ? '50%' : '16px',
+                  boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3)'
                 }}
               >
                 {/* Animated background effect */}
@@ -321,14 +322,14 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Footer Actions - Fixed to Bottom */}
-          <div className={`mt-auto border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
+          <div className={`mt-auto border-t border-gray-200/30 dark:border-gray-700/30 bg-gradient-to-t from-gray-100/80 to-gray-50/80 dark:from-gray-800/80 dark:to-gray-900/80 backdrop-blur-sm ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
             {!isCollapsed ? (
               <>
                 {/* Wallet Connection Button */}
                 {!isConnected ? (
                   <WalletConnectDialog>
                     <button
-                      className="w-full h-10 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 transition-all duration-300 rounded-lg flex items-center justify-center"
+                      className="w-full h-11 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-xl flex items-center justify-center backdrop-blur-sm shadow-sm hover:shadow-md"
                       disabled={isConnecting}
                     >
                       <Wallet className="h-5 w-5 mr-2" />
@@ -361,10 +362,10 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 
                 {/* Theme Toggle */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-normal text-gray-800 dark:text-gray-200">Theme</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Theme</span>
                   <button
                     onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                    className="h-8 w-8 p-0 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors flex items-center justify-center"
+                    className="h-9 w-9 p-0 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/20"
                   >
                     <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -374,7 +375,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Exit App Button */}
                 <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full text-sm text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg p-2 transition-colors flex items-center justify-center"
+                  className="w-full text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 dark:hover:from-gray-800 dark:hover:to-blue-900/20 rounded-xl p-2 transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
                 >
                   <DoorOpen className="h-4 w-4 mr-2" />
                   Exit App
@@ -386,7 +387,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {!isConnected ? (
                   <WalletConnectDialog>
                     <button
-                      className="w-full h-10 p-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 transition-all duration-300 rounded-lg flex items-center justify-center"
+                      className="w-full h-11 p-2 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-xl flex items-center justify-center backdrop-blur-sm shadow-sm hover:shadow-md"
                       disabled={isConnecting}
                       title="Connect Wallet"
                     >
@@ -402,7 +403,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Collapsed Theme Toggle */}
                 <button
                   onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="w-full h-10 p-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center justify-center"
+                  className="w-full h-11 p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/20"
                   title="Toggle Theme"
                 >
                   <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -412,7 +413,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Collapsed Exit App */}
                 <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full h-10 p-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center justify-center"
+                  className="w-full h-11 p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/20"
                   title="Exit App"
                 >
                   <DoorOpen className="h-5 w-5" />
