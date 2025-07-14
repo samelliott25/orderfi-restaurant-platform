@@ -942,144 +942,13 @@ html, body, #root {
   background-color: #E8F5F5 !important; /* Light Aqua tint */
 }
 
-.bg-blue-100, .bg-blue-200, .bg-blue-300, .bg-blue-400, .bg-blue-500 {
-  background-color: #E8F5F5 !important; /* Light Aqua tint */
-}
+/* Clean universal styles */
 
-.bg-purple-100, .bg-purple-200, .bg-purple-300, .bg-purple-400, .bg-purple-500 {
-  background-color: #FFE8D6 !important; /* Light Orange tint */
-}
+/* Clean theme system */
 
-.bg-orange-100, .bg-orange-200, .bg-orange-300, .bg-orange-400, .bg-orange-500 {
-  background-color: #FFE8D6 !important; /* Light Orange tint */
-}
+/* Remove forced color overrides */
 
-.text-green-600, .text-green-700, .text-green-800 {
-  color: #075956 !important; /* Aqua Green */
-}
-
-.text-blue-600, .text-blue-700, .text-blue-800 {
-  color: #075956 !important; /* Aqua Green */
-}
-
-.text-purple-600, .text-purple-700, .text-purple-800 {
-  color: #FF5B05 !important; /* Bright Orange */
-}
-
-.text-orange-600, .text-orange-700, .text-orange-800 {
-  color: #FF5B05 !important; /* Bright Orange */
-}
-
-/* Universal color palette enforcement */
-* {
-  --tw-bg-opacity: 1 !important;
-}
-
-/* Override all background gradients */
-.bg-gradient-to-br, .bg-gradient-to-r, .bg-gradient-to-l, .bg-gradient-to-t, .bg-gradient-to-b {
-  background-image: linear-gradient(45deg, #FF5B05, #FF8C00) !important;
-}
-
-/* Override dashboard cards specifically */
-.dashboard-card, [class*="dashboard"], .metric-card, [class*="metric"] {
-  background-color: #ffffff !important;
-  border: 1px solid #D3D3D3 !important;
-  color: #343637 !important;
-}
-
-/* Override all colored backgrounds in dashboard */
-.dashboard-card .bg-green-100, 
-.dashboard-card .bg-blue-100, 
-.dashboard-card .bg-purple-100, 
-.dashboard-card .bg-orange-100,
-.metric-card .bg-green-100, 
-.metric-card .bg-blue-100, 
-.metric-card .bg-purple-100, 
-.metric-card .bg-orange-100 {
-  background-color: #E8F5F5 !important; /* Light Aqua tint */
-}
-
-/* Force all main app backgrounds */
-.main, .container, .dashboard, .content, [class*="dashboard"], [class*="main"] {
-  background-color: #D3D3D3 !important; /* Cloud Grey */
-}
-
-/* Override all button backgrounds */
-button, .button, [role="button"] {
-  background-color: #FF5B05 !important; /* Bright Orange */
-  color: #ffffff !important;
-}
-
-button:hover, .button:hover, [role="button"]:hover {
-  background-color: #e04e00 !important;
-}
-
-/* AGGRESSIVE METRIC CARD OVERRIDES */
-.metric-card[style*="background"], 
-.metric-card .bg-green-100,
-.metric-card .bg-blue-100,
-.metric-card .bg-purple-100,
-.metric-card .bg-orange-100,
-.executive-summary .bg-green-100,
-.executive-summary .bg-blue-100,
-.executive-summary .bg-purple-100,
-.executive-summary .bg-orange-100,
-div[class*="bg-green-"],
-div[class*="bg-blue-"],
-div[class*="bg-purple-"],
-div[class*="bg-orange-"] {
-  background-color: #FFE8D6 !important; /* Light Orange tint */
-  border-color: #FF5B05 !important;
-}
-
-/* Force all teal references to use Aqua Green */
-.text-teal-600, .text-teal-400, .text-teal-700 {
-  color: #075956 !important;
-}
-
-/* Force all orange references to use Bright Orange */
-.text-orange-600, .text-orange-400, .text-orange-700 {
-  color: #FF5B05 !important;
-}
-
-/* Override all main backgrounds with Cloud Grey */
-.StandardLayout, .main-content, .dashboard-content, .page-content {
-  background-color: #D3D3D3 !important;
-}
-
-/* Override all gradients */
-.bg-gradient-to-r, .bg-gradient-to-br, .bg-gradient-to-l, .bg-gradient-to-t, .bg-gradient-to-b {
-  background: linear-gradient(45deg, #FF5B05, #FF8C00) !important;
-}
-
-/* Override gradient from classes */
-.from-green-500, .from-blue-500, .from-purple-500, .from-orange-500 {
-  --tw-gradient-from: #FF5B05 !important;
-}
-
-.to-emerald-500, .to-cyan-500, .to-pink-500, .to-yellow-500 {
-  --tw-gradient-to: #FF8C00 !important;
-}
-
-/* Force dark mode styles with higher specificity - using sidebar gray colors */
-html.dark, 
-html.dark body, 
-html.dark #root,
-html.dark .bg-background,
-html.dark .bg-card {
-  background-color: rgb(17, 24, 39) !important; /* gray-900 */
-  color: rgb(255, 255, 255) !important;
-}
-
-html.dark .bg-muted,
-html.dark .bg-secondary {
-  background-color: rgb(31, 41, 55) !important; /* gray-800 */
-}
-
-html.dark .border-border,
-html.dark .border {
-  border-color: rgb(55, 65, 81) !important; /* gray-700 */
-}
+/* Clean dark mode styles */
 
 /* Chat sidebar width adjustment for main content */
 .chat-sidebar-open {
@@ -1094,83 +963,13 @@ html.dark .border {
   overflow-x: hidden !important;
 }
 
-html.light, 
-html.light body, 
-html.light #root,
-html.light .bg-background {
-  background-color: hsl(0 0% 98.8%) !important;
-  color: hsl(240 10% 3.9%) !important;
-}
+/* Clean light mode styles */
 
-/* Ensure text elements follow sidebar gray theme */
-html.dark .text-foreground {
-  color: rgb(255, 255, 255) !important; /* white */
-}
+/* Clean logo effects */
 
-html.dark .text-muted-foreground {
-  color: rgb(156, 163, 175) !important; /* gray-400 */
-}
+/* Clean button styling */
 
-html.dark .text-gray-700 {
-  color: rgb(209, 213, 219) !important; /* gray-300 in dark mode */
-}
-
-html.dark .text-gray-600 {
-  color: rgb(156, 163, 175) !important; /* gray-400 in dark mode */
-}
-
-html.light .text-foreground,
-html.light .text-muted-foreground {
-  color: hsl(240 10% 3.9%) !important;
-}
-
-/* Enhanced gentle glow effect for OrderFi logo in dark mode */
-html.dark .gentle-glow {
-  text-shadow: 
-    0 2px 12px rgba(255, 107, 53, 0.5),
-    0 0 20px rgba(255, 107, 53, 0.3),
-    0 0 30px rgba(255, 107, 53, 0.2);
-}
-
-/* Enhanced hover effect */
-html.dark .gentle-glow:hover {
-  text-shadow: 
-    0 2px 16px rgba(255, 107, 53, 0.6),
-    0 0 25px rgba(255, 107, 53, 0.4),
-    0 0 35px rgba(255, 107, 53, 0.25);
-  transition: text-shadow 0.3s ease;
-}
-
-/* Dark mode button styling - dark background with white text and colorful glow */
-html.dark .dark-mode-button {
-  background: linear-gradient(135deg, hsl(240 10% 15%) 0%, hsl(240 5% 20%) 100%) !important;
-  color: hsl(0 0% 98%) !important;
-  border: 1px solid rgba(255, 107, 53, 0.4) !important;
-  text-shadow: 
-    0 1px 8px rgba(255, 107, 53, 0.6),
-    0 0 15px rgba(255, 20, 147, 0.4),
-    0 0 25px rgba(255, 165, 0, 0.3);
-  box-shadow: 
-    0 4px 15px rgba(255, 107, 53, 0.2),
-    0 0 25px rgba(255, 20, 147, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-}
-
-html.dark .dark-mode-button:hover {
-  background: linear-gradient(135deg, hsl(240 10% 18%) 0%, hsl(240 5% 25%) 100%) !important;
-  border: 1px solid rgba(255, 107, 53, 0.6) !important;
-  color: hsl(0 0% 98%) !important;
-  text-shadow: 
-    0 1px 12px rgba(255, 107, 53, 0.7),
-    0 0 20px rgba(255, 20, 147, 0.5),
-    0 0 30px rgba(255, 165, 0, 0.4);
-  box-shadow: 
-    0 6px 20px rgba(255, 107, 53, 0.3),
-    0 0 35px rgba(255, 20, 147, 0.2),
-    0 0 50px rgba(255, 165, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-  transform: translateY(-1px) !important;
-}
+/* Clean dark mode button styles */
 
 /* Safe area padding for mobile devices */
 .safe-area-pb {
