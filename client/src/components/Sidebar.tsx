@@ -251,7 +251,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
 
           {/* AI Assistant Chat Orb - Fixed Position */}
-          <div className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'} border-t border-white/20`}>
+          <div className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'}`}>
             <div className="flex items-center justify-center">
               <button
                 onClick={handleChatOpsClick}
@@ -337,7 +337,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   </WalletConnectDialog>
                 ) : (
                   <div className="space-y-2">
-                    <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                    <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                       <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
                         <Wallet className="h-4 w-4 text-white" />
                       </div>
@@ -394,7 +394,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </button>
                   </WalletConnectDialog>
                 ) : (
-                  <div className="w-full h-10 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 flex items-center justify-center">
+                  <div className="w-full h-10 bg-green-50 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
                     <Wallet className="h-5 w-5 text-green-600 dark:text-green-400" />
                   </div>
                 )}
