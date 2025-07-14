@@ -139,12 +139,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div className={`flex-shrink-0 h-screen bg-gray-800/95 backdrop-blur-sm border-r border-gray-600 transition-all duration-300 relative z-40 ${
+      <div className={`flex-shrink-0 h-screen bg-white border-r border-gray-200 transition-all duration-300 relative z-40 ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className={`border-b border-gray-600 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
+          <div className={`border-b border-gray-200 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
@@ -167,12 +167,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-xl font-normal text-white playwrite-font">
+                    <h2 className="text-xl font-normal text-gray-800 playwrite-font">
                       OrderFi
                     </h2>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-gray-600">
                         {currentTime.toLocaleTimeString()}
                       </span>
                       <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
@@ -205,7 +205,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {/* Collapse Button */}
               <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-8 w-8 p-0 text-gray-400 hover:text-white hover:bg-gray-700/50 rounded-md transition-colors flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-8 w-8 p-0 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               </button>
@@ -226,9 +226,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           : 'justify-start text-left px-3'
                       } ${
                         isActive 
-                          ? "bg-blue-600/20 text-white border-blue-500/30" 
-                          : "text-gray-300 hover:text-white hover:bg-gray-700/50 border-gray-600/50"
-                      } rounded-lg backdrop-blur-sm border`}
+                          ? "bg-blue-50 text-blue-700 border-blue-200" 
+                          : "text-gray-700 hover:text-gray-900 hover:bg-gray-50 border-gray-200"
+                      } rounded-lg border`}
                       title={isCollapsed ? item.label : undefined}
                     >
                       <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
