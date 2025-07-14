@@ -214,7 +214,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           
           {/* Navigation Items */}
           <div className={`flex-1 overflow-y-auto ${isCollapsed ? 'p-2' : 'p-4'}`}>
-            <nav className="space-y-1">
+            <nav className="space-y-1 sidebar-nav">
               {menuItems.map((item) => {
                 const isActive = location === item.href;
                 return (
@@ -226,8 +226,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           : 'justify-start text-left px-3'
                       } ${
                         isActive 
-                          ? "bg-white/20 text-white border-white/30" 
-                          : "text-white/70 hover:text-white hover:bg-white/10 border-white/10"
+                          ? "active" 
+                          : ""
                       } rounded-lg backdrop-blur-sm border`}
                       title={isCollapsed ? item.label : undefined}
                     >
@@ -321,7 +321,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Footer Actions - Fixed to Bottom */}
-          <div className={`mt-auto border-t border-white/20 bg-white/5 backdrop-blur-sm ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'}`}>
+          <div className={`mt-auto border-t border-white/20 bg-white/5 backdrop-blur-sm ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
             {!isCollapsed ? (
               <>
                 {/* Wallet Connection Button */}
