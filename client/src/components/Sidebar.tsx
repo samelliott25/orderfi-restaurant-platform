@@ -205,7 +205,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {/* Collapse Button */}
               <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-200/50 rounded-md transition-colors ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-8 w-8 p-0 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors ${isCollapsed ? 'ml-0' : ''}`}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               </button>
@@ -224,9 +224,11 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                         isCollapsed 
                           ? 'justify-center p-2' 
                           : 'justify-start text-left px-3'
-                      } glass-sidebar-button ${
-                        isActive ? 'active' : ''
-                      }`}
+                      } ${
+                        isActive 
+                          ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg" 
+                          : "text-white/90 hover:text-white hover:bg-white/10"
+                      } rounded-lg backdrop-blur-sm border border-white/20`}
                       title={isCollapsed ? item.label : undefined}
                     >
                       <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
@@ -319,14 +321,14 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Footer Actions - Fixed to Bottom */}
-          <div className={`mt-auto border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'}`}>
+          <div className={`mt-auto border-t border-white/20 bg-white/5 backdrop-blur-sm ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'}`}>
             {!isCollapsed ? (
               <>
                 {/* Wallet Connection Button */}
                 {!isConnected ? (
                   <WalletConnectDialog>
                     <button
-                      className="w-full h-10 glass-sidebar-button flex items-center justify-center"
+                      className="w-full h-10 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300 rounded-lg flex items-center justify-center"
                       disabled={isConnecting}
                     >
                       <Wallet className="h-5 w-5 mr-2" />
@@ -347,55 +349,49 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           {walletInfo?.address?.slice(0, 6)}...{walletInfo?.address?.slice(-4)}
                         </p>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <button
                         onClick={disconnect}
-                        className="h-8 w-8 p-0 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-200 hover:bg-green-100 dark:hover:bg-green-900/40"
+                        className="h-8 w-8 p-0 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-200 hover:bg-green-100 dark:hover:bg-green-900/40 rounded-md transition-colors"
                       >
                         <LogOut className="h-4 w-4" />
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 )}
                 
                 {/* Theme Toggle */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-normal text-gray-700 dark:text-gray-300">Theme</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
+                  <span className="text-sm font-normal text-white/70">Theme</span>
+                  <button
                     onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                    className="h-8 w-8 p-0 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                    className="h-8 w-8 p-0 text-white/70 hover:text-white hover:bg-white/10 rounded-md transition-colors"
                   >
                     <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                  </Button>
+                  </button>
                 </div>
 
                 {/* Exit App Button */}
-                <Button 
-                  variant="ghost" 
-                  size="sm"
+                <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="w-full text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg p-2 transition-colors flex items-center justify-center"
                 >
                   <DoorOpen className="h-4 w-4 mr-2" />
                   Exit App
-                </Button>
+                </button>
               </>
             ) : (
               <>
                 {/* Collapsed Wallet Status */}
                 {!isConnected ? (
                   <WalletConnectDialog>
-                    <Button
-                      className="w-full h-10 p-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300"
+                    <button
+                      className="w-full h-10 p-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300 rounded-lg"
                       disabled={isConnecting}
                       title="Connect Wallet"
                     >
                       <Wallet className="h-5 w-5" />
-                    </Button>
+                    </button>
                   </WalletConnectDialog>
                 ) : (
                   <div className="w-full h-10 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 flex items-center justify-center">
@@ -404,27 +400,23 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 )}
                 
                 {/* Collapsed Theme Toggle */}
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <button
                   onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="w-full h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                  className="w-full h-10 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
                   title="Toggle Theme"
                 >
                   <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                   <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                </Button>
+                </button>
 
                 {/* Collapsed Exit App */}
-                <Button 
-                  variant="ghost" 
-                  size="sm"
+                <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full h-10 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="w-full h-10 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
                   title="Exit App"
                 >
                   <DoorOpen className="h-5 w-5" />
-                </Button>
+                </button>
               </>
             )}
           </div>
