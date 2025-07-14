@@ -363,6 +363,40 @@ body {
     inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* Sidebar Light Grey Button System */
+.glass-sidebar-button {
+  background: rgba(211, 211, 211, 0.3);
+  border: 1px solid rgba(211, 211, 211, 0.4);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #4a5568;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.glass-sidebar-button:hover {
+  background: rgba(211, 211, 211, 0.5);
+  border-color: rgba(211, 211, 211, 0.6);
+  color: #2d3748;
+  transform: translateY(-1px);
+}
+
+.glass-sidebar-button.active {
+  background: rgba(211, 211, 211, 0.7);
+  border-color: rgba(211, 211, 211, 0.8);
+  color: #1a202c;
+  font-weight: 600;
+}
+
+.glass-sidebar-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
 /* Advanced Dark Mode */
 .dark .glass-card-premium,
 .dark .glass-metric-premium {
@@ -381,6 +415,29 @@ body {
   background: rgba(52, 54, 55, 0.1);
   border-color: rgba(255, 255, 255, 0.1);
   color: var(--cloud-grey);
+}
+
+.dark .glass-sidebar-button {
+  background: rgba(211, 211, 211, 0.15);
+  border-color: rgba(211, 211, 211, 0.2);
+  color: #cbd5e0;
+}
+
+.dark .glass-sidebar-button:hover {
+  background: rgba(211, 211, 211, 0.25);
+  border-color: rgba(211, 211, 211, 0.3);
+  color: #e2e8f0;
+}
+
+.dark .glass-sidebar-button.active {
+  background: rgba(211, 211, 211, 0.4);
+  border-color: rgba(211, 211, 211, 0.5);
+  color: #f7fafc;
+}
+
+.dark .glass-sidebar-container {
+  background: rgba(52, 54, 55, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Responsive Design */

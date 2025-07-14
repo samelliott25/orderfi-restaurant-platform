@@ -139,12 +139,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div className={`flex-shrink-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 relative z-40 ${
+      <div className={`flex-shrink-0 h-screen glass-card-premium border-r border-white/20 transition-all duration-300 relative z-40 ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className={`border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
+          <div className={`border-b border-white/20 glass-card-premium ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
@@ -167,7 +167,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-xl font-normal text-gray-900 dark:text-white playwrite-font">
+                    <h2 className="text-xl font-normal glass-text-premium playwrite-font" data-text="OrderFi">
                       OrderFi
                     </h2>
                     <div className="flex items-center gap-2 mt-1">
@@ -203,14 +203,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               )}
               
               {/* Collapse Button */}
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:bg-muted ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-8 w-8 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-200/50 rounded-md transition-colors ${isCollapsed ? 'ml-0' : ''}`}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-              </Button>
+              </button>
             </div>
           </div>
           
@@ -221,19 +219,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 const isActive = location === item.href;
                 return (
                   <Link key={item.href} href={item.href}>
-                    <Button
-                      variant={isActive ? "default" : "ghost"}
-                      className={`w-full font-normal transition-colors h-10 ${
+                    <button
+                      className={`w-full font-normal transition-colors h-10 flex items-center ${
                         isCollapsed 
                           ? 'justify-center p-2' 
                           : 'justify-start text-left px-3'
-                      } ${
-                        isActive 
-                          ? "bg-[hsl(215,50%,68%)] text-white hover:bg-[hsl(215,50%,63%)]" 
-                          : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                      } glass-sidebar-button ${
+                        isActive ? 'active' : ''
                       }`}
                       title={isCollapsed ? item.label : undefined}
-
                     >
                       <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
                       {!isCollapsed && <span className="font-normal">{item.label}</span>}
@@ -247,7 +241,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           {metrics.lowStock}
                         </Badge>
                       )}
-                    </Button>
+                    </button>
                   </Link>
                 );
               })}
@@ -255,13 +249,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
 
           {/* AI Assistant Chat Orb - Fixed Position */}
-          <div className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'} border-t border-gray-200 dark:border-gray-800`}>
+          <div className={`${isCollapsed ? 'px-2 py-3' : 'px-4 py-3'} border-t border-white/20`}>
             <div className="flex items-center justify-center">
-              <Button
+              <button
                 onClick={handleChatOpsClick}
-                size={isCollapsed ? "sm" : "lg"}
                 className={`relative overflow-hidden border-0 shadow-lg transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
-                  isCollapsed ? 'w-8 h-8 p-0' : 'w-full'
+                  isCollapsed ? 'w-8 h-8 p-0' : 'w-full h-10'
                 } ${
                   isChatOpen 
                     ? 'bg-gradient-to-br from-orange-400 via-red-500 to-pink-600 hover:from-orange-500 hover:via-red-600 hover:to-pink-700' 
@@ -321,7 +314,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   )}
                 </div>
-              </Button>
+              </button>
             </div>
           </div>
           
@@ -332,14 +325,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Wallet Connection Button */}
                 {!isConnected ? (
                   <WalletConnectDialog>
-                    <Button
-                      className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white shadow-lg transition-all duration-300"
-                      size="lg"
+                    <button
+                      className="w-full h-10 glass-sidebar-button flex items-center justify-center"
                       disabled={isConnecting}
                     >
                       <Wallet className="h-5 w-5 mr-2" />
                       {isConnecting ? 'Connecting...' : 'Connect Wallet'}
-                    </Button>
+                    </button>
                   </WalletConnectDialog>
                 ) : (
                   <div className="space-y-2">
