@@ -139,12 +139,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div className={`flex-shrink-0 h-screen bg-white border-r border-gray-200 transition-all duration-300 relative z-40 ${
+      <div className={`flex-shrink-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 relative z-40 ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className={`border-b border-gray-200 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
+          <div className={`border-b border-gray-200 dark:border-gray-700 ${isCollapsed ? 'p-3' : 'px-6 py-4'}`}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
@@ -167,12 +167,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-xl font-normal text-black playwrite-font">
+                    <h2 className="text-xl font-normal text-black dark:text-white playwrite-font">
                       OrderFi
                     </h2>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-xs text-gray-800">
+                      <span className="text-xs text-gray-800 dark:text-gray-200">
                         {currentTime.toLocaleTimeString()}
                       </span>
                       <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
@@ -205,7 +205,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {/* Collapse Button */}
               <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-8 w-8 p-0 text-gray-800 hover:text-black hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-8 w-8 p-0 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               </button>
@@ -226,8 +226,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           : 'justify-start text-left px-3'
                       } ${
                         isActive 
-                          ? "bg-blue-50 text-blue-700" 
-                          : "text-gray-900 hover:text-black hover:bg-gray-50"
+                          ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300" 
+                          : "text-gray-900 dark:text-gray-100 hover:text-black dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
                       } rounded-lg`}
                       title={isCollapsed ? item.label : undefined}
                     >
@@ -321,14 +321,14 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Footer Actions - Fixed to Bottom */}
-          <div className={`mt-auto border-t border-gray-200 bg-gray-50 ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
+          <div className={`mt-auto border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
             {!isCollapsed ? (
               <>
                 {/* Wallet Connection Button */}
                 {!isConnected ? (
                   <WalletConnectDialog>
                     <button
-                      className="w-full h-10 bg-gray-100 hover:bg-gray-200 text-gray-900 transition-all duration-300 rounded-lg flex items-center justify-center"
+                      className="w-full h-10 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 transition-all duration-300 rounded-lg flex items-center justify-center"
                       disabled={isConnecting}
                     >
                       <Wallet className="h-5 w-5 mr-2" />
@@ -361,10 +361,10 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 
                 {/* Theme Toggle */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-normal text-gray-800">Theme</span>
+                  <span className="text-sm font-normal text-gray-800 dark:text-gray-200">Theme</span>
                   <button
                     onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                    className="h-8 w-8 p-0 text-gray-800 hover:text-black hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
+                    className="h-8 w-8 p-0 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors flex items-center justify-center"
                   >
                     <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -374,7 +374,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Exit App Button */}
                 <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full text-sm text-gray-800 hover:text-black hover:bg-gray-100 rounded-lg p-2 transition-colors flex items-center justify-center"
+                  className="w-full text-sm text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg p-2 transition-colors flex items-center justify-center"
                 >
                   <DoorOpen className="h-4 w-4 mr-2" />
                   Exit App
@@ -386,7 +386,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {!isConnected ? (
                   <WalletConnectDialog>
                     <button
-                      className="w-full h-10 p-2 bg-gray-100 hover:bg-gray-200 text-gray-900 transition-all duration-300 rounded-lg flex items-center justify-center"
+                      className="w-full h-10 p-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 transition-all duration-300 rounded-lg flex items-center justify-center"
                       disabled={isConnecting}
                       title="Connect Wallet"
                     >
@@ -402,7 +402,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Collapsed Theme Toggle */}
                 <button
                   onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="w-full h-10 p-2 text-gray-800 hover:text-black hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-center"
+                  className="w-full h-10 p-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center justify-center"
                   title="Toggle Theme"
                 >
                   <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -412,7 +412,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Collapsed Exit App */}
                 <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full h-10 p-2 text-gray-800 hover:text-black hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-center"
+                  className="w-full h-10 p-2 text-gray-800 dark:text-gray-200 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex items-center justify-center"
                   title="Exit App"
                 >
                   <DoorOpen className="h-5 w-5" />
