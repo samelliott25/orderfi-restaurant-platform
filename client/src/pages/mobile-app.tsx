@@ -120,32 +120,55 @@ export default function MobileAppPage() {
     : menuItems.filter(item => item.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      {/* Smartphone Container */}
-      <div className="relative w-full max-w-sm mx-auto">
-        {/* Phone Frame */}
-        <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
-          {/* Screen */}
-          <div className="bg-white rounded-[2.5rem] overflow-hidden relative">
-            {/* Status Bar */}
-            <div className="bg-black text-white text-xs px-6 py-2 flex justify-between items-center">
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-2 bg-white rounded-sm"></div>
-                <div className="w-4 h-2 bg-white rounded-sm opacity-60"></div>
-                <div className="w-4 h-2 bg-white rounded-sm opacity-30"></div>
-              </div>
-              <div className="text-white font-medium">9:41</div>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-2 bg-white rounded-sm"></div>
-                <div className="w-1 h-1 bg-white rounded-full"></div>
-                <div className="w-6 h-3 border border-white rounded-sm">
-                  <div className="w-4 h-2 bg-white rounded-sm m-0.5"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center p-6">
+      {/* iPhone 15 Pro Mockup Container */}
+      <div className="relative">
+        {/* iPhone Frame with Titanium Finish */}
+        <div className="relative w-[375px] h-[812px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[60px] p-[8px] shadow-2xl border-[3px] border-gray-600">
+          {/* Volume Buttons */}
+          <div className="absolute left-[-3px] top-[120px] w-[3px] h-[28px] bg-gray-600 rounded-l-sm"></div>
+          <div className="absolute left-[-3px] top-[160px] w-[3px] h-[28px] bg-gray-600 rounded-l-sm"></div>
+          <div className="absolute left-[-3px] top-[200px] w-[3px] h-[56px] bg-gray-600 rounded-l-sm"></div>
+          
+          {/* Power Button */}
+          <div className="absolute right-[-3px] top-[180px] w-[3px] h-[56px] bg-gray-600 rounded-r-sm"></div>
+          
+          {/* Inner Frame */}
+          <div className="relative w-full h-full bg-black rounded-[52px] overflow-hidden">
+            {/* Dynamic Island */}
+            <div className="absolute top-[14px] left-1/2 transform -translate-x-1/2 w-[126px] h-[37px] bg-black rounded-[19px] z-20 shadow-inner border border-gray-800"></div>
+            
+            {/* Screen Content */}
+            <div className="absolute inset-0 bg-black rounded-[52px] overflow-hidden">
+              {/* Status Bar */}
+              <div className="absolute top-0 left-0 right-0 h-[54px] bg-black z-10">
+                <div className="flex justify-between items-center px-8 pt-[16px] text-white text-sm font-medium">
+                  <div className="flex items-center gap-1">
+                    <div className="flex gap-1">
+                      <div className="w-1 h-1 bg-white rounded-full"></div>
+                      <div className="w-1 h-1 bg-white rounded-full opacity-60"></div>
+                      <div className="w-1 h-1 bg-white rounded-full opacity-30"></div>
+                    </div>
+                    <span className="ml-2 text-xs">Verizon</span>
+                  </div>
+                  <div className="text-white font-semibold">9:41</div>
+                  <div className="flex items-center gap-1">
+                    <svg className="w-4 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+                    </svg>
+                    <svg className="w-4 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M17.778 8.222c-4.296-4.296-11.26-4.296-15.556 0A1 1 0 01.808 6.808c5.076-5.077 13.308-5.077 18.384 0a1 1 0 01-1.414 1.414zM14.95 11.05a7 7 0 00-9.9 0 1 1 0 01-1.414-1.414 9 9 0 0112.728 0 1 1 0 01-1.414 1.414zM12.12 13.88a3 3 0 00-4.24 0 1 1 0 01-1.415-1.415 5 5 0 017.07 0 1 1 0 01-1.415 1.415zM9 16a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd"/>
+                    </svg>
+                    <div className="w-6 h-3 border border-white rounded-sm relative">
+                      <div className="absolute inset-0.5 bg-white rounded-sm"></div>
+                      <div className="absolute -right-0.5 top-1/2 transform -translate-y-1/2 w-0.5 h-1 bg-white rounded-full"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            {/* App Content */}
-            <div className="h-[600px] overflow-y-auto pb-20" style={{ backgroundColor: '#e8f5e9' }}>
+              
+              {/* App Content with proper offset for status bar */}
+              <div className="absolute top-[54px] left-0 right-0 bottom-0 overflow-y-auto" style={{ backgroundColor: '#e8f5e9' }}>
               {/* Header - Mamo Style */}
               <div className="p-4">
         <div className="flex items-center justify-between mb-8">
@@ -312,38 +335,39 @@ export default function MobileAppPage() {
         </div>
       </div>
 
-              {/* Bottom Navigation */}
-              <div className="absolute bottom-0 left-0 right-0 border-t bg-background border-border">
-                <div className="flex justify-around py-2">
-                  {[
-                    { id: 'home', icon: Home, label: 'Home' },
-                    { id: 'search', icon: Search, label: 'Search' },
-                    { id: 'favorites', icon: Heart, label: 'Favorites' },
-                    { id: 'profile', icon: User, label: 'Profile' }
-                  ].map((tab) => (
-                    <Button
-                      key={tab.id}
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`flex flex-col items-center p-2 ${
-                        activeTab === tab.id ? 'text-primary' : 'text-gray-400'
-                      }`}
-                    >
-                      <tab.icon className="w-5 h-5 mb-1" />
-                      <span className="text-xs">{tab.label}</span>
-                    </Button>
-                  ))}
+                {/* Bottom Navigation */}
+                <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200">
+                  <div className="flex justify-around py-2 px-4">
+                    {[
+                      { id: 'home', icon: Home, label: 'Home' },
+                      { id: 'search', icon: Search, label: 'Search' },
+                      { id: 'favorites', icon: Heart, label: 'Favorites' },
+                      { id: 'profile', icon: User, label: 'Profile' }
+                    ].map((tab) => (
+                      <Button
+                        key={tab.id}
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`flex flex-col items-center p-2 ${
+                          activeTab === tab.id ? 'text-blue-600' : 'text-gray-400'
+                        }`}
+                      >
+                        <tab.icon className="w-5 h-5 mb-1" />
+                        <span className="text-xs">{tab.label}</span>
+                      </Button>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Collapsible Chat */}
-              <CollapsibleChat className="bottom-24 right-4" />
+                {/* Collapsible Chat */}
+                <CollapsibleChat className="bottom-24 right-4" />
+              </div>
             </div>
             
             {/* Home Indicator */}
-            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2">
-              <div className="w-32 h-1 bg-gray-300 rounded-full"></div>
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-30">
+              <div className="w-32 h-1 bg-white rounded-full opacity-60"></div>
             </div>
           </div>
         </div>
