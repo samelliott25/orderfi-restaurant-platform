@@ -984,7 +984,7 @@ h3, .text-xl {
 }
 
 .gradient-bg-secondary {
-  background: linear-gradient(135deg, #8b795e 0%, #6d5d4a 50%, #5a4d3a 100%);
+  background: linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--muted-foreground)) 50%, hsl(var(--border)) 100%);
 }
 
 .gradient-bg-card {
@@ -992,19 +992,19 @@ h3, .text-xl {
 }
 
 .gradient-bg-hero {
-  background: linear-gradient(135deg, #ffe6b0 0%, #f5d992 25%, #e8cc7a 50%, #8b795e 100%);
+  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 50%, hsl(var(--border)) 100%);
 }
 
 /* Subtle pattern overlays */
 .pattern-dots {
-  background-image: radial-gradient(circle, rgba(139, 121, 94, 0.1) 1px, transparent 1px);
+  background-image: radial-gradient(circle, hsl(var(--border) / 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 .pattern-grid {
   background-image: 
-    linear-gradient(rgba(139, 121, 94, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139, 121, 94, 0.05) 1px, transparent 1px);
+    linear-gradient(hsl(var(--border) / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--border) / 0.05) 1px, transparent 1px);
   background-size: 30px 30px;
 }
 
@@ -1035,15 +1035,15 @@ html, body, #root {
 
 /* Glass morphism effects - white theme */
 .glass {
-  background: rgba(255, 255, 255, 0.8);
+  background: hsl(var(--background) / 0.8);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(139, 121, 94, 0.1);
+  border: 1px solid hsl(var(--border) / 0.1);
 }
 
 .glass-dark {
-  background: rgba(255, 255, 255, 0.9);
+  background: hsl(var(--background) / 0.9);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(139, 121, 94, 0.15);
+  border: 1px solid hsl(var(--border) / 0.15);
 }
 
 /* Animated gradients - REMOVED for clean white background */
@@ -1053,14 +1053,14 @@ html, body, #root {
   box-shadow: 
     0 4px 6px -1px rgba(0, 0, 0, 0.05),
     0 2px 4px -1px rgba(0, 0, 0, 0.03),
-    0 0 0 1px rgba(139, 121, 94, 0.08);
+    0 0 0 1px hsl(var(--border) / 0.08);
 }
 
 .shadow-modern-lg {
   box-shadow: 
     0 20px 25px -5px rgba(0, 0, 0, 0.08),
     0 10px 10px -5px rgba(0, 0, 0, 0.04),
-    0 0 0 1px rgba(139, 121, 94, 0.1);
+    0 0 0 1px hsl(var(--border) / 0.1);
 }
 
 /* Hover effects */
@@ -1077,7 +1077,7 @@ html, body, #root {
 
 /* Modern border styles */
 .border-modern {
-  border: 1px solid rgba(139, 121, 94, 0.15);
+  border: 1px solid hsl(var(--border) / 0.15);
   border-radius: 12px;
 }
 
@@ -1191,7 +1191,7 @@ html.light [role="menu"] {
 
 /* OrderFi Logo Video Styles */
 .orderfi-logo-video {
-  filter: drop-shadow(0 4px 8px rgba(139, 121, 94, 0.2));
+  filter: drop-shadow(0 4px 8px hsl(var(--border) / 0.2));
   max-height: 200px;
 }
 
@@ -1213,18 +1213,18 @@ html.light [role="menu"] {
   background-color: #ffffff !important;
   background: #ffffff !important;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4) !important;
-  border: 1px solid rgba(139, 121, 94, 0.2) !important;
+  border: 1px solid hsl(var(--border) / 0.2) !important;
   opacity: 1 !important;
 }
 
 .border-glow {
-  border: 1px solid rgba(139, 121, 94, 0.2);
-  box-shadow: 0 0 20px rgba(139, 121, 94, 0.08);
+  border: 1px solid hsl(var(--border) / 0.2);
+  box-shadow: 0 0 20px hsl(var(--border) / 0.08);
 }
 
 /* Typography enhancements */
 .text-gradient {
-  background: linear-gradient(135deg, #8b795e 0%, #6d5d4a 100%);
+  background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--muted-foreground)) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1251,8 +1251,8 @@ html.light [role="menu"] {
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 20% 50%, rgba(139, 121, 94, 0.02) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 230, 176, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, hsl(var(--muted) / 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, hsl(var(--muted) / 0.03) 0%, transparent 50%);
   pointer-events: none;
   z-index: -1;
 }
@@ -1548,7 +1548,7 @@ html {
   content: '';
   position: absolute;
   inset: -4px;
-  background: linear-gradient(45deg, #8b795e, #a08d6b);
+  background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
   border-radius: 12px;
   z-index: -1;
   animation: pulse-highlight 2s ease-in-out infinite;
@@ -2400,9 +2400,9 @@ html {
 
   .ai-message {
     border-radius: 18px 18px 18px 4px;
-    background-color: #ffe6b0;
-    border: 2px solid #5A8A8A;
-    color: #8b795e;
+    background-color: hsl(var(--muted));
+    border: 2px solid hsl(var(--border));
+    color: hsl(var(--foreground));
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
 
