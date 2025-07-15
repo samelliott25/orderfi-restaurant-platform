@@ -49,9 +49,16 @@ interface Table {
   notes?: string;
 }
 
-export default function TableManagement() {
+interface TableManagementProps {
+  isAddTableOpen?: boolean;
+  onAddTableOpenChange?: (open: boolean) => void;
+}
+
+export default function TableManagement({ 
+  isAddTableOpen = false, 
+  onAddTableOpenChange = () => {} 
+}: TableManagementProps) {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
-  const [isAddTableOpen, setIsAddTableOpen] = useState(false);
   const [newTable, setNewTable] = useState({
     number: '',
     capacity: 4,
@@ -77,7 +84,7 @@ export default function TableManagement() {
         title: "Table Added",
         description: "New table has been added successfully.",
       });
-      setIsAddTableOpen(false);
+      onAddTableOpenChange(false);
       setNewTable({ number: '', capacity: 4, section: 'main' });
       queryClient.invalidateQueries({ queryKey: ['/api/tables'] });
     },
@@ -207,15 +214,8 @@ export default function TableManagement() {
 
   return (
     <div className="space-y-6">
-      {/* Action Bar */}
-      <div className="flex items-center justify-end">
-        <Dialog open={isAddTableOpen} onOpenChange={setIsAddTableOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Table
-            </Button>
-          </DialogTrigger>
+      {/* Add Table Dialog */}
+      <Dialog open={isAddTableOpen} onOpenChange={onAddTableOpenChange}>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Add New Table</DialogTitle>
@@ -269,7 +269,6 @@ export default function TableManagement() {
             </div>
           </DialogContent>
         </Dialog>
-      </div>
 
       {/* Tables by Section */}
       {Object.entries(tablesBySection).map(([section, sectionTables]) => (
