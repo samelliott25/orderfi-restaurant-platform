@@ -315,7 +315,7 @@ export default function PaymentsPage() {
                 <div className="relative flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-green-600 dark:text-green-400">Total Revenue</p>
-                    <p className="text-2xl font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">{formatCurrency(currentSummary.totalRevenue)}</p>
+                    <p className="text-sm font-semibold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">{formatCurrency(currentSummary.totalRevenue)}</p>
                     <p className="text-xs text-green-600 font-medium">+12.5% from last month</p>
                   </div>
                   <div className="p-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500">
@@ -330,7 +330,7 @@ export default function PaymentsPage() {
                 <div className="relative flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Crypto Revenue</p>
-                    <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">{formatCurrency(currentSummary.cryptoRevenue)}</p>
+                    <p className="text-sm font-semibold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">{formatCurrency(currentSummary.cryptoRevenue)}</p>
                     <p className="text-xs text-orange-600 font-medium">+8.2% from last month</p>
                   </div>
                   <div className="p-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500">
@@ -345,7 +345,7 @@ export default function PaymentsPage() {
                 <div className="relative flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Stripe Revenue</p>
-                    <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">{formatCurrency(currentSummary.stripeRevenue)}</p>
+                    <p className="text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">{formatCurrency(currentSummary.stripeRevenue)}</p>
                     <p className="text-xs text-blue-600 font-medium">+15.3% from last month</p>
                   </div>
                   <div className="p-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">

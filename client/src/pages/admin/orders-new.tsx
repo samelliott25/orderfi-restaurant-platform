@@ -66,7 +66,7 @@ export default function AdminOrdersPage() {
             <div className="relative flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Active Orders</p>
-                <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">12</p>
+                <p className="text-sm font-semibold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">12</p>
                 <p className="text-xs text-muted-foreground">Currently being prepared</p>
               </div>
               <div className="p-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500">
@@ -80,7 +80,7 @@ export default function AdminOrdersPage() {
             <div className="relative flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Ready for Pickup</p>
-                <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">3</p>
+                <p className="text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">3</p>
                 <p className="text-xs text-muted-foreground">Waiting for customers</p>
               </div>
               <div className="p-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
@@ -94,7 +94,7 @@ export default function AdminOrdersPage() {
             <div className="relative flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-green-600 dark:text-green-400">Completed Today</p>
-                <p className="text-2xl font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">47</p>
+                <p className="text-sm font-semibold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent">47</p>
                 <p className="text-xs text-muted-foreground">Orders fulfilled</p>
               </div>
               <div className="p-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500">
@@ -111,7 +111,7 @@ export default function AdminOrdersPage() {
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-lg">Order #{order.id}</CardTitle>
+                    <CardTitle className="text-sm">Order #{order.id}</CardTitle>
                     <p className="text-sm text-muted-foreground">{order.customerName} • Table {order.table}</p>
                   </div>
                   <Badge variant={order.status === 'preparing' ? 'default' : order.status === 'ready' ? 'secondary' : 'outline'}>

@@ -96,7 +96,7 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
         <div className="relative flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total SKUs</p>
-            <p className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">{totalSKUs}</p>
+            <p className="text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">{totalSKUs}</p>
             <p className="text-xs text-muted-foreground">Total Value: ${totalValue.toLocaleString()}</p>
           </div>
           <div className="p-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
@@ -110,7 +110,7 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
         <div className="relative flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Below Threshold</p>
-            <p className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">{belowThreshold}</p>
+            <p className="text-sm font-semibold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">{belowThreshold}</p>
             <p className="text-xs text-red-600 font-medium">{((belowThreshold / totalSKUs) * 100).toFixed(1)}% of inventory</p>
           </div>
           <div className="p-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500">
@@ -124,7 +124,7 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
         <div className="relative flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Pending POs</p>
-            <p className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{pendingPOs}</p>
+            <p className="text-sm font-semibold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{pendingPOs}</p>
             <p className="text-xs text-muted-foreground">Awaiting approval</p>
           </div>
           <div className="p-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
@@ -138,7 +138,7 @@ const StockSummaryCards = ({ stockItems }: { stockItems: StockItem[] }) => {
         <div className="relative flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-red-600 dark:text-red-400">Overdue Invoices</p>
-            <p className="text-2xl font-bold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">{overdueInvoices}</p>
+            <p className="text-sm font-semibold bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">{overdueInvoices}</p>
             <p className="text-xs text-red-600 font-medium">Requires attention</p>
           </div>
           <div className="p-2 rounded-full bg-gradient-to-r from-red-500 to-pink-500">
@@ -192,7 +192,7 @@ const ChatOpsPanel = ({ onCommand, isExpanded, onToggle }: {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Bot className="h-5 w-5 text-blue-600" />
-                <CardTitle className="text-lg">Stock ChatOps</CardTitle>
+                <CardTitle className="text-sm">Stock ChatOps</CardTitle>
               </div>
               <Button variant="ghost" size="sm" onClick={onToggle}>
                 <X className="h-4 w-4" />
@@ -783,11 +783,11 @@ export default function StockPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label>Current Stock</Label>
-                  <p className="text-lg font-semibold">{selectedItem?.onHand} units</p>
+                  <p className="text-sm font-semibold">{selectedItem?.onHand} units</p>
                 </div>
                 <div>
                   <Label>Reorder Quantity</Label>
-                  <p className="text-lg font-semibold">{selectedItem?.reorderQty} units</p>
+                  <p className="text-sm font-semibold">{selectedItem?.reorderQty} units</p>
                 </div>
               </div>
               <div className="flex justify-end gap-2">

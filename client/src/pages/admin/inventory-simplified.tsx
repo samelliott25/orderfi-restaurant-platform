@@ -466,7 +466,7 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
                   <Label>Margin</Label>
                   <div className="flex items-center gap-2 mt-1">
                     <Percent size={16} className="text-muted-foreground" />
-                    <span className="text-lg font-semibold">{calculateMargin()}%</span>
+                    <span className="text-sm font-semibold">{calculateMargin()}%</span>
                   </div>
                 </div>
               </div>
@@ -1297,7 +1297,7 @@ export default function SimplifiedInventoryPage() {
         subtitle="Manage menu items, track inventory, and monitor stock levels"
       >
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Loading inventory...</div>
+          <div className="text-sm">Loading inventory...</div>
         </div>
       </StandardLayout>
     );
@@ -1457,7 +1457,7 @@ export default function SimplifiedInventoryPage() {
                     <Package className="w-4 h-4 text-orange-600" />
                     <span className="text-xs text-muted-foreground">Total Items</span>
                   </div>
-                  <div className="text-lg font-normal text-foreground">{totalItems}</div>
+                  <div className="text-sm font-normal text-foreground">{totalItems}</div>
                   <div className="text-xs text-muted-foreground">Across all categories</div>
                 </CardContent>
               </Card>
@@ -1467,7 +1467,7 @@ export default function SimplifiedInventoryPage() {
                     <CheckCircle className="w-4 h-4 text-green-600" />
                     <span className="text-xs text-muted-foreground">Available Items</span>
                   </div>
-                  <div className="text-lg font-normal text-foreground">{availableItems}</div>
+                  <div className="text-sm font-normal text-foreground">{availableItems}</div>
                   <div className="text-xs text-muted-foreground">Ready for orders</div>
                 </CardContent>
               </Card>
@@ -1477,7 +1477,7 @@ export default function SimplifiedInventoryPage() {
                     <AlertTriangle className="w-4 h-4 text-yellow-600" />
                     <span className="text-xs text-muted-foreground">Low Stock Items</span>
                   </div>
-                  <div className="text-lg font-normal text-foreground">{lowStockItems}</div>
+                  <div className="text-sm font-normal text-foreground">{lowStockItems}</div>
                   <div className="text-xs text-muted-foreground">Need attention</div>
                 </CardContent>
               </Card>
@@ -1487,7 +1487,7 @@ export default function SimplifiedInventoryPage() {
                     <DollarSign className="w-4 h-4 text-blue-600" />
                     <span className="text-xs text-muted-foreground">Inventory Value</span>
                   </div>
-                  <div className="text-lg font-normal text-foreground">${totalValue.toFixed(2)}</div>
+                  <div className="text-sm font-normal text-foreground">${totalValue.toFixed(2)}</div>
                   <div className="text-xs text-muted-foreground">Total stock value</div>
                 </CardContent>
               </Card>
@@ -1544,7 +1544,7 @@ export default function SimplifiedInventoryPage() {
               <Card key={category} className="hover:shadow-md transition-shadow border-l-4 border-l-orange-500">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
+                    <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
                       <Package size={18} />
                       {category}
                     </CardTitle>
@@ -1707,7 +1707,7 @@ export default function SimplifiedInventoryPage() {
               <Card>
                 <CardContent className="text-center py-12">
                   <RefreshCw className="h-8 w-8 mx-auto mb-4 text-gray-400 animate-spin" />
-                  <h3 className="text-lg font-medium mb-2">Loading menu items...</h3>
+                  <h3 className="text-sm font-medium mb-2">Loading menu items...</h3>
                   <p className="text-gray-500">Please wait while we fetch your inventory data</p>
                 </CardContent>
               </Card>
@@ -1718,7 +1718,7 @@ export default function SimplifiedInventoryPage() {
               <Card>
                 <CardContent className="text-center py-12">
                   <AlertTriangle className="h-8 w-8 mx-auto mb-4 text-red-400" />
-                  <h3 className="text-lg font-medium mb-2">Error loading menu items</h3>
+                  <h3 className="text-sm font-medium mb-2">Error loading menu items</h3>
                   <p className="text-gray-500 mb-4">There was a problem loading your inventory data</p>
                   <Button onClick={() => window.location.reload()}>
                     Try Again
@@ -1759,7 +1759,7 @@ export default function SimplifiedInventoryPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center justify-between mb-2">
-                        <div className="text-lg font-bold text-foreground">
+                        <div className="text-sm font-semibold text-foreground">
                           ${parseFloat(item.price).toFixed(2)}
                         </div>
                         <Badge variant="outline" className={`${stockStatus.color} border-current`}>

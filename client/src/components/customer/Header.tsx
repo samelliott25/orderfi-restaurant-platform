@@ -34,9 +34,7 @@ export function Header({
       <div className="flex items-center justify-between px-6 py-4">
         {/* Left: Venue info */}
         <div className="flex items-center space-x-4">
-          <div className="h-12 w-12 kleurvorm-primary rounded-full flex items-center justify-center shadow-lg">
-            <span className="text-white font-bold text-xl">🍽️</span>
-          </div>
+          
           <div className="flex flex-col">
             <h1 className="font-semibold text-sm playwrite-font orderfi-gradient-text">
               {venueName}
