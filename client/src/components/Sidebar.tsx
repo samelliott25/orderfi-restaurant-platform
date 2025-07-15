@@ -58,7 +58,7 @@ const menuItems = [
   { icon: Settings2, label: "Settings", href: "/settings" },
   { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
   { icon: Zap, label: "Grok AI", href: "/grok-test" },
-  { icon: Palette, label: "2026 Design", href: "/design-2026" },
+  { icon: Palette, label: "Theme Analyzer", href: "/theme-analyzer" },
   { icon: Layers, label: "Creative Layout", href: "/creative-showcase" },
   { icon: Sparkles, label: "Moving Background", href: "/moving-background-demo" },
 ];

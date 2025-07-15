@@ -867,6 +867,88 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // Grok theme analysis endpoint
+  app.post('/api/grok/analyze-palette', async (req, res) => {
+    try {
+      const { imageDescription, currentThemeIssues } = req.body;
+      
+      const openai = new OpenAI({ 
+        baseURL: "https://api.x.ai/v1", 
+        apiKey: process.env.XAI_API_KEY 
+      });
+
+      const response = await openai.chat.completions.create({
+        model: "grok-2-1212",
+        messages: [
+          {
+            role: "system",
+            content: `You are an expert UI/UX designer and color theorist specializing in modern application themes. 
+            You analyze color palettes and generate comprehensive CSS theme systems for applications.
+            
+            Focus on:
+            1. Color harmony and accessibility (WCAG AA compliance)
+            2. Semantic color token assignment
+            3. Light/dark mode variants
+            4. CSS variable definitions in HSL format
+            5. Component-specific color applications
+            6. Gradient combinations
+            7. Brand consistency
+            8. Restaurant industry best practices
+            
+            Return a well-structured JSON response with complete theme system.`
+          },
+          {
+            role: "user",
+            content: `Analyze this Kleurvörm color palette for OrderFi restaurant management application:
+            
+            Color Palette Analysis: The palette shows a sophisticated gradient system with:
+            - Primary band: Deep navy/black → Royal blue → Purple/magenta → Light purple → Pale mint → Coral orange
+            - Secondary band: Light lavender → Purple gradient → Bright red/coral → Dark navy → Orange gradient
+            - Distribution: 40% primary, 40% secondary, 10% accent, 10% neutral
+            
+            Current Theme Issues: ${currentThemeIssues}
+            
+            Generate a complete CSS theme system with:
+            1. Root CSS variables for light and dark modes (use HSL format)
+            2. Semantic color assignments (primary, secondary, accent, background, foreground, etc.)
+            3. Component-specific color applications
+            4. Gradient definitions for modern UI
+            5. Accessibility considerations (contrast ratios)
+            6. Implementation guidelines
+            
+            Create a sophisticated, modern theme that:
+            - Uses the purple-blue gradient as primary colors
+            - Incorporates the coral/orange as accent colors
+            - Maintains excellent readability
+            - Provides proper contrast ratios
+            - Supports both light and dark modes
+            - Feels premium and modern for restaurant management
+            
+            Return as JSON with complete CSS variables and implementation guide.`
+          }
+        ],
+        max_tokens: 4000,
+        temperature: 0.7
+      });
+
+      const analysis = response.choices[0].message.content;
+      
+      res.json({
+        success: true,
+        analysis,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error) {
+      console.error('Grok theme analysis error:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to analyze color palette',
+        details: error.message
+      });
+    }
+  });
+
   // Register customer chat routes
   const customerChatRouter = await import("./routes/customer-chat.js");
   app.use("/api/customer-chat", customerChatRouter.default);

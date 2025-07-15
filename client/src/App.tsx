@@ -61,6 +61,7 @@ import CreativeShowcase from "@/pages/creative-showcase";
 import GrokTest from "@/pages/grok-test";
 import VoiceFirstDemo from "@/pages/voice-first-demo";
 import MovingBackgroundDemo from "@/pages/moving-background-demo";
+import ThemeAnalyzer from "@/pages/theme-analyzer";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -190,6 +191,9 @@ function Router() {
         
         {/* Moving Background Demo */}
         <Route path="/moving-background-demo" component={MovingBackgroundDemo} />
+        
+        {/* Theme Analyzer */}
+        <Route path="/theme-analyzer" component={ThemeAnalyzer} />
         
         <Route component={NotFound} />
       </Switch>

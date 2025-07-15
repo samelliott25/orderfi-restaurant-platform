@@ -1650,27 +1650,144 @@ html {
   border-radius: 25px 20px 30px 15px;
 }
 
+/* Kleurvörm Light Mode Theme */
+:root {
+  --background: 0 0% 100%; /* Pure white background */
+  --foreground: 240 10% 3.9%; /* Dark text */
+  --muted: 220 14.3% 95.9%; /* Light muted background */
+  --muted-foreground: 220 8.9% 46.1%; /* Medium muted text */
+  --popover: 0 0% 100%; /* White popover */
+  --popover-foreground: 240 10% 3.9%; /* Dark text */
+  --card: 0 0% 100%; /* White card */
+  --card-foreground: 240 10% 3.9%; /* Dark text */
+  --border: 220 13% 91%; /* Light border */
+  --input: 220 13% 91%; /* Light input */
+  --primary: 262 83% 58%; /* Purple from Kleurvörm palette */
+  --primary-foreground: 0 0% 98%; /* White text */
+  --secondary: 210 40% 98%; /* Light secondary */
+  --secondary-foreground: 222.2 84% 4.9%; /* Dark text */
+  --accent: 14 100% 57%; /* Coral orange from Kleurvörm palette */
+  --accent-foreground: 0 0% 98%; /* White text */
+  --destructive: 0 84.2% 60.2%; /* Red destructive */
+  --destructive-foreground: 210 40% 98%; /* Light text */
+  --ring: 262 83% 58%; /* Purple ring */
+  --radius: 0.5rem;
+}
+
+/* Kleurvörm Dark Mode Theme */
 .dark {
-  /* Clean Dark Mode Theme */
-  --background: 15 23 42; /* Slate-800 dark background */
-  --foreground: 248 250 252; /* Slate-50 light text */
-  --muted: 30 41 59; /* Slate-700 dark muted */
-  --muted-foreground: 148 163 184; /* Slate-400 light muted text */
-  --popover: 30 41 59; /* Slate-700 dark popover */
-  --popover-foreground: 248 250 252; /* Slate-50 light text */
-  --card: 30 41 59; /* Slate-700 dark card */
-  --card-foreground: 248 250 252; /* Slate-50 light text */
-  --border: 51 65 85; /* Slate-600 dark border */
-  --input: 30 41 59; /* Slate-700 dark input */
-  --primary: 24 146 234; /* Blue primary */
-  --primary-foreground: 255 255 255; /* White text */
-  --secondary: 51 65 85; /* Slate-600 dark secondary */
-  --secondary-foreground: 248 250 252; /* Slate-50 light text */
-  --accent: 51 65 85; /* Slate-600 dark accent */
-  --accent-foreground: 248 250 252; /* Slate-50 light text */
-  --destructive: 239 68 68; /* Red-500 destructive */
-  --destructive-foreground: 255 255 255; /* White text */
-  --ring: 24 146 234; /* Blue ring */
+  --background: 240 10% 3.9%; /* Dark background */
+  --foreground: 0 0% 98%; /* Light text */
+  --muted: 217 32.6% 17.5%; /* Dark muted background */
+  --muted-foreground: 215 20.2% 65.1%; /* Light muted text */
+  --popover: 240 10% 3.9%; /* Dark popover */
+  --popover-foreground: 0 0% 98%; /* Light text */
+  --card: 217 32.6% 17.5%; /* Dark card */
+  --card-foreground: 0 0% 98%; /* Light text */
+  --border: 217 32.6% 17.5%; /* Dark border */
+  --input: 217 32.6% 17.5%; /* Dark input */
+  --primary: 262 83% 58%; /* Purple from Kleurvörm palette */
+  --primary-foreground: 0 0% 98%; /* Light text */
+  --secondary: 217 32.6% 17.5%; /* Dark secondary */
+  --secondary-foreground: 0 0% 98%; /* Light text */
+  --accent: 14 100% 57%; /* Coral orange from Kleurvörm palette */
+  --accent-foreground: 0 0% 98%; /* Light text */
+  --destructive: 0 62.8% 30.6%; /* Dark red destructive */
+  --destructive-foreground: 0 0% 98%; /* Light text */
+  --ring: 262 83% 58%; /* Purple ring */
+}
+
+/* Kleurvörm Gradient System */
+.kleurvorm-primary {
+  background: linear-gradient(135deg, 
+    hsl(240, 100%, 15%) 0%, 
+    hsl(248, 100%, 50%) 25%, 
+    hsl(310, 100%, 60%) 50%, 
+    hsl(320, 100%, 70%) 75%, 
+    hsl(180, 100%, 85%) 87.5%, 
+    hsl(14, 100%, 57%) 100%
+  );
+}
+
+.kleurvorm-secondary {
+  background: linear-gradient(135deg, 
+    hsl(280, 100%, 85%) 0%, 
+    hsl(310, 100%, 60%) 40%, 
+    hsl(0, 100%, 60%) 60%, 
+    hsl(240, 100%, 15%) 80%, 
+    hsl(14, 100%, 57%) 100%
+  );
+}
+
+.kleurvorm-accent {
+  background: linear-gradient(135deg, 
+    hsl(14, 100%, 57%) 0%, 
+    hsl(25, 100%, 60%) 100%
+  );
+}
+
+/* Enhanced OrderFi Components with Kleurvörm Theme */
+.orderfi-card {
+  @apply bg-card border backdrop-blur-sm;
+  background: linear-gradient(135deg, 
+    hsl(var(--card)) 0%, 
+    hsl(var(--card)) 50%, 
+    hsla(var(--primary), 0.02) 100%
+  );
+  border-radius: 12px;
+  border-color: hsl(var(--border) / 0.5);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.orderfi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.orderfi-button-primary {
+  @apply bg-primary text-primary-foreground;
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--accent)) 100%
+  );
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.orderfi-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(var(--primary), 0.3);
+}
+
+.orderfi-gradient-text {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--accent)) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+/* Professional glassmorphism effects */
+.orderfi-glass {
+  @apply backdrop-blur-md border rounded-lg;
+  background: hsla(var(--background), 0.85);
+  border-color: hsl(var(--border) / 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.orderfi-glass-card {
+  @apply orderfi-glass p-6;
+  background: linear-gradient(135deg, 
+    hsla(var(--background), 0.9) 0%, 
+    hsla(var(--background), 0.7) 100%
+  );
+  border-color: hsl(var(--border) / 0.5);
 }
 
 @layer base {
