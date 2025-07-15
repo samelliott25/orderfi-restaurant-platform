@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import { useTheme } from './theme-provider';
 
 const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+  const { theme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const lastScrollY = useRef(0);
   const velocity = useRef(0);
@@ -37,17 +39,19 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
 
     // Draw function
     const draw = () => {
-      // Clear canvas with clean white background
-      ctx.fillStyle = '#ffffff'; // Clean white background
+      // Use theme-aware background color
+      const backgroundColor = theme === 'dark' ? '#0a0a0a' : '#ffffff'; // Pure black for dark mode, white for light mode
+      ctx.fillStyle = backgroundColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw stars with glow
+      // Draw stars with theme-aware colors
+      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(148, 163, 184, '; // White stars in dark mode, gray in light mode
       stars.forEach(star => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(148, 163, 184, ${star.opacity * 0.3})`; // Subtle gray stars
+        ctx.fillStyle = `${starColor}${star.opacity * 0.3})`; // Theme-aware star color
         ctx.shadowBlur = 2; // Minimal glow
-        ctx.shadowColor = 'rgba(148, 163, 184, 0.2)';
+        ctx.shadowColor = `${starColor}0.2)`;
         ctx.fill();
       });
     };
@@ -107,7 +111,7 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [theme]); // Re-render when theme changes
 
   return (
     <div className="relative w-full h-full overflow-hidden">
