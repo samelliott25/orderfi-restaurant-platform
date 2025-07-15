@@ -125,28 +125,28 @@ export default function MobileAppPage() {
       title="Mobile App Preview" 
       subtitle="View and test the customer mobile ordering interface"
     >
-      <div className="flex items-center justify-center p-6 min-h-full">
-        {/* iPhone 15 Pro Mockup Container */}
-        <div className="relative">
-        {/* iPhone Frame with Titanium Finish */}
-        <div className="relative w-[375px] h-[812px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[60px] p-[8px] shadow-2xl border-[3px] border-gray-600">
+      <div className="flex items-center justify-center h-full w-full p-4">
+        {/* iPhone 15 Pro Mockup Container - Full Size */}
+        <div className="relative h-full w-full max-w-[500px] flex items-center justify-center">
+        {/* iPhone Frame with Titanium Finish - Scaled to fill */}
+        <div className="relative w-full h-full max-w-[500px] max-h-[900px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[60px] p-[12px] shadow-2xl border-[4px] border-gray-600" style={{ aspectRatio: '375/812' }}>
           {/* Volume Buttons */}
-          <div className="absolute left-[-3px] top-[120px] w-[3px] h-[28px] bg-gray-600 rounded-l-sm"></div>
-          <div className="absolute left-[-3px] top-[160px] w-[3px] h-[28px] bg-gray-600 rounded-l-sm"></div>
-          <div className="absolute left-[-3px] top-[200px] w-[3px] h-[56px] bg-gray-600 rounded-l-sm"></div>
+          <div className="absolute left-[-4px] top-[15%] w-[4px] h-[8%] bg-gray-600 rounded-l-sm"></div>
+          <div className="absolute left-[-4px] top-[25%] w-[4px] h-[8%] bg-gray-600 rounded-l-sm"></div>
+          <div className="absolute left-[-4px] top-[35%] w-[4px] h-[12%] bg-gray-600 rounded-l-sm"></div>
           
           {/* Power Button */}
-          <div className="absolute right-[-3px] top-[180px] w-[3px] h-[56px] bg-gray-600 rounded-r-sm"></div>
+          <div className="absolute right-[-4px] top-[30%] w-[4px] h-[12%] bg-gray-600 rounded-r-sm"></div>
           
           {/* Inner Frame */}
           <div className="relative w-full h-full bg-black rounded-[52px] overflow-hidden">
             {/* Dynamic Island */}
-            <div className="absolute top-[14px] left-1/2 transform -translate-x-1/2 w-[126px] h-[37px] bg-black rounded-[19px] z-20 shadow-inner border border-gray-800"></div>
+            <div className="absolute top-[2%] left-1/2 transform -translate-x-1/2 w-[35%] h-[5%] bg-black rounded-[19px] z-20 shadow-inner border border-gray-800"></div>
             
             {/* Screen Content */}
             <div className="absolute inset-0 bg-black rounded-[52px] overflow-hidden">
               {/* Status Bar */}
-              <div className="absolute top-0 left-0 right-0 h-[54px] bg-black z-10">
+              <div className="absolute top-0 left-0 right-0 h-[7%] bg-black z-10">
                 <div className="flex justify-between items-center px-8 pt-[16px] text-white text-sm font-medium">
                   <div className="flex items-center gap-1">
                     <div className="flex gap-1">
@@ -173,7 +173,7 @@ export default function MobileAppPage() {
               </div>
               
               {/* App Content with proper offset for status bar */}
-              <div className="absolute top-[54px] left-0 right-0 bottom-0 overflow-y-auto bg-white">
+              <div className="absolute top-[7%] left-0 right-0 bottom-0 overflow-y-auto bg-white">
                 {/* Header - OrderFi Theme */}
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-8">
@@ -365,19 +365,20 @@ export default function MobileAppPage() {
                   </div>
                 </div>
 
-                {/* Collapsible Chat */}
-                <CollapsibleChat className="bottom-24 right-4" />
               </div>
             </div>
             
             {/* Home Indicator */}
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-30">
-              <div className="w-32 h-1 bg-white rounded-full opacity-60"></div>
+            <div className="absolute bottom-[1%] left-1/2 transform -translate-x-1/2 z-30">
+              <div className="w-[35%] h-[0.5%] bg-white rounded-full opacity-60"></div>
             </div>
           </div>
         </div>
         </div>
       </div>
+      
+      {/* Collapsible Chat - Outside the phone */}
+      <CollapsibleChat className="bottom-8 right-8" />
     </StandardLayout>
   );
 }
