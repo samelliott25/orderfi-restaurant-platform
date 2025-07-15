@@ -866,9 +866,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                 className="relative"
                 style={{
                   borderRadius: '22px',
-                  background: 'linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4, #3b82f6)',
-                  backgroundSize: '300% 100%',
-                  animation: 'gradientShift 3s ease infinite',
+                  background: '#3b82f6',
                   padding: '1px'
                 }}
               >

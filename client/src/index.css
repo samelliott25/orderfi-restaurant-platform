@@ -282,18 +282,7 @@ h3, .text-xl {
   }
 }
 
-/* Gradient border animation for chat input */
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+/* Gradient border animation for chat input - REMOVED for clean white background */
 
 .animate-page-turn {
   animation: page-turn 1.2s ease-in-out forwards;
@@ -381,23 +370,7 @@ h3, .text-xl {
   animation: fade-in-delayed 1.5s ease-out forwards;
 }
 
-/* Animated gradient background */
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animated-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease-in-out infinite;
-}
+/* Animated gradient background - REMOVED for clean white background */
 
 /* Light flare animations */
 @keyframes flare-glow {
@@ -1072,18 +1045,7 @@ html, body, #root {
   border: 1px solid rgba(139, 121, 94, 0.15);
 }
 
-/* Animated gradients */
-.animated-gradient {
-  background: linear-gradient(-45deg, #ffe6b0, #f5d992, #e8cc7a, #8b795e);
-  background-size: 400% 400%;
-  animation: gradientShift 8s ease infinite;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+/* Animated gradients - REMOVED for clean white background */
 
 /* Modern card shadows - white theme */
 .shadow-modern {
