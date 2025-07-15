@@ -2,8 +2,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 
 import { StandardLayout } from "@/components/StandardLayout";
+import { ItemCard } from "@/components/customer/ItemCard";
+import { MenuGrid } from "@/components/customer/MenuGrid";
+import { CartDrawer } from "@/components/customer/CartDrawer";
+import { CustomerAiChat } from "@/components/CustomerAiChat";
 
 import { 
   Search, 
@@ -17,7 +23,9 @@ import {
   MapPin,
   Bell,
   ShoppingCart,
-  Utensils
+  Utensils,
+  Plus,
+  MessageCircle
 } from "lucide-react";
 
 interface MenuItem {
@@ -25,18 +33,42 @@ interface MenuItem {
   name: string;
   description: string;
   price: number;
-  image: string;
+  image_url?: string;
   category: string;
-  rating: number;
-  deliveryTime: string;
-  tags: string[];
+  rating?: number;
+  deliveryTime?: string;
+  tags?: string[];
+}
+
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  modifiers: Array<{ name: string; price_delta: number }>;
+}
+
+interface Modifier {
+  name: string;
+  price_delta: number;
 }
 
 export default function MobileAppPage() {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('home');
-  const [selectedCategory, setSelectedCategory] = useState('popular');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
-  const menuItems: MenuItem[] = [
+  // Get menu items from API
+  const { data: apiMenuItems = [], isLoading } = useQuery({
+    queryKey: ['/api/menu-items', 1],
+  });
+
+  // Sample menu items for demo
+  const menuItems: MenuItem[] = apiMenuItems.length > 0 ? apiMenuItems : [
     {
       id: 1,
       name: "Pepperoni Pizza",
@@ -106,19 +138,57 @@ export default function MobileAppPage() {
   ];
 
   const categories = [
-    { id: 'popular', name: 'Popular', icon: '🔥' },
-    { id: 'pizza', name: 'Pizza', icon: '🍕' },
-    { id: 'burger', name: 'Burgers', icon: '🍔' },
-    { id: 'healthy', name: 'Healthy', icon: '🥗' },
-    { id: 'dessert', name: 'Desserts', icon: '🍰' }
+    { id: 'all', name: 'All', icon: '🍽️' },
+    { id: 'starters', name: 'Starters', icon: '🥗' },
+    { id: 'mains', name: 'Mains', icon: '🍖' },
+    { id: 'desserts', name: 'Desserts', icon: '🍰' },
+    { id: 'drinks', name: 'Drinks', icon: '🍹' }
   ];
 
-  const featuredItems = menuItems.filter(item => item.tags.includes('Popular') || item.tags.includes('Bestseller'));
-  const filteredItems = selectedCategory === 'popular' 
-    ? featuredItems
-    : selectedCategory === 'healthy'
-    ? menuItems.filter(item => item.tags.includes('Healthy') || item.category === 'salad')
-    : menuItems.filter(item => item.category === selectedCategory);
+  const formatPrice = (price: number) => {
+    return `$${price.toFixed(2)}`;
+  };
+
+  const handleAddToCart = (item: MenuItem, modifiers: Modifier[] = [], quantity: number = 1) => {
+    const newItem: CartItem = {
+      id: Date.now(),
+      name: item.name,
+      price: item.price,
+      quantity,
+      modifiers
+    };
+    setCart(prev => [...prev, newItem]);
+    toast({
+      title: "Added to cart",
+      description: `${item.name} has been added to your order`,
+    });
+  };
+
+  const handleUpdateQuantity = (itemId: number, quantity: number) => {
+    if (quantity === 0) {
+      setCart(prev => prev.filter(item => item.id !== itemId));
+    } else {
+      setCart(prev => prev.map(item => 
+        item.id === itemId ? { ...item, quantity } : item
+      ));
+    }
+  };
+
+  const handleRemoveItem = (itemId: number) => {
+    setCart(prev => prev.filter(item => item.id !== itemId));
+  };
+
+  const handleCheckout = () => {
+    toast({
+      title: "Order placed!",
+      description: "Your order has been sent to the kitchen",
+    });
+    setCart([]);
+    setIsCartOpen(false);
+  };
+
+  const cartItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   return (
     <StandardLayout 
@@ -174,208 +244,113 @@ export default function MobileAppPage() {
               
               {/* App Content with proper offset for status bar */}
               <div className="absolute top-[7%] left-0 right-0 bottom-0 overflow-y-auto bg-white">
-                {/* Header - OrderFi Theme */}
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="w-10 h-10 rounded-full kleurvorm-primary flex items-center justify-center">
-                      <span className="text-white font-bold text-lg playwrite-font">O</span>
-                    </div>
+                {/* Header */}
+                <div className="sticky top-0 z-10 bg-white border-b border-gray-200 p-4">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full kleurvorm-secondary flex items-center justify-center">
-                        <Bell className="w-4 h-4 text-white" />
+                      <div className="w-10 h-10 rounded-full kleurvorm-primary flex items-center justify-center">
+                        <span className="text-white font-bold text-lg playwrite-font">O</span>
                       </div>
-                      <div className="w-8 h-8 rounded-full kleurvorm-accent flex items-center justify-center">
-                        <Heart className="w-4 h-4 text-white" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Hero Section */}
-                  <div className="mb-8">
-                    <h1 className="text-4xl font-bold orderfi-gradient-text mb-2 playwrite-font" style={{ lineHeight: '1.1' }}>
-                      Hi! I'm OrderFi.
-                    </h1>
-                    <p className="text-lg text-muted-foreground mb-6">
-                      Smart with food.<br />
-                      Easy on the taste buds.
-                    </p>
-                    <button className="kleurvorm-pill-button text-white px-6 py-3 rounded-full font-semibold">
-                      Get started!
-                    </button>
-                  </div>
-
-                  {/* Description */}
-                  <div className="mb-8">
-                    <p className="text-muted-foreground leading-relaxed">
-                      OrderFi helps you order,<br />
-                      pay, and enjoy<br />
-                      your food – step by<br />
-                      step, without the wait.
-                    </p>
-                  </div>
-                </div>
-
-                {/* How OrderFi Works */}
-                <div className="px-4 mb-6">
-                  <h2 className="text-2xl font-bold orderfi-gradient-text mb-6 playwrite-font">How OrderFi works:</h2>
-                  
-                  <div className="space-y-4">
-                    {/* Step 1 - Kleurvörm Card */}
-                    <div className="kleurvorm-card p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <span className="text-sm text-muted-foreground font-medium">Step 1</span>
-                        <div className="w-8 h-8 rounded-full kleurvorm-primary flex items-center justify-center">
-                          <span className="text-white text-sm">✓</span>
-                        </div>
-                      </div>
-                      <div className="mb-4">
-                        <div className="w-8 h-8 border-2 border-primary rounded-lg flex items-center justify-center mb-3">
-                          <Search className="w-4 h-4 text-primary" />
-                        </div>
-                        <h3 className="text-xl font-semibold text-foreground">
-                          Browse our menu
-                        </h3>
+                      <div>
+                        <h1 className="font-bold text-lg playwrite-font">OrderFi</h1>
+                        <p className="text-sm text-muted-foreground">Smart Restaurant</p>
                       </div>
                     </div>
-
-                    {/* Step 2 - Kleurvörm Card */}
-                    <div className="kleurvorm-card p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <span className="text-sm text-muted-foreground font-medium">Step 2</span>
-                        <div className="w-8 h-8 rounded-full kleurvorm-secondary flex items-center justify-center">
-                          <span className="text-white text-sm">✓</span>
-                        </div>
-                      </div>
-                      <div className="mb-4">
-                        <div className="w-8 h-8 border-2 border-secondary rounded-lg flex items-center justify-center mb-3">
-                          <ShoppingCart className="w-4 h-4 text-secondary" />
-                        </div>
-                        <h3 className="text-xl font-semibold text-foreground">
-                          Add to cart
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* Step 3 - Kleurvörm Card */}
-                    <div className="kleurvorm-card p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <span className="text-sm text-muted-foreground font-medium">Step 3</span>
-                        <div className="w-8 h-8 rounded-full kleurvorm-accent flex items-center justify-center">
-                          <span className="text-white text-sm">✓</span>
-                        </div>
-                      </div>
-                      <div className="mb-4">
-                        <div className="w-8 h-8 border-2 border-accent rounded-lg flex items-center justify-center mb-3">
-                          <Utensils className="w-4 h-4 text-accent" />
-                        </div>
-                        <h3 className="text-xl font-semibold text-foreground">
-                          Enjoy your meal
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Menu Preview Cards */}
-                <div className="p-4 space-y-4">
-                  <h3 className="text-xl font-semibold orderfi-gradient-text mb-4 playwrite-font">Popular dishes</h3>
-                  
-                  {/* Menu Item Cards with Kleurvörm Theme */}
-                  <div className="kleurvorm-card p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 kleurvorm-primary rounded-full flex items-center justify-center">
-                        <span className="text-2xl">🍔</span>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-foreground">Burgers</h3>
-                        <p className="text-sm text-muted-foreground">Fresh, juicy, delicious</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="kleurvorm-card p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 kleurvorm-secondary rounded-full flex items-center justify-center">
-                        <span className="text-2xl">🍕</span>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-foreground">Pizza</h3>
-                        <p className="text-sm text-muted-foreground">Wood-fired perfection</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="kleurvorm-card p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 kleurvorm-accent rounded-full flex items-center justify-center">
-                        <span className="text-2xl">🥗</span>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-foreground">Salads</h3>
-                        <p className="text-sm text-muted-foreground">Fresh and healthy</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* CTA Section */}
-                <div className="p-4 mb-8">
-                  <div className="kleurvorm-card p-6 text-center">
-                    <div className="w-16 h-16 kleurvorm-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-3xl text-white playwrite-font">O</span>
-                    </div>
-                    <p className="text-muted-foreground text-sm mb-6">
-                      OrderFi helps you track, order, and<br />
-                      enjoy your food – step by<br />
-                      step, without the stress.
-                    </p>
-                    <div className="flex gap-3 justify-center">
-                      <button className="kleurvorm-pill-button text-white px-6 py-3 rounded-full font-semibold">
-                        Connect Menu
-                      </button>
-                      <button className="kleurvorm-pill-button text-white px-6 py-3 rounded-full font-semibold">
-                        Get started!
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom Navigation */}
-                <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200">
-                  <div className="flex justify-around py-2 px-4">
-                    {[
-                      { id: 'home', icon: Home, label: 'Home' },
-                      { id: 'search', icon: Search, label: 'Search' },
-                      { id: 'favorites', icon: Heart, label: 'Favorites' },
-                      { id: 'profile', icon: User, label: 'Profile' }
-                    ].map((tab) => (
-                      <Button
-                        key={tab.id}
-                        variant="ghost"
+                    <div className="flex items-center gap-2">
+                      <Button 
+                        variant="outline" 
                         size="sm"
-                        onClick={() => setActiveTab(tab.id)}
-                        className={`flex flex-col items-center p-2 ${
-                          activeTab === tab.id ? 'text-blue-600' : 'text-gray-400'
+                        onClick={() => setIsChatOpen(true)}
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setIsCartOpen(true)}
+                        className="relative"
+                      >
+                        <ShoppingCart className="w-4 h-4" />
+                        {cartItemsCount > 0 && (
+                          <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
+                            {cartItemsCount}
+                          </Badge>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  {/* Search Bar */}
+                  <div className="mt-4 relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input
+                      type="text"
+                      placeholder="Search menu..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Category Tabs */}
+                <div className="sticky top-[140px] z-10 bg-white border-b border-gray-200 p-4">
+                  <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                    {categories.map(category => (
+                      <button
+                        key={category.id}
+                        onClick={() => setSelectedCategory(category.id)}
+                        className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                          selectedCategory === category.id
+                            ? 'bg-orange-500 text-white'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                       >
-                        <tab.icon className="w-5 h-5 mb-1" />
-                        <span className="text-xs">{tab.label}</span>
-                      </Button>
+                        <span className="mr-2">{category.icon}</span>
+                        {category.name}
+                      </button>
                     ))}
                   </div>
                 </div>
 
+                {/* Menu Items */}
+                <div className="p-4">
+                  {isLoading ? (
+                    <div className="text-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto"></div>
+                      <p className="mt-2 text-muted-foreground">Loading menu...</p>
+                    </div>
+                  ) : (
+                    <MenuGrid 
+                      items={menuItems}
+                      onAddToCart={handleAddToCart}
+                      searchQuery={searchQuery}
+                      activeCategory={selectedCategory}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-            
-            {/* Home Indicator */}
-            <div className="absolute bottom-[1%] left-1/2 transform -translate-x-1/2 z-30">
-              <div className="w-[35%] h-[0.5%] bg-white rounded-full opacity-60"></div>
             </div>
           </div>
         </div>
         </div>
       </div>
+      
+      {/* Cart Drawer */}
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cart}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+        onCheckout={handleCheckout}
+      />
+
+      {/* AI Chat */}
+      <CustomerAiChat
+        isOpen={isChatOpen}
+        onToggle={() => setIsChatOpen(!isChatOpen)}
+      />
       
     </StandardLayout>
   );
