@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { Clock, ChefHat, AlertCircle, CheckCircle2, X, Utensils, Wifi, WifiOff, Timer } from 'lucide-react';
-import { Sidebar } from '@/components/Sidebar';
+import StandardLayout from '@/components/StandardLayout';
 
 interface Order {
   id: number;
@@ -240,39 +240,29 @@ export default function KDS() {
   const activeOrders = statusOrder.flatMap(status => groupedOrders[status] || []);
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="fixed left-0 top-0 h-full z-50">
-        <Sidebar />
-      </div>
-      <div className="flex-1 p-6 space-y-6 ml-0 md:ml-64">
+    <StandardLayout title="Kitchen Display System" subtitle="Real-time Order Management">
+      <div className="space-y-6">
+        {/* Status Bar */}
         <div className="relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-xl">
           <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
           <div className="relative flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full">
-                <ChefHat className="w-7 h-7 text-white" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-                  Kitchen Display System
-                </h1>
-                <div className="flex items-center space-x-4 mt-2">
-                  <p className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
-                    <Clock className="w-4 h-4 mr-1" />
-                    {currentTime.toLocaleTimeString()}
-                  </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
-                    <Utensils className="w-4 h-4 mr-1" />
-                    {orders.length} active orders
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    {connectionStatus === 'connected' ? (
-                      <div className="flex items-center space-x-1 text-green-600">
-                        <Wifi className="w-4 h-4" />
-                        <span className="text-sm font-medium">Real-time</span>
-                      </div>
-                    ) : connectionStatus === 'connecting' ? (
-                      <div className="flex items-center space-x-1 text-yellow-600">
+              <p className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
+                <Clock className="w-4 h-4 mr-1" />
+                {currentTime.toLocaleTimeString()}
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
+                <Utensils className="w-4 h-4 mr-1" />
+                {orders.length} active orders
+              </p>
+              <div className="flex items-center space-x-2">
+                {connectionStatus === 'connected' ? (
+                  <div className="flex items-center space-x-1 text-green-600">
+                    <Wifi className="w-4 h-4" />
+                    <span className="text-sm font-medium">Real-time</span>
+                  </div>
+                ) : connectionStatus === 'connecting' ? (
+                  <div className="flex items-center space-x-1 text-yellow-600">
                         <Timer className="w-4 h-4 animate-spin" />
                         <span className="text-sm font-medium">Connecting...</span>
                       </div>
@@ -413,6 +403,6 @@ export default function KDS() {
           </div>
         )}
       </div>
-    </div>
+    </StandardLayout>
   );
 }
