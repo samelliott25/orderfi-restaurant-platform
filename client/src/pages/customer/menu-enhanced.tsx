@@ -12,7 +12,7 @@ import { VoiceFirstOrchestrator } from '@/components/voice/VoiceFirstOrchestrato
 import { AIPersonalizationEngine } from '@/components/ai/AIPersonalizationEngine';
 import { NudgeEngine } from '@/components/ai/NudgeEngine';
 import { SpatialVoiceNav } from '@/components/SpatialVoiceNav';
-import { GestureZones } from '@/components/GestureZones';
+
 import MovingTexturedBackground from '@/components/MovingTexturedBackground';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -57,7 +57,7 @@ export default function EnhancedCustomerMenu() {
   const [recognition, setRecognition] = useState<any>(null);
   const [currentTranscript, setCurrentTranscript] = useState('');
   const [interimTranscript, setInterimTranscript] = useState('');
-  const [gestureEvent, setGestureEvent] = useState<string>('');
+
   const [spatialPosition, setSpatialPosition] = useState<any>(null);
   const [isVoiceFirstMode, setIsVoiceFirstMode] = useState(false);
   const [personalizationResult, setPersonalizationResult] = useState<any>(null);
@@ -361,89 +361,7 @@ export default function EnhancedCustomerMenu() {
     setNudgeResults(nudges);
   }, []);
 
-  // Gesture recognition handler
-  const handleGestureRecognized = (gesture: any) => {
-    setGestureEvent(`${gesture.type} ${gesture.direction || ''} gesture detected`);
-    console.log('Gesture recognized:', gesture);
-    
-    // Handle different gesture types
-    switch (gesture.type) {
-      case 'swipe':
-        if (gesture.direction === 'left') {
-          // Quick add first visible item
-          const firstItem = filteredItems[0];
-          if (firstItem) {
-            handleQuickAdd(firstItem);
-          }
-        } else if (gesture.direction === 'right') {
-          // Open cart
-          setIsCartOpen(true);
-        } else if (gesture.direction === 'up') {
-          // Navigate to previous category
-          const currentIndex = categories.findIndex(cat => cat.id === selectedCategory);
-          if (currentIndex > 0) {
-            setSelectedCategory(categories[currentIndex - 1].id);
-          }
-        } else if (gesture.direction === 'down') {
-          // Navigate to next category
-          const currentIndex = categories.findIndex(cat => cat.id === selectedCategory);
-          if (currentIndex < categories.length - 1) {
-            setSelectedCategory(categories[currentIndex + 1].id);
-          }
-        }
-        break;
-      case 'longPress':
-        // Open voice navigation
-        setIsVoiceEnabled(true);
-        break;
-      case 'doubleTap':
-        // Reorder last item
-        if (cart.length > 0) {
-          const lastItem = cart[cart.length - 1];
-          addToCart(lastItem.item, lastItem.modifiers, 1);
-        }
-        break;
-    }
-    
-    // Haptic feedback for gestures
-    if ('vibrate' in navigator) {
-      navigator.vibrate([30, 50, 30]);
-    }
-  };
 
-  // Quick action handler for gesture zones
-  const handleQuickAction = (action: string) => {
-    setGestureEvent(`Quick action: ${action}`);
-    console.log('Quick action:', action);
-    
-    switch (action) {
-      case 'addToCart':
-        const firstItem = filteredItems[0];
-        if (firstItem) {
-          handleQuickAdd(firstItem);
-        }
-        break;
-      case 'openCart':
-        setIsCartOpen(true);
-        break;
-      case 'favorites':
-        // Could integrate with favorites system
-        console.log('Favorites action triggered');
-        break;
-      case 'voice':
-        setIsVoiceEnabled(!isVoiceEnabled);
-        break;
-    }
-  };
-
-  // Quick add function for gesture integration
-  const handleQuickAdd = (item: MenuItem) => {
-    addToCart(item, [], 1);
-    // Success haptic feedback
-    if ('vibrate' in navigator) {
-      navigator.vibrate(100);
-    }
-  };
 
   const handleAddToCart = (item: MenuItem, modifiers: Modifier[], quantity: number) => {
     addToCart(item, modifiers, quantity);
@@ -631,22 +549,9 @@ export default function EnhancedCustomerMenu() {
         </div>
       )}
 
-      {/* Gesture Recognition Zone */}
-      <GestureZones
-        onGestureRecognized={handleGestureRecognized}
-        onQuickAction={handleQuickAction}
-        enableHaptics={true}
-        sensitivity={0.6}
-      />
-
       {/* Innovation Status Indicators */}
-      {(gestureEvent || currentTranscript) && (
+      {currentTranscript && (
         <div className="fixed top-20 right-4 z-40 space-y-2">
-          {gestureEvent && (
-            <div className="bg-green-500/20 backdrop-blur-sm border border-green-500/50 text-green-300 px-3 py-2 rounded-lg text-sm font-medium">
-              {gestureEvent}
-            </div>
-          )}
           {currentTranscript && (
             <div className="bg-blue-500/20 backdrop-blur-sm border border-blue-500/50 text-blue-300 px-3 py-2 rounded-lg text-sm font-medium">
               Voice: "{currentTranscript}"

@@ -9,12 +9,7 @@ import {
   TrendingUp, 
   Sparkles,
   Eye,
-  Hand,
-  Mic,
-  ArrowUp,
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight
+  Mic
 } from 'lucide-react';
 
 interface ConversationContext {
@@ -55,11 +50,8 @@ export function ConversationalCanvas({
 }: ConversationalCanvasProps) {
   const [gridItems, setGridItems] = useState<GridItem[]>([]);
   const [adaptiveLayout, setAdaptiveLayout] = useState<'grid' | 'list' | 'focus' | 'immersive'>('grid');
-  const [gestureZones, setGestureZones] = useState<Record<string, any>>({});
   const [voiceFeedback, setVoiceFeedback] = useState<string>('');
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
   // Adaptive grid system that responds to conversation context
   useEffect(() => {
@@ -305,40 +297,7 @@ export function ConversationalCanvas({
     return sorted;
   };
 
-  const handleGestureStart = (e: React.TouchEvent | React.MouseEvent) => {
-    setIsDragging(true);
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    setDragStart({ x: clientX, y: clientY });
-  };
 
-  const handleGestureMove = (e: React.TouchEvent | React.MouseEvent) => {
-    if (!isDragging) return;
-    
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    
-    const deltaX = clientX - dragStart.x;
-    const deltaY = clientY - dragStart.y;
-    
-    // Detect swipe gestures
-    const threshold = 50;
-    if (Math.abs(deltaX) > threshold || Math.abs(deltaY) > threshold) {
-      let gesture = '';
-      if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        gesture = deltaX > 0 ? 'swipe-right' : 'swipe-left';
-      } else {
-        gesture = deltaY > 0 ? 'swipe-down' : 'swipe-up';
-      }
-      
-      onGestureAction(gesture, { deltaX, deltaY });
-      setIsDragging(false);
-    }
-  };
-
-  const handleGestureEnd = () => {
-    setIsDragging(false);
-  };
 
   const renderGridItem = (item: GridItem) => {
     const baseClasses = `
@@ -462,12 +421,6 @@ export function ConversationalCanvas({
     <div 
       ref={canvasRef}
       className={`conversational-canvas ${className}`}
-      onMouseDown={handleGestureStart}
-      onMouseMove={handleGestureMove}
-      onMouseUp={handleGestureEnd}
-      onTouchStart={handleGestureStart}
-      onTouchMove={handleGestureMove}
-      onTouchEnd={handleGestureEnd}
     >
       {/* Context Header */}
       <div className="mb-6 p-4 bg-gradient-to-r from-orange-50 to-pink-50 rounded-lg">
@@ -500,28 +453,7 @@ export function ConversationalCanvas({
         {gridItems.map(renderGridItem)}
       </div>
 
-      {/* Gesture Hints */}
-      <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-        <h3 className="text-sm font-medium mb-2">Gesture Controls</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-muted-foreground">
-          <div className="flex items-center space-x-1">
-            <ArrowLeft className="h-3 w-3" />
-            <span>Swipe left: Previous</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <ArrowRight className="h-3 w-3" />
-            <span>Swipe right: Next</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <ArrowUp className="h-3 w-3" />
-            <span>Swipe up: Menu</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <Hand className="h-3 w-3" />
-            <span>Long press: Voice</span>
-          </div>
-        </div>
-      </div>
+
 
       {/* Voice Feedback */}
       {voiceFeedback && (
