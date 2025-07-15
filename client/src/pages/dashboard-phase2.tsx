@@ -7,7 +7,6 @@ import StandardLayout from '@/components/StandardLayout';
 import { ExecutiveSummary } from '@/components/dashboard/ExecutiveSummary';
 import { OperationalView } from '@/components/dashboard/OperationalView';
 import { AnalyticsView } from '@/components/dashboard/AnalyticsView';
-import KleurvormDashboard from '@/components/KleurvormDashboard';
 import { 
   BarChart3, 
   Users, 
@@ -21,7 +20,6 @@ import {
 export default function DashboardPhase2() {
   const [activeTab, setActiveTab] = useState('executive');
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [useKleurvormDesign, setUseKleurvormDesign] = useState(true);
 
   // Update time every minute
   useEffect(() => {
@@ -189,67 +187,61 @@ export default function DashboardPhase2() {
 
 
 
-  // Toggle between old and new design
-  if (useKleurvormDesign) {
-    return <KleurvormDashboard />;
-  }
-
   return (
     <StandardLayout title="Dashboard" subtitle="Mobile-Optimized Restaurant Management">
         <div className="space-y-8">
-          
-          {/* Design Toggle Button */}
-          <div className="flex justify-end mb-4">
-            <Button 
-              onClick={() => setUseKleurvormDesign(!useKleurvormDesign)}
-              className="kleurvorm-pill-button"
-            >
-              Switch to Kleurvorm™ Design
-            </Button>
-          </div>
 
 
-          {/* Status Bar */}
-          <div className="orderfi-glass-card">
+          {/* Status Bar - Enhanced with Kleurvorm styling */}
+          <div className="kleurvorm-card">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-primary rounded-full animate-pulse"></div>
-                  <span className="text-sm font-medium orderfi-gradient-text">System Online</span>
+                  <div className="w-3 h-3 bg-kleurvorm-primary rounded-full animate-pulse"></div>
+                  <span className="text-lg font-medium text-kleurvorm-primary">System Online</span>
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-lg text-muted-foreground">
                   {currentTime.toLocaleTimeString()}
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm" className="h-9 min-w-[44px] text-xs">
+                <button className="kleurvorm-pill-button text-sm px-4 py-2">
                   <Bell className="h-4 w-4 mr-2" />
                   {alerts.length} Alerts
-                </Button>
-                <Button variant="outline" size="sm" className="h-9 min-w-[44px] text-xs">
+                </button>
+                <button className="kleurvorm-pill-button text-sm px-4 py-2">
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
-                </Button>
+                </button>
               </div>
             </div>
           </div>
 
-        {/* Progressive Disclosure Tabs */}
+        {/* Progressive Disclosure Tabs - Enhanced with Kleurvorm styling */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 h-11 mb-6">
-            <TabsTrigger value="executive" className="h-9 flex items-center space-x-2">
-              <BarChart3 className="h-4 w-4" />
+          <div className="flex gap-2 mb-6">
+            <button
+              onClick={() => setActiveTab('executive')}
+              className={activeTab === 'executive' ? 'kleurvorm-tab-active' : 'kleurvorm-tab-inactive'}
+            >
+              <BarChart3 className="h-4 w-4 mr-2" />
               <span className="hidden sm:inline">Executive</span>
-            </TabsTrigger>
-            <TabsTrigger value="operations" className="h-9 flex items-center space-x-2">
-              <Users className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => setActiveTab('operations')}
+              className={activeTab === 'operations' ? 'kleurvorm-tab-active' : 'kleurvorm-tab-inactive'}
+            >
+              <Users className="h-4 w-4 mr-2" />
               <span className="hidden sm:inline">Operations</span>
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="h-9 flex items-center space-x-2">
-              <Brain className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => setActiveTab('analytics')}
+              className={activeTab === 'analytics' ? 'kleurvorm-tab-active' : 'kleurvorm-tab-inactive'}
+            >
+              <Brain className="h-4 w-4 mr-2" />
               <span className="hidden sm:inline">Analytics</span>
-            </TabsTrigger>
-          </TabsList>
+            </button>
+          </div>
 
           {/* Executive Summary Tab */}
           <TabsContent value="executive">
