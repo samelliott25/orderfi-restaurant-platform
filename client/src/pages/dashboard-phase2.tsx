@@ -182,32 +182,47 @@ export default function DashboardPhase2() {
   return (
     <StandardLayout title="Phase 2 Dashboard" subtitle="Mobile-Optimized Restaurant Management">
         <div className="space-y-8">
+          {/* Kleurvörm Theme Banner */}
+          <div className="kleurvorm-primary p-6 rounded-xl text-white">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-bold mb-2">✨ Kleurvörm Theme Active</h3>
+                <p className="text-white/90 text-sm">Professional purple-blue-pink-orange gradient system now applied to OrderFi</p>
+              </div>
+              <Button 
+                variant="outline" 
+                className="bg-white/20 hover:bg-white/30 text-white border-white/30 hover:border-white/50"
+                onClick={() => window.open('/theme-analyzer', '_blank')}
+              >
+                View Theme Demo
+              </Button>
+            </div>
+          </div>
+
           {/* Status Bar */}
-          <div className="glass-card-premium">
-            <div className="p-6">
+          <div className="orderfi-glass-card">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 rounded-full animate-pulse" style={{backgroundColor: '#075956'}}></div>
-                  <span className="text-sm font-medium glass-text-gradient">System Online</span>
+                  <div className="w-3 h-3 bg-primary rounded-full animate-pulse"></div>
+                  <span className="text-sm font-medium orderfi-gradient-text">System Online</span>
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {currentTime.toLocaleTimeString()}
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <button className="glass-button h-9 min-w-[44px] text-xs">
+                <Button variant="outline" size="sm" className="h-9 min-w-[44px] text-xs">
                   <Bell className="h-4 w-4 mr-2" />
                   {alerts.length} Alerts
-                </button>
-                <button className="glass-button-secondary h-9 min-w-[44px] text-xs">
+                </Button>
+                <Button variant="outline" size="sm" className="h-9 min-w-[44px] text-xs">
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
-                </button>
+                </Button>
               </div>
             </div>
           </div>
-        </div>
 
         {/* Progressive Disclosure Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
