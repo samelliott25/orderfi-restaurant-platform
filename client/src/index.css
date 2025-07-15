@@ -11,14 +11,9 @@ html, body {
 
 /* Reset to original styling */
 
-.dark body {
-  background-color: #1f2937;
-}
-
-/* Original clean background */
+/* Theme-aware body styling - removed hardcoded colors */
 body {
-  background-color: #f8fafc;
-  color: #1f2937;
+  @apply bg-background text-foreground;
 }
 
 /* Horizontal scrolling utility - hide scrollbar */
@@ -1018,14 +1013,14 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 500;
 }
 
-/* Global background color */
+/* Theme-aware global background */
 html, body, #root {
-  background-color: #fcfcfc;
+  @apply bg-background text-foreground;
   min-height: 100vh;
 }
 
 .app-background {
-  background-color: #fcfcfc;
+  @apply bg-background text-foreground;
 }
 
 .pattern-waves {

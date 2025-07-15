@@ -193,6 +193,12 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 
 ```
 Changelog:
+- January 15, 2025. LANDING PAGE DARK MODE FIX: Fixed dark mode functionality not working on landing page
+  - Root cause: Hardcoded body background colors (#f8fafc light, #1f2937 dark) were overriding theme system
+  - Removed hardcoded body background-color styles and replaced with @apply bg-background text-foreground
+  - Updated global html, body, #root styles to use theme system instead of fixed #fcfcfc color
+  - Fixed .app-background class to use theme-aware colors instead of hardcoded #fcfcfc
+  - Landing page dark mode now properly responds to theme toggle button
 - January 15, 2025. DIALOG TRANSPARENCY FIX: Fixed exit confirmation dialog readability issues
   - Added explicit background colors: bg-white dark:bg-gray-900 for proper contrast
   - Applied text color classes: text-gray-900 dark:text-gray-100 for titles, text-gray-600 dark:text-gray-400 for descriptions
