@@ -35,10 +35,10 @@ export const OrderFiHeading = ({
   const baseClasses = 'font-semibold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent';
   
   const sizeClasses = {
-    1: 'text-lg',
-    2: 'text-lg',
-    3: 'text-lg',
-    4: 'text-lg'
+    1: 'text-sm',
+    2: 'text-sm',
+    3: 'text-sm',
+    4: 'text-sm'
   };
 
   return (
@@ -55,7 +55,7 @@ export const OrderFiSubtitle = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <p className={cn('text-sm sm:text-base text-muted-foreground mt-2', className)}>
+  <p className={cn('text-xs sm:text-sm text-muted-foreground mt-2', className)}>
     {children}
   </p>
 );
@@ -77,7 +77,7 @@ export const OrderFiCard = ({
   <Card className={cn('border-2 border-border/50 shadow-sm', className)}>
     {title && (
       <CardHeader className={cn('pb-3', headerClassName)}>
-        <CardTitle className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+        <CardTitle className="font-semibold text-sm playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
           {title}
         </CardTitle>
         {subtitle && (
@@ -206,7 +206,7 @@ export const OrderFiMetricCard = ({
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <p className="text-2xl font-bold mt-1">{value}</p>
+          <p className="text-lg font-bold mt-1">{value}</p>
           {change && (
             <OrderFiBadge 
               status={change.startsWith('+') ? 'success' : 'error'}

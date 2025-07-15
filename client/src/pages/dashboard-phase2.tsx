@@ -186,7 +186,7 @@ export default function DashboardPhase2() {
           <div className="kleurvorm-primary p-6 rounded-xl text-white">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-bold mb-2">✨ Kleurvörm Theme Active</h3>
+                <h3 className="text-sm font-semibold mb-2">✨ Kleurvörm Theme Active</h3>
                 <p className="text-white/90 text-sm">Professional purple-blue-pink-orange gradient system now applied to OrderFi</p>
               </div>
               <Button 

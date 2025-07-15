@@ -38,7 +38,7 @@ export function Header({
             <span className="text-white font-bold text-xl">🍽️</span>
           </div>
           <div className="flex flex-col">
-            <h1 className="font-bold text-xl playwrite-font orderfi-gradient-text">
+            <h1 className="font-semibold text-sm playwrite-font orderfi-gradient-text">
               {venueName}
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">{tableNumber}</p>

@@ -210,7 +210,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-2xl font-medium bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent playwrite-font">
+                    <h2 className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent playwrite-font">
                       OrderFi
                     </h2>
                     <div className="flex items-center gap-2 mt-2">
