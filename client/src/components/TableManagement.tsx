@@ -207,20 +207,8 @@ export default function TableManagement() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <MapPin className="h-8 w-8 text-orange-600" />
-          <div>
-            <h2 className="text-2xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-              Table Management
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              Manage tables, reservations, and customer seating
-            </p>
-          </div>
-        </div>
-        
+      {/* Action Bar */}
+      <div className="flex items-center justify-end">
         <Dialog open={isAddTableOpen} onOpenChange={setIsAddTableOpen}>
           <DialogTrigger asChild>
             <Button>
