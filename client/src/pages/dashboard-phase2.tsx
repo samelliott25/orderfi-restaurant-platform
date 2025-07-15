@@ -29,6 +29,14 @@ export default function DashboardPhase2() {
     return () => clearInterval(interval);
   }, []);
 
+  // Set document title
+  useEffect(() => {
+    document.title = "Dashboard - OrderFi";
+    return () => {
+      document.title = "OrderFi";
+    };
+  }, []);
+
   // Progressive disclosure state management
   const [refreshKey, setRefreshKey] = useState(0);
   

@@ -31,7 +31,6 @@ export const OrderFiHeading = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
   const baseClasses = 'font-semibold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent';
   
   const sizeClasses = {
@@ -41,11 +40,17 @@ export const OrderFiHeading = ({
     4: 'text-sm'
   };
 
-  return (
-    <Tag className={cn(baseClasses, sizeClasses[level], className)}>
-      {children}
-    </Tag>
-  );
+  const combinedClasses = cn(baseClasses, sizeClasses[level], className);
+
+  if (level === 1) {
+    return <h1 className={combinedClasses}>{children}</h1>;
+  } else if (level === 2) {
+    return <h2 className={combinedClasses}>{children}</h2>;
+  } else if (level === 3) {
+    return <h3 className={combinedClasses}>{children}</h3>;
+  } else {
+    return <h4 className={combinedClasses}>{children}</h4>;
+  }
 };
 
 export const OrderFiSubtitle = ({ 
