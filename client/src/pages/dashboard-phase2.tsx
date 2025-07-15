@@ -190,22 +190,7 @@ export default function DashboardPhase2() {
   return (
     <StandardLayout title="Dashboard" subtitle="Mobile-Optimized Restaurant Management">
         <div className="space-y-8">
-          {/* Kleurvörm Theme Banner */}
-          <div className="kleurvorm-primary p-6 rounded-xl text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm font-semibold mb-2">✨ Kleurvörm Theme Active</h3>
-                <p className="text-white/90 text-sm">Professional purple-blue-pink-orange gradient system now applied to OrderFi</p>
-              </div>
-              <Button 
-                variant="outline" 
-                className="bg-white/20 hover:bg-white/30 text-white border-white/30 hover:border-white/50"
-                onClick={() => window.open('/theme-analyzer', '_blank')}
-              >
-                View Theme Demo
-              </Button>
-            </div>
-          </div>
+
 
           {/* Status Bar */}
           <div className="orderfi-glass-card">
