@@ -179,9 +179,12 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
   return (
     <>
-      <div className={`flex-shrink-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 relative z-40 shadow-xl ${
-        isCollapsed ? 'w-16' : 'w-64'
-      }`}>
+      <div 
+        data-sidebar
+        className={`flex-shrink-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 relative z-40 shadow-xl ${
+          isCollapsed ? 'w-16' : 'w-64'
+        }`}
+      >
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className={`border-b border-gray-200/30 dark:border-gray-700/30 backdrop-blur-sm ${isCollapsed ? 'p-3' : 'px-6 py-5'}`}>

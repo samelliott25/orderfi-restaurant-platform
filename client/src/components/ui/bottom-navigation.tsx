@@ -2,6 +2,7 @@ import { Home, ShoppingCart, ClipboardList, User, Search } from 'lucide-react';
 import { Link, useLocation } from 'wouter';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/contexts/CartContext';
+import { useState, useEffect } from 'react';
 
 interface NavItem {
   icon: React.ReactNode;
@@ -17,6 +18,29 @@ interface BottomNavigationProps {
 export function BottomNavigation({ className }: BottomNavigationProps) {
   const [location] = useLocation();
   const { getTotalItems } = useCart();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  
+  // Listen for sidebar state changes
+  useEffect(() => {
+    const handleSidebarToggle = () => {
+      // Check if sidebar is collapsed by looking at its width
+      const sidebar = document.querySelector('[data-sidebar]');
+      if (sidebar) {
+        const isCollapsed = sidebar.classList.contains('w-16');
+        setSidebarCollapsed(isCollapsed);
+      }
+    };
+    
+    // Listen for sidebar toggle events
+    window.addEventListener('sidebarToggle', handleSidebarToggle);
+    
+    // Check initial state
+    handleSidebarToggle();
+    
+    return () => {
+      window.removeEventListener('sidebarToggle', handleSidebarToggle);
+    };
+  }, []);
   
   const navItems: NavItem[] = [
     {
@@ -48,16 +72,22 @@ export function BottomNavigation({ className }: BottomNavigationProps) {
   ];
 
   return (
-    <nav className={cn(
-      "fixed bottom-0 right-0 z-50 border-t border-border/20",
-      "w-64 safe-area-inset-bottom", // Constrain width to sidebar area
-      className
-    )}>
+    <nav 
+      className={cn(
+        "fixed bottom-0 right-0 z-50 border-t border-border/20",
+        "safe-area-inset-bottom transition-all duration-300",
+        className
+      )}
+      style={{
+        left: sidebarCollapsed ? '64px' : '256px', // 64px for collapsed (w-16), 256px for expanded (w-64)
+        width: sidebarCollapsed ? 'calc(100% - 64px)' : 'calc(100% - 256px)'
+      }}
+    >
       {/* Frosted glass background */}
-      <div className="absolute inset-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-l border-border/20" />
+      <div className="absolute inset-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg" />
       
       <div className="relative px-4 py-2">
-        <div className="flex items-center justify-around">
+        <div className="flex items-center justify-around max-w-full">
           {navItems.map((item) => {
             const isActive = location === item.href;
             
