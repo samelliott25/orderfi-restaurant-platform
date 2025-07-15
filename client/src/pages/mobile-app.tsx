@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CollapsibleChat } from "@/components/CollapsibleChat";
+
 import { StandardLayout } from "@/components/StandardLayout";
 
 import { 
@@ -377,8 +377,6 @@ export default function MobileAppPage() {
         </div>
       </div>
       
-      {/* Collapsible Chat - Outside the phone */}
-      <CollapsibleChat className="bottom-8 right-8" />
     </StandardLayout>
   );
 }
