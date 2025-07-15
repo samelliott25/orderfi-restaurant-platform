@@ -193,6 +193,12 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 
 ```
 Changelog:
+- January 15, 2025. SIDEBAR THEME TOGGLE BUTTON ENHANCEMENT: Made dark/light mode button full width with improved styling
+  - Changed theme toggle from small square button (h-9 w-9) to full-width button (w-full)
+  - Added text labels: "Light Mode" and "Dark Mode" that change based on current theme
+  - Applied consistent styling with gradient hover effects and backdrop blur
+  - Updated both expanded and collapsed sidebar versions for consistency
+  - Enhanced user experience with larger touch target and clearer visual indication
 - January 15, 2025. BOTTOM NAVIGATION STYLING UPGRADE: Enhanced mobile app bottom navigation with width constraints and frosted glass background
   - Constrained bottom navigation width to sidebar area (w-64/256px) instead of full screen width
   - Added frosted glass background effect with backdrop-blur-lg and semi-transparent overlay
