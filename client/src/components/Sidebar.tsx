@@ -82,6 +82,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   
   // Ref to maintain scroll position
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const scrollPositionRef = React.useRef<number>(0);
+  const preserveScrollRef = React.useRef<boolean>(false);
 
   // Real-time clock
   useEffect(() => {
@@ -133,30 +135,59 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     window.dispatchEvent(new CustomEvent('sidebarToggle'));
   }, [isCollapsed]);
 
-  // Preserve scroll position during navigation changes
+  // Initialize scroll position from localStorage
   useEffect(() => {
     const savedScrollPos = localStorage.getItem('sidebar-scroll-position');
     if (savedScrollPos && scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop = parseInt(savedScrollPos);
+      const scrollTop = parseInt(savedScrollPos);
+      scrollContainerRef.current.scrollTop = scrollTop;
+      scrollPositionRef.current = scrollTop;
     }
   }, []);
 
-  // Save scroll position on scroll
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      localStorage.setItem('sidebar-scroll-position', scrollContainerRef.current.scrollTop.toString());
+  // Restore scroll position after location changes with multiple attempts
+  useEffect(() => {
+    if (preserveScrollRef.current && scrollContainerRef.current) {
+      const restoreScroll = () => {
+        if (scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTop = scrollPositionRef.current;
+        }
+      };
+      
+      // Try multiple times to ensure scroll is restored
+      restoreScroll();
+      setTimeout(restoreScroll, 0);
+      setTimeout(restoreScroll, 10);
+      setTimeout(restoreScroll, 50);
+      
+      preserveScrollRef.current = false;
     }
-  };
+  }, [location]);
 
-  // Handle navigation item clicks with scroll preservation
-  const handleNavItemClick = (href: string) => {
-    // Save current scroll position before navigation
-    if (scrollContainerRef.current) {
-      localStorage.setItem('sidebar-scroll-position', scrollContainerRef.current.scrollTop.toString());
+  // Save scroll position continuously
+  const handleScroll = React.useCallback(() => {
+    if (scrollContainerRef.current && !preserveScrollRef.current) {
+      const scrollTop = scrollContainerRef.current.scrollTop;
+      scrollPositionRef.current = scrollTop;
+      localStorage.setItem('sidebar-scroll-position', scrollTop.toString());
     }
-    // Navigate to the new page
-    setLocation(href);
-  };
+  }, []);
+
+  // Handle navigation clicks with immediate scroll preservation
+  const handleNavItemClick = React.useCallback((href: string) => {
+    if (scrollContainerRef.current) {
+      // Save current scroll position immediately
+      const scrollTop = scrollContainerRef.current.scrollTop;
+      scrollPositionRef.current = scrollTop;
+      localStorage.setItem('sidebar-scroll-position', scrollTop.toString());
+      
+      // Set flag to preserve scroll position
+      preserveScrollRef.current = true;
+      
+      // Navigate to the new page
+      setLocation(href);
+    }
+  }, [setLocation]);
 
   return (
     <>
