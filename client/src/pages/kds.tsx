@@ -244,7 +244,7 @@ export default function KDS() {
       <div className="space-y-6">
         {/* Status Bar */}
         <div className="relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-pink-500/10"></div>
           <div className="relative flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <p className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
@@ -285,7 +285,7 @@ export default function KDS() {
                 Refresh
               </Button>
               {orders.length > 0 && (
-                <Badge variant="outline" className="bg-blue-100 text-blue-800">
+                <Badge variant="outline" className="bg-purple-100 text-purple-800">
                   <Utensils className="w-3 h-3 mr-1" />
                   {orders.length} orders
                 </Badge>
@@ -340,7 +340,7 @@ export default function KDS() {
                   {orderItems.map((item, index) => (
                     <div key={index} className="bg-gray-50 p-3 rounded-lg">
                       <div className="font-medium text-gray-900">
-                        <span className="inline-block bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs mr-2">
+                        <span className="inline-block bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs mr-2">
                           {item.quantity}x
                         </span>
                         {item.name}
@@ -363,7 +363,7 @@ export default function KDS() {
                     <Button
                       onClick={() => handleStatusUpdate(order.id, getNextStatus(order.status))}
                       disabled={updateStatusMutation.isPending}
-                      className="flex-1 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                      className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
                     >
                       {order.status === 'pending' && 'Start Preparing'}
                       {order.status === 'preparing' && 'Mark Ready'}
