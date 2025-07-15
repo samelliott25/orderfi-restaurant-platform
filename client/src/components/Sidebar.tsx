@@ -79,6 +79,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     lowStock: 8,
     notifications: 5
   });
+  
+  // Ref to maintain scroll position
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
   // Real-time clock
   useEffect(() => {
@@ -129,6 +132,31 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     // Dispatch custom event to notify StandardLayout of sidebar state change
     window.dispatchEvent(new CustomEvent('sidebarToggle'));
   }, [isCollapsed]);
+
+  // Preserve scroll position during navigation changes
+  useEffect(() => {
+    const savedScrollPos = localStorage.getItem('sidebar-scroll-position');
+    if (savedScrollPos && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = parseInt(savedScrollPos);
+    }
+  }, []);
+
+  // Save scroll position on scroll
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      localStorage.setItem('sidebar-scroll-position', scrollContainerRef.current.scrollTop.toString());
+    }
+  };
+
+  // Handle navigation item clicks with scroll preservation
+  const handleNavItemClick = (href: string) => {
+    // Save current scroll position before navigation
+    if (scrollContainerRef.current) {
+      localStorage.setItem('sidebar-scroll-position', scrollContainerRef.current.scrollTop.toString());
+    }
+    // Navigate to the new page
+    setLocation(href);
+  };
 
   return (
     <>
@@ -206,38 +234,43 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Navigation Items */}
-          <div className={`flex-1 overflow-y-auto ${isCollapsed ? 'p-2' : 'p-4'}`}>
+          <div 
+            ref={scrollContainerRef}
+            className={`flex-1 overflow-y-auto ${isCollapsed ? 'p-2' : 'p-4'}`}
+            onScroll={handleScroll}
+            style={{ scrollBehavior: 'smooth' }}
+          >
             <nav className="space-y-1 sidebar-nav">
               {menuItems.map((item) => {
                 const isActive = location === item.href;
                 return (
-                  <Link key={item.href} href={item.href}>
-                    <button
-                      className={`w-full font-medium transition-all duration-200 h-11 flex items-center ${
-                        isCollapsed 
-                          ? 'justify-center p-2' 
-                          : 'justify-start text-left px-4'
-                      } ${
-                        isActive 
-                          ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-300 shadow-lg shadow-blue-500/20 border border-blue-200/50 dark:border-blue-700/50" 
-                          : "text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 dark:hover:from-gray-800 dark:hover:to-blue-900/20 hover:shadow-md"
-                      } rounded-xl backdrop-blur-sm`}
-                      title={isCollapsed ? item.label : undefined}
-                    >
-                      <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
-                      {!isCollapsed && <span className="font-medium text-current">{item.label}</span>}
-                      {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
-                        <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
-                          {metrics.pendingOrders}
-                        </Badge>
-                      )}
-                      {!isCollapsed && item.label === 'Inventory' && metrics.lowStock > 0 && (
-                        <Badge variant="secondary" className="ml-auto text-xs bg-red-100 text-red-800">
-                          {metrics.lowStock}
-                        </Badge>
-                      )}
-                    </button>
-                  </Link>
+                  <button
+                    key={item.href}
+                    onClick={() => handleNavItemClick(item.href)}
+                    className={`w-full font-medium transition-all duration-200 h-11 flex items-center ${
+                      isCollapsed 
+                        ? 'justify-center p-2' 
+                        : 'justify-start text-left px-4'
+                    } ${
+                      isActive 
+                        ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-300 shadow-lg shadow-blue-500/20 border border-blue-200/50 dark:border-blue-700/50" 
+                        : "text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 dark:hover:from-gray-800 dark:hover:to-blue-900/20 hover:shadow-md"
+                    } rounded-xl backdrop-blur-sm`}
+                    title={isCollapsed ? item.label : undefined}
+                  >
+                    <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
+                    {!isCollapsed && <span className="font-medium text-current">{item.label}</span>}
+                    {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
+                      <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
+                        {metrics.pendingOrders}
+                      </Badge>
+                    )}
+                    {!isCollapsed && item.label === 'Inventory' && metrics.lowStock > 0 && (
+                      <Badge variant="secondary" className="ml-auto text-xs bg-red-100 text-red-800">
+                        {metrics.lowStock}
+                      </Badge>
+                    )}
+                  </button>
                 );
               })}
             </nav>
