@@ -28,6 +28,15 @@ body {
   display: none;  /* Chrome, Safari and Opera */
 }
 
+/* Sidebar scroll preservation */
+.sidebar-nav {
+  scroll-behavior: auto;
+}
+
+.sidebar-nav:focus-within {
+  scroll-behavior: auto;
+}
+
 /* Settings page specific layout fix */
 [data-testid="settings-page"] {
   overflow-x: hidden;

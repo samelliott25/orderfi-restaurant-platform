@@ -82,8 +82,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   
   // Ref to maintain scroll position
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
-  const scrollPositionRef = React.useRef<number>(0);
-  const preserveScrollRef = React.useRef<boolean>(false);
 
   // Real-time clock
   useEffect(() => {
@@ -135,58 +133,23 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     window.dispatchEvent(new CustomEvent('sidebarToggle'));
   }, [isCollapsed]);
 
-  // Initialize scroll position from localStorage
-  useEffect(() => {
-    const savedScrollPos = localStorage.getItem('sidebar-scroll-position');
-    if (savedScrollPos && scrollContainerRef.current) {
-      const scrollTop = parseInt(savedScrollPos);
-      scrollContainerRef.current.scrollTop = scrollTop;
-      scrollPositionRef.current = scrollTop;
-    }
-  }, []);
-
-  // Restore scroll position after location changes with multiple attempts
-  useEffect(() => {
-    if (preserveScrollRef.current && scrollContainerRef.current) {
-      const restoreScroll = () => {
-        if (scrollContainerRef.current) {
-          scrollContainerRef.current.scrollTop = scrollPositionRef.current;
-        }
-      };
-      
-      // Try multiple times to ensure scroll is restored
-      restoreScroll();
-      setTimeout(restoreScroll, 0);
-      setTimeout(restoreScroll, 10);
-      setTimeout(restoreScroll, 50);
-      
-      preserveScrollRef.current = false;
-    }
-  }, [location]);
-
-  // Save scroll position continuously
-  const handleScroll = React.useCallback(() => {
-    if (scrollContainerRef.current && !preserveScrollRef.current) {
-      const scrollTop = scrollContainerRef.current.scrollTop;
-      scrollPositionRef.current = scrollTop;
-      localStorage.setItem('sidebar-scroll-position', scrollTop.toString());
-    }
-  }, []);
-
-  // Handle navigation clicks with immediate scroll preservation
-  const handleNavItemClick = React.useCallback((href: string) => {
-    if (scrollContainerRef.current) {
-      // Save current scroll position immediately
-      const scrollTop = scrollContainerRef.current.scrollTop;
-      scrollPositionRef.current = scrollTop;
-      localStorage.setItem('sidebar-scroll-position', scrollTop.toString());
-      
-      // Set flag to preserve scroll position
-      preserveScrollRef.current = true;
-      
-      // Navigate to the new page
-      setLocation(href);
-    }
+  // Navigation handler that preserves scroll position
+  const handleNavItemClick = React.useCallback((href: string, event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Save current scroll position
+    const currentScrollTop = scrollContainerRef.current?.scrollTop || 0;
+    
+    // Navigate to new page
+    setLocation(href);
+    
+    // Restore scroll position after navigation
+    requestAnimationFrame(() => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop = currentScrollTop;
+      }
+    });
   }, [setLocation]);
 
   return (
@@ -268,8 +231,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           <div 
             ref={scrollContainerRef}
             className={`flex-1 overflow-y-auto ${isCollapsed ? 'p-2' : 'p-4'}`}
-            onScroll={handleScroll}
-            style={{ scrollBehavior: 'smooth' }}
           >
             <nav className="space-y-1 sidebar-nav">
               {menuItems.map((item) => {
@@ -277,7 +238,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 return (
                   <button
                     key={item.href}
-                    onClick={() => handleNavItemClick(item.href)}
+                    onClick={(event) => handleNavItemClick(item.href, event)}
                     className={`w-full font-medium transition-all duration-200 h-11 flex items-center ${
                       isCollapsed 
                         ? 'justify-center p-2' 
