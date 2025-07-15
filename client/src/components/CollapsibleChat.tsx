@@ -62,7 +62,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
     {
       id: '1',
       type: 'bot',
-      content: "Hi! I'm Mimi 🍕 What are you craving today?",
+      content: "Hi! I'm your OrderFi assistant 🍕 What are you craving today?",
       timestamp: new Date()
     }
   ]);

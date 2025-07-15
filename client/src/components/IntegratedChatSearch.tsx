@@ -198,7 +198,7 @@ export function IntegratedChatSearch({
         {isLoading && (
           <div className="absolute -bottom-8 left-0 flex items-center text-sm text-blue-600 dark:text-blue-400">
             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse mr-2"></div>
-            {mode === "chat" ? "Mimi is thinking..." : "Searching menu..."}
+            {mode === "chat" ? "OrderFi is thinking..." : "Searching menu..."}
           </div>
         )}
       </form>

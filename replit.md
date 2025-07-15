@@ -193,6 +193,15 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 
 ```
 Changelog:
+- January 15, 2025. MIMI REFERENCES COMPLETELY REMOVED: Successfully cleaned up all Mimi-related references and files to reduce code bloat and improve clarity
+  - Removed speech bubble reference to "Mimi" from CollapsibleChat component, replaced with "OrderFi assistant"
+  - Updated VoiceGuideOverlay to use "OrderFi assistant" instead of "Mimi, your friendly digital waitress"
+  - Changed IntegratedChatSearch loading text from "Mimi is thinking..." to "OrderFi is thinking..."
+  - Renamed CSS class from "mimi-bubble" to "orderfi-bubble" for consistency
+  - Deleted all Mimi-related files: contracts/MimiRewards.sol, deployment scripts, documentation, and assets
+  - Updated admin rewards page to show "OrderFi Tokens" and "ORDERFI" instead of "MIMI Tokens" and "MIMI"
+  - Updated admin dashboard to show "$ORDERFI Tokens" instead of "$MIMI Tokens"
+  - User feedback: "Remove the speech bubble linking to Mimi" and "remove any files relating to Mimi as this is redundant and will bloat the code" - successfully completed
 - January 15, 2025. SIDEBAR NAVIGATION RESTORATION AND CLEANUP COMPLETED: Successfully restored sidebar navigation across all pages and removed unwanted demo page
   - Fixed hideNavigation array in App.tsx to only hide sidebar on customer-facing pages (scan, login, cart, checkout, order-status)
   - Restored sidebar visibility on essential admin pages: /mobileapp, /dashboard-mobile, /kds for consistent navigation

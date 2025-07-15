@@ -45,7 +45,7 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
     {
       id: 'welcome',
       title: 'Welcome to Web3 Ordering',
-      instruction: 'Hi there! I\'m Mimi, your friendly digital waitress! Welcome to our special Web3 restaurant where you can pay with cryptocurrency. I\'m so excited to help you place your first blockchain food order - it\'s going to be amazing!',
+      instruction: 'Hi there! I\'m your OrderFi assistant! Welcome to our special Web3 restaurant where you can pay with cryptocurrency. I\'m so excited to help you place your first blockchain food order - it\'s going to be amazing!',
       duration: 5000
     },
     {
