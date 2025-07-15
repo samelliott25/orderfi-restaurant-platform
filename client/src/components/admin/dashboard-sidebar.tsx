@@ -110,10 +110,10 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
   };
 
   const SidebarContent = () => (
-    <div className="flex h-full flex-col border-r" style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}>
+    <div className="flex h-full flex-col border-r border-border bg-background">
       {/* Logo */}
-      <div className="flex h-16 items-center justify-center px-6 border-b flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
-        <div className="text-2xl font-bold text-[#8b795e]">
+      <div className="flex h-16 items-center justify-center px-6 border-b border-border flex-shrink-0">
+        <div className="text-2xl font-bold text-foreground">
           OrderFi Admin
         </div>
       </div>
@@ -125,7 +125,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
         onScroll={handleScroll}
       >
         <div className="mb-4">
-          <span className="text-xs font-medium uppercase tracking-wider px-3" style={{ color: '#8b795e' }}>General</span>
+          <span className="text-xs font-medium uppercase tracking-wider px-3 text-muted-foreground">General</span>
         </div>
         <nav className="space-y-1 mb-6">
           {navigation.slice(0, 5).map((item) => {
@@ -135,13 +135,13 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
             return (
               <Link key={item.name} href={item.href}>
                 <div
-                  className="group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:opacity-80"
-                  style={{
-                    backgroundColor: isActive ? '#8b795e' : 'transparent',
-                    color: isActive ? 'white' : '#8b795e'
-                  }}
+                  className={`group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:opacity-80 ${
+                    isActive ? 'bg-primary text-primary-foreground' : 'text-foreground'
+                  }`}
                 >
-                  <item.icon className="h-5 w-5 shrink-0" style={{ color: isActive ? 'white' : '#8b795e' }} />
+                  <item.icon className={`h-5 w-5 shrink-0 ${
+                    isActive ? 'text-primary-foreground' : 'text-foreground'
+                  }`} />
                   <span className="ml-3 truncate">{item.name.replace(' Dashboard', '').replace(' Management', '')}</span>
                 </div>
               </Link>
@@ -150,7 +150,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
         </nav>
 
         <div className="mb-4">
-          <span className="text-xs font-medium uppercase tracking-wider px-3" style={{ color: '#8b795e' }}>Tools</span>
+          <span className="text-xs font-medium uppercase tracking-wider px-3 text-muted-foreground">Tools</span>
         </div>
         <nav className="space-y-1">
           {navigation.slice(5).map((item) => {
@@ -160,13 +160,13 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
             return (
               <Link key={item.name} href={item.href}>
                 <div
-                  className="group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:opacity-80"
-                  style={{
-                    backgroundColor: isActive ? '#8b795e' : 'transparent',
-                    color: isActive ? 'white' : '#8b795e'
-                  }}
+                  className={`group flex items-center rounded-lg p-3 text-sm font-medium transition-all hover:opacity-80 ${
+                    isActive ? 'bg-primary text-primary-foreground' : 'text-foreground'
+                  }`}
                 >
-                  <item.icon className="h-5 w-5 shrink-0" style={{ color: isActive ? 'white' : '#8b795e' }} />
+                  <item.icon className={`h-5 w-5 shrink-0 ${
+                    isActive ? 'text-primary-foreground' : 'text-foreground'
+                  }`} />
                   <span className="ml-3 truncate">{item.name.replace(' & ', ' & ').replace(' Management', '')}</span>
                 </div>
               </Link>
@@ -176,7 +176,7 @@ export function DashboardSidebar({ className }: DashboardSidebarProps) {
       </div>
 
       {/* Bottom Actions - Fixed at Bottom */}
-      <div className="border-t p-4 flex-shrink-0" style={{ borderColor: '#e5cf97' }}>
+      <div className="border-t border-border p-4 flex-shrink-0">
         <Button asChild variant="ghost" className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50">
           <Link href="/landing-page">
             <LogOut className="h-4 w-4 mr-3" />

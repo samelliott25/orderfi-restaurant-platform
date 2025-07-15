@@ -980,7 +980,7 @@ h3, .text-xl {
 
 /* Modern gradient backgrounds */
 .gradient-bg-primary {
-  background: linear-gradient(135deg, #ffe6b0 0%, #f5d992 50%, #e8cc7a 100%);
+  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 50%, hsl(var(--border)) 100%);
 }
 
 .gradient-bg-secondary {

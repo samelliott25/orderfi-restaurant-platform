@@ -56,7 +56,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   }, [location]);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#ffe6b0' }}>
+    <div className="min-h-screen bg-background">
       {/* Mobile Layout - Vertical Stack */}
       <div className="lg:hidden">
         {/* Mobile Sidebar - Hamburger menu */}

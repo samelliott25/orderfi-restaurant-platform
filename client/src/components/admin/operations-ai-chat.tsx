@@ -384,8 +384,7 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
 
   return (
     <div 
-      className={`w-full h-full border-l flex flex-col overflow-hidden transition-all duration-200 ${isDragOver ? 'ring-2 ring-blue-400 ring-opacity-50' : ''}`} 
-      style={{ backgroundColor: '#ffe6b0', borderColor: '#e5cf97' }}
+      className={`w-full h-full border-l border-border bg-background flex flex-col overflow-hidden transition-all duration-200 ${isDragOver ? 'ring-2 ring-blue-400 ring-opacity-50' : ''}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
