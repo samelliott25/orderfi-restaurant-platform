@@ -34,10 +34,10 @@ export const OrderFiHeading = ({
   const baseClasses = 'font-semibold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent';
   
   const sizeClasses = {
-    1: 'text-sm',
-    2: 'text-sm',
-    3: 'text-sm',
-    4: 'text-sm'
+    1: 'text-base',
+    2: 'text-base',
+    3: 'text-base',
+    4: 'text-base'
   };
 
   const combinedClasses = cn(baseClasses, sizeClasses[level], className);
