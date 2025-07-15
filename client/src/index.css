@@ -158,7 +158,24 @@ h1, .text-4xl, .text-3xl, h2, .text-2xl, h3, .text-xl {
   color: #f9fafb !important;
 }
 
-/* Mamo.bot text colors */
+/* Improved dark mode text readability */
+.dark .text-gray-600, .dark .text-muted-foreground {
+  color: #d1d5db !important; /* Much lighter gray for better contrast */
+}
+
+.dark .text-gray-700 {
+  color: #e5e7eb !important; /* Lighter for dark mode */
+}
+
+.dark .text-gray-800 {
+  color: #f3f4f6 !important; /* Almost white for dark mode */
+}
+
+.dark .text-gray-900 {
+  color: #ffffff !important; /* Pure white for dark mode */
+}
+
+/* Light mode text colors */
 .text-gray-600, .text-muted-foreground {
   color: #6b7280 !important;
 }
@@ -169,6 +186,65 @@ h1, .text-4xl, .text-3xl, h2, .text-2xl, h3, .text-xl {
 
 .text-gray-800 {
   color: #1f2937 !important;
+}
+
+/* Dark mode icon improvements */
+.dark svg, .dark .lucide {
+  color: #f3f4f6 !important; /* Light color for icons in dark mode */
+}
+
+.dark .text-foreground {
+  color: #f9fafb !important;
+}
+
+/* Dark mode card and component improvements */
+.dark .bg-card {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+.dark .border-border {
+  border-color: #4b5563 !important;
+}
+
+/* Dark mode button and interactive element improvements */
+.dark button {
+  color: #f3f4f6 !important;
+}
+
+.dark button svg {
+  color: #f3f4f6 !important;
+}
+
+/* Dark mode specific text improvements */
+.dark .text-gray-400 {
+  color: #d1d5db !important; /* Much lighter for better contrast */
+}
+
+.dark .text-gray-500 {
+  color: #e5e7eb !important; /* Lighter for better readability */
+}
+
+/* Dark mode badge improvements */
+.dark .badge, .dark .bg-secondary {
+  background-color: #374151 !important;
+  color: #f3f4f6 !important;
+}
+
+/* Dark mode sidebar specific improvements */
+.dark .sidebar-nav button {
+  color: #f3f4f6 !important;
+}
+
+.dark .sidebar-nav button svg {
+  color: #f3f4f6 !important;
+}
+
+/* Dark mode dropdown and select improvements */
+.dark .dropdown-menu, .dark .select-content {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f3f4f6 !important;
 }
 
 /* Removed all mamo.bot styling overrides */
