@@ -49,12 +49,12 @@ export function BottomNavigation({ className }: BottomNavigationProps) {
 
   return (
     <nav className={cn(
-      "fixed bottom-0 left-0 z-50 border-t border-border/20",
+      "fixed bottom-0 right-0 z-50 border-t border-border/20",
       "w-64 safe-area-inset-bottom", // Constrain width to sidebar area
       className
     )}>
       {/* Frosted glass background */}
-      <div className="absolute inset-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-r border-border/20" />
+      <div className="absolute inset-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-l border-border/20" />
       
       <div className="relative px-4 py-2">
         <div className="flex items-center justify-around">
