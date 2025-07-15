@@ -136,7 +136,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     window.dispatchEvent(new CustomEvent('sidebarToggle'));
   }, [isCollapsed]);
 
-  // Save scroll position on scroll
+  // Save scroll position continuously
   React.useEffect(() => {
     const handleScroll = () => {
       if (scrollContainerRef.current) {
@@ -146,22 +146,20 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     
     const container = scrollContainerRef.current;
     if (container) {
-      container.addEventListener('scroll', handleScroll);
+      container.addEventListener('scroll', handleScroll, { passive: true });
       return () => container.removeEventListener('scroll', handleScroll);
     }
   }, []);
   
-  // Restore scroll position after any render
+  // Restore scroll position after location changes
   React.useEffect(() => {
-    if (scrollContainerRef.current && scrollPosition.current > 0) {
+    if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop = scrollPosition.current;
     }
-  });
+  }, [location]);
   
-  // Navigation handler that just navigates
-  const handleNavItemClick = React.useCallback((href: string, event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
+  // Navigation handler - no preventDefault, let it navigate naturally
+  const handleNavItemClick = React.useCallback((href: string) => {
     setLocation(href);
   }, [setLocation]);
 
@@ -251,7 +249,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 return (
                   <button
                     key={item.href}
-                    onClick={(event) => handleNavItemClick(item.href, event)}
+                    onClick={() => handleNavItemClick(item.href)}
                     className={`w-full font-medium transition-all duration-200 h-11 flex items-center ${
                       isCollapsed 
                         ? 'justify-center p-2' 
