@@ -592,8 +592,6 @@ export default function EnhancedCustomerMenu() {
         </div>
       )}
 
-      {/* Bottom Navigation for Mobile */}
-      <BottomNavigation />
     </StandardLayout>
   );
 }
