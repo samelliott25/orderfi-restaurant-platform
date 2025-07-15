@@ -83,6 +83,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   // Ref to maintain scroll position
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   
+  // Global scroll position storage
+  const SCROLL_STORAGE_KEY = 'sidebar-scroll-position';
+  
   // Real-time clock
   useEffect(() => {
     const timer = setInterval(() => {
@@ -133,8 +136,44 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     window.dispatchEvent(new CustomEvent('sidebarToggle'));
   }, [isCollapsed]);
 
-  // Direct navigation without scroll interference
+  // Load scroll position on mount
+  React.useEffect(() => {
+    const savedScrollPosition = localStorage.getItem(SCROLL_STORAGE_KEY);
+    if (savedScrollPosition && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = parseInt(savedScrollPosition, 10);
+    }
+  }, []);
+  
+  // Save scroll position continuously
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (scrollContainerRef.current) {
+        localStorage.setItem(SCROLL_STORAGE_KEY, scrollContainerRef.current.scrollTop.toString());
+      }
+    };
+    
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll, { passive: true });
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+  
+  // Restore scroll position after route changes
+  React.useEffect(() => {
+    const savedScrollPosition = localStorage.getItem(SCROLL_STORAGE_KEY);
+    if (savedScrollPosition && scrollContainerRef.current) {
+      const scrollTop = parseInt(savedScrollPosition, 10);
+      scrollContainerRef.current.scrollTop = scrollTop;
+    }
+  }, [location]);
+  
+  // Navigation handler that preserves scroll
   const handleNavItemClick = React.useCallback((href: string) => {
+    // Save current scroll position before navigation
+    if (scrollContainerRef.current) {
+      localStorage.setItem(SCROLL_STORAGE_KEY, scrollContainerRef.current.scrollTop.toString());
+    }
     setLocation(href);
   }, [setLocation]);
 
