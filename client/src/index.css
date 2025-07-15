@@ -28,13 +28,19 @@ body {
   display: none;  /* Chrome, Safari and Opera */
 }
 
-/* Sidebar scroll preservation */
+/* Sidebar scroll preservation - prevent scroll reset during navigation */
 .sidebar-nav {
   scroll-behavior: auto;
 }
 
 .sidebar-nav:focus-within {
   scroll-behavior: auto;
+}
+
+/* Prevent scroll position reset during React re-renders */
+.sidebar-scroll-container {
+  contain: layout style;
+  will-change: scroll-position;
 }
 
 /* Settings page specific layout fix */

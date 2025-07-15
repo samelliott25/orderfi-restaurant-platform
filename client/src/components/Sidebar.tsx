@@ -83,9 +83,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   // Ref to maintain scroll position
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   
-  // Persistent scroll position that survives re-renders
-  const scrollPosition = React.useRef<number>(0);
-
   // Real-time clock
   useEffect(() => {
     const timer = setInterval(() => {
@@ -136,29 +133,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     window.dispatchEvent(new CustomEvent('sidebarToggle'));
   }, [isCollapsed]);
 
-  // Save scroll position continuously
-  React.useEffect(() => {
-    const handleScroll = () => {
-      if (scrollContainerRef.current) {
-        scrollPosition.current = scrollContainerRef.current.scrollTop;
-      }
-    };
-    
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener('scroll', handleScroll, { passive: true });
-      return () => container.removeEventListener('scroll', handleScroll);
-    }
-  }, []);
-  
-  // Restore scroll position after location changes
-  React.useEffect(() => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop = scrollPosition.current;
-    }
-  }, [location]);
-  
-  // Navigation handler - no preventDefault, let it navigate naturally
+  // Direct navigation without scroll interference
   const handleNavItemClick = React.useCallback((href: string) => {
     setLocation(href);
   }, [setLocation]);
@@ -241,7 +216,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           {/* Navigation Items */}
           <div 
             ref={scrollContainerRef}
-            className={`flex-1 overflow-y-auto ${isCollapsed ? 'p-2' : 'p-4'}`}
+            className={`flex-1 overflow-y-auto sidebar-scroll-container ${isCollapsed ? 'p-2' : 'p-4'}`}
           >
             <nav className="space-y-1 sidebar-nav">
               {menuItems.map((item) => {
