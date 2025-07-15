@@ -82,6 +82,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   
   // Ref to maintain scroll position
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  
+  // Persistent scroll position that survives re-renders
+  const scrollPosition = React.useRef<number>(0);
 
   // Real-time clock
   useEffect(() => {
@@ -133,23 +136,33 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     window.dispatchEvent(new CustomEvent('sidebarToggle'));
   }, [isCollapsed]);
 
-  // Navigation handler that preserves scroll position
+  // Save scroll position on scroll
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (scrollContainerRef.current) {
+        scrollPosition.current = scrollContainerRef.current.scrollTop;
+      }
+    };
+    
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+  
+  // Restore scroll position after any render
+  React.useEffect(() => {
+    if (scrollContainerRef.current && scrollPosition.current > 0) {
+      scrollContainerRef.current.scrollTop = scrollPosition.current;
+    }
+  });
+  
+  // Navigation handler that just navigates
   const handleNavItemClick = React.useCallback((href: string, event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-    
-    // Save current scroll position
-    const currentScrollTop = scrollContainerRef.current?.scrollTop || 0;
-    
-    // Navigate to new page
     setLocation(href);
-    
-    // Restore scroll position after navigation
-    requestAnimationFrame(() => {
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTop = currentScrollTop;
-      }
-    });
   }, [setLocation]);
 
   return (
