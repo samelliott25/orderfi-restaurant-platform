@@ -52,11 +52,13 @@ interface Table {
 interface TableManagementProps {
   isAddTableOpen?: boolean;
   onAddTableOpenChange?: (open: boolean) => void;
+  viewMode?: 'card' | 'list';
 }
 
 export default function TableManagement({ 
   isAddTableOpen = false, 
-  onAddTableOpenChange = () => {} 
+  onAddTableOpenChange = () => {},
+  viewMode = 'card'
 }: TableManagementProps) {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
   const [newTable, setNewTable] = useState({
@@ -277,19 +279,20 @@ export default function TableManagement({
             {section.replace('-', ' ')} Section
           </h3>
           
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {sectionTables.map((table) => {
-              const statusBadge = getStatusBadge(table.status);
-              const StatusIcon = statusBadge.icon;
+          {viewMode === 'card' ? (
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {sectionTables.map((table) => {
+                const statusBadge = getStatusBadge(table.status);
+                const StatusIcon = statusBadge.icon;
 
-              return (
-                <Card 
-                  key={table.id}
-                  className={`relative overflow-hidden backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer ${
-                    table.status === 'occupied' ? 'ring-2 ring-blue-500' : ''
-                  }`}
-                  onClick={() => setSelectedTable(table)}
-                >
+                return (
+                  <Card 
+                    key={table.id}
+                    className={`relative overflow-hidden backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer ${
+                      table.status === 'occupied' ? 'ring-2 ring-blue-500' : ''
+                    }`}
+                    onClick={() => setSelectedTable(table)}
+                  >
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
                   
                   <CardHeader className="pb-3 relative">
@@ -421,6 +424,114 @@ export default function TableManagement({
               );
             })}
           </div>
+        ) : (
+          /* List View */
+          <div className="space-y-2">
+            {sectionTables.map((table) => {
+              const statusBadge = getStatusBadge(table.status);
+              const StatusIcon = statusBadge.icon;
+
+              return (
+                <Card 
+                  key={table.id}
+                  className={`backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer ${
+                    table.status === 'occupied' ? 'ring-2 ring-blue-500' : ''
+                  }`}
+                  onClick={() => setSelectedTable(table)}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+                  
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                          {table.number}
+                        </div>
+                        <div>
+                          <h3 className="font-semibold">Table {table.number}</h3>
+                          <p className="text-sm text-muted-foreground">{table.capacity} seats</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-4">
+                        <Badge className={statusBadge.className}>
+                          <StatusIcon className="h-3 w-3 mr-1" />
+                          {statusBadge.label}
+                        </Badge>
+                        
+                        {table.currentOrder && (
+                          <div className="text-sm">
+                            <span className="font-medium">{table.currentOrder.customerName}</span>
+                            <span className="text-muted-foreground ml-2">
+                              {getOccupancyTime(table.currentOrder.startTime)}
+                            </span>
+                          </div>
+                        )}
+                        
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toast({
+                                title: "QR Code",
+                                description: `QR Code for Table ${table.number}: ${table.qrCode}`,
+                              });
+                            }}
+                          >
+                            <QrCode className="h-3 w-3 mr-1" />
+                            QR
+                          </Button>
+                          
+                          {table.status === 'available' && (
+                            <Button
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateTableStatus.mutate({ tableId: table.id, status: 'occupied' });
+                              }}
+                            >
+                              <Users className="h-3 w-3 mr-1" />
+                              Seat
+                            </Button>
+                          )}
+                          
+                          {table.status === 'occupied' && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateTableStatus.mutate({ tableId: table.id, status: 'cleaning' });
+                              }}
+                            >
+                              <Coffee className="h-3 w-3 mr-1" />
+                              Clear
+                            </Button>
+                          )}
+                          
+                          {table.status === 'cleaning' && (
+                            <Button
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateTableStatus.mutate({ tableId: table.id, status: 'available' });
+                              }}
+                            >
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              Clean
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
         </div>
       ))}
 

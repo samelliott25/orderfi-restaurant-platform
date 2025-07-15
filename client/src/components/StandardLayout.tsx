@@ -17,6 +17,7 @@ interface StandardLayoutProps {
   className?: string;
   showSidebar?: boolean; // Control whether to show sidebar
   showHeader?: boolean;  // Control whether to show header
+  actions?: React.ReactNode; // Header actions (buttons, etc.)
 }
 
 export function StandardLayout({ 
@@ -25,7 +26,8 @@ export function StandardLayout({
   subtitle = "Smart Restaurant Assistant",
   className = "",
   showSidebar = true,
-  showHeader = true
+  showHeader = true,
+  actions
 }: StandardLayoutProps) {
   const { isOpen, setIsOpen, isSidebarMode } = useChatContext();
 
@@ -38,6 +40,7 @@ export function StandardLayout({
             <OrderFiPageHeader 
               title={title}
               subtitle={subtitle}
+              actions={actions}
             />
           )}
           {children}
@@ -68,6 +71,7 @@ export function StandardLayout({
             <OrderFiPageHeader 
               title={title}
               subtitle={subtitle}
+              actions={actions}
             />
           )}
           
