@@ -193,6 +193,12 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 
 ```
 Changelog:
+- January 15, 2025. DIALOG TRANSPARENCY FIX: Fixed exit confirmation dialog readability issues
+  - Added explicit background colors: bg-white dark:bg-gray-900 for proper contrast
+  - Applied text color classes: text-gray-900 dark:text-gray-100 for titles, text-gray-600 dark:text-gray-400 for descriptions
+  - Enhanced dialog borders: border-gray-200 dark:border-gray-700 with shadow-xl for better definition
+  - Fixed Cancel button styling with proper background and hover states for both light and dark modes
+  - Dialog now has solid background preventing transparency issues that made text unreadable
 - January 15, 2025. SIDEBAR THEME TOGGLE BUTTON ENHANCEMENT: Made dark/light mode button full width with improved styling
   - Changed theme toggle from small square button (h-9 w-9) to full-width button (w-full)
   - Added text labels: "Light Mode" and "Dark Mode" that change based on current theme

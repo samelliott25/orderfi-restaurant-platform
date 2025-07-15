@@ -431,10 +431,10 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
       {/* Exit Confirmation Dialog */}
       <Dialog open={showExitDialog} onOpenChange={setShowExitDialog}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-xl">
           <DialogHeader>
-            <DialogTitle>Are you sure you're leaving?</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-gray-900 dark:text-gray-100">Are you sure you're leaving?</DialogTitle>
+            <DialogDescription className="text-gray-600 dark:text-gray-400">
               You'll be taken back to the landing page and any unsaved changes may be lost.
             </DialogDescription>
           </DialogHeader>
@@ -442,6 +442,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             <Button
               variant="outline"
               onClick={() => setShowExitDialog(false)}
+              className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               Cancel
             </Button>
