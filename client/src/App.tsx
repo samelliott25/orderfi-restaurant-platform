@@ -57,6 +57,7 @@ import DashboardMobile from "@/pages/dashboard-mobile";
 import DashboardPhase2 from "@/pages/dashboard-phase2";
 import TestMobile from "@/pages/test-mobile";
 import VoiceFirstDemo from "@/pages/voice-first-demo";
+import MobileAppPage from "@/pages/mobile-app";
 
 
 function AppLayout({ children }: { children: React.ReactNode }) {
@@ -147,7 +148,8 @@ function Router() {
         <Route path="/test-mobile" component={TestMobile} />
         
         {/* Mobile App - QR Ordering System */}
-        <Route path="/mobileapp" component={EnhancedCustomerMenu} />
+        <Route path="/mobileapp" component={MobileAppPage} />
+        <Route path="/mobileapp-menu" component={EnhancedCustomerMenu} />
         <Route path="/scan" component={ScanPage} />
         <Route path="/login" component={CustomerLogin} />
         <Route path="/menu" component={MenuRedirect} />

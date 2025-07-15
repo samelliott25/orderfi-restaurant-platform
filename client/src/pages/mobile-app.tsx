@@ -14,7 +14,9 @@ import {
   Truck,
   Filter,
   MapPin,
-  Bell
+  Bell,
+  ShoppingCart,
+  Utensils
 } from "lucide-react";
 
 interface MenuItem {
@@ -118,9 +120,34 @@ export default function MobileAppPage() {
     : menuItems.filter(item => item.category === selectedCategory);
 
   return (
-    <div className="min-h-screen pb-20" style={{ backgroundColor: '#e8f5e9' }}>
-      {/* Header - Mamo Style */}
-      <div className="p-4">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      {/* Smartphone Container */}
+      <div className="relative w-full max-w-sm mx-auto">
+        {/* Phone Frame */}
+        <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
+          {/* Screen */}
+          <div className="bg-white rounded-[2.5rem] overflow-hidden relative">
+            {/* Status Bar */}
+            <div className="bg-black text-white text-xs px-6 py-2 flex justify-between items-center">
+              <div className="flex items-center gap-1">
+                <div className="w-4 h-2 bg-white rounded-sm"></div>
+                <div className="w-4 h-2 bg-white rounded-sm opacity-60"></div>
+                <div className="w-4 h-2 bg-white rounded-sm opacity-30"></div>
+              </div>
+              <div className="text-white font-medium">9:41</div>
+              <div className="flex items-center gap-1">
+                <div className="w-4 h-2 bg-white rounded-sm"></div>
+                <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="w-6 h-3 border border-white rounded-sm">
+                  <div className="w-4 h-2 bg-white rounded-sm m-0.5"></div>
+                </div>
+              </div>
+            </div>
+            
+            {/* App Content */}
+            <div className="h-[600px] overflow-y-auto pb-20" style={{ backgroundColor: '#e8f5e9' }}>
+              {/* Header - Mamo Style */}
+              <div className="p-4">
         <div className="flex items-center justify-between mb-8">
           <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">
             <span className="text-white font-bold text-lg">O</span>
@@ -285,33 +312,42 @@ export default function MobileAppPage() {
         </div>
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 border-t bg-background border-border">
-        <div className="flex justify-around py-2">
-          {[
-            { id: 'home', icon: Home, label: 'Home' },
-            { id: 'search', icon: Search, label: 'Search' },
-            { id: 'favorites', icon: Heart, label: 'Favorites' },
-            { id: 'profile', icon: User, label: 'Profile' }
-          ].map((tab) => (
-            <Button
-              key={tab.id}
-              variant="ghost"
-              size="sm"
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex flex-col items-center p-2 ${
-                activeTab === tab.id ? 'text-primary' : 'text-gray-400'
-              }`}
-            >
-              <tab.icon className="w-5 h-5 mb-1" />
-              <span className="text-xs">{tab.label}</span>
-            </Button>
-          ))}
+              {/* Bottom Navigation */}
+              <div className="absolute bottom-0 left-0 right-0 border-t bg-background border-border">
+                <div className="flex justify-around py-2">
+                  {[
+                    { id: 'home', icon: Home, label: 'Home' },
+                    { id: 'search', icon: Search, label: 'Search' },
+                    { id: 'favorites', icon: Heart, label: 'Favorites' },
+                    { id: 'profile', icon: User, label: 'Profile' }
+                  ].map((tab) => (
+                    <Button
+                      key={tab.id}
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex flex-col items-center p-2 ${
+                        activeTab === tab.id ? 'text-primary' : 'text-gray-400'
+                      }`}
+                    >
+                      <tab.icon className="w-5 h-5 mb-1" />
+                      <span className="text-xs">{tab.label}</span>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Collapsible Chat */}
+              <CollapsibleChat className="bottom-24 right-4" />
+            </div>
+            
+            {/* Home Indicator */}
+            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2">
+              <div className="w-32 h-1 bg-gray-300 rounded-full"></div>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Collapsible Chat */}
-      <CollapsibleChat className="bottom-24 right-4" />
     </div>
   );
 }
