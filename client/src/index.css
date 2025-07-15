@@ -1465,30 +1465,30 @@ html {
 }
 
 :root {
-  /* Warm Cream Theme - #ffe6b0 */
-  --background: 255 230 176; /* #ffe6b0 - Warm cream background */
-  --foreground: 139 121 94; /* #8b795e - Medium brown text */
-  --muted: 255 240 204; /* #fff0cc - Lighter cream */
-  --muted-foreground: 139 121 94; /* #8b795e - Medium brown */
-  --popover: 255 230 176; /* #ffe6b0 - Cream for popover */
-  --popover-foreground: 139 121 94; /* #8b795e - Medium brown text */
-  --card: 255 230 176; /* #ffe6b0 - Cream for cards */
-  --card-foreground: 139 121 94; /* #8b795e - Medium brown text */
-  --border: 229 207 151; /* #e5cf97 - Darker cream border */
-  --input: 255 230 176; /* #ffe6b0 - Same as background cream */
-  --primary: 139 121 94; /* #8b795e - Medium brown primary */
+  /* Clean White Theme */
+  --background: 255 255 255; /* White background */
+  --foreground: 15 23 42; /* Slate-800 text */
+  --muted: 248 250 252; /* Slate-50 - Light gray */
+  --muted-foreground: 100 116 139; /* Slate-500 - Gray text */
+  --popover: 255 255 255; /* White for popover */
+  --popover-foreground: 15 23 42; /* Slate-800 text */
+  --card: 255 255 255; /* White for cards */
+  --card-foreground: 15 23 42; /* Slate-800 text */
+  --border: 226 232 240; /* Slate-200 - Light gray border */
+  --input: 255 255 255; /* White input background */
+  --primary: 139 121 94; /* Brown primary - kept for orange theme elements */
   --primary-foreground: 255 255 255; /* White text on primary */
-  --secondary: 210 180 140; /* #d2b48c - Tan secondary */
-  --secondary-foreground: 139 121 94; /* #8b795e - Medium brown text on secondary */
-  --accent: 160 134 98; /* #a08662 - Brown accent */
-  --accent-foreground: 255 255 255; /* White text on accent */
-  --warning: 184 134 11; /* #b8860b - Dark goldenrod warning */
+  --secondary: 241 245 249; /* Slate-100 secondary */
+  --secondary-foreground: 15 23 42; /* Slate-800 text on secondary */
+  --accent: 241 245 249; /* Slate-100 accent */
+  --accent-foreground: 15 23 42; /* Slate-800 text on accent */
+  --warning: 245 158 11; /* Amber-500 warning */
   --warning-foreground: 255 255 255; /* White text on warning */
-  --destructive: 139 69 19; /* #8b4513 - Saddle brown */
+  --destructive: 239 68 68; /* Red-500 destructive */
   --destructive-foreground: 255 255 255; /* White text on destructive */
-  --info: 139 121 94; /* #8b795e - Brown info */
+  --info: 59 130 246; /* Blue-500 info */
   --info-foreground: 255 255 255; /* White text on info */
-  --ring: 139 121 94; /* Brown ring */
+  --ring: 139 121 94; /* Brown ring - kept for orange theme elements */
   --radius: 0.75rem;
 }
 
@@ -1688,26 +1688,26 @@ html {
 }
 
 .dark {
-  /* Same colors for dark mode - keep consistent Mimi aesthetic */
-  --background: 245 230 211; /* #F5E6D3 - Same cream */
-  --foreground: 51 51 51; /* #333 - Dark text */
-  --muted: 245 230 211; /* Same cream */
-  --muted-foreground: 102 102 102; /* Gray text */
-  --popover: 255 255 255; /* White */
-  --popover-foreground: 51 51 51; /* Dark text */
-  --card: 25 20% 96%; /* Light cream */
-  --card-foreground: 51 51 51; /* Dark text */
-  --border: 90 138 138; /* Teal */
-  --input: 255 255 255; /* White */
-  --primary: 210 105 30; /* Orange */
+  /* Clean Dark Mode Theme */
+  --background: 15 23 42; /* Slate-800 dark background */
+  --foreground: 248 250 252; /* Slate-50 light text */
+  --muted: 30 41 59; /* Slate-700 dark muted */
+  --muted-foreground: 148 163 184; /* Slate-400 light muted text */
+  --popover: 30 41 59; /* Slate-700 dark popover */
+  --popover-foreground: 248 250 252; /* Slate-50 light text */
+  --card: 30 41 59; /* Slate-700 dark card */
+  --card-foreground: 248 250 252; /* Slate-50 light text */
+  --border: 51 65 85; /* Slate-600 dark border */
+  --input: 30 41 59; /* Slate-700 dark input */
+  --primary: 139 121 94; /* Brown primary - kept for orange theme elements */
   --primary-foreground: 255 255 255; /* White text */
-  --secondary: 90 138 138; /* Teal */
-  --secondary-foreground: 255 255 255; /* White text */
-  --accent: 210 105 30; /* Orange */
-  --accent-foreground: 255 255 255; /* White text */
-  --destructive: 239 68 68; /* Red */
+  --secondary: 51 65 85; /* Slate-600 dark secondary */
+  --secondary-foreground: 248 250 252; /* Slate-50 light text */
+  --accent: 51 65 85; /* Slate-600 dark accent */
+  --accent-foreground: 248 250 252; /* Slate-50 light text */
+  --destructive: 239 68 68; /* Red-500 destructive */
   --destructive-foreground: 255 255 255; /* White text */
-  --ring: 210 105 30; /* Orange */
+  --ring: 139 121 94; /* Brown ring - kept for orange theme elements */
 }
 
 @layer base {
