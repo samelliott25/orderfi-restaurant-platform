@@ -56,12 +56,7 @@ import OrderStatus from "@/pages/customer/order-status";
 import DashboardMobile from "@/pages/dashboard-mobile";
 import DashboardPhase2 from "@/pages/dashboard-phase2";
 import TestMobile from "@/pages/test-mobile";
-import Design2026 from "@/pages/design-2026";
-import CreativeShowcase from "@/pages/creative-showcase";
-import GrokTest from "@/pages/grok-test";
 import VoiceFirstDemo from "@/pages/voice-first-demo";
-import MovingBackgroundDemo from "@/pages/moving-background-demo";
-import ThemeAnalyzer from "@/pages/theme-analyzer";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -179,21 +174,8 @@ function Router() {
         <Route path="/tables" component={TablesPage} />
         <Route path="/kds" component={KDSPage} />
         
-        {/* Design Innovation */}
-        <Route path="/design-2026" component={Design2026} />
-        <Route path="/creative-showcase" component={CreativeShowcase} />
-        
-        {/* Grok AI Testing */}
-        <Route path="/grok-test" component={GrokTest} />
-        
         {/* Voice-First AI Demo */}
         <Route path="/voice-first-demo" component={VoiceFirstDemo} />
-        
-        {/* Moving Background Demo */}
-        <Route path="/moving-background-demo" component={MovingBackgroundDemo} />
-        
-        {/* Theme Analyzer */}
-        <Route path="/theme-analyzer" component={ThemeAnalyzer} />
         
         <Route component={NotFound} />
       </Switch>

@@ -2,9 +2,7 @@ import { StandardLayout } from "@/components/StandardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CreativeCardStack } from '@/components/creative-layout/CreativeCardStack';
-import { CreativeMasonryGrid } from '@/components/creative-layout/CreativeMasonryGrid';
-import { FloatingShapes } from '@/components/creative-layout/CreativeShapes';
+
 import { Clock, ChefHat, CheckCircle, Users, MapPin } from "lucide-react";
 import "@/styles/mobile-fix.css";
 
@@ -106,26 +104,48 @@ export default function AdminOrdersPage() {
           </div>
         </div>
 
-        {/* Orders List with Creative Layout */}
-        <div className="relative">
-          <FloatingShapes className="absolute inset-0 opacity-20 pointer-events-none" />
-          <CreativeCardStack
-            cards={orders.map((order) => ({
-              id: order.id,
-              title: `Order #${order.id}`,
-              content: `${order.customerName} • Table ${order.table} • ${order.items.join(", ")}`,
-              status: order.status,
-              action: order.status === 'preparing' ? 'Mark Ready' : 
-                     order.status === 'ready' ? 'Mark Picked Up' : 'Complete',
-              metadata: {
-                time: order.time,
-                total: order.total,
-                table: order.table,
-                items: order.items
-              }
-            }))}
-            className="order-stack"
-          />
+        {/* Orders List */}
+        <div className="space-y-4">
+          {orders.map((order) => (
+            <Card key={order.id} className="relative bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <CardHeader className="pb-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-lg">Order #{order.id}</CardTitle>
+                    <p className="text-sm text-muted-foreground">{order.customerName} • Table {order.table}</p>
+                  </div>
+                  <Badge variant={order.status === 'preparing' ? 'default' : order.status === 'ready' ? 'secondary' : 'outline'}>
+                    {order.status}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Items:</span>
+                    <span className="text-sm">{order.items.join(", ")}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Time:</span>
+                    <span className="text-sm">{order.time}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Total:</span>
+                    <span className="text-sm font-bold">{order.total}</span>
+                  </div>
+                  <div className="pt-2">
+                    <Button 
+                      className="w-full"
+                      variant={order.status === 'preparing' ? 'default' : order.status === 'ready' ? 'secondary' : 'outline'}
+                    >
+                      {order.status === 'preparing' ? 'Mark Ready' : 
+                       order.status === 'ready' ? 'Mark Picked Up' : 'Complete'}
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </StandardLayout>

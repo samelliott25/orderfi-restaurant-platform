@@ -3,9 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CollapsibleChat } from "@/components/CollapsibleChat";
-import { CreativeCardStack } from '@/components/creative-layout/CreativeCardStack';
-import { CreativeMasonryGrid } from '@/components/creative-layout/CreativeMasonryGrid';
-import { CreativeShapes, FloatingShapes } from '@/components/creative-layout/CreativeShapes';
+
 import { 
   Search, 
   Heart, 

@@ -12,7 +12,7 @@ import { blockchainIntegrationService } from "./services/blockchain-integration"
 import { menuCategorizationService } from "./services/menu-categorization";
 import { kitchenPrinterService } from "./services/kitchen-printer";
 import { processChatMessage, processOperationsAiMessage, type ChatContext } from "./services/akash-chat";
-import { enhancedCompetitiveAnalysis, grokFeatureTaste, analyzeMenuImage, generateRestaurantStrategy, testGrokConnection } from "./grok";
+
 import { 
   insertRestaurantSchema, 
   insertMenuItemSchema, 
@@ -757,197 +757,16 @@ export async function registerRoutes(app: Express): Promise<void> {
   // Register TTS routes
   app.use("/api/tts", ttsRouter);
 
-  // Grok AI integration endpoints
-  app.post('/api/grok/competitive-analysis', async (req, res) => {
-    try {
-      const { competitorData } = req.body;
-      const analysis = await enhancedCompetitiveAnalysis(competitorData);
-      res.json({ analysis });
-    } catch (error) {
-      console.error('Grok competitive analysis error:', error);
-      res.status(500).json({ error: 'Failed to analyze competitor data' });
-    }
-  });
 
-  app.post('/api/grok/feature-taste', async (req, res) => {
-    try {
-      const { featureDescription } = req.body;
-      const result = await grokFeatureTaste(featureDescription);
-      res.json(result);
-    } catch (error) {
-      console.error('Grok feature taste error:', error);
-      res.status(500).json({ error: 'Failed to analyze feature taste' });
-    }
-  });
 
-  app.post('/api/grok/menu-analysis', upload.single('image'), async (req, res) => {
-    try {
-      if (!req.file) {
-        return res.status(400).json({ error: 'No image provided' });
-      }
-      
-      const base64Image = req.file.buffer.toString('base64');
-      const analysis = await analyzeMenuImage(base64Image);
-      res.json({ analysis });
-    } catch (error) {
-      console.error('Grok menu analysis error:', error);
-      res.status(500).json({ error: 'Failed to analyze menu image' });
-    }
-  });
 
-  app.post('/api/grok/restaurant-strategy', async (req, res) => {
-    try {
-      const { businessContext } = req.body;
-      const strategy = await generateRestaurantStrategy(businessContext);
-      res.json({ strategy });
-    } catch (error) {
-      console.error('Grok restaurant strategy error:', error);
-      res.status(500).json({ error: 'Failed to generate restaurant strategy' });
-    }
-  });
 
-  app.get('/api/grok/test-connection', async (req, res) => {
-    try {
-      const isConnected = await testGrokConnection();
-      res.json({ connected: isConnected });
-    } catch (error) {
-      console.error('Grok connection test error:', error);
-      res.status(500).json({ error: 'Failed to test Grok connection' });
-    }
-  });
 
-  // Phase 1 Implementation: Comprehensive competitive analysis
-  app.post('/api/grok/phase1-competitive-analysis', async (req, res) => {
-    try {
-      const { phase1CompetitiveAnalysis } = await import('./grok');
-      const analysis = await phase1CompetitiveAnalysis();
-      res.json(analysis);
-    } catch (error) {
-      console.error('Phase 1 competitive analysis error:', error);
-      res.status(500).json({ error: 'Failed to perform Phase 1 competitive analysis' });
-    }
-  });
 
-  // Phase 1 Implementation: Development roadmap generation
-  app.post('/api/grok/phase1-roadmap', async (req, res) => {
-    try {
-      const { competitiveInsights } = req.body;
-      const { generatePhase1Roadmap } = await import('./grok');
-      const roadmap = await generatePhase1Roadmap(competitiveInsights);
-      res.json(roadmap);
-    } catch (error) {
-      console.error('Phase 1 roadmap generation error:', error);
-      res.status(500).json({ error: 'Failed to generate Phase 1 roadmap' });
-    }
-  });
 
-  // Phase 2 Implementation: Mobile optimization analysis
-  app.post('/api/grok/phase2-mobile-analysis', async (req, res) => {
-    try {
-      const { currentAdminPages } = req.body;
-      const { analyzeMobileOptimization } = await import('./grok');
-      const analysis = await analyzeMobileOptimization(currentAdminPages);
-      res.json(analysis);
-    } catch (error) {
-      console.error('Phase 2 mobile analysis error:', error);
-      res.status(500).json({ error: 'Failed to analyze mobile optimization' });
-    }
-  });
 
-  // Phase 2 Implementation: Generate mobile-optimized components
-  app.post('/api/grok/phase2-generate-components', async (req, res) => {
-    try {
-      const { specifications } = req.body;
-      const { generateMobileComponents } = await import('./grok');
-      const components = await generateMobileComponents(specifications);
-      res.json(components);
-    } catch (error) {
-      console.error('Phase 2 component generation error:', error);
-      res.status(500).json({ error: 'Failed to generate mobile components' });
-    }
-  });
 
-  // Grok theme analysis endpoint
-  app.post('/api/grok/analyze-palette', async (req, res) => {
-    try {
-      const { imageDescription, currentThemeIssues } = req.body;
-      
-      const openai = new OpenAI({ 
-        baseURL: "https://api.x.ai/v1", 
-        apiKey: process.env.XAI_API_KEY 
-      });
 
-      const response = await openai.chat.completions.create({
-        model: "grok-2-1212",
-        messages: [
-          {
-            role: "system",
-            content: `You are an expert UI/UX designer and color theorist specializing in modern application themes. 
-            You analyze color palettes and generate comprehensive CSS theme systems for applications.
-            
-            Focus on:
-            1. Color harmony and accessibility (WCAG AA compliance)
-            2. Semantic color token assignment
-            3. Light/dark mode variants
-            4. CSS variable definitions in HSL format
-            5. Component-specific color applications
-            6. Gradient combinations
-            7. Brand consistency
-            8. Restaurant industry best practices
-            
-            Return a well-structured JSON response with complete theme system.`
-          },
-          {
-            role: "user",
-            content: `Analyze this Kleurvörm color palette for OrderFi restaurant management application:
-            
-            Color Palette Analysis: The palette shows a sophisticated gradient system with:
-            - Primary band: Deep navy/black → Royal blue → Purple/magenta → Light purple → Pale mint → Coral orange
-            - Secondary band: Light lavender → Purple gradient → Bright red/coral → Dark navy → Orange gradient
-            - Distribution: 40% primary, 40% secondary, 10% accent, 10% neutral
-            
-            Current Theme Issues: ${currentThemeIssues}
-            
-            Generate a complete CSS theme system with:
-            1. Root CSS variables for light and dark modes (use HSL format)
-            2. Semantic color assignments (primary, secondary, accent, background, foreground, etc.)
-            3. Component-specific color applications
-            4. Gradient definitions for modern UI
-            5. Accessibility considerations (contrast ratios)
-            6. Implementation guidelines
-            
-            Create a sophisticated, modern theme that:
-            - Uses the purple-blue gradient as primary colors
-            - Incorporates the coral/orange as accent colors
-            - Maintains excellent readability
-            - Provides proper contrast ratios
-            - Supports both light and dark modes
-            - Feels premium and modern for restaurant management
-            
-            Return as JSON with complete CSS variables and implementation guide.`
-          }
-        ],
-        max_tokens: 4000,
-        temperature: 0.7
-      });
-
-      const analysis = response.choices[0].message.content;
-      
-      res.json({
-        success: true,
-        analysis,
-        timestamp: new Date().toISOString()
-      });
-
-    } catch (error) {
-      console.error('Grok theme analysis error:', error);
-      res.status(500).json({
-        success: false,
-        error: 'Failed to analyze color palette',
-        details: error.message
-      });
-    }
-  });
 
   // Register customer chat routes
   const customerChatRouter = await import("./routes/customer-chat.js");
@@ -2031,73 +1850,7 @@ Base predictions on historical patterns, seasonal trends, weather impact, and cu
 
   // Removed robot automation endpoints as requested
 
-  // Grok-4 Moving Background Generator endpoint
-  app.post('/api/grok/generate-moving-background', async (req, res) => {
-    try {
-      const { style, colors, animation, complexity } = req.body;
-      
-      if (!process.env.XAI_API_KEY) {
-        return res.status(500).json({ error: 'XAI API key not configured' });
-      }
-      
-      const prompt = `You are a senior frontend developer specializing in advanced CSS animations and modern web design. Create a sophisticated moving textured background component for a restaurant ordering app called OrderFi.
 
-Requirements:
-- Style: ${style || 'Modern glassmorphism with subtle textures'}
-- Colors: ${colors || 'OrderFi orange (#f97316) to pink (#ec4899) gradient palette'}
-- Animation: ${animation || 'Smooth, continuous movement with layered effects'}
-- Complexity: ${complexity || 'Professional restaurant-grade visual appeal'}
-
-Generate a complete React component that includes:
-1. A MovingTexturedBackground component with TypeScript
-2. Advanced CSS animations using keyframes
-3. Multiple animated layers for depth and visual interest
-4. Smooth, performance-optimized animations
-5. Responsive design that works on all devices
-6. CSS variables for easy customization
-7. GPU acceleration for smooth performance
-
-The background should be:
-- Subtle enough not to interfere with text readability
-- Professional and appealing for restaurant customers
-- Optimized for performance with will-change and transform3d
-- Include gradient overlays, geometric patterns, or flowing shapes
-- Use modern CSS features like backdrop-filter, clip-path, or CSS Grid
-
-Return ONLY the complete React component code with embedded CSS, no explanations or markdown formatting.`;
-
-      const response = await fetch('https://api.x.ai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.XAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'grok-2-1212',
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.7,
-          max_tokens: 4000,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`XAI API error: ${response.status}`);
-      }
-
-      const result = await response.json();
-      const generatedCode = result.choices[0].message.content;
-
-      res.json({
-        success: true,
-        code: generatedCode,
-        timestamp: new Date().toISOString(),
-        model: 'grok-2-1212'
-      });
-    } catch (error) {
-      console.error('Grok background generation error:', error);
-      res.status(500).json({ error: 'Failed to generate moving background' });
-    }
-  });
 
   // Customer profile endpoint
   app.get('/api/customers/:id/profile', async (req, res) => {

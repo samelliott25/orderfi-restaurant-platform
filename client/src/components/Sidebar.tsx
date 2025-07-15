@@ -32,16 +32,12 @@ import {
   Bot,
   Box,
   Smartphone,
-  Sparkles,
   MapPin,
   Brain,
   Activity,
   Mic,
   Timer,
-  Clock,
-  Palette,
-  Layers,
-  Zap
+  Clock
 } from "lucide-react";
 
 const menuItems = [
@@ -57,10 +53,7 @@ const menuItems = [
   { icon: FileText, label: "Reporting", href: "/reporting" },
   { icon: Settings2, label: "Settings", href: "/settings" },
   { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
-  { icon: Zap, label: "Grok AI", href: "/grok-test" },
-  { icon: Palette, label: "Theme Analyzer", href: "/theme-analyzer" },
-  { icon: Layers, label: "Creative Layout", href: "/creative-showcase" },
-  { icon: Sparkles, label: "Moving Background", href: "/moving-background-demo" },
+
 ];
 
 interface SidebarProps {
