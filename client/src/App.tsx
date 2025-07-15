@@ -65,7 +65,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   const [sidebarWidth, setSidebarWidth] = useState('256px');
   const { isOpen, setIsOpen } = useChatContext();
   
-  // Hide navigation on pages that have their own header/navigation (customer flows and special pages)
+  // Hide navigation only on customer-facing pages that need full screen experience
   const hideNavigation = [
     '/scan',
     '/login',
@@ -73,10 +73,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
     '/checkout',
     '/order-status',
     '/landing-page', 
-    '/not-found',
-    '/mobileapp',
-    '/dashboard-mobile',
-    '/kds'
+    '/not-found'
   ].includes(location) || location.startsWith('/order-status/');
 
 

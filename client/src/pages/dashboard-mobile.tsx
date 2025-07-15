@@ -1,5 +1,5 @@
 import React from 'react';
-import MobileLayout from '@/components/MobileLayout';
+import StandardLayout from '@/components/StandardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import {
 
 export default function DashboardMobile() {
   return (
-    <MobileLayout title="Restaurant Dashboard" subtitle="Real-time operations overview">
+    <StandardLayout title="Mobile Dashboard" subtitle="Real-time operations overview">
       <div className="p-4 space-y-6">
         {/* Quick Stats Grid */}
         <div className="grid grid-cols-2 gap-4">
@@ -172,6 +172,6 @@ export default function DashboardMobile() {
           </CardContent>
         </Card>
       </div>
-    </MobileLayout>
+    </StandardLayout>
   );
 }
