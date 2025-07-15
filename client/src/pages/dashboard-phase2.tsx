@@ -180,7 +180,7 @@ export default function DashboardPhase2() {
 
 
   return (
-    <StandardLayout title="Phase 2 Dashboard" subtitle="Mobile-Optimized Restaurant Management">
+    <StandardLayout title="Dashboard" subtitle="Mobile-Optimized Restaurant Management">
         <div className="space-y-8">
           {/* Kleurvörm Theme Banner */}
           <div className="kleurvorm-primary p-6 rounded-xl text-white">

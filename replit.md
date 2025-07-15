@@ -431,11 +431,11 @@ Changelog:
   - Integrated Recharts for advanced data visualization with responsive charts and custom tooltips
   - Added AI-driven restaurant strategy insights with actionable recommendations and impact scoring
   - Phase 2 Dashboard now serves as comprehensive restaurant management interface with competitive intelligence patterns
-- January 12, 2025. PHASE 2 DASHBOARD PROMOTION: Successfully replaced main dashboard with Phase 2 mobile-optimized version and applied mobile patterns to existing admin pages
-  - Promoted Phase 2 Dashboard to default dashboard route (/dashboard) replacing hybrid dashboard
-  - Updated root route (/) to use Phase 2 Dashboard as main entry point
-  - Removed duplicate "Phase 2 Dashboard" menu item from sidebar navigation
-  - Phase 2 Dashboard now serves as primary restaurant management interface with mobile-first design
+- January 12, 2025. DASHBOARD PROMOTION: Successfully replaced main dashboard with mobile-optimized version and applied mobile patterns to existing admin pages
+  - Promoted Dashboard to default dashboard route (/dashboard) replacing hybrid dashboard
+  - Updated root route (/) to use Dashboard as main entry point
+  - Removed duplicate "Dashboard" menu item from sidebar navigation
+  - Dashboard now serves as primary restaurant management interface with mobile-first design
   - Fixed KDS sidebar positioning to remain static while scrolling with proper z-index layering
 - January 12, 2025. PHASE 2 MOBILE OPTIMIZATION COMPLETED: Successfully applied Phase 2 mobile patterns to existing admin pages with touch-friendly controls and cleaned up obsolete functionality
   - Applied mobile optimization patterns to existing admin pages: inventory-simplified.tsx, payments.tsx, orders-new.tsx with 44px+ touch targets
@@ -445,7 +445,7 @@ Changelog:
   - Fixed KDS WebSocket connectivity issue by updating protocol detection (https: → wss:, http: → ws:)
   - Removed deprecated /kitchen page and routes from application as superseded by /kds functionality
   - Cleaned up App.tsx imports and removed kitchen references from navigation
-  - Added Phase 2 Dashboard to sidebar navigation with Brain icon for easy access
+  - Added Dashboard to sidebar navigation with Brain icon for easy access
   - Successfully integrated competitive intelligence patterns from Toast POS, Square, and Lightspeed mobile interfaces
   - Established foundation for comprehensive mobile-first restaurant management with proper touch targets and responsive design
 - January 12, 2025. PHASE 2 IMPLEMENTATION INITIATED: Successfully implemented mobile-optimized admin pages with progressive disclosure architecture and touch-friendly controls
