@@ -263,17 +263,15 @@ export default function KDS() {
                   </div>
                 ) : connectionStatus === 'connecting' ? (
                   <div className="flex items-center space-x-1 text-yellow-600">
-                        <Timer className="w-4 h-4 animate-spin" />
-                        <span className="text-sm font-medium">Connecting...</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center space-x-1 text-red-600">
-                        <WifiOff className="w-4 h-4" />
-                        <span className="text-sm font-medium">Offline</span>
-                      </div>
-                    )}
+                    <Timer className="w-4 h-4 animate-spin" />
+                    <span className="text-sm font-medium">Connecting...</span>
                   </div>
-                </div>
+                ) : (
+                  <div className="flex items-center space-x-1 text-red-600">
+                    <WifiOff className="w-4 h-4" />
+                    <span className="text-sm font-medium">Offline</span>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex space-x-2">
