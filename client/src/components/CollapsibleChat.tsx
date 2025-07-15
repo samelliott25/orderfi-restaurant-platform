@@ -440,7 +440,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                               className={`bg-background border transition-all duration-500 ${
                                 isHighlighted ? 'ring-2 ring-yellow-400 shadow-lg scale-105' : ''
                               }`} 
-                              style={{ borderColor: isHighlighted ? '#f59e0b' : '#e5cf97' }}
+                              className={`${isHighlighted ? 'border-amber-500' : 'border-border'}`}
                             >
                               <CardContent className="p-3">
                                 {isHighlighted && (
@@ -454,20 +454,20 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                                   <div className="text-2xl">{item.image}</div>
                                   <div className="flex-1 min-w-0">
                                     <div className="flex items-start justify-between mb-1">
-                                      <h4 className="font-semibold text-sm truncate" style={{ color: '#8b795e' }}>
+                                      <h4 className="font-semibold text-sm truncate text-foreground">
                                         {item.name}
                                       </h4>
-                                      <span className="font-bold text-sm ml-2" style={{ color: '#8b795e' }}>
+                                      <span className="font-bold text-sm ml-2 text-foreground">
                                         ${item.price}
                                       </span>
                                     </div>
                                     
-                                    <p className="text-xs mb-2 line-clamp-2" style={{ color: '#8b795e' }}>
+                                    <p className="text-xs mb-2 line-clamp-2 text-foreground">
                                       {item.description}
                                     </p>
                                     
                                     <div className="flex items-center justify-between">
-                                      <div className="flex items-center gap-3 text-xs" style={{ color: '#8b795e' }}>
+                                      <div className="flex items-center gap-3 text-xs text-foreground">
                                         <div className="flex items-center gap-1">
                                           <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                                           <span>{item.rating}</span>
@@ -506,10 +506,10 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
 
             {/* Cart Summary */}
             {cart.length > 0 && (
-              <div className="p-3 border-t" style={{ borderColor: '#e5cf97' }}>
-                <div className="flex items-center justify-between p-3 rounded-lg bg-white border" style={{ borderColor: '#e5cf97' }}>
+              <div className="p-3 border-t border-border">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-background border border-border">
                   <div>
-                    <p className="font-semibold text-sm" style={{ color: '#8b795e' }}>
+                    <p className="font-semibold text-sm text-foreground">
                       {getTotalItems()} items • ${getTotalPrice().toFixed(2)}
                     </p>
                   </div>

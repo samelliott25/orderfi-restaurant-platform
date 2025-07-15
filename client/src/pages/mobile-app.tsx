@@ -288,7 +288,7 @@ export default function MobileAppPage() {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 border-t bg-background" style={{ borderColor: '#e5cf97' }}>
+      <div className="fixed bottom-0 left-0 right-0 border-t bg-background border-border">
         <div className="flex justify-around py-2">
           {[
             { id: 'home', icon: Home, label: 'Home' },
@@ -302,7 +302,7 @@ export default function MobileAppPage() {
               size="sm"
               onClick={() => setActiveTab(tab.id)}
               className={`flex flex-col items-center p-2 ${
-                activeTab === tab.id ? 'text-[#8b795e]' : 'text-gray-400'
+                activeTab === tab.id ? 'text-primary' : 'text-gray-400'
               }`}
             >
               <tab.icon className="w-5 h-5 mb-1" />

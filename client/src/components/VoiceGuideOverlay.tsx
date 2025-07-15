@@ -179,24 +179,24 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
       
       {/* Tutorial control panel */}
       <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-2xl px-4">
-        <Card className="bg-white shadow-2xl border-[#8b795e]/20">
+        <Card className="bg-background shadow-2xl border-border">
           <CardContent className="p-6">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-[#8b795e] to-[#a08d6b] rounded-full flex items-center justify-center">
+                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
                   <Mic className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[#8b795e]">Voice Guide Tutorial</h3>
-                  <p className="text-sm text-[#8b795e]/70">Learn Web3 restaurant ordering</p>
+                  <h3 className="font-bold text-foreground">Voice Guide Tutorial</h3>
+                  <p className="text-sm text-muted-foreground">Learn Web3 restaurant ordering</p>
                 </div>
               </div>
               <Button
                 onClick={handleClose}
                 variant="ghost"
                 size="sm"
-                className="text-[#8b795e]/70 hover:text-[#8b795e]"
+                className="text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -204,13 +204,13 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
 
             {/* Progress */}
             <div className="mb-4">
-              <div className="flex items-center justify-between text-sm text-[#8b795e]/70 mb-2">
+              <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
                 <span>Step {currentStepIndex + 1} of {totalSteps}</span>
                 <span>{Math.round(progress)}% complete</span>
               </div>
               <Progress 
                 value={progress} 
-                className="h-2 bg-[#8b795e]/10"
+                className="h-2 bg-muted"
               />
             </div>
 
@@ -218,7 +218,7 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
             {currentStep && (
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-2">
-                  <Badge variant="secondary" className="bg-[#ffe6b0] text-[#8b795e]">
+                  <Badge variant="secondary">
                     {currentStep.title}
                   </Badge>
                   {isPlaying && (
@@ -229,7 +229,7 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
                     </div>
                   )}
                 </div>
-                <p className="text-[#8b795e] leading-relaxed">
+                <p className="text-foreground leading-relaxed">
                   {currentStep.instruction}
                 </p>
                 {currentStep.waitForAction && (
@@ -250,7 +250,7 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
                   disabled={currentStepIndex === 0}
                   variant="outline"
                   size="sm"
-                  className="border-[#8b795e]/20"
+                  className="border-border"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
@@ -259,7 +259,7 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
                   onClick={toggleMute}
                   variant="outline"
                   size="sm"
-                  className="border-[#8b795e]/20"
+                  className="border-border"
                 >
                   {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                 </Button>
@@ -286,10 +286,10 @@ export function VoiceGuideOverlay({ isVisible, onClose }: VoiceGuideOverlayProps
                   onClick={() => skipToStep(index)}
                   className={`w-2 h-2 rounded-full transition-colors ${
                     index === currentStepIndex 
-                      ? 'bg-[#8b795e]' 
+                      ? 'bg-primary' 
                       : index < currentStepIndex 
                         ? 'bg-green-500' 
-                        : 'bg-[#8b795e]/20'
+                        : 'bg-muted'
                   }`}
                 />
               ))}

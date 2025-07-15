@@ -30,33 +30,33 @@ export function DownloadPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#ffe6b0] p-4">
+    <div className="min-h-screen bg-background p-4">
       <div className="max-w-2xl mx-auto pt-20">
-        <Card className="bg-white border-[#8b795e] shadow-lg">
+        <Card className="bg-background border-border shadow-lg">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
-              <FileText className="h-16 w-16 text-[#8b795e]" />
+              <FileText className="h-16 w-16 text-foreground" />
             </div>
-            <CardTitle className="text-2xl text-[#8b795e]">Project Summary</CardTitle>
-            <CardDescription className="text-[#8b795e]/70">
+            <CardTitle className="text-2xl text-foreground">Project Summary</CardTitle>
+            <CardDescription className="text-muted-foreground">
               Download your comprehensive project documentation
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-2 gap-4 text-sm">
-              <div className="flex items-center gap-2 text-[#8b795e]">
+              <div className="flex items-center gap-2 text-foreground">
                 <Calendar className="h-4 w-4" />
                 <span>Generated: June 19, 2025</span>
               </div>
-              <div className="flex items-center gap-2 text-[#8b795e]">
+              <div className="flex items-center gap-2 text-foreground">
                 <Clock className="h-4 w-4" />
                 <span>Development: 3 Days</span>
               </div>
             </div>
             
-            <div className="bg-[#ffe6b0] p-4 rounded-lg">
-              <h3 className="font-semibold text-[#8b795e] mb-2">Document Contents:</h3>
-              <ul className="text-sm text-[#8b795e] space-y-1">
+            <div className="bg-muted p-4 rounded-lg">
+              <h3 className="font-semibold text-foreground mb-2">Document Contents:</h3>
+              <ul className="text-sm text-foreground space-y-1">
                 <li>• Executive Summary & Technical Architecture</li>
                 <li>• Complete Development Timeline (15 pages)</li>
                 <li>• Investment Analysis & ROI Projections</li>
@@ -67,8 +67,8 @@ export function DownloadPage() {
             </div>
 
             <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-              <h3 className="font-semibold text-[#8b795e] mb-2">How to Convert to PDF:</h3>
-              <ol className="text-sm text-[#8b795e] space-y-1">
+              <h3 className="font-semibold text-foreground mb-2">How to Convert to PDF:</h3>
+              <ol className="text-sm text-foreground space-y-1">
                 <li>1. Download the HTML file below</li>
                 <li>2. Open it in any web browser</li>
                 <li>3. Press Ctrl+P (Windows) or Cmd+P (Mac)</li>
@@ -80,14 +80,14 @@ export function DownloadPage() {
             <Button 
               onClick={handleDownload}
               disabled={downloading}
-              className="w-full bg-[#8b795e] hover:bg-[#6d5d4a] text-white"
+              className="w-full bg-primary hover:bg-primary/90 text-white"
               size="lg"
             >
               <Download className="mr-2 h-5 w-5" />
               {downloading ? 'Downloading...' : 'Download Project Summary (HTML)'}
             </Button>
 
-            <p className="text-xs text-[#8b795e]/60 text-center">
+            <p className="text-xs text-muted-foreground text-center">
               File size: ~500KB | Format: HTML (PDF-ready)
             </p>
           </CardContent>

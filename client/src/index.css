@@ -1439,7 +1439,7 @@ html {
   --card-foreground: 15 23 42; /* Slate-800 text */
   --border: 226 232 240; /* Slate-200 - Light gray border */
   --input: 255 255 255; /* White input background */
-  --primary: 139 121 94; /* Brown primary - kept for orange theme elements */
+  --primary: 24 146 234; /* Blue primary */
   --primary-foreground: 255 255 255; /* White text on primary */
   --secondary: 241 245 249; /* Slate-100 secondary */
   --secondary-foreground: 15 23 42; /* Slate-800 text on secondary */
@@ -1451,7 +1451,7 @@ html {
   --destructive-foreground: 255 255 255; /* White text on destructive */
   --info: 59 130 246; /* Blue-500 info */
   --info-foreground: 255 255 255; /* White text on info */
-  --ring: 139 121 94; /* Brown ring - kept for orange theme elements */
+  --ring: 24 146 234; /* Blue ring */
   --radius: 0.75rem;
 }
 
@@ -1662,7 +1662,7 @@ html {
   --card-foreground: 248 250 252; /* Slate-50 light text */
   --border: 51 65 85; /* Slate-600 dark border */
   --input: 30 41 59; /* Slate-700 dark input */
-  --primary: 139 121 94; /* Brown primary - kept for orange theme elements */
+  --primary: 24 146 234; /* Blue primary */
   --primary-foreground: 255 255 255; /* White text */
   --secondary: 51 65 85; /* Slate-600 dark secondary */
   --secondary-foreground: 248 250 252; /* Slate-50 light text */
@@ -1670,7 +1670,7 @@ html {
   --accent-foreground: 248 250 252; /* Slate-50 light text */
   --destructive: 239 68 68; /* Red-500 destructive */
   --destructive-foreground: 255 255 255; /* White text */
-  --ring: 139 121 94; /* Brown ring - kept for orange theme elements */
+  --ring: 24 146 234; /* Blue ring */
 }
 
 @layer base {
