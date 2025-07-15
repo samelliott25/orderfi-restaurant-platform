@@ -128,10 +128,10 @@ export default function CustomerCheckout() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Header */}
       <div className="sticky top-0 z-10 relative overflow-hidden p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border-b border-white/20 shadow-lg">
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-pink-500/10"></div>
+        <div className="absolute inset-0 kleurvorm-accent opacity-10"></div>
         <div className="relative">
           <div className="container mx-auto px-4 py-3">
             <div className="flex items-center space-x-4">
@@ -144,7 +144,7 @@ export default function CustomerCheckout() {
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Cart
               </Button>
-              <h1 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">Checkout</h1>
+              <h1 className="font-semibold text-lg playwrite-font orderfi-gradient-text">Checkout</h1>
             </div>
           </div>
         </div>
@@ -153,10 +153,10 @@ export default function CustomerCheckout() {
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Payment Form */}
-          <div className="relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+          <div className="orderfi-glass-card">
+            <div className="absolute inset-0 kleurvorm-accent opacity-10"></div>
             <div className="relative">
-              <h3 className="text-xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-6">Payment Information</h3>
+              <h3 className="text-xl font-bold orderfi-gradient-text mb-6">Payment Information</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4">
                   <div>
@@ -272,7 +272,7 @@ export default function CustomerCheckout() {
                 <Button
                   type="submit"
                   disabled={isProcessing}
-                  className="w-full h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-medium"
+                  className="w-full h-12 kleurvorm-secondary text-white font-medium"
                 >
                   {isProcessing ? (
                     <>
@@ -291,10 +291,10 @@ export default function CustomerCheckout() {
           </div>
 
           {/* Order Summary */}
-          <div className="relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
+          <div className="orderfi-glass-card">
+            <div className="absolute inset-0 kleurvorm-accent opacity-10"></div>
             <div className="relative">
-              <h3 className="text-xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-4">Order Summary</h3>
+              <h3 className="text-xl font-bold orderfi-gradient-text mb-4">Order Summary</h3>
                 <div className="space-y-4">
                   <div className="space-y-3">
                     {cart.map((item, index) => (

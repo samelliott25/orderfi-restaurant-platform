@@ -239,7 +239,7 @@ export function CartDrawer({
               {/* Checkout button */}
               <Button
                 onClick={onCheckout}
-                className="w-full h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-medium"
+                className="w-full h-12 kleurvorm-secondary text-white font-medium"
               >
                 Continue to Checkout
               </Button>

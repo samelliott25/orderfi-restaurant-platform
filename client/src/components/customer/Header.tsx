@@ -34,11 +34,11 @@ export function Header({
       <div className="flex items-center justify-between px-6 py-4">
         {/* Left: Venue info */}
         <div className="flex items-center space-x-4">
-          <div className="h-12 w-12 bg-gradient-to-br from-orange-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+          <div className="h-12 w-12 kleurvorm-primary rounded-full flex items-center justify-center shadow-lg">
             <span className="text-white font-bold text-xl">🍽️</span>
           </div>
           <div className="flex flex-col">
-            <h1 className="font-bold text-xl playwrite-font bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
+            <h1 className="font-bold text-xl playwrite-font orderfi-gradient-text">
               {venueName}
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">{tableNumber}</p>
@@ -67,7 +67,7 @@ export function Header({
             {cartItemCount > 0 && (
               <Badge 
                 variant="destructive" 
-                className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 flex items-center justify-center text-sm bg-gradient-to-r from-pink-500 to-orange-500 font-bold animate-pulse"
+                className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 flex items-center justify-center text-sm kleurvorm-secondary font-bold animate-pulse"
               >
                 {cartItemCount}
               </Badge>

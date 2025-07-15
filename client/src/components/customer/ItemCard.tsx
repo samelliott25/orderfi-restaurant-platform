@@ -48,8 +48,8 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
       data-testid={`item-card-${item.id}`}
     >
       <div onClick={onAddClick} className="relative">
-        {/* Image placeholder with enhanced gradient */}
-        <div className="aspect-[4/3] bg-gradient-to-br from-orange-200 via-pink-200 to-purple-200 dark:from-orange-900/30 dark:via-pink-900/30 dark:to-purple-900/30 flex items-center justify-center relative overflow-hidden">
+        {/* Image placeholder with Kleurvörm gradient */}
+        <div className="aspect-[4/3] kleurvorm-accent flex items-center justify-center relative overflow-hidden">
           {item.image_url ? (
             <img 
               src={item.image_url} 
@@ -120,7 +120,7 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
               onAddClick();
             }}
             size="sm"
-            className="h-10 w-10 p-0 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 hover:scale-110 transition-transform duration-200 shadow-lg"
+            className="h-10 w-10 p-0 kleurvorm-secondary hover:scale-110 transition-transform duration-200 shadow-lg"
           >
             <Plus className="h-5 w-5" />
           </Button>
