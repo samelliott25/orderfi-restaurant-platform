@@ -7,6 +7,7 @@ export function ThemeToggle() {
 
   const handleToggle = () => {
     const newTheme = theme === "light" ? "dark" : "light"
+    console.log('Theme changing from', theme, 'to', newTheme)
     setTheme(newTheme)
   }
 

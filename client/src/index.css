@@ -11,9 +11,11 @@ html, body {
 
 /* Reset to original styling */
 
-/* Theme-aware body styling - removed hardcoded colors */
+/* Theme-aware body styling - explicit CSS variables */
 body {
-  @apply bg-background text-foreground;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Horizontal scrolling utility - hide scrollbar */
@@ -1015,12 +1017,16 @@ h1, h2, h3, h4, h5, h6,
 
 /* Theme-aware global background */
 html, body, #root {
-  @apply bg-background text-foreground;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .app-background {
-  @apply bg-background text-foreground;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .pattern-waves {
