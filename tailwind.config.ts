@@ -50,6 +50,17 @@ export default {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
+        // Kleurvorm™ palette colors
+        'kleurvorm-primary': '#0000FF', // Blue
+        'kleurvorm-secondary': '#FF00FF', // Pink
+        'kleurvorm-accent': '#800080', // Purple
+        'kleurvorm-pop': '#FFA500', // Orange
+        'kleurvorm-neutral': '#000000', // Black
+        'kleurvorm-light': '#FFFFFF', // White
+        'kleurvorm-gradient-1': '#FFA500', // Orange
+        'kleurvorm-gradient-2': '#FF0000', // Red
+        'kleurvorm-gradient-3': '#ADD8E6', // Light Blue
+        'kleurvorm-gradient-4': '#FFC0CB', // Pink
         chart: {
           "1": "var(--chart-1)",
           "2": "var(--chart-2)",

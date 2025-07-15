@@ -557,6 +557,209 @@ h1, .text-4xl, .text-3xl, h2, .text-2xl, h3, .text-xl {
 @tailwind components;
 @tailwind utilities;
 
+/* Kleurvorm™ Design System - Inspired by Health/Food App UI */
+:root {
+  /* Primary Colors (40% usage) */
+  --kleurvorm-primary: #0000FF; /* Blue for structure/trust */
+  --kleurvorm-secondary: #FF00FF; /* Pink for engagement */
+  --kleurvorm-accent: #800080; /* Purple for creativity */
+  --kleurvorm-pop: #FFA500; /* Orange for action */
+  --kleurvorm-neutral: #000000; /* Black for text */
+  --kleurvorm-light: #FFFFFF; /* White for readability */
+  
+  /* Gradient Combinations (Psychology-based) */
+  --kleurvorm-appetite-gradient: linear-gradient(135deg, #FFA500 0%, #FF0000 100%); /* Orange to Red - Appetite stimulation */
+  --kleurvorm-trust-gradient: linear-gradient(135deg, #ADD8E6 0%, #FFFFFF 100%); /* Light Blue to White - Trust/calm */
+  --kleurvorm-progress-gradient: linear-gradient(135deg, #0000FF 0%, #FF00FF 100%); /* Blue to Pink - Progress/growth */
+  --kleurvorm-action-gradient: linear-gradient(135deg, #FFA500 0%, #FF0000 100%); /* Orange to Red - Urgency/action */
+  --kleurvorm-alert-gradient: linear-gradient(135deg, #800080 0%, #FF0000 100%); /* Purple to Red - Attention */
+  
+  /* Shadows and Effects */
+  --kleurvorm-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --kleurvorm-shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.15);
+  --kleurvorm-shadow-hard: 0 12px 40px rgba(0, 0, 0, 0.2);
+  --kleurvorm-glow: 0 0 20px rgba(255, 165, 0, 0.3);
+}
+
+.dark {
+  /* Dark mode adjustments */
+  --kleurvorm-light: #1a1a1a;
+  --kleurvorm-neutral: #ffffff;
+  --kleurvorm-trust-gradient: linear-gradient(135deg, #2563eb 0%, #1f2937 100%);
+}
+
+/* Component Classes inspired by Health/Food App UI */
+.kleurvorm-card {
+  background: var(--kleurvorm-trust-gradient);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: var(--kleurvorm-shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.kleurvorm-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--kleurvorm-shadow-medium);
+}
+
+.kleurvorm-card-suggestion {
+  background: var(--kleurvorm-trust-gradient);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--kleurvorm-shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.kleurvorm-card-suggestion::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--kleurvorm-progress-gradient);
+}
+
+.kleurvorm-progress-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(var(--kleurvorm-primary) 0deg, var(--kleurvorm-secondary) 180deg, var(--kleurvorm-accent) 360deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--kleurvorm-shadow-medium);
+}
+
+.kleurvorm-progress-ring::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--kleurvorm-light);
+}
+
+.kleurvorm-progress-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.kleurvorm-pill-button {
+  background: var(--kleurvorm-action-gradient);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--kleurvorm-shadow-soft);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kleurvorm-pill-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--kleurvorm-shadow-medium);
+  filter: brightness(1.1);
+}
+
+.kleurvorm-pill-button:active {
+  transform: translateY(0);
+}
+
+.kleurvorm-stat-card {
+  background: var(--kleurvorm-trust-gradient);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--kleurvorm-shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.kleurvorm-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--kleurvorm-shadow-medium);
+}
+
+.kleurvorm-food-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--kleurvorm-shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.kleurvorm-food-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--kleurvorm-shadow-hard);
+}
+
+.kleurvorm-food-image {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.kleurvorm-nutrition-badge {
+  background: var(--kleurvorm-alert-gradient);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.kleurvorm-tab-active {
+  background: var(--kleurvorm-progress-gradient);
+  color: white;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: 500;
+}
+
+.kleurvorm-tab-inactive {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--kleurvorm-neutral);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.kleurvorm-tab-inactive:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.kleurvorm-background-gradient {
+  background: var(--kleurvorm-appetite-gradient);
+  min-height: 100vh;
+  position: relative;
+}
+
+.kleurvorm-background-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
 @layer base {
   html, body, #root {
     background-color: hsl(var(--background));

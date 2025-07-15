@@ -7,6 +7,7 @@ import StandardLayout from '@/components/StandardLayout';
 import { ExecutiveSummary } from '@/components/dashboard/ExecutiveSummary';
 import { OperationalView } from '@/components/dashboard/OperationalView';
 import { AnalyticsView } from '@/components/dashboard/AnalyticsView';
+import KleurvormDashboard from '@/components/KleurvormDashboard';
 import { 
   BarChart3, 
   Users, 
@@ -20,6 +21,7 @@ import {
 export default function DashboardPhase2() {
   const [activeTab, setActiveTab] = useState('executive');
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [useKleurvormDesign, setUseKleurvormDesign] = useState(true);
 
   // Update time every minute
   useEffect(() => {
@@ -187,9 +189,24 @@ export default function DashboardPhase2() {
 
 
 
+  // Toggle between old and new design
+  if (useKleurvormDesign) {
+    return <KleurvormDashboard />;
+  }
+
   return (
     <StandardLayout title="Dashboard" subtitle="Mobile-Optimized Restaurant Management">
         <div className="space-y-8">
+          
+          {/* Design Toggle Button */}
+          <div className="flex justify-end mb-4">
+            <Button 
+              onClick={() => setUseKleurvormDesign(!useKleurvormDesign)}
+              className="kleurvorm-pill-button"
+            >
+              Switch to Kleurvorm™ Design
+            </Button>
+          </div>
 
 
           {/* Status Bar */}

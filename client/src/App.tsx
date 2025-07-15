@@ -57,6 +57,7 @@ import DashboardMobile from "@/pages/dashboard-mobile";
 import DashboardPhase2 from "@/pages/dashboard-phase2";
 import TestMobile from "@/pages/test-mobile";
 import VoiceFirstDemo from "@/pages/voice-first-demo";
+import KleurvormMenu from "@/pages/kleurvorm-menu";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -176,6 +177,9 @@ function Router() {
         
         {/* Voice-First AI Demo */}
         <Route path="/voice-first-demo" component={VoiceFirstDemo} />
+        
+        {/* Kleurvorm Design Demo */}
+        <Route path="/kleurvorm-menu" component={KleurvormMenu} />
         
         <Route component={NotFound} />
       </Switch>
