@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CollapsibleChat } from "@/components/CollapsibleChat";
+import { StandardLayout } from "@/components/StandardLayout";
 
 import { 
   Search, 
@@ -120,9 +121,13 @@ export default function MobileAppPage() {
     : menuItems.filter(item => item.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center p-6">
-      {/* iPhone 15 Pro Mockup Container */}
-      <div className="relative">
+    <StandardLayout 
+      title="Mobile App Preview" 
+      subtitle="View and test the customer mobile ordering interface"
+    >
+      <div className="flex items-center justify-center p-6 min-h-full">
+        {/* iPhone 15 Pro Mockup Container */}
+        <div className="relative">
         {/* iPhone Frame with Titanium Finish */}
         <div className="relative w-[375px] h-[812px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[60px] p-[8px] shadow-2xl border-[3px] border-gray-600">
           {/* Volume Buttons */}
@@ -168,172 +173,172 @@ export default function MobileAppPage() {
               </div>
               
               {/* App Content with proper offset for status bar */}
-              <div className="absolute top-[54px] left-0 right-0 bottom-0 overflow-y-auto" style={{ backgroundColor: '#e8f5e9' }}>
-              {/* Header - Mamo Style */}
-              <div className="p-4">
-        <div className="flex items-center justify-between mb-8">
-          <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">
-            <span className="text-white font-bold text-lg">O</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-              <Bell className="w-4 h-4 text-white" />
-            </div>
-            <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-              <Heart className="w-4 h-4 text-white" />
-            </div>
-          </div>
-        </div>
+              <div className="absolute top-[54px] left-0 right-0 bottom-0 overflow-y-auto bg-white">
+                {/* Header - OrderFi Theme */}
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="w-10 h-10 rounded-full kleurvorm-primary flex items-center justify-center">
+                      <span className="text-white font-bold text-lg playwrite-font">O</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full kleurvorm-secondary flex items-center justify-center">
+                        <Bell className="w-4 h-4 text-white" />
+                      </div>
+                      <div className="w-8 h-8 rounded-full kleurvorm-accent flex items-center justify-center">
+                        <Heart className="w-4 h-4 text-white" />
+                      </div>
+                    </div>
+                  </div>
 
-        {/* Hero Section */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2" style={{ lineHeight: '1.1' }}>
-            Hi! I'm OrderFi.
-          </h1>
-          <p className="text-lg text-gray-600 mb-6">
-            Smart with food.<br />
-            Easy on the taste buds.
-          </p>
-          <button className="bg-yellow-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition-colors">
-            Get started!
-          </button>
-        </div>
+                  {/* Hero Section */}
+                  <div className="mb-8">
+                    <h1 className="text-4xl font-bold orderfi-gradient-text mb-2 playwrite-font" style={{ lineHeight: '1.1' }}>
+                      Hi! I'm OrderFi.
+                    </h1>
+                    <p className="text-lg text-muted-foreground mb-6">
+                      Smart with food.<br />
+                      Easy on the taste buds.
+                    </p>
+                    <button className="kleurvorm-pill-button text-white px-6 py-3 rounded-full font-semibold">
+                      Get started!
+                    </button>
+                  </div>
 
-        {/* Description */}
-        <div className="mb-8">
-          <p className="text-gray-700 leading-relaxed">
-            OrderFi helps you order,<br />
-            pay, and enjoy<br />
-            your food – step by<br />
-            step, without the wait.
-          </p>
-        </div>
-      </div>
+                  {/* Description */}
+                  <div className="mb-8">
+                    <p className="text-muted-foreground leading-relaxed">
+                      OrderFi helps you order,<br />
+                      pay, and enjoy<br />
+                      your food – step by<br />
+                      step, without the wait.
+                    </p>
+                  </div>
+                </div>
 
-      {/* How OrderFi Works */}
-      <div className="px-4 mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">How OrderFi works:</h2>
-        
-        <div className="space-y-4">
-          {/* Step 1 - White Card */}
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-            <div className="flex items-start justify-between mb-4">
-              <span className="text-sm text-gray-500 font-medium">Step 1</span>
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-                <span className="text-white text-sm">✓</span>
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="w-8 h-8 border-2 border-gray-800 rounded-lg flex items-center justify-center mb-3">
-                <Search className="w-4 h-4 text-gray-800" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800">
-                Browse our menu
-              </h3>
-            </div>
-          </div>
+                {/* How OrderFi Works */}
+                <div className="px-4 mb-6">
+                  <h2 className="text-2xl font-bold orderfi-gradient-text mb-6 playwrite-font">How OrderFi works:</h2>
+                  
+                  <div className="space-y-4">
+                    {/* Step 1 - Kleurvörm Card */}
+                    <div className="kleurvorm-card p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <span className="text-sm text-muted-foreground font-medium">Step 1</span>
+                        <div className="w-8 h-8 rounded-full kleurvorm-primary flex items-center justify-center">
+                          <span className="text-white text-sm">✓</span>
+                        </div>
+                      </div>
+                      <div className="mb-4">
+                        <div className="w-8 h-8 border-2 border-primary rounded-lg flex items-center justify-center mb-3">
+                          <Search className="w-4 h-4 text-primary" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground">
+                          Browse our menu
+                        </h3>
+                      </div>
+                    </div>
 
-          {/* Step 2 - Yellow Card */}
-          <div className="bg-yellow-200 rounded-3xl p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-4">
-              <span className="text-sm text-gray-700 font-medium">Step 2</span>
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-                <span className="text-white text-sm">✓</span>
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="w-8 h-8 border-2 border-gray-800 rounded-lg flex items-center justify-center mb-3">
-                <ShoppingCart className="w-4 h-4 text-gray-800" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800">
-                Add to cart
-              </h3>
-            </div>
-          </div>
+                    {/* Step 2 - Kleurvörm Card */}
+                    <div className="kleurvorm-card p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <span className="text-sm text-muted-foreground font-medium">Step 2</span>
+                        <div className="w-8 h-8 rounded-full kleurvorm-secondary flex items-center justify-center">
+                          <span className="text-white text-sm">✓</span>
+                        </div>
+                      </div>
+                      <div className="mb-4">
+                        <div className="w-8 h-8 border-2 border-secondary rounded-lg flex items-center justify-center mb-3">
+                          <ShoppingCart className="w-4 h-4 text-secondary" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground">
+                          Add to cart
+                        </h3>
+                      </div>
+                    </div>
 
-          {/* Step 3 - Light Green Card */}
-          <div className="bg-green-200 rounded-3xl p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-4">
-              <span className="text-sm text-gray-700 font-medium">Step 3</span>
-              <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-                <span className="text-white text-sm">✓</span>
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="w-8 h-8 border-2 border-gray-800 rounded-lg flex items-center justify-center mb-3">
-                <Utensils className="w-4 h-4 text-gray-800" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800">
-                Enjoy your meal
-              </h3>
-            </div>
-          </div>
-        </div>
-      </div>
+                    {/* Step 3 - Kleurvörm Card */}
+                    <div className="kleurvorm-card p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <span className="text-sm text-muted-foreground font-medium">Step 3</span>
+                        <div className="w-8 h-8 rounded-full kleurvorm-accent flex items-center justify-center">
+                          <span className="text-white text-sm">✓</span>
+                        </div>
+                      </div>
+                      <div className="mb-4">
+                        <div className="w-8 h-8 border-2 border-accent rounded-lg flex items-center justify-center mb-3">
+                          <Utensils className="w-4 h-4 text-accent" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground">
+                          Enjoy your meal
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-      {/* Menu Preview Cards */}
-      <div className="p-4 space-y-4">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Popular dishes</h3>
-        
-        {/* Menu Item Cards in Mamo Style */}
-        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className="text-2xl">🍔</span>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-800">Burgers</h3>
-              <p className="text-sm text-gray-600">Fresh, juicy, delicious</p>
-            </div>
-          </div>
-        </div>
+                {/* Menu Preview Cards */}
+                <div className="p-4 space-y-4">
+                  <h3 className="text-xl font-semibold orderfi-gradient-text mb-4 playwrite-font">Popular dishes</h3>
+                  
+                  {/* Menu Item Cards with Kleurvörm Theme */}
+                  <div className="kleurvorm-card p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 kleurvorm-primary rounded-full flex items-center justify-center">
+                        <span className="text-2xl">🍔</span>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground">Burgers</h3>
+                        <p className="text-sm text-muted-foreground">Fresh, juicy, delicious</p>
+                      </div>
+                    </div>
+                  </div>
 
-        <div className="bg-yellow-100 rounded-3xl p-6 shadow-sm">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-yellow-200 rounded-full flex items-center justify-center">
-              <span className="text-2xl">🍕</span>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-800">Pizza</h3>
-              <p className="text-sm text-gray-600">Wood-fired perfection</p>
-            </div>
-          </div>
-        </div>
+                  <div className="kleurvorm-card p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 kleurvorm-secondary rounded-full flex items-center justify-center">
+                        <span className="text-2xl">🍕</span>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground">Pizza</h3>
+                        <p className="text-sm text-muted-foreground">Wood-fired perfection</p>
+                      </div>
+                    </div>
+                  </div>
 
-        <div className="bg-green-100 rounded-3xl p-6 shadow-sm">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-green-200 rounded-full flex items-center justify-center">
-              <span className="text-2xl">🥗</span>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-800">Salads</h3>
-              <p className="text-sm text-gray-600">Fresh and healthy</p>
-            </div>
-          </div>
-        </div>
-      </div>
+                  <div className="kleurvorm-card p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 kleurvorm-accent rounded-full flex items-center justify-center">
+                        <span className="text-2xl">🥗</span>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-foreground">Salads</h3>
+                        <p className="text-sm text-muted-foreground">Fresh and healthy</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-      {/* CTA Section */}
-      <div className="p-4 mb-8">
-        <div className="bg-gray-800 rounded-3xl p-6 text-center">
-          <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-3xl">O</span>
-          </div>
-          <p className="text-white text-sm mb-6">
-            OrderFi helps you track, order, and<br />
-            enjoy your food – step by<br />
-            step, without the stress.
-          </p>
-          <div className="flex gap-3 justify-center">
-            <button className="bg-green-400 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-green-500 transition-colors">
-              Connect Menu
-            </button>
-            <button className="bg-yellow-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition-colors">
-              Get started!
-            </button>
-          </div>
-        </div>
-      </div>
+                {/* CTA Section */}
+                <div className="p-4 mb-8">
+                  <div className="kleurvorm-card p-6 text-center">
+                    <div className="w-16 h-16 kleurvorm-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span className="text-3xl text-white playwrite-font">O</span>
+                    </div>
+                    <p className="text-muted-foreground text-sm mb-6">
+                      OrderFi helps you track, order, and<br />
+                      enjoy your food – step by<br />
+                      step, without the stress.
+                    </p>
+                    <div className="flex gap-3 justify-center">
+                      <button className="kleurvorm-pill-button text-white px-6 py-3 rounded-full font-semibold">
+                        Connect Menu
+                      </button>
+                      <button className="kleurvorm-pill-button text-white px-6 py-3 rounded-full font-semibold">
+                        Get started!
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Bottom Navigation */}
                 <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200">
@@ -371,7 +376,8 @@ export default function MobileAppPage() {
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </StandardLayout>
   );
 }
