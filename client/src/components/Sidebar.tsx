@@ -53,6 +53,7 @@ const menuItems = [
   { icon: FileText, label: "Reporting", href: "/reporting" },
   { icon: Settings2, label: "Settings", href: "/settings" },
   { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
+  { icon: Wallet, label: "Wallet Connect", href: "/wallet-connect" },
 
 ];
 
