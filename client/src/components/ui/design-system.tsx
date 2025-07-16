@@ -31,7 +31,7 @@ export const OrderFiHeading = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  const baseClasses = 'orderfi-heading bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent playwrite-font';
+  const baseClasses = 'bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent playwrite-font';
   
   const sizeClasses = {
     1: 'text-2xl',
