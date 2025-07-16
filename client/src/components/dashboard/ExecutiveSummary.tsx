@@ -54,22 +54,13 @@ interface LiveMetric {
 }
 
 export function ExecutiveSummary() {
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [wsConnected, setWsConnected] = useState(false);
 
-  // Real-time KPI data
+  // Real-time KPI data (no automatic refresh)
   const { data: kpiData, isLoading } = useQuery<KPIData>({
     queryKey: ['/api/dashboard/kpis'],
-    refetchInterval: 10000, // Refresh every 10 seconds
+    // Removed refetchInterval to prevent dashboard refreshes
   });
-
-  // Update current time every minute
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000);
-    return () => clearInterval(timer);
-  }, []);
 
   // WebSocket connection for real-time updates
   useEffect(() => {
@@ -195,7 +186,7 @@ export function ExecutiveSummary() {
           </div>
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
             <Clock className="w-4 h-4" />
-            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(new Date())}</span>
           </div>
         </div>
       </div>

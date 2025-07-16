@@ -56,16 +56,16 @@ export function AnalyticsView() {
   const [selectedPeriod, setSelectedPeriod] = useState('today');
   const [aiInsightsVisible, setAiInsightsVisible] = useState(true);
 
-  // Fetch analytics data
+  // Fetch analytics data (no automatic refresh)
   const { data: analyticsData, isLoading } = useQuery<AnalyticsData>({
     queryKey: ['/api/dashboard/analytics', selectedPeriod],
-    refetchInterval: 30000, // Refresh every 30 seconds
+    // Removed refetchInterval to prevent dashboard refreshes
   });
 
-  // Get AI-powered restaurant strategy insights
+  // Get AI-powered restaurant strategy insights (no automatic refresh)
   const { data: aiStrategy } = useQuery({
     queryKey: ['/api/grok/restaurant-strategy'],
-    refetchInterval: 300000, // Refresh every 5 minutes
+    // Removed refetchInterval to prevent dashboard refreshes
   });
 
   // Default data for development

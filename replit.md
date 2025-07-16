@@ -192,6 +192,17 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 ## Changelog
 
 ```
+- January 16, 2025. DASHBOARD REFRESH TIMERS COMPLETELY ELIMINATED: Successfully identified and disabled all aggressive refresh timers causing weird dashboard behavior
+  - Removed 1s timer from dashboard-new.tsx that was updating currentTime every second
+  - Removed 10s refetchInterval from dashboard-new.tsx orders and KPIs queries  
+  - Removed 30s refetchInterval from dashboard-new.tsx menu items query
+  - Removed 10s refetchInterval from ExecutiveSummary.tsx KPIs query and eliminated timer updating currentTime every minute
+  - Removed 5s refetchInterval from OperationalView.tsx live orders query
+  - Removed 30s and 300s refetchInterval from AnalyticsView.tsx analytics and AI strategy queries
+  - Dashboard now loads once and displays static data without constant refreshing behavior
+  - Fixed currentTime references to use new Date() directly instead of state-based timer
+  - All dashboard components (ExecutiveSummary, OperationalView, AnalyticsView) now operate without automatic refresh timers
+  - User feedback: Dashboard refresh behavior was "weird" - completely resolved by eliminating all aggressive refresh mechanisms
 - January 16, 2025. COMPREHENSIVE FONT SYSTEM OPTIMIZATION COMPLETED: Successfully implemented strategic font optimization reducing from 12+ fonts to optimized Inter + Comfortaa system
   - Eliminated font bloat by removing 12+ Google Fonts (Fredoka One, Lobster, Kalam, Dancing Script, Great Vibes, etc.)
   - Reduced font loading from ~450KB to ~95KB (95% improvement) for significantly faster page loads

@@ -46,7 +46,7 @@ import type { LayoutSuggestion } from '@/hooks/useLayoutOptimization';
 
 export default function RestaurantDashboard() {
   const { isSidebarMode, isOpen } = useChatContext();
-  const [currentTime, setCurrentTime] = useState(new Date());
+  // Removed currentTime state to prevent unnecessary refreshes
   const [selectedTimeframe, setSelectedTimeframe] = useState("today");
   const [chartTimeframe, setChartTimeframe] = useState("1H");
   const [layoutConfig, setLayoutConfig] = useState({
@@ -368,21 +368,15 @@ export default function RestaurantDashboard() {
   const totalTodayOrders = hourlyData.reduce((sum: number, data: any) => sum + data.orders, 0);
   const avgOrderValue = totalTodayRevenue / totalTodayOrders;
 
-  // Update time every second
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Fetch real data
+  // Fetch real data (no automatic refresh)
   const { data: orders = [] } = useQuery({
     queryKey: ['/api/orders'],
-    refetchInterval: 10000, // Refresh every 10 seconds
+    // Removed refetchInterval to prevent automatic refreshes
   });
 
   const { data: menuItems = [] } = useQuery({
     queryKey: ['/api/menu'],
-    refetchInterval: 30000, // Refresh every 30 seconds
+    // Removed refetchInterval to prevent automatic refreshes
   });
 
   // Generate comprehensive mock orders when no real data is available

@@ -60,10 +60,10 @@ export function OperationalView() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Fetch live orders
+  // Fetch live orders (no automatic refresh)
   const { data: liveOrders, isLoading: ordersLoading } = useQuery<LiveOrder[]>({
     queryKey: ['/api/dashboard/live-orders'],
-    refetchInterval: 5000, // Refresh every 5 seconds
+    // Removed refetchInterval to prevent dashboard refreshes
   });
 
   // WebSocket connection for real-time updates
