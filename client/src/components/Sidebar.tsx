@@ -58,12 +58,7 @@ const menuItems = [
   { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
   { icon: Wallet, label: "Wallet Connect", href: "/wallet-connect" },
 ];
-// Kleurvorm™ Design System Pages
-const kleurvormPages = [
-  { icon: Home, label: "Kleurvorm Home", href: "/kleurvorm-home" },
-  { icon: Activity, label: "Kleurvorm Dashboard", href: "/kleurvorm-dashboard" },
-  { icon: Heart, label: "Kleurvorm Menu", href: "/kleurvorm-menu" },
-];
+
 
 
 
@@ -306,34 +301,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               })}
             </nav>
             
-            {/* Kleurvorm™ Design System Section */}
-            {!isCollapsed && (
-              <div className="mt-8 mb-4">
-                <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 px-2">
-                  Kleurvorm™ Design System
-                </h3>
-                <nav className="space-y-1">
-                  {kleurvormPages.map((item) => {
-                    const isActive = location === item.href;
-                    return (
-                      <button
-                        key={item.href}
-                        onClick={() => handleNavItemClick(item.href)}
-                        className={`w-full font-medium transition-all duration-200 h-11 flex items-center justify-start text-left px-4 ${
-                          isActive 
-                            ? "bg-gradient-to-r from-kleurvorm-blue/20 to-kleurvorm-purple/20 text-kleurvorm-blue dark:text-kleurvorm-purple border border-kleurvorm-blue/30 dark:border-kleurvorm-purple/30 shadow-lg" 
-                            : "text-gray-700 dark:text-gray-200 hover:text-kleurvorm-blue dark:hover:text-kleurvorm-purple hover:bg-gradient-to-r hover:from-kleurvorm-blue/10 hover:to-kleurvorm-purple/10 hover:shadow-md"
-                        } rounded-xl backdrop-blur-sm`}
-                        title={item.label}
-                      >
-                        <item.icon className="h-5 w-5 mr-3 flex-shrink-0" />
-                        <span className="font-medium text-current">{item.label}</span>
-                      </button>
-                    );
-                  })}
-                </nav>
-              </div>
-            )}
+
 
 
           </div>

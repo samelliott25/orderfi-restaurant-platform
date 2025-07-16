@@ -60,10 +60,7 @@ import VoiceFirstDemo from "@/pages/voice-first-demo";
 import MobileAppPage from "@/pages/mobile-app";
 import WalletConnectPage from "@/pages/wallet-connect";
 
-// Kleurvorm™ Design System Pages
-import KleurvormHome from "@/pages/kleurvorm-home";
-import KleurvormDashboard from "@/pages/kleurvorm-dashboard";
-import KleurvormMenu from "@/pages/kleurvorm-menu";
+
 
 
 
@@ -188,10 +185,7 @@ function Router() {
         {/* Voice-First AI Demo */}
         <Route path="/voice-first-demo" component={VoiceFirstDemo} />
         
-        {/* Kleurvorm™ Design System Pages */}
-        <Route path="/kleurvorm-home" component={KleurvormHome} />
-        <Route path="/kleurvorm-dashboard" component={KleurvormDashboard} />
-        <Route path="/kleurvorm-menu" component={KleurvormMenu} />
+
 
 
 
