@@ -198,45 +198,45 @@ export default function MobileAppPage() {
       <div className="flex items-center justify-center h-full w-full p-4">
         {/* iPhone 15 Pro Mockup Container - Full Size */}
         <div className="relative h-full w-full max-w-[500px] flex items-center justify-center">
-        {/* iPhone Frame with Titanium Finish - Scaled to fill */}
-        <div className="relative w-full h-full max-w-[500px] max-h-[900px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[60px] p-[12px] shadow-2xl border-[4px] border-gray-600" style={{ aspectRatio: '375/812' }}>
-          {/* Volume Buttons */}
-          <div className="absolute left-[-4px] top-[15%] w-[4px] h-[8%] bg-gray-600 rounded-l-sm"></div>
-          <div className="absolute left-[-4px] top-[25%] w-[4px] h-[8%] bg-gray-600 rounded-l-sm"></div>
-          <div className="absolute left-[-4px] top-[35%] w-[4px] h-[12%] bg-gray-600 rounded-l-sm"></div>
+        {/* iPhone Outline Frame */}
+        <div className="relative w-full h-full max-w-[500px] max-h-[900px] border-[3px] border-gray-300 rounded-[60px] p-[8px] shadow-lg" style={{ aspectRatio: '375/812' }}>
+          {/* Volume Buttons - Outline */}
+          <div className="absolute left-[-3px] top-[15%] w-[3px] h-[8%] border-l-[2px] border-gray-300"></div>
+          <div className="absolute left-[-3px] top-[25%] w-[3px] h-[8%] border-l-[2px] border-gray-300"></div>
+          <div className="absolute left-[-3px] top-[35%] w-[3px] h-[12%] border-l-[2px] border-gray-300"></div>
           
-          {/* Power Button */}
-          <div className="absolute right-[-4px] top-[30%] w-[4px] h-[12%] bg-gray-600 rounded-r-sm"></div>
+          {/* Power Button - Outline */}
+          <div className="absolute right-[-3px] top-[30%] w-[3px] h-[12%] border-r-[2px] border-gray-300"></div>
           
           {/* Inner Frame */}
-          <div className="relative w-full h-full bg-black rounded-[52px] overflow-hidden">
-            {/* Dynamic Island */}
-            <div className="absolute top-[2%] left-1/2 transform -translate-x-1/2 w-[35%] h-[5%] bg-black rounded-[19px] z-20 shadow-inner border border-gray-800"></div>
+          <div className="relative w-full h-full bg-white border-[2px] border-gray-200 rounded-[52px] overflow-hidden">
+            {/* Dynamic Island - Outline */}
+            <div className="absolute top-[2%] left-1/2 transform -translate-x-1/2 w-[35%] h-[5%] border-[2px] border-gray-300 rounded-[19px] z-20"></div>
             
             {/* Screen Content */}
-            <div className="absolute inset-0 bg-black rounded-[52px] overflow-hidden">
+            <div className="absolute inset-0 bg-white rounded-[52px] overflow-hidden">
               {/* Status Bar */}
-              <div className="absolute top-0 left-0 right-0 h-[7%] bg-black z-10">
-                <div className="flex justify-between items-center px-8 pt-[16px] text-white text-sm font-medium">
+              <div className="absolute top-0 left-0 right-0 h-[7%] bg-white z-10">
+                <div className="flex justify-between items-center px-8 pt-[16px] text-gray-900 text-sm font-medium">
                   <div className="flex items-center gap-1">
                     <div className="flex gap-1">
-                      <div className="w-1 h-1 bg-white rounded-full"></div>
-                      <div className="w-1 h-1 bg-white rounded-full opacity-60"></div>
-                      <div className="w-1 h-1 bg-white rounded-full opacity-30"></div>
+                      <div className="w-1 h-1 bg-gray-900 rounded-full"></div>
+                      <div className="w-1 h-1 bg-gray-900 rounded-full opacity-60"></div>
+                      <div className="w-1 h-1 bg-gray-900 rounded-full opacity-30"></div>
                     </div>
                     <span className="ml-2 text-xs">Verizon</span>
                   </div>
-                  <div className="text-white font-semibold">9:41</div>
+                  <div className="text-gray-900 font-semibold">9:41</div>
                   <div className="flex items-center gap-1">
-                    <svg className="w-4 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
                     </svg>
-                    <svg className="w-4 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M17.778 8.222c-4.296-4.296-11.26-4.296-15.556 0A1 1 0 01.808 6.808c5.076-5.077 13.308-5.077 18.384 0a1 1 0 01-1.414 1.414zM14.95 11.05a7 7 0 00-9.9 0 1 1 0 01-1.414-1.414 9 9 0 0112.728 0 1 1 0 01-1.414 1.414zM12.12 13.88a3 3 0 00-4.24 0 1 1 0 01-1.415-1.415 5 5 0 017.07 0 1 1 0 01-1.415 1.415zM9 16a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd"/>
                     </svg>
-                    <div className="w-6 h-3 border border-white rounded-sm relative">
-                      <div className="absolute inset-0.5 bg-white rounded-sm"></div>
-                      <div className="absolute -right-0.5 top-1/2 transform -translate-y-1/2 w-0.5 h-1 bg-white rounded-full"></div>
+                    <div className="w-6 h-3 border border-gray-900 rounded-sm relative">
+                      <div className="absolute inset-0.5 bg-gray-900 rounded-sm"></div>
+                      <div className="absolute -right-0.5 top-1/2 transform -translate-y-1/2 w-0.5 h-1 bg-gray-900 rounded-full"></div>
                     </div>
                   </div>
                 </div>
