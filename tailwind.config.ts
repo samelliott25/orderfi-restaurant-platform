@@ -51,28 +51,26 @@ export default {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
-        // Kleurvorm™ palette colors from uploaded swatch
-        'kleurvorm': {
-          'black': '#1e1e2a',      // Structure/stability
-          'blue': '#2233ff',       // Primary blue
-          'purple': '#8d5fff',     // Purple accent
-          'pink': '#f53855',       // Pink accent
-          'light-blue': '#cad7ff', // Light blue
-          'white': '#ffffff',      // Pure white
-          'orange': '#ff7e5f',     // Orange pop
-          'red': '#f53855',        // Red pop
-          'pop-white': '#ffffff',  // Pop white
-          'pop-pink': '#ffc0cb',   // Pop pink
-          'pop-purple': '#800080', // Pop purple
-          'pop-orange': '#ffa500', // Pop orange
+        // OrderFi Original Orange/Pink palette
+        'orderfi': {
+          'orange': '#ff7e5f',      // Primary orange
+          'pink': '#f53855',        // Primary pink
+          'light-orange': '#ffa500', // Light orange
+          'light-pink': '#ffc0cb',  // Light pink
+          'dark-orange': '#ff5722', // Dark orange
+          'dark-pink': '#e91e63',   // Dark pink
+          'black': '#1e1e2a',       // Structure/text
+          'white': '#ffffff',       // Pure white
+          'gray': '#f5f5f5',        // Background gray
+          'cream': '#ffe6b0',       // Warm cream background
         },
-        // Gradient definitions
+        // OrderFi Orange/Pink gradient definitions
         'gradient': {
-          'primary': 'linear-gradient(135deg, #2233ff 0%, #8d5fff 100%)',
-          'secondary': 'linear-gradient(135deg, #8d5fff 0%, #f53855 100%)',
-          'accent': 'linear-gradient(135deg, #ff7e5f 0%, #f53855 100%)',
-          'background': 'linear-gradient(135deg, #cad7ff 0%, #ffffff 100%)',
-          'card': 'radial-gradient(circle at top right, #ffffff 0%, #ffc0cb 100%)',
+          'primary': 'linear-gradient(135deg, #ff7e5f 0%, #f53855 100%)',
+          'secondary': 'linear-gradient(135deg, #ffa500 0%, #ffc0cb 100%)',
+          'accent': 'linear-gradient(135deg, #ff5722 0%, #e91e63 100%)',
+          'background': 'linear-gradient(135deg, #ffe6b0 0%, #ffffff 100%)',
+          'card': 'radial-gradient(circle at top right, #ffffff 0%, #ffe6b0 100%)',
         },
         chart: {
           "1": "var(--chart-1)",

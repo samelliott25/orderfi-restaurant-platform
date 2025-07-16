@@ -1,31 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Comfortaa:wght@400;600;700&display=swap');
 
-/* Kleurvorm™ Design System - Health App Psychology-Based Colors */
+/* Original OrderFi Orange/Pink Design System */
 :root {
-  /* Base colors following Kleurvorm™ palette */
-  --kleurvorm-black: #1e1e2a;
-  --kleurvorm-blue: #2233ff;
-  --kleurvorm-purple: #8d5fff;
-  --kleurvorm-pink: #f53855;
-  --kleurvorm-light-blue: #cad7ff;
-  --kleurvorm-white: #ffffff;
-  --kleurvorm-orange: #ff7e5f;
-  --kleurvorm-red: #f53855;
+  /* Primary OrderFi colors - Orange/Pink theme */
+  --orderfi-orange: #ff7e5f;
+  --orderfi-pink: #f53855;
+  --orderfi-light-orange: #ffa500;
+  --orderfi-light-pink: #ffc0cb;
+  --orderfi-dark-orange: #ff5722;
+  --orderfi-dark-pink: #e91e63;
+  --orderfi-black: #1e1e2a;
+  --orderfi-white: #ffffff;
+  --orderfi-gray: #f5f5f5;
+  --orderfi-cream: #ffe6b0;
   
-  /* Pop colors */
-  --kleurvorm-pop-white: #ffffff;
-  --kleurvorm-pop-pink: #ffc0cb;
-  --kleurvorm-pop-purple: #800080;
-  --kleurvorm-pop-orange: #ffa500;
-  
-  /* Psychology-based assignments */
-  --color-structure: var(--kleurvorm-black);    /* 40% - nav, text, stability */
-  --color-trust: var(--kleurvorm-blue);         /* 40% - cards, charts, trust */
-  --color-energy: var(--kleurvorm-orange);      /* 10% - buttons, appetite */
-  --color-attention: var(--kleurvorm-red);      /* 10% - alerts, progress */
-  --color-calm: var(--kleurvorm-light-blue);    /* backgrounds, cognitive load */
-  --color-creativity: var(--kleurvorm-purple);  /* accents, suggestions */
-  --color-approachable: var(--kleurvorm-pop-pink); /* highlights, profiles */
+  /* Psychology-based assignments for restaurant app */
+  --color-primary: var(--orderfi-orange);       /* Primary brand color */
+  --color-secondary: var(--orderfi-pink);       /* Secondary brand color */
+  --color-accent: var(--orderfi-light-orange);  /* Accent highlights */
+  --color-background: var(--orderfi-cream);     /* Warm background */
+  --color-foreground: var(--orderfi-black);     /* Text color */
+  --color-muted: var(--orderfi-gray);          /* Muted elements */
 }
 
 /* CRITICAL MOBILE FIX - NO HORIZONTAL SCROLL ON SETTINGS PAGE */
@@ -35,59 +30,59 @@ html, body {
   max-width: 100% !important;
 }
 
-/* Kleurvorm™ Health App Body Styling */
+/* OrderFi Orange/Pink Body Styling */
 body {
-  background: linear-gradient(135deg, var(--kleurvorm-light-blue) 0%, var(--kleurvorm-white) 100%);
-  color: var(--kleurvorm-black);
+  background: linear-gradient(135deg, var(--orderfi-cream) 0%, var(--orderfi-white) 100%);
+  color: var(--orderfi-black);
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.5;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Kleurvorm™ Typography Hierarchy - Health App Style */
+/* OrderFi Typography Hierarchy - Orange/Pink Style */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.2;
-  color: var(--color-structure);
+  color: var(--color-foreground);
 }
 
-/* Health App Typography Classes */
-.kleurvorm-heading {
+/* OrderFi Typography Classes */
+.orderfi-heading {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 700;
-  color: var(--color-structure);
+  color: var(--color-foreground);
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
-.kleurvorm-subheading {
+.orderfi-subheading {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 600;
-  color: var(--color-trust);
+  color: var(--color-primary);
   letter-spacing: -0.01em;
   line-height: 1.3;
 }
 
-.kleurvorm-body {
+.orderfi-body {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 400;
-  color: var(--color-structure);
+  color: var(--color-foreground);
   line-height: 1.5;
 }
 
-.kleurvorm-small {
+.orderfi-small {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 500;
-  color: var(--color-trust);
+  color: var(--color-primary);
   font-size: 0.875rem;
   line-height: 1.4;
 }
 
-/* Kleurvorm™ Button System - Health App Style */
-.kleurvorm-btn {
+/* OrderFi Button System - Orange/Pink Style */
+.orderfi-btn {
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 600;
   border-radius: 100px;
@@ -103,64 +98,64 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.01em;
 }
 
-.kleurvorm-btn-primary {
-  background: linear-gradient(135deg, var(--kleurvorm-orange) 0%, var(--kleurvorm-red) 100%);
-  color: var(--kleurvorm-white);
+.orderfi-btn-primary {
+  background: linear-gradient(135deg, var(--orderfi-orange) 0%, var(--orderfi-pink) 100%);
+  color: var(--orderfi-white);
   box-shadow: 0 4px 20px rgba(255, 126, 95, 0.4);
 }
 
-.kleurvorm-btn-primary:hover {
+.orderfi-btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 25px rgba(255, 126, 95, 0.6);
 }
 
-.kleurvorm-btn-secondary {
-  background: linear-gradient(135deg, var(--kleurvorm-blue) 0%, var(--kleurvorm-purple) 100%);
-  color: var(--kleurvorm-white);
-  box-shadow: 0 4px 20px rgba(34, 51, 255, 0.3);
+.orderfi-btn-secondary {
+  background: linear-gradient(135deg, var(--orderfi-light-orange) 0%, var(--orderfi-light-pink) 100%);
+  color: var(--orderfi-black);
+  box-shadow: 0 4px 20px rgba(255, 165, 0, 0.3);
 }
 
-.kleurvorm-btn-secondary:hover {
+.orderfi-btn-secondary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(34, 51, 255, 0.5);
+  box-shadow: 0 6px 25px rgba(255, 165, 0, 0.5);
 }
 
-.kleurvorm-btn-outline {
+.orderfi-btn-outline {
   background: transparent;
-  border: 2px solid var(--kleurvorm-black);
-  color: var(--kleurvorm-black);
+  border: 2px solid var(--orderfi-orange);
+  color: var(--orderfi-orange);
 }
 
-.kleurvorm-btn-outline:hover {
-  background: var(--kleurvorm-black);
-  color: var(--kleurvorm-white);
+.orderfi-btn-outline:hover {
+  background: var(--orderfi-orange);
+  color: var(--orderfi-white);
 }
 
-/* Kleurvorm™ Card System - Health App Style */
-.kleurvorm-card {
-  background: var(--kleurvorm-white);
+/* OrderFi Card System - Orange/Pink Style */
+.orderfi-card {
+  background: var(--orderfi-white);
   border-radius: 24px;
   padding: 24px;
-  box-shadow: 0 8px 32px rgba(30, 30, 42, 0.1);
-  border: 1px solid rgba(202, 215, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 126, 95, 0.1);
+  border: 1px solid rgba(255, 126, 95, 0.2);
   transition: all 0.3s ease;
 }
 
-.kleurvorm-card:hover {
+.orderfi-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(30, 30, 42, 0.15);
+  box-shadow: 0 12px 40px rgba(255, 126, 95, 0.15);
 }
 
-.kleurvorm-card-gradient {
-  background: radial-gradient(circle at top right, var(--kleurvorm-white) 0%, var(--kleurvorm-pop-pink) 100%);
+.orderfi-card-gradient {
+  background: radial-gradient(circle at top right, var(--orderfi-white) 0%, var(--orderfi-cream) 100%);
   border-radius: 24px;
   padding: 24px;
-  box-shadow: 0 8px 32px rgba(255, 192, 203, 0.2);
-  border: 1px solid rgba(255, 192, 203, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 230, 176, 0.2);
+  border: 1px solid rgba(255, 230, 176, 0.3);
 }
 
-/* Kleurvorm™ Progress Circle - Health App Style */
-.kleurvorm-progress-circle {
+/* OrderFi Progress Circle - Orange/Pink Style */
+.orderfi-progress-circle {
   position: relative;
   width: 120px;
   height: 120px;
@@ -168,32 +163,32 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: conic-gradient(from 0deg, var(--kleurvorm-blue) 0%, var(--kleurvorm-purple) 50%, var(--kleurvorm-pink) 100%);
+  background: conic-gradient(from 0deg, var(--orderfi-orange) 0%, var(--orderfi-pink) 50%, var(--orderfi-light-pink) 100%);
   padding: 8px;
 }
 
-.kleurvorm-progress-inner {
+.orderfi-progress-inner {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: var(--kleurvorm-white);
+  background: var(--orderfi-white);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
 
-.kleurvorm-progress-value {
+.orderfi-progress-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--kleurvorm-black);
+  color: var(--orderfi-black);
   line-height: 1;
 }
 
-.kleurvorm-progress-label {
+.orderfi-progress-label {
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--kleurvorm-purple);
+  color: var(--orderfi-orange);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
