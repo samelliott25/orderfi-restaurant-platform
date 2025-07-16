@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Comfortaa:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Comfortaa:wght@400;600;700&family=Playwrite+AU+VIC:wght@100..400&display=swap');
 
 /* Original OrderFi Orange/Pink Design System */
 :root {
@@ -252,8 +252,8 @@ button, .button, input, select, textarea {
 
 /* For backwards compatibility */
 .playwrite-font {
-  font-family: "Comfortaa", cursive !important;
-  font-weight: 700;
+  font-family: "Playwrite AU VIC", cursive !important;
+  font-weight: 400;
   letter-spacing: -0.02em;
 }
 
