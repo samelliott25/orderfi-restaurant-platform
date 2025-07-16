@@ -194,7 +194,7 @@ export const EnhancedSidebar: React.FC = () => {
             <Brain className="h-6 w-6 text-orange-500" />
             <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
           </div>
-          <h1 className="text-lg font-bold playwrite-font bg-gradient-to-r from-orderfi-orange to-orderfi-pink bg-clip-text text-transparent">
+          <h1 className="text-lg font-bold playwrite-font bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent">
             OrderFi
           </h1>
         </div>

@@ -216,7 +216,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-sm font-semibold bg-gradient-to-r from-orderfi-orange to-orderfi-pink dark:from-orderfi-light-orange dark:to-orderfi-light-pink bg-clip-text text-transparent playwrite-font">
+                    <h2 className="text-sm font-semibold bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent playwrite-font">
                       OrderFi
                     </h2>
                     <div className="flex items-center gap-2 mt-2">
@@ -316,10 +316,10 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 }`}
                 style={{
                   background: isChatOpen 
-                    ? 'conic-gradient(from 0deg, #ff7e5f, #f53855, #ffc0cb, #ff7e5f)' 
-                    : 'linear-gradient(135deg, #ff7e5f 0%, #f53855 50%, #ffc0cb 100%)',
+                    ? 'conic-gradient(from 0deg, #F5A623, #f97316, #ec4899, #F5A623)' 
+                    : 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)',
                   borderRadius: isCollapsed ? '50%' : '16px',
-                  boxShadow: '0 8px 32px rgba(255, 126, 95, 0.3)'
+                  boxShadow: '0 8px 32px rgba(245, 166, 35, 0.3)'
                 }}
               >
                 {/* Animated background effect */}

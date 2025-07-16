@@ -22,7 +22,7 @@ export default function OrderFiLogo({ className = "" }: { className?: string }) 
           playsInline
           className="w-96 h-auto max-w-full"
           style={{ 
-            filter: 'drop-shadow(0 4px 8px rgba(255, 126, 95, 0.2))',
+            filter: 'drop-shadow(0 4px 8px rgba(245, 166, 35, 0.2))',
             maxHeight: '200px'
           }}
         >

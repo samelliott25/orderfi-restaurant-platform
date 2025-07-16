@@ -36,7 +36,7 @@ export function Header({
         <div className="flex items-center space-x-4">
           
           <div className="flex flex-col">
-            <h1 className="font-semibold text-sm playwrite-font bg-gradient-to-r from-orderfi-orange to-orderfi-pink bg-clip-text text-transparent">
+            <h1 className="font-semibold text-sm playwrite-font bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent">
               {venueName}
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">{tableNumber}</p>
