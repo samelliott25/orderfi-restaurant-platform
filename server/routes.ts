@@ -12,6 +12,7 @@ import { blockchainIntegrationService } from "./services/blockchain-integration"
 import { menuCategorizationService } from "./services/menu-categorization";
 import { kitchenPrinterService } from "./services/kitchen-printer";
 import { processChatMessage, processOperationsAiMessage, type ChatContext } from "./services/akash-chat";
+import { analyzeTextAnimations, generateAdvancedTextAnimations } from "./routes/grok-text-animations";
 
 import { 
   insertRestaurantSchema, 
@@ -756,6 +757,10 @@ export async function registerRoutes(app: Express): Promise<void> {
 
   // Register TTS routes
   app.use("/api/tts", ttsRouter);
+
+  // Grok Text Animation routes
+  app.post("/api/grok/analyze-text-animations", analyzeTextAnimations);
+  app.post("/api/grok/generate-advanced-text-animations", generateAdvancedTextAnimations);
 
 
 

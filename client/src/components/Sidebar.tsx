@@ -65,6 +65,11 @@ const kleurvormPages = [
   { icon: Heart, label: "Kleurvorm Menu", href: "/kleurvorm-menu" },
 ];
 
+// Grok AI Enhancement Pages
+const grokAIPages = [
+  { icon: Brain, label: "Text Animation Enhancer", href: "/grok-text-enhancer" },
+];
+
 interface SidebarProps {
   isOpen?: boolean;
   onClose?: () => void;
@@ -321,6 +326,35 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                           isActive 
                             ? "bg-gradient-to-r from-kleurvorm-blue/20 to-kleurvorm-purple/20 text-kleurvorm-blue dark:text-kleurvorm-purple border border-kleurvorm-blue/30 dark:border-kleurvorm-purple/30 shadow-lg" 
                             : "text-gray-700 dark:text-gray-200 hover:text-kleurvorm-blue dark:hover:text-kleurvorm-purple hover:bg-gradient-to-r hover:from-kleurvorm-blue/10 hover:to-kleurvorm-purple/10 hover:shadow-md"
+                        } rounded-xl backdrop-blur-sm`}
+                        title={item.label}
+                      >
+                        <item.icon className="h-5 w-5 mr-3 flex-shrink-0" />
+                        <span className="font-medium text-current">{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </nav>
+              </div>
+            )}
+
+            {/* Grok AI Enhancement Section */}
+            {!isCollapsed && (
+              <div className="mt-8 mb-4">
+                <h3 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 px-2">
+                  Grok AI Enhancement
+                </h3>
+                <nav className="space-y-1">
+                  {grokAIPages.map((item) => {
+                    const isActive = location === item.href;
+                    return (
+                      <button
+                        key={item.href}
+                        onClick={() => handleNavItemClick(item.href)}
+                        className={`w-full font-medium transition-all duration-200 h-11 flex items-center justify-start text-left px-4 ${
+                          isActive 
+                            ? "bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-300 border border-purple-200/50 dark:border-purple-700/50 shadow-lg" 
+                            : "text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 dark:hover:from-purple-900/20 dark:hover:to-pink-900/20 hover:shadow-md"
                         } rounded-xl backdrop-blur-sm`}
                         title={item.label}
                       >
