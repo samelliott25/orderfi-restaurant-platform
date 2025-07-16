@@ -133,13 +133,74 @@ export default function GrokTextAnimationEnhancer() {
     navigator.clipboard.writeText(text);
   };
 
+  const testPreviewAnimation = () => {
+    const testCSS = `
+      @keyframes testBounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0) scale(1);
+        }
+        40% {
+          transform: translateY(-10px) scale(1.05);
+        }
+        60% {
+          transform: translateY(-5px) scale(1.02);
+        }
+      }
+      
+      animation: testBounce 2s ease-in-out infinite;
+      transform-origin: center;
+    `;
+    applyAnimationPreview(testCSS);
+  };
+
   const applyAnimationPreview = (css: string) => {
+    // Remove any existing preview styles
+    const existingStyle = document.getElementById('grok-preview-styles');
+    if (existingStyle) {
+      existingStyle.remove();
+    }
+    
+    // Create new style element with unique ID
     const style = document.createElement('style');
-    style.textContent = css;
+    style.id = 'grok-preview-styles';
+    
+    // Extract keyframes if they exist and apply them properly
+    const keyframesMatch = css.match(/@keyframes\s+(\w+)\s*\{[^}]*\}/g);
+    let keyframesCSS = '';
+    let animationCSS = css;
+    
+    if (keyframesMatch) {
+      keyframesCSS = keyframesMatch.join('\n');
+      // Remove keyframes from animation CSS
+      animationCSS = css.replace(/@keyframes\s+(\w+)\s*\{[^}]*\}/g, '');
+    }
+    
+    style.textContent = `
+      /* Grok Animation Preview Keyframes */
+      ${keyframesCSS}
+      
+      /* Apply to our demo text */
+      .orderfi-demo-text.orderfi-preview {
+        ${animationCSS}
+      }
+    `;
     document.head.appendChild(style);
     
+    // Apply preview class to our demo text
+    const demoText = document.querySelector('.orderfi-demo-text');
+    if (demoText) {
+      demoText.classList.add('orderfi-preview');
+    }
+    
+    // Remove after 5 seconds
     setTimeout(() => {
-      document.head.removeChild(style);
+      const previewStyle = document.getElementById('grok-preview-styles');
+      if (previewStyle) {
+        previewStyle.remove();
+      }
+      if (demoText) {
+        demoText.classList.remove('orderfi-preview');
+      }
     }, 5000);
   };
 
@@ -155,10 +216,10 @@ export default function GrokTextAnimationEnhancer() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="text-center p-8 border rounded-lg bg-gradient-to-r from-orange-50 to-pink-50">
-            <div className="text-4xl md:text-6xl font-normal bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font">
+            <div className="orderfi-demo-text text-4xl md:text-6xl font-normal bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font transition-all duration-300">
               OrderFi
             </div>
-            <p className="text-sm text-muted-foreground mt-2">Current Implementation</p>
+            <p className="text-sm text-muted-foreground mt-2">Current Implementation (Preview animations here)</p>
           </div>
 
           <div className="flex flex-wrap gap-2 justify-center">
@@ -187,6 +248,15 @@ export default function GrokTextAnimationEnhancer() {
             >
               <Sparkles className="h-4 w-4" />
               Generate Particle System
+            </Button>
+            <Button
+              onClick={() => testPreviewAnimation()}
+              disabled={loading}
+              variant="outline"
+              className="gap-2"
+            >
+              <Play className="h-4 w-4" />
+              Test Preview
             </Button>
           </div>
         </CardContent>
