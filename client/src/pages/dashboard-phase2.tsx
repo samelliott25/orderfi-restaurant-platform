@@ -19,15 +19,6 @@ import {
 
 export default function DashboardPhase2() {
   const [activeTab, setActiveTab] = useState('executive');
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  // Update time every minute
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Set document title
   useEffect(() => {
@@ -36,13 +27,6 @@ export default function DashboardPhase2() {
       document.title = "OrderFi";
     };
   }, []);
-
-  // Progressive disclosure state management
-  const [refreshKey, setRefreshKey] = useState(0);
-  
-  const handleRefresh = () => {
-    setRefreshKey(prev => prev + 1);
-  };
 
   // Mock data for Operational View
   const liveOrders = [
@@ -201,7 +185,7 @@ export default function DashboardPhase2() {
                   <span className="text-lg font-medium text-kleurvorm-primary">System Online</span>
                 </div>
                 <div className="text-lg text-muted-foreground">
-                  {currentTime.toLocaleTimeString()}
+                  Dashboard Active
                 </div>
               </div>
               <div className="flex items-center space-x-2">
@@ -245,17 +229,17 @@ export default function DashboardPhase2() {
 
           {/* Executive Summary Tab */}
           <TabsContent value="executive">
-            <ExecutiveSummary key={`executive-${refreshKey}`} />
+            <ExecutiveSummary />
           </TabsContent>
 
           {/* Operations Tab */}
           <TabsContent value="operations">
-            <OperationalView key={`operations-${refreshKey}`} />
+            <OperationalView />
           </TabsContent>
 
           {/* Analytics Tab */}
           <TabsContent value="analytics">
-            <AnalyticsView key={`analytics-${refreshKey}`} />
+            <AnalyticsView />
           </TabsContent>
         </Tabs>
       </div>
