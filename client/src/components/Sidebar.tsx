@@ -197,7 +197,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini" style={{ background: 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)' }}>
                     <div className="relative w-full h-full flex items-center justify-center">
                       <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
                         <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
@@ -230,7 +230,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 </div>
               ) : (
                 <div className="w-full flex justify-center">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini" style={{ background: 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)' }}>
                     <div className="relative w-full h-full flex items-center justify-center">
                       <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
                         <svg className="w-0.5 h-0.5 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
