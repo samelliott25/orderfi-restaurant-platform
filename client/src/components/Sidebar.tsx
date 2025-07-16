@@ -313,10 +313,6 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 onClick={handleChatOpsClick}
                 className={`relative overflow-hidden border-0 shadow-xl transition-all duration-300 ease-out hover:scale-105 active:scale-95 backdrop-blur-sm ${
                   isCollapsed ? 'w-10 h-10 p-0' : 'w-full h-12'
-                } ${
-                  isChatOpen 
-                    ? 'bg-gradient-to-br from-orderfi-orange via-orderfi-pink to-orderfi-light-pink hover:from-orderfi-dark-orange hover:via-orderfi-dark-pink hover:to-orderfi-pink' 
-                    : 'bg-gradient-to-br from-orderfi-dark-orange via-orderfi-pink to-orderfi-light-pink hover:from-orderfi-orange hover:via-orderfi-light-orange hover:to-orderfi-light-pink'
                 }`}
                 style={{
                   background: isChatOpen 
