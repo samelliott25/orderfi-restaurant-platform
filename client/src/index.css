@@ -251,7 +251,17 @@ button, .button, input, select, textarea {
 }
 
 /* For backwards compatibility */
-.playwrite-font {
+.playwrite-font,
+.playwrite-font * {
+  font-family: "Playwrite AU VIC", cursive !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Even higher specificity for text size classes with playwrite-font */
+.text-7xl.playwrite-font,
+.text-8xl.playwrite-font,
+.text-9xl.playwrite-font {
   font-family: "Playwrite AU VIC", cursive !important;
   font-weight: 400 !important;
   letter-spacing: -0.02em !important;
@@ -307,34 +317,34 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
 }
 
-/* Content and body text - Use SUSE for ALL text elements */
-*, 
-*::before, 
-*::after,
+/* Content and body text - Use SUSE for ALL text elements except playwrite-font */
+*:not(.playwrite-font):not(.rock-salt-font), 
+*:not(.playwrite-font):not(.rock-salt-font)::before, 
+*:not(.playwrite-font):not(.rock-salt-font)::after,
 body, 
-p, 
-span, 
-div, 
-button, 
-input, 
-textarea, 
-select, 
-label,
-a,
-li,
-td,
-th,
-small,
-strong,
-em,
-code,
-pre,
-.content-text,
-.text-sm,
-.text-xs,
-.text-lg,
-.text-xl,
-.text-2xl {
+p:not(.playwrite-font), 
+span:not(.playwrite-font), 
+div:not(.playwrite-font), 
+button:not(.playwrite-font), 
+input:not(.playwrite-font), 
+textarea:not(.playwrite-font), 
+select:not(.playwrite-font), 
+label:not(.playwrite-font),
+a:not(.playwrite-font),
+li:not(.playwrite-font),
+td:not(.playwrite-font),
+th:not(.playwrite-font),
+small:not(.playwrite-font),
+strong:not(.playwrite-font),
+em:not(.playwrite-font),
+code:not(.playwrite-font),
+pre:not(.playwrite-font),
+.content-text:not(.playwrite-font),
+.text-sm:not(.playwrite-font),
+.text-xs:not(.playwrite-font),
+.text-lg:not(.playwrite-font),
+.text-xl:not(.playwrite-font),
+.text-2xl:not(.playwrite-font) {
   font-family: "SUSE", Arial, Helvetica, sans-serif;
   font-weight: 400;
 }
@@ -348,8 +358,8 @@ pre,
 
 /* REMOVED: Old color palette overrides - Conflicted with Kleurvörm Theme */
 
-/* Uniform headings - 20% larger than previous */
-h1, .text-4xl, .text-3xl, h2, .text-2xl, h3, .text-xl {
+/* Uniform headings - 20% larger than previous except playwrite-font */
+h1:not(.playwrite-font), .text-4xl:not(.playwrite-font), .text-3xl:not(.playwrite-font), h2:not(.playwrite-font), .text-2xl:not(.playwrite-font), h3:not(.playwrite-font), .text-xl:not(.playwrite-font) {
   font-size: 1.125rem !important;
   font-weight: 500 !important;
   line-height: 1.2 !important;
