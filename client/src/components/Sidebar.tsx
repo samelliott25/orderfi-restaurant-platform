@@ -216,7 +216,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent playwrite-font">
+                    <h2 className="text-sm font-semibold bg-gradient-to-r from-orderfi-orange to-orderfi-pink dark:from-orderfi-light-orange dark:to-orderfi-light-pink bg-clip-text text-transparent playwrite-font">
                       OrderFi
                     </h2>
                     <div className="flex items-center gap-2 mt-2">
@@ -315,15 +315,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   isCollapsed ? 'w-10 h-10 p-0' : 'w-full h-12'
                 } ${
                   isChatOpen 
-                    ? 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600' 
-                    : 'bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700'
+                    ? 'bg-gradient-to-br from-orderfi-orange via-orderfi-pink to-orderfi-light-pink hover:from-orderfi-dark-orange hover:via-orderfi-dark-pink hover:to-orderfi-pink' 
+                    : 'bg-gradient-to-br from-orderfi-dark-orange via-orderfi-pink to-orderfi-light-pink hover:from-orderfi-orange hover:via-orderfi-light-orange hover:to-orderfi-light-pink'
                 }`}
                 style={{
                   background: isChatOpen 
-                    ? 'conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6)' 
-                    : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%)',
+                    ? 'conic-gradient(from 0deg, #ff7e5f, #f53855, #ffc0cb, #ff7e5f)' 
+                    : 'linear-gradient(135deg, #ff7e5f 0%, #f53855 50%, #ffc0cb 100%)',
                   borderRadius: isCollapsed ? '50%' : '16px',
-                  boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3)'
+                  boxShadow: '0 8px 32px rgba(255, 126, 95, 0.3)'
                 }}
               >
                 {/* Animated background effect */}

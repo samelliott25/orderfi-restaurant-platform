@@ -31,7 +31,7 @@ export const OrderFiHeading = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  const baseClasses = 'orderfi-heading bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent';
+  const baseClasses = 'orderfi-heading bg-gradient-to-r from-orderfi-orange to-orderfi-pink bg-clip-text text-transparent';
   
   const sizeClasses = {
     1: 'text-2xl',
@@ -112,7 +112,7 @@ export const OrderFiButton = ({
   [key: string]: any;
 }) => {
   const gradientClasses = gradient 
-    ? 'bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white border-none'
+    ? 'bg-gradient-to-r from-orderfi-orange to-orderfi-pink hover:from-orderfi-dark-orange hover:to-orderfi-dark-pink text-white border-none'
     : '';
 
   return (

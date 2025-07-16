@@ -18,9 +18,9 @@ export function CustomerChatButton({ onClick, className = "" }: CustomerChatButt
           className="relative w-16 h-16 rounded-full overflow-hidden sentient-orb ai-gentle-float transition-all duration-300 ease-out hover:scale-110 active:scale-95 shadow-2xl"
           style={{
             background: `
-              radial-gradient(circle at 30% 30%, rgba(255, 150, 0, 0.9) 0%, transparent 60%),
-              radial-gradient(circle at 70% 70%, rgba(255, 100, 150, 0.8) 0%, transparent 60%),
-              radial-gradient(circle at 50% 50%, rgba(100, 50, 255, 0.7) 0%, transparent 70%)
+              radial-gradient(circle at 30% 30%, rgba(255, 126, 95, 0.9) 0%, transparent 60%),
+              radial-gradient(circle at 70% 70%, rgba(245, 56, 85, 0.8) 0%, transparent 60%),
+              radial-gradient(circle at 50% 50%, rgba(255, 192, 203, 0.7) 0%, transparent 70%)
             `,
           }}
         >
