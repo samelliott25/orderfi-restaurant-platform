@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fredoka+One:wght@400&family=Comfortaa:wght@300;400;700&family=Lobster:wght@400&family=Kalam:wght@400;700&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Allura&family=Seaweed+Script&family=Permanent+Marker&family=Satisfy&family=Molle:ital@1&family=Rancho:wght@400&family=Dongle:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Comfortaa:wght@400;600;700&display=swap');
 
 /* Remove Advanced Glassmorphism Theme */
 
@@ -15,7 +15,25 @@ html, body {
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Global Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* Button and UI Element Consistency */
+button, .button, input, select, textarea {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.005em;
 }
 
 /* Horizontal scrolling utility - hide scrollbar */
@@ -61,17 +79,40 @@ body {
   min-width: 0;
 }
 
-/* Custom font class for OrderFi logo - Playwrite for landing page */
-/* Legacy playwrite-font class for backward compatibility */
-.playwrite-font {
-  font-family: "Playwrite AU VIC", cursive !important;
-  font-weight: 400;
+/* OrderFi Brand Typography System */
+.orderfi-brand {
+  font-family: "Comfortaa", cursive !important;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-/* Style for the "Fi" part in cursive */
-.orderfi-fi {
-  font-family: "Playwrite AU VIC", cursive !important;
+/* For backwards compatibility */
+.playwrite-font {
+  font-family: "Comfortaa", cursive !important;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Heading Typography */
+.orderfi-heading {
+  font-family: "Inter", sans-serif !important;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* Body Typography */
+.orderfi-body {
+  font-family: "Inter", sans-serif !important;
   font-weight: 400;
+  line-height: 1.5;
+}
+
+/* UI Element Typography */
+.orderfi-ui {
+  font-family: "Inter", sans-serif !important;
+  font-weight: 500;
+  letter-spacing: -0.005em;
 }
 
 /* Playwrite font class for special titles - changed from Rock Salt */

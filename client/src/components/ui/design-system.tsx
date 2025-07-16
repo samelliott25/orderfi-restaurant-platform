@@ -31,13 +31,13 @@ export const OrderFiHeading = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  const baseClasses = 'font-semibold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent';
+  const baseClasses = 'orderfi-heading bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent';
   
   const sizeClasses = {
-    1: 'text-lg',
-    2: 'text-lg',
+    1: 'text-2xl',
+    2: 'text-xl',
     3: 'text-lg',
-    4: 'text-lg'
+    4: 'text-base'
   };
 
   const combinedClasses = cn(baseClasses, sizeClasses[level], className);

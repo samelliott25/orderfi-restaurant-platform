@@ -6,10 +6,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'heading': ['Futura', 'Trebuchet MS', 'Arial', 'sans-serif'],
-        'content': ['Arial', 'Helvetica', 'sans-serif'],
-        'sans': ['Arial', 'Helvetica', 'Inter', 'system-ui', 'sans-serif'],
-        'serif': ['Georgia', 'Times New Roman', 'serif'],
+        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'brand': ['Comfortaa', 'cursive'],
+        'heading': ['Inter', 'system-ui', 'sans-serif'],
+        'body': ['Inter', 'system-ui', 'sans-serif'],
+        'ui': ['Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
