@@ -51,28 +51,38 @@ export default {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
-        // Kleurvorm™ palette colors from uploaded swatch
-        'kleurvorm': {
-          'black': '#1e1e2a',      // Structure/stability
-          'blue': '#2233ff',       // Primary blue
-          'purple': '#8d5fff',     // Purple accent
-          'pink': '#f53855',       // Pink accent
-          'light-blue': '#cad7ff', // Light blue
-          'white': '#ffffff',      // Pure white
-          'orange': '#ff7e5f',     // Orange pop
-          'red': '#f53855',        // Red pop
-          'pop-white': '#ffffff',  // Pop white
-          'pop-pink': '#ffc0cb',   // Pop pink
-          'pop-purple': '#800080', // Pop purple
-          'pop-orange': '#ffa500', // Pop orange
+        // Urbanist Design System Colors
+        'urbanist': {
+          'green': {
+            DEFAULT: '#4CAF50',
+            light: '#81C784',
+            dark: '#388E3C',
+            bg: '#F1F8E9',
+          },
+          'yellow': {
+            DEFAULT: '#FFC107',
+            light: '#FFD54F',
+            dark: '#F57C00',
+            bg: '#FFFDE7',
+          },
+          'black': '#1C1C1E',
+          'gray': {
+            50: '#FAFAFA',
+            100: '#F5F5F5',
+            200: '#E0E0E0',
+            300: '#D0D0D0',
+            500: '#9E9E9E',
+            700: '#424242',
+            900: '#212121',
+          },
         },
-        // Gradient definitions
+        // Urbanist Gradient definitions
         'gradient': {
-          'primary': 'linear-gradient(135deg, #2233ff 0%, #8d5fff 100%)',
-          'secondary': 'linear-gradient(135deg, #8d5fff 0%, #f53855 100%)',
-          'accent': 'linear-gradient(135deg, #ff7e5f 0%, #f53855 100%)',
-          'background': 'linear-gradient(135deg, #cad7ff 0%, #ffffff 100%)',
-          'card': 'radial-gradient(circle at top right, #ffffff 0%, #ffc0cb 100%)',
+          'primary': 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)',
+          'secondary': 'linear-gradient(135deg, #FFC107 0%, #FFD54F 100%)',
+          'accent': 'linear-gradient(135deg, #4CAF50 0%, #FFC107 100%)',
+          'background': 'linear-gradient(135deg, #FAFAFA 0%, #F5F5F5 100%)',
+          'card': 'radial-gradient(circle at top right, #FFFFFF 0%, #F1F8E9 100%)',
         },
         chart: {
           "1": "var(--chart-1)",
