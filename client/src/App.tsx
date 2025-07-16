@@ -65,8 +65,7 @@ import KleurvormHome from "@/pages/kleurvorm-home";
 import KleurvormDashboard from "@/pages/kleurvorm-dashboard";
 import KleurvormMenu from "@/pages/kleurvorm-menu";
 
-// Grok AI Enhancement Pages
-import GrokTextEnhancerPage from "@/pages/grok-text-enhancer";
+
 
 
 function AppLayout({ children }: { children: React.ReactNode }) {
@@ -194,8 +193,7 @@ function Router() {
         <Route path="/kleurvorm-dashboard" component={KleurvormDashboard} />
         <Route path="/kleurvorm-menu" component={KleurvormMenu} />
 
-        {/* Grok AI Enhancement Pages */}
-        <Route path="/grok-text-enhancer" component={GrokTextEnhancerPage} />
+
 
         
         <Route component={NotFound} />
