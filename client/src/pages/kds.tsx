@@ -186,7 +186,7 @@ export default function KDS() {
 
   // Filter and sort orders
   const filteredOrders = selectedStation 
-    ? getStationOrders(ordersArray, selectedStation)
+    ? getStationOrders(selectedStation, ordersArray)
     : showUnassigned 
       ? getUnassignedOrders(ordersArray)
       : ordersArray.filter(order => order.status !== 'completed' && order.status !== 'cancelled');
@@ -251,7 +251,7 @@ export default function KDS() {
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value as 'time' | 'urgency')}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm"
               >
                 <option value="time">Sort by Time</option>
                 <option value="urgency">Sort by Urgency</option>
@@ -277,7 +277,7 @@ export default function KDS() {
           onStationSelect={setSelectedStation}
           stationStats={(stations || []).reduce((acc, station) => {
             try {
-              acc[station.id] = getStationStats(station.id) || { activeOrders: 0, avgPrepTime: 0 };
+              acc[station.id] = getStationStats(station.id, ordersArray) || { activeOrders: 0, avgPrepTime: 0 };
             } catch (error) {
               acc[station.id] = { activeOrders: 0, avgPrepTime: 0 };
             }
@@ -435,7 +435,7 @@ export default function KDS() {
                 variant="outline"
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className="bg-white/80 dark:bg-gray-700/80"
+                className="bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
               >
                 Previous
               </Button>
@@ -446,7 +446,7 @@ export default function KDS() {
                 variant="outline"
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
-                className="bg-white/80 dark:bg-gray-700/80"
+                className="bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
               >
                 Next
               </Button>
