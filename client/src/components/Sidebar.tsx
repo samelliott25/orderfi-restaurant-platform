@@ -40,7 +40,8 @@ import {
   Clock,
   Heart,
   Star,
-  Palette
+  Palette,
+  Figma
 } from "lucide-react";
 
 const menuItems = [
@@ -57,6 +58,7 @@ const menuItems = [
   { icon: Settings2, label: "Settings", href: "/settings" },
   { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
   { icon: Wallet, label: "Wallet Connect", href: "/wallet-connect" },
+  { icon: Figma, label: "Figma Integration", href: "/figma-integration" },
 ];
 
 

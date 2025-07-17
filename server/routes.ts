@@ -13,6 +13,7 @@ import { menuCategorizationService } from "./services/menu-categorization";
 import { kitchenPrinterService } from "./services/kitchen-printer";
 import { processChatMessage, processOperationsAiMessage, type ChatContext } from "./services/akash-chat";
 import { analyzeTextAnimations, generateAdvancedTextAnimations } from "./routes/grok-text-animations";
+import { figmaRoutes } from "./figma-integration";
 
 import { 
   insertRestaurantSchema, 
@@ -779,6 +780,11 @@ export async function registerRoutes(app: Express): Promise<void> {
 
   // Register kitchen printing routes
   app.use("/api/kitchen-printing", kitchenPrintingRouter);
+  
+  // Figma integration routes
+  app.post("/api/figma/sync", figmaRoutes.syncDesignSystem);
+  app.get("/api/figma/files/:fileKey", figmaRoutes.getFileInfo);
+  app.post("/api/figma/files/:fileKey/export", figmaRoutes.exportImages);
 
   // Web3 Storage routes
   app.post("/api/web3-storage/upload", upload.single('file'), async (req, res) => {
