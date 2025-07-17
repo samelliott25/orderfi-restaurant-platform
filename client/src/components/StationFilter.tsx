@@ -29,8 +29,8 @@ export const StationFilter: React.FC<StationFilterProps> = ({
       {/* Station Selection */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-gray-500" />
-          <span className="text-sm font-medium">Filter by Station:</span>
+          <Filter className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+          <span className="text-sm font-medium text-gray-900 dark:text-gray-100">Filter by Station:</span>
         </div>
         
         <Select value={selectedStation || 'all'} onValueChange={(value) => onStationSelect(value === 'all' ? null : value)}>
@@ -77,8 +77,8 @@ export const StationFilter: React.FC<StationFilterProps> = ({
               className={`
                 flex items-center gap-2 px-3 py-2 rounded-lg border transition-all
                 ${isSelected 
-                  ? 'bg-white shadow-lg border-gray-300' 
-                  : 'bg-gray-50 hover:bg-gray-100 border-gray-200'
+                  ? 'bg-white dark:bg-gray-700 shadow-lg border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100' 
+                  : 'bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100'
                 }
               `}
             >
@@ -86,7 +86,7 @@ export const StationFilter: React.FC<StationFilterProps> = ({
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: station.color }}
               />
-              <span className="text-sm font-medium">{station.name}</span>
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{station.name}</span>
               
               {stats && (
                 <div className="flex items-center gap-1 ml-2">
@@ -94,7 +94,7 @@ export const StationFilter: React.FC<StationFilterProps> = ({
                     {stats.activeOrders}
                   </Badge>
                   {stats.avgPrepTime > 0 && (
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                    <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                       <Clock className="w-3 h-3" />
                       {stats.avgPrepTime}m
                     </div>
@@ -108,17 +108,17 @@ export const StationFilter: React.FC<StationFilterProps> = ({
 
       {/* Selected Station Info */}
       {selectedStation && (
-        <div className="p-4 bg-gray-50 rounded-lg border">
+        <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ChefHat className="w-5 h-5 text-gray-600" />
-              <span className="font-medium">
+              <ChefHat className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              <span className="font-medium text-gray-900 dark:text-gray-100">
                 {stations.find(s => s.id === selectedStation)?.name} Orders
               </span>
             </div>
             
             {stationStats[selectedStation] && (
-              <div className="flex items-center gap-4 text-sm text-gray-600">
+              <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                 <span>Active: {stationStats[selectedStation].activeOrders}</span>
                 <span>Avg Time: {stationStats[selectedStation].avgPrepTime}m</span>
               </div>
