@@ -4,8 +4,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
-import { Clock, ChefHat, AlertCircle, CheckCircle2, X, Utensils, Wifi, WifiOff, Timer } from 'lucide-react';
+import { Clock, ChefHat, AlertCircle, CheckCircle2, X, Utensils, Wifi, WifiOff, Timer, CloudOff, Cloud } from 'lucide-react';
 import StandardLayout from '@/components/StandardLayout';
+import { AudioAlerts, useAudioAlerts } from '@/components/AudioAlerts';
+import { useOfflineMode } from '@/hooks/useOfflineMode';
+import KDSSettings from '@/components/KDSSettings';
+import { useStationRouting } from '@/hooks/useStationRouting';
+import StationFilter from '@/components/StationFilter';
 
 interface Order {
   id: number;
@@ -38,6 +43,31 @@ export default function KDS() {
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('disconnected');
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { playNewOrderAlert, playOrderUpdateAlert } = useAudioAlerts();
+  const { 
+    isOnline, 
+    offlineQueue, 
+    queueLength,
+    updateOrderStatusOffline,
+    cacheOrdersForOffline,
+    getCachedOrders,
+    syncOfflineData
+  } = useOfflineMode();
+  
+  const [kdsSettings, setKdsSettings] = useState<any>(null);
+  const [showUnassigned, setShowUnassigned] = useState(false);
+  
+  const {
+    stations,
+    selectedStation,
+    setSelectedStation,
+    autoAssignOrderToStation,
+    assignOrderToStation,
+    getOrderStation,
+    getStationOrders,
+    getUnassignedOrders,
+    getStationStats
+  } = useStationRouting();
   
   // Update current time every minute
   useEffect(() => {
@@ -124,10 +154,14 @@ export default function KDS() {
   const handleWebSocketMessage = (message: any) => {
     switch (message.type) {
       case 'order-status-updated':
+        // Play order update alert
+        playOrderUpdateAlert();
         // Invalidate and refetch orders when status updates
         queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] });
         break;
       case 'new-order':
+        // Play new order alert
+        playNewOrderAlert();
         // New order received
         queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] });
         break;
@@ -144,14 +178,29 @@ export default function KDS() {
     }
   };
   
-  // Fetch active orders with WebSocket fallback to polling
+  // Fetch active orders with WebSocket fallback to polling and offline support
   const { data: orders = [], isLoading, error } = useQuery<Order[]>({
     queryKey: ['/api/kds/orders'],
     refetchInterval: wsConnected ? false : 5000, // Only poll when WebSocket is disconnected
     staleTime: wsConnected ? 30000 : 0, // Longer stale time when WebSocket is connected
+    enabled: isOnline, // Only fetch when online
+    placeholderData: () => {
+      // Return cached orders when offline
+      if (!isOnline) {
+        return getCachedOrders() || [];
+      }
+      return undefined;
+    },
   });
 
-  // Update order status mutation
+  // Cache orders for offline use whenever they're updated
+  useEffect(() => {
+    if (orders && orders.length > 0 && isOnline) {
+      cacheOrdersForOffline(orders);
+    }
+  }, [orders, isOnline, cacheOrdersForOffline]);
+
+  // Update order status mutation with offline support
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: number; status: string }) => {
       return apiRequest(`/api/kds/orders/${id}/status`, {
@@ -165,7 +214,13 @@ export default function KDS() {
   });
 
   const handleStatusUpdate = (orderId: number, newStatus: string) => {
-    updateStatusMutation.mutate({ id: orderId, status: newStatus });
+    // Try offline update first
+    const handledOffline = updateOrderStatusOffline(orderId, newStatus);
+    
+    if (!handledOffline) {
+      // If online, proceed with normal mutation
+      updateStatusMutation.mutate({ id: orderId, status: newStatus });
+    }
   };
 
   const parseOrderItems = (itemsJson: string): OrderItem[] => {
@@ -228,8 +283,36 @@ export default function KDS() {
     );
   }
 
+  // Auto-assign new orders to stations
+  useEffect(() => {
+    if (orders && orders.length > 0) {
+      orders.forEach(order => {
+        if (!getOrderStation(order.id)) {
+          const stationId = autoAssignOrderToStation(order);
+          if (stationId) {
+            assignOrderToStation(order.id, stationId);
+          }
+        }
+      });
+    }
+  }, [orders, getOrderStation, autoAssignOrderToStation, assignOrderToStation]);
+
+  // Filter orders based on selected station
+  const getFilteredOrders = () => {
+    if (showUnassigned) {
+      return getUnassignedOrders(orders);
+    }
+    
+    if (selectedStation) {
+      return getStationOrders(selectedStation, orders);
+    }
+    
+    return orders;
+  };
+
   // Group orders by status for better organization
-  const groupedOrders = orders.reduce((acc, order) => {
+  const filteredOrders = getFilteredOrders();
+  const groupedOrders = filteredOrders.reduce((acc, order) => {
     const status = order.status;
     if (!acc[status]) acc[status] = [];
     acc[status].push(order);
@@ -238,6 +321,12 @@ export default function KDS() {
 
   const statusOrder = ['pending', 'preparing', 'ready'];
   const activeOrders = statusOrder.flatMap(status => groupedOrders[status] || []);
+
+  // Generate station stats
+  const stationStats = stations.reduce((acc, station) => {
+    acc[station.id] = getStationStats(station.id, orders);
+    return acc;
+  }, {} as Record<string, any>);
 
   return (
     <StandardLayout title="Kitchen Display System" subtitle="Real-time Order Management">
@@ -256,7 +345,7 @@ export default function KDS() {
                 {orders.length} active orders
               </p>
               <div className="flex items-center space-x-2">
-                {connectionStatus === 'connected' ? (
+                {connectionStatus === 'connected' && isOnline ? (
                   <div className="flex items-center space-x-1 text-green-600">
                     <Wifi className="w-4 h-4" />
                     <span className="text-sm font-medium">Real-time</span>
@@ -266,15 +355,30 @@ export default function KDS() {
                     <Timer className="w-4 h-4 animate-spin" />
                     <span className="text-sm font-medium">Connecting...</span>
                   </div>
+                ) : !isOnline ? (
+                  <div className="flex items-center space-x-1 text-orange-600">
+                    <CloudOff className="w-4 h-4" />
+                    <span className="text-sm font-medium">Offline Mode</span>
+                  </div>
                 ) : (
                   <div className="flex items-center space-x-1 text-red-600">
                     <WifiOff className="w-4 h-4" />
-                    <span className="text-sm font-medium">Offline</span>
+                    <span className="text-sm font-medium">Disconnected</span>
                   </div>
+                )}
+                {queueLength > 0 && (
+                  <Badge variant="outline" className="bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200">
+                    {queueLength} queued
+                  </Badge>
                 )}
               </div>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex items-center space-x-2">
+              <AudioAlerts 
+                enabled={kdsSettings?.soundEnabled ?? true} 
+                volume={kdsSettings?.soundVolume ?? 0.7} 
+              />
+              <KDSSettings onSettingsChange={setKdsSettings} />
               <Button
                 variant="outline"
                 onClick={() => queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] })}
@@ -294,12 +398,23 @@ export default function KDS() {
           </div>
         </div>
 
+        {/* Station Filter */}
+        <StationFilter
+          stations={stations}
+          selectedStation={selectedStation}
+          onStationSelect={setSelectedStation}
+          stationStats={stationStats}
+          showUnassigned={showUnassigned}
+          onShowUnassignedChange={setShowUnassigned}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {activeOrders.map((order) => {
             const statusConfig = getStatusConfig(order.status);
             const StatusIcon = statusConfig.icon;
             const orderItems = parseOrderItems(order.items);
             const priority = getOrderPriority(order.createdAt);
+            const orderStation = getOrderStation(order.id);
             
             return (
               <Card 
@@ -309,12 +424,28 @@ export default function KDS() {
                   priority === 'medium' ? 'ring-1 ring-yellow-200 dark:ring-yellow-800 bg-yellow-50 dark:bg-yellow-950/20' :
                   'bg-white dark:bg-gray-800'
                 }`}
+                style={orderStation ? { borderLeft: `4px solid ${orderStation.color}` } : {}}
               >
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg font-semibold">
-                    Order #{order.id}
-                  </CardTitle>
+                  <div className="flex items-center gap-2">
+                    <CardTitle className="text-lg font-semibold">
+                      Order #{order.id}
+                    </CardTitle>
+                    {orderStation && (
+                      <Badge 
+                        variant="outline" 
+                        className="text-xs"
+                        style={{ 
+                          backgroundColor: `${orderStation.color}15`,
+                          borderColor: orderStation.color,
+                          color: orderStation.color
+                        }}
+                      >
+                        {orderStation.name}
+                      </Badge>
+                    )}
+                  </div>
                   <Badge className={`${statusConfig.color} text-white`}>
                     <StatusIcon className="w-3 h-3 mr-1" />
                     {statusConfig.label}
