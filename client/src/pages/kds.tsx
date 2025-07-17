@@ -16,7 +16,7 @@ interface Order {
   id: number;
   tableNumber: string;
   customerName: string;
-  items: string;
+  items: string | OrderItem[];
   status: string;
   createdAt: string;
   total: string;
@@ -131,7 +131,17 @@ export default function KDS() {
 
   const calculateUrgencyScore = (order: Order) => {
     const minutesElapsed = Math.floor((currentTime.getTime() - new Date(order.createdAt).getTime()) / (1000 * 60));
-    const itemCount = JSON.parse(order.items || '[]').length;
+    let itemCount = 0;
+    try {
+      if (typeof order.items === 'string') {
+        itemCount = JSON.parse(order.items || '[]').length;
+      } else if (Array.isArray(order.items)) {
+        itemCount = order.items.length;
+      }
+    } catch (error) {
+      console.error('Error parsing order items:', error);
+      itemCount = 1; // Default to 1 if parsing fails
+    }
     return minutesElapsed + (itemCount * 0.5);
   };
 
