@@ -56,6 +56,10 @@ export default function KDS() {
   
   const [kdsSettings, setKdsSettings] = useState<any>(null);
   const [showUnassigned, setShowUnassigned] = useState(false);
+  const [expandedModifiers, setExpandedModifiers] = useState<Record<string, boolean>>({});
+  const [sortOption, setSortOption] = useState<'time' | 'urgency'>('time');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 6; // 6 orders per page
   
   const {
     stations,
@@ -265,7 +269,28 @@ export default function KDS() {
     if (diffMinutes > 30) return 'high';
     if (diffMinutes > 15) return 'medium';
     return 'normal';
+  }
+
+  const calculateUrgencyScore = (order: any) => {
+    const now = new Date();
+    const orderTime = new Date(order.createdAt);
+    const minutesElapsed = (now.getTime() - orderTime.getTime()) / 60000;
+    const orderItems = parseOrderItems(order.items);
+    const itemComplexity = orderItems.length * 0.5;
+    
+    return minutesElapsed + itemComplexity;
   };
+
+  const sortOrders = (orders: any[]) => {
+    return [...orders].sort((a, b) => {
+      if (sortOption === 'time') {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      } else if (sortOption === 'urgency') {
+        return calculateUrgencyScore(b) - calculateUrgencyScore(a);
+      }
+      return 0;
+    });
+  };;
 
   if (isLoading) {
     return (
@@ -320,7 +345,21 @@ export default function KDS() {
   }, {} as Record<string, Order[]>);
 
   const statusOrder = ['pending', 'preparing', 'ready'];
-  const activeOrders = statusOrder.flatMap(status => groupedOrders[status] || []);
+  const sortedOrders = sortOrders(statusOrder.flatMap(status => groupedOrders[status] || []));
+  
+  // Pagination logic
+  const totalOrders = sortedOrders.length;
+  const totalPages = Math.ceil(totalOrders / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const activeOrders = sortedOrders.slice(startIndex, endIndex);
+  
+  // Reset to first page when orders change significantly
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+    }
+  }, [totalPages, currentPage]);
 
   // Generate station stats
   const stationStats = stations.reduce((acc, station) => {
@@ -379,6 +418,14 @@ export default function KDS() {
                 volume={kdsSettings?.soundVolume ?? 0.7} 
               />
               <KDSSettings onSettingsChange={setKdsSettings} />
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value as 'time' | 'urgency')}
+                className="px-3 py-2 rounded-lg bg-white/80 dark:bg-gray-700/80 border border-white/20 dark:border-gray-600/20 text-sm font-medium"
+              >
+                <option value="time">Sort by Time</option>
+                <option value="urgency">Sort by Urgency</option>
+              </select>
               <Button
                 variant="outline"
                 onClick={() => queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] })}
@@ -408,7 +455,15 @@ export default function KDS() {
           onShowUnassignedChange={setShowUnassigned}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div 
+          className="kds-orders-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '16px',
+            minHeight: '200px'
+          }}
+        >
           {activeOrders.map((order) => {
             const statusConfig = getStatusConfig(order.status);
             const StatusIcon = statusConfig.icon;
@@ -467,26 +522,43 @@ export default function KDS() {
               </CardHeader>
               
               <CardContent>
-                <div className="space-y-2 mb-4">
-                  {orderItems.map((item, index) => (
-                    <div key={index} className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                      <div className="font-medium text-gray-900 dark:text-gray-100">
-                        <span className="inline-block bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs mr-2">
-                          {item.quantity}x
-                        </span>
-                        {item.name}
-                      </div>
-                      {item.modifications && item.modifications.length > 0 && (
-                        <div className="text-sm text-gray-600 dark:text-gray-300 mt-2 pl-2 border-l-2 border-gray-200 dark:border-gray-600">
-                          {item.modifications.map((mod, modIndex) => (
-                            <span key={modIndex} className="block">
+                <div className="kds-order-items space-y-2 mb-4">
+                  {orderItems.map((item, index) => {
+                    const hasModifications = item.modifications && item.modifications.length > 0;
+                    const modifierKey = `${order.id}-${index}`;
+                    const showModifiers = expandedModifiers[modifierKey] || false;
+                    
+                    return (
+                      <div key={index} className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                        <div className="font-medium text-gray-900 dark:text-gray-100">
+                          <span className="inline-block bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs mr-2">
+                            {item.quantity}x
+                          </span>
+                          {item.name}
+                          {hasModifications && (
+                            <button
+                              onClick={() => setExpandedModifiers(prev => ({ 
+                                ...prev, 
+                                [modifierKey]: !prev[modifierKey] 
+                              }))}
+                              className="ml-2 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
+                            >
+                              {showModifiers ? 'Hide' : 'Show'} Modifiers ({item.modifications.length})
+                            </button>
+                          )}
+                        </div>
+                        {hasModifications && (
+                          <div className={`kds-modifier-toggle ${showModifiers ? 'expanded' : 'collapsed'} text-sm text-gray-600 dark:text-gray-300 mt-2 pl-2 border-l-2 border-gray-200 dark:border-gray-600`}>
+                            {item.modifications.map((mod, modIndex) => (
+                              <span key={modIndex} className="block">
                               • {mod}
                             </span>
                           ))}
                         </div>
                       )}
                     </div>
-                  ))}
+                  );
+                  })}
                 </div>
                 
                 {order.status !== 'completed' && order.status !== 'cancelled' && (
@@ -517,6 +589,36 @@ export default function KDS() {
             );
           })}
         </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-6 p-4 bg-white/90 dark:bg-gray-800/90 rounded-lg backdrop-blur-md border border-white/20">
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="bg-white/80 dark:bg-gray-700/80"
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-gray-600 dark:text-gray-300">
+                Page {currentPage} of {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="bg-white/80 dark:bg-gray-700/80"
+              >
+                Next
+              </Button>
+            </div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Showing {startIndex + 1}-{Math.min(endIndex, totalOrders)} of {totalOrders} orders
+            </div>
+          </div>
+        )}
 
         {orders.length === 0 && (
           <div className="text-center py-12">

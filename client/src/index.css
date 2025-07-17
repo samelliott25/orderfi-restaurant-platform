@@ -772,6 +772,70 @@ h1:not(.playwrite-font), .text-4xl:not(.playwrite-font), .text-3xl:not(.playwrit
 @tailwind components;
 @tailwind utilities;
 
+/* KDS Responsive Grid Layout */
+.kds-orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  min-height: 200px;
+}
+
+@media (max-width: 768px) {
+  .kds-orders-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kds-orders-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* KDS Scrollable Item Lists */
+.kds-order-items {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 8px;
+  margin-right: -8px;
+}
+
+.kds-order-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.kds-order-items::-webkit-scrollbar-track {
+  background: #2a2a2f;
+  border-radius: 3px;
+}
+
+.kds-order-items::-webkit-scrollbar-thumb {
+  background: #4a4a4f;
+  border-radius: 3px;
+}
+
+.kds-order-items::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5f;
+}
+
+/* Modifier Toggle */
+.kds-modifier-toggle {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.kds-modifier-toggle.expanded {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.kds-modifier-toggle.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
 /* Kleurvorm™ Design System - Inspired by Health/Food App UI */
 :root {
   /* Primary Colors (40% usage) */
