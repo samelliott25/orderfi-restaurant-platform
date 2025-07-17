@@ -14,6 +14,7 @@ import { kitchenPrinterService } from "./services/kitchen-printer";
 import { processChatMessage, processOperationsAiMessage, type ChatContext } from "./services/akash-chat";
 import { analyzeTextAnimations, generateAdvancedTextAnimations } from "./routes/grok-text-animations";
 import { figmaRoutes } from "./figma-integration";
+import kdsAnalysisRouter from "./routes/kds-analysis";
 
 import { 
   insertRestaurantSchema, 
@@ -758,6 +759,7 @@ export async function registerRoutes(app: Express): Promise<void> {
 
   // Register TTS routes
   app.use("/api/tts", ttsRouter);
+  app.use("/api/kds-analysis", kdsAnalysisRouter);
 
   // Grok Text Animation routes
   app.post("/api/grok/analyze-text-animations", analyzeTextAnimations);
