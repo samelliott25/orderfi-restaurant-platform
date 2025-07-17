@@ -279,13 +279,13 @@ export default function KDS() {
                 variant="outline"
                 onClick={() => queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] })}
                 disabled={updateStatusMutation.isPending}
-                className="bg-white/80 hover:bg-white border-white/20"
+                className="bg-white/80 dark:bg-gray-700/80 hover:bg-white dark:hover:bg-gray-600 border-white/20 dark:border-gray-600/20"
               >
                 <Clock className="w-4 h-4 mr-2" />
                 Refresh
               </Button>
               {orders.length > 0 && (
-                <Badge variant="outline" className="bg-purple-100 text-purple-800">
+                <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200">
                   <Utensils className="w-3 h-3 mr-1" />
                   {orders.length} orders
                 </Badge>
@@ -305,9 +305,9 @@ export default function KDS() {
               <Card 
                 key={order.id} 
                 className={`relative hover:shadow-lg transition-shadow ${
-                  priority === 'high' ? 'ring-2 ring-red-200 bg-red-50' :
-                  priority === 'medium' ? 'ring-1 ring-yellow-200 bg-yellow-50' :
-                  'bg-white'
+                  priority === 'high' ? 'ring-2 ring-red-200 dark:ring-red-800 bg-red-50 dark:bg-red-950/20' :
+                  priority === 'medium' ? 'ring-1 ring-yellow-200 dark:ring-yellow-800 bg-yellow-50 dark:bg-yellow-950/20' :
+                  'bg-white dark:bg-gray-800'
                 }`}
               >
               <CardHeader className="pb-3">
@@ -320,12 +320,12 @@ export default function KDS() {
                     {statusConfig.label}
                   </Badge>
                 </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
                   <span className="font-medium">Table: {order.tableNumber}</span>
                   <span>•</span>
                   <span>{order.customerName}</span>
                 </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-500">
+                <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
                   <Clock className="w-4 h-4" />
                   <span className={priority === 'high' ? 'text-red-600 font-medium' : ''}>
                     {getTimeSinceOrder(order.createdAt)}
@@ -338,15 +338,15 @@ export default function KDS() {
               <CardContent>
                 <div className="space-y-2 mb-4">
                   {orderItems.map((item, index) => (
-                    <div key={index} className="bg-gray-50 p-3 rounded-lg">
-                      <div className="font-medium text-gray-900">
-                        <span className="inline-block bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs mr-2">
+                    <div key={index} className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                      <div className="font-medium text-gray-900 dark:text-gray-100">
+                        <span className="inline-block bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs mr-2">
                           {item.quantity}x
                         </span>
                         {item.name}
                       </div>
                       {item.modifications && item.modifications.length > 0 && (
-                        <div className="text-sm text-gray-600 mt-2 pl-2 border-l-2 border-gray-200">
+                        <div className="text-sm text-gray-600 dark:text-gray-300 mt-2 pl-2 border-l-2 border-gray-200 dark:border-gray-600">
                           {item.modifications.map((mod, modIndex) => (
                             <span key={modIndex} className="block">
                               • {mod}
@@ -374,7 +374,7 @@ export default function KDS() {
                         variant="outline"
                         onClick={() => handleStatusUpdate(order.id, 'cancelled')}
                         disabled={updateStatusMutation.isPending}
-                        className="text-red-600 border-red-300 hover:bg-red-50"
+                        className="text-red-600 dark:text-red-400 border-red-300 dark:border-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
                       >
                         Cancel
                       </Button>
@@ -389,12 +389,12 @@ export default function KDS() {
 
         {orders.length === 0 && (
           <div className="text-center py-12">
-            <div className="bg-white rounded-lg shadow-sm p-8">
-              <ChefHat className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-600 mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
+              <ChefHat className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
                 No active orders
               </h3>
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-400">
                 New orders will appear here automatically
               </p>
             </div>
