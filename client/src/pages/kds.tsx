@@ -551,13 +551,13 @@ export default function KDS() {
                           <div className={`kds-modifier-toggle ${showModifiers ? 'expanded' : 'collapsed'} text-sm text-gray-600 dark:text-gray-300 mt-2 pl-2 border-l-2 border-gray-200 dark:border-gray-600`}>
                             {item.modifications.map((mod, modIndex) => (
                               <span key={modIndex} className="block">
-                              • {mod}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
+                                • {mod}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
                   })}
                 </div>
                 
