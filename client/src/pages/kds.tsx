@@ -26,6 +26,7 @@ interface OrderItem {
   name: string;
   quantity: number;
   modifications?: string[];
+  modifiers?: string[];
 }
 
 const KDS_STATUSES = {
@@ -296,8 +297,15 @@ export default function KDS() {
             
             let orderItems: OrderItem[] = [];
             try {
-              orderItems = JSON.parse(order.items || '[]');
+              if (typeof order.items === 'string') {
+                orderItems = JSON.parse(order.items || '[]');
+              } else if (Array.isArray(order.items)) {
+                orderItems = order.items;
+              } else {
+                orderItems = [];
+              }
             } catch (e) {
+              console.error('Error parsing order items:', e);
               orderItems = [];
             }
 
@@ -352,7 +360,8 @@ export default function KDS() {
                 <CardContent>
                   <div className="kds-order-items space-y-2 mb-4">
                     {orderItems.map((item, index) => {
-                      const hasModifications = item.modifications && item.modifications.length > 0;
+                      const modifications = item.modifications || item.modifiers || [];
+                      const hasModifications = modifications.length > 0;
                       const modifierKey = `${order.id}-${index}`;
                       const showModifiers = expandedModifiers[modifierKey] || false;
                       
@@ -371,13 +380,13 @@ export default function KDS() {
                                 }))}
                                 className="ml-2 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
                               >
-                                {showModifiers ? 'Hide' : 'Show'} Modifiers ({item.modifications.length})
+                                {showModifiers ? 'Hide' : 'Show'} Modifiers ({modifications.length})
                               </button>
                             )}
                           </div>
                           {hasModifications && (
                             <div className={`kds-modifier-toggle ${showModifiers ? 'expanded' : 'collapsed'} text-sm text-gray-600 dark:text-gray-300 mt-2 pl-2 border-l-2 border-gray-200 dark:border-gray-600`}>
-                              {item.modifications.map((mod, modIndex) => (
+                              {modifications.map((mod, modIndex) => (
                                 <span key={modIndex} className="block">
                                   • {mod}
                                 </span>
