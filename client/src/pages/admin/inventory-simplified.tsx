@@ -341,7 +341,7 @@ const EditProductDialog = ({ item, isOpen, onClose, onSave }: {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 border shadow-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Edit size={20} />
