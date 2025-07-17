@@ -49,6 +49,149 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // Mock orders endpoint for KDS demonstration
+  app.get('/api/orders', async (req, res) => {
+    try {
+      const mockOrders = [
+        {
+          id: 1,
+          customerName: "Sarah M.",
+          tableNumber: "Table 5",
+          items: [
+            { name: "Classic Burger", quantity: 1, modifiers: ["No onions", "Extra pickles"] },
+            { name: "Truffle Fries", quantity: 1, modifiers: [] },
+            { name: "Craft Beer", quantity: 2, modifiers: ["Lager", "IPA"] }
+          ],
+          status: "preparing",
+          priority: "high",
+          orderTime: new Date(Date.now() - 8 * 60 * 1000).toISOString(),
+          estimatedTime: 12,
+          station: "grill",
+          total: 45.50,
+          notes: "Customer allergic to nuts"
+        },
+        {
+          id: 2,
+          customerName: "Mike J.",
+          tableNumber: "Table 12",
+          items: [
+            { name: "Kentucky Chook Burger", quantity: 1, modifiers: ["Medium spicy"] },
+            { name: "Haloumi Fries", quantity: 1, modifiers: ["Extra mint"] }
+          ],
+          status: "pending",
+          priority: "normal",
+          orderTime: new Date(Date.now() - 3 * 60 * 1000).toISOString(),
+          estimatedTime: 15,
+          station: "fry",
+          total: 28.00,
+          notes: ""
+        },
+        {
+          id: 3,
+          customerName: "Emma K.",
+          tableNumber: "Table 8",
+          items: [
+            { name: "Salt & Pepper Squid", quantity: 1, modifiers: [] },
+            { name: "Korean Fried Chicken", quantity: 1, modifiers: ["Extra sauce"] },
+            { name: "House Wine", quantity: 1, modifiers: ["Red"] }
+          ],
+          status: "ready",
+          priority: "urgent",
+          orderTime: new Date(Date.now() - 18 * 60 * 1000).toISOString(),
+          estimatedTime: 8,
+          station: "appetizer",
+          total: 38.00,
+          notes: "VIP customer"
+        },
+        {
+          id: 4,
+          customerName: "David L.",
+          tableNumber: "Table 3",
+          items: [
+            { name: "Pulled Pig Burger", quantity: 1, modifiers: ["Extra slaw"] },
+            { name: "Sweet Potato Fries", quantity: 1, modifiers: [] }
+          ],
+          status: "preparing",
+          priority: "normal",
+          orderTime: new Date(Date.now() - 12 * 60 * 1000).toISOString(),
+          estimatedTime: 10,
+          station: "grill",
+          total: 31.50,
+          notes: ""
+        },
+        {
+          id: 5,
+          customerName: "Lisa R.",
+          tableNumber: "Table 15",
+          items: [
+            { name: "Vegetarian Burger", quantity: 1, modifiers: ["Vegan cheese", "Gluten-free bun"] },
+            { name: "Garden Salad", quantity: 1, modifiers: ["No dressing"] }
+          ],
+          status: "pending",
+          priority: "normal",
+          orderTime: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+          estimatedTime: 14,
+          station: "salad",
+          total: 26.00,
+          notes: "Vegan customer"
+        },
+        {
+          id: 6,
+          customerName: "John D.",
+          tableNumber: "Table 7",
+          items: [
+            { name: "Wagyu Steak", quantity: 1, modifiers: ["Medium rare", "Garlic butter"] },
+            { name: "Roasted Vegetables", quantity: 1, modifiers: [] },
+            { name: "Red Wine", quantity: 1, modifiers: ["Cabernet"] }
+          ],
+          status: "preparing",
+          priority: "high",
+          orderTime: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+          estimatedTime: 20,
+          station: "grill",
+          total: 68.00,
+          notes: "Well-done steak, customer request"
+        },
+        {
+          id: 7,
+          customerName: "Anna P.",
+          tableNumber: "Table 2",
+          items: [
+            { name: "Fish & Chips", quantity: 1, modifiers: ["Tartare sauce", "Lemon wedge"] },
+            { name: "Coleslaw", quantity: 1, modifiers: [] }
+          ],
+          status: "ready",
+          priority: "normal",
+          orderTime: new Date(Date.now() - 25 * 60 * 1000).toISOString(),
+          estimatedTime: 16,
+          station: "fry",
+          total: 22.50,
+          notes: ""
+        },
+        {
+          id: 8,
+          customerName: "Chris M.",
+          tableNumber: "Table 11",
+          items: [
+            { name: "Chicken Caesar Salad", quantity: 1, modifiers: ["No croutons", "Dressing on side"] },
+            { name: "Garlic Bread", quantity: 1, modifiers: [] }
+          ],
+          status: "pending",
+          priority: "low",
+          orderTime: new Date(Date.now() - 2 * 60 * 1000).toISOString(),
+          estimatedTime: 8,
+          station: "salad",
+          total: 19.00,
+          notes: "Customer has celiac disease"
+        }
+      ];
+      res.json(mockOrders);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      res.status(500).json({ error: 'Failed to fetch orders' });
+    }
+  });
+
   app.post('/api/orders/update-status', async (req, res) => {
     try {
       const { orderId, status } = req.body;

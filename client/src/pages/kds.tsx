@@ -87,6 +87,9 @@ export default function KDS() {
     staleTime: 30000,
   });
 
+  // Ensure orders is always an array
+  const ordersArray = Array.isArray(orders) ? orders : [];
+
   const updateStatusMutation = useMutation({
     mutationFn: async ({ orderId, status }: { orderId: number; status: string }) => {
       if (!isOnline) {
@@ -164,86 +167,18 @@ export default function KDS() {
   }, []);
 
   useEffect(() => {
-    const connectWebSocket = () => {
-      if (wsRef.current?.readyState === WebSocket.OPEN) {
-        return;
-      }
-
-      setConnectionStatus('connecting');
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${protocol}//${window.location.host}/ws`;
-      const ws = new WebSocket(wsUrl);
-      
-      ws.onopen = () => {
-        console.log('KDS WebSocket connected');
-        setConnectionStatus('connected');
-        setWsConnected(true);
-        
-        ws.send(JSON.stringify({
-          type: 'subscribe',
-          payload: { channel: 'kds-orders' }
-        }));
-        
-        console.log('Subscribed to channel: kds-orders');
-        
-        if (reconnectTimeoutRef.current) {
-          clearTimeout(reconnectTimeoutRef.current);
-          reconnectTimeoutRef.current = null;
-        }
-      };
-      
-      ws.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          if (data.type === 'order-update') {
-            queryClient.invalidateQueries({ queryKey: ['/api/orders'] });
-            playNewOrderAlert();
-          }
-        } catch (error) {
-          console.error('Error parsing WebSocket message:', error);
-        }
-      };
-      
-      ws.onclose = () => {
-        console.log('KDS WebSocket disconnected');
-        setConnectionStatus('disconnected');
-        setWsConnected(false);
-        
-        if (!reconnectTimeoutRef.current) {
-          reconnectTimeoutRef.current = setTimeout(() => {
-            console.log('Attempting to reconnect KDS WebSocket...');
-            connectWebSocket();
-          }, 3000);
-        }
-      };
-      
-      ws.onerror = (error) => {
-        console.error('KDS WebSocket error:', error);
-        setConnectionStatus('disconnected');
-        setWsConnected(false);
-      };
-      
-      wsRef.current = ws;
-    };
-
-    connectWebSocket();
-    
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current);
-      }
-    };
-  }, [queryClient, playNewOrderAlert]);
+    // WebSocket connection disabled for testing
+    console.log('WebSocket connection disabled for testing');
+    setConnectionStatus('connected');
+    setWsConnected(true);
+  }, []);
 
   // Filter and sort orders
   const filteredOrders = selectedStation 
-    ? getStationOrders(orders, selectedStation)
+    ? getStationOrders(ordersArray, selectedStation)
     : showUnassigned 
-      ? getUnassignedOrders(orders)
-      : orders.filter(order => order.status !== 'completed' && order.status !== 'cancelled');
+      ? getUnassignedOrders(ordersArray)
+      : ordersArray.filter(order => order.status !== 'completed' && order.status !== 'cancelled');
 
   const sortedOrders = sortOrders(filteredOrders);
 

@@ -1,126 +1,63 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { AlertTriangle, RotateCcw, Home } from 'lucide-react';
+import React from 'react';
+import { AlertCircle } from 'lucide-react';
 
-interface Props {
-  children: ReactNode;
-  fallback?: ReactNode;
-}
-
-interface State {
+interface ErrorBoundaryState {
   hasError: boolean;
   error?: Error;
-  errorInfo?: ErrorInfo;
+  errorInfo?: React.ErrorInfo;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
-  public state: State = {
-    hasError: false
-  };
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+  fallback?: React.ComponentType<{ error: Error; errorInfo: React.ErrorInfo }>;
+}
 
-  public static getDerivedStateFromError(error: Error): State {
-    return {
-      hasError: true,
-      error
-    };
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('Error caught by boundary:', error, errorInfo);
-    
-    this.setState({
-      error,
-      errorInfo
-    });
-
-    // Log to monitoring service in production
-    if (process.env.NODE_ENV === 'production') {
-      // Send error to monitoring service
-      this.logErrorToService(error, errorInfo);
-    }
+    this.setState({ error, errorInfo });
   }
 
-  private logErrorToService(error: Error, errorInfo: ErrorInfo) {
-    // Implementation for error logging service
-    fetch('/api/errors', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: error.message,
-        stack: error.stack,
-        componentStack: errorInfo.componentStack,
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent,
-        url: window.location.href
-      })
-    }).catch(console.error);
-  }
-
-  private handleRetry = () => {
-    this.setState({
-      hasError: false,
-      error: undefined,
-      errorInfo: undefined
-    });
-  };
-
-  private handleGoHome = () => {
-    window.location.href = '/';
-  };
-
-  public render() {
+  render() {
     if (this.state.hasError) {
-      if (this.props.fallback) {
-        return this.props.fallback;
+      if (this.props.fallback && this.state.error && this.state.errorInfo) {
+        return React.createElement(this.props.fallback, {
+          error: this.state.error,
+          errorInfo: this.state.errorInfo
+        });
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-          <Card className="w-full max-w-md">
-            <CardHeader className="text-center">
-              <div className="mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                <AlertTriangle className="h-6 w-6 text-red-600" />
-              </div>
-              <CardTitle className="text-xl text-gray-900">
-                Something went wrong
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-gray-600 text-center">
-                We encountered an unexpected error. Our team has been notified and is working on a fix.
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+          <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
+            <div className="flex items-center mb-4">
+              <AlertCircle className="h-6 w-6 text-red-500 mr-2" />
+              <h2 className="text-lg font-semibold text-gray-900">Something went wrong</h2>
+            </div>
+            <p className="text-gray-600 mb-4">
+              The application encountered an error. Please try refreshing the page.
+            </p>
+            <div className="bg-gray-100 rounded p-3 mb-4">
+              <p className="text-sm text-gray-700 font-mono">
+                {this.state.error?.message || 'Unknown error occurred'}
               </p>
-              
-              {process.env.NODE_ENV === 'development' && this.state.error && (
-                <details className="text-xs bg-gray-100 p-2 rounded">
-                  <summary className="cursor-pointer font-medium">Error Details</summary>
-                  <pre className="mt-2 overflow-auto">
-                    {this.state.error.message}
-                    {'\n\n'}
-                    {this.state.error.stack}
-                  </pre>
-                </details>
-              )}
-
-              <div className="flex space-x-3">
-                <Button
-                  onClick={this.handleRetry}
-                  className="flex-1 bg-orange-500 hover:bg-orange-600"
-                >
-                  <RotateCcw className="h-4 w-4 mr-2" />
-                  Try Again
-                </Button>
-                <Button
-                  onClick={this.handleGoHome}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  <Home className="h-4 w-4 mr-2" />
-                  Go Home
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              className="w-full bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transition-colors"
+            >
+              Reload Page
+            </button>
+          </div>
         </div>
       );
     }
@@ -129,27 +66,4 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-// Hook version for functional components
-export function useErrorHandler() {
-  const handleError = (error: Error, errorInfo?: any) => {
-    console.error('Error handled:', error, errorInfo);
-    
-    // Log to service
-    if (process.env.NODE_ENV === 'production') {
-      fetch('/api/errors', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: error.message,
-          stack: error.stack,
-          timestamp: new Date().toISOString(),
-          userAgent: navigator.userAgent,
-          url: window.location.href,
-          ...errorInfo
-        })
-      }).catch(console.error);
-    }
-  };
-
-  return { handleError };
-}
+export default ErrorBoundary;

@@ -94,11 +94,7 @@ export const AudioAlerts: React.FC<AudioAlertsProps> = ({
     }
   };
 
-  // Expose methods for parent components
-  React.useImperativeHandle(React.forwardRef(() => null), () => ({
-    playNewOrderAlert,
-    playOrderUpdateAlert
-  }));
+  // Audio methods are directly callable from the component
 
   return (
     <div className="flex items-center gap-2 p-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">

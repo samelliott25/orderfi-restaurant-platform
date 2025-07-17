@@ -44,6 +44,7 @@ import AdminSettingsPage from "@/pages/admin/settings";
 
 import TablesPage from "@/pages/admin/tables";
 import KDSPage from "@/pages/kds";
+import KDSSimplePage from "@/pages/kds-simple";
 
 // Customer MVP Pages
 import CustomerLogin from "@/pages/customer/login";
@@ -185,6 +186,7 @@ function Router() {
 
         <Route path="/tables" component={TablesPage} />
         <Route path="/kds" component={KDSPage} />
+        <Route path="/kds-simple" component={KDSSimplePage} />
         
         {/* Voice-First AI Demo */}
         <Route path="/voice-first-demo" component={VoiceFirstDemo} />
