@@ -38,11 +38,8 @@ const KDS_STATUSES = {
 
 export default function KDS() {
   const queryClient = useQueryClient();
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [wsConnected, setWsConnected] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('disconnected');
-  const wsRef = useRef<WebSocket | null>(null);
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // All hooks called at the top level
   const { playNewOrderAlert, playOrderUpdateAlert } = useAudioAlerts();
   const { 
     isOnline, 
@@ -53,13 +50,6 @@ export default function KDS() {
     getCachedOrders,
     syncOfflineData
   } = useOfflineMode();
-  
-  const [kdsSettings, setKdsSettings] = useState<any>(null);
-  const [showUnassigned, setShowUnassigned] = useState(false);
-  const [expandedModifiers, setExpandedModifiers] = useState<Record<string, boolean>>({});
-  const [sortOption, setSortOption] = useState<'time' | 'urgency'>('time');
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 6; // 6 orders per page
   
   const {
     stations,
@@ -72,8 +62,100 @@ export default function KDS() {
     getUnassignedOrders,
     getStationStats
   } = useStationRouting();
+
+  // State declarations
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [wsConnected, setWsConnected] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('disconnected');
+  const [kdsSettings, setKdsSettings] = useState<any>(null);
+  const [showUnassigned, setShowUnassigned] = useState(false);
+  const [expandedModifiers, setExpandedModifiers] = useState<Record<string, boolean>>({});
+  const [sortOption, setSortOption] = useState<'time' | 'urgency'>('time');
+  const [currentPage, setCurrentPage] = useState(1);
   
-  // Update current time every minute
+  // Refs
+  const wsRef = useRef<WebSocket | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Constants
+  const pageSize = 6;
+
+  // Data fetching
+  const { data: orders = [] } = useQuery({
+    queryKey: ['/api/orders'],
+    refetchInterval: isOnline ? 30000 : false,
+    staleTime: 30000,
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ orderId, status }: { orderId: number; status: string }) => {
+      if (!isOnline) {
+        return updateOrderStatusOffline(orderId, status);
+      }
+      return apiRequest(`/api/orders/${orderId}/status`, {
+        method: 'PATCH',
+        body: { status }
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/orders'] });
+      playOrderUpdateAlert();
+    },
+  });
+
+  // Helper functions
+  const getNextStatus = (currentStatus: string) => {
+    const statusFlow = {
+      pending: 'preparing',
+      preparing: 'ready',
+      ready: 'completed'
+    };
+    return statusFlow[currentStatus] || 'completed';
+  };
+
+  const getTimeSinceOrder = (createdAt: string) => {
+    const orderTime = new Date(createdAt);
+    const diffInMinutes = Math.floor((currentTime.getTime() - orderTime.getTime()) / (1000 * 60));
+    
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}m ago`;
+    } else {
+      const hours = Math.floor(diffInMinutes / 60);
+      const minutes = diffInMinutes % 60;
+      return `${hours}h ${minutes}m ago`;
+    }
+  };
+
+  const calculateUrgencyScore = (order: Order) => {
+    const minutesElapsed = Math.floor((currentTime.getTime() - new Date(order.createdAt).getTime()) / (1000 * 60));
+    const itemCount = JSON.parse(order.items || '[]').length;
+    return minutesElapsed + (itemCount * 0.5);
+  };
+
+  const sortOrders = (orders: Order[]) => {
+    const sortedOrders = [...orders];
+    
+    if (sortOption === 'time') {
+      sortedOrders.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    } else if (sortOption === 'urgency') {
+      sortedOrders.sort((a, b) => calculateUrgencyScore(b) - calculateUrgencyScore(a));
+    }
+    
+    return sortedOrders;
+  };
+
+  const getOrderPriority = (order: Order) => {
+    const urgencyScore = calculateUrgencyScore(order);
+    if (urgencyScore > 30) return 'high';
+    if (urgencyScore > 15) return 'medium';
+    return 'low';
+  };
+
+  const handleStatusUpdate = (orderId: number, status: string) => {
+    updateStatusMutation.mutate({ orderId, status });
+  };
+
+  // Effects
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -81,7 +163,6 @@ export default function KDS() {
     return () => clearInterval(timer);
   }, []);
 
-  // WebSocket connection management
   useEffect(() => {
     const connectWebSocket = () => {
       if (wsRef.current?.readyState === WebSocket.OPEN) {
@@ -98,34 +179,36 @@ export default function KDS() {
         setConnectionStatus('connected');
         setWsConnected(true);
         
-        // Subscribe to KDS orders channel
         ws.send(JSON.stringify({
           type: 'subscribe',
           payload: { channel: 'kds-orders' }
         }));
         
-        // Clear any existing reconnect timeout
+        console.log('Subscribed to channel: kds-orders');
+        
         if (reconnectTimeoutRef.current) {
           clearTimeout(reconnectTimeoutRef.current);
           reconnectTimeoutRef.current = null;
         }
       };
-
+      
       ws.onmessage = (event) => {
         try {
-          const message = JSON.parse(event.data);
-          handleWebSocketMessage(message);
+          const data = JSON.parse(event.data);
+          if (data.type === 'order-update') {
+            queryClient.invalidateQueries({ queryKey: ['/api/orders'] });
+            playNewOrderAlert();
+          }
         } catch (error) {
           console.error('Error parsing WebSocket message:', error);
         }
       };
-
+      
       ws.onclose = () => {
         console.log('KDS WebSocket disconnected');
         setConnectionStatus('disconnected');
         setWsConnected(false);
         
-        // Attempt to reconnect after 3 seconds
         if (!reconnectTimeoutRef.current) {
           reconnectTimeoutRef.current = setTimeout(() => {
             console.log('Attempting to reconnect KDS WebSocket...');
@@ -133,458 +216,258 @@ export default function KDS() {
           }, 3000);
         }
       };
-
+      
       ws.onerror = (error) => {
         console.error('KDS WebSocket error:', error);
         setConnectionStatus('disconnected');
         setWsConnected(false);
       };
-
+      
       wsRef.current = ws;
     };
 
     connectWebSocket();
-
+    
     return () => {
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current);
-      }
       if (wsRef.current) {
         wsRef.current.close();
       }
-    };
-  }, []);
-
-  const handleWebSocketMessage = (message: any) => {
-    switch (message.type) {
-      case 'order-status-updated':
-        // Play order update alert
-        playOrderUpdateAlert();
-        // Invalidate and refetch orders when status updates
-        queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] });
-        break;
-      case 'new-order':
-        // Play new order alert
-        playNewOrderAlert();
-        // New order received
-        queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] });
-        break;
-      case 'active-orders':
-        // Real-time orders data
-        queryClient.setQueryData(['/api/kds/orders'], message.payload);
-        break;
-      case 'subscribed':
-        console.log(`Subscribed to channel: ${message.channel}`);
-        break;
-      case 'error':
-        console.error('WebSocket error:', message.message);
-        break;
-    }
-  };
-  
-  // Fetch active orders with WebSocket fallback to polling and offline support
-  const { data: orders = [], isLoading, error } = useQuery<Order[]>({
-    queryKey: ['/api/kds/orders'],
-    refetchInterval: wsConnected ? false : 5000, // Only poll when WebSocket is disconnected
-    staleTime: wsConnected ? 30000 : 0, // Longer stale time when WebSocket is connected
-    enabled: isOnline, // Only fetch when online
-    placeholderData: () => {
-      // Return cached orders when offline
-      if (!isOnline) {
-        return getCachedOrders() || [];
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
       }
-      return undefined;
-    },
-  });
-
-  // Cache orders for offline use whenever they're updated
-  useEffect(() => {
-    if (orders && orders.length > 0 && isOnline) {
-      cacheOrdersForOffline(orders);
-    }
-  }, [orders, isOnline, cacheOrdersForOffline]);
-
-  // Update order status mutation with offline support
-  const updateStatusMutation = useMutation({
-    mutationFn: async ({ id, status }: { id: number; status: string }) => {
-      return apiRequest(`/api/kds/orders/${id}/status`, {
-        method: 'PATCH',
-        body: { status }
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] });
-    }
-  });
-
-  const handleStatusUpdate = (orderId: number, newStatus: string) => {
-    // Try offline update first
-    const handledOffline = updateOrderStatusOffline(orderId, newStatus);
-    
-    if (!handledOffline) {
-      // If online, proceed with normal mutation
-      updateStatusMutation.mutate({ id: orderId, status: newStatus });
-    }
-  };
-
-  const parseOrderItems = (itemsJson: string): OrderItem[] => {
-    try {
-      return JSON.parse(itemsJson);
-    } catch {
-      return [];
-    }
-  };
-
-  const getTimeSinceOrder = (createdAt: string): string => {
-    const now = new Date();
-    const orderTime = new Date(createdAt);
-    const diffMinutes = Math.floor((now.getTime() - orderTime.getTime()) / (1000 * 60));
-    
-    if (diffMinutes < 1) return 'Just now';
-    if (diffMinutes < 60) return `${diffMinutes}m ago`;
-    
-    const hours = Math.floor(diffMinutes / 60);
-    const minutes = diffMinutes % 60;
-    return `${hours}h ${minutes}m ago`;
-  };
-
-  const getNextStatus = (currentStatus: string): string => {
-    const statusFlow = {
-      pending: 'preparing',
-      preparing: 'ready',
-      ready: 'completed'
     };
-    return statusFlow[currentStatus] || 'completed';
-  };
+  }, [queryClient, playNewOrderAlert]);
 
-  const getStatusConfig = (status: string) => {
-    return KDS_STATUSES[status] || KDS_STATUSES.pending;
-  };
+  // Filter and sort orders
+  const filteredOrders = selectedStation 
+    ? getStationOrders(orders, selectedStation)
+    : showUnassigned 
+      ? getUnassignedOrders(orders)
+      : orders.filter(order => order.status !== 'completed' && order.status !== 'cancelled');
 
-  const getOrderPriority = (createdAt: string): 'high' | 'medium' | 'normal' => {
-    const now = new Date();
-    const orderTime = new Date(createdAt);
-    const diffMinutes = Math.floor((now.getTime() - orderTime.getTime()) / (1000 * 60));
-    
-    if (diffMinutes > 30) return 'high';
-    if (diffMinutes > 15) return 'medium';
-    return 'normal';
-  }
+  const sortedOrders = sortOrders(filteredOrders);
 
-  const calculateUrgencyScore = (order: any) => {
-    const now = new Date();
-    const orderTime = new Date(order.createdAt);
-    const minutesElapsed = (now.getTime() - orderTime.getTime()) / 60000;
-    const orderItems = parseOrderItems(order.items);
-    const itemComplexity = orderItems.length * 0.5;
-    
-    return minutesElapsed + itemComplexity;
-  };
-
-  const sortOrders = (orders: any[]) => {
-    return [...orders].sort((a, b) => {
-      if (sortOption === 'time') {
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-      } else if (sortOption === 'urgency') {
-        return calculateUrgencyScore(b) - calculateUrgencyScore(a);
-      }
-      return 0;
-    });
-  };;
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <div className="text-lg">Loading orders...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <div className="text-red-500">Error loading orders</div>
-      </div>
-    );
-  }
-
-  // Auto-assign new orders to stations
-  useEffect(() => {
-    if (orders && orders.length > 0) {
-      orders.forEach(order => {
-        if (!getOrderStation(order.id)) {
-          const stationId = autoAssignOrderToStation(order);
-          if (stationId) {
-            assignOrderToStation(order.id, stationId);
-          }
-        }
-      });
-    }
-  }, [orders, getOrderStation, autoAssignOrderToStation, assignOrderToStation]);
-
-  // Filter orders based on selected station
-  const getFilteredOrders = () => {
-    if (showUnassigned) {
-      return getUnassignedOrders(orders);
-    }
-    
-    if (selectedStation) {
-      return getStationOrders(selectedStation, orders);
-    }
-    
-    return orders;
-  };
-
-  // Group orders by status for better organization
-  const filteredOrders = getFilteredOrders();
-  const groupedOrders = filteredOrders.reduce((acc, order) => {
-    const status = order.status;
-    if (!acc[status]) acc[status] = [];
-    acc[status].push(order);
-    return acc;
-  }, {} as Record<string, Order[]>);
-
-  const statusOrder = ['pending', 'preparing', 'ready'];
-  const sortedOrders = sortOrders(statusOrder.flatMap(status => groupedOrders[status] || []));
-  
-  // Pagination logic
+  // Pagination
   const totalOrders = sortedOrders.length;
   const totalPages = Math.ceil(totalOrders / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const activeOrders = sortedOrders.slice(startIndex, endIndex);
-  
-  // Reset to first page when orders change significantly
+  const paginatedOrders = sortedOrders.slice(startIndex, endIndex);
+
+  // Reset to page 1 when total pages change
   useEffect(() => {
     if (currentPage > totalPages && totalPages > 0) {
       setCurrentPage(1);
     }
   }, [totalPages, currentPage]);
 
-  // Generate station stats
-  const stationStats = stations.reduce((acc, station) => {
-    acc[station.id] = getStationStats(station.id, orders);
-    return acc;
-  }, {} as Record<string, any>);
-
   return (
-    <StandardLayout title="Kitchen Display System" subtitle="Real-time Order Management">
+    <StandardLayout
+      title="Kitchen Display System"
+      subtitle="Real-time order management and tracking"
+    >
       <div className="space-y-6">
-        {/* Status Bar */}
-        <div className="relative overflow-hidden rounded-xl p-6 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-pink-500/10"></div>
-          <div className="relative flex items-center justify-between">
+        {/* KDS Header */}
+        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-lg p-4 border border-white/20 shadow-lg">
+          <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <p className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
-                <Clock className="w-4 h-4 mr-1" />
-                {currentTime.toLocaleTimeString()}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-300 flex items-center">
-                <Utensils className="w-4 h-4 mr-1" />
-                {orders.length} active orders
-              </p>
               <div className="flex items-center space-x-2">
-                {connectionStatus === 'connected' && isOnline ? (
+                <ChefHat className="w-6 h-6 text-orange-500" />
+                <h2 className="text-xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+                  Kitchen Display
+                </h2>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                {wsConnected ? (
                   <div className="flex items-center space-x-1 text-green-600">
                     <Wifi className="w-4 h-4" />
-                    <span className="text-sm font-medium">Real-time</span>
-                  </div>
-                ) : connectionStatus === 'connecting' ? (
-                  <div className="flex items-center space-x-1 text-yellow-600">
-                    <Timer className="w-4 h-4 animate-spin" />
-                    <span className="text-sm font-medium">Connecting...</span>
-                  </div>
-                ) : !isOnline ? (
-                  <div className="flex items-center space-x-1 text-orange-600">
-                    <CloudOff className="w-4 h-4" />
-                    <span className="text-sm font-medium">Offline Mode</span>
+                    <span className="text-sm">Live</span>
                   </div>
                 ) : (
                   <div className="flex items-center space-x-1 text-red-600">
                     <WifiOff className="w-4 h-4" />
-                    <span className="text-sm font-medium">Disconnected</span>
+                    <span className="text-sm">Offline</span>
                   </div>
                 )}
-                {queueLength > 0 && (
-                  <Badge variant="outline" className="bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200">
-                    {queueLength} queued
-                  </Badge>
+                
+                {!isOnline && (
+                  <div className="flex items-center space-x-1 text-yellow-600">
+                    <CloudOff className="w-4 h-4" />
+                    <span className="text-sm">Queue: {queueLength}</span>
+                  </div>
                 )}
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <AudioAlerts 
-                enabled={kdsSettings?.soundEnabled ?? true} 
-                volume={kdsSettings?.soundVolume ?? 0.7} 
-              />
-              <KDSSettings onSettingsChange={setKdsSettings} />
+            
+            <div className="flex items-center space-x-4">
+              {/* Sort Dropdown */}
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value as 'time' | 'urgency')}
-                className="px-3 py-2 rounded-lg bg-white/80 dark:bg-gray-700/80 border border-white/20 dark:border-gray-600/20 text-sm font-medium"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm"
               >
                 <option value="time">Sort by Time</option>
                 <option value="urgency">Sort by Urgency</option>
               </select>
-              <Button
-                variant="outline"
-                onClick={() => queryClient.invalidateQueries({ queryKey: ['/api/kds/orders'] })}
-                disabled={updateStatusMutation.isPending}
-                className="bg-white/80 dark:bg-gray-700/80 hover:bg-white dark:hover:bg-gray-600 border-white/20 dark:border-gray-600/20"
-              >
-                <Clock className="w-4 h-4 mr-2" />
-                Refresh
-              </Button>
-              {orders.length > 0 && (
-                <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200">
-                  <Utensils className="w-3 h-3 mr-1" />
-                  {orders.length} orders
-                </Badge>
-              )}
+              
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                {currentTime.toLocaleTimeString()}
+              </div>
+              
+              <AudioAlerts />
+              <KDSSettings 
+                settings={kdsSettings} 
+                onSettingsChange={setKdsSettings}
+              />
             </div>
           </div>
         </div>
 
         {/* Station Filter */}
         <StationFilter
-          stations={stations}
+          stations={stations || []}
           selectedStation={selectedStation}
           onStationSelect={setSelectedStation}
-          stationStats={stationStats}
+          stationStats={(stations || []).reduce((acc, station) => {
+            try {
+              acc[station.id] = getStationStats(station.id) || { activeOrders: 0, avgPrepTime: 0 };
+            } catch (error) {
+              acc[station.id] = { activeOrders: 0, avgPrepTime: 0 };
+            }
+            return acc;
+          }, {} as Record<string, any>)}
           showUnassigned={showUnassigned}
           onShowUnassignedChange={setShowUnassigned}
         />
 
-        <div 
-          className="kds-orders-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '16px',
-            minHeight: '200px'
-          }}
-        >
-          {activeOrders.map((order) => {
-            const statusConfig = getStatusConfig(order.status);
+        {/* Orders Grid */}
+        <div className="kds-orders-grid">
+          {paginatedOrders.map((order) => {
+            const statusConfig = KDS_STATUSES[order.status] || KDS_STATUSES.pending;
             const StatusIcon = statusConfig.icon;
-            const orderItems = parseOrderItems(order.items);
-            const priority = getOrderPriority(order.createdAt);
+            const priority = getOrderPriority(order);
             const orderStation = getOrderStation(order.id);
             
+            let orderItems: OrderItem[] = [];
+            try {
+              orderItems = JSON.parse(order.items || '[]');
+            } catch (e) {
+              orderItems = [];
+            }
+
             return (
               <Card 
                 key={order.id} 
-                className={`relative hover:shadow-lg transition-shadow ${
-                  priority === 'high' ? 'ring-2 ring-red-200 dark:ring-red-800 bg-red-50 dark:bg-red-950/20' :
-                  priority === 'medium' ? 'ring-1 ring-yellow-200 dark:ring-yellow-800 bg-yellow-50 dark:bg-yellow-950/20' :
-                  'bg-white dark:bg-gray-800'
+                className={`transition-all duration-300 hover:shadow-lg ${
+                  priority === 'high' ? 'border-red-500 shadow-red-100' :
+                  priority === 'medium' ? 'border-yellow-500 shadow-yellow-100' :
+                  'border-gray-200 dark:border-gray-700'
                 }`}
-                style={orderStation ? { borderLeft: `4px solid ${orderStation.color}` } : {}}
               >
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <CardTitle className="text-lg font-semibold">
-                      Order #{order.id}
-                    </CardTitle>
-                    {orderStation && (
-                      <Badge 
-                        variant="outline" 
-                        className="text-xs"
-                        style={{ 
-                          backgroundColor: `${orderStation.color}15`,
-                          borderColor: orderStation.color,
-                          color: orderStation.color
-                        }}
-                      >
-                        {orderStation.name}
-                      </Badge>
-                    )}
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <CardTitle className="text-lg font-bold">
+                        Order #{order.id}
+                      </CardTitle>
+                      {orderStation && (
+                        <Badge 
+                          variant="outline"
+                          style={{
+                            backgroundColor: `${orderStation.color}15`,
+                            borderColor: orderStation.color,
+                            color: orderStation.color
+                          }}
+                        >
+                          {orderStation.name}
+                        </Badge>
+                      )}
+                    </div>
+                    <Badge className={`${statusConfig.color} text-white`}>
+                      <StatusIcon className="w-3 h-3 mr-1" />
+                      {statusConfig.label}
+                    </Badge>
                   </div>
-                  <Badge className={`${statusConfig.color} text-white`}>
-                    <StatusIcon className="w-3 h-3 mr-1" />
-                    {statusConfig.label}
-                  </Badge>
-                </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="font-medium">Table: {order.tableNumber}</span>
-                  <span>•</span>
-                  <span>{order.customerName}</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                  <Clock className="w-4 h-4" />
-                  <span className={priority === 'high' ? 'text-red-600 font-medium' : ''}>
-                    {getTimeSinceOrder(order.createdAt)}
-                  </span>
-                  <span>•</span>
-                  <span className="font-medium">${order.total}</span>
-                </div>
-              </CardHeader>
-              
-              <CardContent>
-                <div className="kds-order-items space-y-2 mb-4">
-                  {orderItems.map((item, index) => {
-                    const hasModifications = item.modifications && item.modifications.length > 0;
-                    const modifierKey = `${order.id}-${index}`;
-                    const showModifiers = expandedModifiers[modifierKey] || false;
-                    
-                    return (
-                      <div key={index} className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                        <div className="font-medium text-gray-900 dark:text-gray-100">
-                          <span className="inline-block bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs mr-2">
-                            {item.quantity}x
-                          </span>
-                          {item.name}
+                  <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
+                    <span className="font-medium">Table: {order.tableNumber}</span>
+                    <span>•</span>
+                    <span>{order.customerName}</span>
+                  </div>
+                  <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                    <Clock className="w-4 h-4" />
+                    <span className={priority === 'high' ? 'text-red-600 font-medium' : ''}>
+                      {getTimeSinceOrder(order.createdAt)}
+                    </span>
+                    <span>•</span>
+                    <span className="font-medium">${order.total}</span>
+                  </div>
+                </CardHeader>
+                
+                <CardContent>
+                  <div className="kds-order-items space-y-2 mb-4">
+                    {orderItems.map((item, index) => {
+                      const hasModifications = item.modifications && item.modifications.length > 0;
+                      const modifierKey = `${order.id}-${index}`;
+                      const showModifiers = expandedModifiers[modifierKey] || false;
+                      
+                      return (
+                        <div key={index} className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                          <div className="font-medium text-gray-900 dark:text-gray-100">
+                            <span className="inline-block bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-xs mr-2">
+                              {item.quantity}x
+                            </span>
+                            {item.name}
+                            {hasModifications && (
+                              <button
+                                onClick={() => setExpandedModifiers(prev => ({ 
+                                  ...prev, 
+                                  [modifierKey]: !prev[modifierKey] 
+                                }))}
+                                className="ml-2 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
+                              >
+                                {showModifiers ? 'Hide' : 'Show'} Modifiers ({item.modifications.length})
+                              </button>
+                            )}
+                          </div>
                           {hasModifications && (
-                            <button
-                              onClick={() => setExpandedModifiers(prev => ({ 
-                                ...prev, 
-                                [modifierKey]: !prev[modifierKey] 
-                              }))}
-                              className="ml-2 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
-                            >
-                              {showModifiers ? 'Hide' : 'Show'} Modifiers ({item.modifications.length})
-                            </button>
+                            <div className={`kds-modifier-toggle ${showModifiers ? 'expanded' : 'collapsed'} text-sm text-gray-600 dark:text-gray-300 mt-2 pl-2 border-l-2 border-gray-200 dark:border-gray-600`}>
+                              {item.modifications.map((mod, modIndex) => (
+                                <span key={modIndex} className="block">
+                                  • {mod}
+                                </span>
+                              ))}
+                            </div>
                           )}
                         </div>
-                        {hasModifications && (
-                          <div className={`kds-modifier-toggle ${showModifiers ? 'expanded' : 'collapsed'} text-sm text-gray-600 dark:text-gray-300 mt-2 pl-2 border-l-2 border-gray-200 dark:border-gray-600`}>
-                            {item.modifications.map((mod, modIndex) => (
-                              <span key={modIndex} className="block">
-                                • {mod}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-                
-                {order.status !== 'completed' && order.status !== 'cancelled' && (
-                  <div className="flex space-x-2">
-                    <Button
-                      onClick={() => handleStatusUpdate(order.id, getNextStatus(order.status))}
-                      disabled={updateStatusMutation.isPending}
-                      className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
-                    >
-                      {order.status === 'pending' && 'Start Preparing'}
-                      {order.status === 'preparing' && 'Mark Ready'}
-                      {order.status === 'ready' && 'Complete'}
-                    </Button>
-                    {order.status === 'pending' && (
-                      <Button
-                        variant="outline"
-                        onClick={() => handleStatusUpdate(order.id, 'cancelled')}
-                        disabled={updateStatusMutation.isPending}
-                        className="text-red-600 dark:text-red-400 border-red-300 dark:border-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
-                      >
-                        Cancel
-                      </Button>
-                    )}
+                      );
+                    })}
                   </div>
-                )}
-              </CardContent>
+                  
+                  {order.status !== 'completed' && order.status !== 'cancelled' && (
+                    <div className="flex space-x-2">
+                      <Button
+                        onClick={() => handleStatusUpdate(order.id, getNextStatus(order.status))}
+                        disabled={updateStatusMutation.isPending}
+                        className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+                      >
+                        {order.status === 'pending' && 'Start Preparing'}
+                        {order.status === 'preparing' && 'Mark Ready'}
+                        {order.status === 'ready' && 'Complete'}
+                      </Button>
+                      {order.status === 'pending' && (
+                        <Button
+                          variant="outline"
+                          onClick={() => handleStatusUpdate(order.id, 'cancelled')}
+                          disabled={updateStatusMutation.isPending}
+                          className="text-red-600 dark:text-red-400 border-red-300 dark:border-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
+                        >
+                          Cancel
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
               </Card>
             );
           })}
@@ -620,7 +503,7 @@ export default function KDS() {
           </div>
         )}
 
-        {orders.length === 0 && (
+        {paginatedOrders.length === 0 && (
           <div className="text-center py-12">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
               <ChefHat className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
