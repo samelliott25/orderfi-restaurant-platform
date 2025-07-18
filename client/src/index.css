@@ -276,10 +276,6 @@ html, body {
 /* Liquid Glass Navigation Items */
 .liquid-glass-nav-item {
   position: relative;
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  margin: 4px 0;
   border-radius: 12px;
   background: transparent;
   backdrop-filter: none;
@@ -288,17 +284,6 @@ html, body {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   z-index: 2;
-  width: calc(100% - 8px);
-  margin-left: 4px;
-  margin-right: 4px;
-}
-
-.liquid-glass-nav-item.justify-start {
-  justify-content: flex-start;
-}
-
-.liquid-glass-nav-item.justify-center {
-  justify-content: center;
 }
 
 .liquid-glass-nav-item:hover {

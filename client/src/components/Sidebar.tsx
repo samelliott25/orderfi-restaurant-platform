@@ -292,33 +292,35 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {menuItems.map((item) => {
                 const isActive = location === item.href;
                 return (
-                  <button
-                    key={item.href}
-                    onClick={() => handleNavItemClick(item.href)}
-                    className={`font-medium liquid-glass-nav-item ${
-                      isCollapsed 
-                        ? 'w-10 h-10 justify-center p-2' 
-                        : 'h-12 justify-start'
-                    } ${
-                      isActive 
-                        ? "active text-white dark:text-white" 
-                        : "text-gray-700 dark:text-gray-200 hover:text-white dark:hover:text-white"
-                    }`}
-                    title={isCollapsed ? item.label : undefined}
-                  >
-                    <item.icon className={`h-5 w-5 flex-shrink-0 ${isCollapsed ? '' : 'mr-3'}`} />
-                    {!isCollapsed && <span className="font-medium text-current">{item.label}</span>}
-                    {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
-                      <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
-                        {metrics.pendingOrders}
-                      </Badge>
-                    )}
-                    {!isCollapsed && item.label === 'Inventory' && metrics.lowStock > 0 && (
-                      <Badge variant="secondary" className="ml-auto text-xs bg-red-100 text-red-800">
-                        {metrics.lowStock}
-                      </Badge>
-                    )}
-                  </button>
+                  <div className={`${isCollapsed ? 'flex justify-center' : 'px-2'}`}>
+                    <button
+                      key={item.href}
+                      onClick={() => handleNavItemClick(item.href)}
+                      className={`font-medium liquid-glass-nav-item ${
+                        isCollapsed 
+                          ? 'w-10 h-10 flex items-center justify-center p-2' 
+                          : 'w-full h-12 flex items-center justify-start px-4'
+                      } ${
+                        isActive 
+                          ? "active text-white dark:text-white" 
+                          : "text-gray-700 dark:text-gray-200 hover:text-white dark:hover:text-white"
+                      }`}
+                      title={isCollapsed ? item.label : undefined}
+                    >
+                      <item.icon className={`h-5 w-5 flex-shrink-0 ${isCollapsed ? '' : 'mr-3'}`} />
+                      {!isCollapsed && <span className="font-medium text-current">{item.label}</span>}
+                      {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
+                        <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
+                          {metrics.pendingOrders}
+                        </Badge>
+                      )}
+                      {!isCollapsed && item.label === 'Inventory' && metrics.lowStock > 0 && (
+                        <Badge variant="secondary" className="ml-auto text-xs bg-red-100 text-red-800">
+                          {metrics.lowStock}
+                        </Badge>
+                      )}
+                    </button>
+                  </div>
                 );
               })}
             </nav>
