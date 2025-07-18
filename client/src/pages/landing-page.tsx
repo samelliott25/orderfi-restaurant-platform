@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { ThemeToggle } from "@/components/theme-toggle";
+import InteractiveStarryBackground from "@/components/InteractiveStarryBackground";
 
 export default function LandingPage() {
   const [isClicked, setIsClicked] = useState(false);
@@ -32,11 +33,12 @@ export default function LandingPage() {
   }, [showTransition, setLocation]);
 
   return (
-    <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden bg-background text-foreground">
-      {/* Theme Toggle - Top Right */}
-      <div className="absolute top-4 right-4 z-40">
-        <ThemeToggle />
-      </div>
+    <InteractiveStarryBackground>
+      <div className="relative h-screen flex flex-col items-center justify-center p-4 overflow-hidden text-foreground">
+        {/* Theme Toggle - Top Right */}
+        <div className="absolute top-4 right-4 z-40">
+          <ThemeToggle />
+        </div>
       {/* Keyhole Reveal Transition */}
       {showTransition && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -169,6 +171,7 @@ export default function LandingPage() {
           
         </div>
       )}
-    </div>
+      </div>
+    </InteractiveStarryBackground>
   );
 }
