@@ -430,8 +430,8 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                           return (
                             <Card 
                               key={item.id} 
-                              className={`bg-background border transition-all duration-500 ${
-                                isHighlighted ? 'ring-2 ring-yellow-400 shadow-lg scale-105 border-amber-500' : 'border-border'
+                              className={`liquid-glass-card transition-all duration-500 ${
+                                isHighlighted ? 'ring-2 ring-yellow-400 shadow-lg scale-105 border-amber-500' : ''
                               }`}
                             >
                               <CardContent className="p-3">
