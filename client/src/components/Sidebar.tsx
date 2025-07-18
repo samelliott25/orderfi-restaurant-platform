@@ -292,14 +292,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {menuItems.map((item) => {
                 const isActive = location === item.href;
                 return (
-                  <div className={`${isCollapsed ? 'flex justify-center' : 'px-2'}`}>
+                  <div key={item.href} className={`${isCollapsed ? 'flex justify-center' : 'px-2'}`}>
                     <button
-                      key={item.href}
                       onClick={() => handleNavItemClick(item.href)}
                       className={`font-medium liquid-glass-nav-item ${
                         isCollapsed 
                           ? 'w-10 h-10 flex items-center justify-center p-2' 
-                          : 'h-12 flex items-center justify-start px-4'
+                          : 'w-full h-12 flex items-center justify-start px-4'
                       } ${
                         isActive 
                           ? "active text-white dark:text-white" 
