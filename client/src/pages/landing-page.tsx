@@ -39,51 +39,80 @@ export default function LandingPage() {
         <div className="absolute top-4 right-4 z-40">
           <ThemeToggle />
         </div>
-      {/* Keyhole Reveal Transition */}
+      {/* Modern Neon Loading Transition */}
       {showTransition && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Background with keyhole reveal animation */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 animate-keyhole-reveal">
-            {/* Overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/30" />
-          </div>
+          {/* Semi-transparent overlay to dim the background */}
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
           
-          {/* Center content - positioned exactly like home page */}
-          <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-lg space-y-6">
-            {/* OrderFi Logo - Same container as home page */}
+          {/* Center content with modern neon effects */}
+          <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-lg space-y-8">
+            {/* OrderFi Logo with Enhanced Neon Glow */}
             <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
               <div className="text-center">
-                <div className="text-7xl sm:text-8xl md:text-9xl bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent animate-bounce playwrite-font px-4 py-6 gentle-glow">
+                <div className="text-7xl sm:text-8xl md:text-9xl bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent playwrite-font px-4 py-6 neon-glow-text">
                   OrderFi
                 </div>
               </div>
             </div>
             
-            {/* Loading text below logo */}
+            {/* Loading text with neon glow */}
             <div className="text-center">
-              <div className="text-xl text-white animate-pulse">
+              <div className="text-xl text-white neon-glow-text animate-pulse">
                 Launching AI Assistant...
               </div>
             </div>
+            
+            {/* Pulsating dots loader */}
+            <div className="flex justify-center items-center gap-3">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-4 h-4 rounded-full bg-gradient-to-r from-[#F5A623] to-pink-500"
+                  style={{
+                    animationDelay: `${i * 0.2}s`,
+                    animationDuration: '1.4s',
+                    animationName: 'pulse-glow',
+                    animationIterationCount: 'infinite',
+                    animationTimingFunction: 'ease-in-out'
+                  }}
+                />
+              ))}
+            </div>
           </div>
           
-          {/* Morphing circles */}
-          <div className="absolute inset-0 overflow-hidden">
-            {[...Array(5)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute rounded-full bg-white/20 animate-ping"
-                style={{
-                  width: `${(i + 1) * 100}px`,
-                  height: `${(i + 1) * 100}px`,
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  animationDelay: `${i * 200}ms`,
-                  animationDuration: '2s'
-                }}
+          {/* Rotating neon rings */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Outer ring */}
+            <div className="absolute top-1/2 left-1/2 w-96 h-96 -translate-x-1/2 -translate-y-1/2">
+              <div className="w-full h-full border-4 border-transparent border-t-[#F5A623] border-r-pink-500 rounded-full animate-spin opacity-60"
+                   style={{
+                     animationDuration: '3s',
+                     filter: 'drop-shadow(0 0 15px rgba(245, 166, 35, 0.8))'
+                   }}
               />
-            ))}
+            </div>
+            
+            {/* Middle ring */}
+            <div className="absolute top-1/2 left-1/2 w-64 h-64 -translate-x-1/2 -translate-y-1/2">
+              <div className="w-full h-full border-4 border-transparent border-b-pink-500 border-l-[#F5A623] rounded-full animate-spin opacity-70"
+                   style={{
+                     animationDuration: '2s',
+                     animationDirection: 'reverse',
+                     filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.8))'
+                   }}
+              />
+            </div>
+            
+            {/* Inner ring */}
+            <div className="absolute top-1/2 left-1/2 w-32 h-32 -translate-x-1/2 -translate-y-1/2">
+              <div className="w-full h-full border-2 border-transparent border-t-white border-b-white rounded-full animate-spin opacity-80"
+                   style={{
+                     animationDuration: '1.5s',
+                     filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.8))'
+                   }}
+              />
+            </div>
           </div>
         </div>
       )}
