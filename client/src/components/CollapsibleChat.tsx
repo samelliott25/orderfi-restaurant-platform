@@ -343,13 +343,14 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
           
           {/* Chat Card */}
           <div 
-            className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300 liquid-glass-card"
+            className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300"
             data-testid="chat-glassmorphism-container"
             style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)'
+              background: 'rgba(255, 255, 255, 0.03)',
+              backdropFilter: 'blur(25px)',
+              WebkitBackdropFilter: 'blur(25px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '16px'
             }}
           >
             {/* Header */}
