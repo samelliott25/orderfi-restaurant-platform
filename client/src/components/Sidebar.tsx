@@ -295,10 +295,10 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   <button
                     key={item.href}
                     onClick={() => handleNavItemClick(item.href)}
-                    className={`w-full font-medium liquid-glass-nav-item ${
+                    className={`font-medium liquid-glass-nav-item ${
                       isCollapsed 
-                        ? 'justify-center p-2' 
-                        : 'justify-start text-left'
+                        ? 'w-10 h-10 justify-center p-2' 
+                        : 'w-full h-12 justify-center'
                     } ${
                       isActive 
                         ? "active text-white dark:text-white" 
@@ -306,9 +306,10 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     }`}
                     title={isCollapsed ? item.label : undefined}
                   >
-                    <item.icon className={`h-5 w-5 flex-shrink-0`} />
-                    {!isCollapsed && <div className="w-3"></div>}
-                    {!isCollapsed && <span className="font-medium text-current">{item.label}</span>}
+                    <div className="flex items-center justify-center w-full">
+                      <item.icon className={`h-5 w-5 flex-shrink-0 ${isCollapsed ? '' : 'mr-3'}`} />
+                      {!isCollapsed && <span className="font-medium text-current">{item.label}</span>}
+                    </div>
                     {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
                       <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
                         {metrics.pendingOrders}
