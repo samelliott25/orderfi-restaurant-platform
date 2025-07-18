@@ -542,7 +542,7 @@ button, .button, input, select, textarea {
 
 /* OrderFi Logo Animation Effects */
 .gentle-glow {
-  text-shadow: 0 0 20px rgba(245, 166, 35, 0.3), 0 0 40px rgba(245, 166, 35, 0.2);
+  text-shadow: 0 2px 8px rgba(245, 166, 35, 0.15);
 }
 
 .hover-float {

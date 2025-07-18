@@ -99,7 +99,7 @@ export default function LandingPage() {
           {/* OrderFi Logo - Animated SVG */}
           <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center animate-fade-in-up">
             <div className="text-center">
-              <div className="text-7xl sm:text-8xl md:text-9xl bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font px-4 py-6 gentle-glow hover-float">
+              <div className="text-7xl sm:text-8xl md:text-9xl bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent playwrite-font px-4 py-6 hover-float">
                 OrderFi
               </div>
               
