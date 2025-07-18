@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useTheme } from './theme-provider';
+import lightBg from '@assets/20250718_2124_Neon Light Background_simple_compose_01k0emexs2fdmsv8exv2yzx333_1752838166331.png';
+import darkBg from '@assets/20250718_2127_Neon Space Vibes_simple_compose_01k0emkcm6ez8v5n5bxrd1z1pb_1752838166332.png';
 
 const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { theme } = useTheme();
@@ -37,31 +39,43 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       driftY: Math.random() * 0.2 - 0.1, // Random vertical drift
     }));
 
+    // Load background images
+    const lightImage = new Image();
+    const darkImage = new Image();
+    lightImage.src = lightBg;
+    darkImage.src = darkBg;
+
     // Draw function
     const draw = () => {
-      // Use theme-aware background gradient
-      if (theme === 'dark') {
-        // Dark mode: solid black background
-        ctx.fillStyle = '#0a0a0a';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Use theme-aware background images
+      const backgroundImage = theme === 'dark' ? darkImage : lightImage;
+      
+      if (backgroundImage.complete) {
+        // Draw the background image to cover the entire canvas
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
       } else {
-        // Light mode: orange-white-pink gradient
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, '#F5A623');     // Orange start
-        gradient.addColorStop(0.5, '#ffffff');   // White middle
-        gradient.addColorStop(1, '#ec4899');     // Pink end
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Fallback gradient while image loads
+        if (theme === 'dark') {
+          ctx.fillStyle = '#0a0a0a';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else {
+          const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+          gradient.addColorStop(0, '#F5A623');
+          gradient.addColorStop(0.5, '#ffffff');
+          gradient.addColorStop(1, '#ec4899');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
       }
 
-      // Draw stars with theme-aware colors
-      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(100, 100, 100, '; // White stars in dark mode, darker gray in light mode for better visibility
+      // Draw stars with theme-aware colors that complement the neon backgrounds
+      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(255, 255, 255, '; // White stars for both modes to complement neon backgrounds
       stars.forEach(star => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `${starColor}${star.opacity * 0.4})`; // Slightly more visible stars
-        ctx.shadowBlur = 2; // Minimal glow
-        ctx.shadowColor = `${starColor}0.3)`;
+        ctx.fillStyle = `${starColor}${star.opacity * 0.6})`; // More visible stars against neon backgrounds
+        ctx.shadowBlur = 3; // Slightly more glow to match neon aesthetic
+        ctx.shadowColor = `${starColor}0.4)`;
         ctx.fill();
       });
     };
