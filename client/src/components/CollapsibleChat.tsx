@@ -337,7 +337,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/10 backdrop-blur-sm"
             onClick={() => setIsExpanded(false)}
           />
           
