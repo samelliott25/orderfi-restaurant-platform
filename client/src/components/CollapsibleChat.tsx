@@ -321,7 +321,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
       {!isExpanded && (
         <button
           onClick={() => setIsExpanded(true)}
-          className="w-16 h-16 rounded-full shadow-lg flex items-center justify-center relative transition-all duration-300 hover:scale-110 active:scale-95 bg-gradient-to-br from-orange-400 to-white dark:from-orange-400 dark:to-slate-900"
+          className="w-16 h-16 rounded-full shadow-lg flex items-center justify-center relative transition-all duration-300 hover:scale-110 active:scale-95 liquid-glass-nav-item"
         >
           <MessageCircle className="w-8 h-8 text-slate-900 dark:text-white" />
           {getTotalItems() > 0 && (
@@ -343,20 +343,13 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
           
           {/* Chat Card */}
           <div 
-            className={`fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300 ${
-              isDarkMode ? 'chat-gradient-dark' : 'chat-gradient-light'
-            }`}
-            style={{
-              background: isDarkMode 
-                ? 'linear-gradient(135deg, #fb923c 0%, #0f172a 100%)' 
-                : 'linear-gradient(135deg, #fb923c 0%, #ffffff 100%)'
-            }}
+            className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300 liquid-glass-card"
             data-testid="chat-gradient-container"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-white/20 dark:border-slate-700/50">
+            <div className="flex items-center justify-between p-4 border-b border-white/10 dark:border-white/5 liquid-glass-card">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/30 dark:bg-slate-800/50 flex items-center justify-center backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-full liquid-glass-nav-item flex items-center justify-center">
                   <ChefHat className="w-6 h-6 text-slate-900 dark:text-white" />
                 </div>
                 <div>
@@ -377,7 +370,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsExpanded(false)}
-                  className="p-2 hover:bg-white/20 dark:hover:bg-slate-700/50"
+                  className="p-2 liquid-glass-nav-item hover:scale-105 transition-transform duration-200"
                 >
                   <X className="w-5 h-5 text-slate-900 dark:text-white" />
                 </Button>
@@ -385,7 +378,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
             </div>
 
             {/* Category Tabs */}
-            <div className="p-3 border-b border-white/20 dark:border-slate-700/50">
+            <div className="p-3 border-b border-white/10 dark:border-white/5 liquid-glass-card">
               <div className="flex gap-2 overflow-x-auto">
                 {categories.map((category) => (
                   <Button
@@ -393,10 +386,10 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                     variant={selectedCategory === category.id ? "default" : "outline"}
                     size="sm"
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`whitespace-nowrap text-xs ${
+                    className={`whitespace-nowrap text-xs transition-all duration-300 ${
                       selectedCategory === category.id 
-                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900' 
-                        : 'border-slate-900/30 dark:border-white/30 text-slate-900 dark:text-white bg-white/20 dark:bg-slate-800/20'
+                        ? 'liquid-glass-nav-item text-white dark:text-gray-900' 
+                        : 'liquid-glass-nav-item text-gray-900 dark:text-white hover:scale-105'
                     }`}
                   >
                     <span className="mr-1">{category.icon}</span>
@@ -412,20 +405,20 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                 <div key={message.id} className="space-y-3">
                   {message.type === 'user' ? (
                     <div className="flex justify-end">
-                      <div className="max-w-[80%] bg-slate-900/80 dark:bg-white/90 text-white dark:text-slate-900 p-3 rounded-2xl rounded-br-sm text-sm backdrop-blur-sm">
+                      <div className="max-w-[80%] liquid-glass-nav-item text-white dark:text-gray-900 p-3 rounded-2xl rounded-br-sm text-sm">
                         {message.content}
                       </div>
                     </div>
                   ) : message.type === 'bot' ? (
                     <div className="flex justify-start">
-                      <div className="max-w-[80%] bg-white/80 dark:bg-slate-800/80 p-3 rounded-2xl rounded-bl-sm border border-white/30 dark:border-slate-600/50 text-sm text-slate-900 dark:text-white backdrop-blur-sm">
+                      <div className="max-w-[80%] liquid-glass-card p-3 rounded-2xl rounded-bl-sm text-sm text-gray-900 dark:text-white">
                         {message.content}
                       </div>
                     </div>
                   ) : message.type === 'menu' ? (
                     <div className="space-y-3">
                       <div className="flex justify-start">
-                        <div className="bg-white/80 dark:bg-slate-800/80 p-3 rounded-2xl rounded-bl-sm border border-white/30 dark:border-slate-600/50 text-sm text-slate-900 dark:text-white backdrop-blur-sm">
+                        <div className="liquid-glass-card p-3 rounded-2xl rounded-bl-sm text-sm text-gray-900 dark:text-white">
                           {message.content}
                         </div>
                       </div>
@@ -479,10 +472,10 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                                       <Button 
                                         onClick={() => addToCart(item)}
                                         size="sm"
-                                        className={`text-white text-xs px-3 py-1 ${
+                                        className={`text-white text-xs px-3 py-1 transition-all duration-300 ${
                                           isHighlighted 
-                                            ? 'bg-yellow-500 hover:bg-yellow-600' 
-                                            : 'bg-[#8b795e] hover:bg-[#6d5d4f]'
+                                            ? 'liquid-glass-nav-item hover:scale-105' 
+                                            : 'liquid-glass-nav-item hover:scale-105'
                                         }`}
                                       >
                                         <Plus className="w-3 h-3 mr-1" />
@@ -505,8 +498,8 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
 
             {/* Cart Summary */}
             {cart.length > 0 && (
-              <div className="p-3 border-t border-border">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-background border border-border">
+              <div className="p-3 border-t border-white/10 dark:border-white/5">
+                <div className="flex items-center justify-between p-3 rounded-lg liquid-glass-card">
                   <div>
                     <p className="font-semibold text-sm text-foreground">
                       {getTotalItems()} items • ${getTotalPrice().toFixed(2)}
@@ -514,7 +507,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
                   </div>
                   <Button 
                     size="sm"
-                    className="bg-[#8b795e] hover:bg-[#6d5d4f] text-white"
+                    className="liquid-glass-nav-item text-white hover:scale-105 transition-all duration-300"
                   >
                     Checkout
                   </Button>
@@ -523,19 +516,19 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
             )}
 
             {/* Input */}
-            <div className="p-4 border-t border-white/20 dark:border-slate-700/50">
+            <div className="p-4 border-t border-white/10 dark:border-white/5 liquid-glass-card">
               <div className="flex gap-2">
                 <Input
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   placeholder="Type your message..."
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  className="flex-1 text-sm bg-white/50 dark:bg-slate-800/50 border-white/30 dark:border-slate-600/50 text-slate-900 dark:text-white placeholder-slate-600 dark:placeholder-slate-400 backdrop-blur-sm"
+                  className="flex-1 text-sm liquid-glass-nav-item text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-gray-400"
                 />
                 <Button 
                   onClick={handleSendMessage}
                   size="sm"
-                  className="bg-slate-900/80 dark:bg-white/90 hover:bg-slate-900 dark:hover:bg-white text-white dark:text-slate-900 px-3"
+                  className="liquid-glass-nav-item text-white dark:text-gray-900 px-3 hover:scale-105 transition-all duration-300"
                 >
                   <Send className="w-4 h-4" />
                 </Button>
