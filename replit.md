@@ -197,6 +197,15 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 ## Changelog
 
 ```
+- January 18, 2025. HEADING CONTRAST ISSUE RESOLVED: Successfully fixed all heading readability issues in light mode by eliminating gradient text overrides
+  - Root cause: OrderFiHeading component in design-system.tsx had hardcoded gradient text classes causing poor contrast
+  - Fixed OrderFiHeading baseClasses from gradient text to solid colors: text-gray-900 dark:text-white
+  - Added CSS overrides to .playwrite-font class to prevent any gradient text effects: background: none !important
+  - Updated all dashboard headings (Executive Summary, Operations Center, Analytics & Insights) to use solid colors
+  - Fixed OrderFiCard titles to use solid colors instead of gradient text
+  - Enhanced global heading contrast with darker light mode colors (hsl(220 10% 15%)) and brighter dark mode colors (hsl(210 20% 98%))
+  - Maintained Playwrite AU VIC font for OrderFi branding while ensuring excellent readability in both light and dark modes
+  - User feedback: "finally" - confirmed successful resolution of persistent heading contrast problems
 - January 18, 2025. APPLE LIQUID GLASS SIDEBAR IMPLEMENTED: Successfully implemented Apple's 2025 Liquid Glass design language for comprehensive glassmorphism sidebar experience
   - Researched Apple's Liquid Glass design from iOS 26 and macOS Tahoe 26 for contemporary glassmorphism patterns
   - Implemented sophisticated frosted glassmorphism background with translucent properties showing beautiful neon backgrounds
