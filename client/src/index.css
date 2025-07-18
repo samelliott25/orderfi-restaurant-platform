@@ -528,10 +528,15 @@ button, .button, input, select, textarea {
   font-family: "Playwrite AU VIC", cursive !important;
   font-weight: 400 !important;
   letter-spacing: -0.02em !important;
-  background: none !important;
-  -webkit-background-clip: unset !important;
-  -webkit-text-fill-color: unset !important;
-  background-clip: unset !important;
+}
+
+/* Exception for OrderFi gradient text */
+.orderfi-gradient-text.playwrite-font,
+.orderfi-gradient-text.playwrite-font * {
+  background: linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
 .rock-salt-font {
