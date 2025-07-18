@@ -82,7 +82,7 @@ export const OrderFiCard = ({
   <Card className={cn('border-2 border-border/50 shadow-sm', className)}>
     {title && (
       <CardHeader className={cn('pb-3', headerClassName)}>
-        <CardTitle className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+        <CardTitle className="font-semibold text-lg playwrite-font text-gray-900 dark:text-white">
           {title}
         </CardTitle>
         {subtitle && (
