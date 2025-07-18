@@ -286,7 +286,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           {/* Navigation Items */}
           <div 
             ref={scrollContainerRef}
-            className={`flex-1 overflow-y-auto sidebar-scroll-container ${isCollapsed ? 'p-2' : 'p-4'}`}
+            className={`flex-1 overflow-y-auto sidebar-scroll-container ${isCollapsed ? 'py-2' : 'py-4'}`}
           >
             <nav className="space-y-1 sidebar-nav">
               {menuItems.map((item) => {
@@ -298,7 +298,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     className={`w-full font-medium liquid-glass-nav-item ${
                       isCollapsed 
                         ? 'justify-center p-2' 
-                        : 'justify-start text-left px-4'
+                        : 'justify-start text-left'
                     } ${
                       isActive 
                         ? "active text-white dark:text-white" 
