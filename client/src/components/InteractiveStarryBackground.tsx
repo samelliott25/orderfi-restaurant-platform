@@ -39,19 +39,29 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
 
     // Draw function
     const draw = () => {
-      // Use theme-aware background color
-      const backgroundColor = theme === 'dark' ? '#0a0a0a' : '#ffffff'; // Pure black for dark mode, white for light mode
-      ctx.fillStyle = backgroundColor;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Use theme-aware background gradient
+      if (theme === 'dark') {
+        // Dark mode: solid black background
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else {
+        // Light mode: orange-white-pink gradient
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#F5A623');     // Orange start
+        gradient.addColorStop(0.5, '#ffffff');   // White middle
+        gradient.addColorStop(1, '#ec4899');     // Pink end
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
 
       // Draw stars with theme-aware colors
-      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(148, 163, 184, '; // White stars in dark mode, gray in light mode
+      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(100, 100, 100, '; // White stars in dark mode, darker gray in light mode for better visibility
       stars.forEach(star => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `${starColor}${star.opacity * 0.3})`; // Theme-aware star color
+        ctx.fillStyle = `${starColor}${star.opacity * 0.4})`; // Slightly more visible stars
         ctx.shadowBlur = 2; // Minimal glow
-        ctx.shadowColor = `${starColor}0.2)`;
+        ctx.shadowColor = `${starColor}0.3)`;
         ctx.fill();
       });
     };
