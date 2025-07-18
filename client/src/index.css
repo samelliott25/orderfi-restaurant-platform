@@ -293,6 +293,14 @@ html, body {
   margin-right: 4px;
 }
 
+.liquid-glass-nav-item.justify-start {
+  justify-content: flex-start;
+}
+
+.liquid-glass-nav-item.justify-center {
+  justify-content: center;
+}
+
 .liquid-glass-nav-item:hover {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(15px);
