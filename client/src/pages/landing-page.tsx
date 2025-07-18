@@ -103,10 +103,7 @@ export default function LandingPage() {
                 fontFamily: '"Playwrite AU VIC", cursive',
                 fontWeight: 400,
                 letterSpacing: '-0.02em',
-                background: 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
+                color: '#F5A623'
               }}>
                 OrderFi
               </div>

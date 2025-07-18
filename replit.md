@@ -197,6 +197,12 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 ## Changelog
 
 ```
+- January 18, 2025. ORDERFI LOGO RESTORATION IN PROGRESS: Currently fixing OrderFi logo visibility issue on landing page after glassmorphism implementation
+  - Issue: Logo completely disappeared from landing page despite proper HTML structure
+  - Root cause: Conflicting CSS classes preventing gradient text from displaying
+  - Solution attempts: Removed playwrite-font class conflicts, tried inline styles, now testing solid color fallback
+  - Current status: Testing solid orange color (#F5A623) to ensure font loading and text visibility
+  - Next steps: Once text is visible, will restore gradient effect using proper CSS implementation
 - January 18, 2025. HEADING CONTRAST ISSUE RESOLVED: Successfully fixed all heading readability issues in light mode by eliminating gradient text overrides
   - Root cause: OrderFiHeading component in design-system.tsx had hardcoded gradient text classes causing poor contrast
   - Fixed OrderFiHeading baseClasses from gradient text to solid colors: text-gray-900 dark:text-white
