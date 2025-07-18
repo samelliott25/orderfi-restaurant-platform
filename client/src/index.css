@@ -79,53 +79,140 @@ html, body {
   max-width: 100% !important;
 }
 
-/* Smooth Fade Transition Animations */
+/* Modern Progressive Loading Animations - Inspired by Facebook, YouTube, Airbnb */
 @keyframes fade-in {
   from {
     opacity: 0;
+    transform: scale(0.98);
   }
   to {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes fade-in-down {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-24px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Animation classes */
+/* Skeleton shimmer effect - inspired by Facebook and LinkedIn */
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0.4;
+  }
+}
+
+/* Modern blur-in animation */
+@keyframes blur-in {
+  from {
+    filter: blur(8px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+/* Animation classes with improved timing and easing */
 .animate-fade-in {
-  animation: fade-in 0.8s ease-out forwards;
+  animation: fade-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 1s ease-out forwards;
-  animation-delay: 0.2s;
-  opacity: 0;
+  animation: fade-in-up 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-fill-mode: both;
 }
 
 .animate-fade-in-down {
-  animation: fade-in-down 1s ease-out forwards;
-  animation-delay: 0.4s;
-  opacity: 0;
+  animation: fade-in-down 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-fill-mode: both;
+}
+
+.animate-blur-in {
+  animation: blur-in 0.8s ease-out forwards;
+  animation-fill-mode: both;
+}
+
+/* Skeleton shimmer class */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: skeleton-shimmer 2s ease-in-out infinite;
+}
+
+/* Dark mode shimmer */
+.dark .skeleton-shimmer::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-fade-in-down,
+  .animate-blur-in {
+    animation: none !important;
+  }
+  
+  .skeleton-shimmer::before {
+    animation: none !important;
+  }
+  
+  * {
+    transition: none !important;
+  }
 }
 
 /* Unified OrderFi Body Styling */

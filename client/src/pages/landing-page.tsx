@@ -39,16 +39,16 @@ export default function LandingPage() {
         <div className="absolute top-4 right-4 z-40">
           <ThemeToggle />
         </div>
-      {/* Smooth Fade Transition */}
+      {/* Progressive Loading Transition */}
       {showTransition && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-1000">
-          {/* Gentle overlay with smooth fade */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#F5A623]/20 via-orange-500/10 to-pink-500/20 backdrop-blur-sm animate-fade-in" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Sophisticated overlay with subtle gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/95 backdrop-blur-lg animate-fade-in" />
           
-          {/* Center content with smooth entrance */}
-          <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-lg space-y-6 animate-fade-in-up">
-            {/* OrderFi Logo - Keep original styling */}
-            <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
+          {/* Center content with progressive reveal */}
+          <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-lg space-y-8">
+            {/* OrderFi Logo - Keep original styling with subtle enhancement */}
+            <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center animate-fade-in-up">
               <div className="text-center">
                 <div className="text-7xl sm:text-8xl md:text-9xl bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent playwrite-font px-4 py-6 gentle-glow">
                   OrderFi
@@ -56,25 +56,38 @@ export default function LandingPage() {
               </div>
             </div>
             
-            {/* Loading text with gentle fade */}
-            <div className="text-center">
-              <div className="text-xl text-foreground opacity-80 animate-pulse">
-                Launching AI Assistant...
+            {/* Progressive status messages */}
+            <div className="text-center animate-fade-in-up" style={{ animationDelay: '0.3s', opacity: 0 }}>
+              <div className="text-lg text-foreground/80 mb-2">
+                Loading your restaurant experience...
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Setting up AI assistant and menu system
               </div>
             </div>
             
-            {/* Simple elegant dots */}
-            <div className="flex justify-center items-center gap-2">
-              {[...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  className="w-2 h-2 rounded-full bg-gradient-to-r from-[#F5A623] to-pink-500 animate-pulse"
-                  style={{
-                    animationDelay: `${i * 0.3}s`,
-                    animationDuration: '1.5s'
-                  }}
-                />
-              ))}
+            {/* Modern skeleton-inspired loading indicator */}
+            <div className="flex flex-col items-center space-y-4 animate-fade-in-up" style={{ animationDelay: '0.6s', opacity: 0 }}>
+              {/* Progress skeleton bars */}
+              <div className="w-48 space-y-2">
+                <div className="h-1 bg-gradient-to-r from-[#F5A623] to-pink-500 rounded-full skeleton-shimmer" />
+                <div className="h-1 bg-gradient-to-r from-[#F5A623] to-pink-500 rounded-full skeleton-shimmer" style={{ animationDelay: '0.2s' }} />
+                <div className="h-1 bg-gradient-to-r from-[#F5A623] to-pink-500 rounded-full skeleton-shimmer" style={{ animationDelay: '0.4s' }} />
+              </div>
+              
+              {/* Elegant pulsating dots */}
+              <div className="flex justify-center items-center gap-2 mt-4">
+                {[...Array(4)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#F5A623] to-pink-500 animate-pulse"
+                    style={{
+                      animationDelay: `${i * 0.15}s`,
+                      animationDuration: '1.2s'
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -84,7 +97,7 @@ export default function LandingPage() {
         <div className="flex flex-col items-center justify-center w-full max-w-lg space-y-6">
           
           {/* OrderFi Logo - Animated SVG */}
-          <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center">
+          <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center animate-fade-in-up">
             <div className="text-center">
               <div className="text-7xl sm:text-8xl md:text-9xl bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent animate-pulse playwrite-font px-4 py-6 gentle-glow hover-float">
                 OrderFi
@@ -94,14 +107,14 @@ export default function LandingPage() {
           </div>
           
           {/* Logo spacing */}
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-2 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <p className="text-xs sm:text-sm text-muted-foreground px-4">
               AI-Powered Restaurant Platform with Blockchain Rewards
             </p>
           </div>
           
           {/* Single DApp Entry Button */}
-          <div className="w-full max-w-xs space-y-2">
+          <div className="w-full max-w-xs space-y-2 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             <Button
               onClick={handleDAppClick}
               className={`
