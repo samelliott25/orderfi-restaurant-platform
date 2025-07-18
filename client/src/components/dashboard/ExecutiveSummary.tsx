@@ -200,7 +200,7 @@ export function ExecutiveSummary() {
           return (
             <Card 
               key={index} 
-              className="hover:shadow-lg transition-shadow cursor-pointer"
+              className="liquid-glass-card hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
             >
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
@@ -239,7 +239,7 @@ export function ExecutiveSummary() {
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <Button 
           variant="default"
-          className="h-11 min-h-[44px] justify-start space-x-2"
+          className="liquid-glass-nav-item h-11 min-h-[44px] justify-start space-x-2 hover:scale-105 transition-all duration-300"
           onClick={() => window.location.href = '/inventory'}
         >
           <Activity className="h-4 w-4" />
@@ -247,7 +247,7 @@ export function ExecutiveSummary() {
         </Button>
         <Button 
           variant="outline"
-          className="h-11 min-h-[44px] justify-start space-x-2"
+          className="liquid-glass-nav-item h-11 min-h-[44px] justify-start space-x-2 hover:scale-105 transition-all duration-300"
           onClick={() => window.location.href = '/orders'}
         >
           <ShoppingCart className="h-4 w-4" />
@@ -255,7 +255,7 @@ export function ExecutiveSummary() {
         </Button>
         <Button 
           variant="default"
-          className="h-11 min-h-[44px] justify-start space-x-2"
+          className="liquid-glass-nav-item h-11 min-h-[44px] justify-start space-x-2 hover:scale-105 transition-all duration-300"
           onClick={() => window.location.href = '/kds'}
         >
           <Clock className="h-4 w-4" />
@@ -263,7 +263,7 @@ export function ExecutiveSummary() {
         </Button>
         <Button 
           variant="outline"
-          className="h-11 min-h-[44px] justify-start space-x-2"
+          className="liquid-glass-nav-item h-11 min-h-[44px] justify-start space-x-2 hover:scale-105 transition-all duration-300"
           onClick={() => window.location.href = '/payments'}
         >
           <DollarSign className="h-4 w-4" />

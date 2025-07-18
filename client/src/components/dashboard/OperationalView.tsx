@@ -312,7 +312,7 @@ export function OperationalView() {
 
       <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
         {/* Live Orders */}
-        <Card className="backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20">
+        <Card className="liquid-glass-card">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg flex items-center space-x-2">
@@ -377,7 +377,7 @@ export function OperationalView() {
         </Card>
 
         {/* Quick Actions */}
-        <Card className="backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20">
+        <Card className="liquid-glass-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center space-x-2">
               <Zap className="h-5 w-5 text-blue-500" />
@@ -392,7 +392,7 @@ export function OperationalView() {
                   <Button
                     key={action.id}
                     variant="outline"
-                    className="h-20 min-h-[80px] flex-col space-y-2 p-4"
+                    className="liquid-glass-nav-item h-20 min-h-[80px] flex-col space-y-2 p-4 hover:scale-105 transition-all duration-300"
                     onClick={action.onClick}
                   >
                     <div className={`p-2 rounded-full ${action.color}`}>

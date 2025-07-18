@@ -287,7 +287,7 @@ export function AnalyticsView() {
         </TabsList>
 
         <TabsContent value="revenue" className="space-y-4">
-          <Card>
+          <Card className="liquid-glass-card">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <DollarSign className="h-5 w-5 text-green-500" />
@@ -325,7 +325,7 @@ export function AnalyticsView() {
         </TabsContent>
 
         <TabsContent value="orders" className="space-y-4">
-          <Card>
+          <Card className="liquid-glass-card">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <ChefHat className="h-5 w-5 text-orange-500" />
@@ -361,7 +361,7 @@ export function AnalyticsView() {
         </TabsContent>
 
         <TabsContent value="categories" className="space-y-4">
-          <Card>
+          <Card className="liquid-glass-card">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Package className="h-5 w-5 text-purple-500" />
@@ -418,7 +418,7 @@ export function AnalyticsView() {
         </TabsContent>
 
         <TabsContent value="waste" className="space-y-4">
-          <Card>
+          <Card className="liquid-glass-card">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <AlertTriangle className="h-5 w-5 text-red-500" />
