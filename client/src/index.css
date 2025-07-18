@@ -197,6 +197,167 @@ html, body {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Apple Liquid Glass Sidebar - Inspired by iOS 26 and macOS Tahoe 26 */
+.liquid-glass-sidebar {
+  position: relative;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.liquid-glass-sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.liquid-glass-sidebar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Dark mode adjustments */
+.dark .liquid-glass-sidebar {
+  background: rgba(0, 0, 0, 0.25);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.dark .liquid-glass-sidebar::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+}
+
+.dark .liquid-glass-sidebar::after {
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    transparent 100%
+  );
+}
+
+/* Liquid Glass Navigation Items */
+.liquid-glass-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 4px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  z-index: 2;
+}
+
+.liquid-glass-nav-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.liquid-glass-nav-item.active {
+  background: rgba(245, 166, 35, 0.15);
+  border-color: rgba(245, 166, 35, 0.3);
+  box-shadow: 0 4px 20px rgba(245, 166, 35, 0.2);
+}
+
+/* Dark mode nav items */
+.dark .liquid-glass-nav-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .liquid-glass-nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark .liquid-glass-nav-item.active {
+  background: rgba(245, 166, 35, 0.1);
+  border-color: rgba(245, 166, 35, 0.2);
+}
+
+/* Shimmer effect for nav items */
+.liquid-glass-nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.liquid-glass-nav-item:hover::before {
+  left: 100%;
+}
+
+/* Liquid Glass Header */
+.liquid-glass-header {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 2;
+}
+
+.dark .liquid-glass-header {
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in,
@@ -208,6 +369,10 @@ html, body {
   
   .skeleton-shimmer::before {
     animation: none !important;
+  }
+  
+  .liquid-glass-nav-item::before {
+    transition: none !important;
   }
   
   * {

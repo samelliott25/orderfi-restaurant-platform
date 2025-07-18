@@ -189,13 +189,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     <>
       <div 
         data-sidebar
-        className={`flex-shrink-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 relative z-40 shadow-xl ${
+        className={`flex-shrink-0 h-screen liquid-glass-sidebar transition-all duration-300 relative z-40 ${
           isCollapsed ? 'w-16' : 'w-64'
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className={`border-b border-gray-200/30 dark:border-gray-700/30 backdrop-blur-sm ${isCollapsed ? 'p-3' : 'px-6 py-5'}`}>
+          <div className={`liquid-glass-header ${isCollapsed ? 'p-3' : 'px-6 py-5'}`}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
@@ -256,7 +256,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {/* Collapse Button */}
               <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-9 w-9 p-0 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/20 ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-9 w-9 p-0 text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/20 ${isCollapsed ? 'ml-0' : ''}`}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)'
+                }}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               </button>
@@ -275,15 +281,15 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   <button
                     key={item.href}
                     onClick={() => handleNavItemClick(item.href)}
-                    className={`w-full font-medium transition-all duration-200 h-11 flex items-center ${
+                    className={`w-full font-medium liquid-glass-nav-item ${
                       isCollapsed 
                         ? 'justify-center p-2' 
                         : 'justify-start text-left px-4'
                     } ${
                       isActive 
-                        ? "bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-300 shadow-lg shadow-blue-500/20 border border-blue-200/50 dark:border-blue-700/50" 
-                        : "text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 dark:hover:from-gray-800 dark:hover:to-blue-900/20 hover:shadow-md"
-                    } rounded-xl backdrop-blur-sm`}
+                        ? "active text-white dark:text-white" 
+                        : "text-gray-700 dark:text-gray-200 hover:text-white dark:hover:text-white"
+                    }`}
                     title={isCollapsed ? item.label : undefined}
                   >
                     <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
@@ -376,7 +382,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           </div>
           
           {/* Footer Actions - Fixed to Bottom */}
-          <div className={`mt-auto border-t border-gray-200/30 dark:border-gray-700/30 bg-gray-50 dark:bg-gray-800 ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
+          <div className={`mt-auto liquid-glass-header ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
             {!isCollapsed ? (
               <>
                 {/* Wallet Connection Button */}
@@ -417,7 +423,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Theme Toggle */}
                 <button
                   onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="w-full text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 dark:hover:from-gray-800 dark:hover:to-blue-900/20 rounded-xl p-2 transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
+                  className="w-full text-sm font-medium text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl p-2 transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)'
+                  }}
                 >
                   <div className="relative mr-2">
                     <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -430,7 +442,13 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Exit App Button */}
                 <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 dark:hover:from-gray-800 dark:hover:to-blue-900/20 rounded-xl p-2 transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
+                  className="w-full text-sm font-medium text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl p-2 transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)'
+                  }}
                 >
                   <DoorOpen className="h-4 w-4 mr-2" />
                   Exit App
@@ -458,8 +476,14 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Collapsed Theme Toggle */}
                 <button
                   onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="w-full h-11 p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 dark:hover:from-gray-800 dark:hover:to-blue-900/20 rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
+                  className="w-full h-11 p-2 text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
                   title="Toggle Theme"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)'
+                  }}
                 >
                   <div className="relative">
                     <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
