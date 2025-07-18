@@ -176,24 +176,24 @@ export default function DashboardPhase2() {
     <StandardLayout title="Dashboard" subtitle="Mobile-Optimized Restaurant Management">
         <div className="space-y-8 animate-fade-in-down">
 
-          {/* Status Bar - Unified OrderFi styling */}
-          <div className="orderfi-card p-6">
+          {/* Status Bar - Apple Liquid Glass styling */}
+          <div className="liquid-glass-card p-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-gradient-to-r from-orderfi-start to-orderfi-end rounded-full animate-pulse"></div>
                   <span className="text-lg font-medium">System Online</span>
                 </div>
-                <div className="text-lg orderfi-gradient-text">
+                <div className="text-lg font-medium text-gray-900 dark:text-white">
                   Dashboard Active
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <button className="orderfi-btn orderfi-btn-primary text-sm px-4 py-2">
+                <button className="liquid-glass-nav-item flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105">
                   <Bell className="h-4 w-4 mr-2" />
                   {alerts.length} Alerts
                 </button>
-                <button className="orderfi-btn bg-secondary text-secondary-foreground px-4 py-2 hover:bg-secondary/80 transition-colors">
+                <button className="liquid-glass-nav-item flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105">
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
                 </button>
@@ -201,15 +201,15 @@ export default function DashboardPhase2() {
             </div>
           </div>
 
-        {/* Progressive Disclosure Tabs - Unified OrderFi styling */}
+        {/* Progressive Disclosure Tabs - Apple Liquid Glass styling */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="flex space-x-2 bg-card rounded-full p-2 shadow-sm mb-6">
+          <div className="liquid-glass-card flex space-x-2 rounded-full p-2 mb-6">
             <button
               onClick={() => setActiveTab('executive')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
                 activeTab === 'executive'
-                  ? 'orderfi-btn-primary'
-                  : 'text-foreground hover:bg-muted'
+                  ? 'liquid-glass-nav-item-active'
+                  : 'liquid-glass-nav-item'
               }`}
             >
               <BarChart3 className="h-4 w-4" />
@@ -217,10 +217,10 @@ export default function DashboardPhase2() {
             </button>
             <button
               onClick={() => setActiveTab('operations')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
                 activeTab === 'operations'
-                  ? 'orderfi-btn-primary'
-                  : 'text-foreground hover:bg-muted'
+                  ? 'liquid-glass-nav-item-active'
+                  : 'liquid-glass-nav-item'
               }`}
             >
               <Users className="h-4 w-4" />
@@ -228,10 +228,10 @@ export default function DashboardPhase2() {
             </button>
             <button
               onClick={() => setActiveTab('analytics')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
                 activeTab === 'analytics'
-                  ? 'orderfi-btn-primary'
-                  : 'text-foreground hover:bg-muted'
+                  ? 'liquid-glass-nav-item-active'
+                  : 'liquid-glass-nav-item'
               }`}
             >
               <Brain className="h-4 w-4" />
