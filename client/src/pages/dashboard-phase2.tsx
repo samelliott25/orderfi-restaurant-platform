@@ -203,10 +203,10 @@ export default function DashboardPhase2() {
 
         {/* Progressive Disclosure Tabs - Apple Liquid Glass styling */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="liquid-glass-card flex justify-evenly rounded-full p-2 mb-6">
+          <div className="liquid-glass-card grid grid-cols-3 gap-2 rounded-full p-2 mb-6">
             <button
               onClick={() => setActiveTab('executive')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
                 activeTab === 'executive'
                   ? 'liquid-glass-nav-item-active'
                   : 'liquid-glass-nav-item'
@@ -217,7 +217,7 @@ export default function DashboardPhase2() {
             </button>
             <button
               onClick={() => setActiveTab('operations')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
                 activeTab === 'operations'
                   ? 'liquid-glass-nav-item-active'
                   : 'liquid-glass-nav-item'
@@ -228,7 +228,7 @@ export default function DashboardPhase2() {
             </button>
             <button
               onClick={() => setActiveTab('analytics')}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
                 activeTab === 'analytics'
                   ? 'liquid-glass-nav-item-active'
                   : 'liquid-glass-nav-item'
