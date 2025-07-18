@@ -425,22 +425,7 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
 }
 
-/* Override gradient text for better readability */
-.text-gray-900 {
-  background: none !important;
-  -webkit-background-clip: unset !important;
-  -webkit-text-fill-color: unset !important;
-  background-clip: unset !important;
-  color: hsl(220 10% 15%) !important;
-}
 
-.dark .dark\:text-white {
-  background: none !important;
-  -webkit-background-clip: unset !important;
-  -webkit-text-fill-color: unset !important;
-  background-clip: unset !important;
-  color: hsl(210 20% 98%) !important;
-}
 
 /* Unified OrderFi Button System */
 .orderfi-btn {
