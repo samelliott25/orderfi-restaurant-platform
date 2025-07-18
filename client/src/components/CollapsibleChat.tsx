@@ -344,10 +344,10 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
           {/* Chat Card */}
           <div 
             className="fixed inset-4 rounded-2xl shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300 liquid-glass-card"
-            data-testid="chat-gradient-container"
+            data-testid="chat-glassmorphism-container"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-white/10 dark:border-white/5 liquid-glass-card">
+            <div className="flex items-center justify-between p-4 border-b border-white/10 dark:border-white/5">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full liquid-glass-nav-item flex items-center justify-center">
                   <ChefHat className="w-6 h-6 text-slate-900 dark:text-white" />
@@ -378,7 +378,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
             </div>
 
             {/* Category Tabs */}
-            <div className="p-3 border-b border-white/10 dark:border-white/5 liquid-glass-card">
+            <div className="p-3 border-b border-white/10 dark:border-white/5">
               <div className="flex gap-2 overflow-x-auto">
                 {categories.map((category) => (
                   <Button
@@ -516,7 +516,7 @@ export function CollapsibleChat({ className }: CollapsibleChatProps) {
             )}
 
             {/* Input */}
-            <div className="p-4 border-t border-white/10 dark:border-white/5 liquid-glass-card">
+            <div className="p-4 border-t border-white/10 dark:border-white/5">
               <div className="flex gap-2">
                 <Input
                   value={inputMessage}
