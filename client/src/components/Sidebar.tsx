@@ -288,7 +288,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             ref={scrollContainerRef}
             className={`flex-1 overflow-y-auto sidebar-scroll-container ${isCollapsed ? 'py-2' : 'py-4'}`}
           >
-            <nav className="space-y-1 sidebar-nav">
+            <nav className="space-y-1 sidebar-nav px-0">
               {menuItems.map((item) => {
                 const isActive = location === item.href;
                 return (
