@@ -286,9 +286,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           {/* Navigation Items */}
           <div 
             ref={scrollContainerRef}
-            className={`flex-1 overflow-y-auto sidebar-scroll-container ${isCollapsed ? 'py-2' : 'py-4'}`}
+            className={`flex-1 overflow-y-auto sidebar-scroll-container ${isCollapsed ? 'px-2 py-2' : 'px-0 py-4'}`}
           >
-            <nav className="space-y-1 sidebar-nav px-0">
+            <nav className="space-y-1 sidebar-nav">
               {menuItems.map((item) => {
                 const isActive = location === item.href;
                 return (
@@ -306,7 +306,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     }`}
                     title={isCollapsed ? item.label : undefined}
                   >
-                    <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
+                    <item.icon className={`h-5 w-5 flex-shrink-0`} />
+                    {!isCollapsed && <div className="w-3"></div>}
                     {!isCollapsed && <span className="font-medium text-current">{item.label}</span>}
                     {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
                       <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
