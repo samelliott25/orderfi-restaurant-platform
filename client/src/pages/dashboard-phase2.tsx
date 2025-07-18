@@ -174,7 +174,7 @@ export default function DashboardPhase2() {
 
   return (
     <StandardLayout title="Dashboard" subtitle="Mobile-Optimized Restaurant Management">
-        <div className="space-y-8">
+        <div className="space-y-8 animate-fade-in-down">
 
           {/* Status Bar - Unified OrderFi styling */}
           <div className="orderfi-card p-6">
