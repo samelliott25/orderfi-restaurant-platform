@@ -250,7 +250,7 @@ export function OperationalView() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold playwrite-font text-gray-900 dark:text-white">
             Operations Center
           </h2>
           <p className="text-sm text-muted-foreground mt-1">

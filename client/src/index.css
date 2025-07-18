@@ -399,12 +399,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.2;
-  color: hsl(220 10% 20%);
+  color: hsl(220 10% 15%);
 }
 
 /* Dark mode headings */
 .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-  color: hsl(var(--foreground));
+  color: hsl(210 20% 98%);
 }
 
 /* OrderFi Brand Typography - Uses Playwrite AU VIC */
