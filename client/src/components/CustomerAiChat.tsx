@@ -721,29 +721,6 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              {!isMobile && (
-                <button
-                  onClick={toggleSidebarMode}
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(255,255,255,0.2)',
-                    border: '1px solid rgba(255,255,255,0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer'
-                  }}
-                  title={isSidebarMode ? "Float chat" : "Snap to sidebar"}
-                >
-                  {isSidebarMode ? (
-                    <Move className="w-4 h-4 text-white" />
-                  ) : (
-                    <ChevronRight className="w-4 h-4 text-white" />
-                  )}
-                </button>
-              )}
               <button
                 onClick={() => {
                   setIsSidebarMode(true);
