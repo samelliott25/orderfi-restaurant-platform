@@ -298,7 +298,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                     className={`font-medium liquid-glass-nav-item ${
                       isCollapsed 
                         ? 'w-10 h-10 flex items-center justify-center p-2' 
-                        : 'w-full h-12 flex items-center justify-start px-4'
+                        : 'w-full h-11 flex items-center justify-start px-4'
                     } ${
                       isActive 
                         ? "active text-white dark:text-white" 
