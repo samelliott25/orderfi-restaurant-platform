@@ -256,12 +256,26 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               {/* Collapse Button */}
               <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-9 w-9 p-0 text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/20 ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-9 w-9 p-0 text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl transition-all duration-200 flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)'
+                  background: 'transparent',
+                  backdropFilter: 'none',
+                  WebkitBackdropFilter: 'none',
+                  border: '1px solid transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.backdropFilter = 'blur(10px)';
+                  e.currentTarget.style.WebkitBackdropFilter = 'blur(10px)';
+                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.backdropFilter = 'none';
+                  e.currentTarget.style.WebkitBackdropFilter = 'none';
+                  e.currentTarget.style.border = '1px solid transparent';
+                  e.currentTarget.style.boxShadow = 'none';
                 }}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -423,12 +437,26 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Theme Toggle */}
                 <button
                   onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="w-full text-sm font-medium text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl p-2 transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
+                  className="w-full text-sm font-medium text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl p-2 transition-all duration-200 flex items-center justify-center"
                   style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)'
+                    background: 'transparent',
+                    backdropFilter: 'none',
+                    WebkitBackdropFilter: 'none',
+                    border: '1px solid transparent'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.currentTarget.style.backdropFilter = 'blur(10px)';
+                    e.currentTarget.style.WebkitBackdropFilter = 'blur(10px)';
+                    e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.backdropFilter = 'none';
+                    e.currentTarget.style.WebkitBackdropFilter = 'none';
+                    e.currentTarget.style.border = '1px solid transparent';
+                    e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
                   <div className="relative mr-2">
@@ -442,12 +470,26 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Exit App Button */}
                 <button 
                   onClick={() => setShowExitDialog(true)}
-                  className="w-full text-sm font-medium text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl p-2 transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
+                  className="w-full text-sm font-medium text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl p-2 transition-all duration-200 flex items-center justify-center"
                   style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)'
+                    background: 'transparent',
+                    backdropFilter: 'none',
+                    WebkitBackdropFilter: 'none',
+                    border: '1px solid transparent'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.currentTarget.style.backdropFilter = 'blur(10px)';
+                    e.currentTarget.style.WebkitBackdropFilter = 'blur(10px)';
+                    e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.backdropFilter = 'none';
+                    e.currentTarget.style.WebkitBackdropFilter = 'none';
+                    e.currentTarget.style.border = '1px solid transparent';
+                    e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
                   <DoorOpen className="h-4 w-4 mr-2" />
@@ -476,13 +518,27 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 {/* Collapsed Theme Toggle */}
                 <button
                   onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                  className="w-full h-11 p-2 text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl transition-all duration-200 flex items-center justify-center backdrop-blur-sm hover:shadow-md"
+                  className="w-full h-11 p-2 text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl transition-all duration-200 flex items-center justify-center"
                   title="Toggle Theme"
                   style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)'
+                    background: 'transparent',
+                    backdropFilter: 'none',
+                    WebkitBackdropFilter: 'none',
+                    border: '1px solid transparent'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                    e.currentTarget.style.backdropFilter = 'blur(10px)';
+                    e.currentTarget.style.WebkitBackdropFilter = 'blur(10px)';
+                    e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.backdropFilter = 'none';
+                    e.currentTarget.style.WebkitBackdropFilter = 'none';
+                    e.currentTarget.style.border = '1px solid transparent';
+                    e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
                   <div className="relative">
