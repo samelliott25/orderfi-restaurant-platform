@@ -7,7 +7,7 @@ export default {
     extend: {
       fontFamily: {
         'sans': ['Inter', 'system-ui', 'sans-serif'],
-        'brand': ['Comfortaa', 'cursive'],
+        'brand': ['Playwrite AU VIC', 'cursive'],
         'heading': ['Inter', 'system-ui', 'sans-serif'],
         'body': ['Inter', 'system-ui', 'sans-serif'],
         'ui': ['Inter', 'system-ui', 'sans-serif'],
@@ -18,59 +18,44 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         card: {
-          DEFAULT: "var(--card)",
-          foreground: "var(--card-foreground)",
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
         popover: {
-          DEFAULT: "var(--popover)",
-          foreground: "var(--popover-foreground)",
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
-          DEFAULT: "var(--destructive)",
-          foreground: "var(--destructive-foreground)",
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
-        border: "var(--border)",
-        input: "var(--input)",
-        ring: "var(--ring)",
-        // OrderFi Original Orange/Pink palette
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        // OrderFi Gradient Colors
         'orderfi': {
-          'orange': '#ff7e5f',      // Primary orange
-          'pink': '#f53855',        // Primary pink
-          'light-orange': '#ffa500', // Light orange
-          'light-pink': '#ffc0cb',  // Light pink
-          'dark-orange': '#ff5722', // Dark orange
-          'dark-pink': '#e91e63',   // Dark pink
-          'black': '#1e1e2a',       // Structure/text
-          'white': '#ffffff',       // Pure white
-          'gray': '#f5f5f5',        // Background gray
-          'cream': '#ffe6b0',       // Warm cream background
-        },
-        // OrderFi Orange/Pink gradient definitions
-        'gradient': {
-          'primary': 'linear-gradient(135deg, #ff7e5f 0%, #f53855 100%)',
-          'secondary': 'linear-gradient(135deg, #ffa500 0%, #ffc0cb 100%)',
-          'accent': 'linear-gradient(135deg, #ff5722 0%, #e91e63 100%)',
-          'background': 'linear-gradient(135deg, #ffe6b0 0%, #ffffff 100%)',
-          'card': 'radial-gradient(circle at top right, #ffffff 0%, #ffe6b0 100%)',
+          'start': '#F5A623',     // Gold gradient start
+          'mid': '#f97316',       // Orange gradient mid  
+          'end': '#ec4899',       // Pink gradient end
         },
         chart: {
           "1": "var(--chart-1)",

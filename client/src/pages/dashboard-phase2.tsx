@@ -176,24 +176,24 @@ export default function DashboardPhase2() {
     <StandardLayout title="Dashboard" subtitle="Mobile-Optimized Restaurant Management">
         <div className="space-y-8">
 
-          {/* Status Bar - Enhanced with OrderFi Orange/Pink styling */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-orange-100">
+          {/* Status Bar - Unified OrderFi styling */}
+          <div className="orderfi-card p-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-gradient-to-r from-orderfi-orange to-orderfi-pink rounded-full animate-pulse"></div>
-                  <span className="text-lg font-medium text-orderfi-black">System Online</span>
+                  <div className="w-3 h-3 bg-gradient-to-r from-orderfi-start to-orderfi-end rounded-full animate-pulse"></div>
+                  <span className="text-lg font-medium">System Online</span>
                 </div>
-                <div className="text-lg text-orderfi-orange">
+                <div className="text-lg orderfi-gradient-text">
                   Dashboard Active
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <button className="orderfi-btn orderfi-btn-secondary text-sm px-4 py-2">
+                <button className="orderfi-btn orderfi-btn-primary text-sm px-4 py-2">
                   <Bell className="h-4 w-4 mr-2" />
                   {alerts.length} Alerts
                 </button>
-                <button className="bg-orderfi-cream text-orderfi-black px-4 py-2 rounded-full hover:bg-orderfi-light-orange transition-colors">
+                <button className="orderfi-btn bg-secondary text-secondary-foreground px-4 py-2 hover:bg-secondary/80 transition-colors">
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
                 </button>
@@ -201,15 +201,15 @@ export default function DashboardPhase2() {
             </div>
           </div>
 
-        {/* Progressive Disclosure Tabs - Enhanced with OrderFi Orange/Pink styling */}
+        {/* Progressive Disclosure Tabs - Unified OrderFi styling */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="flex space-x-2 bg-white rounded-full p-2 shadow-sm mb-6">
+          <div className="flex space-x-2 bg-card rounded-full p-2 shadow-sm mb-6">
             <button
               onClick={() => setActiveTab('executive')}
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
                 activeTab === 'executive'
-                  ? 'bg-gradient-to-r from-orderfi-orange to-orderfi-pink text-white'
-                  : 'text-orderfi-black hover:bg-orderfi-cream'
+                  ? 'orderfi-btn-primary'
+                  : 'text-foreground hover:bg-muted'
               }`}
             >
               <BarChart3 className="h-4 w-4" />
@@ -219,8 +219,8 @@ export default function DashboardPhase2() {
               onClick={() => setActiveTab('operations')}
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
                 activeTab === 'operations'
-                  ? 'bg-gradient-to-r from-orderfi-orange to-orderfi-pink text-white'
-                  : 'text-orderfi-black hover:bg-orderfi-cream'
+                  ? 'orderfi-btn-primary'
+                  : 'text-foreground hover:bg-muted'
               }`}
             >
               <Users className="h-4 w-4" />
@@ -230,8 +230,8 @@ export default function DashboardPhase2() {
               onClick={() => setActiveTab('analytics')}
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 ${
                 activeTab === 'analytics'
-                  ? 'bg-gradient-to-r from-orderfi-orange to-orderfi-pink text-white'
-                  : 'text-orderfi-black hover:bg-orderfi-cream'
+                  ? 'orderfi-btn-primary'
+                  : 'text-foreground hover:bg-muted'
               }`}
             >
               <Brain className="h-4 w-4" />

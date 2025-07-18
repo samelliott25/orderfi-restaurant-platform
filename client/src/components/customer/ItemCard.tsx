@@ -2,7 +2,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Leaf, Wheat } from 'lucide-react';
-import { GlassMorphismCard } from '@/components/GlassMorphismCard';
 
 interface MenuItem {
   id: number;
@@ -39,17 +38,10 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
                        item.name.toLowerCase().includes('gf');
 
   return (
-    <GlassMorphismCard 
-      className="group cursor-pointer min-h-[320px]"
-      blurIntensity={20}
-      depth={2}
-      enableHover={true}
-      gradient="from-white/25 via-white/15 to-white/10 dark:from-gray-800/30 dark:via-gray-700/20 dark:to-gray-600/10"
-      data-testid={`item-card-${item.id}`}
-    >
+    <div className="orderfi-card group cursor-pointer min-h-[320px]" data-testid={`item-card-${item.id}`}>
       <div onClick={onAddClick} className="relative">
-        {/* Image placeholder with Kleurvörm gradient */}
-        <div className="aspect-[4/3] kleurvorm-accent flex items-center justify-center relative overflow-hidden">
+        {/* Image placeholder with OrderFi gradient */}
+        <div className="aspect-[4/3] bg-gradient-to-br from-orderfi-start/20 to-orderfi-end/20 flex items-center justify-center relative overflow-hidden">
           {item.image_url ? (
             <img 
               src={item.image_url} 
@@ -72,7 +64,7 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
               onAddClick();
             }}
             size="sm"
-            className="bg-white/90 hover:bg-white text-orange-600 hover:text-orange-700 shadow-lg backdrop-blur-sm transform scale-90 group-hover:scale-100 transition-all duration-300 font-semibold"
+            className="orderfi-btn-primary transform scale-90 group-hover:scale-100 transition-all duration-300 font-semibold"
           >
             <Plus className="h-4 w-4 mr-1" />
             Quick Add
@@ -83,17 +75,17 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
       <div className="p-5 space-y-4">
         <div className="space-y-3">
           <div className="flex items-start justify-between">
-            <h3 className="font-bold text-base leading-tight line-clamp-2 text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
+            <h3 className="font-bold text-base leading-tight line-clamp-2 text-foreground group-hover:text-primary transition-colors duration-300">
               {item.name}
             </h3>
             <div className="ml-3 flex-shrink-0">
-              <span className="font-bold text-lg text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 px-3 py-1 rounded-full">
+              <span className="font-bold text-lg orderfi-gradient-text bg-primary/10 px-3 py-1 rounded-full">
                 {formatPrice(item.price)}
               </span>
             </div>
           </div>
           
-          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
+          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
             {item.description}
           </p>
         </div>
@@ -120,12 +112,12 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
               onAddClick();
             }}
             size="sm"
-            className="h-10 w-10 p-0 kleurvorm-secondary hover:scale-110 transition-transform duration-200 shadow-lg"
+            className="orderfi-btn orderfi-btn-primary h-10 w-10 p-0 hover:scale-110 transition-transform duration-200 shadow-lg"
           >
             <Plus className="h-5 w-5" />
           </Button>
         </div>
       </div>
-    </GlassMorphismCard>
+    </div>
   );
 }

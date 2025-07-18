@@ -252,7 +252,7 @@ export default function MobileAppPage() {
                         <span className="text-white font-bold text-lg playwrite-font">O</span>
                       </div>
                       <div>
-                        <h1 className="font-bold text-lg playwrite-font">OrderFi</h1>
+                        <h1 className="font-bold text-lg orderfi-brand">OrderFi</h1>
                         <p className="text-sm text-muted-foreground">Smart Restaurant</p>
                       </div>
                     </div>
@@ -288,7 +288,7 @@ export default function MobileAppPage() {
                       placeholder="Search menu..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                 </div>
@@ -302,8 +302,8 @@ export default function MobileAppPage() {
                         onClick={() => setSelectedCategory(category.id)}
                         className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                           selectedCategory === category.id
-                            ? 'bg-orange-500 text-white'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            ? 'orderfi-btn-primary'
+                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
                         }`}
                       >
                         <span className="mr-2">{category.icon}</span>
