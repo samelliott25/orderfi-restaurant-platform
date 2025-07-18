@@ -203,7 +203,7 @@ export default function DashboardPhase2() {
 
         {/* Progressive Disclosure Tabs - Apple Liquid Glass styling */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="liquid-glass-card grid grid-cols-3 gap-2 rounded-full p-2 mb-6">
+          <div className="liquid-glass-card grid grid-cols-3 rounded-full p-2 mb-6">
             <button
               onClick={() => setActiveTab('executive')}
               className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
