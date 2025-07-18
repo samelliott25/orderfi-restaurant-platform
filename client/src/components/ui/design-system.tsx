@@ -171,11 +171,13 @@ export const OrderFiPageHeader = ({
   className?: string;
 }) => (
   <div className={cn('mb-6 px-4 sm:px-6 pt-4 sm:pt-6', className)}>
-    <BreadcrumbNav />
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <OrderFiHeading level={1}>{title}</OrderFiHeading>
         {subtitle && <OrderFiSubtitle>{subtitle}</OrderFiSubtitle>}
+        <div className="mt-3">
+          <BreadcrumbNav />
+        </div>
       </div>
       {actions && (
         <div className="flex items-center gap-2">

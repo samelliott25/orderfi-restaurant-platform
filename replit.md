@@ -197,6 +197,12 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
 ## Changelog
 
 ```
+- January 18, 2025. BREADCRUMB POSITIONING IMPROVEMENT COMPLETED: Successfully moved breadcrumbs from above headings to under subheadings across all admin pages
+  - Updated OrderFiPageHeader component to position breadcrumbs after subtitle instead of before title
+  - Added proper spacing (mt-3) between subtitle and breadcrumbs for improved visual hierarchy
+  - Applied consistent breadcrumb positioning across all admin pages using StandardLayout
+  - Enhanced user experience with better information architecture following standard UX patterns
+  - User feedback: "cookie crumbs on each page should be positioned under the subheadings instead of above the heading" - successfully implemented
 - January 17, 2025. KDS DARK MODE READABILITY AND FILTER ERROR FIXES COMPLETED: Successfully resolved critical KDS functionality issues and enhanced user experience
   - Fixed JSON parsing errors in calculateUrgencyScore function to handle both string and array formats for order items
   - Corrected parameter order for getStationOrders() function calls preventing filter errors
