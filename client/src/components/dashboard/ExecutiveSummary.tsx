@@ -170,7 +170,7 @@ export function ExecutiveSummary() {
       {/* Header with Real-time Status */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-semibold playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+          <h2 className="text-base font-semibold playwrite-font bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent dark:from-orange-400 dark:to-pink-400">
             Executive Summary
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
