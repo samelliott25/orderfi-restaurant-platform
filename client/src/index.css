@@ -11,6 +11,11 @@
   --orderfi-gradient-mid: #f97316;
   --orderfi-gradient-end: #ec4899;
   
+  /* OrderFi Theme Colors (HSL) */
+  --orderfi-start: 37 87% 54%;
+  --orderfi-mid: 25 95% 53%;
+  --orderfi-end: 330 81% 60%;
+  
   /* Semantic Color System */
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
@@ -35,6 +40,17 @@
 }
 
 .dark {
+  /* Core OrderFi Brand Colors (same in dark mode) */
+  --orderfi-gradient-start: #F5A623;
+  --orderfi-gradient-mid: #f97316;
+  --orderfi-gradient-end: #ec4899;
+  
+  /* OrderFi Theme Colors (HSL) */
+  --orderfi-start: 37 87% 54%;
+  --orderfi-mid: 25 95% 53%;
+  --orderfi-end: 330 81% 60%;
+  
+  /* Dark mode semantic colors */
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
   --card: 222.2 84% 4.9%;
