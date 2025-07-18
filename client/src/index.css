@@ -411,6 +411,10 @@ html, body {
     transition: none !important;
   }
   
+  .hover-float {
+    animation: none !important;
+  }
+  
   * {
     transition: none !important;
   }
@@ -534,6 +538,20 @@ button, .button, input, select, textarea {
   font-family: "Playwrite AU VIC", cursive !important;
   font-weight: 400 !important;
   color: hsl(var(--foreground));
+}
+
+/* OrderFi Logo Animation Effects */
+.gentle-glow {
+  text-shadow: 0 0 20px rgba(245, 166, 35, 0.3), 0 0 40px rgba(245, 166, 35, 0.2);
+}
+
+.hover-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
 }
 
 /* KDS Responsive Grid Layout */
