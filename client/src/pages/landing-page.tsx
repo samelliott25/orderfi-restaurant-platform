@@ -99,15 +99,10 @@ export default function LandingPage() {
           {/* OrderFi Logo - Animated SVG */}
           <div className="relative w-80 h-48 sm:w-88 sm:h-56 md:w-[26rem] md:h-72 flex items-center justify-center animate-fade-in-up">
             <div className="text-center">
-              <div className="text-7xl sm:text-8xl md:text-9xl px-4 py-6 hover-float" style={{
+              <div className="text-7xl sm:text-8xl md:text-9xl px-4 py-6 hover-float orderfi-gradient-text" style={{
                 fontFamily: '"Playwrite AU VIC", cursive',
                 fontWeight: 400,
-                letterSpacing: '-0.02em',
-                background: 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                color: '#F5A623'
+                letterSpacing: '-0.02em'
               }}>
                 OrderFi
               </div>

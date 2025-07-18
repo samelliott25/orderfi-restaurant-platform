@@ -545,6 +545,32 @@ button, .button, input, select, textarea {
   text-shadow: 0 2px 8px rgba(245, 166, 35, 0.15);
 }
 
+/* OrderFi Gradient Text */
+.orderfi-gradient-text {
+  background: linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  /* Fallback for browsers that don't support gradient text */
+  background-size: 200% 100%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Fallback for browsers without gradient text support */
+@supports not (-webkit-background-clip: text) {
+  .orderfi-gradient-text {
+    color: #F5A623;
+    background: none;
+    -webkit-text-fill-color: #F5A623;
+  }
+}
+
 .hover-float {
   animation: float 3s ease-in-out infinite;
 }
