@@ -705,6 +705,68 @@ export async function registerRoutes(app: Express): Promise<void> {
     }
   });
 
+  // AI Conversation Condensing endpoint
+  app.post("/api/ai/condense-conversation", async (req, res) => {
+    try {
+      const { conversation, context = 'restaurant_operations' } = req.body;
+      
+      if (!conversation) {
+        return res.status(400).json({ error: "Conversation text is required" });
+      }
+
+      // Initialize OpenAI with xAI API
+      const openai = new OpenAI({
+        baseURL: "https://api.x.ai/v1",
+        apiKey: process.env.XAI_API_KEY
+      });
+
+      const prompt = `You are an AI assistant specializing in ${context}. 
+      
+Please create a concise summary of the following conversation while preserving key operational insights, decisions, and action items. 
+
+Focus on:
+- Important decisions made
+- Action items and tasks completed
+- Key metrics or performance insights
+- Operational changes or recommendations
+- Customer feedback or issues addressed
+
+Conversation to summarize:
+${conversation}
+
+Provide a structured summary in 2-3 sentences that captures the essential business value and operational context.`;
+
+      const response = await openai.chat.completions.create({
+        model: "grok-2-1212",
+        messages: [
+          {
+            role: "system",
+            content: "You are an expert at condensing restaurant operations conversations while preserving critical business information."
+          },
+          {
+            role: "user",
+            content: prompt
+          }
+        ],
+        max_tokens: 300,
+        temperature: 0.3
+      });
+
+      const summary = response.choices[0].message.content;
+
+      res.json({
+        summary,
+        originalLength: conversation.length,
+        condensedLength: summary?.length || 0,
+        compressionRatio: summary ? Math.round((1 - (summary.length / conversation.length)) * 100) : 0
+      });
+
+    } catch (error) {
+      console.error("Conversation condensing error:", error);
+      res.status(500).json({ error: "Failed to condense conversation" });
+    }
+  });
+
   // AI Menu Image Processing endpoint
   app.post("/api/ai/process-menu", upload.single('image'), async (req, res) => {
     try {

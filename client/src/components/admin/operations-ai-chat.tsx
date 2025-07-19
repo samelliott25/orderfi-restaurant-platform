@@ -2,10 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { useOperationsAi } from "@/contexts/OperationsAiContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import { Badge } from "@/components/ui/badge";
 import { VoiceInput } from "@/components/VoiceInput";
 import { DataProcessor, ProcessedData } from "@/services/dataProcessor";
+import { ChatOpsSettings, ChatOpsSettingsConfig, defaultChatOpsConfig } from "./ChatOpsSettings";
 import { 
   Send, 
   Bot, 
@@ -18,7 +18,10 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
-  Paperclip
+  Paperclip,
+  Archive,
+  Download,
+  User
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { ThreeOrb } from "@/components/ThreeOrb";
@@ -84,6 +87,11 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
   
   const [input, setInput] = useState("");
   const [isDragOver, setIsDragOver] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [chatConfig, setChatConfig] = useState<ChatOpsSettingsConfig>(() => {
+    const saved = localStorage.getItem('chatops-settings');
+    return saved ? JSON.parse(saved) : defaultChatOpsConfig;
+  });
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -99,6 +107,74 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
+
+  // Conversation condensing effect
+  useEffect(() => {
+    if (chatConfig.conversationCondensing !== 'off' && messages.length > chatConfig.maxMessagesPerSession) {
+      condenseConversation();
+    }
+  }, [messages, chatConfig]);
+
+  const condenseConversation = async () => {
+    if (chatConfig.conversationCondensing === 'smart') {
+      // Use AI to create intelligent summary
+      try {
+        const conversationText = messages.slice(0, -20).map(m => `${m.type}: ${m.content}`).join('\n');
+        const response = await apiRequest('/api/ai/condense-conversation', {
+          method: 'POST',
+          body: JSON.stringify({ 
+            conversation: conversationText,
+            context: 'restaurant_operations' 
+          })
+        });
+        
+        const summary = response.summary;
+        const summaryMessage: ChatMessage = {
+          id: `summary-${Date.now()}`,
+          type: 'system',
+          content: `📋 Conversation Summary: ${summary}`,
+          timestamp: new Date()
+        };
+        
+        // Keep last 20 messages + summary
+        setMessages([summaryMessage, ...messages.slice(-20)]);
+      } catch (error) {
+        console.error('Failed to condense conversation:', error);
+        // Fallback to simple truncation
+        setMessages(messages.slice(-chatConfig.maxMessagesPerSession));
+      }
+    } else if (chatConfig.conversationCondensing === 'message-count') {
+      // Simple message count limit
+      setMessages(messages.slice(-chatConfig.condensingInterval));
+    } else if (chatConfig.conversationCondensing === 'time-based') {
+      // Remove messages older than specified hours
+      const cutoffTime = new Date(Date.now() - (chatConfig.condensingInterval * 60 * 60 * 1000));
+      setMessages(messages.filter(m => m.timestamp > cutoffTime));
+    }
+  };
+
+  const handleClearHistory = () => {
+    setMessages([]);
+    localStorage.removeItem('chatops-messages');
+  };
+
+  const handleExportData = () => {
+    const exportData = {
+      messages,
+      settings: chatConfig,
+      exportDate: new Date().toISOString()
+    };
+    
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `chatops-export-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   const simulateTaskExecution = async (task: TaskAction) => {
     setActiveTask({ ...task, status: 'running' });
@@ -389,6 +465,44 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
+      {/* Chat Header with Settings */}
+      <div className="liquid-glass-card flex items-center justify-between p-4 border-b border-white/10">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <ThreeOrb 
+              size={32}
+              color="#f97316"
+              complexity={0.8}
+              speed={1.0}
+              className="animate-spin-slow"
+            />
+          </div>
+          <div>
+            <h3 className="font-semibold text-lg">ChatOps Assistant</h3>
+            <p className="text-sm text-muted-foreground">
+              {chatConfig.conversationCondensing !== 'off' 
+                ? `Auto-condensing every ${chatConfig.condensingInterval} ${chatConfig.conversationCondensing === 'time-based' ? 'hours' : 'messages'}`
+                : 'No auto-condensing'
+              }
+            </p>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="text-xs">
+            {messages.length} messages
+          </Badge>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowSettings(true)}
+            className="liquid-glass-nav-item"
+          >
+            <Settings className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
       {/* Active Task Display */}
       {activeTask && (
         <div className="p-3 bg-primary/5 border-b border-primary/20">
@@ -401,7 +515,196 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
         </div>
       )}
 
-      {/* Operations AI functionality removed - now handled by bottom chat interface */}
+      {/* Messages Area */}
+      <div className="flex-1 overflow-hidden flex flex-col">
+        <div 
+          ref={scrollAreaRef}
+          className="flex-1 overflow-y-auto p-4 space-y-4"
+        >
+          {messages.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
+              <div className="text-6xl">🤖</div>
+              <div>
+                <h3 className="text-lg font-medium mb-2">Welcome to ChatOps</h3>
+                <p className="text-muted-foreground mb-4">
+                  I'm your AI assistant for restaurant operations. I can help with reports, analytics, scheduling, and more.
+                </p>
+              </div>
+              
+              {/* Suggested Tasks */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-2xl">
+                {suggestedTasks.map((task, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSuggestedTask(task)}
+                    className="liquid-glass-card p-4 text-left hover:scale-105 transition-all duration-200"
+                  >
+                    <div className="flex items-center gap-3">
+                      <task.icon className="h-6 w-6 text-orange-500" />
+                      <div>
+                        <h4 className="font-medium text-sm">{task.title}</h4>
+                        <p className="text-xs text-muted-foreground">{task.description}</p>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex gap-3 ${
+                  message.type === 'user' ? 'flex-row-reverse' : 'flex-row'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  message.type === 'user' 
+                    ? 'bg-orange-500 text-white' 
+                    : message.type === 'system'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-500 text-white'
+                }`}>
+                  {message.type === 'user' ? (
+                    <User className="w-4 h-4" />
+                  ) : message.type === 'system' ? (
+                    <Archive className="w-4 h-4" />
+                  ) : (
+                    <Bot className="w-4 h-4" />
+                  )}
+                </div>
+                
+                <div className={`flex-1 max-w-[80%] ${
+                  message.type === 'user' ? 'text-right' : 'text-left'
+                }`}>
+                  <div className={`liquid-glass-card p-3 ${
+                    message.type === 'user' 
+                      ? 'bg-orange-500/10 border-orange-500/20' 
+                      : message.type === 'system'
+                      ? 'bg-blue-500/10 border-blue-500/20'
+                      : 'bg-white/5 border-white/10'
+                  }`}>
+                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    
+                    {/* File Previews */}
+                    {message.filePreviews && message.filePreviews.length > 0 && (
+                      <div className="mt-3 grid grid-cols-2 gap-2">
+                        {message.filePreviews.map((preview, index) => (
+                          <img
+                            key={index}
+                            src={preview}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-20 object-cover rounded border"
+                          />
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Status Icon */}
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-xs text-muted-foreground">
+                        {message.timestamp.toLocaleTimeString()}
+                      </span>
+                      {getStatusIcon(message.status)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+          
+          {isLoading && (
+            <div className="flex gap-3">
+              <div className="w-8 h-8 rounded-full bg-gray-500 text-white flex items-center justify-center">
+                <Bot className="w-4 h-4" />
+              </div>
+              <div className="liquid-glass-card p-3 bg-white/5 border-white/10">
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span className="text-sm">Thinking...</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Input Area */}
+      <div className="p-4 border-t border-white/10">
+        <div className="flex gap-2">
+          <div className="flex-1 flex gap-2">
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              placeholder="Ask me anything about restaurant operations..."
+              className="flex-1"
+              disabled={isLoading}
+            />
+            
+            {/* File Upload */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              onChange={handleFileInputChange}
+              className="hidden"
+              accept="image/*,.csv,.json,.txt,.pdf"
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isLoading}
+            >
+              <Paperclip className="h-4 w-4" />
+            </Button>
+            
+            {/* Voice Input */}
+            <VoiceInput 
+              onResult={(text) => {
+                setInput(text);
+                // Auto-send if enabled in settings
+                if (chatConfig.voiceEnabled) {
+                  setTimeout(() => handleSendMessage(), 500);
+                }
+              }}
+              disabled={isLoading}
+            />
+          </div>
+          
+          <Button 
+            onClick={handleSendMessage}
+            disabled={!input.trim() || isLoading}
+            className="bg-orange-500 hover:bg-orange-600"
+          >
+            <Send className="h-4 w-4" />
+          </Button>
+        </div>
+        
+        <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground">
+          <span>
+            Model: {chatConfig.aiModel} • Style: {chatConfig.responseStyle}
+          </span>
+          <span>
+            {chatConfig.conversationCondensing !== 'off' && (
+              <Badge variant="outline" className="text-xs">
+                Auto-condensing enabled
+              </Badge>
+            )}
+          </span>
+        </div>
+      </div>
+
+      {/* Settings Panel */}
+      <ChatOpsSettings
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        config={chatConfig}
+        onConfigChange={setChatConfig}
+        onClearHistory={handleClearHistory}
+        onExportData={handleExportData}
+      />
     </div>
   );
 }
