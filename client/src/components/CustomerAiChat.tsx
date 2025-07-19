@@ -184,6 +184,7 @@ import {
   ChevronRight,
   Move
 } from 'lucide-react';
+import { ChatOpsSettings, ChatOpsSettingsConfig, defaultChatOpsConfig } from '@/components/admin/ChatOpsSettings';
 
 // Move component definition before main component
 const SuggestionChips = React.memo(({ chatContext, messages, chatState, setChatState }: {
@@ -391,6 +392,8 @@ export function CustomerAiChat({ isOpen, onToggle }: CustomerAiChatProps) {
   const [isOpening, setIsOpening] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState('64px');
   const [isMobile, setIsMobile] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [chatConfig, setChatConfig] = useState<ChatOpsSettingsConfig>(defaultChatOpsConfig);
   // Removed shouldAnimate to prevent page change animations
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
@@ -742,7 +745,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                 <Minus className="w-4 h-4 text-white" />
               </button>
               <button
-                onClick={handleClose}
+                onClick={() => setShowSettings(true)}
                 style={{
                   width: '32px',
                   height: '32px',
@@ -754,8 +757,9 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                   justifyContent: 'center',
                   cursor: 'pointer'
                 }}
+                title="ChatOps Settings"
               >
-                <X className="w-4 h-4 text-white" />
+                <Settings className="w-4 h-4 text-white" />
               </button>
             </div>
           </div>
@@ -931,6 +935,75 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
         </div>
       </div>
       </div>
+
+      {/* ChatOps Settings Modal */}
+      {showSettings && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10000
+          }}
+          onClick={() => setShowSettings(false)}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '90%',
+              maxWidth: '600px',
+              maxHeight: '80vh',
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              overflow: 'hidden'
+            }}
+          >
+            <div style={{
+              padding: '16px 20px',
+              borderBottom: '1px solid #e5e7eb',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '600', color: '#111827' }}>
+                ChatOps Settings
+              </h3>
+              <button
+                onClick={() => setShowSettings(false)}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  color: '#6b7280'
+                }}
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div style={{ maxHeight: 'calc(80vh - 80px)', overflow: 'auto' }}>
+              <ChatOpsSettings
+                config={chatConfig}
+                onConfigChange={setChatConfig}
+                onClose={() => setShowSettings(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
