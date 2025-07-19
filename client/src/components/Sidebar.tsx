@@ -195,7 +195,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className={`liquid-glass-header ${isCollapsed ? 'p-3' : 'px-6 py-5'}`}>
+          <div className={`liquid-glass-header sidebar-header-dropdown ${isCollapsed ? 'p-3' : 'px-6 py-5'}`}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">

@@ -585,6 +585,22 @@ button, .button, input, select, textarea {
   50% { transform: translateY(-5px); }
 }
 
+/* Smooth Dropdown Animation for Sidebar Header */
+@keyframes dropdown-slide {
+  0% { 
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.sidebar-header-dropdown {
+  animation: dropdown-slide 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 /* KDS Responsive Grid Layout */
 .kds-orders-grid {
   display: grid;
