@@ -767,9 +767,20 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
 
         {/* Messages */}
         <div style={{ flex: 1, overflow: 'hidden', padding: '12px 16px', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-          <ScrollArea ref={scrollAreaRef} className="flex-1">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', minHeight: '100%' }}>
-              {messages.map((message) => (
+          {showSettings ? (
+            // Settings Panel
+            <div style={{ flex: 1, overflow: 'auto' }}>
+              <ChatOpsSettings
+                config={chatConfig}
+                onConfigChange={setChatConfig}
+                onClose={() => setShowSettings(false)}
+              />
+            </div>
+          ) : (
+            // Messages Area
+            <ScrollArea ref={scrollAreaRef} className="flex-1">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', minHeight: '100%' }}>
+                {messages.map((message) => (
                 <div
                   key={message.id}
                   style={{
@@ -828,22 +839,26 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                   </div>
                 </div>
               )}
-            </div>
-          </ScrollArea>
+              </div>
+            </ScrollArea>
+          )}
         </div>
 
-        {/* Suggestion Chips */}
-        <div style={{ flexShrink: 0 }}>
-          <SuggestionChips 
-            chatContext={chatContext}
-            messages={messages}
-            chatState={chatState}
-            setChatState={setChatState}
-          />
-        </div>
+        {/* Suggestion Chips - only show when not in settings */}
+        {!showSettings && (
+          <div style={{ flexShrink: 0 }}>
+            <SuggestionChips 
+              chatContext={chatContext}
+              messages={messages}
+              chatState={chatState}
+              setChatState={setChatState}
+            />
+          </div>
+        )}
 
-        {/* Input */}
-        <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)', flexShrink: 0 }}>
+        {/* Input - only show when not in settings */}
+        {!showSettings && (
+          <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.2)', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ flex: 1, position: 'relative' }}>
               <div 
@@ -933,77 +948,9 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
             </button>
           </div>
         </div>
+        )}
       </div>
       </div>
-
-      {/* ChatOps Settings Modal */}
-      {showSettings && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            backdropFilter: 'blur(4px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10000
-          }}
-          onClick={() => setShowSettings(false)}
-        >
-          <div 
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              width: '90%',
-              maxWidth: '600px',
-              maxHeight: '80vh',
-              backgroundColor: 'white',
-              borderRadius: '12px',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-              overflow: 'hidden'
-            }}
-          >
-            <div style={{
-              padding: '16px 20px',
-              borderBottom: '1px solid #e5e7eb',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}>
-              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '600', color: '#111827' }}>
-                ChatOps Settings
-              </h3>
-              <button
-                onClick={() => setShowSettings(false)}
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  color: '#6b7280'
-                }}
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div style={{ maxHeight: 'calc(80vh - 80px)', overflow: 'auto' }}>
-              <ChatOpsSettings
-                config={chatConfig}
-                onConfigChange={setChatConfig}
-                onClose={() => setShowSettings(false)}
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
