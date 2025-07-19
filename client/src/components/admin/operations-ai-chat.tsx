@@ -176,6 +176,8 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
     URL.revokeObjectURL(url);
   };
 
+  // This function is defined later in the component
+
   const simulateTaskExecution = async (task: TaskAction) => {
     setActiveTask({ ...task, status: 'running' });
     

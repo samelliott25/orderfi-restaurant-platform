@@ -36,19 +36,24 @@ import {
   Minus,
   Calendar as CalendarIcon,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  MessageSquare,
+  X
 } from "lucide-react";
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { format, addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 import { useChatContext } from '@/contexts/ChatContext';
 import type { LayoutSuggestion } from '@/hooks/useLayoutOptimization';
+import { OperationsAiChat } from '@/components/admin/operations-ai-chat';
+import { ThreeOrb } from '@/components/ThreeOrb';
 
 export default function RestaurantDashboard() {
   const { isSidebarMode, isOpen } = useChatContext();
   // Removed currentTime state to prevent unnecessary refreshes
   const [selectedTimeframe, setSelectedTimeframe] = useState("today");
   const [chartTimeframe, setChartTimeframe] = useState("1H");
+  const [showChatOps, setShowChatOps] = useState(false);
   const [layoutConfig, setLayoutConfig] = useState({
     gridCols: 'grid-cols-1 md:grid-cols-2 xl:grid-cols-4',
     chartHeight: 'h-96',
@@ -1202,6 +1207,54 @@ export default function RestaurantDashboard() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Floating ChatOps Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <button
+          onClick={() => setShowChatOps(true)}
+          className="relative group"
+          title="Open ChatOps Assistant"
+        >
+          <ThreeOrb 
+            size={64}
+            color="#f97316"
+            complexity={0.8}
+            speed={1.0}
+            className="transform transition-all duration-300 hover:scale-110"
+          />
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <MessageSquare className="h-6 w-6 text-white opacity-80" />
+          </div>
+          <div className="absolute -top-2 -right-2 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold animate-pulse">
+            AI
+          </div>
+        </button>
+      </div>
+
+      {/* ChatOps Overlay Modal */}
+      {showChatOps && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowChatOps(false)}
+          />
+          
+          {/* ChatOps Panel */}
+          <div className="relative w-full max-w-4xl h-[600px] max-h-[80vh] bg-background border border-border rounded-lg shadow-2xl overflow-hidden">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowChatOps(false)}
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+            
+            {/* ChatOps Interface */}
+            <OperationsAiChat onDataUpdate={() => {}} />
+          </div>
+        </div>
+      )}
     </StandardLayout>
   );
 }
