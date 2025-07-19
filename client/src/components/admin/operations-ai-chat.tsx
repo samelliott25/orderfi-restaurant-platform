@@ -108,50 +108,12 @@ export function OperationsAiChat({ onDataUpdate }: OperationsAiChatProps) {
     }
   }, [messages]);
 
-  // Conversation condensing effect
+  // Simple message limit to keep chat performant
   useEffect(() => {
-    if (chatConfig.conversationCondensing !== 'off' && messages.length > chatConfig.maxMessagesPerSession) {
-      condenseConversation();
+    if (messages.length > 100) {
+      setMessages(messages.slice(-50)); // Keep last 50 messages
     }
-  }, [messages, chatConfig]);
-
-  const condenseConversation = async () => {
-    if (chatConfig.conversationCondensing === 'smart') {
-      // Use AI to create intelligent summary
-      try {
-        const conversationText = messages.slice(0, -20).map(m => `${m.type}: ${m.content}`).join('\n');
-        const response = await apiRequest('/api/ai/condense-conversation', {
-          method: 'POST',
-          body: JSON.stringify({ 
-            conversation: conversationText,
-            context: 'restaurant_operations' 
-          })
-        });
-        
-        const summary = response.summary;
-        const summaryMessage: ChatMessage = {
-          id: `summary-${Date.now()}`,
-          type: 'system',
-          content: `📋 Conversation Summary: ${summary}`,
-          timestamp: new Date()
-        };
-        
-        // Keep last 20 messages + summary
-        setMessages([summaryMessage, ...messages.slice(-20)]);
-      } catch (error) {
-        console.error('Failed to condense conversation:', error);
-        // Fallback to simple truncation
-        setMessages(messages.slice(-chatConfig.maxMessagesPerSession));
-      }
-    } else if (chatConfig.conversationCondensing === 'message-count') {
-      // Simple message count limit
-      setMessages(messages.slice(-chatConfig.condensingInterval));
-    } else if (chatConfig.conversationCondensing === 'time-based') {
-      // Remove messages older than specified hours
-      const cutoffTime = new Date(Date.now() - (chatConfig.condensingInterval * 60 * 60 * 1000));
-      setMessages(messages.filter(m => m.timestamp > cutoffTime));
-    }
-  };
+  }, [messages]);
 
   const handleClearHistory = () => {
     setMessages([]);
@@ -497,10 +459,16 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setShowSettings(true)}
+            onClick={() => setShowSettings(!showSettings)}
             className="liquid-glass-nav-item"
           >
-            <Settings className="h-4 w-4" />
+            {showSettings ? (
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <Settings className="h-4 w-4" />
+            )}
           </Button>
         </div>
       </div>
@@ -699,14 +667,13 @@ I've updated your dashboard with this real data. ${dataFiles.length > 1 ? `I can
       </div>
 
       {/* Settings Panel */}
-      <ChatOpsSettings
-        isOpen={showSettings}
-        onClose={() => setShowSettings(false)}
-        config={chatConfig}
-        onConfigChange={setChatConfig}
-        onClearHistory={handleClearHistory}
-        onExportData={handleExportData}
-      />
+      {showSettings && (
+        <ChatOpsSettings
+          config={chatConfig}
+          onConfigChange={setChatConfig}
+          onClose={() => setShowSettings(false)}
+        />
+      )}
     </div>
   );
 }
