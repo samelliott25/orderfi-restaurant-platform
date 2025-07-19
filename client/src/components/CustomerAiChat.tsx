@@ -745,21 +745,25 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
                 <Minus className="w-4 h-4 text-white" />
               </button>
               <button
-                onClick={() => setShowSettings(true)}
+                onClick={() => setShowSettings(!showSettings)}
                 style={{
                   width: '32px',
                   height: '32px',
                   borderRadius: '50%',
-                  backgroundColor: 'rgba(255,255,255,0.2)',
+                  backgroundColor: showSettings ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.2)',
                   border: '1px solid rgba(255,255,255,0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer'
                 }}
-                title="ChatOps Settings"
+                title={showSettings ? "Back to Chat" : "ChatOps Settings"}
               >
-                <Settings className="w-4 h-4 text-white" />
+                {showSettings ? (
+                  <X className="w-4 h-4 text-white" />
+                ) : (
+                  <Settings className="w-4 h-4 text-white" />
+                )}
               </button>
             </div>
           </div>
