@@ -1,0 +1,81 @@
+ADA,
+
+As your prompt engineer and guide, I'm tasking you with implementing functional settings for the ChatOps AI messenger in our personal Replit project, OrderFi. The ChatOps sidebar is already a great conversational tool for kitchen ops, but adding in-chat configurable settings (e.g., via commands like "/settings notifications") will make it more adaptive and user-owned—controlling notifications to avoid fatigue, selecting AI models for task optimization, and tweaking preferences for personalization. This draws from ChatOps best practices for customizable UIs, ensuring quick tweaks without leaving the chat flow.
+
+Reference the existing codebase (likely HTML/CSS/JS in Replit; confirm via the editor). Your objective: Add 8 targeted settings options, accessible via a "/settings" command parser, with interactive responses (e.g., buttons or prompts). Use the internet for best practices (e.g., search "JavaScript command parsers for chatbots" or "localStorage for user prefs") and leverage the Grok API if needed for mock AI model simulations. Prioritize accessibility (e.g., ARIA for interactive elements) and persistence (store in localStorage).
+
+Work on a new branch named chatops-settings-v1, commit with clear messages (e.g., "Add notification frequency setting"), and keep the app deployable to the /kds endpoint. If adding chat UI enhancements (e.g., BotUI via CDN), install compatibly.
+
+1: Implement Notification Frequency Setting
+Rationale: Users can adjust alert cadence to match shift intensity, reducing overload in busy kitchens per UX guidelines.
+
+Target: Chat input parser and user prefs storage.
+Steps:
+In JS: Add command handler: if (input.startsWith('/settings notifications frequency')) { const option = input.split(' ').pop(); if (['high', 'medium', 'low', 'mute'].includes(option)) { localStorage.setItem('notifyFreq', option); bot.respond(Frequency set to ${option}.); } else { bot.respond('Invalid: high/medium/low/mute'); } }.
+Integrate: In notification logic, filter sends: if (localStorage.getItem('notifyFreq') === 'low' && !isCritical) return; (default 'medium').
+UI: Respond with options list or buttons if using BotUI.
+Test: Send mock alerts; change to 'mute' and confirm suppression.
+2: Add Alert Types Toggle
+Rationale: Filtering by category ensures relevance, like only order pings for chefs, aligning with focused ChatOps designs.
+
+Target: Settings command extension.
+Steps:
+In JS: Extend parser: /settings notifications types [type] [on/off], e.g., toggle array in localStorage: let types = JSON.parse(localStorage.getItem('alertTypes') || '["orders","inventory"]'); if (on) types.push(type); else types = types.filter(t => t !== type); localStorage.setItem('alertTypes', JSON.stringify(types));.
+Integrate: Before notifying: if (!JSON.parse(localStorage.getItem('alertTypes')).includes(alertType)) skip;.
+UI: List current toggles in response: "Orders: on, Inventory: off".
+Test: Toggle 'inventory' off; send stock alert and verify it's skipped.
+3: Enable Sound/Volume Controls
+Rationale: Custom audio respects noisy environments and accessibility needs.
+
+Target: Audio integration in chat.
+Steps:
+In JS: Parser for /settings notifications sound [on/off/volume N]: if (volume) localStorage.setItem('soundVolume', parseInt(N)); else localStorage.setItem('soundEnabled', onOff);.
+Integrate: In audio play: if (localStorage.getItem('soundEnabled') === 'off') return; audio.volume = localStorage.getItem('soundVolume') / 100 || 0.7;.
+UI: Confirm: "Sound set to 50% volume."
+Test: Adjust to 30%; play chime and check volume change.
+4: Implement AI Model Choice
+Rationale: Switching models optimizes for speed vs. depth, like in multi-model AI apps.
+
+Target: Bot query routing.
+Steps:
+In JS: /settings ai model [fast/advanced/custom]: localStorage.setItem('aiModel', option); bot.respond(Model set to ${option}.);.
+Integrate: In query handler: const model = localStorage.getItem('aiModel') || 'fast';—mock responses longer for 'advanced'.
+UI: List options in help response.
+Test: Switch to 'advanced'; query and confirm simulated detailed output.
+5: Add Auto-Model Selection Toggle
+Rationale: Automatic adaptation enhances responsiveness with user override.
+
+Target: Query preprocessing.
+Steps:
+In JS: /settings ai auto [on/off]: localStorage.setItem('autoModel', onOff);.
+Integrate: if (localStorage.getItem('autoModel') === 'on' && input.length > 50) model = 'advanced';.
+UI: "Auto-model enabled."
+Test: Toggle on; short query uses 'fast', long uses 'advanced'.
+6: Set Chat Language/Tone Preferences
+Rationale: Supports diverse teams and sets bot vibe for better engagement.
+
+Target: System prompt modifier.
+Steps:
+In JS: /settings language [english/spanish] or /settings tone [professional/casual/concise]: Store in localStorage.
+Integrate: Append to bot prompts: Respond in ${localStorage.getItem('language')} with ${localStorage.getItem('tone')} tone..
+UI: Confirm and sample response.
+Test: Set to 'casual'; query and check informal reply.
+7: Configure Response Length
+Rationale: Balances brevity for quick reads vs. detail for clarity.
+
+Target: Response generation.
+Steps:
+In JS: /settings response [short/detailed]: localStorage.setItem('responseLength', option);.
+Integrate: If 'short', truncate: response = response.slice(0, 100) + '...';.
+UI: "Responses set to short."
+Test: Toggle 'short'; long query returns summary.
+8: Add Reset to Defaults
+Rationale: Quick recovery empowers users if settings misfire.
+
+Target: Global settings handler.
+Steps:
+In JS: /settings reset: bot.respond('Confirm? [Yes/No]'); On yes: localStorage.clear(); location.reload();.
+Integrate: Clear only userPrefs keys if scoped.
+UI: Interactive yes/no buttons.
+Test: Set prefs, reset, confirm defaults restored.
+After implementing, deploy the branch and share the preview URL. If blockers (e.g., parser conflicts), report back. This will make ChatOps in OrderFi truly customizable—adaptive and efficient!

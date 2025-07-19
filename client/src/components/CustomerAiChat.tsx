@@ -186,6 +186,212 @@ import {
 } from 'lucide-react';
 import { ChatOpsSettings, ChatOpsSettingsConfig, defaultChatOpsConfig } from '@/components/admin/ChatOpsSettings';
 
+// Settings storage keys
+const SETTINGS_KEYS = {
+  notifyFreq: 'chatops_notify_freq',
+  alertTypes: 'chatops_alert_types',
+  soundEnabled: 'chatops_sound_enabled',
+  soundVolume: 'chatops_sound_volume',
+  aiModel: 'chatops_ai_model',
+  autoModel: 'chatops_auto_model',
+  language: 'chatops_language',
+  tone: 'chatops_tone',
+  responseLength: 'chatops_response_length'
+};
+
+// Default settings
+const DEFAULT_SETTINGS = {
+  notifyFreq: 'medium',
+  alertTypes: ['orders', 'inventory'],
+  soundEnabled: 'on',
+  soundVolume: 70,
+  aiModel: 'fast',
+  autoModel: 'on',
+  language: 'english',
+  tone: 'professional',
+  responseLength: 'detailed'
+};
+
+// Command parser for settings
+const parseSettingsCommand = (input: string): { success: boolean; response: string; } => {
+  const parts = input.toLowerCase().split(' ');
+  
+  // Handle base /settings command
+  if (input.trim() === '/settings') {
+    return {
+      success: true,
+      response: `⚙️ **ChatOps Settings Commands:**
+
+📢 **Notifications:**
+• \`/settings notifications frequency [high/medium/low/mute]\` - Set alert frequency
+• \`/settings notifications types [orders/inventory/alerts] [on/off]\` - Toggle alert types
+• \`/settings notifications sound [on/off/volume N]\` - Control sound alerts
+
+🤖 **AI Model:**
+• \`/settings ai model [fast/advanced/custom]\` - Choose AI model
+• \`/settings ai auto [on/off]\` - Enable auto-model selection
+• \`/settings language [english/spanish]\` - Set language
+• \`/settings tone [professional/casual/concise]\` - Set response tone
+• \`/settings response [short/detailed]\` - Set response length
+
+🔄 **Reset:**
+• \`/settings reset\` - Reset all settings to defaults
+
+Type any command to configure your ChatOps experience!`
+    };
+  }
+
+  // Parse notification frequency
+  if (parts[0] === '/settings' && parts[1] === 'notifications' && parts[2] === 'frequency') {
+    const option = parts[3];
+    if (['high', 'medium', 'low', 'mute'].includes(option)) {
+      localStorage.setItem(SETTINGS_KEYS.notifyFreq, option);
+      return { success: true, response: `✅ Notification frequency set to **${option}**.` };
+    } else {
+      return { success: false, response: '❌ Invalid option. Use: high/medium/low/mute' };
+    }
+  }
+
+  // Parse alert types toggle
+  if (parts[0] === '/settings' && parts[1] === 'notifications' && parts[2] === 'types') {
+    const type = parts[3];
+    const action = parts[4];
+    
+    if (!['orders', 'inventory', 'alerts'].includes(type)) {
+      return { success: false, response: '❌ Invalid type. Use: orders/inventory/alerts' };
+    }
+    
+    if (!['on', 'off'].includes(action)) {
+      return { success: false, response: '❌ Invalid action. Use: on/off' };
+    }
+    
+    let types = JSON.parse(localStorage.getItem(SETTINGS_KEYS.alertTypes) || JSON.stringify(DEFAULT_SETTINGS.alertTypes));
+    
+    if (action === 'on' && !types.includes(type)) {
+      types.push(type);
+    } else if (action === 'off') {
+      types = types.filter((t: string) => t !== type);
+    }
+    
+    localStorage.setItem(SETTINGS_KEYS.alertTypes, JSON.stringify(types));
+    return { success: true, response: `✅ ${type} alerts turned **${action}**. Active: ${types.join(', ')}` };
+  }
+
+  // Parse sound controls
+  if (parts[0] === '/settings' && parts[1] === 'notifications' && parts[2] === 'sound') {
+    const option = parts[3];
+    
+    if (option === 'on' || option === 'off') {
+      localStorage.setItem(SETTINGS_KEYS.soundEnabled, option);
+      return { success: true, response: `✅ Sound notifications **${option}**.` };
+    } else if (option === 'volume' && parts[4]) {
+      const volume = parseInt(parts[4]);
+      if (volume >= 0 && volume <= 100) {
+        localStorage.setItem(SETTINGS_KEYS.soundVolume, volume.toString());
+        return { success: true, response: `✅ Sound volume set to **${volume}%**.` };
+      } else {
+        return { success: false, response: '❌ Volume must be between 0-100' };
+      }
+    } else {
+      return { success: false, response: '❌ Use: on/off or volume [0-100]' };
+    }
+  }
+
+  // Parse AI model selection
+  if (parts[0] === '/settings' && parts[1] === 'ai' && parts[2] === 'model') {
+    const model = parts[3];
+    if (['fast', 'advanced', 'custom'].includes(model)) {
+      localStorage.setItem(SETTINGS_KEYS.aiModel, model);
+      return { success: true, response: `✅ AI model set to **${model}**.` };
+    } else {
+      return { success: false, response: '❌ Invalid model. Use: fast/advanced/custom' };
+    }
+  }
+
+  // Parse auto-model toggle
+  if (parts[0] === '/settings' && parts[1] === 'ai' && parts[2] === 'auto') {
+    const option = parts[3];
+    if (['on', 'off'].includes(option)) {
+      localStorage.setItem(SETTINGS_KEYS.autoModel, option);
+      return { success: true, response: `✅ Auto-model selection **${option}**.` };
+    } else {
+      return { success: false, response: '❌ Use: on/off' };
+    }
+  }
+
+  // Parse language setting
+  if (parts[0] === '/settings' && parts[1] === 'language') {
+    const language = parts[2];
+    if (['english', 'spanish'].includes(language)) {
+      localStorage.setItem(SETTINGS_KEYS.language, language);
+      return { success: true, response: `✅ Language set to **${language}**.` };
+    } else {
+      return { success: false, response: '❌ Supported languages: english/spanish' };
+    }
+  }
+
+  // Parse tone setting
+  if (parts[0] === '/settings' && parts[1] === 'tone') {
+    const tone = parts[2];
+    if (['professional', 'casual', 'concise'].includes(tone)) {
+      localStorage.setItem(SETTINGS_KEYS.tone, tone);
+      return { success: true, response: `✅ Response tone set to **${tone}**.` };
+    } else {
+      return { success: false, response: '❌ Available tones: professional/casual/concise' };
+    }
+  }
+
+  // Parse response length
+  if (parts[0] === '/settings' && parts[1] === 'response') {
+    const length = parts[2];
+    if (['short', 'detailed'].includes(length)) {
+      localStorage.setItem(SETTINGS_KEYS.responseLength, length);
+      return { success: true, response: `✅ Response length set to **${length}**.` };
+    } else {
+      return { success: false, response: '❌ Options: short/detailed' };
+    }
+  }
+
+  // Parse reset command
+  if (parts[0] === '/settings' && parts[1] === 'reset') {
+    // Clear all settings
+    Object.values(SETTINGS_KEYS).forEach(key => {
+      localStorage.removeItem(key);
+    });
+    return { success: true, response: `✅ All settings reset to defaults. Use \`/settings\` to see available options.` };
+  }
+
+  return { success: false, response: '❌ Unknown command. Type `/settings` for help.' };
+};
+
+// Notification filtering logic
+const shouldShowNotification = (notificationType: string, isCritical: boolean = false): boolean => {
+  const notifyFreq = localStorage.getItem(SETTINGS_KEYS.notifyFreq) || DEFAULT_SETTINGS.notifyFreq;
+  const alertTypes = JSON.parse(localStorage.getItem(SETTINGS_KEYS.alertTypes) || JSON.stringify(DEFAULT_SETTINGS.alertTypes));
+  
+  // Check if notification type is enabled
+  if (!alertTypes.includes(notificationType)) return false;
+  
+  // Check frequency settings
+  if (notifyFreq === 'mute') return false;
+  if (notifyFreq === 'low' && !isCritical) return false;
+  
+  return true;
+};
+
+// Audio notification function
+const playNotificationSound = (volume?: number): void => {
+  const soundEnabled = localStorage.getItem(SETTINGS_KEYS.soundEnabled) || DEFAULT_SETTINGS.soundEnabled;
+  const soundVolume = parseInt(localStorage.getItem(SETTINGS_KEYS.soundVolume) || DEFAULT_SETTINGS.soundVolume.toString());
+  
+  if (soundEnabled === 'off') return;
+  
+  // Create audio notification (basic implementation)
+  const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSyAzvLZjj0JFmS57+OZSA0PVqzn7q9gHAU9k9nwyJFCDBdpvO3nmmEhAIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSyAzvLZjj0JFmS57+OZSA0PVqzn7q9gHAU9k9nwyJFCDBdpvO3nmmEhAA==');
+  audio.volume = (volume || soundVolume) / 100;
+  audio.play().catch(() => {}); // Ignore errors if audio can't play
+};
+
 // Move component definition before main component
 const SuggestionChips = React.memo(({ chatContext, messages, chatState, setChatState }: {
   chatContext: 'customer' | 'onboarding' | 'operations';
@@ -588,12 +794,72 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
     setChatState(newState);
     setIsLoading(true);
 
-    // Simulate AI response
+    // Check if it's a settings command
+    if (inputValue.startsWith('/settings')) {
+      const commandResult = parseSettingsCommand(inputValue);
+      
+      const settingsResponse: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: commandResult.response,
+        timestamp: new Date(),
+        status: 'sent'
+      };
+      
+      const finalState = {
+        ...newState,
+        messages: [...newState.messages, settingsResponse]
+      };
+      setChatState(finalState);
+      setIsLoading(false);
+      return;
+    }
+
+    // Apply user settings to modify AI behavior
+    const aiModel = localStorage.getItem(SETTINGS_KEYS.aiModel) || DEFAULT_SETTINGS.aiModel;
+    const autoModel = localStorage.getItem(SETTINGS_KEYS.autoModel) || DEFAULT_SETTINGS.autoModel;
+    const language = localStorage.getItem(SETTINGS_KEYS.language) || DEFAULT_SETTINGS.language;
+    const tone = localStorage.getItem(SETTINGS_KEYS.tone) || DEFAULT_SETTINGS.tone;
+    const responseLength = localStorage.getItem(SETTINGS_KEYS.responseLength) || DEFAULT_SETTINGS.responseLength;
+
+    // Auto-model selection based on input length
+    let selectedModel = aiModel;
+    if (autoModel === 'on' && inputValue.length > 50) {
+      selectedModel = 'advanced';
+    }
+
+    // Simulate AI response with settings applied
     setTimeout(() => {
+      let responseContent = 'I understand you\'re looking for help. Let me assist you with that!';
+      
+      // Apply tone
+      if (tone === 'casual') {
+        responseContent = 'Hey! I got you covered. What can I help you with?';
+      } else if (tone === 'concise') {
+        responseContent = 'How can I help?';
+      }
+      
+      // Apply response length
+      if (responseLength === 'short') {
+        responseContent = responseContent.slice(0, 50) + (responseContent.length > 50 ? '...' : '');
+      } else if (responseLength === 'detailed') {
+        responseContent += ' I have access to all restaurant operations data and can provide detailed analysis and recommendations.';
+      }
+      
+      // Apply language (basic implementation)
+      if (language === 'spanish') {
+        responseContent = '¡Entiendo que buscas ayuda! Permíteme asistirte con eso.';
+      }
+      
+      // Show model indicator for advanced model
+      if (selectedModel === 'advanced') {
+        responseContent += '\n\n*Using advanced AI model for detailed analysis*';
+      }
+
       const aiResponse: ChatMessage = {
         id: (Date.now() + 1).toString(),
         type: 'assistant',
-        content: 'I understand you\'re looking for help. Let me assist you with that!',
+        content: responseContent,
         timestamp: new Date(),
         status: 'sent'
       };
@@ -603,7 +869,7 @@ Ready to get started? Just tell me your restaurant's name and I'll guide you thr
       };
       setChatState(finalState);
       setIsLoading(false);
-    }, 1000);
+    }, selectedModel === 'advanced' ? 2000 : 1000); // Longer delay for advanced model
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
