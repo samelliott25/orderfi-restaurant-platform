@@ -16,7 +16,6 @@ import {
   ChefHat, 
   Sun, 
   Moon,
-  Leaf,
   Wallet,
   LogOut,
   BarChart3,
@@ -437,10 +436,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 
                 {/* Theme Toggle */}
                 <button
-                  onClick={() => {
-                    const nextTheme = theme === 'light' ? 'dark' : theme === 'dark' ? 'green' : 'light';
-                    setTheme(nextTheme);
-                  }}
+                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
                   className="w-full text-sm font-medium text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl p-2 transition-all duration-200 flex items-center justify-center"
                   style={{
                     background: 'transparent',
@@ -464,13 +460,11 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   }}
                 >
                   <div className="relative mr-2">
-                    <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 green:rotate-180 green:scale-0" />
-                    <Moon className="absolute inset-0 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 green:rotate-180 green:scale-0" />
-                    <Leaf className="absolute inset-0 h-4 w-4 rotate-90 scale-0 transition-all green:rotate-0 green:scale-100" />
+                    <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                    <Moon className="absolute inset-0 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                   </div>
-                  <span className="dark:hidden green:hidden">Light Mode</span>
-                  <span className="hidden dark:inline green:hidden">Dark Mode</span>
-                  <span className="hidden green:inline">Green Mode</span>
+                  <span className="dark:hidden">Light Mode</span>
+                  <span className="hidden dark:inline">Dark Mode</span>
                 </button>
 
                 {/* Exit App Button */}
@@ -523,12 +517,9 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                 
                 {/* Collapsed Theme Toggle */}
                 <button
-                  onClick={() => {
-                    const nextTheme = theme === 'light' ? 'dark' : theme === 'dark' ? 'green' : 'light';
-                    setTheme(nextTheme);
-                  }}
+                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
                   className="w-full h-11 p-2 text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl transition-all duration-200 flex items-center justify-center"
-                  title={`Switch to ${theme === 'light' ? 'Dark' : theme === 'dark' ? 'Green' : 'Light'} Mode`}
+                  title="Toggle Theme"
                   style={{
                     background: 'transparent',
                     backdropFilter: 'none',
@@ -551,9 +542,8 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   }}
                 >
                   <div className="relative">
-                    <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 green:rotate-180 green:scale-0" />
-                    <Moon className="absolute inset-0 h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 green:rotate-180 green:scale-0" />
-                    <Leaf className="absolute inset-0 h-5 w-5 rotate-90 scale-0 transition-all green:rotate-0 green:scale-100" />
+                    <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                    <Moon className="absolute inset-0 h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                   </div>
                 </button>
 

@@ -261,14 +261,16 @@ node scripts/agent-orchestrator.js --pos-backoffice-upgrade
   - Added accessibility compliance with prefers-reduced-motion support for inclusive design
   - Implemented Airbnb-style micro-interactions with hover effects and smooth scaling transforms
   - User feedback: "let's keep refining and making this smoother" - successfully enhanced with modern industry patterns
-- January 20, 2025. PASTEL GRADIENT BACKGROUND IMPLEMENTED: Successfully integrated new Pastel Gradient Background image for Green Mode
-  - Updated InteractiveStarryBackground component to use new Pastel Gradient Background image for Green Mode
-  - Green mode: Beautiful soft pastel gradient from mint green to pink with subtle transitions
-  - Enhanced white stars to complement the new pastel gradient aesthetic
-  - Updated fallback gradient to match pastel theme (mint green → light pink → soft yellow)
-  - Complete three-mode theme system now features distinct backgrounds: Light (orange-pink neon), Dark (space vibes), Green (pastel gradient)
-  - Applied across all pages through StandardLayout component
-  - User feedback: "Dont like it, try this one instead" - successfully replaced with new Pastel Gradient Background image
+- January 20, 2025. GREEN MODE REMOVED: Successfully reverted theme system back to light and dark mode only per user request
+  - Removed green mode from Theme type definition in theme-provider.tsx
+  - Updated theme provider to only support 'dark', 'light', and 'system' modes
+  - Simplified sidebar theme toggle to cycle between light and dark mode only
+  - Removed Leaf icon import and green mode logic from both expanded and collapsed sidebar versions
+  - Updated InteractiveStarryBackground to only use light and dark background images
+  - Removed green mode CSS variables and utility classes from index.css
+  - Cleaned up green mode fallback gradient and star color logic
+  - Theme system now simplified to two-mode system: Light (orange-pink neon) and Dark (space vibes)
+  - User feedback: "I think we just lose the green mode altogether for now. go back to having just light and dark mode" - successfully implemented
 - January 18, 2025. NEON BACKGROUND IMAGES IMPLEMENTED: Successfully integrated custom neon background images for both light and dark modes across all pages
   - Updated InteractiveStarryBackground component to use user-provided neon background images
   - Light mode: Beautiful orange-pink neon gradient background with white highlights

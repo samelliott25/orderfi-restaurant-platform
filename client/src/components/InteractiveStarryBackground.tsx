@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { useTheme } from './theme-provider';
 import lightBg from '@assets/20250718_2124_Neon Light Background_simple_compose_01k0emexs2fdmsv8exv2yzx333_1752838166331.png';
 import darkBg from '@assets/20250718_2127_Neon Space Vibes_simple_compose_01k0emkcm6ez8v5n5bxrd1z1pb_1752838166332.png';
-import greenBg from '@assets/20250720_0011_Pastel Gradient Background_simple_compose_01k0hgcx41epm9bm0m78tgnnzw_1753011701055.png';
 
 const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { theme } = useTheme();
@@ -43,22 +42,13 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
     // Load background images
     const lightImage = new Image();
     const darkImage = new Image();
-    const greenImage = new Image();
     lightImage.src = lightBg;
     darkImage.src = darkBg;
-    greenImage.src = greenBg;
 
     // Draw function
     const draw = () => {
       // Use theme-aware background images
-      let backgroundImage;
-      if (theme === 'dark') {
-        backgroundImage = darkImage;
-      } else if (theme === 'green') {
-        backgroundImage = greenImage;
-      } else {
-        backgroundImage = lightImage;
-      }
+      const backgroundImage = theme === 'dark' ? darkImage : lightImage;
       
       if (backgroundImage.complete) {
         // Draw the background image to cover the entire canvas
@@ -67,13 +57,6 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
         // Fallback gradient while image loads
         if (theme === 'dark') {
           ctx.fillStyle = '#0a0a0a';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-        } else if (theme === 'green') {
-          const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-          gradient.addColorStop(0, '#a7f3d0');  // Soft mint green
-          gradient.addColorStop(0.5, '#fce7f3'); // Very light pink
-          gradient.addColorStop(1, '#fbbf24');   // Soft yellow
-          ctx.fillStyle = gradient;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         } else {
           const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
@@ -86,14 +69,7 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       }
 
       // Draw stars with theme-aware colors that complement the neon backgrounds
-      let starColor;
-      if (theme === 'dark') {
-        starColor = 'rgba(255, 255, 255, '; // White stars for dark mode
-      } else if (theme === 'green') {
-        starColor = 'rgba(255, 255, 255, '; // Soft white stars for pastel green mode
-      } else {
-        starColor = 'rgba(255, 255, 255, '; // White stars for light mode
-      }
+      const starColor = 'rgba(255, 255, 255, '; // White stars for both modes
       stars.forEach(star => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
