@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useTheme } from './theme-provider';
 import lightBg from '@assets/20250718_2124_Neon Light Background_simple_compose_01k0emexs2fdmsv8exv2yzx333_1752838166331.png';
 import darkBg from '@assets/20250718_2127_Neon Space Vibes_simple_compose_01k0emkcm6ez8v5n5bxrd1z1pb_1752838166332.png';
-import greenBg from '@assets/20250719_2352_Green Gradient Glow_remix_01k0hf8smdetbrmy0qq3w4z4pe_1753011565544.png';
+import greenBg from '@assets/20250720_0011_Pastel Gradient Background_simple_compose_01k0hgcx41epm9bm0m78tgnnzw_1753011701055.png';
 
 const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { theme } = useTheme();
@@ -69,10 +69,10 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
           ctx.fillStyle = '#0a0a0a';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         } else if (theme === 'green') {
-          const gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, Math.max(canvas.width, canvas.height));
-          gradient.addColorStop(0, '#4ade80');
-          gradient.addColorStop(0.7, '#16a34a');
-          gradient.addColorStop(1, '#14532d');
+          const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+          gradient.addColorStop(0, '#a7f3d0');  // Soft mint green
+          gradient.addColorStop(0.5, '#fce7f3'); // Very light pink
+          gradient.addColorStop(1, '#fbbf24');   // Soft yellow
           ctx.fillStyle = gradient;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         } else {
@@ -90,7 +90,7 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       if (theme === 'dark') {
         starColor = 'rgba(255, 255, 255, '; // White stars for dark mode
       } else if (theme === 'green') {
-        starColor = 'rgba(220, 255, 220, '; // Light green stars for green mode
+        starColor = 'rgba(255, 255, 255, '; // Soft white stars for pastel green mode
       } else {
         starColor = 'rgba(255, 255, 255, '; // White stars for light mode
       }
