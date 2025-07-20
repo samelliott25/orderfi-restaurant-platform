@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useTheme } from './theme-provider';
 import lightBg from '@assets/20250718_2124_Neon Light Background_simple_compose_01k0emexs2fdmsv8exv2yzx333_1752838166331.png';
 import darkBg from '@assets/20250718_2127_Neon Space Vibes_simple_compose_01k0emkcm6ez8v5n5bxrd1z1pb_1752838166332.png';
-import greenBg from '@assets/20250720_0000_Abstract Green Glow_remix_01k0hfp16dfy5r1d0r10ke11mm_1752933892741.png';
+import greenBg from '@assets/20250719_2352_Green Gradient Glow_remix_01k0hf8smdetbrmy0qq3w4z4pe_1753011565544.png';
 
 const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { theme } = useTheme();
