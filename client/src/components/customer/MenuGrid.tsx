@@ -185,7 +185,7 @@ export function MenuGrid({ items, onAddToCart, searchQuery = '', activeCategory 
   // For specific category or search results, show mobile-optimized 2-column grid
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 px-2">
         {filteredItems.map((item) => (
           <ItemCard
             key={item.id}
