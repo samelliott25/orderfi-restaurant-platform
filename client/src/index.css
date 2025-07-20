@@ -326,6 +326,28 @@ html, body {
   border-color: rgba(245, 166, 35, 0.2);
 }
 
+/* Liquid Glass Navigation Item Active */
+.liquid-glass-nav-item-active {
+  position: relative;
+  border-radius: 12px;
+  background: rgba(245, 166, 35, 0.15) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(245, 166, 35, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(245, 166, 35, 0.2) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1.02);
+  z-index: 3;
+}
+
+.dark .liquid-glass-nav-item-active {
+  background: rgba(245, 166, 35, 0.1) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(245, 166, 35, 0.2) !important;
+  box-shadow: 0 4px 20px rgba(245, 166, 35, 0.15) !important;
+}
+
 /* Shimmer effect for nav items */
 .liquid-glass-nav-item::before {
   content: '';

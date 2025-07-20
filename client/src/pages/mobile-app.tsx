@@ -195,28 +195,28 @@ export default function MobileAppPage() {
       title="Mobile App Preview" 
       subtitle="View and test the customer mobile ordering interface"
     >
-      <div className="flex items-center justify-center h-full w-full p-4">
-        {/* iPhone 15 Pro Mockup Container - Full Size */}
+      <div className="flex items-center justify-center h-full w-full p-4 animate-fade-in-down">
+        {/* iPhone 15 Pro Mockup Container - Full Size with Liquid Glass */}
         <div className="relative h-full w-full max-w-[500px] flex items-center justify-center">
-        {/* iPhone Outline Frame */}
-        <div className="relative w-full h-full max-w-[500px] max-h-[900px] border-[3px] border-gray-300 rounded-[60px] p-[8px] shadow-lg" style={{ aspectRatio: '375/812' }}>
-          {/* Volume Buttons - Outline */}
-          <div className="absolute left-[-3px] top-[15%] w-[3px] h-[8%] border-l-[2px] border-gray-300"></div>
-          <div className="absolute left-[-3px] top-[25%] w-[3px] h-[8%] border-l-[2px] border-gray-300"></div>
-          <div className="absolute left-[-3px] top-[35%] w-[3px] h-[12%] border-l-[2px] border-gray-300"></div>
+        {/* iPhone Outline Frame with Liquid Glass styling */}
+        <div className="relative w-full h-full max-w-[500px] max-h-[900px] liquid-glass-card border-[3px] border-white/20 dark:border-white/10 rounded-[60px] p-[8px] shadow-2xl" style={{ aspectRatio: '375/812' }}>
+          {/* Volume Buttons - Outline with glass effect */}
+          <div className="absolute left-[-3px] top-[15%] w-[3px] h-[8%] border-l-[2px] border-white/30 dark:border-white/20"></div>
+          <div className="absolute left-[-3px] top-[25%] w-[3px] h-[8%] border-l-[2px] border-white/30 dark:border-white/20"></div>
+          <div className="absolute left-[-3px] top-[35%] w-[3px] h-[12%] border-l-[2px] border-white/30 dark:border-white/20"></div>
           
-          {/* Power Button - Outline */}
-          <div className="absolute right-[-3px] top-[30%] w-[3px] h-[12%] border-r-[2px] border-gray-300"></div>
+          {/* Power Button - Outline with glass effect */}
+          <div className="absolute right-[-3px] top-[30%] w-[3px] h-[12%] border-r-[2px] border-white/30 dark:border-white/20"></div>
           
-          {/* Inner Frame */}
-          <div className="relative w-full h-full bg-background border-[2px] border-border rounded-[52px] overflow-hidden">
-            {/* Dynamic Island - Outline */}
-            <div className="absolute top-[2%] left-1/2 transform -translate-x-1/2 w-[35%] h-[5%] border-[2px] border-border rounded-[19px] z-20"></div>
+          {/* Inner Frame with liquid glass */}
+          <div className="relative w-full h-full liquid-glass-card border-[2px] border-white/10 dark:border-white/5 rounded-[52px] overflow-hidden">
+            {/* Dynamic Island - Outline with glass effect */}
+            <div className="absolute top-[2%] left-1/2 transform -translate-x-1/2 w-[35%] h-[5%] border-[2px] border-white/20 dark:border-white/10 rounded-[19px] z-20 liquid-glass-nav-item"></div>
             
-            {/* Screen Content */}
-            <div className="absolute inset-0 bg-background rounded-[52px] overflow-hidden">
-              {/* Status Bar */}
-              <div className="absolute top-0 left-0 right-0 h-[7%] bg-background z-10">
+            {/* Screen Content with liquid glass */}
+            <div className="absolute inset-0 liquid-glass-card rounded-[52px] overflow-hidden">
+              {/* Status Bar with liquid glass header */}
+              <div className="absolute top-0 left-0 right-0 h-[7%] liquid-glass-header z-10">
                 <div className="flex justify-between items-center px-8 pt-[16px] text-foreground text-sm font-medium">
                   <div className="flex items-center gap-1">
                     <div className="flex gap-1">
@@ -242,91 +242,92 @@ export default function MobileAppPage() {
                 </div>
               </div>
               
-              {/* App Content with proper offset for status bar */}
-              <div className="absolute top-[7%] left-0 right-0 bottom-0 overflow-y-auto bg-background">
-                {/* Header */}
-                <div className="sticky top-0 z-10 bg-background border-b border-border p-4">
+              {/* App Content with proper offset for status bar and liquid glass */}
+              <div className="absolute top-[7%] left-0 right-0 bottom-0 overflow-y-auto">
+                {/* Header with liquid glass */}
+                <div className="sticky top-0 z-10 liquid-glass-header border-b border-white/10 dark:border-white/5 p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full kleurvorm-primary flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full liquid-glass-nav-item bg-gradient-to-r from-orderfi-start to-orderfi-end flex items-center justify-center">
                         <span className="text-white font-bold text-lg playwrite-font">O</span>
                       </div>
                       <div>
-                        <h1 className="font-bold text-lg orderfi-brand">OrderFi</h1>
+                        <h1 className="font-bold text-lg orderfi-brand gentle-glow">OrderFi</h1>
                         <p className="text-sm text-muted-foreground">Smart Restaurant</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Button 
-                        variant="outline" 
-                        size="sm"
+                      <button 
                         onClick={() => setIsChatOpen(true)}
+                        className="liquid-glass-nav-item flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105"
                       >
                         <MessageCircle className="w-4 h-4" />
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
+                      </button>
+                      <button 
                         onClick={() => setIsCartOpen(true)}
-                        className="relative"
+                        className="liquid-glass-nav-item flex items-center px-3 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 relative"
                       >
                         <ShoppingCart className="w-4 h-4" />
                         {cartItemsCount > 0 && (
-                          <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
+                          <div className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-gradient-to-r from-orderfi-start to-orderfi-end flex items-center justify-center text-xs text-white font-bold">
                             {cartItemsCount}
-                          </Badge>
+                          </div>
                         )}
-                      </Button>
+                      </button>
                     </div>
                   </div>
                   
-                  {/* Search Bar */}
+                  {/* Search Bar with liquid glass */}
                   <div className="mt-4 relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
                     <input
                       type="text"
                       placeholder="Search menu..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full pl-10 pr-4 py-2 liquid-glass-nav-item border-white/10 dark:border-white/5 rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-white/30 dark:focus:border-white/20 transition-all duration-300"
                     />
                   </div>
                 </div>
 
-                {/* Category Tabs */}
-                <div className="sticky top-[140px] z-10 bg-background border-b border-border p-4">
-                  <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                    {categories.map(category => (
-                      <button
-                        key={category.id}
-                        onClick={() => setSelectedCategory(category.id)}
-                        className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                          selectedCategory === category.id
-                            ? 'orderfi-btn-primary'
-                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                        }`}
-                      >
-                        <span className="mr-2">{category.icon}</span>
-                        {category.name}
-                      </button>
-                    ))}
+                {/* Category Tabs with liquid glass */}
+                <div className="sticky top-[140px] z-10 liquid-glass-header border-b border-white/10 dark:border-white/5 p-4">
+                  <div className="liquid-glass-card flex rounded-full p-2">
+                    <div className="flex gap-2 overflow-x-auto scrollbar-hide w-full">
+                      {categories.map(category => (
+                        <button
+                          key={category.id}
+                          onClick={() => setSelectedCategory(category.id)}
+                          className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                            selectedCategory === category.id
+                              ? 'liquid-glass-nav-item-active'
+                              : 'liquid-glass-nav-item hover:scale-105'
+                          }`}
+                        >
+                          <span className="mr-2">{category.icon}</span>
+                          {category.name}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Menu Items */}
-                <div className="p-4">
+                {/* Menu Items with liquid glass */}
+                <div className="p-4 space-y-4">
                   {isLoading ? (
-                    <div className="text-center py-8">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                    <div className="liquid-glass-card text-center py-8 rounded-2xl">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gradient-to-r from-orderfi-start to-orderfi-end mx-auto"></div>
                       <p className="mt-2 text-muted-foreground">Loading menu...</p>
                     </div>
                   ) : (
-                    <MenuGrid 
-                      items={menuItems}
-                      onAddToCart={handleAddToCart}
-                      searchQuery={searchQuery}
-                      activeCategory={selectedCategory}
-                    />
+                    <div className="liquid-glass-card p-4 rounded-2xl">
+                      <MenuGrid 
+                        items={menuItems}
+                        onAddToCart={handleAddToCart}
+                        searchQuery={searchQuery}
+                        activeCategory={selectedCategory}
+                      />
+                    </div>
                   )}
                 </div>
               </div>
