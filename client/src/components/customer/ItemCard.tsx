@@ -38,84 +38,74 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
                        item.name.toLowerCase().includes('gf');
 
   return (
-    <Card className="group cursor-pointer min-h-[320px] hover:shadow-lg transition-all duration-300" data-testid={`item-card-${item.id}`}>
-      <CardContent className="p-0">
-        <div onClick={onAddClick} className="relative">
-          {/* Image placeholder */}
+    <Card className="group cursor-pointer h-[200px] hover:shadow-lg transition-all duration-300" data-testid={`item-card-${item.id}`}>
+      <CardContent className="p-0 h-full flex flex-col">
+        <div onClick={onAddClick} className="relative flex-1">
+          {/* Smaller image - 4:3 ratio, ~60% of card height */}
           <div className="aspect-[4/3] bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center relative overflow-hidden rounded-t-lg">
             {item.image_url ? (
               <img 
                 src={item.image_url} 
                 alt={item.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             ) : (
-              <div className="text-6xl opacity-30 group-hover:scale-110 transition-transform duration-500">🍽️</div>
+              <div className="text-3xl opacity-30 group-hover:scale-110 transition-transform duration-300">🍽️</div>
             )}
             
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          </div>
-          
-          {/* Quick add button overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent transition-all duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                onAddClick();
-              }}
-              size="sm"
-              className="bg-gradient-to-r from-orange-500 to-pink-500 text-white transform scale-90 group-hover:scale-100 transition-all duration-300 font-semibold"
-            >
-              <Plus className="h-4 w-4 mr-1" />
-              Quick Add
-            </Button>
+            {/* Quick add button overlay - simplified for smaller cards */}
+            <div className="absolute inset-0 bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onAddClick();
+                }}
+                size="sm"
+                className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs px-2 py-1 h-6"
+              >
+                <Plus className="h-3 w-3 mr-1" />
+                Add
+              </Button>
+            </div>
           </div>
         </div>
 
-        <div className="p-5 space-y-4">
-          <div className="space-y-3">
-            <div className="flex items-start justify-between">
-              <h3 className="font-bold text-base leading-tight line-clamp-2 text-foreground group-hover:text-primary transition-colors duration-300">
-                {item.name}
-              </h3>
-              <div className="ml-3 flex-shrink-0">
-                <span className="font-bold text-lg orderfi-gradient-text bg-primary/10 px-3 py-1 rounded-full">
-                  {formatPrice(item.price)}
-                </span>
-              </div>
-            </div>
-            
-            <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-              {item.description}
-            </p>
+        {/* Compact content area - ~40% of card height */}
+        <div className="p-2 space-y-1 flex-shrink-0">
+          <div className="flex items-center justify-between gap-1">
+            <h3 className="font-semibold text-xs leading-tight line-clamp-1 text-foreground">
+              {item.name}
+            </h3>
+            <span className="font-bold text-xs orderfi-gradient-text flex-shrink-0">
+              {formatPrice(item.price)}
+            </span>
           </div>
-
-          <div className="flex items-center justify-between pt-2">
-            <div className="flex items-center space-x-2">
-              {isVegetarian && (
-                <Badge variant="secondary" className="text-xs px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800">
-                  <Leaf className="h-3 w-3 mr-1" />
-                  Vegan
-                </Badge>
-              )}
-              {isGlutenFree && (
-                <Badge variant="secondary" className="text-xs px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800">
-                  <Wheat className="h-3 w-3 mr-1" />
-                  GF
-                </Badge>
-              )}
-            </div>
+          
+          {/* Badges for dietary info */}
+          <div className="flex items-center gap-1">
+            {isVegetarian && (
+              <div className="text-[10px] px-1 py-0.5 bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 rounded flex items-center">
+                <Leaf className="h-2 w-2 mr-0.5" />
+                V
+              </div>
+            )}
+            {isGlutenFree && (
+              <div className="text-[10px] px-1 py-0.5 bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 rounded flex items-center">
+                <Wheat className="h-2 w-2 mr-0.5" />
+                GF
+              </div>
+            )}
             
+            {/* Add button moved to badges area */}
             <Button
               onClick={(e) => {
                 e.stopPropagation();
                 onAddClick();
               }}
               size="sm"
-              className="bg-gradient-to-r from-orange-500 to-pink-500 text-white h-10 w-10 p-0 hover:scale-110 transition-transform duration-200 shadow-lg"
+              className="bg-gradient-to-r from-orange-500 to-pink-500 text-white h-5 w-5 p-0 text-xs ml-auto"
             >
-              <Plus className="h-5 w-5" />
+              <Plus className="h-3 w-3" />
             </Button>
           </div>
         </div>
