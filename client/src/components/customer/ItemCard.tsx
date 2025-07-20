@@ -38,84 +38,88 @@ export function ItemCard({ item, onAddClick, formatPrice }: ItemCardProps) {
                        item.name.toLowerCase().includes('gf');
 
   return (
-    <div className="liquid-glass-card group cursor-pointer min-h-[320px] hover:scale-105 transition-all duration-300" data-testid={`item-card-${item.id}`}>
-      <div onClick={onAddClick} className="relative">
-        {/* Image placeholder with liquid glass effect */}
-        <div className="aspect-[4/3] bg-gradient-to-br from-orderfi-start/20 to-orderfi-end/20 flex items-center justify-center relative overflow-hidden rounded-t-2xl">
-          {item.image_url ? (
-            <img 
-              src={item.image_url} 
-              alt={item.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          ) : (
-            <div className="text-6xl opacity-30 group-hover:scale-110 transition-transform duration-500">🍽️</div>
-          )}
+    <Card className="group cursor-pointer min-h-[320px] hover:shadow-lg transition-all duration-300" data-testid={`item-card-${item.id}`}>
+      <CardContent className="p-0">
+        <div onClick={onAddClick} className="relative">
+          {/* Image placeholder */}
+          <div className="aspect-[4/3] bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center relative overflow-hidden rounded-t-lg">
+            {item.image_url ? (
+              <img 
+                src={item.image_url} 
+                alt={item.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            ) : (
+              <div className="text-6xl opacity-30 group-hover:scale-110 transition-transform duration-500">🍽️</div>
+            )}
+            
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          </div>
           
-          {/* Liquid glass overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          {/* Quick add button overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent transition-all duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddClick();
+              }}
+              size="sm"
+              className="bg-gradient-to-r from-orange-500 to-pink-500 text-white transform scale-90 group-hover:scale-100 transition-all duration-300 font-semibold"
+            >
+              <Plus className="h-4 w-4 mr-1" />
+              Quick Add
+            </Button>
+          </div>
         </div>
-        
-        {/* Enhanced quick add button overlay with liquid glass */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent transition-all duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onAddClick();
-            }}
-            className="liquid-glass-nav-item-active px-4 py-2 rounded-xl text-sm font-medium text-white transform scale-90 group-hover:scale-100 transition-all duration-300"
-          >
-            <Plus className="h-4 w-4 mr-1" />
-            Quick Add
-          </button>
-        </div>
-      </div>
 
-      <div className="p-5 space-y-4">
-        <div className="space-y-3">
-          <div className="flex items-start justify-between">
-            <h3 className="font-bold text-base leading-tight line-clamp-2 text-foreground group-hover:orderfi-gradient-text transition-all duration-300">
-              {item.name}
-            </h3>
-            <div className="ml-3 flex-shrink-0">
-              <span className="font-bold text-lg orderfi-gradient-text liquid-glass-nav-item px-3 py-1 rounded-full">
-                {formatPrice(item.price)}
-              </span>
+        <div className="p-5 space-y-4">
+          <div className="space-y-3">
+            <div className="flex items-start justify-between">
+              <h3 className="font-bold text-base leading-tight line-clamp-2 text-foreground group-hover:text-primary transition-colors duration-300">
+                {item.name}
+              </h3>
+              <div className="ml-3 flex-shrink-0">
+                <span className="font-bold text-lg orderfi-gradient-text bg-primary/10 px-3 py-1 rounded-full">
+                  {formatPrice(item.price)}
+                </span>
+              </div>
             </div>
+            
+            <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+              {item.description}
+            </p>
           </div>
-          
-          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-            {item.description}
-          </p>
-        </div>
 
-        <div className="flex items-center justify-between pt-2">
-          <div className="flex items-center space-x-2">
-            {isVegetarian && (
-              <div className="liquid-glass-nav-item text-xs px-3 py-1 text-green-600 dark:text-green-400 rounded-full flex items-center">
-                <Leaf className="h-3 w-3 mr-1" />
-                Vegan
-              </div>
-            )}
-            {isGlutenFree && (
-              <div className="liquid-glass-nav-item text-xs px-3 py-1 text-blue-600 dark:text-blue-400 rounded-full flex items-center">
-                <Wheat className="h-3 w-3 mr-1" />
-                GF
-              </div>
-            )}
+          <div className="flex items-center justify-between pt-2">
+            <div className="flex items-center space-x-2">
+              {isVegetarian && (
+                <Badge variant="secondary" className="text-xs px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400 border-green-200 dark:border-green-800">
+                  <Leaf className="h-3 w-3 mr-1" />
+                  Vegan
+                </Badge>
+              )}
+              {isGlutenFree && (
+                <Badge variant="secondary" className="text-xs px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 border-blue-200 dark:border-blue-800">
+                  <Wheat className="h-3 w-3 mr-1" />
+                  GF
+                </Badge>
+              )}
+            </div>
+            
+            <Button
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddClick();
+              }}
+              size="sm"
+              className="bg-gradient-to-r from-orange-500 to-pink-500 text-white h-10 w-10 p-0 hover:scale-110 transition-transform duration-200 shadow-lg"
+            >
+              <Plus className="h-5 w-5" />
+            </Button>
           </div>
-          
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onAddClick();
-            }}
-            className="liquid-glass-nav-item-active h-10 w-10 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg"
-          >
-            <Plus className="h-5 w-5" />
-          </button>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
