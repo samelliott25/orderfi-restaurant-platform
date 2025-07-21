@@ -236,7 +236,7 @@ export function AnalyticsView() {
 
       {/* AI Insights */}
       {aiInsightsVisible && (
-        <Card className="border-l-4 border-blue-500 bg-blue-50/50 dark:bg-blue-900/10">
+        <Card className="liquid-glass-card border-l-4 border-blue-500 bg-blue-50/50 dark:bg-blue-900/10">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg flex items-center space-x-2">

@@ -274,7 +274,7 @@ export function OperationalView() {
 
       {/* Critical Alerts */}
       {currentAlerts.length > 0 && (
-        <Card className="border-l-4 border-orange-500 bg-orange-50/50 dark:bg-orange-900/10">
+        <Card className="liquid-glass-card border-l-4 border-orange-500 bg-orange-50/50 dark:bg-orange-900/10">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center space-x-2">
               <AlertTriangle className="h-5 w-5 text-orange-500" />
