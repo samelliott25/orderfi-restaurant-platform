@@ -5,43 +5,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Wallet, User, QrCode } from 'lucide-react';
+import { WalletConnectDialog } from '@/components/WalletConnectDialog';
 
 export default function CustomerLogin() {
   const [, navigate] = useLocation();
   const [isConnecting, setIsConnecting] = useState(false);
   const [tableId, setTableId] = useState('');
 
-  const handleWalletConnect = async () => {
-    setIsConnecting(true);
-    try {
-      // Web3 wallet connection logic
-      if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        if (accounts.length > 0) {
-          // Create session with wallet
-          const response = await fetch('/api/login/wallet', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              walletAddress: accounts[0],
-              tableId: tableId || 'table-1'
-            })
-          });
-          
-          const { sessionId } = await response.json();
-          localStorage.setItem('sessionId', sessionId);
-          navigate('/menu');
-        }
-      } else {
-        alert('Please install MetaMask or another Web3 wallet');
-      }
-    } catch (error) {
-      console.error('Wallet connection failed:', error);
-      alert('Connection failed. Please try again.');
-    } finally {
-      setIsConnecting(false);
-    }
-  };
+
 
   const handleGuestLogin = async () => {
     try {
@@ -85,14 +56,15 @@ export default function CustomerLogin() {
           </div>
 
           <div className="space-y-4">
-            <Button
-              onClick={handleWalletConnect}
-              disabled={isConnecting}
-              className="w-full h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-medium"
-            >
-              <Wallet className="w-5 h-5 mr-2" />
-              {isConnecting ? 'Connecting...' : 'Connect Wallet'}
-            </Button>
+            <WalletConnectDialog>
+              <Button
+                disabled={isConnecting}
+                className="w-full h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-medium"
+              >
+                <Wallet className="w-5 h-5 mr-2" />
+                Connect Wallet
+              </Button>
+            </WalletConnectDialog>
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
