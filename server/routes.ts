@@ -28,6 +28,7 @@ import { parseMenuHandler, uploadMiddleware } from "./routes/menu-parser";
 import { processOnboardingMessage } from "./services/onboarding-chat";
 import { chatOpsOrchestrator } from "./services/chatops-orchestrator";
 import ttsRouter from "./routes/tts.js";
+import waitlistRoutes from './waitlist-routes';
 import { validateRequest, createRateLimit, securityHeaders, requestLogger, errorHandler } from "./middleware/security.js";
 import { cacheManager } from "./services/cache-manager.js";
 
@@ -965,6 +966,9 @@ Provide a structured summary in 2-3 sentences that captures the essential busine
   // Register TTS routes
   app.use("/api/tts", ttsRouter);
   app.use("/api/kds-analysis", kdsAnalysisRouter);
+  
+  // Register waitlist routes
+  app.use("/api", waitlistRoutes);
 
   // Grok Text Animation routes
   app.post("/api/grok/analyze-text-animations", analyzeTextAnimations);

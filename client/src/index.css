@@ -681,3 +681,65 @@ button, .button, input, select, textarea {
   max-height: 0;
   opacity: 0;
 }
+
+/* OpenTable-inspired Table Management Styles */
+.table-section-header {
+  @apply text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 pb-2;
+}
+
+.floorplan-canvas {
+  @apply relative bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 
+         border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden;
+}
+
+.table-status-available {
+  @apply border-green-500 bg-green-50/50 dark:bg-green-900/20;
+}
+
+.table-status-occupied {
+  @apply border-red-500 bg-red-50/50 dark:bg-red-900/20;
+}
+
+.table-status-reserved {
+  @apply border-amber-500 bg-amber-50/50 dark:bg-amber-900/20;
+}
+
+.table-status-cleaning {
+  @apply border-purple-500 bg-purple-50/50 dark:bg-purple-900/20;
+}
+
+/* Floorplan table elements */
+.floorplan-table {
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.floorplan-table:hover {
+  z-index: 10;
+  transform: scale(1.05);
+}
+
+.floorplan-table.selected {
+  z-index: 15;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.7));
+}
+
+/* Waitlist status badges */
+.waitlist-status-waiting {
+  @apply bg-blue-500 text-white;
+}
+
+.waitlist-status-notified {
+  @apply bg-amber-500 text-white;
+}
+
+.waitlist-status-seated {
+  @apply bg-green-500 text-white;
+}
+
+.waitlist-status-cancelled {
+  @apply bg-gray-500 text-white;
+}
