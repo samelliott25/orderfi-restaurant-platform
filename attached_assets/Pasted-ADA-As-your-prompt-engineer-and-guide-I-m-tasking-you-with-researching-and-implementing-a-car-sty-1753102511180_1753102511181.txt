@@ -1,0 +1,36 @@
+ADA,
+
+As your prompt engineer and guide, I'm tasking you with researching and implementing a car-style back office dashboard for our personal Replit project, OrderFi. The dashboard should focus on the top 5 key metrics a restaurant operator wants at a glance: 1) Daily Sales/Revenue (current vs. target, visualized as a speedometer gauge); 2) Cost of Goods Sold (COGS) Percentage (ideally 28-35%, as a tachometer with redline warnings); 3) Labor Cost Percentage (target 20-30%, as a fuel gauge with low alerts); 4) Customer Satisfaction Score (e.g., NPS or ratings on 1-10 scale, as warning lights glowing green/red); 5) Table Turnover Rate (e.g., 45-60 minutes average, as an odometer counter). Draw from automotive UI inspirations for gauges, dials, warning lights, and HUD overlays to make it dynamic and intuitive, while tying into our dark-mode theme and real-time data.
+
+Your objective: First, scrape the internet for design ideas, best practices, and visual inspirations for car-style dashboards applied to business analytics (e.g., restaurant KPIs in gauge formats). Then, generate and implement the code for these elements without overhauling the core structure. Use the internet via tools like web_search (for queries like "car dashboard UI designs for restaurant analytics KPIs" or "gauge visualizations for sales metrics in dashboards") and browse_page (to extract details from sites like Dribbble, Behance, or Figma community examples—e.g., instructions: "Summarize car-inspired dashboard designs, focusing on gauges for revenue, costs, and satisfaction scores; include code snippets or CSS ideas if available"). Aim for 5-10 solid inspirations to inform your implementation.
+
+For design and animation code (e.g., CSS keyframes for needle movements, SVG gauges, or JS animations for rolling counters), utilize the Grok API (specifically prompting for Grok4-level advanced outputs if available) to generate precise, Replit-compatible snippets—e.g., prompt Grok with "Generate CSS and JS for an animated speedometer gauge showing daily sales percentage, with color zones and smooth transitions." Prioritize accessibility (e.g., ARIA labels on gauges) and responsiveness for desktop/tablet views.
+
+Reference the existing codebase (likely HTML/CSS/JS in Replit; confirm via the editor). Work on a new branch named backoffice-car-dashboard-v1, commit with clear messages (e.g., "Add sales speedometer gauge from researched designs"), and ensure deployable to the dashboard endpoint. If adding libs (e.g., Chart.js via CDN for gauges), install compatibly.
+
+Research Phase (Before Coding):
+Use web_search and browse_page to gather: Automotive UI patterns for KPIs (e.g., speedometers for revenue velocity), restaurant-specific dashboard examples (site:toasttab.com or site:squareup.com), animation techniques for dials (e.g., CSS conic-gradients or Canvas), and free assets/icons for warning lights.
+Synthesize findings: List 3-5 top ideas per metric, noting sources, then select the best for implementation.
+Implementation Phase (Prioritize in Sequence):
+1: Sales Speedometer Gauge
+Rationale: Core revenue pulse; car-like for "velocity."
+
+Target: Main dashboard container.
+Steps: Use researched CSS/JS; e.g., const needle = document.querySelector('.needle'); needle.style.transform = rotate(${ (sales / target) * 180 }deg);. Animate with transitions; fetch mock data.
+2: COGS Tachometer
+Rationale: Cost health monitoring.
+
+Steps: Similar to above; add redline: if (cogs > 35) add 'alert-red' class with pulse animation.
+3: Labor Fuel Gauge
+Rationale: Resource efficiency.
+
+Steps: SVG arc: Adjust stroke-dasharray based on percent; from research, use linear gradients.
+4: Satisfaction Warning Lights
+Rationale: Quick issue flagging.
+
+Steps: Icons with conditional colors; animate glow via keyframes from Grok prompts.
+5: Turnover Odometer
+Rationale: Flow tracking.
+
+Steps: JS counter: Animate digits flip; integrate real-time updates.
+After, deploy and share preview URL. If blockers (e.g., animation perf), report back. This will make OrderFi's back office dashboard a standout, glanceable command center!

@@ -61,6 +61,7 @@ import VoiceFirstDemo from "@/pages/voice-first-demo";
 import MobileAppPage from "@/pages/mobile-app";
 
 import FigmaIntegrationPage from "@/pages/figma-integration";
+import CarDashboard from "@/pages/car-dashboard";
 
 
 
@@ -152,6 +153,7 @@ function Router() {
         )} />
         <Route path="/dashboard-mobile" component={DashboardMobile} />
         <Route path="/dashboard-phase2" component={DashboardPhase2} />
+        <Route path="/car-dashboard" component={CarDashboard} />
         <Route path="/test-mobile" component={TestMobile} />
         
         {/* Mobile App - QR Ordering System */}
