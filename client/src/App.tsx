@@ -59,7 +59,7 @@ import DashboardPhase2 from "@/pages/dashboard-phase2";
 import TestMobile from "@/pages/test-mobile";
 import VoiceFirstDemo from "@/pages/voice-first-demo";
 import MobileAppPage from "@/pages/mobile-app";
-import WalletConnectPage from "@/pages/wallet-connect";
+
 import FigmaIntegrationPage from "@/pages/figma-integration";
 
 
@@ -167,8 +167,7 @@ function Router() {
         {/* Token Rewards (keeping as separate feature) */}
         <Route path="/tokenrewards" component={TokenRewardsPage} />
         
-        {/* Wallet Connect */}
-        <Route path="/wallet-connect" component={WalletConnectPage} />
+
         
         {/* Figma Integration */}
         <Route path="/figma-integration" component={FigmaIntegrationPage} />

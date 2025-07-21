@@ -2,8 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useWallet } from "@/hooks/useWallet";
-import { WalletConnectDialog } from "@/components/WalletConnectDialog";
+
 // Remove RealTimeStatusIndicator import for now to avoid context issues
 
 import { useTheme } from "@/components/theme-provider";
@@ -16,8 +15,7 @@ import {
   ChefHat, 
   Sun, 
   Moon,
-  Wallet,
-  LogOut,
+
   BarChart3,
   Users,
   FileText,
@@ -57,7 +55,7 @@ const menuItems = [
   { icon: FileText, label: "Reporting", href: "/reporting" },
   { icon: Settings2, label: "Settings", href: "/settings" },
   { icon: TrendingUp, label: "Token Rewards", href: "/tokenrewards" },
-  { icon: Wallet, label: "Wallet Connect", href: "/wallet-connect" },
+
   { icon: Figma, label: "Figma Integration", href: "/figma-integration" },
 ];
 
@@ -77,7 +75,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     return saved === 'true';
   });
   const [location, setLocation] = useLocation();
-  const { isConnected, walletInfo, isConnecting, connect, disconnect } = useWallet();
+
   const { theme, setTheme } = useTheme();
   const [showExitDialog, setShowExitDialog] = useState(false);
   const { toast } = useToast();
@@ -399,40 +397,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
           <div className={`mt-auto liquid-glass-header ${isCollapsed ? 'p-2 space-y-2' : 'p-4 space-y-3'} sidebar-nav`}>
             {!isCollapsed ? (
               <>
-                {/* Wallet Connection Button */}
-                {!isConnected ? (
-                  <WalletConnectDialog>
-                    <button
-                      className="w-full h-11 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-xl flex items-center justify-center backdrop-blur-sm shadow-sm hover:shadow-md"
-                      disabled={isConnecting}
-                    >
-                      <Wallet className="h-5 w-5 mr-2" />
-                      {isConnecting ? 'Connecting...' : 'Connect Wallet'}
-                    </button>
-                  </WalletConnectDialog>
-                ) : (
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                      <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                        <Wallet className="h-4 w-4 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-normal text-green-800 dark:text-green-200">
-                          Wallet Connected
-                        </p>
-                        <p className="text-xs text-green-600 dark:text-green-400">
-                          {walletInfo?.address?.slice(0, 6)}...{walletInfo?.address?.slice(-4)}
-                        </p>
-                      </div>
-                      <button
-                        onClick={disconnect}
-                        className="h-8 w-8 p-0 text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-200 hover:bg-green-100 dark:hover:bg-green-900/40 rounded-md transition-colors"
-                      >
-                        <LogOut className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
-                )}
+
                 
                 {/* Theme Toggle */}
                 <button
@@ -498,22 +463,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
               </>
             ) : (
               <>
-                {/* Collapsed Wallet Status */}
-                {!isConnected ? (
-                  <WalletConnectDialog>
-                    <button
-                      className="w-full h-11 p-2 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-xl flex items-center justify-center backdrop-blur-sm shadow-sm hover:shadow-md"
-                      disabled={isConnecting}
-                      title="Connect Wallet"
-                    >
-                      <Wallet className="h-5 w-5" />
-                    </button>
-                  </WalletConnectDialog>
-                ) : (
-                  <div className="w-full h-10 bg-green-50 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
-                    <Wallet className="h-5 w-5 text-green-600 dark:text-green-400" />
-                  </div>
-                )}
+
                 
                 {/* Collapsed Theme Toggle */}
                 <button
