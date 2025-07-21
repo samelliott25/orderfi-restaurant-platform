@@ -61,8 +61,7 @@ export default function AdminOrdersPage() {
       <div data-testid="orders-page" className="space-y-6">
         {/* Quick Stats - Responsive Grid */}
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
-          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/10"></div>
+          <div className="liquid-glass-card p-4">
             <div className="relative flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Active Orders</p>
@@ -75,8 +74,7 @@ export default function AdminOrdersPage() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
+          <div className="liquid-glass-card p-4">
             <div className="relative flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Ready for Pickup</p>
@@ -89,8 +87,7 @@ export default function AdminOrdersPage() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-xl p-4 backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10"></div>
+          <div className="liquid-glass-card p-4">
             <div className="relative flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-green-600 dark:text-green-400">Completed Today</p>
@@ -107,7 +104,7 @@ export default function AdminOrdersPage() {
         {/* Orders List */}
         <div className="space-y-4">
           {orders.map((order) => (
-            <Card key={order.id} className="relative bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <Card key={order.id} className="liquid-glass-card">
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
                   <div>
@@ -135,7 +132,7 @@ export default function AdminOrdersPage() {
                   </div>
                   <div className="pt-2">
                     <Button 
-                      className="w-full"
+                      className="w-full liquid-glass-nav-item"
                       variant={order.status === 'preparing' ? 'default' : order.status === 'ready' ? 'secondary' : 'outline'}
                     >
                       {order.status === 'preparing' ? 'Mark Ready' : 
