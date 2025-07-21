@@ -279,7 +279,7 @@ export function AnalyticsView() {
 
       {/* Charts */}
       <Tabs defaultValue="revenue" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-4 bg-white/10 dark:bg-white/5 backdrop-blur-sm border border-white/20 dark:border-white/10">
           <TabsTrigger value="revenue">Revenue</TabsTrigger>
           <TabsTrigger value="orders">Orders</TabsTrigger>
           <TabsTrigger value="categories">Categories</TabsTrigger>
@@ -399,7 +399,7 @@ export function AnalyticsView() {
                           <span className="text-sm font-medium">{category.name}</span>
                           <span className="text-sm text-muted-foreground">{category.value}%</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                        <div className="w-full bg-white/20 dark:bg-white/10 rounded-full h-2 mt-1">
                           <div 
                             className="h-2 rounded-full" 
                             style={{ 
