@@ -291,7 +291,7 @@ export default function DashboardPhase2() {
                     orientation="right"
                     stroke="hsl(var(--muted-foreground))" 
                     label={{ value: 'Labor %', angle: 90, position: 'insideRight' }}
-                    domain={[20, 35]}
+                    domain={[0, 100]}
                   />
                   <Tooltip 
                     contentStyle={{ 
