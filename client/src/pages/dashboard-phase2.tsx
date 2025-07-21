@@ -34,7 +34,7 @@ import {
 
 export default function DashboardPhase2() {
   const [activeTab, setActiveTab] = useState('executive');
-  const [chartView, setChartView] = useState('revenue'); // 'revenue', 'orders', 'hybrid'
+  const [timePeriod, setTimePeriod] = useState('daily'); // 'daily', 'weekly', 'monthly'
 
 
   // Set document title
@@ -196,64 +196,76 @@ export default function DashboardPhase2() {
           <div className="liquid-glass-card p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                {chartView === 'revenue' ? 'Daily Revenue' : 
-                 chartView === 'orders' ? 'Daily Orders' : 
-                 'Multi-Metric Overview'}
+                {timePeriod === 'daily' ? 'Daily Performance' : 
+                 timePeriod === 'weekly' ? 'Weekly Performance' : 
+                 'Monthly Performance'}
               </h3>
               <div className="flex items-center space-x-2">
                 <Button
-                  variant={chartView === 'revenue' ? 'default' : 'outline'}
+                  variant={timePeriod === 'daily' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setChartView('revenue')}
+                  onClick={() => setTimePeriod('daily')}
                   className="liquid-glass-nav-item text-xs"
                 >
-                  Revenue
+                  Daily
                 </Button>
                 <Button
-                  variant={chartView === 'orders' ? 'default' : 'outline'}
+                  variant={timePeriod === 'weekly' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setChartView('orders')}
+                  onClick={() => setTimePeriod('weekly')}
                   className="liquid-glass-nav-item text-xs"
                 >
-                  Orders
+                  Weekly
                 </Button>
                 <Button
-                  variant={chartView === 'hybrid' ? 'default' : 'outline'}
+                  variant={timePeriod === 'monthly' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setChartView('hybrid')}
+                  onClick={() => setTimePeriod('monthly')}
                   className="liquid-glass-nav-item text-xs"
                 >
-                  Overlay
+                  Monthly
                 </Button>
               </div>
             </div>
             
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={[
-                  { name: 'Mon', revenue: 2400, orders: 45, customers: 38, avgOrder: 53.33 },
-                  { name: 'Tue', revenue: 1398, orders: 32, customers: 28, avgOrder: 43.69 },
-                  { name: 'Wed', revenue: 9800, orders: 78, customers: 65, avgOrder: 125.64 },
-                  { name: 'Thu', revenue: 3908, orders: 54, customers: 47, avgOrder: 72.37 },
-                  { name: 'Fri', revenue: 4800, orders: 69, customers: 58, avgOrder: 69.57 },
-                  { name: 'Sat', revenue: 3800, orders: 58, customers: 49, avgOrder: 65.52 },
-                  { name: 'Sun', revenue: 4300, orders: 61, customers: 52, avgOrder: 70.49 }
-                ]}>
+                <LineChart data={
+                  timePeriod === 'daily' ? [
+                    { name: 'Mon', revenue: 2400, orders: 45, customers: 38, avgOrder: 53.33 },
+                    { name: 'Tue', revenue: 1398, orders: 32, customers: 28, avgOrder: 43.69 },
+                    { name: 'Wed', revenue: 9800, orders: 78, customers: 65, avgOrder: 125.64 },
+                    { name: 'Thu', revenue: 3908, orders: 54, customers: 47, avgOrder: 72.37 },
+                    { name: 'Fri', revenue: 4800, orders: 69, customers: 58, avgOrder: 69.57 },
+                    { name: 'Sat', revenue: 3800, orders: 58, customers: 49, avgOrder: 65.52 },
+                    { name: 'Sun', revenue: 4300, orders: 61, customers: 52, avgOrder: 70.49 }
+                  ] : timePeriod === 'weekly' ? [
+                    { name: 'W1', revenue: 16800, orders: 315, customers: 268, avgOrder: 53.33 },
+                    { name: 'W2', revenue: 18200, orders: 342, customers: 294, avgOrder: 53.22 },
+                    { name: 'W3', revenue: 21400, orders: 398, customers: 338, avgOrder: 53.77 },
+                    { name: 'W4', revenue: 19600, orders: 371, customers: 315, avgOrder: 52.83 }
+                  ] : [
+                    { name: 'Jan', revenue: 68400, orders: 1284, customers: 1089, avgOrder: 53.27 },
+                    { name: 'Feb', revenue: 72800, orders: 1367, customers: 1162, avgOrder: 53.25 },
+                    { name: 'Mar', revenue: 81200, orders: 1521, customers: 1294, avgOrder: 53.39 },
+                    { name: 'Apr', revenue: 78600, orders: 1473, customers: 1253, avgOrder: 53.37 },
+                    { name: 'May', revenue: 85400, orders: 1602, customers: 1362, avgOrder: 53.31 },
+                    { name: 'Jun', revenue: 89200, orders: 1673, customers: 1424, avgOrder: 53.33 }
+                  ]
+                }>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                   <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
                   <YAxis 
                     yAxisId="left"
                     stroke="hsl(var(--muted-foreground))" 
-                    label={{ value: chartView === 'revenue' ? 'Revenue ($)' : chartView === 'orders' ? 'Orders' : 'Primary Scale', angle: -90, position: 'insideLeft' }}
+                    label={{ value: 'Revenue ($)', angle: -90, position: 'insideLeft' }}
                   />
-                  {chartView === 'hybrid' && (
-                    <YAxis 
-                      yAxisId="right" 
-                      orientation="right"
-                      stroke="hsl(var(--muted-foreground))" 
-                      label={{ value: 'Secondary Scale', angle: 90, position: 'insideRight' }}
-                    />
-                  )}
+                  <YAxis 
+                    yAxisId="right" 
+                    orientation="right"
+                    stroke="hsl(var(--muted-foreground))" 
+                    label={{ value: 'Orders/Customers', angle: 90, position: 'insideRight' }}
+                  />
                   <Tooltip 
                     contentStyle={{ 
                       backgroundColor: 'rgba(255,255,255,0.1)', 
@@ -263,84 +275,74 @@ export default function DashboardPhase2() {
                     }} 
                   />
                   
-                  {/* Revenue Line - Always show for revenue and hybrid */}
-                  {(chartView === 'revenue' || chartView === 'hybrid') && (
-                    <Line 
-                      yAxisId="left"
-                      type="monotone" 
-                      dataKey="revenue" 
-                      stroke="#f97316" 
-                      strokeWidth={3}
-                      dot={{ fill: '#f97316', strokeWidth: 2, r: 5 }}
-                      name="Revenue ($)"
-                    />
-                  )}
+                  {/* Revenue Line - Primary metric */}
+                  <Line 
+                    yAxisId="left"
+                    type="monotone" 
+                    dataKey="revenue" 
+                    stroke="#f97316" 
+                    strokeWidth={3}
+                    dot={{ fill: '#f97316', strokeWidth: 2, r: 5 }}
+                    name="Revenue ($)"
+                  />
                   
-                  {/* Orders Line - Always show for orders and hybrid */}
-                  {(chartView === 'orders' || chartView === 'hybrid') && (
-                    <Line 
-                      yAxisId={chartView === 'hybrid' ? 'right' : 'left'}
-                      type="monotone" 
-                      dataKey="orders" 
-                      stroke="#3b82f6" 
-                      strokeWidth={2}
-                      strokeDasharray="5 5"
-                      dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                      name="Orders"
-                    />
-                  )}
+                  {/* Orders Line */}
+                  <Line 
+                    yAxisId="right"
+                    type="monotone" 
+                    dataKey="orders" 
+                    stroke="#3b82f6" 
+                    strokeWidth={2}
+                    strokeDasharray="5 5"
+                    dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                    name="Orders"
+                  />
                   
-                  {/* Customers Line - Only show in hybrid */}
-                  {chartView === 'hybrid' && (
-                    <Line 
-                      yAxisId="right"
-                      type="monotone" 
-                      dataKey="customers" 
-                      stroke="#10b981" 
-                      strokeWidth={2}
-                      dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
-                      name="Customers"
-                    />
-                  )}
+                  {/* Customers Line */}
+                  <Line 
+                    yAxisId="right"
+                    type="monotone" 
+                    dataKey="customers" 
+                    stroke="#10b981" 
+                    strokeWidth={2}
+                    dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
+                    name="Customers"
+                  />
                   
-                  {/* Avg Order Value Line - Only show in hybrid */}
-                  {chartView === 'hybrid' && (
-                    <Line 
-                      yAxisId="right"
-                      type="monotone" 
-                      dataKey="avgOrder" 
-                      stroke="#8b5cf6" 
-                      strokeWidth={2}
-                      strokeDasharray="10 5"
-                      dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 3 }}
-                      name="Avg Order ($)"
-                    />
-                  )}
+                  {/* Avg Order Value Line */}
+                  <Line 
+                    yAxisId="left"
+                    type="monotone" 
+                    dataKey="avgOrder" 
+                    stroke="#8b5cf6" 
+                    strokeWidth={2}
+                    strokeDasharray="10 5"
+                    dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 3 }}
+                    name="Avg Order ($)"
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
             
-            {/* Legend for hybrid view */}
-            {chartView === 'hybrid' && (
-              <div className="flex flex-wrap items-center justify-center gap-4 mt-4 pt-4 border-t border-white/10">
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-0.5 bg-orange-500"></div>
-                  <span className="text-xs text-muted-foreground">Revenue ($)</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-0.5 bg-blue-500 opacity-60" style={{ backgroundImage: 'repeating-linear-gradient(to right, #3b82f6 0, #3b82f6 5px, transparent 5px, transparent 10px)' }}></div>
-                  <span className="text-xs text-muted-foreground">Orders</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-0.5 bg-green-500"></div>
-                  <span className="text-xs text-muted-foreground">Customers</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-0.5 bg-purple-500 opacity-60" style={{ backgroundImage: 'repeating-linear-gradient(to right, #8b5cf6 0, #8b5cf6 10px, transparent 10px, transparent 15px)' }}></div>
-                  <span className="text-xs text-muted-foreground">Avg Order ($)</span>
-                </div>
+            {/* Legend */}
+            <div className="flex flex-wrap items-center justify-center gap-4 mt-4 pt-4 border-t border-white/10">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-orange-500"></div>
+                <span className="text-xs text-muted-foreground">Revenue ($)</span>
               </div>
-            )}
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-blue-500 opacity-60" style={{ backgroundImage: 'repeating-linear-gradient(to right, #3b82f6 0, #3b82f6 5px, transparent 5px, transparent 10px)' }}></div>
+                <span className="text-xs text-muted-foreground">Orders</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-green-500"></div>
+                <span className="text-xs text-muted-foreground">Customers</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-purple-500 opacity-60" style={{ backgroundImage: 'repeating-linear-gradient(to right, #8b5cf6 0, #8b5cf6 10px, transparent 10px, transparent 15px)' }}></div>
+                <span className="text-xs text-muted-foreground">Avg Order ($)</span>
+              </div>
+            </div>
           </div>
 
         {/* Progressive Disclosure Tabs - Apple Liquid Glass styling */}
