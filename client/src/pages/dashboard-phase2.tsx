@@ -241,19 +241,26 @@ export default function DashboardPhase2() {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={
                   timePeriod === 'hourly' ? [
-                    // Hourly data: Saturday peak service (12pm-11pm) - $3M venue busy Thu-Sun
-                    { name: '12pm', sales: 420, laborPercent: 35.2 }, // Lunch prep/start
-                    { name: '1pm', sales: 680, laborPercent: 32.4 },  // Lunch rush begins
-                    { name: '2pm', sales: 890, laborPercent: 29.8 },  // Peak lunch
-                    { name: '3pm', sales: 650, laborPercent: 31.5 },  // Lunch wind-down
-                    { name: '4pm', sales: 380, laborPercent: 38.1 },  // Slowest hour
-                    { name: '5pm', sales: 520, laborPercent: 35.7 },  // Dinner prep
-                    { name: '6pm', sales: 840, laborPercent: 28.9 },  // Early dinner
-                    { name: '7pm', sales: 1240, laborPercent: 24.2 }, // Peak dinner
-                    { name: '8pm', sales: 1180, laborPercent: 25.1 }, // Prime dinner
-                    { name: '9pm', sales: 920, laborPercent: 27.3 },  // Late dinner
-                    { name: '10pm', sales: 580, laborPercent: 31.8 }, // Wind down
-                    { name: '11pm', sales: 290, laborPercent: 37.9 }  // Close prep
+                    // Hourly data: Full day service 5:30am-12am - $3M venue breakfast/lunch/dinner shifts
+                    { name: '5:30', sales: 180, laborPercent: 45.0 },   // Breakfast prep
+                    { name: '6:30', sales: 320, laborPercent: 38.2 },   // Early breakfast
+                    { name: '7:30', sales: 580, laborPercent: 32.1 },   // Breakfast rush
+                    { name: '8:30', sales: 720, laborPercent: 28.5 },   // Peak breakfast
+                    { name: '9:30', sales: 450, laborPercent: 33.7 },   // Late breakfast
+                    { name: '10:30', sales: 240, laborPercent: 41.2 },  // Morning lull
+                    { name: '11:30', sales: 380, laborPercent: 36.8 },  // Lunch prep
+                    { name: '12:30', sales: 680, laborPercent: 29.4 },  // Lunch start
+                    { name: '1:30', sales: 890, laborPercent: 26.2 },   // Peak lunch
+                    { name: '2:30', sales: 650, laborPercent: 28.9 },   // Late lunch
+                    { name: '3:30', sales: 320, laborPercent: 38.5 },   // Afternoon lull
+                    { name: '4:30', sales: 280, laborPercent: 42.1 },   // Slowest hour
+                    { name: '5:30', sales: 520, laborPercent: 34.6 },   // Dinner prep
+                    { name: '6:30', sales: 840, laborPercent: 27.8 },   // Early dinner
+                    { name: '7:30', sales: 1240, laborPercent: 23.1 },  // Peak dinner
+                    { name: '8:30', sales: 1180, laborPercent: 24.2 },  // Prime dinner
+                    { name: '9:30', sales: 920, laborPercent: 26.5 },   // Late dinner
+                    { name: '10:30', sales: 580, laborPercent: 31.8 },  // Wind down
+                    { name: '11:30', sales: 290, laborPercent: 37.9 }   // Close prep
                   ] : timePeriod === 'daily' ? [
                     // Daily data: $3M venue - busy Thu-Sun pattern
                     { name: 'Mon', sales: 6200, laborPercent: 31.8 }, // Quieter start
