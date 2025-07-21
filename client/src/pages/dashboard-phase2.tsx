@@ -7,6 +7,17 @@ import StandardLayout from '@/components/StandardLayout';
 import { ExecutiveSummary } from '@/components/dashboard/ExecutiveSummary';
 import { OperationalView } from '@/components/dashboard/OperationalView';
 import { AnalyticsView } from '@/components/dashboard/AnalyticsView';
+import { 
+  LineChart, 
+  Line, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  BarChart,
+  Bar
+} from 'recharts';
 
 
 import { 
@@ -180,27 +191,77 @@ export default function DashboardPhase2() {
     <StandardLayout title="Dashboard" subtitle="Mobile-Optimized Restaurant Management">
         <div className="space-y-8 animate-fade-in-down">
 
-          {/* Status Bar - Apple Liquid Glass styling */}
-          <div className="liquid-glass-card p-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-gradient-to-r from-orderfi-start to-orderfi-end rounded-full animate-pulse"></div>
-                  <span className="text-lg font-medium">System Online</span>
-                </div>
-                <div className="text-lg font-medium text-gray-900 dark:text-white">
-                  Dashboard Active
-                </div>
+          {/* Revenue and Sales Charts */}
+          <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
+            {/* Revenue Chart */}
+            <div className="liquid-glass-card p-6">
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">Daily Revenue</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={[
+                    { name: 'Mon', revenue: 2400, orders: 45 },
+                    { name: 'Tue', revenue: 1398, orders: 32 },
+                    { name: 'Wed', revenue: 9800, orders: 78 },
+                    { name: 'Thu', revenue: 3908, orders: 54 },
+                    { name: 'Fri', revenue: 4800, orders: 69 },
+                    { name: 'Sat', revenue: 3800, orders: 58 },
+                    { name: 'Sun', revenue: 4300, orders: 61 }
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                    <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
+                    <YAxis stroke="hsl(var(--muted-foreground))" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'rgba(255,255,255,0.1)', 
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        borderRadius: '8px'
+                      }} 
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="revenue" 
+                      stroke="hsl(var(--primary))" 
+                      strokeWidth={3}
+                      dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
-              <div className="flex items-center space-x-2">
-                <button className="liquid-glass-nav-item flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105">
-                  <Bell className="h-4 w-4 mr-2" />
-                  {alerts.length} Alerts
-                </button>
-                <button className="liquid-glass-nav-item flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Settings
-                </button>
+            </div>
+
+            {/* Orders Chart */}
+            <div className="liquid-glass-card p-6">
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">Daily Orders</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={[
+                    { name: 'Mon', orders: 45, revenue: 2400 },
+                    { name: 'Tue', orders: 32, revenue: 1398 },
+                    { name: 'Wed', orders: 78, revenue: 9800 },
+                    { name: 'Thu', orders: 54, revenue: 3908 },
+                    { name: 'Fri', orders: 69, revenue: 4800 },
+                    { name: 'Sat', orders: 58, revenue: 3800 },
+                    { name: 'Sun', orders: 61, revenue: 4300 }
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                    <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
+                    <YAxis stroke="hsl(var(--muted-foreground))" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'rgba(255,255,255,0.1)', 
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        borderRadius: '8px'
+                      }} 
+                    />
+                    <Bar 
+                      dataKey="orders" 
+                      fill="hsl(var(--primary))"
+                      radius={[4, 4, 0, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </div>
