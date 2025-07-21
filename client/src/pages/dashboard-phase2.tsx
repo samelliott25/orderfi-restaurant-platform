@@ -34,7 +34,7 @@ import {
 
 export default function DashboardPhase2() {
   const [activeTab, setActiveTab] = useState('executive');
-  const [timePeriod, setTimePeriod] = useState('daily'); // 'daily', 'weekly', 'monthly'
+  const [timePeriod, setTimePeriod] = useState('daily'); // 'hourly', 'daily', 'weekly', 'monthly'
 
 
   // Set document title
@@ -196,11 +196,20 @@ export default function DashboardPhase2() {
           <div className="liquid-glass-card p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                {timePeriod === 'daily' ? 'Daily P&L Analysis' : 
+                {timePeriod === 'hourly' ? 'Hourly P&L Analysis' :
+                 timePeriod === 'daily' ? 'Daily P&L Analysis' : 
                  timePeriod === 'weekly' ? 'Weekly P&L Analysis' : 
                  'Monthly P&L Analysis'}
               </h3>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
+                <Button
+                  variant={timePeriod === 'hourly' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTimePeriod('hourly')}
+                  className="liquid-glass-nav-item text-xs"
+                >
+                  Hourly
+                </Button>
                 <Button
                   variant={timePeriod === 'daily' ? 'default' : 'outline'}
                   size="sm"
@@ -231,29 +240,43 @@ export default function DashboardPhase2() {
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={
-                  timePeriod === 'daily' ? [
-                    // Daily data: Based on $1,350 industry average with realistic variations
-                    { name: 'Mon', sales: 1180, laborPercent: 31.2 }, // Slower start of week
-                    { name: 'Tue', sales: 1250, laborPercent: 29.8 }, // Mid-week pickup
-                    { name: 'Wed', sales: 1320, laborPercent: 28.5 }, // Building momentum
-                    { name: 'Thu', sales: 1450, laborPercent: 27.9 }, // Pre-weekend surge
-                    { name: 'Fri', sales: 1680, laborPercent: 26.4 }, // Peak night
-                    { name: 'Sat', sales: 1820, laborPercent: 25.8 }, // Busiest day
-                    { name: 'Sun', sales: 1390, laborPercent: 28.7 }  // Family dining
+                  timePeriod === 'hourly' ? [
+                    // Hourly data: Saturday peak service (12pm-11pm) - $3M venue busy Thu-Sun
+                    { name: '12pm', sales: 420, laborPercent: 35.2 }, // Lunch prep/start
+                    { name: '1pm', sales: 680, laborPercent: 32.4 },  // Lunch rush begins
+                    { name: '2pm', sales: 890, laborPercent: 29.8 },  // Peak lunch
+                    { name: '3pm', sales: 650, laborPercent: 31.5 },  // Lunch wind-down
+                    { name: '4pm', sales: 380, laborPercent: 38.1 },  // Slowest hour
+                    { name: '5pm', sales: 520, laborPercent: 35.7 },  // Dinner prep
+                    { name: '6pm', sales: 840, laborPercent: 28.9 },  // Early dinner
+                    { name: '7pm', sales: 1240, laborPercent: 24.2 }, // Peak dinner
+                    { name: '8pm', sales: 1180, laborPercent: 25.1 }, // Prime dinner
+                    { name: '9pm', sales: 920, laborPercent: 27.3 },  // Late dinner
+                    { name: '10pm', sales: 580, laborPercent: 31.8 }, // Wind down
+                    { name: '11pm', sales: 290, laborPercent: 37.9 }  // Close prep
+                  ] : timePeriod === 'daily' ? [
+                    // Daily data: $3M venue - busy Thu-Sun pattern
+                    { name: 'Mon', sales: 6200, laborPercent: 31.8 }, // Quieter start
+                    { name: 'Tue', sales: 6850, laborPercent: 30.4 }, // Building up
+                    { name: 'Wed', sales: 7300, laborPercent: 29.7 }, // Mid-week
+                    { name: 'Thu', sales: 9200, laborPercent: 27.6 }, // Weekend starts
+                    { name: 'Fri', sales: 10800, laborPercent: 25.3 }, // Peak night
+                    { name: 'Sat', sales: 11600, laborPercent: 24.8 }, // Busiest day
+                    { name: 'Sun', sales: 9450, laborPercent: 26.9 }  // Strong finish
                   ] : timePeriod === 'weekly' ? [
-                    // Weekly data: Aggregated from daily averages (~$9,450/week)
-                    { name: 'W1', sales: 8950, laborPercent: 29.2 }, // Slower week
-                    { name: 'W2', sales: 9680, laborPercent: 28.1 }, // Average performance
-                    { name: 'W3', sales: 10240, laborPercent: 27.3 }, // Strong week
-                    { name: 'W4', sales: 9120, laborPercent: 30.4 }  // Staff shortage week
+                    // Weekly data: $3M venue seasonal variations
+                    { name: 'W1', sales: 58400, laborPercent: 28.9 }, // Average week
+                    { name: 'W2', sales: 62200, laborPercent: 27.4 }, // Strong week
+                    { name: 'W3', sales: 65800, laborPercent: 26.8 }, // Peak week
+                    { name: 'W4', sales: 55600, laborPercent: 29.7 }  // Staff challenges
                   ] : [
-                    // Monthly data: Based on $493K annual average (~$41K/month)
-                    { name: 'Jan', sales: 38400, laborPercent: 32.1 }, // Post-holiday slowdown
-                    { name: 'Feb', sales: 35200, laborPercent: 33.4 }, // Shortest month, winter lull
-                    { name: 'Mar', sales: 41800, laborPercent: 29.6 }, // Spring recovery
-                    { name: 'Apr', sales: 43200, laborPercent: 28.3 }, // Strong spring month
-                    { name: 'May', sales: 45600, laborPercent: 27.1 }, // Peak season begins
-                    { name: 'Jun', sales: 47500, laborPercent: 26.8 }  // Summer high season
+                    // Monthly data: $3M venue ($250K/month average)
+                    { name: 'Jan', sales: 220000, laborPercent: 31.4 }, // Post-holiday slow
+                    { name: 'Feb', sales: 195000, laborPercent: 33.1 }, // Winter low
+                    { name: 'Mar', sales: 238000, laborPercent: 29.8 }, // Spring pickup
+                    { name: 'Apr', sales: 258000, laborPercent: 28.2 }, // Strong month
+                    { name: 'May', sales: 275000, laborPercent: 26.9 }, // Peak season
+                    { name: 'Jun', sales: 289000, laborPercent: 25.7 }  // Summer high
                   ]
                 }>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
