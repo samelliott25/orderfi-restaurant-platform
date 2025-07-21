@@ -214,7 +214,7 @@ export default function KDS() {
     >
       <div className="space-y-6">
         {/* KDS Header */}
-        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-lg p-4 border border-white/20 shadow-lg">
+        <div className="liquid-glass-card p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
@@ -312,10 +312,10 @@ export default function KDS() {
             return (
               <Card 
                 key={order.id} 
-                className={`transition-all duration-300 hover:shadow-lg ${
-                  priority === 'high' ? 'border-red-500 shadow-red-100' :
-                  priority === 'medium' ? 'border-yellow-500 shadow-yellow-100' :
-                  'border-gray-200 dark:border-gray-700'
+                className={`liquid-glass-card ${
+                  priority === 'high' ? 'border-red-500/30' :
+                  priority === 'medium' ? 'border-yellow-500/30' :
+                  ''
                 }`}
               >
                 <CardHeader className="pb-3">
@@ -403,7 +403,7 @@ export default function KDS() {
                       <Button
                         onClick={() => handleStatusUpdate(order.id, getNextStatus(order.status))}
                         disabled={updateStatusMutation.isPending}
-                        className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+                        className="flex-1 liquid-glass-nav-item bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
                       >
                         {order.status === 'pending' && 'Start Preparing'}
                         {order.status === 'preparing' && 'Mark Ready'}
@@ -414,7 +414,7 @@ export default function KDS() {
                           variant="outline"
                           onClick={() => handleStatusUpdate(order.id, 'cancelled')}
                           disabled={updateStatusMutation.isPending}
-                          className="text-red-600 dark:text-red-400 border-red-300 dark:border-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
+                          className="liquid-glass-nav-item text-red-600 dark:text-red-400 border-red-300 dark:border-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
                         >
                           Cancel
                         </Button>
@@ -429,13 +429,13 @@ export default function KDS() {
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between mt-6 p-4 bg-white/90 dark:bg-gray-800/90 rounded-lg backdrop-blur-md border border-white/20">
+          <div className="liquid-glass-card p-4 flex items-center justify-between mt-6">
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className="bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
+                className="liquid-glass-nav-item"
               >
                 Previous
               </Button>
@@ -446,7 +446,7 @@ export default function KDS() {
                 variant="outline"
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
-                className="bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
+                className="liquid-glass-nav-item"
               >
                 Next
               </Button>
@@ -459,7 +459,7 @@ export default function KDS() {
 
         {paginatedOrders.length === 0 && (
           <div className="text-center py-12">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
+            <div className="liquid-glass-card p-8">
               <ChefHat className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
                 No active orders
