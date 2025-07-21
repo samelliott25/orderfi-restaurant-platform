@@ -218,7 +218,7 @@ export default function TableManagement({
     <div className="space-y-6">
       {/* Add Table Dialog */}
       <Dialog open={isAddTableOpen} onOpenChange={onAddTableOpenChange}>
-          <DialogContent>
+          <DialogContent className="liquid-glass-card">
             <DialogHeader>
               <DialogTitle>Add New Table</DialogTitle>
             </DialogHeader>
@@ -230,12 +230,13 @@ export default function TableManagement({
                   value={newTable.number}
                   onChange={(e) => setNewTable({ ...newTable, number: e.target.value })}
                   placeholder="e.g., 1, A1, VIP-1"
+                  className="liquid-glass-card"
                 />
               </div>
               <div>
                 <Label htmlFor="table-capacity">Capacity</Label>
                 <Select value={newTable.capacity.toString()} onValueChange={(value) => setNewTable({ ...newTable, capacity: parseInt(value) })}>
-                  <SelectTrigger>
+                  <SelectTrigger className="liquid-glass-card">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -250,7 +251,7 @@ export default function TableManagement({
               <div>
                 <Label htmlFor="table-section">Section</Label>
                 <Select value={newTable.section} onValueChange={(value) => setNewTable({ ...newTable, section: value })}>
-                  <SelectTrigger>
+                  <SelectTrigger className="liquid-glass-card">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -264,7 +265,7 @@ export default function TableManagement({
               <Button 
                 onClick={() => addTableMutation.mutate(newTable)}
                 disabled={!newTable.number || addTableMutation.isPending}
-                className="w-full"
+                className="w-full liquid-glass-nav-item"
               >
                 Add Table
               </Button>
@@ -288,12 +289,11 @@ export default function TableManagement({
                 return (
                   <Card 
                     key={table.id}
-                    className={`relative overflow-hidden backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer ${
-                      table.status === 'occupied' ? 'ring-2 ring-blue-500' : ''
+                    className={`liquid-glass-card cursor-pointer ${
+                      table.status === 'occupied' ? 'ring-2 ring-blue-500/30' : ''
                     }`}
                     onClick={() => setSelectedTable(table)}
                   >
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
                   
                   <CardHeader className="pb-3 relative">
                     <div className="flex items-center justify-between">
@@ -370,7 +370,7 @@ export default function TableManagement({
                             description: `QR Code for Table ${table.number}: ${table.qrCode}`,
                           });
                         }}
-                        className="flex-1"
+                        className="flex-1 liquid-glass-nav-item"
                       >
                         <QrCode className="h-3 w-3 mr-1" />
                         QR Code
@@ -383,7 +383,7 @@ export default function TableManagement({
                             e.stopPropagation();
                             updateTableStatus.mutate({ tableId: table.id, status: 'occupied' });
                           }}
-                          className="flex-1"
+                          className="flex-1 liquid-glass-nav-item"
                         >
                           <Users className="h-3 w-3 mr-1" />
                           Seat
@@ -398,7 +398,7 @@ export default function TableManagement({
                             e.stopPropagation();
                             updateTableStatus.mutate({ tableId: table.id, status: 'cleaning' });
                           }}
-                          className="flex-1"
+                          className="flex-1 liquid-glass-nav-item"
                         >
                           <Coffee className="h-3 w-3 mr-1" />
                           Clear
@@ -412,7 +412,7 @@ export default function TableManagement({
                             e.stopPropagation();
                             updateTableStatus.mutate({ tableId: table.id, status: 'available' });
                           }}
-                          className="flex-1"
+                          className="flex-1 liquid-glass-nav-item"
                         >
                           <CheckCircle className="h-3 w-3 mr-1" />
                           Clean
@@ -434,12 +434,11 @@ export default function TableManagement({
               return (
                 <Card 
                   key={table.id}
-                  className={`backdrop-blur-md bg-white/90 dark:bg-gray-800/90 border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer ${
-                    table.status === 'occupied' ? 'ring-2 ring-blue-500' : ''
+                  className={`liquid-glass-card cursor-pointer ${
+                    table.status === 'occupied' ? 'ring-2 ring-blue-500/30' : ''
                   }`}
                   onClick={() => setSelectedTable(table)}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-pink-500/10"></div>
                   
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
@@ -479,6 +478,7 @@ export default function TableManagement({
                                 description: `QR Code for Table ${table.number}: ${table.qrCode}`,
                               });
                             }}
+                            className="liquid-glass-nav-item"
                           >
                             <QrCode className="h-3 w-3 mr-1" />
                             QR
@@ -491,6 +491,7 @@ export default function TableManagement({
                                 e.stopPropagation();
                                 updateTableStatus.mutate({ tableId: table.id, status: 'occupied' });
                               }}
+                              className="liquid-glass-nav-item"
                             >
                               <Users className="h-3 w-3 mr-1" />
                               Seat
@@ -505,6 +506,7 @@ export default function TableManagement({
                                 e.stopPropagation();
                                 updateTableStatus.mutate({ tableId: table.id, status: 'cleaning' });
                               }}
+                              className="liquid-glass-nav-item"
                             >
                               <Coffee className="h-3 w-3 mr-1" />
                               Clear
@@ -518,6 +520,7 @@ export default function TableManagement({
                                 e.stopPropagation();
                                 updateTableStatus.mutate({ tableId: table.id, status: 'available' });
                               }}
+                              className="liquid-glass-nav-item"
                             >
                               <CheckCircle className="h-3 w-3 mr-1" />
                               Clean

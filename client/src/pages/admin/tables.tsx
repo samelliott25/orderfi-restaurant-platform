@@ -11,12 +11,12 @@ export default function TablesPage() {
   const headerActions = (
     <div className="flex items-center gap-2">
       {/* View Toggle */}
-      <div className="flex items-center border rounded-lg p-1 bg-background">
+      <div className="flex items-center liquid-glass-card p-1">
         <Button
           variant={viewMode === 'card' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => setViewMode('card')}
-          className="h-8 px-3"
+          className="h-8 px-3 liquid-glass-nav-item"
         >
           <Grid3X3 className="h-4 w-4" />
         </Button>
@@ -24,14 +24,14 @@ export default function TablesPage() {
           variant={viewMode === 'list' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => setViewMode('list')}
-          className="h-8 px-3"
+          className="h-8 px-3 liquid-glass-nav-item"
         >
           <List className="h-4 w-4" />
         </Button>
       </div>
       
       {/* Add Table Button */}
-      <Button onClick={() => setIsAddTableOpen(true)}>
+      <Button onClick={() => setIsAddTableOpen(true)} className="liquid-glass-nav-item">
         <Plus className="h-4 w-4 mr-2" />
         Add Table
       </Button>
