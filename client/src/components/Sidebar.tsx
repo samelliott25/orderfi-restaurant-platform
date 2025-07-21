@@ -42,13 +42,11 @@ import {
   Heart,
   Star,
   Palette,
-  Figma,
-  Car
+  Figma
 } from "lucide-react";
 
 const menuItems = [
   { icon: BarChart3, label: "Dashboard", href: "/dashboard" },
-  { icon: Car, label: "Car Dashboard", href: "/car-dashboard" },
   { icon: Smartphone, label: "Mobile App", href: "/mobileapp" },
   { icon: ShoppingCart, label: "Orders", href: "/orders" },
   { icon: Timer, label: "KDS", href: "/kds" },

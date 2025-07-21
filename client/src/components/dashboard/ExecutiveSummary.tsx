@@ -13,7 +13,10 @@ import {
   ArrowUp,
   ArrowDown,
   Activity,
-  Clock
+  Clock,
+  Timer,
+  Gauge,
+  Heart
 } from 'lucide-react';
 
 interface KPIData {
@@ -43,6 +46,13 @@ interface KPIData {
   };
 }
 
+interface RestaurantMetrics {
+  laborCost: number; // percentage
+  customerSatisfaction: number; // out of 5
+  averageWaitTime: number; // in minutes
+  efficiency: number; // percentage
+}
+
 interface LiveMetric {
   label: string;
   value: string;
@@ -55,6 +65,12 @@ interface LiveMetric {
 
 export function ExecutiveSummary() {
   const [wsConnected, setWsConnected] = useState(false);
+  const [restaurantMetrics, setRestaurantMetrics] = useState<RestaurantMetrics>({
+    laborCost: 28.5,
+    customerSatisfaction: 4.2,
+    averageWaitTime: 12.3,
+    efficiency: 94
+  });
 
   // Real-time KPI data (no automatic refresh)
   const { data: kpiData, isLoading } = useQuery<KPIData>({
@@ -233,6 +249,150 @@ export function ExecutiveSummary() {
             </Card>
           );
         })}
+      </div>
+
+      {/* Additional Restaurant KPIs */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Labor Cost % */}
+        <Card className="liquid-glass-card hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900">
+                  <Users className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Labor Cost %
+                </p>
+                <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {restaurantMetrics.laborCost.toFixed(1)}%
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center space-x-1">
+              <span className={`text-sm font-medium ${
+                restaurantMetrics.laborCost <= 30 ? 'text-green-600' : 
+                restaurantMetrics.laborCost <= 35 ? 'text-yellow-600' : 'text-red-600'
+              }`}>
+                {restaurantMetrics.laborCost <= 30 ? 'OPTIMAL' : 
+                 restaurantMetrics.laborCost <= 35 ? 'CAUTION' : 'CRITICAL'}
+              </span>
+            </div>
+            <div className="mt-2">
+              <span className="text-xs text-muted-foreground">
+                Target: ≤30%
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Customer Satisfaction */}
+        <Card className="liquid-glass-card hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="p-2 rounded-full bg-pink-100 dark:bg-pink-900">
+                  <Heart className="h-4 w-4 text-pink-600 dark:text-pink-400" />
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Customer Satisfaction
+                </p>
+                <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {restaurantMetrics.customerSatisfaction.toFixed(1)}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center space-x-1">
+              {[1, 2, 3, 4, 5].map(star => (
+                <span 
+                  key={star}
+                  className={`text-lg ${
+                    star <= Math.floor(restaurantMetrics.customerSatisfaction) ? 
+                    'text-yellow-500' : 'text-gray-300'
+                  }`}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+            <div className="mt-2">
+              <span className="text-xs text-muted-foreground">
+                out of 5.0 stars
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Average Wait Time */}
+        <Card className="liquid-glass-card hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900">
+                  <Timer className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Avg Wait Time
+                </p>
+                <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {restaurantMetrics.averageWaitTime.toFixed(1)}m
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center space-x-1">
+              <span className={`text-sm font-medium ${
+                restaurantMetrics.averageWaitTime <= 10 ? 'text-green-600' : 
+                restaurantMetrics.averageWaitTime <= 15 ? 'text-yellow-600' : 'text-red-600'
+              }`}>
+                {restaurantMetrics.averageWaitTime <= 10 ? 'EXCELLENT' : 
+                 restaurantMetrics.averageWaitTime <= 15 ? 'GOOD' : 'NEEDS IMPROVEMENT'}
+              </span>
+            </div>
+            <div className="mt-2">
+              <span className="text-xs text-muted-foreground">
+                Target: ≤10 min
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Kitchen Efficiency */}
+        <Card className="liquid-glass-card hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="p-2 rounded-full bg-green-100 dark:bg-green-900">
+                  <Gauge className="h-4 w-4 text-green-600 dark:text-green-400" />
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Kitchen Efficiency
+                </p>
+                <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {restaurantMetrics.efficiency}%
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center space-x-1">
+              <ArrowUp className="h-4 w-4 text-green-600" />
+              <span className="text-sm font-medium text-green-600">
+                Excellent
+              </span>
+            </div>
+            <div className="mt-2">
+              <span className="text-xs text-muted-foreground">
+                Above 90% target
+              </span>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Quick Actions */}
