@@ -4,41 +4,47 @@ import { ArrowLeft, Car, Gauge, Timer, DollarSign, Users } from 'lucide-react';
 import { StandardLayout } from '@/components/StandardLayout';
 
 interface DashboardMetrics {
-  dailySales: { current: number; target: number };
+  orderVelocity: number; // orders per hour - perfect for speedometer!
+  maxOrderCapacity: number; // max orders/hour kitchen can handle
   cogs: number;
   laborCost: number;
   customerSatisfaction: number;
   tableTurnover: number;
+  dailySales: { current: number; target: number };
 }
 
 const CarDashboard: React.FC = () => {
   const [metrics, setMetrics] = useState<DashboardMetrics>({
-    dailySales: { current: 8500, target: 12000 },
+    orderVelocity: 85, // Current orders per hour
+    maxOrderCapacity: 120, // Max kitchen capacity (orders/hour)
     cogs: 32,
     laborCost: 28,
     customerSatisfaction: 4.2,
-    tableTurnover: 2.8
+    tableTurnover: 2.8,
+    dailySales: { current: 8500, target: 12000 }
   });
 
   // Simulate real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
       setMetrics(prev => ({
-        dailySales: {
-          current: Math.max(0, prev.dailySales.current + Math.random() * 200 - 100),
-          target: prev.dailySales.target
-        },
+        orderVelocity: Math.max(0, Math.min(prev.maxOrderCapacity, prev.orderVelocity + Math.random() * 10 - 5)),
+        maxOrderCapacity: prev.maxOrderCapacity,
         cogs: Math.max(20, Math.min(45, prev.cogs + Math.random() * 2 - 1)),
         laborCost: Math.max(15, Math.min(40, prev.laborCost + Math.random() * 1 - 0.5)),
         customerSatisfaction: Math.max(1, Math.min(5, prev.customerSatisfaction + Math.random() * 0.2 - 0.1)),
-        tableTurnover: Math.max(0, Math.min(5, prev.tableTurnover + Math.random() * 0.2 - 0.1))
+        tableTurnover: Math.max(0, Math.min(5, prev.tableTurnover + Math.random() * 0.2 - 0.1)),
+        dailySales: {
+          current: Math.max(0, prev.dailySales.current + Math.random() * 200 - 100),
+          target: prev.dailySales.target
+        }
       }));
     }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const salesPercentage = (metrics.dailySales.current / metrics.dailySales.target) * 100;
+  const velocityPercentage = (metrics.orderVelocity / metrics.maxOrderCapacity) * 100;
 
   return (
     <StandardLayout>
@@ -57,9 +63,9 @@ const CarDashboard: React.FC = () => {
 
         {/* Main Dashboard Grid */}
         <div className="dashboard-grid">
-          {/* Daily Sales Speedometer */}
+          {/* Order Velocity Speedometer */}
           <div className="gauge-container large-gauge liquid-glass-card">
-            <div className="gauge-title">Daily Sales Target</div>
+            <div className="gauge-title">Order Velocity (Orders/Hour)</div>
             <div className="speedometer-gauge">
               <div className="gauge-face">
                 <div className="speed-markings">
@@ -74,13 +80,13 @@ const CarDashboard: React.FC = () => {
                   ))}
                 </div>
                 <div 
-                  className={`speedometer-needle ${salesPercentage > 85 ? 'danger' : salesPercentage > 70 ? 'warning' : 'normal'}`}
-                  style={{ transform: `rotate(${-90 + (salesPercentage * 1.8)}deg)` }}
+                  className={`speedometer-needle ${velocityPercentage > 85 ? 'danger' : velocityPercentage > 70 ? 'warning' : 'normal'}`}
+                  style={{ transform: `rotate(${-90 + (velocityPercentage * 1.8)}deg)` }}
                 />
                 <div className="needle-center" />
                 <div className="gauge-display">
-                  <div className="primary-value">${metrics.dailySales.current.toLocaleString()}</div>
-                  <div className="secondary-value">{salesPercentage.toFixed(1)}% of target</div>
+                  <div className="primary-value">{metrics.orderVelocity.toFixed(0)} ord/hr</div>
+                  <div className="secondary-value">{velocityPercentage.toFixed(1)}% of capacity ({metrics.maxOrderCapacity})</div>
                 </div>
               </div>
             </div>
@@ -175,6 +181,31 @@ const CarDashboard: React.FC = () => {
             </div>
           </div>
 
+          {/* Daily Sales Progress Bar */}
+          <div className="gauge-container sales-progress liquid-glass-card">
+            <div className="gauge-title">Daily Sales Progress</div>
+            <div className="progress-container">
+              <div className="sales-amount">
+                <div className="current-sales">${metrics.dailySales.current.toLocaleString()}</div>
+                <div className="target-sales">Target: ${metrics.dailySales.target.toLocaleString()}</div>
+              </div>
+              <div className="progress-bar">
+                <div 
+                  className="progress-fill"
+                  style={{ 
+                    width: `${Math.min(100, (metrics.dailySales.current / metrics.dailySales.target) * 100)}%`,
+                    backgroundColor: (metrics.dailySales.current / metrics.dailySales.target) >= 1 ? '#4caf50' : 
+                                   (metrics.dailySales.current / metrics.dailySales.target) >= 0.8 ? '#ffc107' : 
+                                   '#f44336'
+                  }}
+                />
+              </div>
+              <div className="progress-percentage">
+                {((metrics.dailySales.current / metrics.dailySales.target) * 100).toFixed(1)}% Complete
+              </div>
+            </div>
+          </div>
+
           {/* Additional KPIs */}
           <div className="gauge-container kpi-panel liquid-glass-card">
             <div className="gauge-title">Key Performance Indicators</div>
@@ -196,8 +227,8 @@ const CarDashboard: React.FC = () => {
               </div>
               <div className="kpi-item">
                 <Gauge className="kpi-icon" />
-                <div className="kpi-value">94%</div>
-                <div className="kpi-label">Efficiency</div>
+                <div className="kpi-value">{metrics.orderVelocity.toFixed(0)}</div>
+                <div className="kpi-label">Orders/Hour</div>
               </div>
             </div>
           </div>
@@ -693,6 +724,70 @@ const CarDashboard: React.FC = () => {
           color: hsl(var(--muted-foreground));
         }
 
+        /* Sales Progress Styles */
+        .progress-container {
+          padding: 1.5rem;
+          text-align: center;
+        }
+
+        .sales-amount {
+          margin-bottom: 1.5rem;
+        }
+
+        .current-sales {
+          font-size: 2rem;
+          font-weight: 600;
+          color: hsl(var(--primary));
+          text-shadow: 0 0 10px rgba(245, 166, 35, 0.5);
+        }
+
+        .target-sales {
+          font-size: 1rem;
+          color: hsl(var(--muted-foreground));
+          margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+          width: 100%;
+          height: 20px;
+          background: hsl(var(--muted));
+          border-radius: 10px;
+          overflow: hidden;
+          border: 2px solid hsl(var(--border));
+          margin: 1rem 0;
+          position: relative;
+        }
+
+        .progress-fill {
+          height: 100%;
+          border-radius: 8px;
+          transition: width 1s ease-out, background-color 0.3s ease;
+          position: relative;
+        }
+
+        .progress-fill::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+
+        .progress-percentage {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: hsl(var(--foreground));
+          margin-top: 0.5rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
           .dashboard-grid {
@@ -701,6 +796,10 @@ const CarDashboard: React.FC = () => {
           }
 
           .large-gauge {
+            grid-column: span 1;
+          }
+
+          .sales-progress {
             grid-column: span 1;
           }
 
