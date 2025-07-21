@@ -44,7 +44,7 @@ const CarDashboard: React.FC = () => {
     <StandardLayout>
       <div className="car-dashboard-container">
         {/* Header */}
-        <div className="dashboard-header">
+        <div className="dashboard-header liquid-glass-header">
           <Link href="/dashboard-phase2" className="back-button">
             <ArrowLeft className="h-5 w-5" />
             <span>Back to Dashboard</span>
@@ -58,7 +58,7 @@ const CarDashboard: React.FC = () => {
         {/* Main Dashboard Grid */}
         <div className="dashboard-grid">
           {/* Daily Sales Speedometer */}
-          <div className="gauge-container large-gauge">
+          <div className="gauge-container large-gauge liquid-glass-card">
             <div className="gauge-title">Daily Sales Target</div>
             <div className="speedometer-gauge">
               <div className="gauge-face">
@@ -87,7 +87,7 @@ const CarDashboard: React.FC = () => {
           </div>
 
           {/* COGS Tachometer */}
-          <div className="gauge-container medium-gauge">
+          <div className="gauge-container medium-gauge liquid-glass-card">
             <div className="gauge-title">Cost of Goods Sold</div>
             <div className="tachometer-gauge">
               <div className="tach-face">
@@ -110,7 +110,7 @@ const CarDashboard: React.FC = () => {
           </div>
 
           {/* Labor Cost Fuel Gauge */}
-          <div className="gauge-container medium-gauge">
+          <div className="gauge-container medium-gauge liquid-glass-card">
             <div className="gauge-title">Labor Cost %</div>
             <div className="fuel-gauge">
               <div className="fuel-tank">
@@ -134,7 +134,7 @@ const CarDashboard: React.FC = () => {
           </div>
 
           {/* Customer Satisfaction Warning Lights */}
-          <div className="gauge-container warning-lights">
+          <div className="gauge-container warning-lights liquid-glass-card">
             <div className="gauge-title">Customer Satisfaction</div>
             <div className="warning-panel">
               {[1, 2, 3, 4, 5].map(star => (
@@ -156,7 +156,7 @@ const CarDashboard: React.FC = () => {
           </div>
 
           {/* Table Turnover Odometer */}
-          <div className="gauge-container odometer-gauge">
+          <div className="gauge-container odometer-gauge liquid-glass-card">
             <div className="gauge-title">Table Turnover</div>
             <div className="odometer">
               <div className="odometer-display">
@@ -176,7 +176,7 @@ const CarDashboard: React.FC = () => {
           </div>
 
           {/* Additional KPIs */}
-          <div className="gauge-container kpi-panel">
+          <div className="gauge-container kpi-panel liquid-glass-card">
             <div className="gauge-title">Key Performance Indicators</div>
             <div className="kpi-grid">
               <div className="kpi-item">
@@ -206,27 +206,11 @@ const CarDashboard: React.FC = () => {
 
       <style>{`
         .car-dashboard-container {
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
           min-height: 100vh;
           padding: 1rem;
           font-family: 'Segoe UI', -apple-system, sans-serif;
-          color: #ffffff;
           position: relative;
           overflow-x: auto;
-        }
-
-        .car-dashboard-container::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: 
-            radial-gradient(circle at 20% 30%, rgba(255, 100, 100, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(100, 255, 100, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 50% 50%, rgba(100, 100, 255, 0.05) 0%, transparent 70%);
-          pointer-events: none;
         }
 
         .dashboard-header {
@@ -235,17 +219,13 @@ const CarDashboard: React.FC = () => {
           align-items: center;
           margin-bottom: 2rem;
           padding: 1rem;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 15px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
         }
 
         .back-button {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          color: #64b5f6;
+          color: hsl(var(--primary));
           text-decoration: none;
           padding: 0.5rem 1rem;
           border-radius: 8px;
@@ -253,7 +233,7 @@ const CarDashboard: React.FC = () => {
         }
 
         .back-button:hover {
-          background: rgba(100, 181, 246, 0.1);
+          background: rgba(245, 166, 35, 0.1);
           transform: translateX(-2px);
         }
 
@@ -263,7 +243,7 @@ const CarDashboard: React.FC = () => {
           gap: 0.5rem;
           font-size: 1.5rem;
           font-weight: 300;
-          color: #ffffff;
+          color: hsl(var(--foreground));
         }
 
         .dashboard-grid {
@@ -275,26 +255,9 @@ const CarDashboard: React.FC = () => {
         }
 
         .gauge-container {
-          background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(50, 50, 50, 0.7));
-          border-radius: 20px;
           padding: 1.5rem;
-          border: 2px solid rgba(100, 100, 100, 0.3);
-          box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.6),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
           position: relative;
           overflow: hidden;
-        }
-
-        .gauge-container::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.03) 70%);
-          pointer-events: none;
         }
 
         .large-gauge {
@@ -305,7 +268,7 @@ const CarDashboard: React.FC = () => {
           text-align: center;
           font-size: 1.1rem;
           font-weight: 300;
-          color: #b0b0b0;
+          color: hsl(var(--muted-foreground));
           margin-bottom: 1rem;
           text-transform: uppercase;
           letter-spacing: 1px;
@@ -328,12 +291,12 @@ const CarDashboard: React.FC = () => {
               #4caf50 0deg 126deg,
               #ffc107 126deg 153deg,
               #f44336 153deg 180deg,
-              #333 180deg);
+              hsl(var(--muted)) 180deg);
           position: relative;
-          border: 8px solid #555;
+          border: 8px solid hsl(var(--border));
           box-shadow: 
-            0 0 30px rgba(0, 0, 0, 0.8),
-            inset 0 0 30px rgba(0, 0, 0, 0.5);
+            0 0 30px rgba(0, 0, 0, 0.3),
+            inset 0 0 30px rgba(0, 0, 0, 0.2);
         }
 
         .gauge-face::before {
@@ -343,9 +306,9 @@ const CarDashboard: React.FC = () => {
           left: 20px;
           right: 20px;
           bottom: 20px;
-          background: #1a1a1a;
+          background: hsl(var(--card));
           border-radius: 50%;
-          border: 2px solid #333;
+          border: 2px solid hsl(var(--border));
         }
 
         .speed-markings {
@@ -372,7 +335,7 @@ const CarDashboard: React.FC = () => {
           top: 25px;
           left: -10px;
           font-size: 12px;
-          color: #fff;
+          color: hsl(var(--foreground));
           font-weight: 500;
         }
 
@@ -380,14 +343,14 @@ const CarDashboard: React.FC = () => {
           position: absolute;
           width: 4px;
           height: 120px;
-          background: linear-gradient(to top, #666, #fff);
+          background: linear-gradient(to top, hsl(var(--muted-foreground)), hsl(var(--foreground)));
           top: 50%;
           left: 50%;
           transform-origin: 50% 100%;
           border-radius: 2px;
           transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 10;
-          box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+          box-shadow: 0 0 10px rgba(245, 166, 35, 0.5);
         }
 
         .speedometer-needle.warning {
@@ -431,13 +394,13 @@ const CarDashboard: React.FC = () => {
         .primary-value {
           font-size: 1.8rem;
           font-weight: 600;
-          color: #64b5f6;
-          text-shadow: 0 0 10px rgba(100, 181, 246, 0.5);
+          color: hsl(var(--primary));
+          text-shadow: 0 0 10px rgba(245, 166, 35, 0.5);
         }
 
         .secondary-value {
           font-size: 0.9rem;
-          color: #b0b0b0;
+          color: hsl(var(--muted-foreground));
           margin-top: 4px;
         }
 
@@ -453,10 +416,10 @@ const CarDashboard: React.FC = () => {
           width: 100%;
           height: 100%;
           border-radius: 50%;
-          background: #1a1a1a;
+          background: hsl(var(--card));
           position: relative;
-          border: 6px solid #444;
-          box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.5);
+          border: 6px solid hsl(var(--border));
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.2);
         }
 
         .tach-zones {
@@ -517,12 +480,12 @@ const CarDashboard: React.FC = () => {
         .tach-value {
           font-size: 1.4rem;
           font-weight: 600;
-          color: #ff9800;
+          color: hsl(var(--primary));
         }
 
         .tach-label {
           font-size: 0.8rem;
-          color: #888;
+          color: hsl(var(--muted-foreground));
           margin-top: 2px;
         }
 
@@ -538,8 +501,8 @@ const CarDashboard: React.FC = () => {
         .fuel-tank {
           width: 40px;
           height: 150px;
-          background: #222;
-          border: 3px solid #555;
+          background: hsl(var(--muted));
+          border: 3px solid hsl(var(--border));
           border-radius: 20px;
           position: relative;
           overflow: hidden;
@@ -568,7 +531,7 @@ const CarDashboard: React.FC = () => {
 
         .fuel-mark {
           font-size: 0.8rem;
-          color: #888;
+          color: hsl(var(--muted-foreground));
           font-weight: bold;
         }
 
@@ -579,12 +542,12 @@ const CarDashboard: React.FC = () => {
         .fuel-value {
           font-size: 1.6rem;
           font-weight: 600;
-          color: #4caf50;
+          color: hsl(var(--primary));
         }
 
         .fuel-status {
           font-size: 0.9rem;
-          color: #888;
+          color: hsl(var(--muted-foreground));
           margin-top: 8px;
           font-weight: 500;
         }
@@ -601,8 +564,8 @@ const CarDashboard: React.FC = () => {
           height: 30px;
           margin: 0 5px;
           border-radius: 50%;
-          background: #333;
-          border: 2px solid #555;
+          background: hsl(var(--muted));
+          border: 2px solid hsl(var(--border));
           line-height: 26px;
           text-align: center;
           font-size: 16px;
@@ -637,12 +600,12 @@ const CarDashboard: React.FC = () => {
         .satisfaction-value {
           font-size: 1.8rem;
           font-weight: 600;
-          color: #64b5f6;
+          color: hsl(var(--primary));
         }
 
         .satisfaction-label {
           font-size: 0.9rem;
-          color: #888;
+          color: hsl(var(--muted-foreground));
           margin-top: 4px;
         }
 
@@ -656,16 +619,16 @@ const CarDashboard: React.FC = () => {
           display: flex;
           justify-content: center;
           align-items: center;
-          background: #000;
-          border: 2px solid #333;
+          background: hsl(var(--card));
+          border: 2px solid hsl(var(--border));
           border-radius: 10px;
           padding: 1rem;
           margin-bottom: 1rem;
           font-family: 'Courier New', monospace;
           font-size: 2.5rem;
           font-weight: bold;
-          color: #00ff00;
-          text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+          color: hsl(var(--primary));
+          text-shadow: 0 0 10px rgba(245, 166, 35, 0.5);
         }
 
         .odometer-digit {
@@ -676,12 +639,12 @@ const CarDashboard: React.FC = () => {
 
         .odometer-decimal {
           margin: 0 5px;
-          color: #888;
+          color: hsl(var(--muted-foreground));
         }
 
         .odometer-label {
           font-size: 0.9rem;
-          color: #888;
+          color: hsl(var(--muted-foreground));
           margin-bottom: 0.5rem;
         }
 
@@ -691,8 +654,8 @@ const CarDashboard: React.FC = () => {
           padding: 4px 12px;
           border-radius: 15px;
           display: inline-block;
-          background: rgba(100, 181, 246, 0.1);
-          color: #64b5f6;
+          background: rgba(245, 166, 35, 0.1);
+          color: hsl(var(--primary));
         }
 
         /* KPI Panel Styles */
@@ -706,7 +669,7 @@ const CarDashboard: React.FC = () => {
         .kpi-item {
           text-align: center;
           padding: 1rem;
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(255, 255, 255, 0.03);
           border-radius: 10px;
           border: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -714,20 +677,20 @@ const CarDashboard: React.FC = () => {
         .kpi-icon {
           width: 24px;
           height: 24px;
-          color: #64b5f6;
+          color: hsl(var(--primary));
           margin: 0 auto 0.5rem;
         }
 
         .kpi-value {
           font-size: 1.4rem;
           font-weight: 600;
-          color: #fff;
+          color: hsl(var(--foreground));
           margin-bottom: 0.25rem;
         }
 
         .kpi-label {
           font-size: 0.8rem;
-          color: #888;
+          color: hsl(var(--muted-foreground));
         }
 
         /* Responsive Design */
