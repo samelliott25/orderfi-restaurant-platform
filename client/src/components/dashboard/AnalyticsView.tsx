@@ -256,7 +256,7 @@ export function AnalyticsView() {
           <CardContent>
             <div className="space-y-4">
               {currentAnalytics.aiInsights.map(insight => (
-                <div key={insight.id} className="flex items-start space-x-3 p-3 bg-white dark:bg-gray-800 rounded-lg">
+                <div key={insight.id} className="flex items-start space-x-3 p-3 bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/10">
                   {getInsightIcon(insight.type)}
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
@@ -438,7 +438,7 @@ export function AnalyticsView() {
                 </ResponsiveContainer>
                 <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                   {currentAnalytics.wasteAnalysis.map((item, index) => (
-                    <div key={index} className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                    <div key={index} className="p-3 bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/10">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium">{item.item}</span>
                         <Badge variant="destructive" className="text-xs">

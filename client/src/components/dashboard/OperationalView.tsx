@@ -284,7 +284,7 @@ export function OperationalView() {
           <CardContent>
             <div className="space-y-3">
               {currentAlerts.slice(0, 3).map(alert => (
-                <div key={alert.id} className="flex items-start space-x-3 p-3 bg-white dark:bg-gray-800 rounded-lg">
+                <div key={alert.id} className="flex items-start space-x-3 p-3 bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-lg border border-white/20 dark:border-white/10">
                   {getAlertIcon(alert.type)}
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
@@ -328,7 +328,7 @@ export function OperationalView() {
             <ScrollArea className="h-96">
               <div className="space-y-3">
                 {currentOrders.map(order => (
-                  <div key={order.id} className={`p-3 rounded-lg border ${getPriorityColor(order.priority)} bg-gray-50 dark:bg-gray-900`}>
+                  <div key={order.id} className={`p-3 rounded-lg border ${getPriorityColor(order.priority)} bg-white/10 dark:bg-white/5 backdrop-blur-sm border-white/20 dark:border-white/10`}>
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
                         <span className="font-medium text-sm">{order.customerName}</span>
