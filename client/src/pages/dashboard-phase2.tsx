@@ -232,25 +232,28 @@ export default function DashboardPhase2() {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={
                   timePeriod === 'daily' ? [
-                    { name: 'Mon', sales: 2400, laborPercent: 28.5, cogs: 960, grossProfit: 1440 },
-                    { name: 'Tue', sales: 1398, laborPercent: 32.1, cogs: 559, grossProfit: 839 },
-                    { name: 'Wed', sales: 9800, laborPercent: 25.2, cogs: 3920, grossProfit: 5880 },
-                    { name: 'Thu', sales: 3908, laborPercent: 29.7, cogs: 1563, grossProfit: 2345 },
-                    { name: 'Fri', sales: 4800, laborPercent: 27.8, cogs: 1920, grossProfit: 2880 },
-                    { name: 'Sat', sales: 3800, laborPercent: 31.4, cogs: 1520, grossProfit: 2280 },
-                    { name: 'Sun', sales: 4300, laborPercent: 26.9, cogs: 1720, grossProfit: 2580 }
+                    // Daily data: Based on $1,350 industry average with realistic variations
+                    { name: 'Mon', sales: 1180, laborPercent: 31.2 }, // Slower start of week
+                    { name: 'Tue', sales: 1250, laborPercent: 29.8 }, // Mid-week pickup
+                    { name: 'Wed', sales: 1320, laborPercent: 28.5 }, // Building momentum
+                    { name: 'Thu', sales: 1450, laborPercent: 27.9 }, // Pre-weekend surge
+                    { name: 'Fri', sales: 1680, laborPercent: 26.4 }, // Peak night
+                    { name: 'Sat', sales: 1820, laborPercent: 25.8 }, // Busiest day
+                    { name: 'Sun', sales: 1390, laborPercent: 28.7 }  // Family dining
                   ] : timePeriod === 'weekly' ? [
-                    { name: 'W1', sales: 16800, laborPercent: 28.2, cogs: 6720, grossProfit: 10080 },
-                    { name: 'W2', sales: 18200, laborPercent: 29.8, cogs: 7280, grossProfit: 10920 },
-                    { name: 'W3', sales: 21400, laborPercent: 26.5, cogs: 8560, grossProfit: 12840 },
-                    { name: 'W4', sales: 19600, laborPercent: 30.1, cogs: 7840, grossProfit: 11760 }
+                    // Weekly data: Aggregated from daily averages (~$9,450/week)
+                    { name: 'W1', sales: 8950, laborPercent: 29.2 }, // Slower week
+                    { name: 'W2', sales: 9680, laborPercent: 28.1 }, // Average performance
+                    { name: 'W3', sales: 10240, laborPercent: 27.3 }, // Strong week
+                    { name: 'W4', sales: 9120, laborPercent: 30.4 }  // Staff shortage week
                   ] : [
-                    { name: 'Jan', sales: 68400, laborPercent: 28.9, cogs: 27360, grossProfit: 41040 },
-                    { name: 'Feb', sales: 72800, laborPercent: 27.6, cogs: 29120, grossProfit: 43680 },
-                    { name: 'Mar', sales: 81200, laborPercent: 26.3, cogs: 32480, grossProfit: 48720 },
-                    { name: 'Apr', sales: 78600, laborPercent: 29.4, cogs: 31440, grossProfit: 47160 },
-                    { name: 'May', sales: 85400, laborPercent: 25.8, cogs: 34160, grossProfit: 51240 },
-                    { name: 'Jun', sales: 89200, laborPercent: 24.7, cogs: 35680, grossProfit: 53520 }
+                    // Monthly data: Based on $493K annual average (~$41K/month)
+                    { name: 'Jan', sales: 38400, laborPercent: 32.1 }, // Post-holiday slowdown
+                    { name: 'Feb', sales: 35200, laborPercent: 33.4 }, // Shortest month, winter lull
+                    { name: 'Mar', sales: 41800, laborPercent: 29.6 }, // Spring recovery
+                    { name: 'Apr', sales: 43200, laborPercent: 28.3 }, // Strong spring month
+                    { name: 'May', sales: 45600, laborPercent: 27.1 }, // Peak season begins
+                    { name: 'Jun', sales: 47500, laborPercent: 26.8 }  // Summer high season
                   ]
                 }>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
