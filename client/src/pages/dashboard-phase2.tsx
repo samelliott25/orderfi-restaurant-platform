@@ -299,16 +299,7 @@ export default function DashboardPhase2() {
                     name="Labor % of Sales"
                   />
                   
-                  {/* Gross Profit Line - Secondary metric */}
-                  <Line 
-                    yAxisId="left"
-                    type="monotone" 
-                    dataKey="grossProfit" 
-                    stroke="#10b981" 
-                    strokeWidth={2}
-                    dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
-                    name="Gross Profit ($)"
-                  />
+
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -322,10 +313,6 @@ export default function DashboardPhase2() {
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-1 bg-red-600 rounded opacity-80" style={{ backgroundImage: 'repeating-linear-gradient(to right, #dc2626 0, #dc2626 8px, transparent 8px, transparent 12px)' }}></div>
                 <span className="text-xs text-muted-foreground font-medium">Labor % of Sales</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-4 h-1 bg-green-500 rounded"></div>
-                <span className="text-xs text-muted-foreground font-medium">Gross Profit ($)</span>
               </div>
             </div>
             
