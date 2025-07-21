@@ -196,9 +196,9 @@ export default function DashboardPhase2() {
           <div className="liquid-glass-card p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                {timePeriod === 'daily' ? 'Daily Performance' : 
-                 timePeriod === 'weekly' ? 'Weekly Performance' : 
-                 'Monthly Performance'}
+                {timePeriod === 'daily' ? 'Daily P&L Analysis' : 
+                 timePeriod === 'weekly' ? 'Weekly P&L Analysis' : 
+                 'Monthly P&L Analysis'}
               </h3>
               <div className="flex items-center space-x-2">
                 <Button
@@ -232,25 +232,25 @@ export default function DashboardPhase2() {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={
                   timePeriod === 'daily' ? [
-                    { name: 'Mon', revenue: 2400, orders: 45, customers: 38, avgOrder: 53.33 },
-                    { name: 'Tue', revenue: 1398, orders: 32, customers: 28, avgOrder: 43.69 },
-                    { name: 'Wed', revenue: 9800, orders: 78, customers: 65, avgOrder: 125.64 },
-                    { name: 'Thu', revenue: 3908, orders: 54, customers: 47, avgOrder: 72.37 },
-                    { name: 'Fri', revenue: 4800, orders: 69, customers: 58, avgOrder: 69.57 },
-                    { name: 'Sat', revenue: 3800, orders: 58, customers: 49, avgOrder: 65.52 },
-                    { name: 'Sun', revenue: 4300, orders: 61, customers: 52, avgOrder: 70.49 }
+                    { name: 'Mon', sales: 2400, laborPercent: 28.5, cogs: 960, grossProfit: 1440 },
+                    { name: 'Tue', sales: 1398, laborPercent: 32.1, cogs: 559, grossProfit: 839 },
+                    { name: 'Wed', sales: 9800, laborPercent: 25.2, cogs: 3920, grossProfit: 5880 },
+                    { name: 'Thu', sales: 3908, laborPercent: 29.7, cogs: 1563, grossProfit: 2345 },
+                    { name: 'Fri', sales: 4800, laborPercent: 27.8, cogs: 1920, grossProfit: 2880 },
+                    { name: 'Sat', sales: 3800, laborPercent: 31.4, cogs: 1520, grossProfit: 2280 },
+                    { name: 'Sun', sales: 4300, laborPercent: 26.9, cogs: 1720, grossProfit: 2580 }
                   ] : timePeriod === 'weekly' ? [
-                    { name: 'W1', revenue: 16800, orders: 315, customers: 268, avgOrder: 53.33 },
-                    { name: 'W2', revenue: 18200, orders: 342, customers: 294, avgOrder: 53.22 },
-                    { name: 'W3', revenue: 21400, orders: 398, customers: 338, avgOrder: 53.77 },
-                    { name: 'W4', revenue: 19600, orders: 371, customers: 315, avgOrder: 52.83 }
+                    { name: 'W1', sales: 16800, laborPercent: 28.2, cogs: 6720, grossProfit: 10080 },
+                    { name: 'W2', sales: 18200, laborPercent: 29.8, cogs: 7280, grossProfit: 10920 },
+                    { name: 'W3', sales: 21400, laborPercent: 26.5, cogs: 8560, grossProfit: 12840 },
+                    { name: 'W4', sales: 19600, laborPercent: 30.1, cogs: 7840, grossProfit: 11760 }
                   ] : [
-                    { name: 'Jan', revenue: 68400, orders: 1284, customers: 1089, avgOrder: 53.27 },
-                    { name: 'Feb', revenue: 72800, orders: 1367, customers: 1162, avgOrder: 53.25 },
-                    { name: 'Mar', revenue: 81200, orders: 1521, customers: 1294, avgOrder: 53.39 },
-                    { name: 'Apr', revenue: 78600, orders: 1473, customers: 1253, avgOrder: 53.37 },
-                    { name: 'May', revenue: 85400, orders: 1602, customers: 1362, avgOrder: 53.31 },
-                    { name: 'Jun', revenue: 89200, orders: 1673, customers: 1424, avgOrder: 53.33 }
+                    { name: 'Jan', sales: 68400, laborPercent: 28.9, cogs: 27360, grossProfit: 41040 },
+                    { name: 'Feb', sales: 72800, laborPercent: 27.6, cogs: 29120, grossProfit: 43680 },
+                    { name: 'Mar', sales: 81200, laborPercent: 26.3, cogs: 32480, grossProfit: 48720 },
+                    { name: 'Apr', sales: 78600, laborPercent: 29.4, cogs: 31440, grossProfit: 47160 },
+                    { name: 'May', sales: 85400, laborPercent: 25.8, cogs: 34160, grossProfit: 51240 },
+                    { name: 'Jun', sales: 89200, laborPercent: 24.7, cogs: 35680, grossProfit: 53520 }
                   ]
                 }>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
@@ -258,13 +258,14 @@ export default function DashboardPhase2() {
                   <YAxis 
                     yAxisId="left"
                     stroke="hsl(var(--muted-foreground))" 
-                    label={{ value: 'Revenue ($)', angle: -90, position: 'insideLeft' }}
+                    label={{ value: 'Sales ($)', angle: -90, position: 'insideLeft' }}
                   />
                   <YAxis 
                     yAxisId="right" 
                     orientation="right"
                     stroke="hsl(var(--muted-foreground))" 
-                    label={{ value: 'Orders/Customers', angle: 90, position: 'insideRight' }}
+                    label={{ value: 'Labor %', angle: 90, position: 'insideRight' }}
+                    domain={[20, 35]}
                   />
                   <Tooltip 
                     contentStyle={{ 
@@ -275,72 +276,74 @@ export default function DashboardPhase2() {
                     }} 
                   />
                   
-                  {/* Revenue Line - Primary metric */}
+                  {/* Sales Line - Primary metric */}
                   <Line 
                     yAxisId="left"
                     type="monotone" 
-                    dataKey="revenue" 
+                    dataKey="sales" 
                     stroke="#f97316" 
+                    strokeWidth={4}
+                    dot={{ fill: '#f97316', strokeWidth: 2, r: 6 }}
+                    name="Sales ($)"
+                  />
+                  
+                  {/* Labor Percentage Line - Key P&L metric */}
+                  <Line 
+                    yAxisId="right"
+                    type="monotone" 
+                    dataKey="laborPercent" 
+                    stroke="#dc2626" 
                     strokeWidth={3}
-                    dot={{ fill: '#f97316', strokeWidth: 2, r: 5 }}
-                    name="Revenue ($)"
+                    strokeDasharray="8 4"
+                    dot={{ fill: '#dc2626', strokeWidth: 2, r: 5 }}
+                    name="Labor % of Sales"
                   />
                   
-                  {/* Orders Line */}
+                  {/* Gross Profit Line - Secondary metric */}
                   <Line 
-                    yAxisId="right"
+                    yAxisId="left"
                     type="monotone" 
-                    dataKey="orders" 
-                    stroke="#3b82f6" 
-                    strokeWidth={2}
-                    strokeDasharray="5 5"
-                    dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
-                    name="Orders"
-                  />
-                  
-                  {/* Customers Line */}
-                  <Line 
-                    yAxisId="right"
-                    type="monotone" 
-                    dataKey="customers" 
+                    dataKey="grossProfit" 
                     stroke="#10b981" 
                     strokeWidth={2}
-                    dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
-                    name="Customers"
-                  />
-                  
-                  {/* Avg Order Value Line */}
-                  <Line 
-                    yAxisId="left"
-                    type="monotone" 
-                    dataKey="avgOrder" 
-                    stroke="#8b5cf6" 
-                    strokeWidth={2}
-                    strokeDasharray="10 5"
-                    dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 3 }}
-                    name="Avg Order ($)"
+                    dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+                    name="Gross Profit ($)"
                   />
                 </LineChart>
               </ResponsiveContainer>
             </div>
             
-            {/* Legend */}
-            <div className="flex flex-wrap items-center justify-center gap-4 mt-4 pt-4 border-t border-white/10">
+            {/* P&L Legend */}
+            <div className="flex flex-wrap items-center justify-center gap-6 mt-4 pt-4 border-t border-white/10">
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-0.5 bg-orange-500"></div>
-                <span className="text-xs text-muted-foreground">Revenue ($)</span>
+                <div className="w-4 h-1 bg-orange-500 rounded"></div>
+                <span className="text-xs text-muted-foreground font-medium">Sales ($)</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-0.5 bg-blue-500 opacity-60" style={{ backgroundImage: 'repeating-linear-gradient(to right, #3b82f6 0, #3b82f6 5px, transparent 5px, transparent 10px)' }}></div>
-                <span className="text-xs text-muted-foreground">Orders</span>
+                <div className="w-4 h-1 bg-red-600 rounded opacity-80" style={{ backgroundImage: 'repeating-linear-gradient(to right, #dc2626 0, #dc2626 8px, transparent 8px, transparent 12px)' }}></div>
+                <span className="text-xs text-muted-foreground font-medium">Labor % of Sales</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-0.5 bg-green-500"></div>
-                <span className="text-xs text-muted-foreground">Customers</span>
+                <div className="w-4 h-1 bg-green-500 rounded"></div>
+                <span className="text-xs text-muted-foreground font-medium">Gross Profit ($)</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-0.5 bg-purple-500 opacity-60" style={{ backgroundImage: 'repeating-linear-gradient(to right, #8b5cf6 0, #8b5cf6 10px, transparent 10px, transparent 15px)' }}></div>
-                <span className="text-xs text-muted-foreground">Avg Order ($)</span>
+            </div>
+            
+            {/* P&L Key Insights */}
+            <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                <div>
+                  <div className="text-xs text-muted-foreground">Target Labor %</div>
+                  <div className="text-sm font-semibold text-green-600">≤ 30%</div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground">Optimal Range</div>
+                  <div className="text-sm font-semibold text-yellow-600">25-30%</div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground">Critical Level</div>
+                  <div className="text-sm font-semibold text-red-600">&gt; 35%</div>
+                </div>
               </div>
             </div>
           </div>
