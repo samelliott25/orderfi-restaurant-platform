@@ -45,10 +45,11 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  modifiers: Array<{ name: string; price_delta: number }>;
+  modifiers: Array<{ id: number; name: string; price_delta: number }>;
 }
 
 interface Modifier {
+  id: number;
   name: string;
   price_delta: number;
 }
@@ -63,12 +64,12 @@ export default function MobileAppPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   // Get menu items from API
-  const { data: apiMenuItems = [], isLoading } = useQuery({
+  const { data: apiMenuItems = [], isLoading } = useQuery<MenuItem[]>({
     queryKey: ['/api/menu-items', 1],
   });
 
   // Sample menu items for demo
-  const menuItems: MenuItem[] = apiMenuItems.length > 0 ? apiMenuItems : [
+  const menuItems: MenuItem[] = Array.isArray(apiMenuItems) && apiMenuItems.length > 0 ? apiMenuItems : [
     {
       id: 1,
       name: "Pepperoni Pizza",
@@ -153,7 +154,7 @@ export default function MobileAppPage() {
     const newItem: CartItem = {
       id: Date.now(),
       name: item.name,
-      price: item.price,
+      price: typeof item.price === 'string' ? parseFloat(item.price) : item.price,
       quantity,
       modifiers
     };
