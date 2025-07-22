@@ -39,37 +39,30 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       driftY: Math.random() * 0.2 - 0.1, // Random vertical drift
     }));
 
-    // Load background images
-    const lightImage = new Image();
+    // Load dark background image (light mode uses solid white)
     const darkImage = new Image();
-    lightImage.src = lightBg;
     darkImage.src = darkBg;
 
     // Draw function
     const draw = () => {
-      // Use theme-aware background images
-      const backgroundImage = theme === 'dark' ? darkImage : lightImage;
-      
-      if (backgroundImage.complete) {
-        // Draw the background image to cover the entire canvas
-        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-      } else {
-        // Fallback gradient while image loads
-        if (theme === 'dark') {
+      if (theme === 'dark') {
+        // Use dark neon background image
+        const backgroundImage = darkImage;
+        if (backgroundImage.complete) {
+          ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        } else {
+          // Fallback dark background while image loads
           ctx.fillStyle = '#0a0a0a';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
-        } else {
-          const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-          gradient.addColorStop(0, '#F5A623');
-          gradient.addColorStop(0.5, '#ffffff');
-          gradient.addColorStop(1, '#ec4899');
-          ctx.fillStyle = gradient;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
+      } else {
+        // Clean white background for light mode
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
-      // Draw stars with theme-aware colors that complement the neon backgrounds
-      const starColor = 'rgba(255, 255, 255, '; // White stars for both modes
+      // Draw stars with theme-aware colors
+      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(200, 200, 200, '; // White stars in dark, light gray in light mode
       stars.forEach(star => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
