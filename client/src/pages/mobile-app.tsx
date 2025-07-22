@@ -198,25 +198,25 @@ export default function MobileAppPage() {
       <div className="flex items-center justify-center h-full w-full p-4">
         {/* iPhone 15 Pro Mockup Container - Full Size */}
         <div className="relative h-full w-full max-w-[500px] flex items-center justify-center">
-        {/* iPhone Outline Frame */}
-        <div className="relative w-full h-full max-w-[500px] max-h-[900px] border-[3px] border-gray-300 dark:border-gray-600 rounded-[60px] p-[8px] shadow-2xl bg-white/10 dark:bg-gray-900/10 backdrop-blur-lg" style={{ aspectRatio: '375/812' }}>
-          {/* Volume Buttons - Outline */}
-          <div className="absolute left-[-3px] top-[15%] w-[3px] h-[8%] border-l-[2px] border-gray-300 dark:border-gray-600"></div>
-          <div className="absolute left-[-3px] top-[25%] w-[3px] h-[8%] border-l-[2px] border-gray-300 dark:border-gray-600"></div>
-          <div className="absolute left-[-3px] top-[35%] w-[3px] h-[12%] border-l-[2px] border-gray-300 dark:border-gray-600"></div>
+        {/* iPhone Outline Frame with Glassmorphism */}
+        <div className="relative w-full h-full max-w-[500px] max-h-[900px] liquid-glass-card border-[3px] border-white/30 dark:border-white/20 rounded-[60px] p-[8px] shadow-2xl" style={{ aspectRatio: '375/812' }}>
+          {/* Volume Buttons - Glassmorphism */}
+          <div className="absolute left-[-3px] top-[15%] w-[3px] h-[8%] bg-white/20 dark:bg-white/10 backdrop-blur-sm border-l-[2px] border-white/30 dark:border-white/20 rounded-l-sm"></div>
+          <div className="absolute left-[-3px] top-[25%] w-[3px] h-[8%] bg-white/20 dark:bg-white/10 backdrop-blur-sm border-l-[2px] border-white/30 dark:border-white/20 rounded-l-sm"></div>
+          <div className="absolute left-[-3px] top-[35%] w-[3px] h-[12%] bg-white/20 dark:bg-white/10 backdrop-blur-sm border-l-[2px] border-white/30 dark:border-white/20 rounded-l-sm"></div>
           
-          {/* Power Button - Outline */}
-          <div className="absolute right-[-3px] top-[30%] w-[3px] h-[12%] border-r-[2px] border-gray-300 dark:border-gray-600"></div>
+          {/* Power Button - Glassmorphism */}
+          <div className="absolute right-[-3px] top-[30%] w-[3px] h-[12%] bg-white/20 dark:bg-white/10 backdrop-blur-sm border-r-[2px] border-white/30 dark:border-white/20 rounded-r-sm"></div>
           
-          {/* Inner Frame */}
-          <div className="relative w-full h-full bg-background border-[2px] border-border rounded-[52px] overflow-hidden">
-            {/* Dynamic Island - Outline */}
-            <div className="absolute top-[2%] left-1/2 transform -translate-x-1/2 w-[35%] h-[5%] border-[2px] border-border rounded-[19px] z-20"></div>
+          {/* Inner Frame with Glassmorphism */}
+          <div className="relative w-full h-full liquid-glass-card border-[2px] border-white/20 dark:border-white/10 rounded-[52px] overflow-hidden">
+            {/* Dynamic Island - Glassmorphism */}
+            <div className="absolute top-[2%] left-1/2 transform -translate-x-1/2 w-[35%] h-[5%] bg-black/80 backdrop-blur-sm border-[2px] border-white/10 rounded-[19px] z-20"></div>
             
-            {/* Screen Content */}
-            <div className="absolute inset-0 bg-background rounded-[52px] overflow-hidden">
-              {/* Status Bar */}
-              <div className="absolute top-0 left-0 right-0 h-[7%] bg-background z-10">
+            {/* Screen Content with Glassmorphism */}
+            <div className="absolute inset-0 liquid-glass-card rounded-[52px] overflow-hidden">
+              {/* Status Bar with Glassmorphism */}
+              <div className="absolute top-0 left-0 right-0 h-[7%] liquid-glass-card z-10">
                 <div className="flex justify-between items-center px-8 pt-[16px] text-foreground text-sm font-medium">
                   <div className="flex items-center gap-1">
                     <div className="flex gap-1">
@@ -242,10 +242,10 @@ export default function MobileAppPage() {
                 </div>
               </div>
               
-              {/* App Content with proper offset for status bar */}
-              <div className="absolute top-[7%] left-0 right-0 bottom-0 overflow-y-auto bg-background">
-                {/* Header */}
-                <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border p-4">
+              {/* App Content with glassmorphism and space for bottom ChatBot */}
+              <div className="absolute top-[7%] left-0 right-0 bottom-[80px] overflow-y-auto liquid-glass-card">
+                {/* Header with Enhanced Glassmorphism */}
+                <div className="sticky top-0 z-10 liquid-glass-card border-b border-white/20 dark:border-white/10 p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 flex items-center justify-center">
@@ -260,15 +260,8 @@ export default function MobileAppPage() {
                       <Button 
                         variant="outline" 
                         size="sm"
-                        onClick={() => setIsChatOpen(true)}
-                      >
-                        <MessageCircle className="w-4 h-4" />
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
                         onClick={() => setIsCartOpen(true)}
-                        className="relative"
+                        className="relative liquid-glass-nav-item"
                       >
                         <ShoppingCart className="w-4 h-4" />
                         {cartItemsCount > 0 && (
@@ -293,8 +286,8 @@ export default function MobileAppPage() {
                   </div>
                 </div>
 
-                {/* Category Tabs */}
-                <div className="sticky top-[140px] z-10 bg-background/80 backdrop-blur-md border-b border-border p-4">
+                {/* Category Tabs with Glassmorphism */}
+                <div className="sticky top-[140px] z-10 liquid-glass-card border-b border-white/20 dark:border-white/10 p-4">
                   <div className="flex gap-2 overflow-x-auto scrollbar-hide">
                     {categories.map(category => (
                       <button
@@ -302,8 +295,8 @@ export default function MobileAppPage() {
                         onClick={() => setSelectedCategory(category.id)}
                         className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                           selectedCategory === category.id
-                            ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
-                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                            ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white liquid-glass-nav-item'
+                            : 'liquid-glass-nav-item text-muted-foreground hover:bg-white/20 dark:hover:bg-white/10'
                         }`}
                       >
                         <span className="mr-2">{category.icon}</span>
@@ -329,6 +322,16 @@ export default function MobileAppPage() {
                     />
                   )}
                 </div>
+              </div>
+              
+              {/* Bottom ChatBot Icon - Fixed Position */}
+              <div className="absolute bottom-4 right-4 z-30">
+                <Button
+                  onClick={() => setIsChatOpen(true)}
+                  className="w-14 h-14 rounded-full liquid-glass-nav-item bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+                >
+                  <MessageCircle className="w-6 h-6" />
+                </Button>
               </div>
             </div>
           </div>
