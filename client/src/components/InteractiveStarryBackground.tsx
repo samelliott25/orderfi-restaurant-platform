@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useTheme } from './theme-provider';
-import lightBg from '@assets/20250718_2124_Neon Light Background_simple_compose_01k0emexs2fdmsv8exv2yzx333_1752838166331.png';
+import lightBg from '@assets/20250722_1640_Blurry Light Background_simple_compose_01k0rdrpjaeyjshyjwnv27t7fw_1753166586611.png';
 import darkBg from '@assets/20250718_2127_Neon Space Vibes_simple_compose_01k0emkcm6ez8v5n5bxrd1z1pb_1752838166332.png';
 
 const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
@@ -39,30 +39,34 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       driftY: Math.random() * 0.2 - 0.1, // Random vertical drift
     }));
 
-    // Load dark background image (light mode uses solid white)
+    // Load background images
+    const lightImage = new Image();
     const darkImage = new Image();
+    lightImage.src = lightBg;
     darkImage.src = darkBg;
 
     // Draw function
     const draw = () => {
-      if (theme === 'dark') {
-        // Use dark neon background image
-        const backgroundImage = darkImage;
-        if (backgroundImage.complete) {
-          ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-        } else {
-          // Fallback dark background while image loads
+      // Use theme-aware background images
+      const backgroundImage = theme === 'dark' ? darkImage : lightImage;
+      
+      if (backgroundImage.complete) {
+        // Draw the background image to cover the entire canvas
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+      } else {
+        // Fallback backgrounds while images load
+        if (theme === 'dark') {
           ctx.fillStyle = '#0a0a0a';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else {
+          // Soft light fallback that matches the blurry background
+          ctx.fillStyle = '#f8f9fa';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
-      } else {
-        // Clean white background for light mode
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
-      // Draw stars with theme-aware colors
-      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(200, 200, 200, '; // White stars in dark, light gray in light mode
+      // Draw stars with theme-aware colors that complement the backgrounds
+      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(180, 180, 180, '; // White stars in dark, subtle gray in light mode
       stars.forEach(star => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
