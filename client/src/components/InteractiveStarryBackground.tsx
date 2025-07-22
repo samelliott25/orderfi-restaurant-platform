@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useTheme } from './theme-provider';
-import lightBg from '@assets/20250722_1640_Blurry Light Background_simple_compose_01k0rdrpjaeyjshyjwnv27t7fw_1753166586611.png';
+import lightBg from '@assets/ef44eacd2cab3b49c13103dacec4858c_1753186107871.jpg';
 import darkBg from '@assets/20250718_2127_Neon Space Vibes_simple_compose_01k0emkcm6ez8v5n5bxrd1z1pb_1752838166332.png';
 
 const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
@@ -59,14 +59,18 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
           ctx.fillStyle = '#0a0a0a';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         } else {
-          // Soft light fallback that matches the blurry background
-          ctx.fillStyle = '#f8f9fa';
+          // Gradient fallback that matches the new background
+          const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+          gradient.addColorStop(0, '#a5b4fc');
+          gradient.addColorStop(0.5, '#f8bbf3');
+          gradient.addColorStop(1, '#93c5fd');
+          ctx.fillStyle = gradient;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
       }
 
       // Draw stars with theme-aware colors that complement the backgrounds
-      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(180, 180, 180, '; // White stars in dark, subtle gray in light mode
+      const starColor = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(255, 255, 255, '; // White stars for both modes to stand out against colorful backgrounds
       stars.forEach(star => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
