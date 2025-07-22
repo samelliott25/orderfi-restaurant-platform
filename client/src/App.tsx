@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { OperationsAiProvider } from "@/contexts/OperationsAiContext";
 import { ThemeProvider } from "@/components/theme-provider";
+import { BackgroundProvider } from "@/components/background-provider";
 import { ChatProvider } from "@/contexts/ChatContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { Sidebar } from "@/components/Sidebar";
@@ -205,18 +206,20 @@ function Router() {
 function App() {
   return (
     <ThemeProvider defaultTheme="light">
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <ChatProvider>
-            <CartProvider>
-              <OperationsAiProvider>
-                <Toaster />
-                <Router />
-              </OperationsAiProvider>
-            </CartProvider>
-          </ChatProvider>
-        </TooltipProvider>
-      </QueryClientProvider>
+      <BackgroundProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <ChatProvider>
+              <CartProvider>
+                <OperationsAiProvider>
+                  <Toaster />
+                  <Router />
+                </OperationsAiProvider>
+              </CartProvider>
+            </ChatProvider>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </BackgroundProvider>
     </ThemeProvider>
   );
 }

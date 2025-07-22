@@ -1,10 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { useTheme } from './theme-provider';
-import lightBg from '@assets/ef44eacd2cab3b49c13103dacec4858c_1753186107871.jpg';
+import { useBackground } from './background-provider';
+import gradient1 from '@assets/ef44eacd2cab3b49c13103dacec4858c_1753186432599.jpg';
+import gradient2 from '@assets/676917154e67251c9a8226cf18dd7f66_1753186432590.jpg';
+import gradient3 from '@assets/0c6e26854cfebc1c849c7a4e4feb772d_1753186432598.jpg';
+import blurryBg from '@assets/20250722_1640_Blurry Light Background_simple_compose_01k0rdrpjaeyjshyjwnv27t7fw_1753186432597.png';
 import darkBg from '@assets/20250718_2127_Neon Space Vibes_simple_compose_01k0emkcm6ez8v5n5bxrd1z1pb_1752838166332.png';
 
 const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { theme } = useTheme();
+  const { background } = useBackground();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const lastScrollY = useRef(0);
   const velocity = useRef(0);
@@ -39,32 +44,96 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       driftY: Math.random() * 0.2 - 0.1, // Random vertical drift
     }));
 
-    // Load background images
-    const lightImage = new Image();
-    const darkImage = new Image();
-    lightImage.src = lightBg;
-    darkImage.src = darkBg;
+    // Load all background images
+    const images = {
+      gradient1: new Image(),
+      gradient2: new Image(),
+      gradient3: new Image(),
+      gradient4: new Image(), // Will use CSS fallback
+      blurry: new Image(),
+      dark: new Image()
+    };
+    
+    images.gradient1.src = gradient1;
+    images.gradient2.src = gradient2;
+    images.gradient3.src = gradient3;
+    images.blurry.src = blurryBg;
+    images.dark.src = darkBg;
 
     // Draw function
     const draw = () => {
-      // Use theme-aware background images
-      const backgroundImage = theme === 'dark' ? darkImage : lightImage;
-      
-      if (backgroundImage.complete) {
-        // Draw the background image to cover the entire canvas
-        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-      } else {
-        // Fallback backgrounds while images load
-        if (theme === 'dark') {
+      if (theme === 'dark') {
+        // Always use dark background in dark mode
+        if (images.dark.complete) {
+          ctx.drawImage(images.dark, 0, 0, canvas.width, canvas.height);
+        } else {
           ctx.fillStyle = '#0a0a0a';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+      } else {
+        // Use selected background in light mode
+        let backgroundImage: HTMLImageElement | null = null;
+        let fallbackGradient: (ctx: CanvasRenderingContext2D) => void;
+        
+        switch (background) {
+          case 'gradient1':
+            backgroundImage = images.gradient1;
+            fallbackGradient = (ctx) => {
+              const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+              gradient.addColorStop(0, '#a5b4fc');
+              gradient.addColorStop(0.5, '#f8bbf3');
+              gradient.addColorStop(1, '#93c5fd');
+              ctx.fillStyle = gradient;
+            };
+            break;
+          case 'gradient2':
+            backgroundImage = images.gradient2;
+            fallbackGradient = (ctx) => {
+              const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+              gradient.addColorStop(0, '#c084fc');
+              gradient.addColorStop(0.5, '#fb7185');
+              gradient.addColorStop(1, '#fbbf24');
+              ctx.fillStyle = gradient;
+            };
+            break;
+          case 'gradient3':
+            backgroundImage = images.gradient3;
+            fallbackGradient = (ctx) => {
+              const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+              gradient.addColorStop(0, '#fbbf24');
+              gradient.addColorStop(0.3, '#f97316');
+              gradient.addColorStop(0.7, '#ec4899');
+              gradient.addColorStop(1, '#8b5cf6');
+              ctx.fillStyle = gradient;
+            };
+            break;
+          case 'gradient4':
+            // Pure CSS gradient for gradient4 (no image)
+            fallbackGradient = (ctx) => {
+              const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+              gradient.addColorStop(0, '#60a5fa');
+              gradient.addColorStop(0.5, '#a78bfa');
+              gradient.addColorStop(1, '#f472b6');
+              ctx.fillStyle = gradient;
+            };
+            break;
+          case 'blurry':
+          default:
+            backgroundImage = images.blurry;
+            fallbackGradient = (ctx) => {
+              const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+              gradient.addColorStop(0, '#f0f9ff');
+              gradient.addColorStop(0.5, '#e0e7ff');
+              gradient.addColorStop(1, '#fef3c7');
+              ctx.fillStyle = gradient;
+            };
+            break;
+        }
+        
+        if (backgroundImage && backgroundImage.complete) {
+          ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
         } else {
-          // Gradient fallback that matches the new background
-          const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-          gradient.addColorStop(0, '#a5b4fc');
-          gradient.addColorStop(0.5, '#f8bbf3');
-          gradient.addColorStop(1, '#93c5fd');
-          ctx.fillStyle = gradient;
+          fallbackGradient(ctx);
           ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
       }
@@ -136,7 +205,7 @@ const InteractiveStarryBackground: React.FC<{ children?: React.ReactNode }> = ({
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [theme]); // Re-render when theme changes
+  }, [theme, background]); // Re-render when theme changes
 
   return (
     <div className="relative w-full h-full overflow-hidden">

@@ -5,10 +5,9 @@ import { Sidebar } from '@/components/Sidebar';
 import { useChatContext } from '@/contexts/ChatContext';
 import { OrderFiPageHeader } from '@/components/ui/design-system';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
-import MovingTexturedBackground from './MovingTexturedBackground';
-import NovelMovingBackground from './NovelMovingBackground';
-import AnimatedBackground from './AnimatedBackground';
+
 import InteractiveStarryBackground from './InteractiveStarryBackground';
+import { BackgroundSelector } from './BackgroundSelector';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -36,6 +35,7 @@ export function StandardLayout({
     return (
       <InteractiveStarryBackground>
         <div className={`min-h-screen bg-transparent ${className}`}>
+          <BackgroundSelector />
           {showHeader && title && (
             <OrderFiPageHeader 
               title={title}
@@ -53,6 +53,7 @@ export function StandardLayout({
   return (
     <InteractiveStarryBackground>
       <div className={`flex h-screen bg-transparent ${className}`}>
+        <BackgroundSelector />
         {/* Sidebar - Fixed width component */}
         <div className="relative z-10">
           <Sidebar />
