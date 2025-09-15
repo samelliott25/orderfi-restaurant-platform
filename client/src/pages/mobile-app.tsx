@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -55,6 +56,7 @@ interface Modifier {
 }
 
 export default function MobileAppPage() {
+  const [, navigate] = useLocation();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('home');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -62,6 +64,28 @@ export default function MobileAppPage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
+
+  const testMobileOrdering = () => {
+    // Set up demo session data
+    localStorage.setItem('sessionId', `demo_${Date.now()}`);
+    localStorage.setItem('tableNumber', 'Demo Table');
+    localStorage.setItem('venueName', 'OrderFi Restaurant');
+    localStorage.setItem('isGuest', 'true');
+    
+    // Navigate to mobile ordering flow
+    navigate('/scan');
+  };
+
+  const previewMobileMenu = () => {
+    // Set up demo session data
+    localStorage.setItem('sessionId', `preview_${Date.now()}`);
+    localStorage.setItem('tableNumber', 'Preview Table');
+    localStorage.setItem('venueName', 'OrderFi Restaurant');
+    localStorage.setItem('isGuest', 'true');
+    
+    // Navigate directly to mobile menu
+    navigate('/mobileapp-menu');
+  };
 
   // Get menu items from API
   const { data: apiMenuItems = [], isLoading } = useQuery<MenuItem[]>({
@@ -196,6 +220,24 @@ export default function MobileAppPage() {
       title="Mobile App Preview" 
       subtitle="View and test the customer mobile ordering interface"
     >
+      {/* Action Buttons */}
+      <div className="mb-6 flex gap-4 justify-center">
+        <Button 
+          onClick={testMobileOrdering}
+          className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+          data-testid="test-mobile-ordering"
+        >
+          Test Mobile Ordering Flow
+        </Button>
+        <Button 
+          onClick={previewMobileMenu}
+          variant="outline"
+          data-testid="preview-mobile-menu"
+        >
+          Preview Mobile Menu
+        </Button>
+      </div>
+
       <div className="flex items-center justify-center h-full w-full p-4">
         {/* iPhone 15 Pro Mockup Container - Full Size */}
         <div className="relative h-full w-full max-w-[500px] flex items-center justify-center">
