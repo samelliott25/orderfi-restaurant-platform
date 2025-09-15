@@ -7,7 +7,6 @@ import { OrderFiPageHeader } from '@/components/ui/design-system';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
 
 import InteractiveStarryBackground from './InteractiveStarryBackground';
-import { BackgroundSelector } from './BackgroundSelector';
 
 interface StandardLayoutProps {
   children: React.ReactNode;
@@ -35,7 +34,6 @@ export function StandardLayout({
     return (
       <InteractiveStarryBackground>
         <div className={`min-h-screen bg-transparent ${className}`}>
-          <BackgroundSelector />
           {showHeader && title && (
             <OrderFiPageHeader 
               title={title}
@@ -53,7 +51,6 @@ export function StandardLayout({
   return (
     <InteractiveStarryBackground>
       <div className={`flex h-screen bg-transparent ${className}`}>
-        <BackgroundSelector />
         {/* Sidebar - Fixed width component */}
         <div className="relative z-10">
           <Sidebar />

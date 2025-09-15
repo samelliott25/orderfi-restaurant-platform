@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 
-// Background options
-export type BackgroundType = 'gradient1' | 'gradient2' | 'gradient3' | 'gradient4' | 'blurry';
+// Simplified background type - just white
+export type BackgroundType = 'white';
 
 interface BackgroundContextType {
   background: BackgroundType;
@@ -19,14 +19,11 @@ export const useBackground = () => {
 };
 
 export const BackgroundProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [background, setBackground] = useState<BackgroundType>(() => {
-    const saved = localStorage.getItem('orderfi-background');
-    return (saved as BackgroundType) || 'gradient1';
-  });
-
-  useEffect(() => {
-    localStorage.setItem('orderfi-background', background);
-  }, [background]);
+  // Always use white background, no need for state or localStorage
+  const background: BackgroundType = 'white';
+  const setBackground = () => {
+    // No-op since we only have white background
+  };
 
   return (
     <BackgroundContext.Provider value={{ background, setBackground }}>

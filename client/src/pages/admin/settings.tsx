@@ -9,22 +9,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Settings, Globe, Bell, Shield, Palette, Brain, Sparkles, Activity, Store, Clock, Users, CreditCard } from "lucide-react";
 import { useState } from "react";
-import { useBackground, BackgroundType } from '@/components/background-provider';
 
 export default function SettingsPage() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [autoReorder, setAutoReorder] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
-  const { background, setBackground } = useBackground();
 
-  const backgroundOptions = [
-    { id: 'gradient1' as BackgroundType, name: 'Blue Pink', description: 'Soft blue to pink transition' },
-    { id: 'gradient2' as BackgroundType, name: 'Purple Orange', description: 'Vibrant purple to orange blend' },
-    { id: 'gradient3' as BackgroundType, name: 'Sunset', description: 'Beautiful yellow to orange to pink to purple' },
-    { id: 'gradient4' as BackgroundType, name: 'Ocean', description: 'Cool blue to purple to pink tones' },
-    { id: 'blurry' as BackgroundType, name: 'Soft Blur', description: 'Gentle cream and light blue blur' }
-  ];
 
   return (
     <StandardLayout 
@@ -158,44 +149,17 @@ export default function SettingsPage() {
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div>
-                  <Label className="text-base font-medium">Background Selection</Label>
-                  <p className="text-sm text-muted-foreground mb-4">Choose your preferred background theme for the app</p>
+                  <Label className="text-base font-medium">Background</Label>
+                  <p className="text-sm text-muted-foreground mb-4">Clean white background for optimal readability</p>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {backgroundOptions.map((option) => (
-                      <button
-                        key={option.id}
-                        onClick={() => setBackground(option.id)}
-                        className={`
-                          p-4 rounded-xl border-2 transition-all duration-200 text-left
-                          liquid-glass-card hover:scale-105 hover:shadow-lg
-                          ${background === option.id 
-                            ? 'border-orange-400 bg-orange-50/50 dark:bg-orange-900/20' 
-                            : 'border-white/20 hover:border-white/30'
-                          }
-                        `}
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <h3 className="font-medium text-sm">{option.name}</h3>
-                          {background === option.id && (
-                            <div className="w-3 h-3 bg-orange-500 rounded-full flex-shrink-0"></div>
-                          )}
-                        </div>
-                        <p className="text-xs text-muted-foreground">{option.description}</p>
-                        
-                        {/* Preview thumbnail */}
-                        <div 
-                          className="w-full h-12 rounded-lg mt-3 border"
-                          style={{
-                            background: option.id === 'gradient1' ? 'linear-gradient(135deg, #a5b4fc 0%, #f8bbf3 50%, #93c5fd 100%)' :
-                                      option.id === 'gradient2' ? 'linear-gradient(135deg, #c084fc 0%, #fb7185 50%, #fbbf24 100%)' :
-                                      option.id === 'gradient3' ? 'linear-gradient(135deg, #fbbf24 0%, #f97316 30%, #ec4899 70%, #8b5cf6 100%)' :
-                                      option.id === 'gradient4' ? 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%)' :
-                                      'linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 50%, #fef3c7 100%)'
-                          }}
-                        />
-                      </button>
-                    ))}
+                  <div className="p-4 rounded-xl border-2 border-gray-200 bg-white text-left liquid-glass-card">
+                    <div className="flex items-start justify-between mb-2">
+                      <h3 className="font-medium text-sm">White Background</h3>
+                      <div className="w-3 h-3 bg-orange-500 rounded-full flex-shrink-0"></div>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Simple, clean white background for better focus</p>
+                    
+                    <div className="w-full h-12 rounded-lg mt-3 border bg-white"></div>
                   </div>
                 </div>
                 
