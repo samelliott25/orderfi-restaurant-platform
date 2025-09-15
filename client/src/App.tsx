@@ -28,7 +28,7 @@ function MenuRedirect() {
   const [, navigate] = useLocation();
   
   useEffect(() => {
-    navigate('/mobileapp');
+    navigate('/mobileapp-menu');
   }, [navigate]);
   
   return null;
@@ -49,11 +49,11 @@ import KDSSimplePage from "@/pages/kds-simple";
 
 // Customer MVP Pages
 import CustomerLogin from "@/pages/customer/login";
-import EnhancedCustomerMenu from "@/pages/customer/menu-enhanced";
+import MobileMenu from "@/pages/customer/mobile-menu";
 import ScanPage from "@/pages/customer/scan";
-import CustomerCart from "@/pages/customer/cart";
-import CustomerCheckout from "@/pages/customer/checkout";
-import OrderStatus from "@/pages/customer/order-status";
+import CustomerCart from "@/pages/customer/cart-fixed";
+import CustomerCheckout from "@/pages/customer/checkout-fixed";
+import OrderStatus from "@/pages/customer/order-status-fixed";
 
 import DashboardMobile from "@/pages/dashboard-mobile";
 import DashboardPhase2 from "@/pages/dashboard-phase2";
@@ -158,7 +158,7 @@ function Router() {
         
         {/* Mobile App - QR Ordering System */}
         <Route path="/mobileapp" component={MobileAppPage} />
-        <Route path="/mobileapp-menu" component={EnhancedCustomerMenu} />
+        <Route path="/mobileapp-menu" component={MobileMenu} />
         <Route path="/scan" component={ScanPage} />
         <Route path="/login" component={CustomerLogin} />
         <Route path="/menu" component={MenuRedirect} />
