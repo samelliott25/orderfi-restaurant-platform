@@ -216,17 +216,17 @@ export default function ManagementChat() {
 
   return (
     <StandardLayout>
-      <div className="h-[calc(100vh-4rem)] flex flex-col vintage-paper" style={{ background: 'hsl(var(--background))' }}>
-        {/* Header - Vintage Style */}
-        <div className="flex-shrink-0 px-6 py-4 border-b-2" style={{ borderColor: 'var(--vintage-brown)', background: 'var(--vintage-brown)' }}>
+      <div className="h-[calc(100vh-4rem)] flex flex-col">
+        {/* Header */}
+        <div className="flex-shrink-0 px-6 py-4 border-b bg-gradient-to-r from-orange-500 to-pink-500">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(245, 240, 230, 0.2)' }}>
-                <Bot className="w-5 h-5" style={{ color: 'var(--vintage-cream)' }} />
+              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                <Bot className="w-5 h-5 text-white" />
               </div>
-              <div style={{ color: 'var(--vintage-cream)' }}>
-                <h1 className="font-bold text-lg typewriter-heading">Management Assistant</h1>
-                <p className="text-sm opacity-90 typewriter-text">Ask me anything about your restaurant</p>
+              <div className="text-white">
+                <h1 className="font-bold text-lg">Management Assistant</h1>
+                <p className="text-sm opacity-90">Ask me anything about your restaurant</p>
               </div>
             </div>
           </div>
@@ -236,29 +236,30 @@ export default function ManagementChat() {
         <div className="flex-1 flex overflow-hidden">
           {/* Chat Area */}
           <div className="flex-1 flex flex-col min-w-0">
-            {/* Quick Stats Bar - Vintage Style */}
-            <div className="flex-shrink-0 p-4 border-b-2" style={{ borderColor: 'var(--vintage-brown)', background: 'hsl(var(--card))' }}>
+            {/* Quick Stats Bar */}
+            <div className="flex-shrink-0 p-4 border-b bg-gray-50 dark:bg-gray-800">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {quickStats.map((stat, index) => (
-                  <div key={index} className="p-3 rounded-lg border-2" style={{ background: 'hsl(var(--background))', borderColor: 'var(--vintage-brown)', boxShadow: '2px 2px 0 rgba(0,0,0,0.1)' }}>
+                  <Card key={index} className="p-3">
                     <div className="flex items-center space-x-2">
-                      <div className={`p-2 rounded-lg`} style={{ 
-                        background: stat.trend === 'up' ? 'rgba(34, 197, 94, 0.1)' : stat.trend === 'down' ? 'rgba(239, 68, 68, 0.1)' : 'hsl(var(--muted))',
-                        color: stat.trend === 'up' ? '#22c55e' : stat.trend === 'down' ? '#ef4444' : 'var(--vintage-brown)'
-                      }}>
+                      <div className={`p-2 rounded-lg ${
+                        stat.trend === 'up' ? 'bg-green-100 text-green-600' :
+                        stat.trend === 'down' ? 'bg-red-100 text-red-600' :
+                        'bg-gray-100 text-gray-600'
+                      }`}>
                         <stat.icon className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="text-xs text-muted-foreground typewriter-text">{stat.label}</p>
-                        <p className="font-bold typewriter-text">{stat.value}</p>
+                        <p className="text-xs text-muted-foreground">{stat.label}</p>
+                        <p className="font-bold">{stat.value}</p>
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 ))}
               </div>
             </div>
 
-            {/* Messages - Typewriter Style */}
+            {/* Messages */}
             <ScrollArea className="flex-1 p-4">
               <div className="space-y-4 max-w-3xl mx-auto">
                 {messages.map((message) => (
@@ -268,23 +269,21 @@ export default function ManagementChat() {
                   >
                     <div className={`flex items-start space-x-2 max-w-[85%]`}>
                       {message.role === 'assistant' && (
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'var(--vintage-brown)' }}>
-                          <Bot className="w-4 h-4" style={{ color: 'var(--vintage-cream)' }} />
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                          <Bot className="w-4 h-4 text-white" />
                         </div>
                       )}
                       <div
-                        className="rounded-lg px-4 py-3 border-2"
-                        style={{
-                          background: message.role === 'user' ? 'var(--vintage-brown)' : 'hsl(var(--card))',
-                          color: message.role === 'user' ? 'var(--vintage-cream)' : 'hsl(var(--foreground))',
-                          borderColor: message.role === 'user' ? 'var(--vintage-sepia)' : 'var(--vintage-brown)',
-                          boxShadow: '3px 3px 0 rgba(0, 0, 0, 0.1)'
-                        }}
+                        className={`rounded-2xl px-4 py-3 ${
+                          message.role === 'user'
+                            ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                            : 'bg-white dark:bg-gray-800 border shadow-sm'
+                        }`}
                       >
-                        <p className="text-sm whitespace-pre-line typewriter-text" style={{ fontFamily: '"Courier Prime", "Courier New", monospace' }}>{message.content}</p>
+                        <p className="text-sm whitespace-pre-line">{message.content}</p>
                       </div>
                       {message.role === 'user' && (
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'hsl(var(--muted))' }}>
+                        <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
                           <User className="w-4 h-4" />
                         </div>
                       )}
@@ -295,14 +294,14 @@ export default function ManagementChat() {
                 {isProcessing && (
                   <div className="flex justify-start">
                     <div className="flex items-start space-x-2">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'var(--vintage-brown)' }}>
-                        <Bot className="w-4 h-4" style={{ color: 'var(--vintage-cream)' }} />
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 flex items-center justify-center">
+                        <Bot className="w-4 h-4 text-white" />
                       </div>
-                      <div className="rounded-lg px-4 py-3 border-2" style={{ background: 'hsl(var(--card))', borderColor: 'var(--vintage-brown)' }}>
+                      <div className="bg-white dark:bg-gray-800 border rounded-2xl px-4 py-3 shadow-sm">
                         <div className="flex space-x-1">
-                          <div className="w-2 h-2 rounded-full animate-bounce" style={{ background: 'var(--vintage-brown)', animationDelay: '0ms' }} />
-                          <div className="w-2 h-2 rounded-full animate-bounce" style={{ background: 'var(--vintage-brown)', animationDelay: '150ms' }} />
-                          <div className="w-2 h-2 rounded-full animate-bounce" style={{ background: 'var(--vintage-brown)', animationDelay: '300ms' }} />
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                         </div>
                       </div>
                     </div>
@@ -313,10 +312,10 @@ export default function ManagementChat() {
               </div>
             </ScrollArea>
 
-            {/* Input Area - Vintage Style */}
-            <div className="flex-shrink-0 p-4 border-t-2" style={{ borderColor: 'var(--vintage-brown)', background: 'hsl(var(--background))' }}>
+            {/* Input Area */}
+            <div className="flex-shrink-0 p-4 border-t bg-white dark:bg-gray-900">
               <div className="max-w-3xl mx-auto">
-                {/* Quick Actions - Vintage Buttons */}
+                {/* Quick Actions */}
                 <div className="flex gap-2 mb-3 overflow-x-auto pb-2">
                   {quickActions.map((action, index) => (
                     <Button
@@ -324,8 +323,7 @@ export default function ManagementChat() {
                       variant="outline"
                       size="sm"
                       onClick={() => setInputValue(action.label)}
-                      className="flex-shrink-0 typewriter-text"
-                      style={{ borderColor: 'var(--vintage-brown)', fontFamily: '"Courier Prime", monospace' }}
+                      className="flex-shrink-0"
                     >
                       <action.icon className="w-4 h-4 mr-1" />
                       {action.label}
@@ -333,14 +331,13 @@ export default function ManagementChat() {
                   ))}
                 </div>
 
-                {/* Input - Vintage Style */}
+                {/* Input */}
                 <div className="flex items-center space-x-2">
                   <Button
                     variant="outline"
                     size="icon"
                     onClick={handleVoiceInput}
-                    className={`vintage-input ${isListening ? 'bg-red-100 text-red-600 border-red-300' : ''}`}
-                    style={{ borderColor: 'var(--vintage-brown)' }}
+                    className={isListening ? 'bg-red-100 text-red-600 border-red-300' : ''}
                   >
                     {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
                   </Button>
@@ -350,20 +347,14 @@ export default function ManagementChat() {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                    className="flex-1 vintage-input typewriter-text"
-                    style={{ fontFamily: '"Courier Prime", "Courier New", monospace' }}
                     placeholder="Ask about your restaurant..."
+                    className="flex-1"
                   />
                   
                   <Button
                     onClick={() => handleSend()}
                     disabled={!inputValue.trim() || isProcessing}
-                    className="vintage-btn"
-                    style={{ 
-                      background: 'var(--vintage-rust)', 
-                      color: 'var(--vintage-cream)',
-                      borderColor: 'var(--vintage-sepia)'
-                    }}
+                    className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
                   >
                     <Send className="w-5 h-5" />
                   </Button>

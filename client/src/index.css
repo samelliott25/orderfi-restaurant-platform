@@ -1,93 +1,75 @@
-@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=Playwrite+AU+VIC:wght@100..400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playwrite+AU+VIC:wght@100..400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Vintage Typewriter Design System */
+/* Unified OrderFi Design System - Orange/Pink Gradient Theme */
 :root {
-  /* Vintage Color Palette */
-  --vintage-cream: #f5f0e6;
-  --vintage-paper: #ebe5d8;
-  --vintage-ink: #2a2520;
-  --vintage-brown: #8b7355;
-  --vintage-rust: #a0522d;
-  --vintage-gold: #c9a962;
-  --vintage-sepia: #704214;
-  
-  /* Core OrderFi Brand Colors - Vintage warm tones */
-  --orderfi-gradient-start: #c9a962;
-  --orderfi-gradient-mid: #a0522d;
-  --orderfi-gradient-end: #704214;
+  /* Core OrderFi Brand Colors */
+  --orderfi-gradient-start: #F5A623;
+  --orderfi-gradient-mid: #f97316;
+  --orderfi-gradient-end: #ec4899;
   
   /* OrderFi Theme Colors (HSL) */
-  --orderfi-start: 43 50% 59%;
-  --orderfi-mid: 20 58% 40%;
-  --orderfi-end: 30 70% 26%;
+  --orderfi-start: 37 87% 54%;
+  --orderfi-mid: 25 95% 53%;
+  --orderfi-end: 330 81% 60%;
   
-  /* Semantic Color System - Vintage Light Mode */
-  --background: 40 30% 93%;
-  --foreground: 25 17% 15%;
-  --card: 38 25% 92%;
-  --card-foreground: 25 17% 15%;
-  --popover: 38 25% 92%;
-  --popover-foreground: 25 17% 15%;
-  --primary: 20 58% 40%;
-  --primary-foreground: 40 30% 95%;
-  --secondary: 35 20% 85%;
-  --secondary-foreground: 25 17% 20%;
-  --muted: 35 15% 88%;
-  --muted-foreground: 25 10% 45%;
-  --accent: 43 50% 59%;
-  --accent-foreground: 25 17% 15%;
-  --destructive: 0 65% 45%;
-  --destructive-foreground: 40 30% 95%;
-  --border: 30 20% 80%;
-  --input: 30 20% 85%;
-  --ring: 20 58% 40%;
-  --radius: 0.25rem;
+  /* Semantic Color System */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 25 95% 53%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 25 95% 53%;
+  --radius: 0.5rem;
 }
 
 .dark {
-  /* Vintage Color Palette - Dark Mode */
-  --vintage-cream: #2a2520;
-  --vintage-paper: #3a332c;
-  --vintage-ink: #f5f0e6;
-  --vintage-brown: #c9a962;
-  --vintage-rust: #d4784a;
-  --vintage-gold: #e0c080;
-  --vintage-sepia: #c4956c;
-  
-  /* Core OrderFi Brand Colors (warm in dark mode) */
-  --orderfi-gradient-start: #e0c080;
-  --orderfi-gradient-mid: #d4784a;
-  --orderfi-gradient-end: #c4956c;
+  /* Core OrderFi Brand Colors (same in dark mode) */
+  --orderfi-gradient-start: #F5A623;
+  --orderfi-gradient-mid: #f97316;
+  --orderfi-gradient-end: #ec4899;
   
   /* OrderFi Theme Colors (HSL) */
-  --orderfi-start: 43 60% 69%;
-  --orderfi-mid: 20 60% 56%;
-  --orderfi-end: 30 50% 60%;
+  --orderfi-start: 37 87% 54%;
+  --orderfi-mid: 25 95% 53%;
+  --orderfi-end: 330 81% 60%;
   
-  /* Dark mode semantic colors - Vintage Dark */
-  --background: 25 17% 15%;
-  --foreground: 40 30% 93%;
-  --card: 25 15% 18%;
-  --card-foreground: 40 30% 93%;
-  --popover: 25 15% 18%;
-  --popover-foreground: 40 30% 93%;
-  --primary: 43 50% 59%;
-  --primary-foreground: 25 17% 15%;
-  --secondary: 25 12% 25%;
-  --secondary-foreground: 40 30% 90%;
-  --muted: 25 10% 22%;
-  --muted-foreground: 30 15% 60%;
-  --accent: 43 50% 59%;
-  --accent-foreground: 25 17% 15%;
-  --destructive: 0 55% 50%;
-  --destructive-foreground: 40 30% 95%;
-  --border: 25 12% 25%;
-  --input: 25 12% 28%;
-  --ring: 43 50% 59%;
+  /* Dark mode semantic colors */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 25 95% 53%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 25 95% 53%;
 }
 
 
@@ -217,6 +199,225 @@ html, body {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Apple Liquid Glass Sidebar - Inspired by iOS 26 and macOS Tahoe 26 */
+.liquid-glass-sidebar {
+  position: relative;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.liquid-glass-sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.liquid-glass-sidebar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Dark mode adjustments */
+.dark .liquid-glass-sidebar {
+  background: rgba(0, 0, 0, 0.25);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.dark .liquid-glass-sidebar::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+}
+
+.dark .liquid-glass-sidebar::after {
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    transparent 100%
+  );
+}
+
+/* Liquid Glass Navigation Items */
+.liquid-glass-nav-item {
+  position: relative;
+  border-radius: 12px;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  z-index: 2;
+  flex: 1;
+  min-width: 0;
+}
+
+.liquid-glass-nav-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.liquid-glass-nav-item.active {
+  background: rgba(245, 166, 35, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: rgba(245, 166, 35, 0.3);
+  box-shadow: 0 4px 20px rgba(245, 166, 35, 0.2);
+}
+
+/* Dark mode nav items */
+.dark .liquid-glass-nav-item {
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.dark .liquid-glass-nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark .liquid-glass-nav-item.active {
+  background: rgba(245, 166, 35, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: rgba(245, 166, 35, 0.2);
+}
+
+/* Liquid Glass Navigation Item Active */
+.liquid-glass-nav-item-active {
+  position: relative;
+  border-radius: 12px;
+  background: rgba(245, 166, 35, 0.15) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(245, 166, 35, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(245, 166, 35, 0.2) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1.02);
+  z-index: 3;
+}
+
+.dark .liquid-glass-nav-item-active {
+  background: rgba(245, 166, 35, 0.1) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(245, 166, 35, 0.2) !important;
+  box-shadow: 0 4px 20px rgba(245, 166, 35, 0.15) !important;
+}
+
+/* Shimmer effect for nav items */
+.liquid-glass-nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.liquid-glass-nav-item:hover::before {
+  left: 100%;
+}
+
+/* Liquid Glass Card */
+.liquid-glass-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.liquid-glass-card:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode liquid glass card */
+.dark .liquid-glass-card {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .liquid-glass-card:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Liquid Glass Header */
+.liquid-glass-header {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 2;
+}
+
+.dark .liquid-glass-header {
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in,
@@ -230,6 +431,10 @@ html, body {
     animation: none !important;
   }
   
+  .liquid-glass-nav-item::before {
+    transition: none !important;
+  }
+  
   .hover-float {
     animation: none !important;
   }
@@ -239,43 +444,28 @@ html, body {
   }
 }
 
-/* Vintage Typewriter Body Styling */
+/* Unified OrderFi Body Styling */
 body {
   background: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: "Courier Prime", "Courier New", monospace;
+  font-family: "Inter", system-ui, sans-serif;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.5;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Vintage Typewriter Typography System */
+/* Unified Typography System */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Special Elite", "Courier New", monospace;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1.3;
-  color: var(--vintage-ink);
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: hsl(220 10% 15%);
 }
 
 /* Dark mode headings */
 .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-  color: var(--vintage-cream);
-}
-
-/* Typewriter Text Class - For chat messages and paragraphs */
-.typewriter-text {
-  font-family: "Courier Prime", "Courier New", monospace;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 1.7;
-}
-
-/* Special Elite for headings */
-.typewriter-heading {
-  font-family: "Special Elite", "Courier New", monospace;
-  font-weight: 400;
-  letter-spacing: 0.03em;
+  color: hsl(210 20% 98%);
 }
 
 /* OrderFi Brand Typography - Uses Playwrite AU VIC */
@@ -339,115 +529,11 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Global Form Elements - Vintage Style */
+/* Global Form Elements */
 button, .button, input, select, textarea {
-  font-family: "Courier Prime", "Courier New", monospace;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-}
-
-/* Vintage Paper Texture Effect */
-.vintage-paper {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--background)) 0%,
-    hsl(40 25% 90%) 50%,
-    hsl(var(--background)) 100%
-  );
-  position: relative;
-}
-
-.vintage-paper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  pointer-events: none;
-}
-
-.dark .vintage-paper {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--background)) 0%,
-    hsl(25 15% 18%) 50%,
-    hsl(var(--background)) 100%
-  );
-}
-
-/* Vintage Card Style */
-.vintage-card {
-  background: hsl(var(--card));
-  border: 2px solid var(--vintage-brown);
-  border-radius: 4px;
-  box-shadow: 
-    4px 4px 0 rgba(0, 0, 0, 0.1),
-    inset 0 0 20px rgba(139, 115, 85, 0.05);
-}
-
-.dark .vintage-card {
-  border-color: var(--vintage-gold);
-  box-shadow: 
-    4px 4px 0 rgba(0, 0, 0, 0.3),
-    inset 0 0 20px rgba(201, 169, 98, 0.05);
-}
-
-/* Vintage Button Style */
-.vintage-btn {
-  font-family: "Special Elite", "Courier New", monospace;
-  background: var(--vintage-brown);
-  color: var(--vintage-cream);
-  border: 2px solid var(--vintage-sepia);
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
-}
-
-.vintage-btn:hover {
-  background: var(--vintage-rust);
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
-}
-
-.vintage-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
-}
-
-.dark .vintage-btn {
-  background: var(--vintage-gold);
-  color: var(--vintage-ink);
-  border-color: var(--vintage-sepia);
-}
-
-/* Vintage Input Style */
-.vintage-input {
-  font-family: "Courier Prime", "Courier New", monospace;
-  background: hsl(var(--input));
-  border: 2px solid var(--vintage-brown);
-  border-radius: 4px;
-  padding: 0.5rem 0.75rem;
-  color: hsl(var(--foreground));
-}
-
-.vintage-input:focus {
-  outline: none;
-  border-color: var(--vintage-rust);
-  box-shadow: 0 0 0 3px rgba(160, 82, 45, 0.2);
-}
-
-.dark .vintage-input {
-  border-color: var(--vintage-gold);
-}
-
-.dark .vintage-input:focus {
-  border-color: var(--vintage-sepia);
-  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.2);
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.005em;
 }
 
 /* Horizontal scrolling utility */
