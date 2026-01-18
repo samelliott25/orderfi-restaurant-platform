@@ -42,6 +42,7 @@ import AdminStockPage from "@/pages/admin/stock";
 import AdminStaffPage from "@/pages/admin/staff";
 import AdminReportingPage from "@/pages/admin/reporting";
 import AdminSettingsPage from "@/pages/admin/settings";
+import ManagementChat from "@/pages/admin/management-chat";
 
 import TablesPage from "@/pages/admin/tables";
 import KDSPage from "@/pages/kds";
@@ -177,6 +178,7 @@ function Router() {
         <Route path="/figma-integration" component={FigmaIntegrationPage} />
         
         {/* Essential Admin Pages */}
+        <Route path="/manage" component={ManagementChat} />
         <Route path="/inventory" component={SimplifiedInventoryPage} />
         <Route path="/orders" component={AdminOrdersPage} />
         <Route path="/payments" component={AdminPaymentsPage} />
