@@ -41,6 +41,74 @@ interface ChatMessage {
   items?: Array<{ name: string; price: number; quantity: number }>;
 }
 
+// Customer profile for proactive suggestions
+interface CustomerProfile {
+  visitCount: number;
+  lastVisit: string;
+  favoriteItems: string[];
+  lastOrder: string[];
+}
+
+// Get time-based greeting and suggestions
+function getTimeContext(): { greeting: string; mealType: string; suggestions: string[] } {
+  const hour = new Date().getHours();
+  
+  if (hour >= 6 && hour < 11) {
+    return {
+      greeting: 'Good morning',
+      mealType: 'breakfast',
+      suggestions: ['coffee', 'breakfast', 'eggs', 'pancakes']
+    };
+  } else if (hour >= 11 && hour < 14) {
+    return {
+      greeting: 'Good afternoon',
+      mealType: 'lunch',
+      suggestions: ['sandwich', 'salad', 'burger', 'soup']
+    };
+  } else if (hour >= 14 && hour < 17) {
+    return {
+      greeting: 'Good afternoon',
+      mealType: 'afternoon snack',
+      suggestions: ['coffee', 'dessert', 'appetizer', 'drink']
+    };
+  } else if (hour >= 17 && hour < 21) {
+    return {
+      greeting: 'Good evening',
+      mealType: 'dinner',
+      suggestions: ['steak', 'pasta', 'fish', 'wine']
+    };
+  } else {
+    return {
+      greeting: 'Hello',
+      mealType: 'late night bite',
+      suggestions: ['appetizer', 'dessert', 'drink']
+    };
+  }
+}
+
+// Load customer profile from localStorage with error handling
+function loadCustomerProfile(): CustomerProfile {
+  try {
+    const stored = localStorage.getItem('customerProfile');
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error('Failed to load customer profile:', e);
+  }
+  return {
+    visitCount: 0,
+    lastVisit: '',
+    favoriteItems: [],
+    lastOrder: []
+  };
+}
+
+// Save customer profile to localStorage
+function saveCustomerProfile(profile: CustomerProfile) {
+  localStorage.setItem('customerProfile', JSON.stringify(profile));
+}
+
 export default function ConversationalOrder() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
@@ -51,6 +119,7 @@ export default function ConversationalOrder() {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showBrowseMenu, setShowBrowseMenu] = useState(false);
+  const [customerProfile, setCustomerProfile] = useState<CustomerProfile>(loadCustomerProfile());
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -69,13 +138,38 @@ export default function ConversationalOrder() {
     retry: false,
   });
 
-  // Initial greeting
-  useEffect(() => {
+  // Generate proactive greeting based on customer history
+  const generateProactiveGreeting = (): string => {
+    const timeContext = getTimeContext();
     const tableName = localStorage.getItem('tableNumber') || 'there';
+    const isReturning = customerProfile.visitCount > 0;
+    const lastOrderItems = customerProfile.lastOrder;
+    
+    // Update visit count
+    const updatedProfile = {
+      ...customerProfile,
+      visitCount: customerProfile.visitCount + 1,
+      lastVisit: new Date().toISOString()
+    };
+    setCustomerProfile(updatedProfile);
+    saveCustomerProfile(updatedProfile);
+    
+    // Returning customer greeting
+    if (isReturning && lastOrderItems.length > 0) {
+      const favoriteItem = lastOrderItems[0];
+      return `${timeContext.greeting}, ${tableName}! 👋 Great to see you again!\n\nLast time you enjoyed the **${favoriteItem}**. Would you like that again, or shall I suggest something new for ${timeContext.mealType}?\n\nJust tell me what sounds good!`;
+    }
+    
+    // First-time customer greeting
+    return `${timeContext.greeting}, ${tableName}! 👋 Welcome to OrderFi!\n\nI'm here to take your order. Perfect time for ${timeContext.mealType}!\n\nJust tell me what you'd like - for example:\n• "I'll have a burger with extra cheese"\n• "What's popular right now?"\n• "Surprise me!"\n\nWhat can I get for you?`;
+  };
+
+  // Initial greeting with proactivity
+  useEffect(() => {
     const greeting: ChatMessage = {
       id: 'greeting',
       role: 'assistant',
-      content: `Hi ${tableName}! 👋 Welcome to OrderFi. I'm here to take your order.\n\nJust tell me what you'd like - for example:\n• "I'll have a burger with extra cheese"\n• "What's good today?"\n• "Show me the desserts"\n\nWhat can I get for you?`,
+      content: generateProactiveGreeting(),
       timestamp: new Date()
     };
     setMessages([greeting]);
@@ -121,33 +215,80 @@ export default function ConversationalOrder() {
     return { items: foundItems, modifiers };
   };
 
-  // Generate AI response
+  // Generate AI response with proactive suggestions
   const generateResponse = async (userMessage: string): Promise<string> => {
     const lowerMessage = userMessage.toLowerCase();
+    const timeContext = getTimeContext();
     
-    // Handle checkout intent
+    // Handle checkout intent - save order to profile
     if (lowerMessage.includes('checkout') || lowerMessage.includes('pay') || 
         lowerMessage.includes('done') || lowerMessage.includes("that's all") ||
         lowerMessage.includes('thats all')) {
       if (getTotalItems() === 0) {
         return "You haven't added anything yet! What would you like to order?";
       }
+      
+      // Save order to customer profile
+      const orderedItems = cart.map(item => item.name);
+      const updatedProfile = {
+        ...customerProfile,
+        lastOrder: orderedItems,
+        favoriteItems: Array.from(new Set([...customerProfile.favoriteItems, ...orderedItems])).slice(0, 5)
+      };
+      setCustomerProfile(updatedProfile);
+      saveCustomerProfile(updatedProfile);
+      
       return `Great! Your order total is $${getTotalPrice().toFixed(2)}.\n\nTap the "Pay Now" button below to complete your order, or tell me if you'd like to add anything else!`;
+    }
+
+    // Handle "same as last time" / repeat order
+    if ((lowerMessage.includes('same') || lowerMessage.includes('usual') || lowerMessage.includes('again') || lowerMessage.includes('last time')) && customerProfile.lastOrder.length > 0) {
+      const lastItems = customerProfile.lastOrder;
+      const matchingItems = menuItems.filter(item => 
+        lastItems.some(lastItem => lastItem.toLowerCase() === item.name.toLowerCase())
+      );
+      
+      if (matchingItems.length > 0) {
+        matchingItems.forEach(item => addToCart(item, [], 1));
+        return `Perfect! I've added your usual order: ${matchingItems.map(i => i.name).join(', ')}. 🎉\n\nYour total is $${getTotalPrice().toFixed(2)}.\n\nAnything else, or are you ready to pay?`;
+      }
+    }
+
+    // Handle "surprise me" - time-appropriate random suggestion
+    if (lowerMessage.includes('surprise') || lowerMessage.includes('random') || lowerMessage.includes('anything')) {
+      const timeSuggestions = timeContext.suggestions;
+      const relevantItems = menuItems.filter(item => 
+        timeSuggestions.some(s => item.name.toLowerCase().includes(s) || item.category.toLowerCase().includes(s))
+      );
+      
+      const selectedItem = relevantItems.length > 0 
+        ? relevantItems[Math.floor(Math.random() * relevantItems.length)]
+        : menuItems[Math.floor(Math.random() * menuItems.length)];
+      
+      if (selectedItem) {
+        addToCart(selectedItem, [], 1);
+        return `I love the adventurous spirit! 🎲\n\nHow about the **${selectedItem.name}** - ${selectedItem.description}\n\nI've added it to your order ($${selectedItem.price.toFixed(2)}). What else can I get you?`;
+      }
     }
 
     // Handle menu browsing
     if (lowerMessage.includes('menu') || lowerMessage.includes('what do you have') || 
         lowerMessage.includes('options') || lowerMessage.includes('show me')) {
-      const categories = [...new Set(menuItems.map(item => item.category))];
+      const categories = Array.from(new Set(menuItems.map(item => item.category)));
       return `We have some great options today! Here are our categories:\n\n${categories.map(cat => `• ${cat}`).join('\n')}\n\nJust tell me what sounds good, or tap "Browse Menu" below to see everything!`;
     }
 
-    // Handle recommendations
+    // Handle recommendations with time context
     if (lowerMessage.includes('recommend') || lowerMessage.includes('popular') || 
         lowerMessage.includes('what\'s good') || lowerMessage.includes('whats good') ||
         lowerMessage.includes('suggest')) {
-      const topItems = menuItems.slice(0, 3);
-      return `Great question! Here are some favorites:\n\n${topItems.map(item => `• ${item.name} - $${item.price.toFixed(2)}\n  ${item.description}`).join('\n\n')}\n\nWould you like any of these?`;
+      const timeSuggestions = timeContext.suggestions;
+      const relevantItems = menuItems.filter(item => 
+        timeSuggestions.some(s => item.name.toLowerCase().includes(s) || item.category.toLowerCase().includes(s))
+      );
+      const topItems = relevantItems.length >= 3 ? relevantItems.slice(0, 3) : menuItems.slice(0, 3);
+      
+      return `Great question! For ${timeContext.mealType}, I'd suggest:\n\n${topItems.map(item => `• **${item.name}** - $${item.price.toFixed(2)}\n  ${item.description}`).join('\n\n')}\n\nWould you like any of these?`;
     }
 
     // Parse order from message
@@ -162,11 +303,16 @@ export default function ConversationalOrder() {
       const itemNames = items.map(i => i.name).join(', ');
       const modText = modifiers.length > 0 ? ` (${modifiers.join(', ')})` : '';
       
-      return `Got it! I've added ${itemNames}${modText} to your order. 🍽️\n\nYour current total is $${(getTotalPrice() + items.reduce((sum, i) => sum + i.price, 0)).toFixed(2)}.\n\nAnything else?`;
+      // Contextual follow-up suggestion
+      const followUp = cart.length === 0 
+        ? "Would you like a drink with that?" 
+        : "Anything else?";
+      
+      return `Got it! I've added ${itemNames}${modText} to your order. 🍽️\n\nYour current total is $${(getTotalPrice() + items.reduce((sum, i) => sum + i.price, 0)).toFixed(2)}.\n\n${followUp}`;
     }
 
-    // Default response
-    return "I'm not quite sure what you'd like. Try telling me a dish name, or say 'show me the menu' to browse our options!";
+    // Default response with helpful suggestions
+    return `I'm not quite sure what you'd like. Try saying:\n\n• A dish name like "burger" or "pizza"\n• "Recommend something for ${timeContext.mealType}"\n• "Surprise me!"\n• Or tap "Browse Menu" to see all options`;
   };
 
   // Handle send message - accepts optional direct message for voice input
