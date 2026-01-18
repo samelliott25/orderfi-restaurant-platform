@@ -138,8 +138,8 @@ export default function ConversationalOrder() {
     retry: false,
   });
 
-  // Generate proactive greeting based on customer history
-  const generateProactiveGreeting = (): string => {
+  // Initial greeting with proactivity
+  useEffect(() => {
     const timeContext = getTimeContext();
     const tableName = localStorage.getItem('tableNumber') || 'there';
     const isReturning = customerProfile.visitCount > 0;
@@ -154,22 +154,19 @@ export default function ConversationalOrder() {
     setCustomerProfile(updatedProfile);
     saveCustomerProfile(updatedProfile);
     
-    // Returning customer greeting
+    // Generate greeting based on customer history
+    let greetingContent: string;
     if (isReturning && lastOrderItems.length > 0) {
       const favoriteItem = lastOrderItems[0];
-      return `${timeContext.greeting}, ${tableName}! 👋 Great to see you again!\n\nLast time you enjoyed the **${favoriteItem}**. Would you like that again, or shall I suggest something new for ${timeContext.mealType}?\n\nJust tell me what sounds good!`;
+      greetingContent = `${timeContext.greeting}, ${tableName}! 👋 Great to see you again!\n\nLast time you enjoyed the **${favoriteItem}**. Would you like that again, or shall I suggest something new for ${timeContext.mealType}?\n\nJust tell me what sounds good!`;
+    } else {
+      greetingContent = `${timeContext.greeting}, ${tableName}! 👋 Welcome to OrderFi!\n\nI'm here to take your order. Perfect time for ${timeContext.mealType}!\n\nJust tell me what you'd like - for example:\n• "I'll have a burger with extra cheese"\n• "What's popular right now?"\n• "Surprise me!"\n\nWhat can I get for you?`;
     }
     
-    // First-time customer greeting
-    return `${timeContext.greeting}, ${tableName}! 👋 Welcome to OrderFi!\n\nI'm here to take your order. Perfect time for ${timeContext.mealType}!\n\nJust tell me what you'd like - for example:\n• "I'll have a burger with extra cheese"\n• "What's popular right now?"\n• "Surprise me!"\n\nWhat can I get for you?`;
-  };
-
-  // Initial greeting with proactivity
-  useEffect(() => {
     const greeting: ChatMessage = {
       id: 'greeting',
       role: 'assistant',
-      content: generateProactiveGreeting(),
+      content: greetingContent,
       timestamp: new Date()
     };
     setMessages([greeting]);
@@ -370,7 +367,10 @@ export default function ConversationalOrder() {
     recognition.start();
   };
 
-  const formatPrice = (price: number) => `$${price.toFixed(2)}`;
+  const formatPrice = (price: number | string) => {
+    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+    return `$${(numPrice || 0).toFixed(2)}`;
+  };
 
   const sessionInfo = {
     tableName: localStorage.getItem('tableNumber') || 'Guest',
@@ -464,7 +464,7 @@ export default function ConversationalOrder() {
               />
               
               <Button
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={!inputValue.trim() || isProcessing}
                 className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
               >
