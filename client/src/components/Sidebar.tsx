@@ -190,93 +190,63 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
     <>
       <div 
         data-sidebar
-        className={`flex-shrink-0 h-screen liquid-glass-sidebar transition-all duration-300 relative z-40 ${
+        className={`flex-shrink-0 h-screen transition-all duration-300 relative z-40 border-r-2 ${
           isCollapsed ? 'w-16' : 'w-64'
         }`}
+        style={{ 
+          background: 'hsl(var(--card))', 
+          borderColor: 'var(--vintage-brown)'
+        }}
       >
         <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className={`liquid-glass-header sidebar-header-dropdown ${isCollapsed ? 'p-3' : 'px-6 py-5'}`}>
+          {/* Header - Vintage Style */}
+          <div className={`border-b-2 ${isCollapsed ? 'p-3' : 'px-6 py-5'}`} style={{ borderColor: 'var(--vintage-brown)', background: 'var(--vintage-brown)' }}>
             <div className="flex items-center justify-between">
               {!isCollapsed ? (
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini" style={{ background: 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)' }}>
-                    <div className="relative w-full h-full flex items-center justify-center">
-                      <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-                        <svg className="w-1 h-1 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
-                          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                        </svg>
-                        <svg className="w-1 h-1 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
-                          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                        </svg>
-                        <svg className="w-1 h-1 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
-                          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                        </svg>
-                      </div>
-                      <svg className="w-5 h-5 text-white relative z-10 ai-star-pulse star-no-rotate" viewBox="0 0 24 24" fill="white">
-                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                      </svg>
-                    </div>
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center border-2" style={{ background: 'var(--vintage-cream)', borderColor: 'var(--vintage-sepia)' }}>
+                    <ChefHat className="w-5 h-5" style={{ color: 'var(--vintage-sepia)' }} />
                   </div>
                   <div>
-                    <h2 className="text-sm font-semibold bg-gradient-to-r from-[#F5A623] via-orange-500 to-pink-500 bg-clip-text text-transparent playwrite-font">
+                    <h2 className="text-sm font-semibold playwrite-font" style={{ color: 'var(--vintage-cream)' }}>
                       OrderFi
                     </h2>
-                    <div className="flex items-center gap-2 mt-2">
-                      <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-lg shadow-emerald-500/50"></div>
-                      <span className="text-xs font-medium text-gray-600 dark:text-gray-300 bg-gray-100/50 dark:bg-gray-800/50 px-2 py-1 rounded-full backdrop-blur-sm">
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs typewriter-text px-2 py-0.5 rounded border" style={{ 
+                        fontFamily: '"Courier Prime", monospace',
+                        color: 'var(--vintage-cream)', 
+                        borderColor: 'rgba(245, 240, 230, 0.3)',
+                        background: 'rgba(245, 240, 230, 0.1)'
+                      }}>
                         {currentTime.toLocaleTimeString()}
                       </span>
-                      <div className="w-2 h-2 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50"></div>
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="w-full flex justify-center">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden relative sentient-orb-mini" style={{ background: 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)' }}>
-                    <div className="relative w-full h-full flex items-center justify-center">
-                      <div className="absolute inset-0 w-full h-full pointer-events-none text-white">
-                        <svg className="w-0.5 h-0.5 absolute ai-cascade-1" style={{ top: '25%', left: '12%', transform: 'rotate(45deg)' }} viewBox="0 0 24 24" fill="white">
-                          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                        </svg>
-                        <svg className="w-0.5 h-0.5 absolute ai-cascade-2" style={{ top: '72%', left: '18%', transform: 'rotate(-67deg)' }} viewBox="0 0 24 24" fill="white">
-                          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                        </svg>
-                        <svg className="w-0.5 h-0.5 absolute ai-cascade-3" style={{ top: '15%', left: '50%', transform: 'rotate(123deg)', animationDelay: '1.5s' }} viewBox="0 0 24 24" fill="white">
-                          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                        </svg>
-                      </div>
-                      <svg className="w-4 h-4 text-white relative z-10 ai-star-pulse star-no-rotate" viewBox="0 0 24 24" fill="white">
-                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                      </svg>
-                    </div>
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center border-2" style={{ background: 'var(--vintage-cream)', borderColor: 'var(--vintage-sepia)' }}>
+                    <ChefHat className="w-4 h-4" style={{ color: 'var(--vintage-sepia)' }} />
                   </div>
                 </div>
               )}
               
-              {/* Collapse Button */}
+              {/* Collapse Button - Vintage Style */}
               <button 
                 onClick={() => setIsCollapsed(!isCollapsed)}
-                className={`h-9 w-9 p-0 text-white dark:text-white hover:text-white dark:hover:text-white rounded-xl transition-all duration-200 flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
+                className={`h-9 w-9 p-0 rounded-lg transition-all duration-200 flex items-center justify-center ${isCollapsed ? 'ml-0' : ''}`}
                 style={{
-                  background: 'transparent',
-                  backdropFilter: 'none',
-                  WebkitBackdropFilter: 'none',
-                  border: '1px solid transparent'
+                  background: 'rgba(245, 240, 230, 0.15)',
+                  border: '1px solid rgba(245, 240, 230, 0.3)',
+                  color: 'var(--vintage-cream)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.backdropFilter = 'blur(10px)';
-                  e.currentTarget.style.WebkitBackdropFilter = 'blur(10px)';
-                  e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.15)';
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.background = 'rgba(245, 240, 230, 0.25)';
+                  e.currentTarget.style.border = '1px solid rgba(245, 240, 230, 0.5)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.backdropFilter = 'none';
-                  e.currentTarget.style.WebkitBackdropFilter = 'none';
-                  e.currentTarget.style.border = '1px solid transparent';
-                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.background = 'rgba(245, 240, 230, 0.15)';
+                  e.currentTarget.style.border = '1px solid rgba(245, 240, 230, 0.3)';
                 }}
               >
                 {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -296,26 +266,41 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
                   <button
                     key={item.href}
                     onClick={() => handleNavItemClick(item.href)}
-                    className={`font-medium liquid-glass-nav-item ${
+                    className={`font-medium typewriter-text rounded-lg transition-all duration-200 ${
                       isCollapsed 
                         ? 'w-10 h-10 flex items-center justify-center p-2' 
                         : 'w-full h-11 flex items-center justify-start px-4'
-                    } ${
-                      isActive 
-                        ? "active text-white dark:text-white" 
-                        : "text-gray-700 dark:text-gray-200 hover:text-white dark:hover:text-white"
                     }`}
+                    style={{
+                      fontFamily: '"Courier Prime", monospace',
+                      background: isActive ? 'var(--vintage-rust)' : 'transparent',
+                      color: isActive ? 'var(--vintage-cream)' : 'hsl(var(--foreground))',
+                      border: isActive ? '2px solid var(--vintage-sepia)' : '2px solid transparent',
+                      boxShadow: isActive ? '2px 2px 0 rgba(0,0,0,0.15)' : 'none'
+                    }}
                     title={isCollapsed ? item.label : undefined}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = 'hsl(var(--muted))';
+                        e.currentTarget.style.border = '2px solid var(--vintage-brown)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.border = '2px solid transparent';
+                      }
+                    }}
                   >
                     <item.icon className={`h-5 w-5 flex-shrink-0 ${isCollapsed ? '' : 'mr-3'}`} />
-                    {!isCollapsed && <span className="font-medium text-current">{item.label}</span>}
+                    {!isCollapsed && <span className="font-medium">{item.label}</span>}
                     {!isCollapsed && item.label === 'Orders' && metrics.pendingOrders > 0 && (
-                      <Badge variant="secondary" className="ml-auto text-xs bg-orange-100 text-orange-800">
+                      <Badge variant="secondary" className="ml-auto text-xs" style={{ background: 'var(--vintage-gold)', color: 'var(--vintage-ink)' }}>
                         {metrics.pendingOrders}
                       </Badge>
                     )}
                     {!isCollapsed && item.label === 'Inventory' && metrics.lowStock > 0 && (
-                      <Badge variant="secondary" className="ml-auto text-xs bg-red-100 text-red-800">
+                      <Badge variant="secondary" className="ml-auto text-xs" style={{ background: 'var(--vintage-rust)', color: 'var(--vintage-cream)' }}>
                         {metrics.lowStock}
                       </Badge>
                     )}
@@ -329,20 +314,20 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
 
           </div>
 
-          {/* AI Assistant Chat Orb - Fixed Position */}
+          {/* AI Assistant Chat Button - Vintage Style */}
           <div className={`${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
             <div className="flex items-center justify-center">
               <button
                 onClick={handleChatOpsClick}
-                className={`relative overflow-hidden border-0 shadow-xl transition-all duration-300 ease-out hover:scale-105 active:scale-95 backdrop-blur-sm ${
+                className={`relative overflow-hidden shadow-lg transition-all duration-300 ease-out hover:scale-105 active:scale-95 ${
                   isCollapsed ? 'w-10 h-10 p-0' : 'w-full h-12'
                 }`}
                 style={{
-                  background: isChatOpen 
-                    ? 'conic-gradient(from 0deg, #F5A623, #f97316, #ec4899, #F5A623)' 
-                    : 'linear-gradient(135deg, #F5A623 0%, #f97316 50%, #ec4899 100%)',
-                  borderRadius: isCollapsed ? '50%' : '16px',
-                  boxShadow: '0 8px 32px rgba(245, 166, 35, 0.3)'
+                  background: isChatOpen ? 'var(--vintage-rust)' : 'var(--vintage-brown)',
+                  border: '2px solid var(--vintage-sepia)',
+                  borderRadius: isCollapsed ? '50%' : '8px',
+                  boxShadow: '3px 3px 0 rgba(0, 0, 0, 0.2)',
+                  color: 'var(--vintage-cream)'
                 }}
               >
                 {/* Animated background effect */}

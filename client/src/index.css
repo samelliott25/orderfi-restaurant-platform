@@ -1,75 +1,93 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playwrite+AU+VIC:wght@100..400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=Playwrite+AU+VIC:wght@100..400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Unified OrderFi Design System - Orange/Pink Gradient Theme */
+/* Vintage Typewriter Design System */
 :root {
-  /* Core OrderFi Brand Colors */
-  --orderfi-gradient-start: #F5A623;
-  --orderfi-gradient-mid: #f97316;
-  --orderfi-gradient-end: #ec4899;
+  /* Vintage Color Palette */
+  --vintage-cream: #f5f0e6;
+  --vintage-paper: #ebe5d8;
+  --vintage-ink: #2a2520;
+  --vintage-brown: #8b7355;
+  --vintage-rust: #a0522d;
+  --vintage-gold: #c9a962;
+  --vintage-sepia: #704214;
+  
+  /* Core OrderFi Brand Colors - Vintage warm tones */
+  --orderfi-gradient-start: #c9a962;
+  --orderfi-gradient-mid: #a0522d;
+  --orderfi-gradient-end: #704214;
   
   /* OrderFi Theme Colors (HSL) */
-  --orderfi-start: 37 87% 54%;
-  --orderfi-mid: 25 95% 53%;
-  --orderfi-end: 330 81% 60%;
+  --orderfi-start: 43 50% 59%;
+  --orderfi-mid: 20 58% 40%;
+  --orderfi-end: 30 70% 26%;
   
-  /* Semantic Color System */
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 25 95% 53%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222.2 84% 4.9%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96%;
-  --accent-foreground: 222.2 84% 4.9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 25 95% 53%;
-  --radius: 0.5rem;
+  /* Semantic Color System - Vintage Light Mode */
+  --background: 40 30% 93%;
+  --foreground: 25 17% 15%;
+  --card: 38 25% 92%;
+  --card-foreground: 25 17% 15%;
+  --popover: 38 25% 92%;
+  --popover-foreground: 25 17% 15%;
+  --primary: 20 58% 40%;
+  --primary-foreground: 40 30% 95%;
+  --secondary: 35 20% 85%;
+  --secondary-foreground: 25 17% 20%;
+  --muted: 35 15% 88%;
+  --muted-foreground: 25 10% 45%;
+  --accent: 43 50% 59%;
+  --accent-foreground: 25 17% 15%;
+  --destructive: 0 65% 45%;
+  --destructive-foreground: 40 30% 95%;
+  --border: 30 20% 80%;
+  --input: 30 20% 85%;
+  --ring: 20 58% 40%;
+  --radius: 0.25rem;
 }
 
 .dark {
-  /* Core OrderFi Brand Colors (same in dark mode) */
-  --orderfi-gradient-start: #F5A623;
-  --orderfi-gradient-mid: #f97316;
-  --orderfi-gradient-end: #ec4899;
+  /* Vintage Color Palette - Dark Mode */
+  --vintage-cream: #2a2520;
+  --vintage-paper: #3a332c;
+  --vintage-ink: #f5f0e6;
+  --vintage-brown: #c9a962;
+  --vintage-rust: #d4784a;
+  --vintage-gold: #e0c080;
+  --vintage-sepia: #c4956c;
+  
+  /* Core OrderFi Brand Colors (warm in dark mode) */
+  --orderfi-gradient-start: #e0c080;
+  --orderfi-gradient-mid: #d4784a;
+  --orderfi-gradient-end: #c4956c;
   
   /* OrderFi Theme Colors (HSL) */
-  --orderfi-start: 37 87% 54%;
-  --orderfi-mid: 25 95% 53%;
-  --orderfi-end: 330 81% 60%;
+  --orderfi-start: 43 60% 69%;
+  --orderfi-mid: 20 60% 56%;
+  --orderfi-end: 30 50% 60%;
   
-  /* Dark mode semantic colors */
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 25 95% 53%;
-  --primary-foreground: 222.2 84% 4.9%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 25 95% 53%;
+  /* Dark mode semantic colors - Vintage Dark */
+  --background: 25 17% 15%;
+  --foreground: 40 30% 93%;
+  --card: 25 15% 18%;
+  --card-foreground: 40 30% 93%;
+  --popover: 25 15% 18%;
+  --popover-foreground: 40 30% 93%;
+  --primary: 43 50% 59%;
+  --primary-foreground: 25 17% 15%;
+  --secondary: 25 12% 25%;
+  --secondary-foreground: 40 30% 90%;
+  --muted: 25 10% 22%;
+  --muted-foreground: 30 15% 60%;
+  --accent: 43 50% 59%;
+  --accent-foreground: 25 17% 15%;
+  --destructive: 0 55% 50%;
+  --destructive-foreground: 40 30% 95%;
+  --border: 25 12% 25%;
+  --input: 25 12% 28%;
+  --ring: 43 50% 59%;
 }
 
 
@@ -444,28 +462,43 @@ html, body {
   }
 }
 
-/* Unified OrderFi Body Styling */
+/* Vintage Typewriter Body Styling */
 body {
   background: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Courier Prime", "Courier New", monospace;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.6;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Unified Typography System */
+/* Vintage Typewriter Typography System */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Inter", system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: hsl(220 10% 15%);
+  font-family: "Special Elite", "Courier New", monospace;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  color: var(--vintage-ink);
 }
 
 /* Dark mode headings */
 .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-  color: hsl(210 20% 98%);
+  color: var(--vintage-cream);
+}
+
+/* Typewriter Text Class - For chat messages and paragraphs */
+.typewriter-text {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.7;
+}
+
+/* Special Elite for headings */
+.typewriter-heading {
+  font-family: "Special Elite", "Courier New", monospace;
+  font-weight: 400;
+  letter-spacing: 0.03em;
 }
 
 /* OrderFi Brand Typography - Uses Playwrite AU VIC */
@@ -529,11 +562,115 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Global Form Elements */
+/* Global Form Elements - Vintage Style */
 button, .button, input, select, textarea {
-  font-family: "Inter", system-ui, sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.005em;
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Vintage Paper Texture Effect */
+.vintage-paper {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background)) 0%,
+    hsl(40 25% 90%) 50%,
+    hsl(var(--background)) 100%
+  );
+  position: relative;
+}
+
+.vintage-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.dark .vintage-paper {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--background)) 0%,
+    hsl(25 15% 18%) 50%,
+    hsl(var(--background)) 100%
+  );
+}
+
+/* Vintage Card Style */
+.vintage-card {
+  background: hsl(var(--card));
+  border: 2px solid var(--vintage-brown);
+  border-radius: 4px;
+  box-shadow: 
+    4px 4px 0 rgba(0, 0, 0, 0.1),
+    inset 0 0 20px rgba(139, 115, 85, 0.05);
+}
+
+.dark .vintage-card {
+  border-color: var(--vintage-gold);
+  box-shadow: 
+    4px 4px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 20px rgba(201, 169, 98, 0.05);
+}
+
+/* Vintage Button Style */
+.vintage-btn {
+  font-family: "Special Elite", "Courier New", monospace;
+  background: var(--vintage-brown);
+  color: var(--vintage-cream);
+  border: 2px solid var(--vintage-sepia);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.vintage-btn:hover {
+  background: var(--vintage-rust);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.vintage-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.dark .vintage-btn {
+  background: var(--vintage-gold);
+  color: var(--vintage-ink);
+  border-color: var(--vintage-sepia);
+}
+
+/* Vintage Input Style */
+.vintage-input {
+  font-family: "Courier Prime", "Courier New", monospace;
+  background: hsl(var(--input));
+  border: 2px solid var(--vintage-brown);
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  color: hsl(var(--foreground));
+}
+
+.vintage-input:focus {
+  outline: none;
+  border-color: var(--vintage-rust);
+  box-shadow: 0 0 0 3px rgba(160, 82, 45, 0.2);
+}
+
+.dark .vintage-input {
+  border-color: var(--vintage-gold);
+}
+
+.dark .vintage-input:focus {
+  border-color: var(--vintage-sepia);
+  box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.2);
 }
 
 /* Horizontal scrolling utility */

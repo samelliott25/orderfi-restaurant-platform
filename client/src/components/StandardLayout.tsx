@@ -30,58 +30,54 @@ export function StandardLayout({
   const { isOpen, setIsOpen, isSidebarMode } = useChatContext();
 
   if (!showSidebar) {
-    // Customer/mobile layout - full width without sidebar
+    // Customer/mobile layout - full width without sidebar - Vintage Paper Style
     return (
-      <InteractiveStarryBackground>
-        <div className={`min-h-screen bg-transparent ${className}`}>
-          {showHeader && title && (
-            <OrderFiPageHeader 
-              title={title}
-              subtitle={subtitle}
-              actions={actions}
-            />
-          )}
-          {children}
-        </div>
-      </InteractiveStarryBackground>
+      <div className={`min-h-screen vintage-paper ${className}`} style={{ background: 'hsl(var(--background))' }}>
+        {showHeader && title && (
+          <OrderFiPageHeader 
+            title={title}
+            subtitle={subtitle}
+            actions={actions}
+          />
+        )}
+        {children}
+      </div>
     );
   }
 
-  // Admin layout - with sidebar
+  // Admin layout - with sidebar - Vintage Paper Style
   return (
-    <InteractiveStarryBackground>
-      <div className={`flex h-screen bg-transparent ${className}`}>
-        {/* Sidebar - Fixed width component */}
-        <div className="relative z-10">
-          <Sidebar />
-        </div>
-      
-      {/* Main Content Area - Takes remaining space, adjusts for chat */}
-      <main 
-        className="flex-1 overflow-auto bg-transparent transition-all duration-300 relative z-10"
-        style={{
-          marginRight: isOpen && !isSidebarMode ? '384px' : isOpen && isSidebarMode ? '320px' : '0px' // 384px for floating dialog, 320px for sidebar mode
-        }}
-      >
-        <div className="h-full">
-          {/* Page Header */}
-          {showHeader && title && (
-            <OrderFiPageHeader 
-              title={title}
-              subtitle={subtitle}
-              actions={actions}
-            />
-          )}
-          
-          {/* Page Content */}
-          <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-            {children}
-          </div>
-        </div>
-      </main>
-
+    <div className={`flex h-screen vintage-paper ${className}`} style={{ background: 'hsl(var(--background))' }}>
+      {/* Sidebar - Fixed width component */}
+      <div className="relative z-10">
+        <Sidebar />
       </div>
-    </InteractiveStarryBackground>
+    
+    {/* Main Content Area - Takes remaining space, adjusts for chat */}
+    <main 
+      className="flex-1 overflow-auto transition-all duration-300 relative z-10"
+      style={{
+        marginRight: isOpen && !isSidebarMode ? '384px' : isOpen && isSidebarMode ? '320px' : '0px', // 384px for floating dialog, 320px for sidebar mode
+        background: 'hsl(var(--background))'
+      }}
+    >
+      <div className="h-full">
+        {/* Page Header */}
+        {showHeader && title && (
+          <OrderFiPageHeader 
+            title={title}
+            subtitle={subtitle}
+            actions={actions}
+          />
+        )}
+        
+        {/* Page Content */}
+        <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+          {children}
+        </div>
+      </div>
+    </main>
+    </div>
   );
 }
 

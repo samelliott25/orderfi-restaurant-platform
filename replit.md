@@ -9,8 +9,8 @@ OrderFi AI is a blockchain-first, decentralized restaurant platform revolutioniz
 Preferred communication style: Simple, everyday language.
 Typography preferences:
 - OrderFi logo/brand name must always use Playwrite font
-- Playwrite font for headings and titles (changed from Rock Salt)
-- SUSE font for body text
+- Special Elite font for headings and titles (typewriter style)
+- Courier Prime font for body text and chat messages (typewriter style)
 Development workflow:
 - Use "ADA" as shorthand for Autonomous Development Agent
 - When user asks for ADA, run competitive analysis and refinement process
@@ -19,13 +19,14 @@ Development workflow:
 
 **UI/UX Decisions:**
 - **Frontend Framework**: React 18, TypeScript, Vite.
-- **Styling**: Tailwind CSS with shadcn/ui (New York variant) and custom cream-themed (#ffe6b0) retro aesthetic.
+- **Styling**: Tailwind CSS with shadcn/ui (New York variant) and vintage typewriter theme.
 - **State Management**: TanStack Query.
 - **Routing**: Wouter.
 - **Mobile-First Design**: Responsive grid layouts (2-column for mobile), 16px margins, 12px gutters, 200px card height (60% image, 35% content, 5% padding), 4:3 image aspect ratio. Typography scaled for mobile (product names 12px, prices 12px bold, badges 10px).
-- **Design System**: Apple Liquid Glass (glassmorphism) applied across the dashboard and UI elements, with consistent orange/pink gradient branding. Modern progressive loading (skeleton screens, shimmer effects).
-- **Typography**: Inter (primary) for UI/headings/body, Comfortaa (brand) for OrderFi logo only.
-- **UI Innovations**: Dynamic Glass Morphism Cards, Spatial Voice Navigation, Contextual Gesture Zones for enhanced interaction.
+- **Design System**: Vintage Typewriter theme with cream/sepia color palette, box-shadow card effects, and vintage paper textures.
+- **Color Palette**: Vintage cream (#f5f0e6), paper (#ebe5d8), ink (#2a2520), brown (#8b7355), rust (#a0522d), gold (#c9a962), sepia (#704214).
+- **Typography**: Special Elite (headings), Courier Prime (body/chat), Playwrite AU VIC (brand logo only).
+- **UI Innovations**: Typewriter-styled chat bubbles, vintage paper textures, offset box shadows for depth.
 
 **Technical Implementations:**
 - **Backend**: Node.js, Express.js, TypeScript.
