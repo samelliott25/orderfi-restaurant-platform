@@ -132,11 +132,17 @@ export default function ConversationalOrder() {
     }
   }, [navigate]);
 
-  // Fetch menu items
-  const { data: menuItems = [] } = useQuery<MenuItem[]>({
+  // Fetch menu items and convert prices to numbers
+  const { data: rawMenuItems = [] } = useQuery<MenuItem[]>({
     queryKey: ['/api/restaurants/1/menu'],
     retry: false,
   });
+  
+  // Ensure prices are numbers (PostgreSQL numeric type returns as string)
+  const menuItems = rawMenuItems.map(item => ({
+    ...item,
+    price: typeof item.price === 'string' ? parseFloat(item.price) : item.price
+  }));
 
   // Initial greeting with proactivity
   useEffect(() => {
