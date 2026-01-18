@@ -23,12 +23,12 @@ import HybridSuperiorDashboard from "@/components/HybridSuperiorDashboard";
 import { RealTimeProvider } from "@/components/RealTimeSync";
 import { ContextAwareUIProvider } from "@/components/ContextAwareUI";
 
-// Redirect component for menu route
+// Redirect component for menu route - now goes to conversational ordering
 function MenuRedirect() {
   const [, navigate] = useLocation();
   
   useEffect(() => {
-    navigate('/mobileapp-menu');
+    navigate('/order');
   }, [navigate]);
   
   return null;
@@ -50,6 +50,7 @@ import KDSSimplePage from "@/pages/kds-simple";
 // Customer MVP Pages
 import CustomerLogin from "@/pages/customer/login";
 import MobileMenu from "@/pages/customer/mobile-menu";
+import ConversationalOrder from "@/pages/customer/conversational-order";
 import ScanPage from "@/pages/customer/scan";
 import CustomerCart from "@/pages/customer/cart-fixed";
 import CustomerCheckout from "@/pages/customer/checkout-fixed";
@@ -159,6 +160,7 @@ function Router() {
         {/* Mobile App - QR Ordering System */}
         <Route path="/mobileapp" component={MobileAppPage} />
         <Route path="/mobileapp-menu" component={MobileMenu} />
+        <Route path="/order" component={ConversationalOrder} />
         <Route path="/scan" component={ScanPage} />
         <Route path="/login" component={CustomerLogin} />
         <Route path="/menu" component={MenuRedirect} />
