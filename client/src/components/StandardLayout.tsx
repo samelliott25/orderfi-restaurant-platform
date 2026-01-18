@@ -5,6 +5,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { useChatContext } from '@/contexts/ChatContext';
 import { OrderFiPageHeader } from '@/components/ui/design-system';
 import { BreadcrumbNav } from '@/components/ui/breadcrumb-nav';
+import { Footer } from '@/components/Footer';
 
 import InteractiveStarryBackground from './InteractiveStarryBackground';
 
@@ -32,7 +33,7 @@ export function StandardLayout({
   if (!showSidebar) {
     // Customer/mobile layout - full width without sidebar - Vintage Paper Style
     return (
-      <div className={`min-h-screen vintage-paper ${className}`} style={{ background: 'hsl(var(--background))' }}>
+      <div className={`min-h-screen vintage-paper flex flex-col ${className}`} style={{ background: 'hsl(var(--background))' }}>
         {showHeader && title && (
           <OrderFiPageHeader 
             title={title}
@@ -40,7 +41,8 @@ export function StandardLayout({
             actions={actions}
           />
         )}
-        {children}
+        <div className="flex-1">{children}</div>
+        <Footer />
       </div>
     );
   }
@@ -55,13 +57,13 @@ export function StandardLayout({
     
     {/* Main Content Area - Takes remaining space, adjusts for chat */}
     <main 
-      className="flex-1 overflow-auto transition-all duration-300 relative z-10"
+      className="flex-1 overflow-auto transition-all duration-300 relative z-10 flex flex-col"
       style={{
-        marginRight: isOpen && !isSidebarMode ? '384px' : isOpen && isSidebarMode ? '320px' : '0px', // 384px for floating dialog, 320px for sidebar mode
+        marginRight: isOpen && !isSidebarMode ? '384px' : isOpen && isSidebarMode ? '320px' : '0px',
         background: 'hsl(var(--background))'
       }}
     >
-      <div className="h-full">
+      <div className="flex-1">
         {/* Page Header */}
         {showHeader && title && (
           <OrderFiPageHeader 
@@ -76,6 +78,7 @@ export function StandardLayout({
           {children}
         </div>
       </div>
+      <Footer />
     </main>
     </div>
   );

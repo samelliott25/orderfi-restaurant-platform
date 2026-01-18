@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { Footer } from '@/components/Footer';
 import { 
   Send, 
   Mic, 
@@ -647,6 +648,9 @@ export default function ConversationalOrder() {
           </div>
         </div>
       )}
+
+      {/* Site Map Footer */}
+      <Footer />
     </div>
   );
 }
