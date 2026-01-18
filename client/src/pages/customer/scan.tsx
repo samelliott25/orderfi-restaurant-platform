@@ -66,11 +66,11 @@ export default function ScanPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-orange-50 dark:bg-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
         {/* Header */}
         <div className="text-center">
-          <h1 className="font-semibold text-lg playwrite-font bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent mb-2">
+          <h1 className="font-semibold text-lg playwrite-font text-orange-500 mb-2">
             OrderFi
           </h1>
           <p className="text-muted-foreground">
@@ -93,7 +93,7 @@ export default function ScanPage() {
             <Button
               onClick={handleQRScan}
               disabled={isScanning}
-              className="w-full h-12 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-medium"
+              className="w-full h-12 bg-orange-500 hover:bg-orange-600 text-white font-medium"
             >
               {isScanning ? (
                 <>

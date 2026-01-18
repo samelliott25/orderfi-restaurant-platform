@@ -218,7 +218,7 @@ export default function ManagementChat() {
     <StandardLayout>
       <div className="h-[calc(100vh-4rem)] flex flex-col">
         {/* Header */}
-        <div className="flex-shrink-0 px-6 py-4 border-b bg-gradient-to-r from-orange-500 to-pink-500">
+        <div className="flex-shrink-0 px-6 py-4 border-b bg-orange-500">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
@@ -269,14 +269,14 @@ export default function ManagementChat() {
                   >
                     <div className={`flex items-start space-x-2 max-w-[85%]`}>
                       {message.role === 'assistant' && (
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0">
                           <Bot className="w-4 h-4 text-white" />
                         </div>
                       )}
                       <div
                         className={`rounded-2xl px-4 py-3 ${
                           message.role === 'user'
-                            ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                            ? 'bg-orange-500 text-white'
                             : 'bg-white dark:bg-gray-800 border shadow-sm'
                         }`}
                       >
@@ -294,7 +294,7 @@ export default function ManagementChat() {
                 {isProcessing && (
                   <div className="flex justify-start">
                     <div className="flex items-start space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center">
                         <Bot className="w-4 h-4 text-white" />
                       </div>
                       <div className="bg-white dark:bg-gray-800 border rounded-2xl px-4 py-3 shadow-sm">
@@ -354,7 +354,7 @@ export default function ManagementChat() {
                   <Button
                     onClick={() => handleSend()}
                     disabled={!inputValue.trim() || isProcessing}
-                    className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                    className="bg-orange-500 hover:bg-orange-600"
                   >
                     <Send className="w-5 h-5" />
                   </Button>

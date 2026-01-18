@@ -4,71 +4,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Unified OrderFi Design System - Orange/Pink Gradient Theme */
+/* Unified OrderFi Design System - 3 Color Palette */
 :root {
-  /* Core OrderFi Brand Colors */
-  --orderfi-gradient-start: #F5A623;
-  --orderfi-gradient-mid: #f97316;
-  --orderfi-gradient-end: #ec4899;
+  /* Core OrderFi Brand Colors - 3 Color Palette */
+  --orderfi-orange: #F97316;
+  --orderfi-white: #FFFFFF;
+  --orderfi-charcoal: #1F2937;
   
-  /* OrderFi Theme Colors (HSL) */
-  --orderfi-start: 37 87% 54%;
-  --orderfi-mid: 25 95% 53%;
-  --orderfi-end: 330 81% 60%;
+  /* OrderFi Theme Colors (HSL) - Single Orange */
+  --orderfi-primary: 25 95% 53%;
   
-  /* Semantic Color System */
+  /* Semantic Color System - 3 Colors Only */
   --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  --foreground: 220 13% 18%;
   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  --card-foreground: 220 13% 18%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
+  --popover-foreground: 220 13% 18%;
   --primary: 25 95% 53%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222.2 84% 4.9%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96%;
-  --accent-foreground: 222.2 84% 4.9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 13% 95%;
+  --secondary-foreground: 220 13% 18%;
+  --muted: 220 13% 95%;
+  --muted-foreground: 220 9% 46%;
+  --accent: 25 95% 53%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 25 95% 53%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13% 90%;
+  --input: 220 13% 90%;
   --ring: 25 95% 53%;
   --radius: 0.5rem;
 }
 
 .dark {
-  /* Core OrderFi Brand Colors (same in dark mode) */
-  --orderfi-gradient-start: #F5A623;
-  --orderfi-gradient-mid: #f97316;
-  --orderfi-gradient-end: #ec4899;
+  /* Core OrderFi Brand Colors - 3 Color Palette (Dark Mode) */
+  --orderfi-orange: #F97316;
+  --orderfi-white: #FFFFFF;
+  --orderfi-charcoal: #1F2937;
   
-  /* OrderFi Theme Colors (HSL) */
-  --orderfi-start: 37 87% 54%;
-  --orderfi-mid: 25 95% 53%;
-  --orderfi-end: 330 81% 60%;
+  /* OrderFi Theme Colors (HSL) - Single Orange */
+  --orderfi-primary: 25 95% 53%;
   
-  /* Dark mode semantic colors */
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
+  /* Dark mode semantic colors - 3 Colors Only */
+  --background: 220 13% 10%;
+  --foreground: 0 0% 100%;
+  --card: 220 13% 12%;
+  --card-foreground: 0 0% 100%;
+  --popover: 220 13% 12%;
+  --popover-foreground: 0 0% 100%;
   --primary: 25 95% 53%;
-  --primary-foreground: 222.2 84% 4.9%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 13% 18%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 220 13% 18%;
+  --muted-foreground: 220 9% 65%;
+  --accent: 25 95% 53%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 25 95% 53%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13% 20%;
+  --input: 220 13% 20%;
   --ring: 25 95% 53%;
 }
 

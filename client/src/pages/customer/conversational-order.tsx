@@ -380,7 +380,7 @@ export default function ConversationalOrder() {
   return (
     <div className="h-screen flex flex-col bg-white dark:bg-gray-900">
       {/* Header */}
-      <div className="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-orange-500 to-pink-500">
+      <div className="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-orange-500">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
@@ -417,7 +417,7 @@ export default function ConversationalOrder() {
                   <div
                     className={`max-w-[85%] rounded-2xl px-4 py-3 ${
                       message.role === 'user'
-                        ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white'
+                        ? 'bg-orange-500 text-white'
                         : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
                     }`}
                   >
@@ -464,9 +464,9 @@ export default function ConversationalOrder() {
               />
               
               <Button
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={!inputValue.trim() || isProcessing}
-                className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                className="bg-orange-500 hover:bg-orange-600"
               >
                 <Send className="w-5 h-5" />
               </Button>
@@ -563,7 +563,7 @@ export default function ConversationalOrder() {
               </div>
               <Button
                 onClick={() => navigate('/checkout')}
-                className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                className="w-full bg-orange-500 hover:bg-orange-600"
               >
                 <CreditCard className="w-4 h-4 mr-2" />
                 Pay Now
@@ -578,7 +578,7 @@ export default function ConversationalOrder() {
         <div className="md:hidden flex-shrink-0 p-3 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
           <Button
             onClick={() => navigate('/cart')}
-            className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+            className="w-full bg-orange-500 hover:bg-orange-600"
           >
             <Receipt className="w-4 h-4 mr-2" />
             View Order ({getTotalItems()} items) • {formatPrice(getTotalPrice())}
@@ -614,7 +614,7 @@ export default function ConversationalOrder() {
                         addToCart(item, [], 1);
                         toast({ title: "Added!", description: `${item.name} added to your order` });
                       }}
-                      className="bg-gradient-to-r from-orange-500 to-pink-500"
+                      className="bg-orange-500"
                     >
                       <Plus className="w-4 h-4" />
                     </Button>
