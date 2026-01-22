@@ -1,64 +1,56 @@
-import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import express, { type Request, Response } from "express";
+import cors from "cors";
+import { voiceRouter } from "./voice-routes";
 
 const app = express();
 
-// Basic middleware only
+app.use(cors());
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: false }));
 
-// Simple health check
-app.get("/health", (req, res) => {
-  res.json({ status: "healthy", timestamp: new Date().toISOString() });
+// Health check
+app.get("/health", (_req: Request, res: Response) => {
+  res.json({ status: "ok", service: "OrderFi Voice API" });
 });
 
-(async () => {
+// Voice ordering API
+app.use("/api/voice", voiceRouter);
+
+// Menu API (minimal)
+app.get("/api/menu", async (_req: Request, res: Response) => {
   try {
-    // Register routes first
-    await registerRoutes(app);
-
-    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-      const status = err.status || err.statusCode || 500;
-      const message = err.message || "Internal Server Error";
-
-      res.status(status).json({ message });
-      console.error('Server error:', err);
-    });
-
-    // Create HTTP server from Express app
-    const { createServer } = await import('http');
-    const server = createServer(app);
-    
-    // Setup WebSocket for KDS
-    const { setupWebSocket } = await import('./websocket');
-    setupWebSocket(server, app);
-
-    // Setup Vite or static serving
-    if (app.get("env") === "development") {
-      await setupVite(app, server);
-    } else {
-      serveStatic(app);
-    }
-
-    // Start the server
-    const port = 5000;
-    
-    server.listen(port, "0.0.0.0", () => {
-      log(`✓ Server successfully bound to port ${port}`);
-      log(`✓ App available at http://localhost:${port}`);
-    }).on('error', (err: any) => {
-      console.error('Server startup error:', err);
-      if (err.code === 'EADDRINUSE') {
-        log(`Port ${port} is busy, attempting to kill existing processes...`);
-        process.exit(1);
-      } else {
-        throw err;
-      }
-    });
-
+    const { storage } = await import("./storage");
+    const menuItems = await storage.getMenuItems(1);
+    res.json(menuItems);
   } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
+    res.status(500).json({ error: "Failed to fetch menu" });
   }
-})();
+});
+
+// Orders API (minimal)
+app.post("/api/orders", async (req: Request, res: Response) => {
+  try {
+    const { storage } = await import("./storage");
+    const order = await storage.createOrder(req.body);
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create order" });
+  }
+});
+
+app.get("/api/orders/:id", async (req: Request, res: Response) => {
+  try {
+    const { storage } = await import("./storage");
+    const order = await storage.getOrder(parseInt(req.params.id));
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch order" });
+  }
+});
+
+const PORT = parseInt(process.env.PORT || "5000", 10);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`OrderFi Voice API running on port ${PORT}`);
+});

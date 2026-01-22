@@ -1,55 +1,81 @@
-# OrderFi AI - Comprehensive System Architecture
+# OrderFi - AI-Powered Restaurant Ordering Platform
 
 ## Overview
 
-OrderFi AI is a blockchain-first, decentralized restaurant platform revolutionizing dining experiences with conversational AI and Web3 integration. It features a React frontend, Express.js backend, PostgreSQL with Drizzle ORM, and smart contracts for token rewards. Key capabilities include AI-powered conversational ordering, kitchen printing, multi-language support, and decentralized Web3 payments using USDC. The platform aims to provide a comprehensive, intelligent solution for modern restaurant management.
+OrderFi is a comprehensive restaurant management platform featuring an AI-powered ordering assistant named "Mimi". The system enables restaurants to manage menus, process orders, handle payments (including cryptocurrency), and engage customers through conversational AI. The platform includes a Kitchen Display System (KDS), loyalty rewards program, and supports decentralized infrastructure options.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
-Typography preferences:
-- OrderFi logo/brand name must always use Playwrite font
-- Playwrite font for headings and titles (changed from Rock Salt)
-- SUSE font for body text
-Development workflow:
-- Use "ADA" as shorthand for Autonomous Development Agent
-- When user asks for ADA, run competitive analysis and refinement process
 
 ## System Architecture
 
-**UI/UX Decisions:**
-- **Frontend Framework**: React 18, TypeScript, Vite.
-- **Styling**: Tailwind CSS with shadcn/ui (New York variant) and custom cream-themed (#ffe6b0) retro aesthetic.
-- **State Management**: TanStack Query.
-- **Routing**: Wouter.
-- **Mobile-First Design**: Responsive grid layouts (2-column for mobile), 16px margins, 12px gutters, 200px card height (60% image, 35% content, 5% padding), 4:3 image aspect ratio. Typography scaled for mobile (product names 12px, prices 12px bold, badges 10px).
-- **Design System**: Apple Liquid Glass (glassmorphism) applied across the dashboard and UI elements, with consistent orange/pink gradient branding. Modern progressive loading (skeleton screens, shimmer effects).
-- **Typography**: Inter (primary) for UI/headings/body, Comfortaa (brand) for OrderFi logo only.
-- **UI Innovations**: Dynamic Glass Morphism Cards, Spatial Voice Navigation, Contextual Gesture Zones for enhanced interaction.
+### Frontend Architecture
+- **Framework**: React with TypeScript
+- **Build Tool**: Vite with hot module replacement
+- **Styling**: Tailwind CSS with custom design tokens and HSL color variables
+- **Component Library**: Custom components with shadcn/ui patterns
+- **Path Aliases**: `@/` for client source, `@shared/` for shared code, `@assets/` for static assets
 
-**Technical Implementations:**
-- **Backend**: Node.js, Express.js, TypeScript.
-- **Database**: PostgreSQL with Drizzle ORM.
-- **AI Integration**: OpenAI GPT-4o for conversational ordering, operations assistance, and UI analysis/generation.
-- **Authentication**: API key-based with rate limiting.
-- **Blockchain**: Hardhat, Solidity smart contracts (MIMI rewards, USDC payments), multi-chain support (Base, Polygon, Ethereum), Ethers.js, IPFS for decentralized storage.
-- **Kitchen Operations**: Real-time order processing, support for thermal/impact/cloud printers (PrintNode, Google Cloud Print, ezeep Blue), USB printer communication.
-- **AI Chat System**: GPT-4o for natural language, context awareness, multi-language support (English, Spanish, Portuguese, French), OpenAI TTS for voice integration.
-- **Restaurant Management**: CRUD for menu, real-time order tracking, analytics, role-based staff management.
-- **KDS**: Responsive grid, scrollable item lists, priority sorting, pagination, audio alerts, offline mode, customizable display, multi-station routing.
-- **Figma Integration**: API for design system sync, token extraction, automated component generation.
+### Backend Architecture
+- **Runtime**: Node.js with Express
+- **Language**: TypeScript with ES modules
+- **API Pattern**: RESTful endpoints with WebSocket support for real-time features
+- **Entry Point**: `server/index.ts` handles Express setup and route registration
 
-**System Design Choices:**
-- **Decentralized Approach**: Leveraging blockchain for loyalty (MIMI tokens) and payments (USDC) to provide transparency and reduce fees.
-- **Conversational UI**: AI-first interaction paradigm for ordering and management.
-- **Real-time Operations**: WebSockets for live updates in KDS and dashboard.
-- **Autonomous Development Agent (ADA)**: AI-driven system for competitive analysis, feature discovery, UI/UX improvement, code generation, and automated implementation/testing.
-- **Progressive Disclosure**: Dashboard organized into Executive, Operations, and Analytics views to reduce cognitive load.
+### Data Storage
+- **Primary Database**: PostgreSQL via Drizzle ORM with Neon serverless driver
+- **Schema Location**: `shared/schema.ts` defines all database tables
+- **Migrations**: Generated to `./migrations` directory via drizzle-kit
+- **Storage Pattern**: Interface-based storage abstraction (`IStorage`) in `server/storage.ts` with database implementation in `server/db-storage.ts`
+
+### AI Integration
+- **Primary AI**: OpenAI GPT-4o for conversational ordering and menu parsing
+- **Secondary AI**: xAI Grok (via `api.x.ai`) for text animations and KDS analysis
+- **Voice**: OpenAI TTS with Nova voice for audio responses
+- **Chat Service**: `server/services/akash-chat.ts` handles customer conversations
+- **Menu Parsing**: Vision API for image-based menu extraction
+
+### Real-time Features
+- **WebSocket Server**: Custom implementation in `server/websocket.ts` for KDS updates
+- **Client Path**: `/ws` endpoint for WebSocket connections
+- **Use Cases**: Kitchen display system, order status updates, live notifications
+
+### Payment Processing
+- **Traditional**: Stripe integration (configured, implementation pending)
+- **Cryptocurrency**: USDC payments on Base and Polygon networks
+- **Wallet Support**: MetaMask, WalletConnect, Coinbase Wallet, Phantom
+- **Payment Engine**: `server/services/payment-engine.ts` orchestrates all payment methods
+
+### Rewards System
+- **Loyalty Tiers**: Bronze, Silver, Gold, Platinum with multipliers
+- **Token Rewards**: Points-based system with order value calculations
+- **Blockchain Recording**: Optional on-chain storage of reward transactions
 
 ## External Dependencies
 
-- **AI Services**: OpenAI (GPT-4o, TTS), Anthropic (alternative).
-- **Blockchain Services**: Hardhat, Ethers.js, OpenZeppelin (contract templates).
-- **Database & Storage**: Neon (serverless PostgreSQL), Drizzle ORM, IPFS.
-- **Payment Processing**: Circle API (USDC), Base Network, Polygon.
-- **Printing Services**: PrintNode, ESC/POS.
+### Required Environment Variables
+- `DATABASE_URL` - PostgreSQL connection string (Neon serverless)
+- `OPENAI_API_KEY` - OpenAI API for chat, vision, and TTS
+- `XAI_API_KEY` - xAI Grok API for enhanced features
+
+### Optional Integrations
+- `STRIPE_SECRET_KEY` - Stripe payment processing
+- `BASE_RPC_URL` / `POLYGON_RPC_URL` - Blockchain network access
+- `PINATA_API_KEY` / `PINATA_API_SECRET` - IPFS storage via Pinata
+- `WEB3_STORAGE_TOKEN` - Decentralized file storage
+- `AKASH_API_URL` / `AKASH_DEPLOYMENT_ID` - Akash Network compute
+
+### Third-Party Services
+- **Pinata/IPFS**: Decentralized menu and order data storage
+- **Akash Network**: Decentralized AI compute infrastructure
+- **PrintNode/ezeep**: Cloud printing for kitchen tickets
+- **Tableland**: On-chain SQL database for blockchain records
+
+### Key NPM Packages
+- `drizzle-orm` + `@neondatabase/serverless` - Database ORM
+- `openai` - AI chat and vision capabilities
+- `ws` - WebSocket server
+- `express-rate-limit` - API rate limiting
+- `zod` - Request validation
+- `multer` - File upload handling

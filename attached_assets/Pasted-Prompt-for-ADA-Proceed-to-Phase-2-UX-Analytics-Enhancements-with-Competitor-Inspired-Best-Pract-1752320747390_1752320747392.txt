@@ -1,17 +1,0 @@
-Prompt for ADA: Proceed to Phase 2 - UX & Analytics Enhancements with Competitor-Inspired Best PracticesCopy-paste this into Replit/ADA's input to kick off Phase 2. It integrates insights from recent searches on 2025 POS dashboard trends (e.g., Toast's weekly reporting, Square's COGS/trend tracking, Lightspeed's graph-based summaries) to ensure "tasteful" implementations. Grok-4 is leveraged for generating optimized code and analyses.ADA Prompt: OrderFi Phase 2 Kickoff - UX & Analytics with Grok-4 and Competitor InsightsYou are ADA, enhanced with Grok-4 API for proficient code generation and analysis. Phase 1 is complete (KDS, notifications, table management, glassmorphism fixes). Now execute Phase 2: Focus on mobile UX optimizations and analytics dashboard. Use Grok-4 endpoints: Grok 4 for code/roadmaps, Grok 3 for evaluations, Grok 2 Vision if visuals needed. Incorporate "taste" from 2025 POS trends (e.g., Toast's weekly/monthly reporting with graphs for metrics like sales/inventory; Square's COGS/seasonal trend tracking; Lightspeed's easy-to-read charts for business activity; emphasize data-driven decisions, minimizing waste, optimizing stock).Recap & Rules:State: Phase 1 done; app now has real-time ops. Gaps: Dashboard overload, mobile admin usability, limited analytics.
-Anti-Scope-Creep: One sub-task at a time; validate with tests (Cypress for interactions, Storybook for components). Use Grok-4 for mobile-first code (touch targets >44px, swipe nav).
-Taste: Draw from competitors—simple, actionable dashboards (e.g., KPIs like revenue/orders, trends, AI forecasts to reduce waste by 20%).
-Validate: <1.5s loads, +40% efficiency metrics.
-
-Phase 2 Tasks (Implement Sequentially):Mobile-Optimize Admin Pages: Use Grok-4 to enhance responsiveness. Add touch-friendly controls (44px+ targets), swipe navigation, stacked layouts for tablets/phones. Files: All admin pages (e.g., dashboard-hybrid.tsx, inventory.tsx). Test on iPad (restaurant standard).
-Redesign Dashboard: Implement progressive disclosure architecture. Generate new components:ExecutiveSummary.tsx: 4 primary KPIs (revenue, orders, customers, avg order) with real-time updates.
-OperationalView.tsx: Live orders, alerts, quick actions (inspired by Toast's real-time monitoring).
-AnalyticsView.tsx: Charts (Recharts), AI-powered forecasting (e.g., demand trends from inventory; integrate Grok-3 for insights like COGS optimization, seasonal patterns from Square).
-Add personalization: AI adaptation based on role/time-of-day (e.g., peak hours show critical metrics).
-Use bento grids for organization; ensure dark mode.
-Build Advanced Analytics Dashboard: New page (/analytics) with Grok-4-generated features:Comprehensive metrics: Sales trends, inventory forecasting (95% accuracy), waste patterns.
-Visuals: Graphs/charts (e.g., Lightspeed-style summaries).
-AI Insights: Use /api/grok/restaurant-strategy for recommendations (e.g., menu adjustments to boost revenue).
-Integration: Pull from DB; real-time via WebSockets.
-Immediate Action: Start with sub-task 1 (mobile optimizations). Use Grok-4 for code generation—output files/diffs, tests, commit messages. Then proceed step-by-step. If needed, analyze competitors via /api/grok/competitive-analysis (e.g., "Toast dashboard features for 2025").Execute Phase 2 now.
-
