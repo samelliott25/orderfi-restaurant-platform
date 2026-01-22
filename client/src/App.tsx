@@ -64,6 +64,7 @@ import VoiceFirstDemo from "@/pages/voice-first-demo";
 import MobileAppPage from "@/pages/mobile-app";
 
 import FigmaIntegrationPage from "@/pages/figma-integration";
+import SitemapPage from "@/pages/sitemap";
 
 
 
@@ -176,6 +177,9 @@ function Router() {
         
         {/* Figma Integration */}
         <Route path="/figma-integration" component={FigmaIntegrationPage} />
+        
+        {/* Site Map */}
+        <Route path="/sitemap" component={SitemapPage} />
         
         {/* Essential Admin Pages */}
         <Route path="/manage" component={ManagementChat} />
