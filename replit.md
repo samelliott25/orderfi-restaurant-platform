@@ -1,56 +1,72 @@
-# OrderFi Voice API - Simplified AI Food Ordering
+# OrderFi Voice API - AI Food Ordering with Payments
 
 ## Overview
 
-OrderFi Voice API is a simplified, voice-only AI food ordering backend. It uses GPT-4o for natural language processing to take orders through speech-to-text transcripts and responds with AI-generated text (with optional TTS).
+OrderFi Voice API is a voice-first AI food ordering system. Customers order food through natural conversation using Web Speech API, and pay via Stripe integration.
 
 ## User Preferences
 
-Preferred communication style: Simple, everyday language.
-Design philosophy: Voice-first, backend-focused, minimal complexity.
+- Communication style: Simple, everyday language
+- Design: Voice-first, minimal UI, 3-color palette (Orange, White, Charcoal)
 
-## System Architecture
+## Architecture
 
-### Backend Architecture
-- **Runtime**: Node.js with Express
-- **Language**: TypeScript with ES modules
-- **API Pattern**: RESTful endpoints for voice processing
-- **Entry Point**: `server/index.ts`
+### Backend (Node.js/Express)
+- **Entry**: `server/index.ts`
+- **Voice API**: `server/voice-routes.ts` - GPT-4o powered ordering
+- **Payments**: `server/payment-routes.ts` - Stripe integration
+- **Storage**: `server/storage.ts` - In-memory storage
 
-### Data Storage
-- **Storage**: In-memory storage (`MemStorage`) for development
-- **Schema Location**: `shared/schema.ts` defines data structures
-- **Pattern**: Interface-based storage abstraction (`IStorage`) in `server/storage.ts`
-
-### AI Integration
-- **Primary AI**: OpenAI GPT-4o for conversational ordering
-- **Voice Output**: OpenAI TTS with Nova voice
-- **Session Management**: In-memory session tracking for orders
+### Frontend (Web Voice Client)
+- **Location**: `public/index.html`
+- **Speech-to-Text**: Web Speech API (SpeechRecognition)
+- **Text-to-Speech**: Web Speech API (speechSynthesis)
+- **Payments**: Stripe Elements
 
 ## API Endpoints
 
-### Voice Ordering
-- `POST /api/voice/process` - Process voice transcript, returns AI response and order updates
-- `POST /api/voice/speak` - Text-to-speech conversion
-- `GET /api/voice/session/:sessionId` - Get current session state
-- `POST /api/voice/complete/:sessionId` - Complete and submit order
+### Voice
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/voice/process` | POST | Process voice transcript |
+| `/api/voice/speak` | POST | Text-to-speech |
+| `/api/voice/session/:id` | GET | Get session state |
+| `/api/voice/complete/:id` | POST | Complete order |
 
-### Menu & Orders
-- `GET /api/menu` - Get menu items
-- `POST /api/orders` - Create order
-- `GET /api/orders/:id` - Get order by ID
-- `GET /health` - Health check
+### Payment
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/payment/config` | GET | Get Stripe publishable key |
+| `/api/payment/create-intent` | POST | Create payment intent (server-side amount) |
+| `/api/payment/confirm` | POST | Confirm payment |
 
-## Required Environment Variables
+### Other
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/menu` | GET | Get menu items |
+| `/api/orders` | POST | Create order |
+| `/api/orders/:id` | GET | Get order |
+| `/health` | GET | Health check |
+
+## Required Secrets
 - `OPENAI_API_KEY` - OpenAI API for chat and TTS
+- Stripe (via Replit connector) - Payment processing
 
 ## Key Files
-- `server/index.ts` - Express server entry point
-- `server/voice-routes.ts` - Voice API endpoints
-- `server/storage.ts` - Data storage interface and implementation
-- `shared/schema.ts` - Database schemas and types
+- `server/index.ts` - Express server
+- `server/voice-routes.ts` - Voice ordering with GPT-4o
+- `server/payment-routes.ts` - Stripe payments
+- `server/stripeClient.ts` - Stripe client setup
+- `server/storage.ts` - Data storage
+- `public/index.html` - Web voice client
+- `shared/schema.ts` - Data schemas
+
+## Security
+- Payment amounts calculated server-side from session data
+- Stripe credentials fetched from Replit connector (never exposed)
+- Session-based order tracking
 
 ## Recent Changes
-- Simplified from full-stack to voice-only API backend
-- Removed React UI, blockchain features, visual tools
-- Focus on speech-to-text, NLP ordering, backend operations
+- Added Stripe payment integration
+- Built web voice client with Web Speech API
+- Server-side payment amount validation (security fix)

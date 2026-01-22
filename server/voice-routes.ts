@@ -23,7 +23,9 @@ interface VoiceSession {
   tableNumber?: string;
 }
 
-const sessions = new Map<string, VoiceSession>();
+export const sessions = new Map<string, VoiceSession>();
+
+export type { VoiceSession, OrderItem };
 
 // Process voice transcript and return AI response
 voiceRouter.post("/process", async (req: Request, res: Response) => {

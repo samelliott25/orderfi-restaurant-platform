@@ -1,11 +1,16 @@
 import express, { type Request, Response } from "express";
 import cors from "cors";
+import path from "path";
 import { voiceRouter } from "./voice-routes";
+import { paymentRouter } from "./payment-routes";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
+
+// Serve static files (voice client)
+app.use(express.static(path.join(process.cwd(), "public")));
 
 // Health check
 app.get("/health", (_req: Request, res: Response) => {
@@ -14,6 +19,9 @@ app.get("/health", (_req: Request, res: Response) => {
 
 // Voice ordering API
 app.use("/api/voice", voiceRouter);
+
+// Payment API
+app.use("/api/payment", paymentRouter);
 
 // Menu API (minimal)
 app.get("/api/menu", async (_req: Request, res: Response) => {
@@ -48,6 +56,11 @@ app.get("/api/orders/:id", async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch order" });
   }
+});
+
+// Serve voice client for all other routes
+app.get("*", (_req: Request, res: Response) => {
+  res.sendFile(path.join(process.cwd(), "public", "index.html"));
 });
 
 const PORT = parseInt(process.env.PORT || "5000", 10);
