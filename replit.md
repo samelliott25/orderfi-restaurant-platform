@@ -1,81 +1,56 @@
-# OrderFi - AI-Powered Restaurant Ordering Platform
+# OrderFi Voice API - Simplified AI Food Ordering
 
 ## Overview
 
-OrderFi is a comprehensive restaurant management platform featuring an AI-powered ordering assistant named "Mimi". The system enables restaurants to manage menus, process orders, handle payments (including cryptocurrency), and engage customers through conversational AI. The platform includes a Kitchen Display System (KDS), loyalty rewards program, and supports decentralized infrastructure options.
+OrderFi Voice API is a simplified, voice-only AI food ordering backend. It uses GPT-4o for natural language processing to take orders through speech-to-text transcripts and responds with AI-generated text (with optional TTS).
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Design philosophy: Voice-first, backend-focused, minimal complexity.
 
 ## System Architecture
-
-### Frontend Architecture
-- **Framework**: React with TypeScript
-- **Build Tool**: Vite with hot module replacement
-- **Styling**: Tailwind CSS with custom design tokens and HSL color variables
-- **Component Library**: Custom components with shadcn/ui patterns
-- **Path Aliases**: `@/` for client source, `@shared/` for shared code, `@assets/` for static assets
 
 ### Backend Architecture
 - **Runtime**: Node.js with Express
 - **Language**: TypeScript with ES modules
-- **API Pattern**: RESTful endpoints with WebSocket support for real-time features
-- **Entry Point**: `server/index.ts` handles Express setup and route registration
+- **API Pattern**: RESTful endpoints for voice processing
+- **Entry Point**: `server/index.ts`
 
 ### Data Storage
-- **Primary Database**: PostgreSQL via Drizzle ORM with Neon serverless driver
-- **Schema Location**: `shared/schema.ts` defines all database tables
-- **Migrations**: Generated to `./migrations` directory via drizzle-kit
-- **Storage Pattern**: Interface-based storage abstraction (`IStorage`) in `server/storage.ts` with database implementation in `server/db-storage.ts`
+- **Storage**: In-memory storage (`MemStorage`) for development
+- **Schema Location**: `shared/schema.ts` defines data structures
+- **Pattern**: Interface-based storage abstraction (`IStorage`) in `server/storage.ts`
 
 ### AI Integration
-- **Primary AI**: OpenAI GPT-4o for conversational ordering and menu parsing
-- **Secondary AI**: xAI Grok (via `api.x.ai`) for text animations and KDS analysis
-- **Voice**: OpenAI TTS with Nova voice for audio responses
-- **Chat Service**: `server/services/akash-chat.ts` handles customer conversations
-- **Menu Parsing**: Vision API for image-based menu extraction
+- **Primary AI**: OpenAI GPT-4o for conversational ordering
+- **Voice Output**: OpenAI TTS with Nova voice
+- **Session Management**: In-memory session tracking for orders
 
-### Real-time Features
-- **WebSocket Server**: Custom implementation in `server/websocket.ts` for KDS updates
-- **Client Path**: `/ws` endpoint for WebSocket connections
-- **Use Cases**: Kitchen display system, order status updates, live notifications
+## API Endpoints
 
-### Payment Processing
-- **Traditional**: Stripe integration (configured, implementation pending)
-- **Cryptocurrency**: USDC payments on Base and Polygon networks
-- **Wallet Support**: MetaMask, WalletConnect, Coinbase Wallet, Phantom
-- **Payment Engine**: `server/services/payment-engine.ts` orchestrates all payment methods
+### Voice Ordering
+- `POST /api/voice/process` - Process voice transcript, returns AI response and order updates
+- `POST /api/voice/speak` - Text-to-speech conversion
+- `GET /api/voice/session/:sessionId` - Get current session state
+- `POST /api/voice/complete/:sessionId` - Complete and submit order
 
-### Rewards System
-- **Loyalty Tiers**: Bronze, Silver, Gold, Platinum with multipliers
-- **Token Rewards**: Points-based system with order value calculations
-- **Blockchain Recording**: Optional on-chain storage of reward transactions
+### Menu & Orders
+- `GET /api/menu` - Get menu items
+- `POST /api/orders` - Create order
+- `GET /api/orders/:id` - Get order by ID
+- `GET /health` - Health check
 
-## External Dependencies
+## Required Environment Variables
+- `OPENAI_API_KEY` - OpenAI API for chat and TTS
 
-### Required Environment Variables
-- `DATABASE_URL` - PostgreSQL connection string (Neon serverless)
-- `OPENAI_API_KEY` - OpenAI API for chat, vision, and TTS
-- `XAI_API_KEY` - xAI Grok API for enhanced features
+## Key Files
+- `server/index.ts` - Express server entry point
+- `server/voice-routes.ts` - Voice API endpoints
+- `server/storage.ts` - Data storage interface and implementation
+- `shared/schema.ts` - Database schemas and types
 
-### Optional Integrations
-- `STRIPE_SECRET_KEY` - Stripe payment processing
-- `BASE_RPC_URL` / `POLYGON_RPC_URL` - Blockchain network access
-- `PINATA_API_KEY` / `PINATA_API_SECRET` - IPFS storage via Pinata
-- `WEB3_STORAGE_TOKEN` - Decentralized file storage
-- `AKASH_API_URL` / `AKASH_DEPLOYMENT_ID` - Akash Network compute
-
-### Third-Party Services
-- **Pinata/IPFS**: Decentralized menu and order data storage
-- **Akash Network**: Decentralized AI compute infrastructure
-- **PrintNode/ezeep**: Cloud printing for kitchen tickets
-- **Tableland**: On-chain SQL database for blockchain records
-
-### Key NPM Packages
-- `drizzle-orm` + `@neondatabase/serverless` - Database ORM
-- `openai` - AI chat and vision capabilities
-- `ws` - WebSocket server
-- `express-rate-limit` - API rate limiting
-- `zod` - Request validation
-- `multer` - File upload handling
+## Recent Changes
+- Simplified from full-stack to voice-only API backend
+- Removed React UI, blockchain features, visual tools
+- Focus on speech-to-text, NLP ordering, backend operations
