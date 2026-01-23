@@ -1,5 +1,4 @@
 import { Router, Request, Response } from "express";
-import { isAuthenticated } from "./replit_integrations/auth";
 import { db } from "./db";
 import { menuItems, orders } from "../shared/schema";
 import { eq, desc } from "drizzle-orm";
@@ -28,7 +27,7 @@ export const adminRouter = Router();
 const objectStorage = new ObjectStorageService();
 
 // Get all menu items for admin
-adminRouter.get("/menu", isAuthenticated, async (req: Request, res: Response) => {
+adminRouter.get("/menu", async (req: Request, res: Response) => {
   try {
     const items = await db.select().from(menuItems).orderBy(menuItems.category, menuItems.name);
     res.json(items);
@@ -39,7 +38,7 @@ adminRouter.get("/menu", isAuthenticated, async (req: Request, res: Response) =>
 });
 
 // Create menu item
-adminRouter.post("/menu", isAuthenticated, async (req: Request, res: Response) => {
+adminRouter.post("/menu", async (req: Request, res: Response) => {
   try {
     const parsed = createMenuItemSchema.safeParse(req.body);
     if (!parsed.success) {
@@ -72,7 +71,7 @@ adminRouter.post("/menu", isAuthenticated, async (req: Request, res: Response) =
 });
 
 // Update menu item
-adminRouter.put("/menu/:id", isAuthenticated, async (req: Request, res: Response) => {
+adminRouter.put("/menu/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
@@ -119,7 +118,7 @@ adminRouter.put("/menu/:id", isAuthenticated, async (req: Request, res: Response
 });
 
 // Delete menu item
-adminRouter.delete("/menu/:id", isAuthenticated, async (req: Request, res: Response) => {
+adminRouter.delete("/menu/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     await db.delete(menuItems).where(eq(menuItems.id, id));
@@ -131,7 +130,7 @@ adminRouter.delete("/menu/:id", isAuthenticated, async (req: Request, res: Respo
 });
 
 // Get recent orders for admin
-adminRouter.get("/orders", isAuthenticated, async (req: Request, res: Response) => {
+adminRouter.get("/orders", async (req: Request, res: Response) => {
   try {
     const recentOrders = await db.select()
       .from(orders)
@@ -145,7 +144,7 @@ adminRouter.get("/orders", isAuthenticated, async (req: Request, res: Response) 
 });
 
 // Update order status
-adminRouter.put("/orders/:id/status", isAuthenticated, async (req: Request, res: Response) => {
+adminRouter.put("/orders/:id/status", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const { status } = req.body;
@@ -167,7 +166,7 @@ adminRouter.put("/orders/:id/status", isAuthenticated, async (req: Request, res:
 });
 
 // Get upload URL for menu item photos
-adminRouter.post("/upload-url", isAuthenticated, async (req: Request, res: Response) => {
+adminRouter.post("/upload-url", async (req: Request, res: Response) => {
   try {
     const uploadURL = await objectStorage.getObjectEntityUploadURL();
     const objectPath = objectStorage.normalizeObjectEntityPath(uploadURL);

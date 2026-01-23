@@ -711,24 +711,11 @@
   </style>
 </head>
 <body>
-  <div id="login-view" class="login-container">
-    <div class="login-card">
-      <div class="login-logo">OrderFi</div>
-      <h1 class="login-title">Staff Login</h1>
-      <p class="login-subtitle">Sign in to manage your menu and orders</p>
-      <button class="replit-login-btn" onclick="loginWithReplit()">
-        Sign in with Replit
-      </button>
-    </div>
-  </div>
-
-  <div id="dashboard-view" class="hidden">
+  <div id="dashboard-view" class="">
     <header class="header">
       <div class="logo">OrderFi Staff</div>
       <div class="user-info">
-        <img id="user-avatar" class="user-avatar" src="" alt="">
-        <span id="user-name"></span>
-        <button class="logout-btn" onclick="logout()">Sign Out</button>
+        <span style="color: var(--muted);">Staff Dashboard</span>
       </div>
     </header>
 
@@ -846,45 +833,8 @@
     let menuItems = [];
     let editingId = null;
 
-    async function checkAuth() {
-      try {
-        const res = await fetch('/api/auth/user');
-        if (res.ok) {
-          currentUser = await res.json();
-          showDashboard();
-        } else {
-          showLogin();
-        }
-      } catch (e) {
-        showLogin();
-      }
-    }
-
-    function showLogin() {
-      document.getElementById('login-view').classList.remove('hidden');
-      document.getElementById('dashboard-view').classList.add('hidden');
-    }
-
-    function showDashboard() {
-      document.getElementById('login-view').classList.add('hidden');
-      document.getElementById('dashboard-view').classList.remove('hidden');
-      
-      if (currentUser) {
-        document.getElementById('user-name').textContent = `${currentUser.firstName || ''} ${currentUser.lastName || ''}`.trim() || 'Staff';
-        if (currentUser.profileImageUrl) {
-          document.getElementById('user-avatar').src = currentUser.profileImageUrl;
-        }
-      }
-      
+    function init() {
       loadMenu();
-    }
-
-    function loginWithReplit() {
-      window.location.href = '/api/login';
-    }
-
-    function logout() {
-      window.location.href = '/api/logout';
     }
 
     document.querySelectorAll('.tab').forEach(tab => {
@@ -1201,7 +1151,7 @@
       }
     }
 
-    checkAuth();
+    init();
   </script>
 </body>
 </html>
