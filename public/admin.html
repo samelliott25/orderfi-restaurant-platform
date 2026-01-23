@@ -828,6 +828,95 @@
         width: 100%;
       }
     }
+    
+    .tag-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .tag-option {
+      background: var(--dark-surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      padding: 0.4rem 0.75rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    
+    .tag-option:hover {
+      border-color: var(--accent);
+      color: var(--light);
+    }
+    
+    .tag-option.selected {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: var(--success);
+      color: var(--success);
+    }
+    
+    .tag-option.allergen.selected {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--error);
+      color: var(--error);
+    }
+    
+    .custom-tag-add {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .custom-tag-add .form-input {
+      flex: 1;
+    }
+    
+    .btn-add-tag {
+      background: var(--accent);
+      color: white;
+      border: none;
+      width: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.25rem;
+      transition: all 0.2s;
+    }
+    
+    .btn-add-tag:hover {
+      transform: scale(1.05);
+    }
+    
+    .selected-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .custom-tag {
+      background: rgba(255, 107, 53, 0.2);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    
+    .custom-tag .remove-tag {
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      padding: 0;
+      font-size: 1rem;
+      line-height: 1;
+    }
   </style>
 </head>
 <body>
@@ -955,16 +1044,41 @@
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="item-dietary">Dietary Tags</label>
-              <input type="text" class="form-input" id="item-dietary" placeholder="vegetarian, gluten-free">
-              <p class="form-hint">Comma-separated</p>
+          <div class="form-group">
+            <label class="form-label">Dietary Tags</label>
+            <p class="form-hint" style="margin-bottom: 0.75rem">Click to toggle tags. These help customers filter the menu.</p>
+            <div class="tag-selector" id="dietary-tag-selector">
+              <button type="button" class="tag-option" data-tag="vegetarian">Vegetarian</button>
+              <button type="button" class="tag-option" data-tag="vegan">Vegan</button>
+              <button type="button" class="tag-option" data-tag="gluten-free">Gluten-Free</button>
+              <button type="button" class="tag-option" data-tag="dairy-free">Dairy-Free</button>
+              <button type="button" class="tag-option" data-tag="spicy">Spicy</button>
+              <button type="button" class="tag-option" data-tag="mild">Mild</button>
+              <button type="button" class="tag-option" data-tag="keto">Keto</button>
+              <button type="button" class="tag-option" data-tag="low-carb">Low-Carb</button>
+              <button type="button" class="tag-option" data-tag="halal">Halal</button>
+              <button type="button" class="tag-option" data-tag="kosher">Kosher</button>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="item-allergens">Allergens</label>
-              <input type="text" class="form-input" id="item-allergens" placeholder="dairy, nuts">
-              <p class="form-hint">Comma-separated</p>
+            <div class="custom-tag-add">
+              <input type="text" class="form-input" id="custom-dietary-tag" placeholder="Add custom tag...">
+              <button type="button" class="btn-add-tag" onclick="addCustomDietaryTag()">+</button>
+            </div>
+            <div class="selected-tags" id="selected-dietary-tags"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Allergens</label>
+            <p class="form-hint" style="margin-bottom: 0.75rem">Click to toggle allergen warnings.</p>
+            <div class="tag-selector" id="allergen-tag-selector">
+              <button type="button" class="tag-option allergen" data-tag="dairy">Dairy</button>
+              <button type="button" class="tag-option allergen" data-tag="gluten">Gluten</button>
+              <button type="button" class="tag-option allergen" data-tag="nuts">Nuts</button>
+              <button type="button" class="tag-option allergen" data-tag="peanuts">Peanuts</button>
+              <button type="button" class="tag-option allergen" data-tag="eggs">Eggs</button>
+              <button type="button" class="tag-option allergen" data-tag="soy">Soy</button>
+              <button type="button" class="tag-option allergen" data-tag="shellfish">Shellfish</button>
+              <button type="button" class="tag-option allergen" data-tag="fish">Fish</button>
+              <button type="button" class="tag-option allergen" data-tag="sesame">Sesame</button>
             </div>
           </div>
         </form>
@@ -982,10 +1096,119 @@
     let editingId = null;
     let activeCategory = 'all';
     let activeDietaryTags = new Set();
+    let selectedDietaryTags = new Set();
+    let selectedAllergens = new Set();
+    let customDietaryTags = [];
 
     function init() {
       loadMenu();
       setupFilters();
+      setupTagSelectors();
+    }
+
+    function setupTagSelectors() {
+      document.querySelectorAll('#dietary-tag-selector .tag-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          btn.classList.toggle('selected');
+          const tag = btn.dataset.tag;
+          if (selectedDietaryTags.has(tag)) {
+            selectedDietaryTags.delete(tag);
+          } else {
+            selectedDietaryTags.add(tag);
+          }
+        });
+      });
+
+      document.querySelectorAll('#allergen-tag-selector .tag-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          btn.classList.toggle('selected');
+          const tag = btn.dataset.tag;
+          if (selectedAllergens.has(tag)) {
+            selectedAllergens.delete(tag);
+          } else {
+            selectedAllergens.add(tag);
+          }
+        });
+      });
+      
+      document.getElementById('custom-dietary-tag').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addCustomDietaryTag();
+        }
+      });
+    }
+
+    function addCustomDietaryTag() {
+      const input = document.getElementById('custom-dietary-tag');
+      const tag = input.value.trim().toLowerCase();
+      if (tag && !customDietaryTags.includes(tag) && !selectedDietaryTags.has(tag)) {
+        customDietaryTags.push(tag);
+        renderCustomTags();
+        input.value = '';
+      }
+    }
+
+    function removeCustomTag(tag) {
+      customDietaryTags = customDietaryTags.filter(t => t !== tag);
+      renderCustomTags();
+    }
+
+    function renderCustomTags() {
+      const container = document.getElementById('selected-dietary-tags');
+      container.innerHTML = customDietaryTags.map(tag => `
+        <span class="custom-tag">
+          ${tag}
+          <button type="button" class="remove-tag" onclick="removeCustomTag('${tag}')">×</button>
+        </span>
+      `).join('');
+    }
+
+    function resetTagSelectors() {
+      selectedDietaryTags.clear();
+      selectedAllergens.clear();
+      customDietaryTags = [];
+      
+      document.querySelectorAll('#dietary-tag-selector .tag-option').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      document.querySelectorAll('#allergen-tag-selector .tag-option').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      document.getElementById('selected-dietary-tags').innerHTML = '';
+    }
+
+    function populateTags(dietaryTags, allergens) {
+      resetTagSelectors();
+      
+      (dietaryTags || []).forEach(tag => {
+        const normalizedTag = tag.toLowerCase();
+        const btn = document.querySelector(`#dietary-tag-selector .tag-option[data-tag="${normalizedTag}"]`);
+        if (btn) {
+          btn.classList.add('selected');
+          selectedDietaryTags.add(normalizedTag);
+        } else {
+          customDietaryTags.push(normalizedTag);
+        }
+      });
+      
+      (allergens || []).forEach(tag => {
+        const normalizedTag = tag.toLowerCase();
+        const btn = document.querySelector(`#allergen-tag-selector .tag-option[data-tag="${normalizedTag}"]`);
+        if (btn) {
+          btn.classList.add('selected');
+          selectedAllergens.add(normalizedTag);
+        }
+      });
+      
+      renderCustomTags();
+    }
+
+    function getSelectedTags() {
+      return {
+        dietaryTags: [...selectedDietaryTags, ...customDietaryTags],
+        allergens: [...selectedAllergens]
+      };
     }
 
     function setupFilters() {
@@ -1227,6 +1450,7 @@
       document.getElementById('photo-upload').classList.remove('has-image');
       document.getElementById('keyword-rows').innerHTML = '';
       addKeywordRow();
+      resetTagSelectors();
       document.getElementById('item-modal').classList.add('active');
     }
 
@@ -1242,9 +1466,9 @@
       document.getElementById('item-category').value = item.category || 'Mains';
       document.getElementById('item-description').value = item.description || '';
       document.getElementById('item-reviews').value = item.reviewsUrl || '';
-      document.getElementById('item-dietary').value = (item.dietaryTags || []).join(', ');
-      document.getElementById('item-allergens').value = (item.allergens || []).join(', ');
       document.getElementById('photo-url').value = item.photoUrl || '';
+      
+      populateTags(item.dietaryTags, item.allergens);
       
       if (item.photoUrl) {
         document.getElementById('photo-upload').innerHTML = `<img src="${item.photoUrl}" alt="${item.name}">`;
@@ -1337,6 +1561,8 @@
           }
         });
 
+        const tags = getSelectedTags();
+        
         const data = {
           name: document.getElementById('item-name').value,
           price: parseFloat(document.getElementById('item-price').value),
@@ -1345,8 +1571,8 @@
           reviewsUrl: document.getElementById('item-reviews').value,
           photoUrl: document.getElementById('photo-url').value,
           weightedKeywords,
-          dietaryTags: document.getElementById('item-dietary').value.split(',').map(s => s.trim()).filter(Boolean),
-          allergens: document.getElementById('item-allergens').value.split(',').map(s => s.trim()).filter(Boolean)
+          dietaryTags: tags.dietaryTags,
+          allergens: tags.allergens
         };
 
         const url = editingId ? `/api/admin/menu/${editingId}` : '/api/admin/menu';
