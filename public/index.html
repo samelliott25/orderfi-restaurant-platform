@@ -2,15 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OrderFi - Voice-First Food Ordering</title>
-  <meta name="description" content="Order food with your voice. Fast, natural, and delicious. The future of restaurant ordering is here.">
-  <meta property="og:title" content="OrderFi - Voice-First Food Ordering">
-  <meta property="og:description" content="Order food with your voice. Fast, natural, and delicious.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>OrderFi - Your Voice, Your Food</title>
+  <meta name="description" content="Order food by speaking. No tapping, no scrolling, just talking. The future is delicious.">
+  <meta property="og:title" content="OrderFi - Your Voice, Your Food">
+  <meta property="og:description" content="Order food by speaking. No tapping, no scrolling, just talking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
     * {
       margin: 0;
       padding: 0;
@@ -18,424 +26,508 @@
     }
     
     :root {
-      --orange: #f97316;
-      --orange-light: #fb923c;
-      --orange-dark: #ea580c;
-      --charcoal: #1f2937;
-      --charcoal-light: #374151;
-      --white: #ffffff;
-      --gray-50: #f9fafb;
-      --gray-100: #f3f4f6;
-      --gray-200: #e5e7eb;
-      --gray-400: #9ca3af;
-      --gray-500: #6b7280;
+      --accent: #ff6b35;
+      --accent-glow: rgba(255, 107, 53, 0.4);
+      --dark: #0a0a0b;
+      --dark-elevated: #141416;
+      --dark-surface: #1c1c1f;
+      --light: #fafafa;
+      --muted: #71717a;
+      --success: #22c55e;
+      --gradient-1: linear-gradient(135deg, #ff6b35 0%, #ff8f6b 50%, #ffd93d 100%);
+      --gradient-2: linear-gradient(180deg, rgba(255,107,53,0.15) 0%, transparent 50%);
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
     }
     
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--white);
-      color: var(--charcoal);
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      background: var(--dark);
+      color: var(--light);
       min-height: 100vh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    body.focus-mode {
+      --accent: #71717a;
+      --accent-glow: rgba(113, 113, 122, 0.2);
+    }
+    
+    body.focus-mode .floating-shapes,
+    body.focus-mode .glow-orb,
+    body.focus-mode .particle {
+      display: none;
+    }
+    
+    .focus-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 100;
+      padding: 0.5rem 0.75rem;
+      background: var(--dark-surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+    
+    .focus-toggle:hover {
+      background: var(--dark-elevated);
+      color: var(--light);
+    }
+    
+    .focus-toggle svg {
+      width: 14px;
+      height: 14px;
+    }
+    
+    section {
+      min-height: 100vh;
+      scroll-snap-align: start;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem;
+      overflow: hidden;
     }
     
     .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 50%, #fff7ed 100%);
+      perspective: 1000px;
+      background: var(--gradient-2);
     }
     
-    .hero::before {
-      content: '';
+    .glow-orb {
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(135deg, transparent 0%, rgba(249, 115, 22, 0.05) 100%);
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      filter: blur(100px);
       pointer-events: none;
+      animation: float 8s ease-in-out infinite;
     }
     
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 2rem;
-      max-width: 1200px;
+    .glow-orb.one { top: -100px; left: -100px; }
+    .glow-orb.two { bottom: -150px; right: -100px; animation-delay: -4s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, 20px) scale(1.1); }
+    }
+    
+    .floating-shapes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .shape {
+      position: absolute;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1rem;
+      animation: drift 20s linear infinite;
+    }
+    
+    .shape:nth-child(1) { width: 60px; height: 60px; top: 20%; left: 10%; animation-delay: 0s; transform: rotate(15deg); }
+    .shape:nth-child(2) { width: 40px; height: 40px; top: 60%; left: 80%; animation-delay: -5s; transform: rotate(-20deg); }
+    .shape:nth-child(3) { width: 80px; height: 80px; top: 70%; left: 20%; animation-delay: -10s; transform: rotate(45deg); }
+    .shape:nth-child(4) { width: 30px; height: 30px; top: 30%; left: 70%; animation-delay: -15s; transform: rotate(-10deg); }
+    
+    @keyframes drift {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+      50% { opacity: 0.6; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0.3; }
+    }
+    
+    .hero-content {
+      max-width: 600px;
       margin: 0 auto;
-      width: 100%;
+      text-align: center;
+      transform-style: preserve-3d;
+      animation: heroEntry 1s ease-out;
     }
     
-    .logo {
-      display: flex;
+    @keyframes heroEntry {
+      from {
+        opacity: 0;
+        transform: translateY(40px) rotateX(10deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+      }
+    }
+    
+    .logo-3d {
+      display: inline-flex;
       align-items: center;
       gap: 0.75rem;
+      margin-bottom: 3rem;
+      transform: translateZ(50px);
     }
     
     .logo-icon {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
-      border-radius: 12px;
+      width: 56px;
+      height: 56px;
+      background: var(--gradient-1);
+      border-radius: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+      box-shadow: 0 20px 40px var(--accent-glow);
+      transform: rotateY(-10deg);
+      transition: transform 0.3s;
+    }
+    
+    .logo-icon:hover {
+      transform: rotateY(10deg) scale(1.05);
     }
     
     .logo-icon svg {
       color: white;
+      width: 28px;
+      height: 28px;
     }
     
     .logo-text {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--charcoal);
-      letter-spacing: -0.025em;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
     }
     
-    .nav-cta {
-      padding: 0.75rem 1.5rem;
-      background: var(--charcoal);
-      color: white;
-      text-decoration: none;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      font-size: 0.9375rem;
-      transition: all 0.3s ease;
-    }
-    
-    .nav-cta:hover {
-      background: var(--charcoal-light);
-      transform: translateY(-2px);
-    }
-    
-    .hero-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      border-radius: 2rem;
+    .tagline {
       font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--orange-dark);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
       margin-bottom: 1.5rem;
-      animation: fadeInUp 0.6s ease-out;
-    }
-    
-    .badge svg {
-      width: 16px;
-      height: 16px;
     }
     
     h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
       margin-bottom: 1.5rem;
-      animation: fadeInUp 0.6s ease-out 0.1s both;
     }
     
-    h1 span {
-      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+    h1 .highlight {
+      background: var(--gradient-1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     
-    .hero-subtitle {
-      font-size: 1.25rem;
-      color: var(--gray-500);
-      max-width: 500px;
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--muted);
       line-height: 1.6;
-      margin-bottom: 2.5rem;
-      animation: fadeInUp 0.6s ease-out 0.2s both;
+      margin-bottom: 3rem;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
     }
     
-    .cta-group {
+    .cta-container {
       display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeInUp 0.6s ease-out 0.3s both;
     }
     
-    .cta-primary {
+    .cta-main {
       display: inline-flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 1rem 2rem;
-      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
-      color: white;
+      padding: 1.25rem 2.5rem;
+      background: var(--gradient-1);
+      color: var(--dark);
       text-decoration: none;
-      border-radius: 1rem;
+      border-radius: 4rem;
       font-weight: 600;
       font-size: 1.125rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(249, 115, 22, 0.35);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 40px var(--accent-glow);
+      transform-style: preserve-3d;
     }
     
-    .cta-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(249, 115, 22, 0.4);
+    .cta-main:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 60px var(--accent-glow);
     }
     
-    .cta-primary svg {
+    .cta-main svg {
       width: 24px;
       height: 24px;
+      animation: pulse-mic 2s ease-in-out infinite;
     }
     
-    .cta-secondary {
-      display: inline-flex;
+    @keyframes pulse-mic {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+    
+    .cta-hint {
+      font-size: 0.8125rem;
+      color: var(--muted);
+    }
+    
+    .cta-hint span {
+      opacity: 0.5;
+    }
+    
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 0.5rem;
-      padding: 1rem 2rem;
-      background: var(--white);
-      color: var(--charcoal);
-      text-decoration: none;
-      border-radius: 1rem;
-      font-weight: 600;
-      font-size: 1.125rem;
-      border: 2px solid var(--gray-200);
-      transition: all 0.3s ease;
+      color: var(--muted);
+      font-size: 0.75rem;
+      animation: bounce 2s infinite;
     }
     
-    .cta-secondary:hover {
-      border-color: var(--charcoal);
-      transform: translateY(-2px);
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
     }
     
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .scroll-hint svg {
+      width: 20px;
+      height: 20px;
+      opacity: 0.5;
     }
     
-    .features {
-      padding: 5rem 2rem;
-      background: var(--gray-50);
+    .story-section {
+      background: var(--dark-elevated);
     }
     
-    .features-container {
-      max-width: 1000px;
+    .story-content {
+      max-width: 500px;
       margin: 0 auto;
     }
     
-    .features-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    
-    .features-header h2 {
-      font-size: 2rem;
+    .story-number {
+      font-size: 6rem;
       font-weight: 700;
-      margin-bottom: 0.75rem;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.3;
+      line-height: 1;
+      margin-bottom: -2rem;
     }
     
-    .features-header p {
-      color: var(--gray-500);
+    .story-content h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    
+    .story-content p {
+      color: var(--muted);
       font-size: 1.125rem;
+      line-height: 1.7;
+    }
+    
+    .story-visual {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: var(--dark-surface);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .voice-demo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      height: 60px;
+    }
+    
+    .voice-bar {
+      width: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      animation: voice-wave 1.2s ease-in-out infinite;
+    }
+    
+    .voice-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+    .voice-bar:nth-child(2) { height: 35px; animation-delay: 0.1s; }
+    .voice-bar:nth-child(3) { height: 50px; animation-delay: 0.2s; }
+    .voice-bar:nth-child(4) { height: 40px; animation-delay: 0.3s; }
+    .voice-bar:nth-child(5) { height: 55px; animation-delay: 0.4s; }
+    .voice-bar:nth-child(6) { height: 30px; animation-delay: 0.5s; }
+    .voice-bar:nth-child(7) { height: 45px; animation-delay: 0.6s; }
+    .voice-bar:nth-child(8) { height: 25px; animation-delay: 0.7s; }
+    
+    @keyframes voice-wave {
+      0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
+    
+    .features-section {
+      background: var(--dark);
     }
     
     .features-grid {
+      max-width: 800px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
     }
     
     .feature-card {
-      background: var(--white);
-      padding: 2rem;
+      background: var(--dark-elevated);
+      border: 1px solid rgba(255,255,255,0.05);
       border-radius: 1.25rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      cursor: default;
     }
     
     .feature-card:hover {
+      background: var(--dark-surface);
       transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      border-color: rgba(255,107,53,0.2);
     }
     
-    .feature-icon {
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-      border-radius: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.25rem;
+    .feature-card:first-child {
+      grid-column: span 2;
     }
     
-    .feature-icon svg {
-      width: 28px;
-      height: 28px;
-      color: var(--orange);
+    .feature-emoji {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
     }
     
     .feature-card h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.375rem;
     }
     
     .feature-card p {
-      color: var(--gray-500);
-      line-height: 1.6;
+      color: var(--muted);
+      font-size: 0.9375rem;
+      line-height: 1.5;
     }
     
-    .how-it-works {
-      padding: 5rem 2rem;
-      background: var(--white);
+    .final-section {
+      background: var(--dark-elevated);
+      text-align: center;
     }
     
-    .how-it-works-container {
-      max-width: 800px;
+    .final-content {
+      max-width: 500px;
       margin: 0 auto;
-      text-align: center;
     }
     
-    .how-it-works h2 {
-      font-size: 2rem;
+    .final-content h2 {
+      font-size: 2.5rem;
       font-weight: 700;
-      margin-bottom: 3rem;
-    }
-    
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-    
-    .step {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      text-align: left;
-      padding: 1.5rem;
-      background: var(--gray-50);
-      border-radius: 1rem;
-    }
-    
-    .step-number {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.25rem;
-      flex-shrink: 0;
-    }
-    
-    .step-content h3 {
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-    
-    .step-content p {
-      color: var(--gray-500);
-    }
-    
-    .final-cta {
-      padding: 5rem 2rem;
-      background: linear-gradient(135deg, var(--charcoal) 0%, #111827 100%);
-      text-align: center;
-    }
-    
-    .final-cta h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: white;
       margin-bottom: 1rem;
+      letter-spacing: -0.03em;
     }
     
-    .final-cta p {
-      color: var(--gray-400);
+    .final-content p {
+      color: var(--muted);
       font-size: 1.125rem;
       margin-bottom: 2rem;
     }
     
-    .final-cta .cta-primary {
-      font-size: 1.25rem;
+    .final-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
       padding: 1.25rem 2.5rem;
+      background: var(--light);
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 4rem;
+      font-weight: 600;
+      font-size: 1.125rem;
+      transition: all 0.3s;
     }
     
-    footer {
-      padding: 2rem;
+    .final-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 60px rgba(255,255,255,0.1);
+    }
+    
+    .quirky-footer {
+      position: absolute;
+      bottom: 2rem;
+      left: 0;
+      right: 0;
       text-align: center;
-      background: var(--charcoal);
-      color: var(--gray-400);
-      font-size: 0.875rem;
+      color: var(--muted);
+      font-size: 0.8125rem;
+    }
+    
+    .quirky-footer span {
+      opacity: 0.5;
     }
     
     @media (max-width: 640px) {
-      nav {
-        padding: 1rem;
-      }
-      
-      .logo-text {
-        font-size: 1.25rem;
-      }
-      
-      .nav-cta {
-        padding: 0.625rem 1rem;
-        font-size: 0.875rem;
-      }
-      
-      .hero-content {
+      section {
         padding: 1.5rem;
       }
       
-      .cta-group {
-        flex-direction: column;
-        width: 100%;
+      .features-grid {
+        grid-template-columns: 1fr;
       }
       
-      .cta-primary, .cta-secondary {
-        width: 100%;
-        justify-content: center;
+      .feature-card:first-child {
+        grid-column: span 1;
       }
       
-      .step {
-        flex-direction: column;
-        text-align: center;
+      .glow-orb {
+        width: 250px;
+        height: 250px;
       }
     }
   </style>
 </head>
 <body>
+  <button class="focus-toggle" onclick="document.body.classList.toggle('focus-mode'); this.innerHTML = document.body.classList.contains('focus-mode') ? '<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'5\'/><path d=\'M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42\'/></svg> Full mode' : '<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><path d=\'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z\'/></svg> Focus';">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    Focus
+  </button>
+
   <section class="hero">
-    <nav>
-      <div class="logo">
+    <div class="glow-orb one"></div>
+    <div class="glow-orb two"></div>
+    <div class="floating-shapes">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+    
+    <div class="hero-content">
+      <div class="logo-3d">
         <div class="logo-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
             <line x1="12" y1="19" x2="12" y2="23"></line>
@@ -443,130 +535,102 @@
         </div>
         <span class="logo-text">OrderFi</span>
       </div>
-      <a href="/order" class="nav-cta">Start Ordering</a>
-    </nav>
-    
-    <div class="hero-content">
-      <div class="badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-        </svg>
-        Voice-First Technology
-      </div>
       
-      <h1>Order Food with <span>Your Voice</span></h1>
+      <p class="tagline">Zero taps. Pure voice.</p>
       
-      <p class="hero-subtitle">
-        Just speak naturally. Our AI understands what you want and handles the rest. Fast, simple, delicious.
+      <h1>Say it. <span class="highlight">Eat it.</span></h1>
+      
+      <p class="subtitle">
+        Your voice is the menu. Just speak naturally and let AI handle the rest. No apps to learn. No buttons to find.
       </p>
       
-      <div class="cta-group">
-        <a href="/order" class="cta-primary">
+      <div class="cta-container">
+        <a href="/order" class="cta-main">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-            <line x1="12" y1="19" x2="12" y2="23"></line>
           </svg>
-          Start Voice Ordering
+          Start Talking
         </a>
-        <a href="#how-it-works" class="cta-secondary">
-          Learn More
-        </a>
+        <p class="cta-hint">Works on any device <span>• No sign-up needed</span></p>
       </div>
     </div>
-  </section>
-  
-  <section class="features">
-    <div class="features-container">
-      <div class="features-header">
-        <h2>Why OrderFi?</h2>
-        <p>The easiest way to order food, powered by AI</p>
-      </div>
-      
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-            </svg>
-          </div>
-          <h3>Natural Conversation</h3>
-          <p>Speak like you're talking to a friend. No menus to navigate, no buttons to click.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-          </div>
-          <h3>Lightning Fast</h3>
-          <p>Complete your order in seconds, not minutes. Our AI processes your request instantly.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-              <line x1="1" y1="10" x2="23" y2="10"></line>
-            </svg>
-          </div>
-          <h3>Secure Payments</h3>
-          <p>Pay safely with Stripe. Your payment info is encrypted and never stored.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <section class="how-it-works" id="how-it-works">
-    <div class="how-it-works-container">
-      <h2>How It Works</h2>
-      
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3>Press & Speak</h3>
-            <p>Hold the microphone button and tell us what you'd like to order</p>
-          </div>
-        </div>
-        
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3>Review Your Order</h3>
-            <p>Our AI confirms your order and shows you the total with tax</p>
-          </div>
-        </div>
-        
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3>Pay & Enjoy</h3>
-            <p>Complete payment securely and your food is on its way</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <section class="final-cta">
-    <h2>Ready to Order?</h2>
-    <p>Experience the future of food ordering today.</p>
-    <a href="/order" class="cta-primary">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-        <line x1="12" y1="19" x2="12" y2="23"></line>
+    
+    <div class="scroll-hint">
+      <span>Scroll to explore</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
-      Start Ordering Now
-    </a>
+    </div>
   </section>
   
-  <footer>
-    <p>OrderFi - Voice-First Food Ordering</p>
-  </footer>
+  <section class="story-section">
+    <div class="story-content">
+      <div class="story-number">01</div>
+      <h2>Just speak. Naturally.</h2>
+      <p>
+        "I want a pepperoni pizza and maybe some garlic bread... actually, make that two pizzas." We get it. All of it. Even the second-guessing.
+      </p>
+      <div class="story-visual">
+        <div class="voice-demo">
+          <div class="voice-bar"></div>
+          <div class="voice-bar"></div>
+          <div class="voice-bar"></div>
+          <div class="voice-bar"></div>
+          <div class="voice-bar"></div>
+          <div class="voice-bar"></div>
+          <div class="voice-bar"></div>
+          <div class="voice-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="features-section">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-emoji">🧠</div>
+        <h3>AI that actually listens</h3>
+        <p>Powered by GPT-4o. It understands context, handles corrections, and doesn't judge your 2am cravings.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-emoji">⚡</div>
+        <h3>Stupidly fast</h3>
+        <p>Order complete in under 30 seconds. Your thumbs can finally rest.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-emoji">🔒</div>
+        <h3>Privacy-first</h3>
+        <p>Voice processed instantly, then deleted. We're hungry for food, not your data.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-emoji">💳</div>
+        <h3>Tap to pay</h3>
+        <p>Stripe handles the money stuff. One tap, done.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-emoji">🌿</div>
+        <h3>Light footprint</h3>
+        <p>No heavy apps. Runs smooth on any device, saves battery.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="final-section">
+    <div class="final-content">
+      <h2>Hungry?</h2>
+      <p>Stop scrolling. Start eating.</p>
+      <a href="/order" class="final-cta">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+        </svg>
+        Let's order
+      </a>
+    </div>
+    <div class="quirky-footer">
+      <p>Made with 🍕 by OrderFi <span>• Your stomach will thank you</span></p>
+    </div>
+  </section>
 </body>
 </html>

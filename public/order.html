@@ -2,14 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OrderFi - Voice Food Ordering</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Order - OrderFi</title>
   <meta name="description" content="Order food with your voice. Fast, easy, and delicious.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://js.stripe.com/v3/"></script>
   <style>
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
     * {
       margin: 0;
       padding: 0;
@@ -17,120 +25,210 @@
     }
     
     :root {
-      --orange: #f97316;
-      --orange-light: #fb923c;
-      --orange-dark: #ea580c;
-      --charcoal: #1f2937;
-      --charcoal-light: #374151;
-      --white: #ffffff;
-      --gray-50: #f9fafb;
-      --gray-100: #f3f4f6;
-      --gray-200: #e5e7eb;
-      --gray-400: #9ca3af;
-      --gray-500: #6b7280;
-      --green: #16a34a;
-      --red: #dc2626;
+      --accent: #ff6b35;
+      --accent-glow: rgba(255, 107, 53, 0.4);
+      --accent-soft: rgba(255, 107, 53, 0.15);
+      --dark: #0a0a0b;
+      --dark-elevated: #141416;
+      --dark-surface: #1c1c1f;
+      --light: #fafafa;
+      --muted: #71717a;
+      --success: #22c55e;
+      --success-glow: rgba(34, 197, 94, 0.3);
+      --error: #ef4444;
+      --gradient-1: linear-gradient(135deg, #ff6b35 0%, #ff8f6b 50%, #ffd93d 100%);
     }
     
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
-      color: var(--charcoal);
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      background: var(--dark);
+      color: var(--light);
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
     
-    .header {
-      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
-      color: white;
-      padding: 1.25rem 1.5rem;
+    body.focus-mode {
+      --accent: #a1a1aa;
+      --accent-glow: rgba(161, 161, 170, 0.2);
+      --accent-soft: rgba(161, 161, 170, 0.1);
+    }
+    
+    body.focus-mode .glow-bg,
+    body.focus-mode .particle {
+      display: none;
+    }
+    
+    .glow-bg {
+      position: fixed;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: var(--accent-glow);
+      filter: blur(150px);
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: 0;
+    }
+    
+    header {
+      position: relative;
+      z-index: 10;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     
-    .header-icon {
-      width: 36px;
-      height: 36px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 10px;
+    .back-btn {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
     }
     
-    .header h1 {
-      font-size: 1.5rem;
+    .back-btn:hover {
+      color: var(--light);
+    }
+    
+    .back-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .header-logo {
+      font-size: 1.25rem;
       font-weight: 700;
-      letter-spacing: -0.025em;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .focus-toggle {
+      padding: 0.375rem 0.625rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1.5rem;
+      color: var(--muted);
+      font-size: 0.6875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .focus-toggle:hover {
+      border-color: rgba(255,255,255,0.2);
+      color: var(--light);
+    }
+    
+    .focus-toggle svg {
+      width: 12px;
+      height: 12px;
     }
     
     .container {
       flex: 1;
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 1.5rem 1rem;
-      width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 1rem;
+      width: 100%;
+      position: relative;
+      z-index: 1;
     }
     
-    .chat-container {
+    .chat-area {
       flex: 1;
       overflow-y: auto;
-      min-height: 280px;
+      padding: 0.5rem 0;
+      min-height: 200px;
       max-height: 45vh;
-      padding: 0.5rem;
       scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
     }
     
     .message {
       margin-bottom: 0.75rem;
-      padding: 0.875rem 1rem;
+      padding: 1rem 1.25rem;
       border-radius: 1.25rem;
       max-width: 85%;
-      animation: slideIn 0.3s ease-out;
+      animation: msgIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       line-height: 1.5;
       font-size: 0.9375rem;
     }
     
-    @keyframes slideIn {
+    @keyframes msgIn {
       from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(16px) scale(0.95);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
     
     .message.user {
-      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
-      color: white;
+      background: var(--gradient-1);
+      color: var(--dark);
       margin-left: auto;
       border-bottom-right-radius: 0.375rem;
-      box-shadow: 0 2px 10px rgba(249, 115, 22, 0.25);
     }
     
     .message.assistant {
-      background: var(--white);
-      color: var(--charcoal);
+      background: var(--dark-surface);
+      color: var(--light);
+      border: 1px solid rgba(255,255,255,0.05);
       border-bottom-left-radius: 0.375rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-      border: 1px solid var(--gray-100);
     }
     
-    .order-card {
-      background: var(--white);
-      border-radius: 1rem;
+    .typing {
+      display: flex;
+      gap: 5px;
+      padding: 1rem 1.25rem;
+      background: var(--dark-surface);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 1.25rem;
+      border-bottom-left-radius: 0.375rem;
+      max-width: 80px;
+      animation: msgIn 0.3s ease-out;
+    }
+    
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--muted);
+      border-radius: 50%;
+      animation: typePulse 1.4s infinite;
+    }
+    
+    .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+    
+    @keyframes typePulse {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-5px); opacity: 1; }
+    }
+    
+    .order-panel {
+      background: var(--dark-elevated);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 1.25rem;
       padding: 1.25rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      border: 1px solid var(--gray-100);
+      margin: 1rem 0;
     }
     
     .order-header {
@@ -139,21 +237,22 @@
       gap: 0.5rem;
       margin-bottom: 1rem;
       padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--gray-100);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     
     .order-header svg {
-      color: var(--orange);
+      width: 18px;
+      height: 18px;
+      color: var(--accent);
     }
     
-    .order-header h3 {
-      font-size: 1rem;
+    .order-header h2 {
+      font-size: 0.9375rem;
       font-weight: 600;
-      color: var(--charcoal);
     }
     
     .order-empty {
-      color: var(--gray-400);
+      color: var(--muted);
       font-size: 0.875rem;
       text-align: center;
       padding: 1rem 0;
@@ -162,38 +261,37 @@
     .order-item {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       padding: 0.5rem 0;
       font-size: 0.9375rem;
     }
     
     .order-item-name {
-      color: var(--charcoal);
+      color: var(--light);
     }
     
     .order-item-price {
+      color: var(--muted);
       font-weight: 500;
-      color: var(--charcoal-light);
     }
     
     .order-divider {
       height: 1px;
-      background: var(--gray-200);
+      background: rgba(255,255,255,0.05);
       margin: 0.75rem 0;
     }
     
-    .order-total-row {
+    .order-row {
       display: flex;
       justify-content: space-between;
-      padding: 0.375rem 0;
+      padding: 0.25rem 0;
       font-size: 0.875rem;
-      color: var(--gray-500);
+      color: var(--muted);
     }
     
-    .order-total-row.final {
+    .order-row.total {
       font-size: 1rem;
       font-weight: 700;
-      color: var(--charcoal);
+      color: var(--light);
       padding-top: 0.5rem;
     }
     
@@ -201,15 +299,17 @@
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+      padding-top: 0.5rem;
     }
     
     .voice-btn {
+      position: relative;
       width: 100%;
-      padding: 1rem 1.5rem;
-      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
-      color: white;
+      padding: 1.25rem;
+      background: var(--gradient-1);
+      color: var(--dark);
       border: none;
-      border-radius: 1rem;
+      border-radius: 1.5rem;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
@@ -217,182 +317,225 @@
       align-items: center;
       justify-content: center;
       gap: 0.75rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35);
-      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 32px var(--accent-glow);
       overflow: hidden;
+      font-family: inherit;
     }
     
     .voice-btn::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+      background: rgba(255,255,255,0.2);
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.2s;
     }
     
     .voice-btn:hover::before {
       opacity: 1;
     }
     
-    .voice-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
-    }
-    
     .voice-btn:active {
-      transform: translateY(0);
-    }
-    
-    .voice-btn:disabled {
-      background: var(--gray-400);
-      box-shadow: none;
-      cursor: not-allowed;
+      transform: scale(0.98);
     }
     
     .voice-btn.listening {
-      background: linear-gradient(135deg, var(--red) 0%, #b91c1c 100%);
-      box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35);
+      background: var(--dark);
+      color: var(--light);
+      box-shadow: 0 0 0 3px var(--accent), 0 8px 32px var(--accent-glow);
     }
     
-    .voice-btn.listening .voice-waves {
+    .voice-btn.listening .mic-icon {
+      display: none;
+    }
+    
+    .voice-btn.listening .wave-container {
       display: flex;
     }
     
-    .voice-waves {
+    .mic-icon {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .wave-container {
       display: none;
       align-items: center;
+      justify-content: center;
       gap: 3px;
       height: 24px;
     }
     
-    .voice-wave {
+    .wave-bar {
       width: 3px;
       height: 100%;
-      background: white;
+      background: var(--accent);
       border-radius: 2px;
-      animation: wave 1s ease-in-out infinite;
+      animation: waveAnim 0.8s ease-in-out infinite;
     }
     
-    .voice-wave:nth-child(1) { animation-delay: 0s; }
-    .voice-wave:nth-child(2) { animation-delay: 0.1s; }
-    .voice-wave:nth-child(3) { animation-delay: 0.2s; }
-    .voice-wave:nth-child(4) { animation-delay: 0.3s; }
-    .voice-wave:nth-child(5) { animation-delay: 0.4s; }
+    .wave-bar:nth-child(1) { animation-delay: 0s; height: 40%; }
+    .wave-bar:nth-child(2) { animation-delay: 0.1s; height: 70%; }
+    .wave-bar:nth-child(3) { animation-delay: 0.2s; height: 100%; }
+    .wave-bar:nth-child(4) { animation-delay: 0.3s; height: 60%; }
+    .wave-bar:nth-child(5) { animation-delay: 0.4s; height: 80%; }
     
-    @keyframes wave {
-      0%, 100% { transform: scaleY(0.4); }
+    @keyframes waveAnim {
+      0%, 100% { transform: scaleY(0.5); }
       50% { transform: scaleY(1); }
     }
     
-    .text-input-wrapper {
+    .text-row {
       display: flex;
       gap: 0.5rem;
-      background: var(--white);
-      padding: 0.5rem;
+    }
+    
+    .text-input {
+      flex: 1;
+      padding: 0.875rem 1rem;
+      background: var(--dark-surface);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 1rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-      border: 1px solid var(--gray-200);
+      color: var(--light);
+      font-size: 0.9375rem;
+      font-family: inherit;
+      outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     
-    .text-input-wrapper:focus-within {
-      border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+    .text-input::placeholder {
+      color: var(--muted);
     }
     
-    .text-input-wrapper input {
-      flex: 1;
-      padding: 0.625rem 0.75rem;
-      border: none;
-      font-size: 0.9375rem;
-      background: transparent;
-      color: var(--charcoal);
-      outline: none;
+    .text-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
     }
     
-    .text-input-wrapper input::placeholder {
-      color: var(--gray-400);
-    }
-    
-    .text-input-wrapper button {
-      padding: 0.625rem 1.25rem;
-      background: var(--charcoal);
-      color: white;
-      border: none;
-      border-radius: 0.625rem;
+    .send-btn {
+      padding: 0.875rem 1.25rem;
+      background: var(--dark-surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1rem;
+      color: var(--light);
       font-weight: 500;
+      font-family: inherit;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
     
-    .text-input-wrapper button:hover {
-      background: var(--charcoal-light);
+    .send-btn:hover {
+      background: var(--dark-elevated);
+      border-color: rgba(255,255,255,0.2);
     }
     
     .checkout-btn {
       width: 100%;
-      padding: 1rem 1.5rem;
-      background: linear-gradient(135deg, var(--green) 0%, #15803d 100%);
+      padding: 1.125rem;
+      background: var(--success);
       color: white;
       border: none;
       border-radius: 1rem;
       font-size: 1rem;
       font-weight: 600;
+      font-family: inherit;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(22, 163, 74, 0.35);
-      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 8px 32px var(--success-glow);
     }
     
     .checkout-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+      box-shadow: 0 12px 40px var(--success-glow);
     }
     
     .checkout-btn:disabled {
-      background: var(--gray-400);
+      background: var(--muted);
       box-shadow: none;
       cursor: not-allowed;
       transform: none;
     }
     
-    .payment-card {
-      background: var(--white);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      border: 1px solid var(--gray-100);
-      animation: fadeIn 0.3s ease-out;
+    .checkout-btn svg {
+      width: 18px;
+      height: 18px;
     }
     
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .payment-panel {
+      background: var(--dark-elevated);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      animation: panelIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    @keyframes panelIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .payment-header {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
     
     .payment-header svg {
-      color: var(--green);
+      width: 18px;
+      height: 18px;
+      color: var(--success);
     }
     
-    .payment-header h3 {
-      font-size: 1rem;
+    .payment-header h2 {
+      font-size: 0.9375rem;
       font-weight: 600;
     }
     
     #payment-element {
-      margin: 1rem 0;
+      margin-bottom: 1rem;
+    }
+    
+    .pay-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--success);
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 8px 32px var(--success-glow);
+    }
+    
+    .pay-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .pay-btn:disabled {
+      background: var(--muted);
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
     }
     
     .hidden {
@@ -402,83 +545,63 @@
     .status {
       text-align: center;
       padding: 0.5rem;
-      color: var(--gray-500);
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
+      color: var(--muted);
     }
     
     .status.error {
-      color: var(--red);
+      color: var(--error);
     }
     
-    .status.success {
-      color: var(--green);
-    }
-    
-    .success-message {
+    .success-state {
       text-align: center;
-      padding: 2rem;
-      animation: fadeIn 0.3s ease-out;
+      padding: 2rem 1rem;
+      animation: panelIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .success-icon {
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(135deg, var(--green) 0%, #15803d 100%);
+      width: 72px;
+      height: 72px;
+      background: var(--success);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 1rem;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 12px 40px var(--success-glow);
     }
     
     .success-icon svg {
+      width: 36px;
+      height: 36px;
       color: white;
-      width: 32px;
-      height: 32px;
     }
     
-    .success-message h3 {
-      font-size: 1.25rem;
-      color: var(--charcoal);
+    .success-state h3 {
+      font-size: 1.5rem;
       margin-bottom: 0.5rem;
     }
     
-    .success-message p {
-      color: var(--gray-500);
+    .success-state p {
+      color: var(--muted);
     }
     
-    .typing-indicator {
-      display: flex;
-      gap: 4px;
-      padding: 0.875rem 1rem;
-      background: var(--white);
-      border-radius: 1.25rem;
-      border-bottom-left-radius: 0.375rem;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-      border: 1px solid var(--gray-100);
-      max-width: 70px;
-      animation: slideIn 0.3s ease-out;
-    }
-    
-    .typing-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--gray-400);
-      border-radius: 50%;
-      animation: typing 1.4s infinite;
-    }
-    
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    
-    @keyframes typing {
-      0%, 100% { transform: translateY(0); opacity: 0.4; }
-      50% { transform: translateY(-4px); opacity: 1; }
+    .quirky-hint {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      opacity: 0.7;
+      transition: opacity 0.3s;
     }
     
     @media (max-width: 480px) {
       .container {
-        padding: 1rem 0.75rem;
+        padding: 0.75rem;
+      }
+      
+      header {
+        padding: 0.75rem 1rem;
       }
       
       .message {
@@ -488,50 +611,53 @@
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="header-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-        <line x1="12" y1="19" x2="12" y2="23"></line>
+  <div class="glow-bg"></div>
+  
+  <header>
+    <a href="/" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>
-    </div>
-    <h1>OrderFi</h1>
-  </div>
+      Back
+    </a>
+    <span class="header-logo">OrderFi</span>
+    <button class="focus-toggle" onclick="document.body.classList.toggle('focus-mode')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      Focus
+    </button>
+  </header>
   
   <div class="container">
-    <div class="chat-container" id="chat"></div>
+    <div class="chat-area" id="chat"></div>
     
-    <div class="order-card" id="order-summary">
+    <div class="order-panel" id="order-panel">
       <div class="order-header">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
         </svg>
-        <h3>Your Order</h3>
+        <h2>Your Order</h2>
       </div>
       <div id="order-items">
-        <p class="order-empty">No items yet. Start ordering!</p>
+        <p class="order-empty">Nothing yet — say something delicious!</p>
       </div>
     </div>
     
     <div id="payment-section" class="hidden">
-      <div class="payment-card">
+      <div class="payment-panel">
         <div class="payment-header">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-            <line x1="1" y1="10" x2="23" y2="10"></line>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
           </svg>
-          <h3>Payment Details</h3>
+          <h2>Payment</h2>
         </div>
         <div id="payment-element"></div>
-        <button id="pay-btn" class="checkout-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 11 12 14 22 4"></polyline>
-            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        <button id="pay-btn" class="pay-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
           </svg>
-          Complete Payment
+          Complete Order
         </button>
         <div id="payment-status" class="status"></div>
       </div>
@@ -539,34 +665,35 @@
     
     <div class="controls">
       <button id="voice-btn" class="voice-btn">
-        <svg id="mic-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-          <line x1="12" y1="19" x2="12" y2="23"></line>
-          <line x1="8" y1="23" x2="16" y2="23"></line>
+        <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
         </svg>
-        <div class="voice-waves">
-          <div class="voice-wave"></div>
-          <div class="voice-wave"></div>
-          <div class="voice-wave"></div>
-          <div class="voice-wave"></div>
-          <div class="voice-wave"></div>
+        <div class="wave-container">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
         </div>
-        <span id="voice-text">Hold to Speak</span>
+        <span id="voice-text">Hold to speak</span>
       </button>
       
-      <div class="text-input-wrapper">
-        <input type="text" id="text-input" placeholder="Or type your order...">
-        <button id="send-btn">Send</button>
+      <div class="text-row">
+        <input type="text" id="text-input" class="text-input" placeholder="or type here...">
+        <button id="send-btn" class="send-btn">Send</button>
       </div>
       
       <button id="checkout-btn" class="checkout-btn hidden">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-          <line x1="1" y1="10" x2="23" y2="10"></line>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+          <line x1="1" y1="10" x2="23" y2="10"/>
         </svg>
-        Proceed to Payment
+        Pay now
       </button>
+      
+      <p class="quirky-hint" id="hint">Tip: Just say what you want. No menus needed.</p>
     </div>
     
     <div id="status" class="status"></div>
@@ -578,11 +705,18 @@
     let total = 0;
     let stripe, elements, paymentElement;
     
+    const quirkyHints = [
+      "Tip: Just say what you want. No menus needed.",
+      "Pro move: Change your mind mid-sentence. We get it.",
+      "Fun fact: Your voice is the new touch screen.",
+      "Hungry thought: Pizza counts as a vegetable, right?",
+      "Order hack: \"Same as last time\" works too.",
+    ];
+    
     const chatEl = document.getElementById('chat');
     const orderItemsEl = document.getElementById('order-items');
     const voiceBtn = document.getElementById('voice-btn');
     const voiceText = document.getElementById('voice-text');
-    const micIcon = document.getElementById('mic-icon');
     const textInput = document.getElementById('text-input');
     const sendBtn = document.getElementById('send-btn');
     const checkoutBtn = document.getElementById('checkout-btn');
@@ -590,6 +724,17 @@
     const payBtn = document.getElementById('pay-btn');
     const statusEl = document.getElementById('status');
     const paymentStatus = document.getElementById('payment-status');
+    const hintEl = document.getElementById('hint');
+    
+    let hintIndex = 0;
+    setInterval(() => {
+      hintIndex = (hintIndex + 1) % quirkyHints.length;
+      hintEl.style.opacity = '0';
+      setTimeout(() => {
+        hintEl.textContent = quirkyHints[hintIndex];
+        hintEl.style.opacity = '0.7';
+      }, 300);
+    }, 8000);
     
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition;
@@ -610,17 +755,15 @@
       recognition.onend = () => {
         isListening = false;
         voiceBtn.classList.remove('listening');
-        voiceText.textContent = 'Hold to Speak';
-        micIcon.style.display = 'block';
+        voiceText.textContent = 'Hold to speak';
       };
       
       recognition.onerror = (event) => {
         console.error('Speech error:', event.error);
-        statusEl.textContent = 'Speech recognition error. Try typing instead.';
+        statusEl.textContent = 'Mic hiccup — try typing instead';
         statusEl.className = 'status error';
         isListening = false;
         voiceBtn.classList.remove('listening');
-        micIcon.style.display = 'block';
       };
     }
     
@@ -632,14 +775,13 @@
     
     function startListening() {
       if (!recognition) {
-        statusEl.textContent = 'Voice not supported. Use text input.';
+        statusEl.textContent = 'Voice not available — type instead!';
         statusEl.className = 'status error';
         return;
       }
       isListening = true;
       voiceBtn.classList.add('listening');
       voiceText.textContent = 'Listening...';
-      micIcon.style.display = 'none';
       recognition.start();
     }
     
@@ -672,7 +814,7 @@
     
     function showTyping() {
       const div = document.createElement('div');
-      div.className = 'typing-indicator';
+      div.className = 'typing';
       div.id = 'typing';
       div.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
       chatEl.appendChild(div);
@@ -708,7 +850,7 @@
       } catch (error) {
         console.error('Error:', error);
         hideTyping();
-        statusEl.textContent = 'Error processing request';
+        statusEl.textContent = 'Oops, something broke. Try again?';
         statusEl.className = 'status error';
       }
     }
@@ -725,7 +867,7 @@
     
     function updateOrderDisplay() {
       if (currentOrder.length === 0) {
-        orderItemsEl.innerHTML = '<p class="order-empty">No items yet. Start ordering!</p>';
+        orderItemsEl.innerHTML = '<p class="order-empty">Nothing yet — say something delicious!</p>';
         checkoutBtn.classList.add('hidden');
         return;
       }
@@ -745,15 +887,15 @@
       
       html += `
         <div class="order-divider"></div>
-        <div class="order-total-row">
+        <div class="order-row">
           <span>Subtotal</span>
           <span>$${total.toFixed(2)}</span>
         </div>
-        <div class="order-total-row">
-          <span>Tax (8%)</span>
+        <div class="order-row">
+          <span>Tax</span>
           <span>$${tax.toFixed(2)}</span>
         </div>
-        <div class="order-total-row final">
+        <div class="order-row total">
           <span>Total</span>
           <span>$${grandTotal.toFixed(2)}</span>
         </div>
@@ -792,10 +934,13 @@
         elements = stripe.elements({ 
           clientSecret: intent.clientSecret,
           appearance: {
-            theme: 'stripe',
+            theme: 'night',
             variables: {
-              colorPrimary: '#f97316',
-              borderRadius: '8px',
+              colorPrimary: '#ff6b35',
+              colorBackground: '#1c1c1f',
+              colorText: '#fafafa',
+              colorDanger: '#ef4444',
+              borderRadius: '12px',
             }
           }
         });
@@ -808,7 +953,7 @@
         
       } catch (error) {
         console.error('Checkout error:', error);
-        statusEl.textContent = 'Failed to setup payment';
+        statusEl.textContent = 'Payment setup failed. Try again?';
         statusEl.className = 'status error';
         checkoutBtn.disabled = false;
       }
@@ -816,7 +961,7 @@
     
     payBtn.addEventListener('click', async () => {
       payBtn.disabled = true;
-      paymentStatus.textContent = 'Processing payment...';
+      paymentStatus.textContent = 'Processing...';
       paymentStatus.className = 'status';
       
       const { error } = await stripe.confirmPayment({
@@ -832,26 +977,31 @@
         paymentStatus.className = 'status error';
         payBtn.disabled = false;
       } else {
-        paymentSection.querySelector('.payment-card').innerHTML = `
-          <div class="success-message">
+        paymentSection.querySelector('.payment-panel').innerHTML = `
+          <div class="success-state">
             <div class="success-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                <polyline points="20 6 9 17 4 12"></polyline>
+                <polyline points="20 6 9 17 4 12"/>
               </svg>
             </div>
-            <h3>Payment Successful!</h3>
-            <p>Your order is being prepared.</p>
+            <h3>You're all set!</h3>
+            <p>Your food is on its way. Time to get excited.</p>
           </div>
         `;
-        speak('Payment successful! Your order is being prepared.');
+        speak("You're all set! Your food is on its way.");
       }
     });
     
     setTimeout(() => {
-      const greeting = "Hi! I'm Mimi. What would you like to order today?";
+      const greetings = [
+        "Hey there! What sounds good today?",
+        "Hi! I'm ready when you are. What are we eating?",
+        "Welcome back! What's the craving?",
+      ];
+      const greeting = greetings[Math.floor(Math.random() * greetings.length)];
       addMessage(greeting, 'assistant');
       speak(greeting);
-    }, 500);
+    }, 600);
   </script>
 </body>
 </html>
