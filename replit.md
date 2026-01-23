@@ -58,8 +58,13 @@ OrderFi Voice API is a voice-first AI food ordering system. Customers order food
 - `server/payment-routes.ts` - Stripe payments
 - `server/stripeClient.ts` - Stripe client setup
 - `server/storage.ts` - Data storage
-- `public/index.html` - Web voice client
+- `public/index.html` - Landing page
+- `public/order.html` - Voice ordering client
 - `shared/schema.ts` - Data schemas
+
+## Routes
+- `/` - Landing page
+- `/order` - Voice ordering interface
 
 ## Security
 - Payment amounts calculated server-side from session data
