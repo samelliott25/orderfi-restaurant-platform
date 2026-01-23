@@ -213,6 +213,13 @@
       font-size: 1.1rem;
     }
     
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    
     .card-category {
       display: inline-block;
       background: var(--dark-surface);
@@ -220,7 +227,15 @@
       border-radius: 20px;
       font-size: 0.8rem;
       color: var(--muted);
-      margin-bottom: 0.75rem;
+    }
+    
+    .dietary-badge {
+      display: inline-block;
+      background: rgba(34, 197, 94, 0.15);
+      padding: 0.25rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--success);
     }
     
     .card-desc {
@@ -708,6 +723,111 @@
     }
     
     .hidden { display: none !important; }
+    
+    .filter-bar {
+      background: var(--dark-elevated);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    
+    .filter-section {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-label {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .filter-chips {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-chip {
+      background: var(--dark-surface);
+      border: 1px solid transparent;
+      color: var(--muted);
+      padding: 0.4rem 0.85rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    
+    .filter-chip:hover {
+      color: var(--light);
+      border-color: rgba(255,255,255,0.2);
+    }
+    
+    .filter-chip.active {
+      background: var(--accent);
+      color: white;
+    }
+    
+    .filter-chip.dietary {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    
+    .filter-chip.dietary.active {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: var(--success);
+      color: var(--success);
+    }
+    
+    .search-input {
+      background: var(--dark-surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      color: var(--light);
+      font-family: inherit;
+      font-size: 0.9rem;
+      min-width: 200px;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    .search-input::placeholder {
+      color: var(--muted);
+    }
+    
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .item-count {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .filter-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .search-input {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -729,9 +849,37 @@
       </div>
 
       <div id="menu-panel" class="content-panel active">
-        <button class="add-btn" onclick="openAddModal()">
-          <span>+</span> Add Menu Item
-        </button>
+        <div class="filter-bar">
+          <div class="filter-section">
+            <span class="filter-label">Category:</span>
+            <div class="filter-chips" id="category-filters">
+              <button class="filter-chip active" data-filter="all">All</button>
+              <button class="filter-chip" data-filter="Starters">Starters</button>
+              <button class="filter-chip" data-filter="Mains">Mains</button>
+              <button class="filter-chip" data-filter="Sides">Sides</button>
+              <button class="filter-chip" data-filter="Desserts">Desserts</button>
+              <button class="filter-chip" data-filter="Drinks">Drinks</button>
+            </div>
+          </div>
+          <div class="filter-section">
+            <span class="filter-label">Dietary:</span>
+            <div class="filter-chips" id="dietary-filters">
+              <button class="filter-chip dietary" data-dietary="vegetarian">Vegetarian</button>
+              <button class="filter-chip dietary" data-dietary="vegan">Vegan</button>
+              <button class="filter-chip dietary" data-dietary="gluten-free">Gluten-Free</button>
+              <button class="filter-chip dietary" data-dietary="spicy">Spicy</button>
+            </div>
+          </div>
+          <div class="filter-section">
+            <input type="text" class="search-input" id="menu-search" placeholder="Search menu items..." oninput="applyFilters()">
+          </div>
+        </div>
+        <div class="menu-header">
+          <button class="add-btn" onclick="openAddModal()">
+            <span>+</span> Add Menu Item
+          </button>
+          <span class="item-count" id="item-count"></span>
+        </div>
         <div id="menu-grid" class="menu-grid">
           <div class="loading"><div class="spinner"></div></div>
         </div>
@@ -832,9 +980,71 @@
     let currentUser = null;
     let menuItems = [];
     let editingId = null;
+    let activeCategory = 'all';
+    let activeDietaryTags = new Set();
 
     function init() {
       loadMenu();
+      setupFilters();
+    }
+
+    function setupFilters() {
+      document.querySelectorAll('#category-filters .filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('#category-filters .filter-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          activeCategory = chip.dataset.filter;
+          applyFilters();
+        });
+      });
+
+      document.querySelectorAll('#dietary-filters .filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          chip.classList.toggle('active');
+          const tag = chip.dataset.dietary;
+          if (activeDietaryTags.has(tag)) {
+            activeDietaryTags.delete(tag);
+          } else {
+            activeDietaryTags.add(tag);
+          }
+          applyFilters();
+        });
+      });
+    }
+
+    function applyFilters() {
+      const searchTerm = document.getElementById('menu-search').value.toLowerCase();
+      
+      const filtered = menuItems.filter(item => {
+        if (activeCategory !== 'all' && item.category !== activeCategory) {
+          return false;
+        }
+        
+        if (activeDietaryTags.size > 0) {
+          const itemTags = (item.dietaryTags || []).map(t => t.toLowerCase());
+          const itemKeywords = Object.keys(item.weightedKeywords || {}).map(k => k.toLowerCase());
+          const allItemTags = [...itemTags, ...itemKeywords];
+          
+          for (const tag of activeDietaryTags) {
+            if (!allItemTags.some(t => t.includes(tag))) {
+              return false;
+            }
+          }
+        }
+        
+        if (searchTerm) {
+          const name = (item.name || '').toLowerCase();
+          const desc = (item.description || '').toLowerCase();
+          const category = (item.category || '').toLowerCase();
+          if (!name.includes(searchTerm) && !desc.includes(searchTerm) && !category.includes(searchTerm)) {
+            return false;
+          }
+        }
+        
+        return true;
+      });
+
+      renderFilteredMenu(filtered);
     }
 
     document.querySelectorAll('.tab').forEach(tab => {
@@ -869,7 +1079,16 @@
     }
 
     function renderMenu() {
+      applyFilters();
+    }
+
+    function renderFilteredMenu(items) {
       const grid = document.getElementById('menu-grid');
+      const countEl = document.getElementById('item-count');
+      
+      countEl.textContent = items.length === menuItems.length 
+        ? `${items.length} items` 
+        : `${items.length} of ${menuItems.length} items`;
       
       if (menuItems.length === 0) {
         grid.innerHTML = `
@@ -882,14 +1101,29 @@
         return;
       }
 
-      grid.innerHTML = menuItems.map(item => {
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <p class="empty-state-title">No items match your filters</p>
+            <p>Try adjusting your category or dietary filters</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
         const keywords = item.weightedKeywords || {};
-        const keywordTags = Object.entries(keywords).slice(0, 4).map(([k, w]) => 
+        const dietaryTags = item.dietaryTags || [];
+        const keywordTags = Object.entries(keywords).slice(0, 3).map(([k, w]) => 
           `<span class="keyword-tag">${k}<span class="keyword-weight">${w}</span></span>`
+        ).join('');
+        const dietaryBadges = dietaryTags.slice(0, 2).map(tag => 
+          `<span class="dietary-badge">${tag}</span>`
         ).join('');
 
         return `
-          <div class="menu-card">
+          <div class="menu-card" data-category="${item.category || ''}">
             <div class="card-image">
               ${item.photoUrl 
                 ? `<img src="${item.photoUrl}" alt="${item.name}">`
@@ -901,7 +1135,10 @@
                 <span class="card-name">${item.name}</span>
                 <span class="card-price">$${parseFloat(item.price).toFixed(2)}</span>
               </div>
-              <span class="card-category">${item.category || 'Uncategorized'}</span>
+              <div class="card-tags">
+                <span class="card-category">${item.category || 'Uncategorized'}</span>
+                ${dietaryBadges}
+              </div>
               <p class="card-desc">${item.description || 'No description'}</p>
               ${keywordTags ? `<div class="card-keywords">${keywordTags}</div>` : ''}
               <div class="card-actions">
