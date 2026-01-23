@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OrderFi - Your Voice, Your Food</title>
   <meta name="description" content="Order food by speaking. No tapping, no scrolling, just talking. The future is delicious.">
   <meta property="og:title" content="OrderFi - Your Voice, Your Food">
   <meta property="og:description" content="Order food by speaking. No tapping, no scrolling, just talking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
     }
@@ -26,612 +25,751 @@
     }
     
     :root {
-      --accent: #ff6b35;
-      --accent-glow: rgba(255, 107, 53, 0.4);
-      --dark: #0a0a0b;
-      --dark-elevated: #141416;
-      --dark-surface: #1c1c1f;
-      --light: #fafafa;
-      --muted: #71717a;
-      --success: #22c55e;
-      --gradient-1: linear-gradient(135deg, #ff6b35 0%, #ff8f6b 50%, #ffd93d 100%);
-      --gradient-2: linear-gradient(180deg, rgba(255,107,53,0.15) 0%, transparent 50%);
+      --olive: #8B956D;
+      --olive-dark: #5C6349;
+      --orange: #E8703F;
+      --orange-light: #F19A54;
+      --teal: #3CB4AC;
+      --teal-light: #60D4CB;
+      --pink: #D4697A;
+      --yellow: #F4C542;
+      --cream: #FAF8F3;
+      --charcoal: #2A2A2A;
+      --green-dark: #2D4739;
+      --green-fresh: #5B8C5A;
+      --coral: #E85D4C;
     }
     
     html {
       scroll-behavior: smooth;
-      scroll-snap-type: y mandatory;
     }
     
     body {
-      font-family: 'Space Grotesk', -apple-system, sans-serif;
-      background: var(--dark);
-      color: var(--light);
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
       min-height: 100vh;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
     
-    body.focus-mode {
-      --accent: #71717a;
-      --accent-glow: rgba(113, 113, 122, 0.2);
+    .serif {
+      font-family: 'Playfair Display', Georgia, serif;
     }
     
-    body.focus-mode .floating-shapes,
-    body.focus-mode .glow-orb,
-    body.focus-mode .particle {
-      display: none;
-    }
-    
-    .focus-toggle {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      z-index: 100;
-      padding: 0.5rem 0.75rem;
-      background: var(--dark-surface);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 2rem;
-      color: var(--muted);
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 0.375rem;
-    }
-    
-    .focus-toggle:hover {
-      background: var(--dark-elevated);
-      color: var(--light);
-    }
-    
-    .focus-toggle svg {
-      width: 14px;
-      height: 14px;
-    }
-    
-    section {
+    /* Hero Section */
+    .hero {
       min-height: 100vh;
-      scroll-snap-align: start;
-      position: relative;
+      background: var(--olive);
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 2rem;
+      position: relative;
       overflow: hidden;
     }
     
-    .hero {
-      perspective: 1000px;
-      background: var(--gradient-2);
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
     }
     
-    .glow-orb {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: var(--accent-glow);
-      filter: blur(100px);
-      pointer-events: none;
-      animation: float 8s ease-in-out infinite;
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--cream);
     }
     
-    .glow-orb.one { top: -100px; left: -100px; }
-    .glow-orb.two { bottom: -150px; right: -100px; animation-delay: -4s; }
-    
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(30px, 20px) scale(1.1); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
     }
     
-    .floating-shapes {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
+    .nav-links a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.95rem;
+      opacity: 0.9;
+      transition: opacity 0.2s;
     }
     
-    .shape {
-      position: absolute;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 1rem;
-      animation: drift 20s linear infinite;
-    }
-    
-    .shape:nth-child(1) { width: 60px; height: 60px; top: 20%; left: 10%; animation-delay: 0s; transform: rotate(15deg); }
-    .shape:nth-child(2) { width: 40px; height: 40px; top: 60%; left: 80%; animation-delay: -5s; transform: rotate(-20deg); }
-    .shape:nth-child(3) { width: 80px; height: 80px; top: 70%; left: 20%; animation-delay: -10s; transform: rotate(45deg); }
-    .shape:nth-child(4) { width: 30px; height: 30px; top: 30%; left: 70%; animation-delay: -15s; transform: rotate(-10deg); }
-    
-    @keyframes drift {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-      50% { opacity: 0.6; }
-      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0.3; }
+    .nav-links a:hover {
+      opacity: 1;
     }
     
     .hero-content {
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: center;
-      transform-style: preserve-3d;
-      animation: heroEntry 1s ease-out;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      padding: 2rem 6rem 4rem;
+      align-items: center;
     }
     
-    @keyframes heroEntry {
-      from {
-        opacity: 0;
-        transform: translateY(40px) rotateX(10deg);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) rotateX(0);
-      }
+    .hero-text {
+      max-width: 500px;
     }
     
-    .logo-3d {
+    .hero-tagline {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--cream);
+      opacity: 0.8;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.125rem;
+      color: var(--cream);
+      opacity: 0.9;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    
+    .cta-btn {
       display: inline-flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 3rem;
-      transform: translateZ(50px);
+      padding: 1rem 2rem;
+      background: var(--cream);
+      color: var(--charcoal);
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
     
-    .logo-icon {
-      width: 56px;
-      height: 56px;
-      background: var(--gradient-1);
-      border-radius: 1rem;
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    
+    .cta-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .food-circle {
+      width: 400px;
+      height: 400px;
+      background: var(--orange);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 20px 40px var(--accent-glow);
-      transform: rotateY(-10deg);
+      position: relative;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    }
+    
+    .food-emoji {
+      font-size: 12rem;
+      animation: float 4s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    .floating-badge {
+      position: absolute;
+      background: var(--cream);
+      padding: 0.75rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .floating-badge.one { top: 10%; left: -10%; }
+    .floating-badge.two { bottom: 20%; right: -15%; }
+    .floating-badge.three { bottom: 5%; left: 0; }
+    
+    /* How It Works Section */
+    .how-section {
+      padding: 6rem 4rem;
+      background: var(--cream);
+    }
+    
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 4rem;
+    }
+    
+    .section-tag {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--olive-dark);
+      margin-bottom: 1rem;
+    }
+    
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.75rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      line-height: 1.2;
+    }
+    
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    
+    .step-card {
+      background: var(--teal);
+      border-radius: 24px;
+      padding: 2.5rem;
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
       transition: transform 0.3s;
     }
     
-    .logo-icon:hover {
-      transform: rotateY(10deg) scale(1.05);
+    .step-card:nth-child(2) {
+      background: var(--orange);
     }
     
-    .logo-icon svg {
-      color: white;
-      width: 28px;
-      height: 28px;
+    .step-card:nth-child(3) {
+      background: var(--green-dark);
     }
     
-    .logo-text {
-      font-size: 2rem;
+    .step-card:hover {
+      transform: translateY(-8px);
+    }
+    
+    .step-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
       font-weight: 700;
-      letter-spacing: -0.03em;
-    }
-    
-    .tagline {
-      font-size: 0.875rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      margin-bottom: 1.5rem;
-    }
-    
-    h1 {
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.5rem;
-    }
-    
-    h1 .highlight {
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .subtitle {
-      font-size: 1.125rem;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 3rem;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .cta-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-    .cta-main {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 1.25rem 2.5rem;
-      background: var(--gradient-1);
-      color: var(--dark);
-      text-decoration: none;
-      border-radius: 4rem;
-      font-weight: 600;
-      font-size: 1.125rem;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 10px 40px var(--accent-glow);
-      transform-style: preserve-3d;
-    }
-    
-    .cta-main:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 20px 60px var(--accent-glow);
-    }
-    
-    .cta-main svg {
-      width: 24px;
-      height: 24px;
-      animation: pulse-mic 2s ease-in-out infinite;
-    }
-    
-    @keyframes pulse-mic {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-    }
-    
-    .cta-hint {
-      font-size: 0.8125rem;
-      color: var(--muted);
-    }
-    
-    .cta-hint span {
-      opacity: 0.5;
-    }
-    
-    .scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--muted);
-      font-size: 0.75rem;
-      animation: bounce 2s infinite;
-    }
-    
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(8px); }
-    }
-    
-    .scroll-hint svg {
-      width: 20px;
-      height: 20px;
-      opacity: 0.5;
-    }
-    
-    .story-section {
-      background: var(--dark-elevated);
-    }
-    
-    .story-content {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-    
-    .story-number {
-      font-size: 6rem;
-      font-weight: 700;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
       opacity: 0.3;
-      line-height: 1;
-      margin-bottom: -2rem;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
     }
     
-    .story-content h2 {
-      font-size: 2rem;
+    .step-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
       font-weight: 600;
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
-    }
-    
-    .story-content p {
-      color: var(--muted);
-      font-size: 1.125rem;
-      line-height: 1.7;
-    }
-    
-    .story-visual {
-      margin-top: 3rem;
-      padding: 2rem;
-      background: var(--dark-surface);
-      border-radius: 1.5rem;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    .voice-demo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.25rem;
-      height: 60px;
-    }
-    
-    .voice-bar {
-      width: 4px;
-      background: var(--accent);
-      border-radius: 2px;
-      animation: voice-wave 1.2s ease-in-out infinite;
-    }
-    
-    .voice-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
-    .voice-bar:nth-child(2) { height: 35px; animation-delay: 0.1s; }
-    .voice-bar:nth-child(3) { height: 50px; animation-delay: 0.2s; }
-    .voice-bar:nth-child(4) { height: 40px; animation-delay: 0.3s; }
-    .voice-bar:nth-child(5) { height: 55px; animation-delay: 0.4s; }
-    .voice-bar:nth-child(6) { height: 30px; animation-delay: 0.5s; }
-    .voice-bar:nth-child(7) { height: 45px; animation-delay: 0.6s; }
-    .voice-bar:nth-child(8) { height: 25px; animation-delay: 0.7s; }
-    
-    @keyframes voice-wave {
-      0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
-      50% { transform: scaleY(1); opacity: 1; }
-    }
-    
-    .features-section {
-      background: var(--dark);
-    }
-    
-    .features-grid {
-      max-width: 800px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-    
-    .feature-card {
-      background: var(--dark-elevated);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 1.25rem;
-      padding: 1.5rem;
-      transition: all 0.3s;
-      cursor: default;
-    }
-    
-    .feature-card:hover {
-      background: var(--dark-surface);
-      transform: translateY(-4px);
-      border-color: rgba(255,107,53,0.2);
-    }
-    
-    .feature-card:first-child {
-      grid-column: span 2;
-    }
-    
-    .feature-emoji {
-      font-size: 2rem;
       margin-bottom: 0.75rem;
     }
     
-    .feature-card h3 {
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin-bottom: 0.375rem;
+    .step-desc {
+      font-size: 1rem;
+      opacity: 0.9;
+      line-height: 1.6;
     }
     
-    .feature-card p {
-      color: var(--muted);
-      font-size: 0.9375rem;
-      line-height: 1.5;
+    /* Menu Preview Section */
+    .menu-section {
+      padding: 6rem 4rem;
+      background: var(--yellow);
     }
     
-    .final-section {
-      background: var(--dark-elevated);
-      text-align: center;
-    }
-    
-    .final-content {
-      max-width: 500px;
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
       margin: 0 auto;
     }
     
-    .final-content h2 {
-      font-size: 2.5rem;
-      font-weight: 700;
+    .menu-card {
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .menu-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .menu-card-emoji {
+      font-size: 4rem;
       margin-bottom: 1rem;
-      letter-spacing: -0.03em;
     }
     
-    .final-content p {
-      color: var(--muted);
-      font-size: 1.125rem;
-      margin-bottom: 2rem;
+    .menu-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 0.25rem;
     }
     
-    .final-cta {
+    .menu-card-price {
+      font-size: 1rem;
+      color: var(--olive-dark);
+      font-weight: 500;
+    }
+    
+    .menu-card-tags {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    
+    .menu-tag {
+      background: var(--green-fresh);
+      color: white;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    
+    /* Features Section */
+    .features-section {
+      padding: 6rem 4rem;
+      background: var(--cream);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .feature-card {
+      background: var(--pink);
+      border-radius: 24px;
+      padding: 2.5rem;
+      color: var(--cream);
+    }
+    
+    .feature-card:nth-child(2) { background: var(--olive); }
+    .feature-card:nth-child(3) { background: var(--teal); }
+    .feature-card:nth-child(4) { background: var(--coral); }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    
+    .feature-desc {
+      font-size: 1rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      padding: 8rem 4rem;
+      background: var(--green-dark);
+      text-align: center;
+    }
+    
+    .cta-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+      line-height: 1.15;
+    }
+    
+    .cta-subtitle {
+      font-size: 1.25rem;
+      color: var(--cream);
+      opacity: 0.85;
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+    
+    .cta-btn-large {
       display: inline-flex;
       align-items: center;
       gap: 0.75rem;
       padding: 1.25rem 2.5rem;
-      background: var(--light);
-      color: var(--dark);
+      background: var(--orange);
+      color: var(--cream);
       text-decoration: none;
-      border-radius: 4rem;
+      border-radius: 50px;
       font-weight: 600;
       font-size: 1.125rem;
       transition: all 0.3s;
+      box-shadow: 0 8px 30px rgba(232, 112, 63, 0.4);
     }
     
-    .final-cta:hover {
-      transform: scale(1.05);
-      box-shadow: 0 20px 60px rgba(255,255,255,0.1);
+    .cta-btn-large:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(232, 112, 63, 0.5);
     }
     
-    .quirky-footer {
-      position: absolute;
-      bottom: 2rem;
-      left: 0;
-      right: 0;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.8125rem;
+    .cta-btn-large svg {
+      width: 22px;
+      height: 22px;
     }
     
-    .quirky-footer span {
-      opacity: 0.5;
+    /* Footer */
+    .footer {
+      padding: 2rem 4rem;
+      background: var(--charcoal);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     
-    @media (max-width: 640px) {
-      section {
-        padding: 1.5rem;
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .footer-links a {
+      color: var(--cream);
+      opacity: 0.7;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+    
+    .footer-links a:hover {
+      opacity: 1;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 900px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        padding: 2rem;
+        text-align: center;
+      }
+      
+      .hero-text {
+        max-width: 100%;
+      }
+      
+      .hero-visual {
+        order: -1;
+      }
+      
+      .food-circle {
+        width: 280px;
+        height: 280px;
+      }
+      
+      .food-emoji {
+        font-size: 8rem;
+      }
+      
+      .floating-badge {
+        display: none;
+      }
+      
+      .nav {
+        padding: 1rem 1.5rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
       
       .features-grid {
         grid-template-columns: 1fr;
       }
       
-      .feature-card:first-child {
-        grid-column: span 1;
+      .cta-title {
+        font-size: 2.5rem;
       }
       
-      .glow-orb {
-        width: 250px;
-        height: 250px;
+      .footer {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .hero {
+        min-height: auto;
+        padding-bottom: 4rem;
+      }
+      
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .menu-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      
+      .menu-section, .how-section, .features-section {
+        padding: 4rem 1.5rem;
       }
     }
   </style>
 </head>
 <body>
-  <button class="focus-toggle" onclick="document.body.classList.toggle('focus-mode'); this.innerHTML = document.body.classList.contains('focus-mode') ? '<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><circle cx=\'12\' cy=\'12\' r=\'5\'/><path d=\'M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42\'/></svg> Full mode' : '<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><path d=\'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z\'/></svg> Focus';">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    Focus
-  </button>
-
   <section class="hero">
-    <div class="glow-orb one"></div>
-    <div class="glow-orb two"></div>
-    <div class="floating-shapes">
-      <div class="shape"></div>
-      <div class="shape"></div>
-      <div class="shape"></div>
-      <div class="shape"></div>
-    </div>
+    <nav class="nav">
+      <div class="logo">OrderFi</div>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#menu">Menu</a>
+        <a href="/admin">Staff</a>
+      </div>
+    </nav>
     
     <div class="hero-content">
-      <div class="logo-3d">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-            <line x1="12" y1="19" x2="12" y2="23"></line>
-          </svg>
-        </div>
-        <span class="logo-text">OrderFi</span>
-      </div>
-      
-      <p class="tagline">Zero taps. Pure voice.</p>
-      
-      <h1>Say it. <span class="highlight">Eat it.</span></h1>
-      
-      <p class="subtitle">
-        Your voice is the menu. Just speak naturally and let AI handle the rest. No apps to learn. No buttons to find.
-      </p>
-      
-      <div class="cta-container">
-        <a href="/order" class="cta-main">
+      <div class="hero-text">
+        <p class="hero-tagline">Voice-First Food Ordering</p>
+        <h1 class="hero-title">Say it.<br>Taste it.</h1>
+        <p class="hero-subtitle">
+          Order food by speaking naturally. No apps to learn, no menus to scroll. 
+          Just talk to our AI and enjoy your meal.
+        </p>
+        <a href="/order" class="cta-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
           </svg>
-          Start Talking
+          Start Ordering
         </a>
-        <p class="cta-hint">Works on any device <span>• No sign-up needed</span></p>
       </div>
-    </div>
-    
-    <div class="scroll-hint">
-      <span>Scroll to explore</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </svg>
+      
+      <div class="hero-visual">
+        <div class="food-circle">
+          <span class="food-emoji">🍜</span>
+        </div>
+        <div class="floating-badge one">🎤 Voice powered</div>
+        <div class="floating-badge two">⚡ 30 sec orders</div>
+        <div class="floating-badge three">🔒 Privacy first</div>
+      </div>
     </div>
   </section>
   
-  <section class="story-section">
-    <div class="story-content">
-      <div class="story-number">01</div>
-      <h2>Just speak. Naturally.</h2>
-      <p>
-        "I want a pepperoni pizza and maybe some garlic bread... actually, make that two pizzas." We get it. All of it. Even the second-guessing.
-      </p>
-      <div class="story-visual">
-        <div class="voice-demo">
-          <div class="voice-bar"></div>
-          <div class="voice-bar"></div>
-          <div class="voice-bar"></div>
-          <div class="voice-bar"></div>
-          <div class="voice-bar"></div>
-          <div class="voice-bar"></div>
-          <div class="voice-bar"></div>
-          <div class="voice-bar"></div>
+  <section class="how-section" id="how">
+    <div class="section-header">
+      <p class="section-tag">How It Works</p>
+      <h2 class="section-title">Ordering food has never been this simple</h2>
+    </div>
+    
+    <div class="steps-grid">
+      <div class="step-card">
+        <span class="step-number">01</span>
+        <div class="step-icon">🎙️</div>
+        <h3 class="step-title">Speak naturally</h3>
+        <p class="step-desc">Just say what you want. "I'd like a veggie burger with extra pickles and a lemonade."</p>
+      </div>
+      
+      <div class="step-card">
+        <span class="step-number">02</span>
+        <div class="step-icon">🧠</div>
+        <h3 class="step-title">AI understands</h3>
+        <p class="step-desc">Our smart AI matches your words to the menu, handles changes, and confirms your order.</p>
+      </div>
+      
+      <div class="step-card">
+        <span class="step-number">03</span>
+        <div class="step-icon">💳</div>
+        <h3 class="step-title">Pay & enjoy</h3>
+        <p class="step-desc">One tap payment with Stripe. Then sit back and wait for your delicious food.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="menu-section" id="menu">
+    <div class="section-header">
+      <p class="section-tag" style="color: var(--charcoal);">Sample Menu</p>
+      <h2 class="section-title">Fresh flavors, ready to order</h2>
+    </div>
+    
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-card-emoji">🍔</div>
+        <p class="menu-card-name">Classic Burger</p>
+        <p class="menu-card-price">$12.99</p>
+      </div>
+      
+      <div class="menu-card">
+        <div class="menu-card-emoji">🥗</div>
+        <p class="menu-card-name">Garden Salad</p>
+        <p class="menu-card-price">$9.99</p>
+        <div class="menu-card-tags">
+          <span class="menu-tag">Vegetarian</span>
+        </div>
+      </div>
+      
+      <div class="menu-card">
+        <div class="menu-card-emoji">🍝</div>
+        <p class="menu-card-name">Pasta Primavera</p>
+        <p class="menu-card-price">$14.99</p>
+        <div class="menu-card-tags">
+          <span class="menu-tag">Vegan</span>
+        </div>
+      </div>
+      
+      <div class="menu-card">
+        <div class="menu-card-emoji">🍣</div>
+        <p class="menu-card-name">Sushi Platter</p>
+        <p class="menu-card-price">$18.99</p>
+        <div class="menu-card-tags">
+          <span class="menu-tag">Gluten-Free</span>
+        </div>
+      </div>
+      
+      <div class="menu-card">
+        <div class="menu-card-emoji">🌮</div>
+        <p class="menu-card-name">Street Tacos</p>
+        <p class="menu-card-price">$11.99</p>
+        <div class="menu-card-tags">
+          <span class="menu-tag">Spicy</span>
+        </div>
+      </div>
+      
+      <div class="menu-card">
+        <div class="menu-card-emoji">🍕</div>
+        <p class="menu-card-name">Margherita Pizza</p>
+        <p class="menu-card-price">$15.99</p>
+        <div class="menu-card-tags">
+          <span class="menu-tag">Vegetarian</span>
+        </div>
+      </div>
+      
+      <div class="menu-card">
+        <div class="menu-card-emoji">🍜</div>
+        <p class="menu-card-name">Ramen Bowl</p>
+        <p class="menu-card-price">$13.99</p>
+      </div>
+      
+      <div class="menu-card">
+        <div class="menu-card-emoji">🥤</div>
+        <p class="menu-card-name">Fresh Smoothie</p>
+        <p class="menu-card-price">$6.99</p>
+        <div class="menu-card-tags">
+          <span class="menu-tag">Vegan</span>
         </div>
       </div>
     </div>
   </section>
   
   <section class="features-section">
+    <div class="section-header">
+      <p class="section-tag">Why OrderFi</p>
+      <h2 class="section-title">Built for flavor lovers</h2>
+    </div>
+    
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-emoji">🧠</div>
-        <h3>AI that actually listens</h3>
-        <p>Powered by GPT-4o. It understands context, handles corrections, and doesn't judge your 2am cravings.</p>
+        <div class="feature-icon">🧠</div>
+        <h3 class="feature-title">AI that listens</h3>
+        <p class="feature-desc">Powered by GPT-4o. It understands context, handles corrections, and remembers your preferences.</p>
       </div>
+      
       <div class="feature-card">
-        <div class="feature-emoji">⚡</div>
-        <h3>Stupidly fast</h3>
-        <p>Order complete in under 30 seconds. Your thumbs can finally rest.</p>
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-title">Lightning fast</h3>
+        <p class="feature-desc">Complete your order in under 30 seconds. Your thumbs can finally take a break.</p>
       </div>
+      
       <div class="feature-card">
-        <div class="feature-emoji">🔒</div>
-        <h3>Privacy-first</h3>
-        <p>Voice processed instantly, then deleted. We're hungry for food, not your data.</p>
+        <div class="feature-icon">🔒</div>
+        <h3 class="feature-title">Privacy first</h3>
+        <p class="feature-desc">Voice is processed instantly then deleted. We're hungry for food, not your data.</p>
       </div>
+      
       <div class="feature-card">
-        <div class="feature-emoji">💳</div>
-        <h3>Tap to pay</h3>
-        <p>Stripe handles the money stuff. One tap, done.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-emoji">🌿</div>
-        <h3>Light footprint</h3>
-        <p>No heavy apps. Runs smooth on any device, saves battery.</p>
+        <div class="feature-icon">🌱</div>
+        <h3 class="feature-title">Dietary smart</h3>
+        <p class="feature-desc">Filter by vegetarian, vegan, gluten-free, and more. We help you eat your way.</p>
       </div>
     </div>
   </section>
   
-  <section class="final-section">
-    <div class="final-content">
-      <h2>Hungry?</h2>
-      <p>Stop scrolling. Start eating.</p>
-      <a href="/order" class="final-cta">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Ready to taste the future?</h2>
+      <p class="cta-subtitle">Stop scrolling through endless menus. Just say what you're craving and let us handle the rest.</p>
+      <a href="/order" class="cta-btn-large">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
           <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
         </svg>
-        Let's order
+        Start Ordering Now
       </a>
     </div>
-    <div class="quirky-footer">
-      <p>Made with 🍕 by OrderFi <span>• Your stomach will thank you</span></p>
-      <a href="/admin" style="color: var(--muted); font-size: 0.85rem; text-decoration: none; margin-top: 0.5rem; display: inline-block;">Staff Login</a>
-    </div>
   </section>
+  
+  <footer class="footer">
+    <div class="footer-logo">OrderFi</div>
+    <div class="footer-links">
+      <a href="/order">Order Now</a>
+      <a href="/admin">Staff Login</a>
+      <span style="color: var(--cream); opacity: 0.5;">Made with 🍕 for flavor lovers</span>
+    </div>
+  </footer>
 </body>
 </html>
