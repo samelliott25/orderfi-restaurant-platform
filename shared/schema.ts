@@ -22,9 +22,14 @@ export const menuItems = pgTable("menu_items", {
   category: text("category").notNull(),
   tags: text("tags").array(),
   
+  // Rich media
+  photoUrl: text("photo_url"), // Uploaded photo from object storage
+  reviewsUrl: text("reviews_url"), // Link to external reviews
+  
   // AI conversation metadata
   aliases: text("aliases").array(), // ["burger", "cheeseburger", "beef burger"]
   keywords: text("keywords").array(), // ["beef", "cheese", "grilled", "american"]
+  weightedKeywords: json("weighted_keywords").$type<Record<string, number>>(), // {"spicy": 0.9, "hot": 0.8}
   dietaryTags: text("dietary_tags").array(), // ["vegetarian", "gluten-free", "spicy"]
   allergens: text("allergens").array(), // ["dairy", "gluten", "nuts"]
   
@@ -225,3 +230,6 @@ export type SalesData = typeof salesData.$inferSelect;
 export type InsertSalesData = z.infer<typeof insertSalesDataSchema>;
 export type MenuConversation = typeof menuConversations.$inferSelect;
 export type InsertMenuConversation = z.infer<typeof insertMenuConversationSchema>;
+
+// Export auth models
+export * from "./models/auth";
