@@ -126,14 +126,63 @@ Respond in JSON format:
       { role: "assistant", content: parsed.message }
     );
 
+    // Smart menu item matching with weighted keywords
+    function findBestMenuItem(searchTerm: string) {
+      const searchLower = searchTerm.toLowerCase();
+      const searchTokens = searchLower.split(/\s+/);
+      
+      let bestMatch = null;
+      let bestScore = 0;
+      
+      for (const item of menuItems) {
+        let score = 0;
+        
+        // Direct name match (highest priority)
+        if (item.name.toLowerCase().includes(searchLower)) {
+          score += 10;
+        }
+        
+        // Check aliases for matches
+        const aliases = (item.aliases || []) as string[];
+        for (const alias of aliases) {
+          if (alias.toLowerCase().includes(searchLower) || searchLower.includes(alias.toLowerCase())) {
+            score += 8;
+          }
+        }
+        
+        // Weighted keyword matching
+        const keywords = (item.weightedKeywords || {}) as Record<string, number>;
+        for (const token of searchTokens) {
+          for (const [keyword, weight] of Object.entries(keywords)) {
+            if (keyword.toLowerCase().includes(token) || token.includes(keyword.toLowerCase())) {
+              score += weight * 5;
+            }
+          }
+        }
+        
+        // Dietary tag matching
+        const dietaryTags = (item.dietaryTags || []) as string[];
+        for (const tag of dietaryTags) {
+          if (searchLower.includes(tag.toLowerCase())) {
+            score += 3;
+          }
+        }
+        
+        if (score > bestScore) {
+          bestScore = score;
+          bestMatch = item;
+        }
+      }
+      
+      return bestScore >= 3 ? bestMatch : null;
+    }
+
     // Process order actions
     if (parsed.orderAction) {
       const { action, item } = parsed.orderAction;
       
       if (action === "add" && item) {
-        const menuItem = menuItems.find(
-          (m) => m.name.toLowerCase().includes(item.name.toLowerCase())
-        );
+        const menuItem = findBestMenuItem(item.name);
         if (menuItem) {
           session.currentOrder.push({
             menuItemId: menuItem.id,
@@ -143,8 +192,9 @@ Respond in JSON format:
           });
         }
       } else if (action === "remove" && item) {
+        const itemLower = item.name.toLowerCase();
         session.currentOrder = session.currentOrder.filter(
-          (o) => !o.name.toLowerCase().includes(item.name.toLowerCase())
+          (o) => !o.name.toLowerCase().includes(itemLower)
         );
       } else if (action === "clear") {
         session.currentOrder = [];

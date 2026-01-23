@@ -4,6 +4,25 @@ import { db } from "./db";
 import { menuItems, orders } from "../shared/schema";
 import { eq, desc } from "drizzle-orm";
 import { ObjectStorageService } from "./replit_integrations/object_storage";
+import { z } from "zod";
+
+// Validation schemas
+const createMenuItemSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100),
+  price: z.number().positive("Price must be positive"),
+  category: z.string().optional().default("Main"),
+  description: z.string().optional(),
+  photoUrl: z.string().url().optional().or(z.literal("")),
+  reviewsUrl: z.string().url().optional().or(z.literal("")),
+  weightedKeywords: z.record(z.string(), z.number().min(0).max(1)).optional().default({}),
+  aliases: z.array(z.string()).optional().default([]),
+  dietaryTags: z.array(z.string()).optional().default([]),
+  allergens: z.array(z.string()).optional().default([]),
+});
+
+const updateMenuItemSchema = createMenuItemSchema.partial().extend({
+  isAvailable: z.boolean().optional(),
+});
 
 export const adminRouter = Router();
 const objectStorage = new ObjectStorageService();
@@ -22,7 +41,12 @@ adminRouter.get("/menu", isAuthenticated, async (req: Request, res: Response) =>
 // Create menu item
 adminRouter.post("/menu", isAuthenticated, async (req: Request, res: Response) => {
   try {
-    const { name, description, price, category, photoUrl, reviewsUrl, weightedKeywords, aliases, dietaryTags, allergens } = req.body;
+    const parsed = createMenuItemSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
+    }
+    
+    const { name, description, price, category, photoUrl, reviewsUrl, weightedKeywords, aliases, dietaryTags, allergens } = parsed.data;
     
     const [item] = await db.insert(menuItems).values({
       restaurantId: 1,
@@ -30,8 +54,8 @@ adminRouter.post("/menu", isAuthenticated, async (req: Request, res: Response) =
       description,
       price: price.toString(),
       category: category || "Main",
-      photoUrl,
-      reviewsUrl,
+      photoUrl: photoUrl || null,
+      reviewsUrl: reviewsUrl || null,
       weightedKeywords: weightedKeywords || {},
       aliases: aliases || [],
       keywords: Object.keys(weightedKeywords || {}),
@@ -51,15 +75,24 @@ adminRouter.post("/menu", isAuthenticated, async (req: Request, res: Response) =
 adminRouter.put("/menu/:id", isAuthenticated, async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const { name, description, price, category, photoUrl, reviewsUrl, weightedKeywords, aliases, dietaryTags, allergens, isAvailable } = req.body;
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid menu item ID" });
+    }
     
-    const updateData: any = { updatedAt: new Date() };
+    const parsed = updateMenuItemSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
+    }
+    
+    const { name, description, price, category, photoUrl, reviewsUrl, weightedKeywords, aliases, dietaryTags, allergens, isAvailable } = parsed.data;
+    
+    const updateData: Record<string, unknown> = { updatedAt: new Date() };
     if (name !== undefined) updateData.name = name;
     if (description !== undefined) updateData.description = description;
     if (price !== undefined) updateData.price = price.toString();
     if (category !== undefined) updateData.category = category;
-    if (photoUrl !== undefined) updateData.photoUrl = photoUrl;
-    if (reviewsUrl !== undefined) updateData.reviewsUrl = reviewsUrl;
+    if (photoUrl !== undefined) updateData.photoUrl = photoUrl || null;
+    if (reviewsUrl !== undefined) updateData.reviewsUrl = reviewsUrl || null;
     if (weightedKeywords !== undefined) {
       updateData.weightedKeywords = weightedKeywords;
       updateData.keywords = Object.keys(weightedKeywords);
