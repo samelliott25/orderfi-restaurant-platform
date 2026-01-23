@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrderFi - Voice Food Ordering</title>
+  <meta name="description" content="Order food with your voice. Fast, easy, and delicious.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --orange: #f97316;
+      --orange-light: #fb923c;
+      --orange-dark: #ea580c;
+      --charcoal: #1f2937;
+      --charcoal-light: #374151;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --green: #16a34a;
+      --red: #dc2626;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+      color: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+      color: white;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+    }
+    
+    .header-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+    
+    .container {
+      flex: 1;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      min-height: 280px;
+      max-height: 45vh;
+      padding: 0.5rem;
+      scroll-behavior: smooth;
+    }
+    
+    .message {
+      margin-bottom: 0.75rem;
+      padding: 0.875rem 1rem;
+      border-radius: 1.25rem;
+      max-width: 85%;
+      animation: slideIn 0.3s ease-out;
+      line-height: 1.5;
+      font-size: 0.9375rem;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .message.user {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 0.375rem;
+      box-shadow: 0 2px 10px rgba(249, 115, 22, 0.25);
+    }
+    
+    .message.assistant {
+      background: var(--white);
+      color: var(--charcoal);
+      border-bottom-left-radius: 0.375rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--gray-100);
+    }
+    
+    .order-card {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--gray-100);
+    }
+    
+    .order-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    
+    .order-header svg {
+      color: var(--orange);
+    }
+    
+    .order-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+    
+    .order-empty {
+      color: var(--gray-400);
+      font-size: 0.875rem;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      font-size: 0.9375rem;
+    }
+    
+    .order-item-name {
+      color: var(--charcoal);
+    }
+    
+    .order-item-price {
+      font-weight: 500;
+      color: var(--charcoal-light);
+    }
+    
+    .order-divider {
+      height: 1px;
+      background: var(--gray-200);
+      margin: 0.75rem 0;
+    }
+    
+    .order-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.375rem 0;
+      font-size: 0.875rem;
+      color: var(--gray-500);
+    }
+    
+    .order-total-row.final {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      padding-top: 0.5rem;
+    }
+    
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .voice-btn {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .voice-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .voice-btn:hover::before {
+      opacity: 1;
+    }
+    
+    .voice-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+    }
+    
+    .voice-btn:active {
+      transform: translateY(0);
+    }
+    
+    .voice-btn:disabled {
+      background: var(--gray-400);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    
+    .voice-btn.listening {
+      background: linear-gradient(135deg, var(--red) 0%, #b91c1c 100%);
+      box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35);
+    }
+    
+    .voice-btn.listening .voice-waves {
+      display: flex;
+    }
+    
+    .voice-waves {
+      display: none;
+      align-items: center;
+      gap: 3px;
+      height: 24px;
+    }
+    
+    .voice-wave {
+      width: 3px;
+      height: 100%;
+      background: white;
+      border-radius: 2px;
+      animation: wave 1s ease-in-out infinite;
+    }
+    
+    .voice-wave:nth-child(1) { animation-delay: 0s; }
+    .voice-wave:nth-child(2) { animation-delay: 0.1s; }
+    .voice-wave:nth-child(3) { animation-delay: 0.2s; }
+    .voice-wave:nth-child(4) { animation-delay: 0.3s; }
+    .voice-wave:nth-child(5) { animation-delay: 0.4s; }
+    
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.4); }
+      50% { transform: scaleY(1); }
+    }
+    
+    .text-input-wrapper {
+      display: flex;
+      gap: 0.5rem;
+      background: var(--white);
+      padding: 0.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--gray-200);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    .text-input-wrapper:focus-within {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+    }
+    
+    .text-input-wrapper input {
+      flex: 1;
+      padding: 0.625rem 0.75rem;
+      border: none;
+      font-size: 0.9375rem;
+      background: transparent;
+      color: var(--charcoal);
+      outline: none;
+    }
+    
+    .text-input-wrapper input::placeholder {
+      color: var(--gray-400);
+    }
+    
+    .text-input-wrapper button {
+      padding: 0.625rem 1.25rem;
+      background: var(--charcoal);
+      color: white;
+      border: none;
+      border-radius: 0.625rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .text-input-wrapper button:hover {
+      background: var(--charcoal-light);
+    }
+    
+    .checkout-btn {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, var(--green) 0%, #15803d 100%);
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(22, 163, 74, 0.35);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .checkout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+    }
+    
+    .checkout-btn:disabled {
+      background: var(--gray-400);
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .payment-card {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--gray-100);
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .payment-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .payment-header svg {
+      color: var(--green);
+    }
+    
+    .payment-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    
+    #payment-element {
+      margin: 1rem 0;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    .status {
+      text-align: center;
+      padding: 0.5rem;
+      color: var(--gray-500);
+      font-size: 0.875rem;
+    }
+    
+    .status.error {
+      color: var(--red);
+    }
+    
+    .status.success {
+      color: var(--green);
+    }
+    
+    .success-message {
+      text-align: center;
+      padding: 2rem;
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--green) 0%, #15803d 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    
+    .success-icon svg {
+      color: white;
+      width: 32px;
+      height: 32px;
+    }
+    
+    .success-message h3 {
+      font-size: 1.25rem;
+      color: var(--charcoal);
+      margin-bottom: 0.5rem;
+    }
+    
+    .success-message p {
+      color: var(--gray-500);
+    }
+    
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 0.875rem 1rem;
+      background: var(--white);
+      border-radius: 1.25rem;
+      border-bottom-left-radius: 0.375rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--gray-100);
+      max-width: 70px;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--gray-400);
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+    }
+    
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes typing {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-4px); opacity: 1; }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem 0.75rem;
+      }
+      
+      .message {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+        <line x1="12" y1="19" x2="12" y2="23"></line>
+      </svg>
+    </div>
+    <h1>OrderFi</h1>
+  </div>
+  
+  <div class="container">
+    <div class="chat-container" id="chat"></div>
+    
+    <div class="order-card" id="order-summary">
+      <div class="order-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <h3>Your Order</h3>
+      </div>
+      <div id="order-items">
+        <p class="order-empty">No items yet. Start ordering!</p>
+      </div>
+    </div>
+    
+    <div id="payment-section" class="hidden">
+      <div class="payment-card">
+        <div class="payment-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+            <line x1="1" y1="10" x2="23" y2="10"></line>
+          </svg>
+          <h3>Payment Details</h3>
+        </div>
+        <div id="payment-element"></div>
+        <button id="pay-btn" class="checkout-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 11 12 14 22 4"></polyline>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          Complete Payment
+        </button>
+        <div id="payment-status" class="status"></div>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button id="voice-btn" class="voice-btn">
+        <svg id="mic-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+        <div class="voice-waves">
+          <div class="voice-wave"></div>
+          <div class="voice-wave"></div>
+          <div class="voice-wave"></div>
+          <div class="voice-wave"></div>
+          <div class="voice-wave"></div>
+        </div>
+        <span id="voice-text">Hold to Speak</span>
+      </button>
+      
+      <div class="text-input-wrapper">
+        <input type="text" id="text-input" placeholder="Or type your order...">
+        <button id="send-btn">Send</button>
+      </div>
+      
+      <button id="checkout-btn" class="checkout-btn hidden">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+          <line x1="1" y1="10" x2="23" y2="10"></line>
+        </svg>
+        Proceed to Payment
+      </button>
+    </div>
+    
+    <div id="status" class="status"></div>
+  </div>
+
+  <script>
+    const sessionId = 'session-' + Math.random().toString(36).substr(2, 9);
+    let currentOrder = [];
+    let total = 0;
+    let stripe, elements, paymentElement;
+    
+    const chatEl = document.getElementById('chat');
+    const orderItemsEl = document.getElementById('order-items');
+    const voiceBtn = document.getElementById('voice-btn');
+    const voiceText = document.getElementById('voice-text');
+    const micIcon = document.getElementById('mic-icon');
+    const textInput = document.getElementById('text-input');
+    const sendBtn = document.getElementById('send-btn');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const paymentSection = document.getElementById('payment-section');
+    const payBtn = document.getElementById('pay-btn');
+    const statusEl = document.getElementById('status');
+    const paymentStatus = document.getElementById('payment-status');
+    
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition;
+    let isListening = false;
+    
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+      
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        addMessage(transcript, 'user');
+        processVoice(transcript);
+      };
+      
+      recognition.onend = () => {
+        isListening = false;
+        voiceBtn.classList.remove('listening');
+        voiceText.textContent = 'Hold to Speak';
+        micIcon.style.display = 'block';
+      };
+      
+      recognition.onerror = (event) => {
+        console.error('Speech error:', event.error);
+        statusEl.textContent = 'Speech recognition error. Try typing instead.';
+        statusEl.className = 'status error';
+        isListening = false;
+        voiceBtn.classList.remove('listening');
+        micIcon.style.display = 'block';
+      };
+    }
+    
+    voiceBtn.addEventListener('mousedown', startListening);
+    voiceBtn.addEventListener('mouseup', stopListening);
+    voiceBtn.addEventListener('mouseleave', stopListening);
+    voiceBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startListening(); });
+    voiceBtn.addEventListener('touchend', (e) => { e.preventDefault(); stopListening(); });
+    
+    function startListening() {
+      if (!recognition) {
+        statusEl.textContent = 'Voice not supported. Use text input.';
+        statusEl.className = 'status error';
+        return;
+      }
+      isListening = true;
+      voiceBtn.classList.add('listening');
+      voiceText.textContent = 'Listening...';
+      micIcon.style.display = 'none';
+      recognition.start();
+    }
+    
+    function stopListening() {
+      if (recognition && isListening) {
+        recognition.stop();
+      }
+    }
+    
+    sendBtn.addEventListener('click', sendText);
+    textInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendText();
+    });
+    
+    function sendText() {
+      const text = textInput.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      processVoice(text);
+      textInput.value = '';
+    }
+    
+    function addMessage(text, type) {
+      const div = document.createElement('div');
+      div.className = `message ${type}`;
+      div.textContent = text;
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+    
+    function showTyping() {
+      const div = document.createElement('div');
+      div.className = 'typing-indicator';
+      div.id = 'typing';
+      div.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+    
+    function hideTyping() {
+      const typing = document.getElementById('typing');
+      if (typing) typing.remove();
+    }
+    
+    async function processVoice(transcript) {
+      try {
+        statusEl.textContent = '';
+        showTyping();
+        
+        const res = await fetch('/api/voice/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ transcript, sessionId }),
+        });
+        
+        const data = await res.json();
+        
+        hideTyping();
+        addMessage(data.message, 'assistant');
+        speak(data.message);
+        
+        currentOrder = data.currentOrder || [];
+        total = parseFloat(data.total) || 0;
+        updateOrderDisplay();
+        
+      } catch (error) {
+        console.error('Error:', error);
+        hideTyping();
+        statusEl.textContent = 'Error processing request';
+        statusEl.className = 'status error';
+      }
+    }
+    
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        speechSynthesis.speak(utterance);
+      }
+    }
+    
+    function updateOrderDisplay() {
+      if (currentOrder.length === 0) {
+        orderItemsEl.innerHTML = '<p class="order-empty">No items yet. Start ordering!</p>';
+        checkoutBtn.classList.add('hidden');
+        return;
+      }
+      
+      let html = '';
+      currentOrder.forEach(item => {
+        html += `
+          <div class="order-item">
+            <span class="order-item-name">${item.quantity}x ${item.name}</span>
+            <span class="order-item-price">$${(item.price * item.quantity).toFixed(2)}</span>
+          </div>
+        `;
+      });
+      
+      const tax = total * 0.08;
+      const grandTotal = total + tax;
+      
+      html += `
+        <div class="order-divider"></div>
+        <div class="order-total-row">
+          <span>Subtotal</span>
+          <span>$${total.toFixed(2)}</span>
+        </div>
+        <div class="order-total-row">
+          <span>Tax (8%)</span>
+          <span>$${tax.toFixed(2)}</span>
+        </div>
+        <div class="order-total-row final">
+          <span>Total</span>
+          <span>$${grandTotal.toFixed(2)}</span>
+        </div>
+      `;
+      
+      orderItemsEl.innerHTML = html;
+      checkoutBtn.classList.remove('hidden');
+    }
+    
+    checkoutBtn.addEventListener('click', async () => {
+      try {
+        checkoutBtn.disabled = true;
+        statusEl.textContent = 'Setting up payment...';
+        statusEl.className = 'status';
+        
+        const configRes = await fetch('/api/payment/config');
+        const config = await configRes.json();
+        
+        stripe = Stripe(config.publishableKey);
+        
+        const intentRes = await fetch('/api/payment/create-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId }),
+        });
+        
+        const intent = await intentRes.json();
+        
+        if (intent.error) {
+          statusEl.textContent = intent.error;
+          statusEl.className = 'status error';
+          checkoutBtn.disabled = false;
+          return;
+        }
+        
+        elements = stripe.elements({ 
+          clientSecret: intent.clientSecret,
+          appearance: {
+            theme: 'stripe',
+            variables: {
+              colorPrimary: '#f97316',
+              borderRadius: '8px',
+            }
+          }
+        });
+        paymentElement = elements.create('payment');
+        paymentElement.mount('#payment-element');
+        
+        paymentSection.classList.remove('hidden');
+        checkoutBtn.classList.add('hidden');
+        statusEl.textContent = '';
+        
+      } catch (error) {
+        console.error('Checkout error:', error);
+        statusEl.textContent = 'Failed to setup payment';
+        statusEl.className = 'status error';
+        checkoutBtn.disabled = false;
+      }
+    });
+    
+    payBtn.addEventListener('click', async () => {
+      payBtn.disabled = true;
+      paymentStatus.textContent = 'Processing payment...';
+      paymentStatus.className = 'status';
+      
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: window.location.origin + '/success',
+        },
+        redirect: 'if_required',
+      });
+      
+      if (error) {
+        paymentStatus.textContent = error.message;
+        paymentStatus.className = 'status error';
+        payBtn.disabled = false;
+      } else {
+        paymentSection.querySelector('.payment-card').innerHTML = `
+          <div class="success-message">
+            <div class="success-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h3>Payment Successful!</h3>
+            <p>Your order is being prepared.</p>
+          </div>
+        `;
+        speak('Payment successful! Your order is being prepared.');
+      }
+    });
+    
+    setTimeout(() => {
+      const greeting = "Hi! I'm Mimi. What would you like to order today?";
+      addMessage(greeting, 'assistant');
+      speak(greeting);
+    }, 500);
+  </script>
+</body>
+</html>

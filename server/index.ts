@@ -58,7 +58,12 @@ app.get("/api/orders/:id", async (req: Request, res: Response) => {
   }
 });
 
-// Serve voice client for all other routes
+// Serve order page
+app.get("/order", (_req: Request, res: Response) => {
+  res.sendFile(path.join(process.cwd(), "public", "order.html"));
+});
+
+// Serve landing page for root and other routes
 app.get("*", (_req: Request, res: Response) => {
   res.sendFile(path.join(process.cwd(), "public", "index.html"));
 });
