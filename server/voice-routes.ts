@@ -52,6 +52,23 @@ voiceRouter.post("/process", async (req: Request, res: Response) => {
     const menuItems = await storage.getMenuItems(1);
     const restaurant = await storage.getRestaurant(1);
 
+    // Build enhanced menu with weighted keywords for AI matching
+    const menuWithKeywords = menuItems.map((item) => {
+      const keywords = item.weightedKeywords || {};
+      const keywordStr = Object.entries(keywords)
+        .sort(([, a], [, b]) => (b as number) - (a as number))
+        .map(([k, w]) => `${k}(${w})`)
+        .join(", ");
+      const dietary = (item.dietaryTags || []).join(", ");
+      const aliases = (item.aliases || []).join(", ");
+      
+      return `- ${item.name}: $${item.price}
+  Description: ${item.description || "N/A"}
+  ${keywordStr ? `Keywords: ${keywordStr}` : ""}
+  ${dietary ? `Dietary: ${dietary}` : ""}
+  ${aliases ? `Also known as: ${aliases}` : ""}`;
+    }).join("\n");
+
     // Build system prompt
     const systemPrompt = `You are Mimi, a voice-based AI ordering assistant for ${restaurant?.name || "our restaurant"}.
 
@@ -60,10 +77,12 @@ INSTRUCTIONS:
 - Be friendly but efficient
 - When customer orders items, confirm and add to order
 - Parse quantities and item names from natural speech
+- Use the weighted keywords to match customer requests to menu items (higher weight = stronger match)
+- If a customer asks for something "spicy" or "light" etc, match items with relevant keywords
 - If unclear, ask one clarifying question
 
 MENU:
-${menuItems.map((item) => `- ${item.name}: $${item.price} - ${item.description || ""}`).join("\n")}
+${menuWithKeywords}
 
 CURRENT ORDER:
 ${

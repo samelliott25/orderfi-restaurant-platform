@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { isAuthenticated } from "./replit_integrations/auth";
 import { db } from "./db";
-import { menuItems, orders } from "@shared/schema";
+import { menuItems, orders } from "../shared/schema";
 import { eq, desc } from "drizzle-orm";
 import { ObjectStorageService } from "./replit_integrations/object_storage";
 
