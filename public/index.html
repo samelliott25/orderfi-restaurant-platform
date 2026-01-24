@@ -30,9 +30,9 @@
       --orange: #FF670E;
       --cream: #FDE4CE;
       --sage: #AAD16E;
-      --charcoal: #2A2A2A;
-      --olive: #AAD16E;
-      --coral: #D22701;
+      --charcoal: #1A2B2B;
+      --slate: #263838;
+      --dark-bg: #1A2B2B;
     }
     
     html {
@@ -41,8 +41,8 @@
     
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--cream);
-      color: var(--charcoal);
+      background: var(--dark-bg);
+      color: var(--cream);
       min-height: 100vh;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -137,8 +137,8 @@
       align-items: center;
       gap: 0.75rem;
       padding: 1rem 2rem;
-      background: var(--cream);
-      color: var(--charcoal);
+      background: var(--orange);
+      color: var(--cream);
       text-decoration: none;
       border-radius: 50px;
       font-weight: 600;
@@ -206,7 +206,7 @@
     /* How It Works Section */
     .how-section {
       padding: 6rem 4rem;
-      background: var(--cream);
+      background: var(--slate);
     }
     
     .section-header {
@@ -219,7 +219,7 @@
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      color: var(--olive-dark);
+      color: var(--orange);
       margin-bottom: 1rem;
     }
     
@@ -227,7 +227,7 @@
       font-family: 'Lilita One', cursive;
       font-size: 2.75rem;
       font-weight: 600;
-      color: var(--charcoal);
+      color: var(--cream);
       line-height: 1.2;
     }
     
@@ -240,21 +240,26 @@
     }
     
     .step-card {
-      background: var(--teal);
+      background: var(--slate);
       border-radius: 24px;
       padding: 2.5rem;
       color: var(--cream);
       position: relative;
       overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.1);
       transition: transform 0.3s;
     }
     
-    .step-card:nth-child(2) {
-      background: var(--orange);
+    .step-card:nth-child(1) .step-icon {
+      color: var(--orange);
     }
     
-    .step-card:nth-child(3) {
-      background: var(--green-dark);
+    .step-card:nth-child(2) .step-icon {
+      color: var(--sage);
+    }
+    
+    .step-card:nth-child(3) .step-icon {
+      color: var(--tomato);
     }
     
     .step-card:hover {
@@ -292,7 +297,7 @@
     /* Menu Preview Section */
     .menu-section {
       padding: 6rem 4rem;
-      background: var(--yellow);
+      background: var(--dark-bg);
     }
     
     .menu-grid {
@@ -304,12 +309,13 @@
     }
     
     .menu-card {
-      background: var(--cream);
+      background: var(--slate);
       border-radius: 20px;
       padding: 1.5rem;
       text-align: center;
       transition: all 0.3s;
       cursor: pointer;
+      border: 2px solid rgba(255,255,255,0.1);
     }
     
     .menu-card:hover {
@@ -326,14 +332,14 @@
       font-family: 'Lilita One', cursive;
       font-size: 1.25rem;
       font-weight: 600;
-      color: var(--charcoal);
+      color: var(--cream);
       margin-bottom: 0.25rem;
     }
     
     .menu-card-price {
       font-size: 1rem;
-      color: var(--olive-dark);
-      font-weight: 500;
+      color: var(--orange);
+      font-weight: 600;
     }
     
     .menu-card-tags {
@@ -344,8 +350,8 @@
     }
     
     .menu-tag {
-      background: var(--green-fresh);
-      color: white;
+      background: var(--sage);
+      color: var(--charcoal);
       padding: 0.25rem 0.6rem;
       border-radius: 20px;
       font-size: 0.7rem;
@@ -355,7 +361,7 @@
     /* Features Section */
     .features-section {
       padding: 6rem 4rem;
-      background: var(--cream);
+      background: var(--slate);
     }
     
     .features-grid {
@@ -367,15 +373,17 @@
     }
     
     .feature-card {
-      background: var(--pink);
+      background: var(--dark-bg);
       border-radius: 24px;
       padding: 2.5rem;
       color: var(--cream);
+      border: 2px solid rgba(255,255,255,0.1);
     }
     
-    .feature-card:nth-child(2) { background: var(--olive); }
-    .feature-card:nth-child(3) { background: var(--teal); }
-    .feature-card:nth-child(4) { background: var(--coral); }
+    .feature-card:nth-child(1) .feature-icon { color: var(--orange); }
+    .feature-card:nth-child(2) .feature-icon { color: var(--sage); }
+    .feature-card:nth-child(3) .feature-icon { color: var(--tomato); }
+    .feature-card:nth-child(4) .feature-icon { color: var(--cream); }
     
     .feature-icon {
       font-size: 2.5rem;
@@ -398,7 +406,7 @@
     /* CTA Section */
     .cta-section {
       padding: 8rem 4rem;
-      background: var(--green-dark);
+      background: var(--burgundy);
       text-align: center;
     }
     
@@ -441,7 +449,7 @@
     
     .cta-btn-large:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(232, 112, 63, 0.5);
+      box-shadow: 0 12px 40px rgba(255, 103, 14, 0.5);
     }
     
     .cta-btn-large svg {
