@@ -1035,6 +1035,283 @@
       border: 1px solid rgba(33, 150, 243, 0.3);
     }
     
+    /* WYSIWYG Receipt Preview Styles */
+    .receipt-preview-container {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    
+    .receipt-paper {
+      background: #fff;
+      padding: 1.5rem 1rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px;
+      line-height: 1.4;
+      min-width: 280px;
+      max-width: 320px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border-radius: 2px;
+      position: relative;
+    }
+    
+    .receipt-paper::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 3px,
+        #e0e0e0 3px,
+        #e0e0e0 6px
+      );
+    }
+    
+    .receipt-paper.width-58 {
+      min-width: 200px;
+      max-width: 220px;
+      font-size: 10px;
+      padding: 1rem 0.75rem;
+    }
+    
+    .receipt-line {
+      padding: 3px 6px;
+      margin: 1px 0;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+    
+    .receipt-line:hover {
+      background: rgba(226, 61, 40, 0.08);
+    }
+    
+    .receipt-line.selected {
+      background: rgba(226, 61, 40, 0.15);
+      box-shadow: inset 0 0 0 2px var(--primary);
+    }
+    
+    .receipt-line.editing {
+      background: rgba(226, 61, 40, 0.1);
+    }
+    
+    .receipt-line.dimmed {
+      opacity: 0.3 !important;
+      text-decoration: line-through !important;
+    }
+    
+    .receipt-line.dimmed * {
+      opacity: 0.3 !important;
+      text-decoration: line-through !important;
+    }
+    
+    .price-dimmed {
+      opacity: 0.3 !important;
+      text-decoration: line-through !important;
+    }
+    
+    .receipt-line-edit {
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 10px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    
+    .receipt-line:hover .receipt-line-edit {
+      opacity: 1;
+    }
+    
+    .receipt-header {
+      text-align: center;
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    
+    .receipt-subheader {
+      text-align: center;
+      font-size: 10px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+    
+    .receipt-divider {
+      border: none;
+      border-top: 1px dashed #999;
+      margin: 8px 0;
+    }
+    
+    .receipt-divider-double {
+      border-top: 2px solid #333;
+    }
+    
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .receipt-row-qty {
+      display: grid;
+      grid-template-columns: 25px 1fr auto;
+      gap: 4px;
+    }
+    
+    .receipt-total-row {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    .receipt-footer-text {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 10px;
+    }
+    
+    .receipt-barcode {
+      text-align: center;
+      margin-top: 10px;
+      font-family: 'Libre Barcode 39', cursive;
+      font-size: 36px;
+      letter-spacing: -2px;
+    }
+    
+    .receipt-timestamp {
+      text-align: center;
+      font-size: 10px;
+      color: #666;
+    }
+    
+    .receipt-hidden {
+      display: none !important;
+    }
+    
+    .receipt-edit-panel {
+      flex: 1;
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      min-height: 200px;
+    }
+    
+    .edit-panel-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .edit-panel-empty-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      opacity: 0.5;
+    }
+    
+    .edit-panel-title {
+      font-family: 'Lilita One', cursive;
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .edit-field-group {
+      margin-bottom: 1rem;
+    }
+    
+    .edit-field-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    
+    .edit-field-input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+    
+    .edit-field-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(226, 61, 40, 0.1);
+    }
+    
+    .line-type-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(226, 61, 40, 0.1);
+      color: var(--primary);
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .edit-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .edit-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .edit-btn.apply {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .edit-btn.apply:hover {
+      background: var(--primary-dark);
+    }
+    
+    .edit-btn.reset {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    
+    @media (max-width: 768px) {
+      .receipt-preview-container {
+        flex-direction: column;
+      }
+      
+      .receipt-paper {
+        margin: 0 auto;
+      }
+    }
+    
     .filter-bar {
       background: white;
       border-radius: 16px;
@@ -1347,7 +1624,7 @@
               
               <div class="config-field">
                 <label class="config-label" for="printer-width">Paper Width</label>
-                <select class="config-select" id="printer-width">
+                <select class="config-select" id="printer-width" onchange="updateReceiptPreview()">
                   <option value="58">58mm (2.25")</option>
                   <option value="80" selected>80mm (3.15")</option>
                 </select>
@@ -1379,7 +1656,7 @@
               <div class="config-toggle-row">
                 <label class="config-label">Print order number</label>
                 <label class="toggle-switch">
-                  <input type="checkbox" id="print-order-number" checked>
+                  <input type="checkbox" id="print-order-number" checked onchange="updateReceiptVisibility()">
                   <span class="toggle-slider"></span>
                 </label>
               </div>
@@ -1387,7 +1664,7 @@
               <div class="config-toggle-row">
                 <label class="config-label">Print customer name</label>
                 <label class="toggle-switch">
-                  <input type="checkbox" id="print-customer-name" checked>
+                  <input type="checkbox" id="print-customer-name" checked onchange="updateReceiptVisibility()">
                   <span class="toggle-slider"></span>
                 </label>
               </div>
@@ -1395,14 +1672,135 @@
               <div class="config-toggle-row">
                 <label class="config-label">Print itemized prices</label>
                 <label class="toggle-switch">
-                  <input type="checkbox" id="print-prices" checked>
+                  <input type="checkbox" id="print-prices" checked onchange="updateReceiptVisibility()">
                   <span class="toggle-slider"></span>
                 </label>
               </div>
               
               <div class="config-field">
                 <label class="config-label" for="receipt-footer">Receipt Footer Message</label>
-                <textarea class="config-textarea" id="receipt-footer" placeholder="Thank you for your order!"></textarea>
+                <textarea class="config-textarea" id="receipt-footer" placeholder="Thank you for your order!" oninput="updateReceiptPreview()"></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <!-- WYSIWYG Receipt Preview -->
+          <div class="config-section">
+            <div class="config-section-header">
+              <div class="config-icon">👁️</div>
+              <div>
+                <h3 class="config-section-title">Receipt Preview</h3>
+                <p class="config-section-desc">Click on any line to customize it. Changes update in real-time.</p>
+              </div>
+            </div>
+            
+            <div class="receipt-preview-container">
+              <div id="receipt-paper" class="receipt-paper">
+                <!-- Receipt Header -->
+                <div class="receipt-line" data-line="restaurant-name" data-type="header" onclick="selectReceiptLine(this)">
+                  <div class="receipt-header">OrderFi Restaurant</div>
+                </div>
+                <div class="receipt-line" data-line="restaurant-address" data-type="subheader" onclick="selectReceiptLine(this)">
+                  <div class="receipt-subheader">123 Main Street, City<br>Tel: (555) 123-4567</div>
+                </div>
+                
+                <hr class="receipt-divider">
+                
+                <!-- Order Info -->
+                <div class="receipt-line" data-line="order-number" data-type="info" id="receipt-order-number" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row">
+                    <span>Order #:</span>
+                    <span>ORD-1234</span>
+                  </div>
+                </div>
+                <div class="receipt-line" data-line="customer-name" data-type="info" id="receipt-customer-name" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row">
+                    <span>Customer:</span>
+                    <span>John D.</span>
+                  </div>
+                </div>
+                <div class="receipt-line" data-line="timestamp" data-type="info" onclick="selectReceiptLine(this)">
+                  <div class="receipt-timestamp">Jan 28, 2026 12:34 PM</div>
+                </div>
+                
+                <hr class="receipt-divider receipt-divider-double">
+                
+                <!-- Order Items -->
+                <div class="receipt-line" data-line="item-1" data-type="item" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row-qty" id="receipt-item-1">
+                    <span>2x</span>
+                    <span>Classic Burger</span>
+                    <span>$25.98</span>
+                  </div>
+                </div>
+                <div class="receipt-line" data-line="item-2" data-type="item" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row-qty" id="receipt-item-2">
+                    <span>1x</span>
+                    <span>Caesar Salad</span>
+                    <span>$11.99</span>
+                  </div>
+                </div>
+                <div class="receipt-line" data-line="item-3" data-type="item" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row-qty" id="receipt-item-3">
+                    <span>2x</span>
+                    <span>Craft Soda</span>
+                    <span>$7.98</span>
+                  </div>
+                </div>
+                
+                <hr class="receipt-divider">
+                
+                <!-- Totals -->
+                <div class="receipt-line" data-line="subtotal" data-type="total" id="receipt-subtotal" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row">
+                    <span>Subtotal:</span>
+                    <span>$45.95</span>
+                  </div>
+                </div>
+                <div class="receipt-line" data-line="tax" data-type="total" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row">
+                    <span>Tax (8%):</span>
+                    <span>$3.68</span>
+                  </div>
+                </div>
+                
+                <hr class="receipt-divider receipt-divider-double">
+                
+                <div class="receipt-line" data-line="grand-total" data-type="total" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row receipt-total-row">
+                    <span>TOTAL:</span>
+                    <span>$49.63</span>
+                  </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="receipt-line" data-line="footer-message" data-type="footer" id="receipt-footer-line" onclick="selectReceiptLine(this)">
+                  <div class="receipt-footer-text">Thank you for your order!</div>
+                </div>
+                
+                <div class="receipt-line" data-line="barcode" data-type="footer" onclick="selectReceiptLine(this)">
+                  <div class="receipt-barcode">*ORD1234*</div>
+                </div>
+              </div>
+              
+              <!-- Edit Panel -->
+              <div class="receipt-edit-panel" id="receipt-edit-panel">
+                <div class="edit-panel-empty" id="edit-panel-empty">
+                  <div class="edit-panel-empty-icon">✏️</div>
+                  <p>Click on any line in the receipt to edit it</p>
+                </div>
+                <div id="edit-panel-content" style="display: none;">
+                  <div class="edit-panel-title">
+                    <span id="edit-line-icon">📝</span>
+                    <span id="edit-line-title">Edit Line</span>
+                    <span class="line-type-badge" id="edit-line-type">Header</span>
+                  </div>
+                  <div id="edit-fields"></div>
+                  <div class="edit-actions">
+                    <button class="edit-btn apply" onclick="applyLineEdit()">Apply Changes</button>
+                    <button class="edit-btn reset" onclick="resetLineEdit()">Reset</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -2162,12 +2560,361 @@
       }
     }
 
+    // WYSIWYG Receipt Preview
+    let selectedLine = null;
+    let receiptConfig = {
+      restaurantName: 'OrderFi Restaurant',
+      restaurantAddress: '123 Main Street, City',
+      restaurantPhone: '(555) 123-4567',
+      footerMessage: 'Thank you for your order!'
+    };
+    
+    const lineTypeLabels = {
+      'header': 'Restaurant Name',
+      'subheader': 'Address & Phone',
+      'info': 'Order Info',
+      'item': 'Menu Item',
+      'total': 'Totals',
+      'footer': 'Footer'
+    };
+    
+    const lineTypeIcons = {
+      'header': '🏪',
+      'subheader': '📍',
+      'info': '📋',
+      'item': '🍔',
+      'total': '💰',
+      'footer': '📝'
+    };
+    
+    function selectReceiptLine(element) {
+      // Remove previous selection
+      document.querySelectorAll('.receipt-line.selected').forEach(el => {
+        el.classList.remove('selected');
+      });
+      
+      // Select this line
+      element.classList.add('selected');
+      selectedLine = element;
+      
+      // Show edit panel
+      showEditPanel(element);
+    }
+    
+    function showEditPanel(lineElement) {
+      const lineId = lineElement.dataset.line;
+      const lineType = lineElement.dataset.type;
+      
+      document.getElementById('edit-panel-empty').style.display = 'none';
+      document.getElementById('edit-panel-content').style.display = 'block';
+      
+      document.getElementById('edit-line-icon').textContent = lineTypeIcons[lineType] || '📝';
+      document.getElementById('edit-line-title').textContent = lineTypeLabels[lineType] || 'Edit Line';
+      document.getElementById('edit-line-type').textContent = lineType.toUpperCase();
+      
+      const fieldsContainer = document.getElementById('edit-fields');
+      
+      // Generate edit fields based on line type
+      switch (lineId) {
+        case 'restaurant-name':
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <div class="edit-field-label">Restaurant Name</div>
+              <input type="text" class="edit-field-input" id="edit-restaurant-name" value="${receiptConfig.restaurantName}">
+            </div>
+          `;
+          break;
+          
+        case 'restaurant-address':
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <div class="edit-field-label">Street Address</div>
+              <input type="text" class="edit-field-input" id="edit-address" value="${receiptConfig.restaurantAddress}">
+            </div>
+            <div class="edit-field-group">
+              <div class="edit-field-label">Phone Number</div>
+              <input type="text" class="edit-field-input" id="edit-phone" value="${receiptConfig.restaurantPhone}">
+            </div>
+          `;
+          break;
+          
+        case 'order-number':
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <div class="edit-field-label">Order Number Format</div>
+              <input type="text" class="edit-field-input" id="edit-order-format" value="ORD-{number}" disabled>
+              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Auto-generated for each order</p>
+            </div>
+            <div class="edit-field-group" style="margin-top: 0.5rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="edit-show-order" ${document.getElementById('print-order-number').checked ? 'checked' : ''}>
+                <span>Show on receipt</span>
+              </label>
+            </div>
+          `;
+          break;
+          
+        case 'customer-name':
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <div class="edit-field-label">Customer Name Display</div>
+              <select class="edit-field-input" id="edit-name-format">
+                <option value="full">Full Name (John Doe)</option>
+                <option value="first-last" selected>First + Last Initial (John D.)</option>
+                <option value="first">First Name Only (John)</option>
+              </select>
+            </div>
+            <div class="edit-field-group" style="margin-top: 0.5rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="edit-show-customer" ${document.getElementById('print-customer-name').checked ? 'checked' : ''}>
+                <span>Show on receipt</span>
+              </label>
+            </div>
+          `;
+          break;
+          
+        case 'timestamp':
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <div class="edit-field-label">Date/Time Format</div>
+              <select class="edit-field-input" id="edit-time-format">
+                <option value="full" selected>Full (Jan 28, 2026 12:34 PM)</option>
+                <option value="date">Date Only (Jan 28, 2026)</option>
+                <option value="time">Time Only (12:34 PM)</option>
+                <option value="short">Short (1/28/26 12:34)</option>
+              </select>
+            </div>
+          `;
+          break;
+          
+        case 'item-1':
+        case 'item-2':
+        case 'item-3':
+          const itemNum = lineId.split('-')[1];
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <div class="edit-field-label">Sample Item ${itemNum} (for preview)</div>
+              <input type="text" class="edit-field-input" id="edit-item-name" value="${lineElement.querySelector('span:nth-child(2)').textContent}">
+            </div>
+            <div class="edit-field-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="edit-show-prices" ${document.getElementById('print-prices').checked ? 'checked' : ''}>
+                <span>Show item prices</span>
+              </label>
+            </div>
+          `;
+          break;
+          
+        case 'subtotal':
+        case 'tax':
+        case 'grand-total':
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <div class="edit-field-label">Total Line</div>
+              <p style="font-size: 0.85rem; color: var(--text);">This line is calculated automatically from order items.</p>
+            </div>
+            <div class="edit-field-group" style="margin-top: 0.5rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="edit-show-totals" checked disabled>
+                <span>Always shown</span>
+              </label>
+            </div>
+          `;
+          break;
+          
+        case 'footer-message':
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <div class="edit-field-label">Footer Message</div>
+              <textarea class="edit-field-input" id="edit-footer-msg" rows="2" style="min-height: 60px;">${receiptConfig.footerMessage}</textarea>
+            </div>
+          `;
+          break;
+          
+        case 'barcode':
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <div class="edit-field-label">Barcode</div>
+              <p style="font-size: 0.85rem; color: var(--text);">Encodes the order number for easy scanning.</p>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
+                <input type="checkbox" id="edit-show-barcode" checked>
+                <span>Show barcode</span>
+              </label>
+            </div>
+          `;
+          break;
+          
+        default:
+          fieldsContainer.innerHTML = `
+            <div class="edit-field-group">
+              <p style="color: var(--text-muted);">This line cannot be customized.</p>
+            </div>
+          `;
+      }
+    }
+    
+    function applyLineEdit() {
+      if (!selectedLine) return;
+      
+      const lineId = selectedLine.dataset.line;
+      
+      switch (lineId) {
+        case 'restaurant-name':
+          const newName = document.getElementById('edit-restaurant-name').value;
+          receiptConfig.restaurantName = newName;
+          selectedLine.querySelector('.receipt-header').textContent = newName;
+          break;
+          
+        case 'restaurant-address':
+          const newAddress = document.getElementById('edit-address').value;
+          const newPhone = document.getElementById('edit-phone').value;
+          receiptConfig.restaurantAddress = newAddress;
+          receiptConfig.restaurantPhone = newPhone;
+          selectedLine.querySelector('.receipt-subheader').innerHTML = `${newAddress}<br>Tel: ${newPhone}`;
+          break;
+          
+        case 'order-number':
+          const showOrder = document.getElementById('edit-show-order').checked;
+          document.getElementById('print-order-number').checked = showOrder;
+          updateReceiptVisibility();
+          break;
+          
+        case 'customer-name':
+          const showCustomer = document.getElementById('edit-show-customer').checked;
+          document.getElementById('print-customer-name').checked = showCustomer;
+          updateReceiptVisibility();
+          break;
+          
+        case 'item-1':
+        case 'item-2':
+        case 'item-3':
+          const showPrices = document.getElementById('edit-show-prices').checked;
+          document.getElementById('print-prices').checked = showPrices;
+          updateReceiptVisibility();
+          break;
+          
+        case 'footer-message':
+          const newFooter = document.getElementById('edit-footer-msg').value;
+          receiptConfig.footerMessage = newFooter;
+          selectedLine.querySelector('.receipt-footer-text').textContent = newFooter;
+          document.getElementById('receipt-footer').value = newFooter;
+          break;
+          
+        case 'barcode':
+          const showBarcode = document.getElementById('edit-show-barcode').checked;
+          selectedLine.style.display = showBarcode ? 'block' : 'none';
+          break;
+      }
+      
+      // Save receipt config to localStorage
+      saveReceiptConfig();
+      
+      // Flash effect to confirm
+      selectedLine.style.background = 'rgba(76, 175, 80, 0.2)';
+      setTimeout(() => {
+        selectedLine.style.background = '';
+      }, 300);
+    }
+    
+    function resetLineEdit() {
+      if (selectedLine) {
+        showEditPanel(selectedLine);
+      }
+    }
+    
+    function updateReceiptVisibility() {
+      const showOrderNumber = document.getElementById('print-order-number').checked;
+      const showCustomerName = document.getElementById('print-customer-name').checked;
+      const showPrices = document.getElementById('print-prices').checked;
+      
+      const orderNumberLine = document.getElementById('receipt-order-number');
+      const customerNameLine = document.getElementById('receipt-customer-name');
+      
+      if (orderNumberLine) {
+        if (showOrderNumber) {
+          orderNumberLine.classList.remove('dimmed');
+        } else {
+          orderNumberLine.classList.add('dimmed');
+        }
+      }
+      
+      if (customerNameLine) {
+        if (showCustomerName) {
+          customerNameLine.classList.remove('dimmed');
+        } else {
+          customerNameLine.classList.add('dimmed');
+        }
+      }
+      
+      // Update price visibility on items
+      document.querySelectorAll('.receipt-row-qty span:nth-child(3)').forEach(priceEl => {
+        if (showPrices) {
+          priceEl.classList.remove('price-dimmed');
+        } else {
+          priceEl.classList.add('price-dimmed');
+        }
+      });
+    }
+    
+    function updateReceiptPreview() {
+      const footerMessage = document.getElementById('receipt-footer').value;
+      receiptConfig.footerMessage = footerMessage || 'Thank you for your order!';
+      
+      const footerLine = document.getElementById('receipt-footer-line');
+      if (footerLine) {
+        footerLine.querySelector('.receipt-footer-text').textContent = receiptConfig.footerMessage;
+      }
+      
+      // Update paper width based on setting
+      const paperWidth = document.getElementById('printer-width').value;
+      const receiptPaper = document.getElementById('receipt-paper');
+      if (paperWidth === '58') {
+        receiptPaper.classList.add('width-58');
+      } else {
+        receiptPaper.classList.remove('width-58');
+      }
+      
+      updateReceiptVisibility();
+    }
+    
+    function saveReceiptConfig() {
+      const config = JSON.parse(localStorage.getItem('orderfi_config') || '{}');
+      config.receiptConfig = receiptConfig;
+      localStorage.setItem('orderfi_config', JSON.stringify(config));
+    }
+    
+    function loadReceiptConfig() {
+      const config = JSON.parse(localStorage.getItem('orderfi_config') || '{}');
+      if (config.receiptConfig) {
+        receiptConfig = { ...receiptConfig, ...config.receiptConfig };
+        
+        // Apply loaded config to receipt preview
+        const nameEl = document.querySelector('[data-line="restaurant-name"] .receipt-header');
+        if (nameEl) nameEl.textContent = receiptConfig.restaurantName;
+        
+        const addrEl = document.querySelector('[data-line="restaurant-address"] .receipt-subheader');
+        if (addrEl) addrEl.innerHTML = `${receiptConfig.restaurantAddress}<br>Tel: ${receiptConfig.restaurantPhone}`;
+        
+        const footerEl = document.querySelector('[data-line="footer-message"] .receipt-footer-text');
+        if (footerEl) footerEl.textContent = receiptConfig.footerMessage;
+      }
+      
+      updateReceiptPreview();
+    }
+    
+    // Add event listeners for config toggles to update preview
+    document.getElementById('print-order-number')?.addEventListener('change', updateReceiptVisibility);
+    document.getElementById('print-customer-name')?.addEventListener('change', updateReceiptVisibility);
+    document.getElementById('print-prices')?.addEventListener('change', updateReceiptVisibility);
+    document.getElementById('printer-width')?.addEventListener('change', updateReceiptPreview);
+
     // Load config when config panel becomes active
     const originalInit = init;
     function init() {
       loadMenu();
       loadOrders();
       loadConfig();
+      loadReceiptConfig();
     }
 
     init();
