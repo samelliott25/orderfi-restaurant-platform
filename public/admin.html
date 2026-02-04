@@ -1115,6 +1115,146 @@
       text-decoration: line-through !important;
     }
     
+    /* Receipt Type Tabs */
+    .receipt-type-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .receipt-type-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      background: #fff;
+      border: 2px solid #e8e0db;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .receipt-type-tab:hover {
+      border-color: var(--primary);
+      background: #fff9f5;
+    }
+    
+    .receipt-type-tab.active {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #fff9f5 0%, #ffe5e0 100%);
+      box-shadow: 0 4px 12px rgba(226, 61, 40, 0.15);
+    }
+    
+    .receipt-type-tab .tab-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    
+    .receipt-type-tab .tab-label {
+      font-family: 'Lilita One', cursive;
+      font-size: 16px;
+      color: var(--charcoal);
+    }
+    
+    .receipt-type-tab .tab-desc {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+    
+    .receipt-type-tab.active .tab-label {
+      color: var(--primary);
+    }
+    
+    .receipt-type-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #f8f4f0;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .receipt-type-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    
+    .receipt-type-badge.kitchen {
+      background: #FFB347;
+      color: #6b3e00;
+    }
+    
+    .receipt-type-badge.tax {
+      background: #4CAF50;
+      color: #fff;
+    }
+    
+    .config-hint-box {
+      padding: 12px 16px;
+      background: #fffbeb;
+      border: 1px solid #f0e6c8;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #856404;
+      margin-top: 8px;
+    }
+    
+    .config-hint-box strong {
+      color: #664d00;
+    }
+    
+    /* Kitchen Receipt Preview Styles */
+    .receipt-paper.kitchen-receipt {
+      border-top: 4px solid #FFB347;
+    }
+    
+    .receipt-paper.tax-receipt {
+      border-top: 4px solid #4CAF50;
+    }
+    
+    .receipt-type-indicator {
+      text-align: center;
+      padding: 8px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-radius: 4px;
+    }
+    
+    .receipt-type-indicator.kitchen {
+      background: #fff3e0;
+      color: #e65100;
+    }
+    
+    .receipt-type-indicator.tax {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .kitchen-large-text {
+      font-size: 24px !important;
+      font-weight: bold !important;
+    }
+    
+    .kitchen-instructions {
+      font-style: italic;
+      color: #c00;
+      font-size: 13px;
+      padding: 4px 0;
+      border-top: 1px dashed #ddd;
+      margin-top: 4px;
+    }
+    
     .receipt-line-edit {
       position: absolute;
       right: -10px;
@@ -1648,11 +1788,83 @@
               <div class="config-icon">📄</div>
               <div>
                 <h3 class="config-section-title">Receipt Settings</h3>
-                <p class="config-section-desc">Customize what appears on printed receipts</p>
+                <p class="config-section-desc">Configure kitchen and customer receipts separately</p>
               </div>
             </div>
             
-            <div class="config-form">
+            <!-- Receipt Type Tabs -->
+            <div class="receipt-type-tabs">
+              <button class="receipt-type-tab active" data-type="kitchen" onclick="switchReceiptType('kitchen')">
+                <span class="tab-icon">👨‍🍳</span>
+                <span class="tab-label">Kitchen Receipt</span>
+                <span class="tab-desc">For kitchen staff</span>
+              </button>
+              <button class="receipt-type-tab" data-type="tax" onclick="switchReceiptType('tax')">
+                <span class="tab-icon">🧾</span>
+                <span class="tab-label">Customer Receipt</span>
+                <span class="tab-desc">Tax receipt for customers</span>
+              </button>
+            </div>
+            
+            <!-- Kitchen Receipt Settings -->
+            <div class="config-form receipt-settings-panel" id="kitchen-settings">
+              <div class="receipt-type-header">
+                <span class="receipt-type-badge kitchen">KITCHEN</span>
+                <span>What the kitchen sees when preparing orders</span>
+              </div>
+              
+              <div class="config-toggle-row">
+                <label class="config-label">Print order number (large)</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="kitchen-order-number" checked onchange="updateReceiptVisibility()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-toggle-row">
+                <label class="config-label">Print table/pickup number</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="kitchen-table-number" checked onchange="updateReceiptVisibility()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-toggle-row">
+                <label class="config-label">Print item quantities (large)</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="kitchen-quantities" checked onchange="updateReceiptVisibility()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-toggle-row">
+                <label class="config-label">Print special instructions</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="kitchen-instructions" checked onchange="updateReceiptVisibility()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-toggle-row">
+                <label class="config-label">Print order time</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="kitchen-time" checked onchange="updateReceiptVisibility()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-hint-box">
+                <strong>Tip:</strong> Kitchen receipts focus on what staff need to prepare the order. Prices and customer details are hidden by default.
+              </div>
+            </div>
+            
+            <!-- Tax Receipt Settings -->
+            <div class="config-form receipt-settings-panel" id="tax-settings" style="display: none;">
+              <div class="receipt-type-header">
+                <span class="receipt-type-badge tax">CUSTOMER</span>
+                <span>What customers receive with their order</span>
+              </div>
+              
               <div class="config-toggle-row">
                 <label class="config-label">Print order number</label>
                 <label class="toggle-switch">
@@ -1677,6 +1889,30 @@
                 </label>
               </div>
               
+              <div class="config-toggle-row">
+                <label class="config-label">Print tax breakdown</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="print-tax" checked onchange="updateReceiptVisibility()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-toggle-row">
+                <label class="config-label">Print payment method</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="print-payment" checked onchange="updateReceiptVisibility()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-toggle-row">
+                <label class="config-label">Print barcode</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="print-barcode" checked onchange="updateReceiptVisibility()">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
               <div class="config-field">
                 <label class="config-label" for="receipt-footer">Receipt Footer Message</label>
                 <textarea class="config-textarea" id="receipt-footer" placeholder="Thank you for your order!" oninput="updateReceiptPreview()"></textarea>
@@ -1695,7 +1931,62 @@
             </div>
             
             <div class="receipt-preview-container">
-              <div id="receipt-paper" class="receipt-paper">
+              <!-- Kitchen Receipt Preview -->
+              <div id="receipt-paper-kitchen" class="receipt-paper kitchen-receipt">
+                <div class="receipt-type-indicator kitchen">👨‍🍳 Kitchen Copy</div>
+                
+                <!-- Large Order Number -->
+                <div class="receipt-line" data-line="kitchen-order" data-type="header" id="kitchen-order-line" onclick="selectReceiptLine(this)">
+                  <div class="receipt-header kitchen-large-text">ORDER #1234</div>
+                </div>
+                
+                <!-- Table/Pickup Number -->
+                <div class="receipt-line" data-line="kitchen-table" data-type="info" id="kitchen-table-line" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row" style="justify-content: center; font-size: 18px; font-weight: bold;">
+                    <span>📍 Table 5</span>
+                  </div>
+                </div>
+                
+                <!-- Order Time -->
+                <div class="receipt-line" data-line="kitchen-time" data-type="info" id="kitchen-time-line" onclick="selectReceiptLine(this)">
+                  <div class="receipt-timestamp">12:34 PM</div>
+                </div>
+                
+                <hr class="receipt-divider receipt-divider-double">
+                
+                <!-- Order Items (Large Quantities, No Prices) -->
+                <div class="receipt-line" data-line="kitchen-item-1" data-type="item" id="kitchen-item-1" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row" style="font-size: 16px;">
+                    <span style="font-size: 20px; font-weight: bold; min-width: 40px;">2x</span>
+                    <span style="flex: 1;">Classic Burger</span>
+                  </div>
+                  <div class="kitchen-instructions" id="kitchen-instructions-1">⚠️ No onions, extra pickles</div>
+                </div>
+                <div class="receipt-line" data-line="kitchen-item-2" data-type="item" id="kitchen-item-2" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row" style="font-size: 16px;">
+                    <span style="font-size: 20px; font-weight: bold; min-width: 40px;">1x</span>
+                    <span style="flex: 1;">Caesar Salad</span>
+                  </div>
+                  <div class="kitchen-instructions" id="kitchen-instructions-2">⚠️ Dressing on the side</div>
+                </div>
+                <div class="receipt-line" data-line="kitchen-item-3" data-type="item" id="kitchen-item-3" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row" style="font-size: 16px;">
+                    <span style="font-size: 20px; font-weight: bold; min-width: 40px;">2x</span>
+                    <span style="flex: 1;">Craft Soda</span>
+                  </div>
+                </div>
+                
+                <hr class="receipt-divider receipt-divider-double">
+                
+                <div style="text-align: center; font-size: 12px; color: #666; padding: 8px;">
+                  Kitchen Copy - Not for Customer
+                </div>
+              </div>
+              
+              <!-- Tax Receipt Preview (Customer Copy) -->
+              <div id="receipt-paper-tax" class="receipt-paper tax-receipt" style="display: none;">
+                <div class="receipt-type-indicator tax">🧾 Customer Copy</div>
+                
                 <!-- Receipt Header -->
                 <div class="receipt-line" data-line="restaurant-name" data-type="header" onclick="selectReceiptLine(this)">
                   <div class="receipt-header">OrderFi Restaurant</div>
@@ -1725,7 +2016,7 @@
                 
                 <hr class="receipt-divider receipt-divider-double">
                 
-                <!-- Order Items -->
+                <!-- Order Items with Prices -->
                 <div class="receipt-line" data-line="item-1" data-type="item" onclick="selectReceiptLine(this)">
                   <div class="receipt-row-qty" id="receipt-item-1">
                     <span>2x</span>
@@ -1757,7 +2048,7 @@
                     <span>$45.95</span>
                   </div>
                 </div>
-                <div class="receipt-line" data-line="tax" data-type="total" onclick="selectReceiptLine(this)">
+                <div class="receipt-line" data-line="tax" data-type="total" id="receipt-tax-line" onclick="selectReceiptLine(this)">
                   <div class="receipt-row">
                     <span>Tax (8%):</span>
                     <span>$3.68</span>
@@ -1773,14 +2064,23 @@
                   </div>
                 </div>
                 
+                <!-- Payment Method -->
+                <div class="receipt-line" data-line="payment-method" data-type="info" id="receipt-payment-line" onclick="selectReceiptLine(this)">
+                  <div class="receipt-row" style="font-size: 12px; color: #666;">
+                    <span>Paid via:</span>
+                    <span>Visa •••• 4242</span>
+                  </div>
+                </div>
+                
                 <!-- Footer -->
                 <div class="receipt-line" data-line="footer-message" data-type="footer" id="receipt-footer-line" onclick="selectReceiptLine(this)">
                   <div class="receipt-footer-text">Thank you for your order!</div>
                 </div>
                 
-                <div class="receipt-line" data-line="barcode" data-type="footer" onclick="selectReceiptLine(this)">
+                <div class="receipt-line" data-line="barcode" data-type="footer" id="receipt-barcode-line" onclick="selectReceiptLine(this)">
                   <div class="receipt-barcode">*ORD1234*</div>
                 </div>
+              </div>
               </div>
               
               <!-- Edit Panel -->
@@ -2822,29 +3122,84 @@
       }
     }
     
+    // Current receipt type being edited
+    let currentReceiptType = 'kitchen';
+    
+    function switchReceiptType(type) {
+      currentReceiptType = type;
+      
+      // Update tab buttons
+      document.querySelectorAll('.receipt-type-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.type === type);
+      });
+      
+      // Update settings panels
+      document.getElementById('kitchen-settings').style.display = type === 'kitchen' ? 'block' : 'none';
+      document.getElementById('tax-settings').style.display = type === 'tax' ? 'block' : 'none';
+      
+      // Update receipt previews
+      document.getElementById('receipt-paper-kitchen').style.display = type === 'kitchen' ? 'block' : 'none';
+      document.getElementById('receipt-paper-tax').style.display = type === 'tax' ? 'block' : 'none';
+      
+      // Clear any selected line
+      if (selectedLine) {
+        selectedLine.classList.remove('selected');
+        selectedLine = null;
+      }
+      document.getElementById('edit-panel-content').style.display = 'none';
+      document.getElementById('edit-panel-empty').style.display = 'block';
+      
+      // Update visibility based on new type
+      updateReceiptVisibility();
+    }
+    
     function updateReceiptVisibility() {
-      const showOrderNumber = document.getElementById('print-order-number').checked;
-      const showCustomerName = document.getElementById('print-customer-name').checked;
-      const showPrices = document.getElementById('print-prices').checked;
+      // Kitchen receipt visibility
+      const showKitchenOrder = document.getElementById('kitchen-order-number')?.checked ?? true;
+      const showKitchenTable = document.getElementById('kitchen-table-number')?.checked ?? true;
+      const showKitchenQuantities = document.getElementById('kitchen-quantities')?.checked ?? true;
+      const showKitchenInstructions = document.getElementById('kitchen-instructions')?.checked ?? true;
+      const showKitchenTime = document.getElementById('kitchen-time')?.checked ?? true;
+      
+      // Kitchen visibility toggles
+      const kitchenOrderLine = document.getElementById('kitchen-order-line');
+      const kitchenTableLine = document.getElementById('kitchen-table-line');
+      const kitchenTimeLine = document.getElementById('kitchen-time-line');
+      
+      if (kitchenOrderLine) kitchenOrderLine.classList.toggle('dimmed', !showKitchenOrder);
+      if (kitchenTableLine) kitchenTableLine.classList.toggle('dimmed', !showKitchenTable);
+      if (kitchenTimeLine) kitchenTimeLine.classList.toggle('dimmed', !showKitchenTime);
+      
+      // Kitchen items quantity styling
+      document.querySelectorAll('#receipt-paper-kitchen .receipt-line[data-type="item"]').forEach(item => {
+        const qtySpan = item.querySelector('span[style*="font-size: 20px"]');
+        if (qtySpan) qtySpan.classList.toggle('dimmed', !showKitchenQuantities);
+      });
+      
+      // Kitchen instructions visibility
+      document.querySelectorAll('.kitchen-instructions').forEach(el => {
+        el.classList.toggle('dimmed', !showKitchenInstructions);
+      });
+      
+      // Tax receipt visibility
+      const showOrderNumber = document.getElementById('print-order-number')?.checked ?? true;
+      const showCustomerName = document.getElementById('print-customer-name')?.checked ?? true;
+      const showPrices = document.getElementById('print-prices')?.checked ?? true;
+      const showTax = document.getElementById('print-tax')?.checked ?? true;
+      const showPayment = document.getElementById('print-payment')?.checked ?? true;
+      const showBarcode = document.getElementById('print-barcode')?.checked ?? true;
       
       const orderNumberLine = document.getElementById('receipt-order-number');
       const customerNameLine = document.getElementById('receipt-customer-name');
+      const taxLine = document.getElementById('receipt-tax-line');
+      const paymentLine = document.getElementById('receipt-payment-line');
+      const barcodeLine = document.getElementById('receipt-barcode-line');
       
-      if (orderNumberLine) {
-        if (showOrderNumber) {
-          orderNumberLine.classList.remove('dimmed');
-        } else {
-          orderNumberLine.classList.add('dimmed');
-        }
-      }
-      
-      if (customerNameLine) {
-        if (showCustomerName) {
-          customerNameLine.classList.remove('dimmed');
-        } else {
-          customerNameLine.classList.add('dimmed');
-        }
-      }
+      if (orderNumberLine) orderNumberLine.classList.toggle('dimmed', !showOrderNumber);
+      if (customerNameLine) customerNameLine.classList.toggle('dimmed', !showCustomerName);
+      if (taxLine) taxLine.classList.toggle('dimmed', !showTax);
+      if (paymentLine) paymentLine.classList.toggle('dimmed', !showPayment);
+      if (barcodeLine) barcodeLine.classList.toggle('dimmed', !showBarcode);
       
       // Update price visibility on items
       document.querySelectorAll('.receipt-row-qty span:nth-child(3)').forEach(priceEl => {
