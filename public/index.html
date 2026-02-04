@@ -326,9 +326,21 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
     
-    .menu-card-emoji {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+    .menu-card-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border-radius: 16px;
+      color: var(--primary);
+    }
+    
+    .menu-card-icon svg {
+      width: 32px;
+      height: 32px;
     }
     
     .menu-card-name {
@@ -390,7 +402,13 @@
     .feature-card:nth-child(4) .feature-icon { color: var(--accent); }
     
     .feature-icon {
-      font-size: 2.5rem;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(226, 61, 40, 0.1);
+      border-radius: 12px;
       margin-bottom: 1.25rem;
     }
     
@@ -618,21 +636,41 @@
     <div class="steps-grid">
       <div class="step-card">
         <span class="step-number">01</span>
-        <div class="step-icon">🎙️</div>
+        <div class="step-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+        </div>
         <h3 class="step-title">SPEAK</h3>
         <p class="step-desc">Just say what you want. "I'd like a veggie burger with extra pickles and a lemonade."</p>
       </div>
       
       <div class="step-card">
         <span class="step-number">02</span>
-        <div class="step-icon">🧠</div>
+        <div class="step-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 8V4H8"/>
+            <rect width="16" height="12" x="4" y="8" rx="2"/>
+            <path d="M2 14h2"/>
+            <path d="M20 14h2"/>
+            <path d="M15 13v2"/>
+            <path d="M9 13v2"/>
+          </svg>
+        </div>
         <h3 class="step-title">WE GET IT</h3>
         <p class="step-desc">Our AI matches your words to the menu, handles changes, and confirms your order.</p>
       </div>
       
       <div class="step-card">
         <span class="step-number">03</span>
-        <div class="step-icon">💳</div>
+        <div class="step-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="14" x="2" y="5" rx="2"/>
+            <line x1="2" x2="22" y1="10" y2="10"/>
+          </svg>
+        </div>
         <h3 class="step-title">PAY & EAT</h3>
         <p class="step-desc">One tap payment with Stripe. Then sit back and wait for your delicious food.</p>
       </div>
@@ -647,13 +685,17 @@
     
     <div class="menu-grid">
       <div class="menu-card">
-        <div class="menu-card-emoji">🍔</div>
+        <div class="menu-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+        </div>
         <p class="menu-card-name">Classic Burger</p>
         <p class="menu-card-price">$12.99</p>
       </div>
       
       <div class="menu-card">
-        <div class="menu-card-emoji">🥗</div>
+        <div class="menu-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 21h10"/><path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M11.38 12a2.4 2.4 0 0 1-.4-4.77 2.4 2.4 0 0 1 3.2-2.77 2.4 2.4 0 0 1 3.47-.63 2.4 2.4 0 0 1 3.37 3.37 2.4 2.4 0 0 1-1.1 3.7 2.51 2.51 0 0 1 .03 1.1"/></svg>
+        </div>
         <p class="menu-card-name">Garden Salad</p>
         <p class="menu-card-price">$9.99</p>
         <div class="menu-card-tags">
@@ -662,7 +704,9 @@
       </div>
       
       <div class="menu-card">
-        <div class="menu-card-emoji">🍝</div>
+        <div class="menu-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 12c2-2.96 0-7-1-8 0 3.038-1.773 4.741-3 6-1.226 1.26-2 3.24-2 5a6 6 0 1 0 12 0c0-1.532-1.056-3.94-2-5-1.786 3-2.791 3-4 2Z"/></svg>
+        </div>
         <p class="menu-card-name">Pasta Primavera</p>
         <p class="menu-card-price">$14.99</p>
         <div class="menu-card-tags">
@@ -671,7 +715,9 @@
       </div>
       
       <div class="menu-card">
-        <div class="menu-card-emoji">🍣</div>
+        <div class="menu-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h20"/><path d="M6 12v2"/><path d="M10 12v4"/><path d="M14 12v2"/><path d="M18 12v4"/></svg>
+        </div>
         <p class="menu-card-name">Sushi Platter</p>
         <p class="menu-card-price">$18.99</p>
         <div class="menu-card-tags">
@@ -680,7 +726,9 @@
       </div>
       
       <div class="menu-card">
-        <div class="menu-card-emoji">🌮</div>
+        <div class="menu-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 11-1 9"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4"/><path d="m4.5 15.5h15"/></svg>
+        </div>
         <p class="menu-card-name">Street Tacos</p>
         <p class="menu-card-price">$11.99</p>
         <div class="menu-card-tags">
@@ -689,7 +737,9 @@
       </div>
       
       <div class="menu-card">
-        <div class="menu-card-emoji">🍕</div>
+        <div class="menu-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M16 2a6 6 0 0 1 6 6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
         <p class="menu-card-name">Margherita Pizza</p>
         <p class="menu-card-price">$15.99</p>
         <div class="menu-card-tags">
@@ -698,13 +748,17 @@
       </div>
       
       <div class="menu-card">
-        <div class="menu-card-emoji">🍜</div>
+        <div class="menu-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4a8 8 0 0 0-8 8h16a8 8 0 0 0-8-8Z"/><path d="M4 12v4a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4v-4"/><line x1="2" x2="22" y1="12" y2="12"/></svg>
+        </div>
         <p class="menu-card-name">Ramen Bowl</p>
         <p class="menu-card-price">$13.99</p>
       </div>
       
       <div class="menu-card">
-        <div class="menu-card-emoji">🥤</div>
+        <div class="menu-card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 8 1.75 12.28a2 2 0 0 0 2 1.72h4.54a2 2 0 0 0 2-1.72L18 8"/><path d="M5 8h14"/><path d="M7 15a6.47 6.47 0 0 1 5 0 6.47 6.47 0 0 0 5 0"/><path d="m12 8 1-6h2"/></svg>
+        </div>
         <p class="menu-card-name">Fresh Smoothie</p>
         <p class="menu-card-price">$6.99</p>
         <div class="menu-card-tags">
@@ -722,25 +776,33 @@
     
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon">🧠</div>
+        <div class="feature-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+        </div>
         <h3 class="feature-title">AI that listens</h3>
         <p class="feature-desc">Powered by GPT-4o. It understands context, handles corrections, and remembers your preferences.</p>
       </div>
       
       <div class="feature-card">
-        <div class="feature-icon">⚡</div>
+        <div class="feature-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
         <h3 class="feature-title">Lightning fast</h3>
         <p class="feature-desc">Complete your order in under 30 seconds. Your thumbs can finally take a break.</p>
       </div>
       
       <div class="feature-card">
-        <div class="feature-icon">🔒</div>
+        <div class="feature-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
         <h3 class="feature-title">Privacy first</h3>
         <p class="feature-desc">Voice is processed instantly then deleted. We're hungry for food, not your data.</p>
       </div>
       
       <div class="feature-card">
-        <div class="feature-icon">🌱</div>
+        <div class="feature-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        </div>
         <h3 class="feature-title">Dietary smart</h3>
         <p class="feature-desc">Filter by vegetarian, vegan, gluten-free, and more. We help you eat your way.</p>
       </div>
