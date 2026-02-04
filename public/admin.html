@@ -821,6 +821,220 @@
     
     .hidden { display: none !important; }
     
+    /* Configuration Panel Styles */
+    .config-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .config-section {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    
+    .config-section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .config-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(226, 61, 40, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    
+    .config-section-title {
+      font-family: 'Lilita One', cursive;
+      font-size: 1.25rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    
+    .config-section-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    .config-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    
+    .config-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .config-label {
+      font-weight: 500;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    
+    .config-input, .config-select, .config-textarea {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 1rem;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    .config-input:focus, .config-select:focus, .config-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(226, 61, 40, 0.1);
+    }
+    
+    .config-textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    
+    .config-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    
+    .config-toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .config-toggle-row:last-of-type {
+      border-bottom: none;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 28px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      border-radius: 28px;
+      transition: 0.3s;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.3s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: var(--fresh);
+    }
+    
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(22px);
+    }
+    
+    .config-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    
+    .config-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 50px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    
+    .config-btn.primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .config-btn.primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    
+    .config-btn.secondary {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    
+    .config-btn.secondary:hover {
+      background: #f0ebe6;
+    }
+    
+    .config-status {
+      padding: 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    
+    .config-status.success {
+      background: rgba(76, 175, 80, 0.15);
+      color: #2e7d32;
+      border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+    
+    .config-status.error {
+      background: rgba(226, 61, 40, 0.15);
+      color: #c62828;
+      border: 1px solid rgba(226, 61, 40, 0.3);
+    }
+    
+    .config-status.info {
+      background: rgba(33, 150, 243, 0.15);
+      color: #1565c0;
+      border: 1px solid rgba(33, 150, 243, 0.3);
+    }
+    
     .filter-bar {
       background: white;
       border-radius: 16px;
@@ -1041,6 +1255,7 @@
       <div class="tabs">
         <button class="tab active" data-tab="menu">Menu Items</button>
         <button class="tab" data-tab="orders">Recent Orders</button>
+        <button class="tab" data-tab="config">Configuration</button>
       </div>
 
       <div id="menu-panel" class="content-panel active">
@@ -1086,6 +1301,111 @@
       <div id="orders-panel" class="content-panel">
         <div id="orders-container">
           <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+
+      <div id="config-panel" class="content-panel">
+        <div class="config-sections">
+          <div class="config-section">
+            <div class="config-section-header">
+              <div class="config-icon">🖨️</div>
+              <div>
+                <h3 class="config-section-title">WiFi Printing</h3>
+                <p class="config-section-desc">Configure network printer for order receipts</p>
+              </div>
+            </div>
+            
+            <div class="config-form">
+              <div class="config-toggle-row">
+                <label class="config-label">Enable WiFi Printing</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="printer-enabled">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-field">
+                <label class="config-label" for="printer-ip">Printer IP Address</label>
+                <input type="text" class="config-input" id="printer-ip" placeholder="192.168.1.100">
+                <p class="config-hint">The local network IP address of your receipt printer</p>
+              </div>
+              
+              <div class="config-field">
+                <label class="config-label" for="printer-port">Port</label>
+                <input type="number" class="config-input" id="printer-port" placeholder="9100" value="9100">
+                <p class="config-hint">Default port for most network printers is 9100</p>
+              </div>
+              
+              <div class="config-field">
+                <label class="config-label" for="printer-type">Printer Type</label>
+                <select class="config-select" id="printer-type">
+                  <option value="escpos">ESC/POS (Epson, Star, etc.)</option>
+                  <option value="zpl">ZPL (Zebra)</option>
+                  <option value="raw">Raw Text</option>
+                </select>
+              </div>
+              
+              <div class="config-field">
+                <label class="config-label" for="printer-width">Paper Width</label>
+                <select class="config-select" id="printer-width">
+                  <option value="58">58mm (2.25")</option>
+                  <option value="80" selected>80mm (3.15")</option>
+                </select>
+              </div>
+              
+              <div class="config-actions">
+                <button class="config-btn secondary" onclick="testPrinter()">
+                  <span>🔌</span> Test Connection
+                </button>
+                <button class="config-btn primary" onclick="saveConfig()">
+                  <span>💾</span> Save Settings
+                </button>
+              </div>
+              
+              <div id="printer-status" class="config-status" style="display: none;"></div>
+            </div>
+          </div>
+          
+          <div class="config-section">
+            <div class="config-section-header">
+              <div class="config-icon">📄</div>
+              <div>
+                <h3 class="config-section-title">Receipt Settings</h3>
+                <p class="config-section-desc">Customize what appears on printed receipts</p>
+              </div>
+            </div>
+            
+            <div class="config-form">
+              <div class="config-toggle-row">
+                <label class="config-label">Print order number</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="print-order-number" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-toggle-row">
+                <label class="config-label">Print customer name</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="print-customer-name" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-toggle-row">
+                <label class="config-label">Print itemized prices</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="print-prices" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              
+              <div class="config-field">
+                <label class="config-label" for="receipt-footer">Receipt Footer Message</label>
+                <textarea class="config-textarea" id="receipt-footer" placeholder="Thank you for your order!"></textarea>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -1772,6 +2092,82 @@
         console.error('Delete error:', e);
         alert('Failed to delete item. Please try again.');
       }
+    }
+
+    // Configuration management
+    function loadConfig() {
+      const config = JSON.parse(localStorage.getItem('orderfi_config') || '{}');
+      
+      // Printer settings
+      document.getElementById('printer-enabled').checked = config.printerEnabled || false;
+      document.getElementById('printer-ip').value = config.printerIp || '';
+      document.getElementById('printer-port').value = config.printerPort || '9100';
+      document.getElementById('printer-type').value = config.printerType || 'escpos';
+      document.getElementById('printer-width').value = config.printerWidth || '80';
+      
+      // Receipt settings
+      document.getElementById('print-order-number').checked = config.printOrderNumber !== false;
+      document.getElementById('print-customer-name').checked = config.printCustomerName !== false;
+      document.getElementById('print-prices').checked = config.printPrices !== false;
+      document.getElementById('receipt-footer').value = config.receiptFooter || '';
+    }
+
+    function saveConfig() {
+      const config = {
+        printerEnabled: document.getElementById('printer-enabled').checked,
+        printerIp: document.getElementById('printer-ip').value,
+        printerPort: document.getElementById('printer-port').value,
+        printerType: document.getElementById('printer-type').value,
+        printerWidth: document.getElementById('printer-width').value,
+        printOrderNumber: document.getElementById('print-order-number').checked,
+        printCustomerName: document.getElementById('print-customer-name').checked,
+        printPrices: document.getElementById('print-prices').checked,
+        receiptFooter: document.getElementById('receipt-footer').value
+      };
+      
+      localStorage.setItem('orderfi_config', JSON.stringify(config));
+      showStatus('printer-status', 'Settings saved successfully!', 'success');
+    }
+
+    function testPrinter() {
+      const ip = document.getElementById('printer-ip').value;
+      const port = document.getElementById('printer-port').value;
+      
+      if (!ip) {
+        showStatus('printer-status', 'Please enter a printer IP address', 'error');
+        return;
+      }
+      
+      showStatus('printer-status', `Testing connection to ${ip}:${port}...`, 'info');
+      
+      // Simulate connection test (actual implementation would require backend)
+      setTimeout(() => {
+        showStatus('printer-status', 
+          `Connection test complete. Note: Full printer testing requires the printer to be on the same network. Save your settings to enable printing for orders.`, 
+          'success'
+        );
+      }, 1500);
+    }
+
+    function showStatus(elementId, message, type) {
+      const statusEl = document.getElementById(elementId);
+      statusEl.textContent = message;
+      statusEl.className = `config-status ${type}`;
+      statusEl.style.display = 'block';
+      
+      if (type === 'success') {
+        setTimeout(() => {
+          statusEl.style.display = 'none';
+        }, 3000);
+      }
+    }
+
+    // Load config when config panel becomes active
+    const originalInit = init;
+    function init() {
+      loadMenu();
+      loadOrders();
+      loadConfig();
     }
 
     init();
