@@ -201,7 +201,13 @@
     }
     
     .category-icon.starters { background: rgba(255, 179, 71, 0.2); }
-    .category-icon.mains { background: rgba(226, 61, 40, 0.15); }
+    .category-icon.bar-snacks { background: rgba(255, 179, 71, 0.2); }
+    .category-icon.buffalo-wings { background: rgba(226, 61, 40, 0.2); }
+    .category-icon.burgers { background: rgba(226, 61, 40, 0.15); }
+    .category-icon.dawgs { background: rgba(255, 179, 71, 0.2); }
+    .category-icon.tacos { background: rgba(255, 107, 53, 0.2); }
+    .category-icon.from-our-grill { background: rgba(226, 61, 40, 0.2); }
+    .category-icon.plant-powered { background: rgba(76, 175, 80, 0.2); }
     .category-icon.sides { background: rgba(76, 175, 80, 0.15); }
     .category-icon.desserts { background: rgba(255, 107, 53, 0.15); }
     .category-icon.drinks { background: rgba(33, 150, 243, 0.15); }
@@ -1043,10 +1049,13 @@
             <div class="filter-chips" id="category-filters">
               <button class="filter-chip active" data-filter="all">All</button>
               <button class="filter-chip" data-filter="Starters">Starters</button>
-              <button class="filter-chip" data-filter="Mains">Mains</button>
-              <button class="filter-chip" data-filter="Sides">Sides</button>
-              <button class="filter-chip" data-filter="Desserts">Desserts</button>
-              <button class="filter-chip" data-filter="Drinks">Drinks</button>
+              <button class="filter-chip" data-filter="Bar Snacks">Bar Snacks</button>
+              <button class="filter-chip" data-filter="Buffalo Wings">Wings</button>
+              <button class="filter-chip" data-filter="Burgers">Burgers</button>
+              <button class="filter-chip" data-filter="Dawgs">Dawgs</button>
+              <button class="filter-chip" data-filter="Tacos">Tacos</button>
+              <button class="filter-chip" data-filter="From our grill">Grill</button>
+              <button class="filter-chip" data-filter="Plant Powered">Plant Powered</button>
             </div>
           </div>
           <div class="filter-section">
@@ -1116,7 +1125,13 @@
             <label class="form-label" for="item-category">Category</label>
             <select class="form-select" id="item-category">
               <option value="Starters">Starters</option>
-              <option value="Mains">Mains</option>
+              <option value="Bar Snacks">Bar Snacks</option>
+              <option value="Buffalo Wings">Buffalo Wings</option>
+              <option value="Burgers">Burgers</option>
+              <option value="Dawgs">Dawgs</option>
+              <option value="Tacos">Tacos</option>
+              <option value="From our grill">From Our Grill</option>
+              <option value="Plant Powered">Plant Powered</option>
               <option value="Sides">Sides</option>
               <option value="Desserts">Desserts</option>
               <option value="Drinks">Drinks</option>
@@ -1406,14 +1421,20 @@
 
     const categoryIcons = {
       'Starters': '🥗',
-      'Mains': '🍽️',
+      'Bar Snacks': '🍿',
+      'Buffalo Wings': '🍗',
+      'Burgers': '🍔',
+      'Dawgs': '🌭',
+      'Tacos': '🌮',
+      'From our grill': '🥩',
+      'Plant Powered': '🥬',
       'Sides': '🍟',
       'Desserts': '🍰',
       'Drinks': '🥤',
       'Uncategorized': '📦'
     };
     
-    const categoryOrder = ['Starters', 'Mains', 'Sides', 'Desserts', 'Drinks', 'Uncategorized'];
+    const categoryOrder = ['Starters', 'Bar Snacks', 'Buffalo Wings', 'Burgers', 'Dawgs', 'Tacos', 'From our grill', 'Plant Powered', 'Sides', 'Desserts', 'Drinks', 'Uncategorized'];
 
     function renderFilteredMenu(items) {
       const grid = document.getElementById('menu-grid');
