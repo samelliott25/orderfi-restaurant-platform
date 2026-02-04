@@ -2596,15 +2596,20 @@
           </thead>
           <tbody>
             ${orders.map(order => {
-              const items = order.items || [];
-              const itemNames = items.map(i => i.name).join(', ');
+              let items = [];
+              try {
+                items = typeof order.items === 'string' ? JSON.parse(order.items) : (order.items || []);
+              } catch (e) {
+                items = [];
+              }
+              const itemNames = Array.isArray(items) ? items.map(i => i.name).join(', ') : 'N/A';
               const statusClass = `status-${(order.status || 'pending').toLowerCase()}`;
               const time = order.createdAt ? new Date(order.createdAt).toLocaleString() : 'N/A';
               return `
                 <tr>
                   <td>#${order.id}</td>
                   <td>${itemNames || 'N/A'}</td>
-                  <td>$${parseFloat(order.totalAmount || 0).toFixed(2)}</td>
+                  <td>$${parseFloat(order.total || 0).toFixed(2)}</td>
                   <td><span class="status-badge ${statusClass}">${order.status || 'pending'}</span></td>
                   <td>${time}</td>
                 </tr>
