@@ -1320,8 +1320,156 @@
       color: #e65100;
     }
     
-    .orders-table tr:hover {
+    .orders-table tr.order-row:hover {
       background: #fff9f5;
+    }
+    
+    /* Expandable Order Rows */
+    .expand-arrow {
+      display: inline-block;
+      margin-right: 8px;
+      color: #888;
+      font-size: 10px;
+      transition: transform 0.2s ease;
+    }
+    
+    .expand-arrow.expanded {
+      color: var(--primary);
+    }
+    
+    .order-expand-row {
+      background: #faf6f2;
+    }
+    
+    .order-expand-row td {
+      padding: 0 !important;
+      border-top: none !important;
+    }
+    
+    .order-expand-content {
+      padding: 20px;
+      border-top: 2px solid #f0e6db;
+      animation: slideDown 0.2s ease;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .order-expand-detail {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .order-expand-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    
+    @media (max-width: 900px) {
+      .order-expand-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .order-expand-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .order-expand-col {
+      min-width: 0;
+    }
+    
+    .order-expand-info {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #555;
+    }
+    
+    .order-expand-items {
+      font-size: 13px;
+    }
+    
+    .order-expand-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px dashed #e8e0db;
+    }
+    
+    .order-expand-item:last-child {
+      border-bottom: none;
+    }
+    
+    .order-expand-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .order-expand-item .item-qty {
+      font-weight: bold;
+      color: var(--primary);
+      min-width: 24px;
+      font-size: 12px;
+    }
+    
+    .order-expand-item .item-name {
+      flex: 1;
+      font-size: 13px;
+    }
+    
+    .order-expand-item .item-price {
+      font-weight: 600;
+      font-size: 12px;
+    }
+    
+    .order-expand-totals {
+      font-size: 13px;
+    }
+    
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+    
+    .total-line.total {
+      font-weight: bold;
+      border-top: 1px solid #e8e0db;
+      padding-top: 8px;
+      margin-top: 4px;
+    }
+    
+    .order-expand-status {
+      font-size: 13px;
+    }
+    
+    .order-expand-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid #f0e6db;
+    }
+    
+    .btn-small {
+      padding: 8px 12px !important;
+      font-size: 12px !important;
     }
     
     /* Receipt Type Tabs */
@@ -2829,12 +2977,22 @@
               const statusClass = `status-${(order.status || 'pending').toLowerCase().replace('_', '-')}`;
               const time = order.createdAt ? new Date(order.createdAt).toLocaleString() : 'N/A';
               return `
-                <tr onclick="openOrderDetail(${order.id})" style="cursor: pointer;">
-                  <td>#${order.id}</td>
+                <tr class="order-row" onclick="toggleOrderExpand(${order.id}, this)" style="cursor: pointer;">
+                  <td>
+                    <span class="expand-arrow" id="arrow-${order.id}">▶</span>
+                    #${order.id}
+                  </td>
                   <td>${itemNames || 'N/A'}</td>
                   <td>$${parseFloat(order.total || 0).toFixed(2)}</td>
                   <td><span class="status-badge ${statusClass}">${order.status || 'pending'}</span></td>
                   <td>${time}</td>
+                </tr>
+                <tr class="order-expand-row" id="expand-${order.id}" style="display: none;">
+                  <td colspan="5">
+                    <div class="order-expand-content" id="expand-content-${order.id}">
+                      <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                  </td>
                 </tr>
               `;
             }).join('')}
@@ -2902,20 +3060,47 @@
       document.getElementById('item-modal').classList.remove('active');
     }
 
-    async function openOrderDetail(orderId) {
+    async function toggleOrderExpand(orderId, rowElement) {
+      const expandRow = document.getElementById(`expand-${orderId}`);
+      const arrow = document.getElementById(`arrow-${orderId}`);
+      const contentDiv = document.getElementById(`expand-content-${orderId}`);
+      
+      // If already expanded, collapse it
+      if (expandRow.style.display === 'table-row') {
+        expandRow.style.display = 'none';
+        arrow.textContent = '▶';
+        arrow.classList.remove('expanded');
+        currentOrderId = null;
+        return;
+      }
+      
+      // Collapse any other expanded rows
+      document.querySelectorAll('.order-expand-row').forEach(row => {
+        row.style.display = 'none';
+      });
+      document.querySelectorAll('.expand-arrow').forEach(a => {
+        a.textContent = '▶';
+        a.classList.remove('expanded');
+      });
+      
+      // Expand this row
+      expandRow.style.display = 'table-row';
+      arrow.textContent = '▼';
+      arrow.classList.add('expanded');
       currentOrderId = orderId;
-      document.getElementById('order-modal').classList.add('active');
-      document.getElementById('order-modal-body').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+      
+      // Load order details
+      contentDiv.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
       
       try {
         const res = await fetch(`/api/admin/orders/${orderId}`, { credentials: 'include' });
         if (!res.ok) throw new Error('Failed to load order');
         const order = await res.json();
-        renderOrderDetail(order);
+        renderOrderDetailInline(order, contentDiv);
       } catch (e) {
         console.error('Error loading order:', e);
-        document.getElementById('order-modal-body').innerHTML = `
-          <div class="empty-state">
+        contentDiv.innerHTML = `
+          <div class="empty-state" style="padding: 20px;">
             <div class="empty-state-icon">⚠️</div>
             <p class="empty-state-title">Failed to load order details</p>
           </div>
@@ -2923,7 +3108,7 @@
       }
     }
 
-    function renderOrderDetail(order) {
+    function renderOrderDetailInline(order, container) {
       let items = [];
       try {
         items = typeof order.items === 'string' ? JSON.parse(order.items) : (order.items || []);
@@ -2936,118 +3121,74 @@
       const isRefunded = order.status === 'refunded' || order.status === 'partial_refund';
       const hasPayment = !!order.paymentId;
       
-      document.getElementById('order-modal-body').innerHTML = `
-        <div class="order-detail">
-          <div class="order-detail-header">
-            <div class="order-id-large">Order #${order.id}</div>
-            <span class="status-badge ${statusClass}">${order.status || 'pending'}</span>
-          </div>
-          
-          <div class="order-detail-section">
-            <h4 class="order-section-title">Customer Information</h4>
-            <div class="order-info-grid">
-              <div class="order-info-item">
-                <span class="order-info-label">Name</span>
-                <span class="order-info-value">${order.customerName || 'Guest'}</span>
-              </div>
-              <div class="order-info-item">
-                <span class="order-info-label">Email</span>
-                <span class="order-info-value">${order.customerEmail || 'N/A'}</span>
-              </div>
-              <div class="order-info-item">
-                <span class="order-info-label">Phone</span>
-                <span class="order-info-value">${order.customerPhone || 'N/A'}</span>
-              </div>
-              <div class="order-info-item">
-                <span class="order-info-label">Table/Pickup</span>
-                <span class="order-info-value">${order.tableNumber || 'N/A'}</span>
+      container.innerHTML = `
+        <div class="order-expand-detail">
+          <div class="order-expand-grid">
+            <div class="order-expand-col">
+              <h4 class="order-section-title">Customer</h4>
+              <div class="order-expand-info">
+                <div><strong>${order.customerName || 'Guest'}</strong></div>
+                <div>${order.customerEmail || ''}</div>
+                <div>${order.customerPhone || ''}</div>
+                <div>${order.tableNumber ? (order.tableNumber === 'Pickup' ? '📦 Pickup' : '🍽️ Table ' + order.tableNumber) : ''}</div>
               </div>
             </div>
-          </div>
-          
-          <div class="order-detail-section">
-            <h4 class="order-section-title">Order Items</h4>
-            <div class="order-items-list">
-              ${items.map((item, idx) => `
-                <div class="order-item-row" data-index="${idx}">
-                  <label class="refund-checkbox">
+            
+            <div class="order-expand-col">
+              <h4 class="order-section-title">Items</h4>
+              <div class="order-expand-items">
+                ${items.map((item, idx) => `
+                  <div class="order-expand-item">
                     <input type="checkbox" class="item-refund-check" data-index="${idx}" ${isRefunded ? 'disabled' : ''}>
-                  </label>
-                  <span class="item-qty">${item.quantity || 1}x</span>
-                  <span class="item-name">${item.name}</span>
-                  <span class="item-price">$${(parseFloat(item.price) * (item.quantity || 1)).toFixed(2)}</span>
+                    <span class="item-qty">${item.quantity || 1}x</span>
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-price">$${(parseFloat(item.price) * (item.quantity || 1)).toFixed(2)}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            
+            <div class="order-expand-col">
+              <h4 class="order-section-title">Payment</h4>
+              <div class="order-expand-totals">
+                <div class="total-line"><span>Subtotal</span><span>$${parseFloat(order.subtotal || 0).toFixed(2)}</span></div>
+                <div class="total-line"><span>Tax</span><span>$${parseFloat(order.tax || 0).toFixed(2)}</span></div>
+                <div class="total-line total"><span>Total</span><span>$${parseFloat(order.total || 0).toFixed(2)}</span></div>
+                <div class="total-line" style="font-size: 11px; color: #888;"><span>Method</span><span>${order.paymentMethod || 'N/A'}</span></div>
+              </div>
+            </div>
+            
+            <div class="order-expand-col">
+              <h4 class="order-section-title">Status</h4>
+              <div class="order-expand-status">
+                <div class="print-status ${order.printedAt ? 'printed' : 'not-printed'}">
+                  ${order.printedAt ? '✅ Printed' : '⏳ Not printed'}
                 </div>
-              `).join('')}
-            </div>
-          </div>
-          
-          <div class="order-detail-section">
-            <h4 class="order-section-title">Payment Summary</h4>
-            <div class="order-totals">
-              <div class="order-total-row">
-                <span>Subtotal</span>
-                <span>$${parseFloat(order.subtotal || 0).toFixed(2)}</span>
-              </div>
-              <div class="order-total-row">
-                <span>Tax</span>
-                <span>$${parseFloat(order.tax || 0).toFixed(2)}</span>
-              </div>
-              <div class="order-total-row total">
-                <span>Total</span>
-                <span>$${parseFloat(order.total || 0).toFixed(2)}</span>
-              </div>
-              <div class="order-total-row">
-                <span>Payment Method</span>
-                <span>${order.paymentMethod || 'N/A'}</span>
-              </div>
-              <div class="order-total-row">
-                <span>Payment ID</span>
-                <span style="font-size: 11px; color: #888;">${order.paymentId || 'N/A'}</span>
+                <div style="font-size: 11px; color: #666; margin-top: 4px;">
+                  ${time}
+                </div>
               </div>
             </div>
           </div>
           
-          <div class="order-detail-section">
-            <h4 class="order-section-title">Print Status</h4>
-            <div class="print-status-row">
-              <span class="print-status ${order.printedAt ? 'printed' : 'not-printed'}">
-                ${order.printedAt ? '✅ Printed' : '⏳ Not printed yet'}
-              </span>
-              <span class="print-time">${order.printedAt ? new Date(order.printedAt).toLocaleString() : ''}</span>
-            </div>
-          </div>
-          
-          <div class="order-detail-section">
-            <h4 class="order-section-title">Order Time</h4>
-            <div class="order-time">${time}</div>
-          </div>
-          
-          <div class="order-actions">
-            <button class="btn btn-secondary" onclick="reprintOrder(${order.id})">
-              🖨️ Reprint Receipt
+          <div class="order-expand-actions">
+            <button class="btn btn-small btn-secondary" onclick="event.stopPropagation(); reprintOrder(${order.id})">
+              🖨️ Reprint
             </button>
             ${!isRefunded && hasPayment ? `
-              <button class="btn btn-warning" onclick="partialRefundOrder(${order.id})">
+              <button class="btn btn-small btn-warning" onclick="event.stopPropagation(); partialRefundOrder(${order.id})">
                 💰 Partial Refund
               </button>
-              <button class="btn btn-danger" onclick="fullRefundOrder(${order.id})">
+              <button class="btn btn-small btn-danger" onclick="event.stopPropagation(); fullRefundOrder(${order.id})">
                 ↩️ Full Refund
               </button>
             ` : ''}
-            ${!hasPayment && !isRefunded ? `
-              <span style="color: #888; font-size: 12px;">No payment linked - refund not available</span>
-            ` : ''}
             ${isRefunded ? `
-              <span style="color: #4CAF50; font-size: 12px;">✓ This order has been refunded</span>
+              <span style="color: #4CAF50; font-size: 12px;">✓ Refunded</span>
             ` : ''}
           </div>
         </div>
       `;
-    }
-
-    function closeOrderModal() {
-      document.getElementById('order-modal').classList.remove('active');
-      currentOrderId = null;
     }
 
     async function reprintOrder(orderId) {
