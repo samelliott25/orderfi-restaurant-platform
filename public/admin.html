@@ -1115,6 +1115,215 @@
       text-decoration: line-through !important;
     }
     
+    /* Order Detail Modal Styles */
+    .order-detail {
+      padding: 8px;
+    }
+    
+    .order-detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f0e6db;
+    }
+    
+    .order-id-large {
+      font-family: 'Lilita One', cursive;
+      font-size: 24px;
+      color: var(--charcoal);
+    }
+    
+    .order-detail-section {
+      margin-bottom: 20px;
+    }
+    
+    .order-section-title {
+      font-family: 'Lilita One', cursive;
+      font-size: 14px;
+      color: var(--primary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .order-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    
+    .order-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .order-info-label {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .order-info-value {
+      font-size: 14px;
+      color: var(--charcoal);
+      font-weight: 500;
+    }
+    
+    .order-items-list {
+      background: #f8f4f0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .order-item-row {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid #e8e0db;
+      gap: 12px;
+    }
+    
+    .order-item-row:last-child {
+      border-bottom: none;
+    }
+    
+    .refund-checkbox input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    
+    .item-qty {
+      font-weight: bold;
+      color: var(--primary);
+      min-width: 30px;
+    }
+    
+    .item-name {
+      flex: 1;
+      color: var(--charcoal);
+    }
+    
+    .item-price {
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+    
+    .order-totals {
+      background: #f8f4f0;
+      border-radius: 8px;
+      padding: 12px;
+    }
+    
+    .order-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px dashed #e8e0db;
+    }
+    
+    .order-total-row:last-child {
+      border-bottom: none;
+    }
+    
+    .order-total-row.total {
+      font-weight: bold;
+      font-size: 16px;
+      color: var(--charcoal);
+      border-bottom: 2px solid var(--primary);
+      margin-bottom: 8px;
+    }
+    
+    .print-status-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .print-status {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .print-status.printed {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .print-status.not-printed {
+      background: #fff3e0;
+      color: #e65100;
+    }
+    
+    .print-time {
+      font-size: 12px;
+      color: #888;
+    }
+    
+    .order-time {
+      font-size: 14px;
+      color: var(--charcoal);
+    }
+    
+    .order-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 2px solid #f0e6db;
+    }
+    
+    .btn-warning {
+      background: #FFB347;
+      color: #6b3e00;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-warning:hover {
+      background: #ffa726;
+    }
+    
+    .btn-danger {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-danger:hover {
+      background: #c62828;
+    }
+    
+    .status-badge.status-refunded {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .status-badge.status-partial-refund {
+      background: #fff3e0;
+      color: #e65100;
+    }
+    
+    .orders-table tr:hover {
+      background: #fff9f5;
+    }
+    
     /* Receipt Type Tabs */
     .receipt-type-tabs {
       display: flex;
@@ -2223,10 +2432,24 @@
     </div>
   </div>
 
+  <!-- Order Detail Modal -->
+  <div id="order-modal" class="modal-overlay" onclick="if(event.target === this) closeOrderModal()">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Order Details</h2>
+        <button class="modal-close" onclick="closeOrderModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="order-modal-body">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </div>
+
   <script>
     let currentUser = null;
     let menuItems = [];
     let editingId = null;
+    let currentOrderId = null;
     let activeCategory = 'all';
     let activeDietaryTags = new Set();
     let selectedDietaryTags = new Set();
@@ -2603,10 +2826,10 @@
                 items = [];
               }
               const itemNames = Array.isArray(items) ? items.map(i => i.name).join(', ') : 'N/A';
-              const statusClass = `status-${(order.status || 'pending').toLowerCase()}`;
+              const statusClass = `status-${(order.status || 'pending').toLowerCase().replace('_', '-')}`;
               const time = order.createdAt ? new Date(order.createdAt).toLocaleString() : 'N/A';
               return `
-                <tr>
+                <tr onclick="openOrderDetail(${order.id})" style="cursor: pointer;">
                   <td>#${order.id}</td>
                   <td>${itemNames || 'N/A'}</td>
                   <td>$${parseFloat(order.total || 0).toFixed(2)}</td>
@@ -2677,6 +2900,228 @@
 
     function closeModal() {
       document.getElementById('item-modal').classList.remove('active');
+    }
+
+    async function openOrderDetail(orderId) {
+      currentOrderId = orderId;
+      document.getElementById('order-modal').classList.add('active');
+      document.getElementById('order-modal-body').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+      
+      try {
+        const res = await fetch(`/api/admin/orders/${orderId}`, { credentials: 'include' });
+        if (!res.ok) throw new Error('Failed to load order');
+        const order = await res.json();
+        renderOrderDetail(order);
+      } catch (e) {
+        console.error('Error loading order:', e);
+        document.getElementById('order-modal-body').innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <p class="empty-state-title">Failed to load order details</p>
+          </div>
+        `;
+      }
+    }
+
+    function renderOrderDetail(order) {
+      let items = [];
+      try {
+        items = typeof order.items === 'string' ? JSON.parse(order.items) : (order.items || []);
+      } catch (e) {
+        items = [];
+      }
+      
+      const statusClass = `status-${(order.status || 'pending').toLowerCase().replace('_', '-')}`;
+      const time = order.createdAt ? new Date(order.createdAt).toLocaleString() : 'N/A';
+      const isRefunded = order.status === 'refunded' || order.status === 'partial_refund';
+      const hasPayment = !!order.paymentId;
+      
+      document.getElementById('order-modal-body').innerHTML = `
+        <div class="order-detail">
+          <div class="order-detail-header">
+            <div class="order-id-large">Order #${order.id}</div>
+            <span class="status-badge ${statusClass}">${order.status || 'pending'}</span>
+          </div>
+          
+          <div class="order-detail-section">
+            <h4 class="order-section-title">Customer Information</h4>
+            <div class="order-info-grid">
+              <div class="order-info-item">
+                <span class="order-info-label">Name</span>
+                <span class="order-info-value">${order.customerName || 'Guest'}</span>
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Email</span>
+                <span class="order-info-value">${order.customerEmail || 'N/A'}</span>
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Phone</span>
+                <span class="order-info-value">${order.customerPhone || 'N/A'}</span>
+              </div>
+              <div class="order-info-item">
+                <span class="order-info-label">Table/Pickup</span>
+                <span class="order-info-value">${order.tableNumber || 'N/A'}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="order-detail-section">
+            <h4 class="order-section-title">Order Items</h4>
+            <div class="order-items-list">
+              ${items.map((item, idx) => `
+                <div class="order-item-row" data-index="${idx}">
+                  <label class="refund-checkbox">
+                    <input type="checkbox" class="item-refund-check" data-index="${idx}" ${isRefunded ? 'disabled' : ''}>
+                  </label>
+                  <span class="item-qty">${item.quantity || 1}x</span>
+                  <span class="item-name">${item.name}</span>
+                  <span class="item-price">$${(parseFloat(item.price) * (item.quantity || 1)).toFixed(2)}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          
+          <div class="order-detail-section">
+            <h4 class="order-section-title">Payment Summary</h4>
+            <div class="order-totals">
+              <div class="order-total-row">
+                <span>Subtotal</span>
+                <span>$${parseFloat(order.subtotal || 0).toFixed(2)}</span>
+              </div>
+              <div class="order-total-row">
+                <span>Tax</span>
+                <span>$${parseFloat(order.tax || 0).toFixed(2)}</span>
+              </div>
+              <div class="order-total-row total">
+                <span>Total</span>
+                <span>$${parseFloat(order.total || 0).toFixed(2)}</span>
+              </div>
+              <div class="order-total-row">
+                <span>Payment Method</span>
+                <span>${order.paymentMethod || 'N/A'}</span>
+              </div>
+              <div class="order-total-row">
+                <span>Payment ID</span>
+                <span style="font-size: 11px; color: #888;">${order.paymentId || 'N/A'}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="order-detail-section">
+            <h4 class="order-section-title">Print Status</h4>
+            <div class="print-status-row">
+              <span class="print-status ${order.printedAt ? 'printed' : 'not-printed'}">
+                ${order.printedAt ? '✅ Printed' : '⏳ Not printed yet'}
+              </span>
+              <span class="print-time">${order.printedAt ? new Date(order.printedAt).toLocaleString() : ''}</span>
+            </div>
+          </div>
+          
+          <div class="order-detail-section">
+            <h4 class="order-section-title">Order Time</h4>
+            <div class="order-time">${time}</div>
+          </div>
+          
+          <div class="order-actions">
+            <button class="btn btn-secondary" onclick="reprintOrder(${order.id})">
+              🖨️ Reprint Receipt
+            </button>
+            ${!isRefunded && hasPayment ? `
+              <button class="btn btn-warning" onclick="partialRefundOrder(${order.id})">
+                💰 Partial Refund
+              </button>
+              <button class="btn btn-danger" onclick="fullRefundOrder(${order.id})">
+                ↩️ Full Refund
+              </button>
+            ` : ''}
+            ${!hasPayment && !isRefunded ? `
+              <span style="color: #888; font-size: 12px;">No payment linked - refund not available</span>
+            ` : ''}
+            ${isRefunded ? `
+              <span style="color: #4CAF50; font-size: 12px;">✓ This order has been refunded</span>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function closeOrderModal() {
+      document.getElementById('order-modal').classList.remove('active');
+      currentOrderId = null;
+    }
+
+    async function reprintOrder(orderId) {
+      const printerEnabled = document.getElementById('printer-enabled')?.checked;
+      if (!printerEnabled) {
+        alert('WiFi printing is not enabled. Go to Configuration > WiFi Printing to set it up.');
+        return;
+      }
+      alert('Sending to printer... (Printer integration coming soon)');
+    }
+
+    async function fullRefundOrder(orderId) {
+      if (!confirm('Are you sure you want to issue a FULL refund for this order? This cannot be undone.')) {
+        return;
+      }
+      
+      try {
+        const res = await fetch(`/api/admin/orders/${orderId}/refund`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ reason: 'requested_by_customer' })
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+          throw new Error(data.error || 'Failed to process refund');
+        }
+        
+        alert(`Refund successful! Amount: $${data.amount.toFixed(2)}`);
+        openOrderDetail(orderId);
+        loadOrders();
+      } catch (e) {
+        console.error('Refund error:', e);
+        alert('Refund failed: ' + e.message);
+      }
+    }
+
+    async function partialRefundOrder(orderId) {
+      const checkboxes = document.querySelectorAll('.item-refund-check:checked');
+      
+      if (checkboxes.length === 0) {
+        alert('Please select at least one item to refund using the checkboxes.');
+        return;
+      }
+      
+      const itemIndices = Array.from(checkboxes).map(cb => parseInt(cb.dataset.index));
+      
+      if (!confirm(`Refund ${itemIndices.length} selected item(s)? This cannot be undone.`)) {
+        return;
+      }
+      
+      try {
+        const res = await fetch(`/api/admin/orders/${orderId}/partial-refund`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ itemIndices, reason: 'requested_by_customer' })
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+          throw new Error(data.error || 'Failed to process refund');
+        }
+        
+        alert(`Partial refund successful! Amount: $${data.amount.toFixed(2)}`);
+        openOrderDetail(orderId);
+        loadOrders();
+      } catch (e) {
+        console.error('Partial refund error:', e);
+        alert('Refund failed: ' + e.message);
+      }
     }
 
     function addKeywordRow(keyword = '', weight = 0.5) {

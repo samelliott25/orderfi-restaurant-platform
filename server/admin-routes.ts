@@ -4,6 +4,7 @@ import { menuItems, orders } from "../shared/schema";
 import { eq, desc } from "drizzle-orm";
 import { ObjectStorageService } from "./replit_integrations/object_storage";
 import { z } from "zod";
+import { getUncachableStripeClient } from "./stripeClient";
 
 // Validation schemas
 const createMenuItemSchema = z.object({
@@ -174,5 +175,148 @@ adminRouter.post("/upload-url", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error generating upload URL:", error);
     res.status(500).json({ error: "Failed to generate upload URL" });
+  }
+});
+
+// Get single order details
+adminRouter.get("/orders/:id", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const [order] = await db.select().from(orders).where(eq(orders.id, id));
+    
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    
+    res.json(order);
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    res.status(500).json({ error: "Failed to fetch order" });
+  }
+});
+
+// Full refund
+adminRouter.post("/orders/:id/refund", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { reason } = req.body;
+    
+    const [order] = await db.select().from(orders).where(eq(orders.id, id));
+    
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    
+    if (!order.paymentId) {
+      return res.status(400).json({ error: "No payment associated with this order" });
+    }
+    
+    if (order.status === 'refunded') {
+      return res.status(400).json({ error: "Order has already been refunded" });
+    }
+    
+    const stripe = await getUncachableStripeClient();
+    
+    const refund = await stripe.refunds.create({
+      payment_intent: order.paymentId,
+      reason: reason || 'requested_by_customer',
+    });
+    
+    // Update order status
+    const [updatedOrder] = await db.update(orders)
+      .set({ status: 'refunded' })
+      .where(eq(orders.id, id))
+      .returning();
+    
+    res.json({ 
+      success: true, 
+      refundId: refund.id,
+      amount: refund.amount / 100,
+      order: updatedOrder
+    });
+  } catch (error: any) {
+    console.error("Error processing refund:", error);
+    res.status(500).json({ error: error.message || "Failed to process refund" });
+  }
+});
+
+// Partial refund (by amount or items)
+adminRouter.post("/orders/:id/partial-refund", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { amount, itemIndices, reason } = req.body;
+    
+    const [order] = await db.select().from(orders).where(eq(orders.id, id));
+    
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    
+    if (!order.paymentId) {
+      return res.status(400).json({ error: "No payment associated with this order" });
+    }
+    
+    // Prevent multiple refunds on already refunded orders
+    if (order.status === 'refunded') {
+      return res.status(400).json({ error: "Order has already been fully refunded" });
+    }
+    
+    let refundAmount: number;
+    
+    if (amount) {
+      refundAmount = parseFloat(amount);
+    } else if (itemIndices && Array.isArray(itemIndices)) {
+      // Calculate refund based on selected items
+      let items: any[] = [];
+      try {
+        items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
+      } catch (e) {
+        return res.status(400).json({ error: "Invalid order items data" });
+      }
+      
+      refundAmount = itemIndices.reduce((sum: number, idx: number) => {
+        const item = items[idx];
+        if (item) {
+          return sum + (parseFloat(item.price) * (item.quantity || 1));
+        }
+        return sum;
+      }, 0);
+      
+      // Add proportional tax
+      const subtotal = parseFloat(order.subtotal as string);
+      const tax = parseFloat(order.tax as string);
+      const taxRate = subtotal > 0 ? tax / subtotal : 0;
+      refundAmount = refundAmount * (1 + taxRate);
+    } else {
+      return res.status(400).json({ error: "Must specify amount or itemIndices" });
+    }
+    
+    if (refundAmount <= 0) {
+      return res.status(400).json({ error: "Refund amount must be positive" });
+    }
+    
+    const stripe = await getUncachableStripeClient();
+    
+    const refund = await stripe.refunds.create({
+      payment_intent: order.paymentId,
+      amount: Math.round(refundAmount * 100), // Convert to cents
+      reason: reason || 'requested_by_customer',
+    });
+    
+    // Update order status to partial refund
+    const [updatedOrder] = await db.update(orders)
+      .set({ status: 'partial_refund' })
+      .where(eq(orders.id, id))
+      .returning();
+    
+    res.json({ 
+      success: true, 
+      refundId: refund.id,
+      amount: refund.amount / 100,
+      order: updatedOrder
+    });
+  } catch (error: any) {
+    console.error("Error processing partial refund:", error);
+    res.status(500).json({ error: error.message || "Failed to process partial refund" });
   }
 });
