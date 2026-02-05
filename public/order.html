@@ -651,6 +651,309 @@
         max-width: 90%;
       }
     }
+    
+    /* Mode Toggle */
+    .mode-toggle-container {
+      position: relative;
+      z-index: 10;
+      background: var(--bg);
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .mode-toggle {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 480px;
+      margin: 0 auto;
+      background: white;
+      padding: 4px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .mode-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .mode-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .mode-btn:hover {
+      background: rgba(226, 61, 40, 0.08);
+      color: var(--primary);
+    }
+    
+    .mode-btn.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(226, 61, 40, 0.3);
+    }
+    
+    /* Order Sections */
+    .order-section {
+      display: none;
+    }
+    
+    .order-section.active {
+      display: block;
+    }
+    
+    /* Menu Section */
+    .menu-header {
+      text-align: center;
+      padding: 1rem 0 0.5rem;
+    }
+    
+    .menu-title {
+      font-family: 'Lilita One', cursive;
+      font-size: 1.75rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    
+    .menu-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    
+    .menu-categories {
+      display: flex;
+      gap: 8px;
+      padding: 12px 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    
+    .menu-categories::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .category-btn {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .category-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    .category-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding-bottom: 16px;
+      max-height: 45vh;
+      overflow-y: auto;
+    }
+    
+    .menu-item {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .menu-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border-color: rgba(226, 61, 40, 0.2);
+    }
+    
+    .menu-item:active {
+      transform: scale(0.98);
+    }
+    
+    .menu-item.in-cart {
+      border-color: var(--primary);
+      background: rgba(226, 61, 40, 0.03);
+    }
+    
+    .menu-item-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    
+    .menu-item-photo {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin: 0 auto 8px;
+    }
+    
+    .menu-item-name {
+      font-family: 'Lilita One', cursive;
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+    
+    .menu-item-price {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    
+    .menu-item-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: center;
+    }
+    
+    .menu-tag {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+    
+    .menu-tag.vegetarian {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .menu-tag.vegan {
+      background: #e8f5e9;
+      color: #1b5e20;
+    }
+    
+    .menu-tag.gluten-free {
+      background: #fff3e0;
+      color: #e65100;
+    }
+    
+    .menu-tag.spicy {
+      background: #ffebee;
+      color: #c62828;
+    }
+    
+    .menu-tag.dairy-free {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+    
+    .menu-item-qty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+    }
+    
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    .qty-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .qty-btn.minus {
+      background: #f5f5f5;
+      color: var(--text-muted);
+    }
+    
+    .qty-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      min-width: 24px;
+    }
+    
+    .loading-menu {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+    
+    .loading-menu .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 12px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .add-feedback {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    
+    .add-feedback.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -670,8 +973,52 @@
     </button>
   </header>
   
+  <!-- Order Mode Toggle -->
+  <div class="mode-toggle-container">
+    <div class="mode-toggle">
+      <button class="mode-btn active" data-mode="voice" onclick="switchOrderMode('voice')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        </svg>
+        Voice Order
+      </button>
+      <button class="mode-btn" data-mode="menu" onclick="switchOrderMode('menu')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        Browse Menu
+      </button>
+    </div>
+  </div>
+  
   <div class="container">
-    <div class="chat-area" id="chat"></div>
+    <!-- Voice Ordering Section -->
+    <div id="voice-section" class="order-section active">
+      <div class="chat-area" id="chat"></div>
+    </div>
+    
+    <!-- Menu Browsing Section -->
+    <div id="menu-section" class="order-section">
+      <div class="menu-header">
+        <h2 class="menu-title">Fresh Flavors</h2>
+        <p class="menu-subtitle">Tap to add to your order</p>
+      </div>
+      
+      <div class="menu-categories" id="menu-categories">
+        <button class="category-btn active" data-category="all" onclick="filterMenuCategory('all')">All</button>
+      </div>
+      
+      <div class="menu-grid" id="menu-grid">
+        <div class="loading-menu">
+          <div class="spinner"></div>
+          <p>Loading menu...</p>
+        </div>
+      </div>
+    </div>
     
     <div class="order-panel" id="order-panel">
       <div class="order-header">
@@ -772,12 +1119,232 @@
     let hintIndex = 0;
     setInterval(() => {
       hintIndex = (hintIndex + 1) % quirkyHints.length;
-      hintEl.style.opacity = '0';
-      setTimeout(() => {
-        hintEl.textContent = quirkyHints[hintIndex];
-        hintEl.style.opacity = '0.7';
-      }, 300);
+      if (hintEl) {
+        hintEl.style.opacity = '0';
+        setTimeout(() => {
+          hintEl.textContent = quirkyHints[hintIndex];
+          hintEl.style.opacity = '0.7';
+        }, 300);
+      }
     }, 8000);
+    
+    // Menu browsing state
+    let menuItems = [];
+    let menuCategories = new Set(['all']);
+    let currentCategory = 'all';
+    let menuCartQuantities = {}; // Track quantities per menu item
+    
+    // Category icons for display
+    const categoryIcons = {
+      'Mains': '🍽️',
+      'Appetizers': '🥗',
+      'Drinks': '🥤',
+      'Desserts': '🍰',
+      'Sides': '🍟',
+      'Salads': '🥬',
+      'Soups': '🍜',
+      'Pizza': '🍕',
+      'Burgers': '🍔',
+      'Sushi': '🍣',
+      'Seafood': '🦐',
+      'default': '🍴'
+    };
+    
+    // Food item icons based on name keywords
+    function getFoodIcon(name, category) {
+      const lowerName = name.toLowerCase();
+      if (lowerName.includes('burger')) return '🍔';
+      if (lowerName.includes('pizza')) return '🍕';
+      if (lowerName.includes('taco')) return '🌮';
+      if (lowerName.includes('salad')) return '🥗';
+      if (lowerName.includes('pasta') || lowerName.includes('spaghetti')) return '🍝';
+      if (lowerName.includes('sushi')) return '🍣';
+      if (lowerName.includes('ramen') || lowerName.includes('noodle') || lowerName.includes('bowl')) return '🍜';
+      if (lowerName.includes('smoothie') || lowerName.includes('juice')) return '🧃';
+      if (lowerName.includes('coffee')) return '☕';
+      if (lowerName.includes('tea')) return '🍵';
+      if (lowerName.includes('steak') || lowerName.includes('ribs')) return '🥩';
+      if (lowerName.includes('chicken') || lowerName.includes('wing')) return '🍗';
+      if (lowerName.includes('fish') || lowerName.includes('salmon')) return '🐟';
+      if (lowerName.includes('shrimp') || lowerName.includes('prawn')) return '🦐';
+      if (lowerName.includes('cake') || lowerName.includes('dessert')) return '🍰';
+      if (lowerName.includes('ice cream')) return '🍨';
+      if (lowerName.includes('fries')) return '🍟';
+      if (lowerName.includes('soup')) return '🥣';
+      if (lowerName.includes('sandwich') || lowerName.includes('wrap')) return '🥪';
+      if (lowerName.includes('egg') || lowerName.includes('breakfast')) return '🍳';
+      return categoryIcons[category] || categoryIcons['default'];
+    }
+    
+    // Switch between Voice and Menu modes
+    function switchOrderMode(mode) {
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+      });
+      document.getElementById('voice-section').classList.toggle('active', mode === 'voice');
+      document.getElementById('menu-section').classList.toggle('active', mode === 'menu');
+      
+      // Load menu when switching to menu mode
+      if (mode === 'menu' && menuItems.length === 0) {
+        loadMenuItems();
+      }
+    }
+    
+    // Load menu items from API
+    async function loadMenuItems() {
+      try {
+        const res = await fetch('/api/menu');
+        if (!res.ok) throw new Error('Failed to load menu');
+        menuItems = await res.json();
+        
+        // Extract unique categories
+        menuCategories = new Set(['all']);
+        menuItems.forEach(item => {
+          if (item.category) menuCategories.add(item.category);
+        });
+        
+        renderMenuCategories();
+        renderMenuItems();
+      } catch (e) {
+        console.error('Error loading menu:', e);
+        document.getElementById('menu-grid').innerHTML = `
+          <div class="loading-menu">
+            <p>Failed to load menu. Please try again.</p>
+          </div>
+        `;
+      }
+    }
+    
+    // Render category filter buttons
+    function renderMenuCategories() {
+      const container = document.getElementById('menu-categories');
+      container.innerHTML = Array.from(menuCategories).map(cat => `
+        <button class="category-btn ${cat === currentCategory ? 'active' : ''}" 
+                data-category="${cat}" 
+                onclick="filterMenuCategory('${cat}')">
+          ${cat === 'all' ? 'All' : cat}
+        </button>
+      `).join('');
+    }
+    
+    // Filter by category
+    function filterMenuCategory(category) {
+      currentCategory = category;
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === category);
+      });
+      renderMenuItems();
+    }
+    
+    // Render menu items grid
+    function renderMenuItems() {
+      const filtered = currentCategory === 'all' 
+        ? menuItems 
+        : menuItems.filter(item => item.category === currentCategory);
+      
+      if (filtered.length === 0) {
+        document.getElementById('menu-grid').innerHTML = `
+          <div class="loading-menu">
+            <p>No items in this category yet.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      document.getElementById('menu-grid').innerHTML = filtered.map(item => {
+        const qty = menuCartQuantities[item.id] || 0;
+        const inCart = qty > 0;
+        const icon = getFoodIcon(item.name, item.category);
+        const tags = item.dietaryTags || [];
+        
+        return `
+          <div class="menu-item ${inCart ? 'in-cart' : ''}" data-id="${item.id}">
+            ${item.photoUrl 
+              ? `<img src="${item.photoUrl}" alt="${item.name}" class="menu-item-photo">`
+              : `<div class="menu-item-icon">${icon}</div>`
+            }
+            <div class="menu-item-name">${item.name}</div>
+            <div class="menu-item-price">$${parseFloat(item.price).toFixed(2)}</div>
+            <div class="menu-item-tags">
+              ${tags.map(tag => `<span class="menu-tag ${tag.toLowerCase().replace(/\s+/g, '-')}">${tag}</span>`).join('')}
+            </div>
+            ${inCart ? `
+              <div class="menu-item-qty">
+                <button class="qty-btn minus" onclick="event.stopPropagation(); adjustMenuQty(${item.id}, -1)">−</button>
+                <span class="qty-value">${qty}</span>
+                <button class="qty-btn plus" onclick="event.stopPropagation(); adjustMenuQty(${item.id}, 1)">+</button>
+              </div>
+            ` : `
+              <div class="menu-item-qty" style="border-top: none; padding-top: 6px;">
+                <button class="qty-btn plus" onclick="event.stopPropagation(); addToCartFromMenu(${item.id})" style="width: auto; padding: 6px 16px; border-radius: 16px;">
+                  Add +
+                </button>
+              </div>
+            `}
+          </div>
+        `;
+      }).join('');
+    }
+    
+    // Add item from menu to cart
+    function addToCartFromMenu(itemId) {
+      const item = menuItems.find(m => m.id === itemId);
+      if (!item) return;
+      
+      menuCartQuantities[itemId] = (menuCartQuantities[itemId] || 0) + 1;
+      
+      // Update the shared order
+      const existingIndex = currentOrder.findIndex(o => o.id === itemId);
+      if (existingIndex >= 0) {
+        currentOrder[existingIndex].quantity = menuCartQuantities[itemId];
+      } else {
+        currentOrder.push({
+          id: itemId,
+          name: item.name,
+          price: parseFloat(item.price),
+          quantity: 1
+        });
+      }
+      
+      updateOrderDisplay();
+      renderMenuItems();
+      showAddFeedback(`Added ${item.name}!`);
+    }
+    
+    // Adjust quantity from menu
+    function adjustMenuQty(itemId, delta) {
+      const item = menuItems.find(m => m.id === itemId);
+      if (!item) return;
+      
+      const newQty = (menuCartQuantities[itemId] || 0) + delta;
+      
+      if (newQty <= 0) {
+        delete menuCartQuantities[itemId];
+        currentOrder = currentOrder.filter(o => o.id !== itemId);
+      } else {
+        menuCartQuantities[itemId] = newQty;
+        const existingIndex = currentOrder.findIndex(o => o.id === itemId);
+        if (existingIndex >= 0) {
+          currentOrder[existingIndex].quantity = newQty;
+        }
+      }
+      
+      updateOrderDisplay();
+      renderMenuItems();
+    }
+    
+    // Show add feedback toast
+    function showAddFeedback(message) {
+      let feedback = document.querySelector('.add-feedback');
+      if (!feedback) {
+        feedback = document.createElement('div');
+        feedback.className = 'add-feedback';
+        document.body.appendChild(feedback);
+      }
+      feedback.textContent = message;
+      feedback.classList.add('show');
+      setTimeout(() => feedback.classList.remove('show'), 1500);
+    }
     
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition;
