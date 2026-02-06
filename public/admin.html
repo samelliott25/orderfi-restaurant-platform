@@ -168,6 +168,85 @@
       box-shadow: 0 8px 25px rgba(226, 61, 40, 0.4);
     }
     
+    .add-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .scan-btn {
+      background: var(--text);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .scan-btn:hover {
+      background: #555;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
+    .scan-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--bg);
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .scan-upload-area:hover {
+      border-color: var(--primary);
+      background: rgba(226, 61, 40, 0.03);
+    }
+    
+    .scan-upload-area.has-image {
+      border-style: solid;
+      border-color: var(--primary);
+      padding: 1rem;
+    }
+    
+    .scan-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+    
+    .scan-progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    
+    .scan-result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      background: var(--bg);
+      border-radius: 8px;
+      margin-bottom: 0.4rem;
+      font-size: 0.85rem;
+    }
+    
+    .scan-result-item .item-cat {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      padding: 2px 6px;
+      background: rgba(226,61,40,0.08);
+      border-radius: 10px;
+    }
+    
     .menu-grid {
       display: flex;
       flex-direction: column;
@@ -2065,6 +2144,9 @@
           <button class="add-btn" onclick="openAddModal()">
             <span>+</span> Add Menu Item
           </button>
+          <button class="add-btn scan-btn" onclick="openScanModal()">
+            <span>📸</span> Scan Menu
+          </button>
           <span class="item-count" id="item-count"></span>
         </div>
         <div id="menu-grid" class="menu-grid">
@@ -2588,6 +2670,45 @@
       </div>
       <div class="modal-body" id="order-modal-body">
         <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="scan-modal" class="modal-overlay" onclick="if(event.target===this)closeScanModal()">
+    <div class="modal" style="max-width: 560px;">
+      <div class="modal-header">
+        <h2 class="modal-title">📸 Scan Menu</h2>
+        <button class="modal-close" onclick="closeScanModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Upload a photo or file of your menu and AI will automatically read it and create all the items for you.</p>
+        
+        <div id="scan-upload-area" class="scan-upload-area" onclick="document.getElementById('scan-file-input').click()">
+          <div id="scan-upload-content">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">📄</div>
+            <p style="font-weight: 600; color: var(--text);">Click to upload menu image</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Supports JPG, PNG, WEBP, PDF</p>
+          </div>
+          <img id="scan-preview" style="display:none; max-width:100%; max-height:300px; border-radius:8px;" alt="Menu preview">
+        </div>
+        <input type="file" id="scan-file-input" accept="image/*,.pdf" style="display:none" onchange="handleScanFileSelect(event)">
+        
+        <div id="scan-progress" style="display:none;">
+          <div class="scan-progress-bar">
+            <div class="scan-progress-fill" id="scan-progress-fill"></div>
+          </div>
+          <p id="scan-status" style="text-align:center; margin-top:0.75rem; font-size:0.9rem; color:var(--text-muted);">Uploading...</p>
+        </div>
+        
+        <div id="scan-results" style="display:none;">
+          <div id="scan-results-content"></div>
+        </div>
+        
+        <div style="display:flex; gap:0.75rem; margin-top:1.25rem;">
+          <button class="add-btn" id="scan-submit-btn" onclick="submitMenuScan()" disabled style="flex:1; justify-content:center;">
+            <span>🤖</span> Scan & Create Items
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -3860,6 +3981,122 @@
       loadOrders();
       loadConfig();
       loadReceiptConfig();
+    }
+
+    // === AI Menu Scanner ===
+    let scanImageData = null;
+    
+    function openScanModal() {
+      document.getElementById('scan-modal').classList.add('active');
+      resetScanModal();
+    }
+    
+    function closeScanModal() {
+      document.getElementById('scan-modal').classList.remove('active');
+      resetScanModal();
+    }
+    
+    function resetScanModal() {
+      scanImageData = null;
+      document.getElementById('scan-preview').style.display = 'none';
+      document.getElementById('scan-upload-content').style.display = '';
+      document.getElementById('scan-upload-area').classList.remove('has-image');
+      document.getElementById('scan-progress').style.display = 'none';
+      document.getElementById('scan-results').style.display = 'none';
+      document.getElementById('scan-submit-btn').disabled = true;
+      document.getElementById('scan-file-input').value = '';
+    }
+    
+    function handleScanFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        scanImageData = e.target.result;
+        const preview = document.getElementById('scan-preview');
+        preview.src = scanImageData;
+        preview.style.display = 'block';
+        document.getElementById('scan-upload-content').style.display = 'none';
+        document.getElementById('scan-upload-area').classList.add('has-image');
+        document.getElementById('scan-submit-btn').disabled = false;
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    async function submitMenuScan() {
+      if (!scanImageData) return;
+      
+      const submitBtn = document.getElementById('scan-submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>🔄</span> Scanning...';
+      
+      const progress = document.getElementById('scan-progress');
+      const progressFill = document.getElementById('scan-progress-fill');
+      const status = document.getElementById('scan-status');
+      progress.style.display = 'block';
+      
+      progressFill.style.width = '15%';
+      status.textContent = 'Uploading image...';
+      
+      setTimeout(() => {
+        progressFill.style.width = '40%';
+        status.textContent = 'AI is reading your menu...';
+      }, 1000);
+      
+      setTimeout(() => {
+        progressFill.style.width = '70%';
+        status.textContent = 'Extracting menu items...';
+      }, 3000);
+      
+      try {
+        const response = await fetch('/api/admin/scan-menu', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: scanImageData }),
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to scan menu');
+        }
+        
+        progressFill.style.width = '100%';
+        status.textContent = 'Done!';
+        
+        const resultsDiv = document.getElementById('scan-results');
+        const resultsContent = document.getElementById('scan-results-content');
+        
+        resultsContent.innerHTML = `
+          <div style="text-align:center; margin: 1rem 0;">
+            <div style="font-size:2.5rem; margin-bottom:0.5rem;">🎉</div>
+            <p style="font-weight:700; font-size:1.1rem; color:var(--text);">${data.totalCreated} items created!</p>
+            <p style="font-size:0.85rem; color:var(--text-muted);">${data.totalDetected} items detected from your menu</p>
+          </div>
+          <div style="max-height:200px; overflow-y:auto; margin-top:0.75rem;">
+            ${data.items.map(item => `
+              <div class="scan-result-item">
+                <span><strong>${item.name}</strong> — $${parseFloat(item.price).toFixed(2)}</span>
+                <span class="item-cat">${item.category}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        resultsDiv.style.display = 'block';
+        
+        submitBtn.innerHTML = '<span>✅</span> Done!';
+        submitBtn.onclick = function() { closeScanModal(); loadMenu(); };
+        submitBtn.disabled = false;
+        
+      } catch (error) {
+        progressFill.style.width = '0%';
+        status.textContent = 'Error: ' + error.message;
+        status.style.color = 'var(--primary)';
+        submitBtn.innerHTML = '<span>🤖</span> Try Again';
+        submitBtn.disabled = false;
+        submitBtn.onclick = submitMenuScan;
+      }
     }
 
     init();

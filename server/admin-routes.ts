@@ -5,6 +5,7 @@ import { eq, desc } from "drizzle-orm";
 import { ObjectStorageService } from "./replit_integrations/object_storage";
 import { z } from "zod";
 import { getUncachableStripeClient } from "./stripeClient";
+import OpenAI from "openai";
 
 // Validation schemas
 const createMenuItemSchema = z.object({
@@ -318,5 +319,148 @@ adminRouter.post("/orders/:id/partial-refund", async (req: Request, res: Respons
   } catch (error: any) {
     console.error("Error processing partial refund:", error);
     res.status(500).json({ error: error.message || "Failed to process partial refund" });
+  }
+});
+
+// AI Menu Scanner - analyze a menu image and bulk-create items
+adminRouter.post("/scan-menu", async (req: Request, res: Response) => {
+  try {
+    const { image } = req.body;
+    if (!image || typeof image !== 'string') {
+      return res.status(400).json({ error: "No image data provided" });
+    }
+
+    if (image.length > 20_000_000) {
+      return res.status(400).json({ error: "Image too large. Please use an image under 15MB." });
+    }
+
+    const mimeMatch = image.match(/^data:(image\/(jpeg|png|webp|gif));base64,/);
+    if (!image.startsWith("data:image/")) {
+      return res.status(400).json({ error: "Invalid image format. Please upload a JPG, PNG, or WEBP image." });
+    }
+
+    if (!process.env.XAI_API_KEY) {
+      return res.status(500).json({ error: "AI service not configured" });
+    }
+
+    const xai = new OpenAI({
+      baseURL: "https://api.x.ai/v1",
+      apiKey: process.env.XAI_API_KEY,
+    });
+
+    const visionResponse = await xai.chat.completions.create({
+      model: "grok-2-vision-1212",
+      messages: [
+        {
+          role: "system",
+          content: `You are a menu extraction expert. Analyze the menu image and extract every food/drink item you can find.
+For each item, provide:
+- name: the item name exactly as shown
+- price: the price as a number (no currency symbol). If no price is visible, estimate a reasonable price.
+- category: categorize as one of: Main Course, Appetizer, Dessert, Drinks, Sides, Pizza, Pasta, Salad, Breakfast, Steaks, Seafood, Burgers, Sandwiches, Soups, Kids Menu, or Other
+- description: a brief description if visible, otherwise create a short appetizing one
+- dietaryTags: array of applicable tags like "vegetarian", "vegan", "gluten-free", "spicy", "dairy-free", "nut-free"
+- aliases: array of common alternative names customers might use
+
+Respond with ONLY valid JSON in this exact format:
+{
+  "items": [
+    {
+      "name": "Item Name",
+      "price": 12.99,
+      "category": "Main Course",
+      "description": "Brief description",
+      "dietaryTags": [],
+      "aliases": []
+    }
+  ]
+}`
+        },
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: "Extract all menu items from this menu image. Return them as a JSON array."
+            },
+            {
+              type: "image_url",
+              image_url: {
+                url: image.startsWith("data:") ? image : `data:image/jpeg;base64,${image}`
+              }
+            }
+          ],
+        },
+      ],
+      max_tokens: 4096,
+      response_format: { type: "json_object" },
+    });
+
+    const content = visionResponse.choices[0]?.message?.content;
+    if (!content) {
+      return res.status(500).json({ error: "AI returned no response" });
+    }
+
+    let parsed: { items: any[] };
+    try {
+      parsed = JSON.parse(content);
+    } catch {
+      return res.status(500).json({ error: "AI returned invalid format", raw: content });
+    }
+
+    if (!parsed.items || !Array.isArray(parsed.items) || parsed.items.length === 0) {
+      return res.status(400).json({ error: "No menu items could be detected in this image" });
+    }
+
+    const allowedCategories = ["Main Course", "Appetizer", "Dessert", "Drinks", "Sides", "Pizza", "Pasta", "Salad", "Breakfast", "Steaks", "Seafood", "Burgers", "Sandwiches", "Soups", "Kids Menu", "Other"];
+    
+    const createdItems: any[] = [];
+    const failedItems: string[] = [];
+    
+    for (const item of parsed.items) {
+      try {
+        const name = typeof item.name === 'string' ? item.name.slice(0, 100) : "Unknown Item";
+        const price = parseFloat(item.price);
+        const safePrice = (!isNaN(price) && price > 0 && price < 10000) ? price : 10;
+        const category = allowedCategories.includes(item.category) ? item.category : "Other";
+        const description = typeof item.description === 'string' ? item.description.slice(0, 500) : "";
+        const aliases = Array.isArray(item.aliases) ? item.aliases.filter((a: any) => typeof a === 'string').slice(0, 10) : [];
+        const dietaryTags = Array.isArray(item.dietaryTags) ? item.dietaryTags.filter((t: any) => typeof t === 'string').slice(0, 10) : [];
+
+        const [created] = await db.insert(menuItems).values({
+          restaurantId: 1,
+          name,
+          description,
+          price: safePrice.toString(),
+          category,
+          aliases,
+          keywords: [...aliases, ...dietaryTags],
+          weightedKeywords: {},
+          dietaryTags,
+          allergens: [],
+          isAvailable: true,
+        }).returning();
+        createdItems.push(created);
+      } catch (itemError) {
+        console.error(`Error creating item "${item.name}":`, itemError);
+        failedItems.push(item.name || "Unknown");
+      }
+    }
+
+    if (createdItems.length === 0) {
+      return res.status(500).json({ error: "Failed to create any menu items", failedItems });
+    }
+
+    res.json({
+      success: true,
+      totalDetected: parsed.items.length,
+      totalCreated: createdItems.length,
+      totalFailed: failedItems.length,
+      items: createdItems,
+      failedItems: failedItems.length > 0 ? failedItems : undefined,
+    });
+  } catch (error: any) {
+    console.error("Error scanning menu:", error);
+    res.status(500).json({ error: error.message || "Failed to scan menu" });
   }
 });

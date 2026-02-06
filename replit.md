@@ -116,7 +116,12 @@ The voice ordering system uses weighted keyword matching to improve AI understan
 - Request body validation with Zod schemas
 - Session-based order tracking
 
-## Recent Changes (January 2026)
+## Recent Changes (February 2026)
+- Added AI Menu Scanner: upload a menu photo and Grok Vision extracts all items automatically
+- Added interactive menu browsing mode on /order page with voice/browse toggle
+- Receipt edit panel now properly positioned to right of receipt preview
+
+## Previous Changes (January 2026)
 - Added staff admin dashboard with menu management
 - Integrated Replit Auth for staff login
 - Added object storage for menu item photos
