@@ -167,6 +167,24 @@ export const menuConversations = pgTable("menu_conversations", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// AI Copilot feedback - captures user experience issues for dev team
+export const copilotFeedback = pgTable("copilot_feedback", {
+  id: serial("id").primaryKey(),
+  sessionId: text("session_id").notNull(),
+  userMessage: text("user_message").notNull(),
+  copilotResponse: text("copilot_response").notNull(),
+  feedbackType: text("feedback_type").notNull(), // "bug", "confusion", "feature_request", "praise", "general"
+  pageContext: text("page_context"), // which tab/section user was on
+  sentiment: text("sentiment"), // "positive", "negative", "neutral"
+  resolved: boolean("resolved").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertCopilotFeedbackSchema = createInsertSchema(copilotFeedback).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const insertRestaurantSchema = createInsertSchema(restaurants).omit({
   id: true,
 });
@@ -230,6 +248,10 @@ export type SalesData = typeof salesData.$inferSelect;
 export type InsertSalesData = z.infer<typeof insertSalesDataSchema>;
 export type MenuConversation = typeof menuConversations.$inferSelect;
 export type InsertMenuConversation = z.infer<typeof insertMenuConversationSchema>;
+
+// Copilot types
+export type CopilotFeedback = typeof copilotFeedback.$inferSelect;
+export type InsertCopilotFeedback = z.infer<typeof insertCopilotFeedbackSchema>;
 
 // Export auth models
 export * from "./models/auth";

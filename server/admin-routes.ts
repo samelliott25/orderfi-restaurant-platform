@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { db } from "./db";
-import { menuItems, orders } from "../shared/schema";
+import { menuItems, orders, copilotFeedback } from "../shared/schema";
 import { eq, desc } from "drizzle-orm";
 import { ObjectStorageService } from "./replit_integrations/object_storage";
 import { z } from "zod";
@@ -464,3 +464,167 @@ Respond with ONLY valid JSON in this exact format:
     res.status(500).json({ error: error.message || "Failed to scan menu" });
   }
 });
+
+// === AI Copilot ===
+
+const COPILOT_SYSTEM_PROMPT = `You are OrderFi Copilot, a friendly and knowledgeable AI assistant built into the OrderFi staff dashboard. You help restaurant staff use every feature of the platform.
+
+Your personality: Warm, patient, encouraging. You're like a helpful colleague who knows the system inside out. Keep responses concise (2-4 sentences max unless explaining a process).
+
+PLATFORM FEATURES YOU KNOW ABOUT:
+1. **Menu Management** (Menu Items tab):
+   - Add individual menu items with name, price, category, description
+   - Upload photos for menu items using the camera icon
+   - Set dietary tags (vegetarian, vegan, gluten-free, spicy)
+   - Add allergen information
+   - Set weighted keywords for AI voice ordering accuracy
+   - Add aliases (alternative names customers might say)
+   - Toggle item availability on/off
+   - AI Menu Scanner: Upload a photo of a physical menu to auto-create all items
+
+2. **Orders** (Recent Orders tab):
+   - View all recent orders with status
+   - Click any order to see full details
+   - Process refunds (full or partial) via the order detail view
+   - Order statuses: pending, confirmed, preparing, ready, completed
+
+3. **Configuration** (Configuration tab):
+   - WiFi printer setup for receipt printing
+   - Receipt customization: choose kitchen receipt vs customer receipt
+   - Customize what appears on receipts (order number, customer name, prices, tax, payment method, barcode)
+   - Edit receipt header (restaurant name, address, phone)
+   - Edit receipt footer message
+   - Paper width settings (80mm or 58mm)
+
+4. **Voice Ordering** (customer-facing /order page):
+   - Customers speak their order naturally
+   - AI matches spoken items to menu using weighted keywords
+   - Supports browsing mode as alternative to voice
+   - Stripe payment integration
+
+5. **AI Menu Scanner**:
+   - Upload a photo of any menu (JPG, PNG, WEBP)
+   - AI reads and extracts all items with prices, categories, descriptions
+   - Creates items in bulk automatically
+
+WHEN DETECTING ISSUES OR FEEDBACK:
+- If user reports a bug, problem, or confusion, acknowledge it warmly and help them
+- If user suggests a feature, thank them and note it
+- If user expresses frustration, be empathetic and solution-focused
+- Always try to guide them to the right feature or workaround
+
+IMPORTANT: You are embedded in the staff dashboard. When referring to features, point them to specific tabs or buttons they can see. Use the feature names exactly as they appear in the UI.`;
+
+adminRouter.post("/copilot/chat", async (req: Request, res: Response) => {
+  try {
+    const { message, conversationHistory, pageContext } = req.body;
+    
+    if (!message || typeof message !== 'string' || message.trim().length === 0) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+
+    if (message.length > 2000) {
+      return res.status(400).json({ error: "Message too long" });
+    }
+
+    if (!process.env.XAI_API_KEY) {
+      return res.status(500).json({ error: "AI service not configured" });
+    }
+
+    const xai = new OpenAI({
+      baseURL: "https://api.x.ai/v1",
+      apiKey: process.env.XAI_API_KEY,
+    });
+
+    const messages: any[] = [
+      { role: "system", content: COPILOT_SYSTEM_PROMPT + (pageContext ? `\n\nThe user is currently viewing: ${pageContext}` : '') },
+    ];
+
+    if (Array.isArray(conversationHistory)) {
+      for (const msg of conversationHistory.slice(-10)) {
+        if (msg.role === 'user' || msg.role === 'assistant') {
+          messages.push({ role: msg.role, content: String(msg.content).slice(0, 2000) });
+        }
+      }
+    }
+
+    messages.push({ role: "user", content: message });
+
+    const response = await xai.chat.completions.create({
+      model: "grok-3-mini",
+      messages,
+      max_tokens: 500,
+      temperature: 0.7,
+    });
+
+    const reply = response.choices[0]?.message?.content || "I'm sorry, I couldn't process that. Could you try rephrasing?";
+
+    const feedbackType = detectFeedbackType(message);
+    const sentiment = detectSentiment(message);
+
+    if (feedbackType !== 'general') {
+      const sessionId = `copilot_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      await db.insert(copilotFeedback).values({
+        sessionId,
+        userMessage: message.slice(0, 2000),
+        copilotResponse: reply.slice(0, 2000),
+        feedbackType,
+        pageContext: pageContext || null,
+        sentiment,
+        resolved: false,
+      }).catch(err => console.error("Failed to save copilot feedback:", err));
+    }
+
+    res.json({ reply, feedbackType, sentiment });
+  } catch (error: any) {
+    console.error("Copilot chat error:", error);
+    res.status(500).json({ error: "Copilot is temporarily unavailable" });
+  }
+});
+
+adminRouter.get("/copilot/feedback", async (_req: Request, res: Response) => {
+  try {
+    const feedback = await db.select().from(copilotFeedback).orderBy(desc(copilotFeedback.createdAt)).limit(50);
+    res.json(feedback);
+  } catch (error: any) {
+    console.error("Error fetching feedback:", error);
+    res.status(500).json({ error: "Failed to fetch feedback" });
+  }
+});
+
+adminRouter.patch("/copilot/feedback/:id", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const [updated] = await db.update(copilotFeedback).set({ resolved: true }).where(eq(copilotFeedback.id, id)).returning();
+    res.json(updated);
+  } catch (error: any) {
+    res.status(500).json({ error: "Failed to update feedback" });
+  }
+});
+
+function detectFeedbackType(message: string): string {
+  const lower = message.toLowerCase();
+  const bugWords = ['bug', 'broken', 'not working', 'error', 'crash', 'wrong', 'glitch', 'stuck', 'freeze', 'cant', "can't", "doesn't work", "won't", 'failed'];
+  const confusionWords = ['how do i', 'where is', 'how to', 'confused', "don't understand", "don't know how", 'help me', 'what does', 'where can i'];
+  const featureWords = ['wish', 'would be nice', 'can you add', 'feature request', 'suggestion', 'it would help', 'should have', 'could you add', 'missing'];
+  const praiseWords = ['love', 'great', 'awesome', 'amazing', 'perfect', 'thank', 'excellent', 'fantastic', 'helpful'];
+
+  if (bugWords.some(w => lower.includes(w))) return 'bug';
+  if (confusionWords.some(w => lower.includes(w))) return 'confusion';
+  if (featureWords.some(w => lower.includes(w))) return 'feature_request';
+  if (praiseWords.some(w => lower.includes(w))) return 'praise';
+  return 'general';
+}
+
+function detectSentiment(message: string): string {
+  const lower = message.toLowerCase();
+  const negative = ['frustrated', 'annoyed', 'hate', 'terrible', 'awful', 'horrible', 'angry', 'broken', 'worst', 'useless', 'bug', 'not working', 'error'];
+  const positive = ['love', 'great', 'awesome', 'amazing', 'perfect', 'thank', 'excellent', 'fantastic', 'helpful', 'wonderful', 'nice', 'good'];
+
+  const negScore = negative.filter(w => lower.includes(w)).length;
+  const posScore = positive.filter(w => lower.includes(w)).length;
+
+  if (negScore > posScore) return 'negative';
+  if (posScore > negScore) return 'positive';
+  return 'neutral';
+}
