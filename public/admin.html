@@ -3390,16 +3390,16 @@
     
     const categoryOrder = ['Starters', 'Bar Snacks', 'Buffalo Wings', 'Burgers', 'Dawgs', 'Tacos', 'From our grill', 'Plant Powered', 'Sides', 'Desserts', 'Drinks', 'Uncategorized'];
 
-    let collapsedCategories = new Set();
+    let expandedCategories = new Set();
 
     function toggleCategory(headerEl) {
       const section = headerEl.closest('.category-section');
       const cat = section.getAttribute('data-cat');
       section.classList.toggle('collapsed');
       if (section.classList.contains('collapsed')) {
-        collapsedCategories.add(cat);
+        expandedCategories.delete(cat);
       } else {
-        collapsedCategories.delete(cat);
+        expandedCategories.add(cat);
       }
     }
 
@@ -3485,7 +3485,7 @@
             `;
           }).join('');
 
-          const isCollapsed = collapsedCategories.has(category);
+          const isCollapsed = !expandedCategories.has(category);
           return `
             <div class="category-section${isCollapsed ? ' collapsed' : ''}" data-cat="${category}">
               <div class="category-header" onclick="toggleCategory(this)">
