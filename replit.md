@@ -120,6 +120,8 @@ The voice ordering system uses weighted keyword matching to improve AI understan
 - Added AI Copilot chat widget on staff dashboard (floating button, slide-out panel, xAI Grok-powered)
 - Copilot auto-detects feedback type (bug, confusion, feature request, praise) and stores in copilot_feedback table
 - Copilot has full platform knowledge and context-aware responses based on active tab
+- Added Ghost Guide: step-by-step walkthrough overlay that highlights dashboard buttons with spotlight, tooltips, and progress dots
+- Ghost Guide accessible via "Take a Tour" button on dashboard header and copilot quick action
 - Added AI Menu Scanner: upload a menu photo and Grok Vision extracts all items automatically
 - Added interactive menu browsing mode on /order page with voice/browse toggle
 - Receipt edit panel now properly positioned to right of receipt preview
