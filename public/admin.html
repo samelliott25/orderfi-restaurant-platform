@@ -268,6 +268,32 @@
       margin-bottom: 1.25rem;
       padding-bottom: 0.75rem;
       border-bottom: 2px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.2s;
+    }
+    .category-header:hover {
+      opacity: 0.8;
+    }
+    .category-chevron {
+      margin-left: 0.5rem;
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+    .category-section.collapsed .category-chevron {
+      transform: rotate(-90deg);
+    }
+    .category-section.collapsed .category-header {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom-color: transparent;
+    }
+    .category-section.collapsed .category-items {
+      max-height: 0;
+      opacity: 0;
     }
     
     .category-icon {
@@ -313,6 +339,10 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.25rem;
+      overflow: hidden;
+      transition: max-height 0.35s ease, opacity 0.25s ease;
+      max-height: 5000px;
+      opacity: 1;
     }
     
     .menu-card {
@@ -3360,6 +3390,19 @@
     
     const categoryOrder = ['Starters', 'Bar Snacks', 'Buffalo Wings', 'Burgers', 'Dawgs', 'Tacos', 'From our grill', 'Plant Powered', 'Sides', 'Desserts', 'Drinks', 'Uncategorized'];
 
+    let collapsedCategories = new Set();
+
+    function toggleCategory(headerEl) {
+      const section = headerEl.closest('.category-section');
+      const cat = section.getAttribute('data-cat');
+      section.classList.toggle('collapsed');
+      if (section.classList.contains('collapsed')) {
+        collapsedCategories.add(cat);
+      } else {
+        collapsedCategories.delete(cat);
+      }
+    }
+
     function renderFilteredMenu(items) {
       const grid = document.getElementById('menu-grid');
       const countEl = document.getElementById('item-count');
@@ -3442,12 +3485,14 @@
             `;
           }).join('');
 
+          const isCollapsed = collapsedCategories.has(category);
           return `
-            <div class="category-section">
-              <div class="category-header">
+            <div class="category-section${isCollapsed ? ' collapsed' : ''}" data-cat="${category}">
+              <div class="category-header" onclick="toggleCategory(this)">
                 <div class="category-icon ${catClass}">${categoryIcons[category] || '📦'}</div>
                 <h3 class="category-title">${category}</h3>
                 <span class="category-count">${catItems.length} item${catItems.length !== 1 ? 's' : ''}</span>
+                <svg class="category-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </div>
               <div class="category-items">
                 ${itemsHtml}
