@@ -42,12 +42,26 @@
     .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .error { text-align: center; padding: 3rem; color: var(--primary); }
+    .track-nav { display: flex; align-items: center; gap: 1.5rem; width: 100%; max-width: 700px; padding: 0 0 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .track-nav-logo { font-family: 'Lilita One', cursive; font-size: 1.35rem; color: var(--primary); text-decoration: none; }
+    .track-nav-links { display: flex; gap: 1rem; align-items: center; }
+    .track-nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .track-nav-links a:hover { color: var(--text); }
   </style>
 </head>
 <body>
+  <nav class="track-nav">
+    <a href="/" class="track-nav-logo">OrderFi</a>
+    <div class="track-nav-links">
+      <a href="/">Home</a>
+      <a href="/order">Voice Order</a>
+      <a href="/menu/loose-moose">Menu</a>
+      <a href="/kitchen">Kitchen</a>
+      <a href="/admin">Dashboard</a>
+    </div>
+  </nav>
   <div class="track-container">
     <div class="track-header">
-      <div class="track-logo">OrderFi</div>
       <h1 class="track-title">Track Your Order</h1>
       <p class="track-order-id" id="order-id-display"></p>
     </div>

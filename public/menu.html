@@ -176,6 +176,11 @@
     /* ======================== */
     /* HEADER                    */
     /* ======================== */
+    .menu-top-nav { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 1rem; background: var(--primary); }
+    .menu-top-nav-logo { font-family: 'Lilita One', cursive; font-size: 1.1rem; color: white; text-decoration: none; }
+    .menu-top-nav a:not(.menu-top-nav-logo) { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+    .menu-top-nav a:not(.menu-top-nav-logo):hover, .menu-top-nav a.active { color: white; }
+
     .header {
       position: sticky;
       top: 0;
@@ -1640,6 +1645,16 @@
 
 <!-- Main App -->
 <div id="app" style="display:none;">
+
+  <!-- TOP NAV -->
+  <nav class="menu-top-nav">
+    <a href="/" class="menu-top-nav-logo">OrderFi</a>
+    <a href="/">Home</a>
+    <a href="/order">Voice Order</a>
+    <a href="/menu/loose-moose" class="active">Menu</a>
+    <a href="/kitchen">Kitchen</a>
+    <a href="/admin">Dashboard</a>
+  </nav>
 
   <!-- HEADER -->
   <header class="header">

@@ -42,7 +42,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
+    .admin-nav { display: flex; gap: 1rem; align-items: center; }
+    .admin-nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .admin-nav a:hover, .admin-nav a.active { color: white; }
     
     .logo {
       font-family: 'Lilita One', cursive;
@@ -2531,8 +2536,14 @@
   <div id="dashboard-view" class="">
     <header class="header">
       <div class="logo"><a href="/">OrderFi</a></div>
+      <nav class="admin-nav">
+        <a href="/">Home</a>
+        <a href="/order">Voice Order</a>
+        <a href="/menu/loose-moose">Menu</a>
+        <a href="/kitchen">Kitchen</a>
+        <a href="/admin" class="active">Dashboard</a>
+      </nav>
       <div class="user-info">
-        <span style="color: rgba(255,255,255,0.8);">Staff Dashboard</span>
         <a href="/" class="logout-btn">Back to Home</a>
       </div>
     </header>

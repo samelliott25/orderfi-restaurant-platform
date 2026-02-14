@@ -17,7 +17,10 @@
     }
     body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow: hidden; }
 
-    .kds-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; background: var(--card); border-bottom: 1px solid var(--border); }
+    .kds-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; background: var(--card); border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 0.5rem; }
+    .kds-nav { display: flex; gap: 1rem; align-items: center; }
+    .kds-nav a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .kds-nav a:hover, .kds-nav a.active { color: var(--text); }
     .kds-logo { font-family: 'Lilita One', cursive; font-size: 1.5rem; color: var(--text); }
     .kds-logo span { color: var(--new); }
     .kds-info { display: flex; align-items: center; gap: 2rem; }
@@ -89,7 +92,16 @@
 </head>
 <body>
   <header class="kds-header">
-    <div class="kds-logo">OrderFi <span>Kitchen</span></div>
+    <div style="display:flex; align-items:center; gap:1.5rem;">
+      <div class="kds-logo">OrderFi <span>Kitchen</span></div>
+      <nav class="kds-nav">
+        <a href="/">Home</a>
+        <a href="/order">Voice Order</a>
+        <a href="/menu/loose-moose">Menu</a>
+        <a href="/kitchen" class="active">Kitchen</a>
+        <a href="/admin">Dashboard</a>
+      </nav>
+    </div>
     <div class="kds-info">
       <div class="kds-stats">
         <div class="kds-stat new-stat"><span id="new-count">0</span> New</div>
