@@ -2,10 +2,8 @@ import { Router, Request, Response } from "express";
 import { db } from "./db";
 import { menuItems, orders, copilotFeedback } from "../shared/schema";
 import { eq, desc } from "drizzle-orm";
-import { ObjectStorageService } from "./replit_integrations/object_storage";
 import { z } from "zod";
-import { getUncachableStripeClient } from "./stripeClient";
-import OpenAI from "openai";
+import { storage } from "./storage";
 
 // Validation schemas
 const createMenuItemSchema = z.object({
@@ -26,12 +24,16 @@ const updateMenuItemSchema = createMenuItemSchema.partial().extend({
 });
 
 export const adminRouter = Router();
-const objectStorage = new ObjectStorageService();
 
 // Get all menu items for admin
 adminRouter.get("/menu", async (req: Request, res: Response) => {
   try {
-    const items = await db.select().from(menuItems).orderBy(menuItems.category, menuItems.name);
+    if (db) {
+      const items = await db.select().from(menuItems).orderBy(menuItems.category, menuItems.name);
+      return res.json(items);
+    }
+    // Fallback to in-memory storage
+    const items = await storage.getMenuItems(1);
     res.json(items);
   } catch (error) {
     console.error("Error fetching menu:", error);
@@ -46,25 +48,38 @@ adminRouter.post("/menu", async (req: Request, res: Response) => {
     if (!parsed.success) {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
-    
+
     const { name, description, price, category, photoUrl, reviewsUrl, weightedKeywords, aliases, dietaryTags, allergens } = parsed.data;
-    
-    const [item] = await db.insert(menuItems).values({
+
+    if (db) {
+      const [item] = await db.insert(menuItems).values({
+        restaurantId: 1,
+        name,
+        description,
+        price: price.toString(),
+        category: category || "Main",
+        photoUrl: photoUrl || null,
+        reviewsUrl: reviewsUrl || null,
+        weightedKeywords: weightedKeywords || {},
+        aliases: aliases || [],
+        keywords: Object.keys(weightedKeywords || {}),
+        dietaryTags: dietaryTags || [],
+        allergens: allergens || [],
+        isAvailable: true,
+      }).returning();
+      return res.json(item);
+    }
+
+    // Fallback to in-memory storage
+    const item = await storage.createMenuItem({
       restaurantId: 1,
       name,
       description,
       price: price.toString(),
       category: category || "Main",
-      photoUrl: photoUrl || null,
-      reviewsUrl: reviewsUrl || null,
-      weightedKeywords: weightedKeywords || {},
-      aliases: aliases || [],
-      keywords: Object.keys(weightedKeywords || {}),
-      dietaryTags: dietaryTags || [],
-      allergens: allergens || [],
       isAvailable: true,
-    }).returning();
-    
+      tags: dietaryTags || [],
+    });
     res.json(item);
   } catch (error) {
     console.error("Error creating menu item:", error);
@@ -79,39 +94,50 @@ adminRouter.put("/menu/:id", async (req: Request, res: Response) => {
     if (isNaN(id)) {
       return res.status(400).json({ error: "Invalid menu item ID" });
     }
-    
+
     const parsed = updateMenuItemSchema.safeParse(req.body);
     if (!parsed.success) {
       return res.status(400).json({ error: "Validation failed", details: parsed.error.flatten() });
     }
-    
+
     const { name, description, price, category, photoUrl, reviewsUrl, weightedKeywords, aliases, dietaryTags, allergens, isAvailable } = parsed.data;
-    
-    const updateData: Record<string, unknown> = { updatedAt: new Date() };
+
+    if (db) {
+      const updateData: Record<string, unknown> = { updatedAt: new Date() };
+      if (name !== undefined) updateData.name = name;
+      if (description !== undefined) updateData.description = description;
+      if (price !== undefined) updateData.price = price.toString();
+      if (category !== undefined) updateData.category = category;
+      if (photoUrl !== undefined) updateData.photoUrl = photoUrl || null;
+      if (reviewsUrl !== undefined) updateData.reviewsUrl = reviewsUrl || null;
+      if (weightedKeywords !== undefined) {
+        updateData.weightedKeywords = weightedKeywords;
+        updateData.keywords = Object.keys(weightedKeywords);
+      }
+      if (aliases !== undefined) updateData.aliases = aliases;
+      if (dietaryTags !== undefined) updateData.dietaryTags = dietaryTags;
+      if (allergens !== undefined) updateData.allergens = allergens;
+      if (isAvailable !== undefined) updateData.isAvailable = isAvailable;
+
+      const [item] = await db.update(menuItems)
+        .set(updateData)
+        .where(eq(menuItems.id, id))
+        .returning();
+
+      if (!item) {
+        return res.status(404).json({ error: "Menu item not found" });
+      }
+      return res.json(item);
+    }
+
+    // Fallback to in-memory storage
+    const updateData: any = {};
     if (name !== undefined) updateData.name = name;
     if (description !== undefined) updateData.description = description;
     if (price !== undefined) updateData.price = price.toString();
     if (category !== undefined) updateData.category = category;
-    if (photoUrl !== undefined) updateData.photoUrl = photoUrl || null;
-    if (reviewsUrl !== undefined) updateData.reviewsUrl = reviewsUrl || null;
-    if (weightedKeywords !== undefined) {
-      updateData.weightedKeywords = weightedKeywords;
-      updateData.keywords = Object.keys(weightedKeywords);
-    }
-    if (aliases !== undefined) updateData.aliases = aliases;
-    if (dietaryTags !== undefined) updateData.dietaryTags = dietaryTags;
-    if (allergens !== undefined) updateData.allergens = allergens;
     if (isAvailable !== undefined) updateData.isAvailable = isAvailable;
-    
-    const [item] = await db.update(menuItems)
-      .set(updateData)
-      .where(eq(menuItems.id, id))
-      .returning();
-    
-    if (!item) {
-      return res.status(404).json({ error: "Menu item not found" });
-    }
-    
+    const item = await storage.updateMenuItem(id, updateData);
     res.json(item);
   } catch (error) {
     console.error("Error updating menu item:", error);
@@ -123,7 +149,11 @@ adminRouter.put("/menu/:id", async (req: Request, res: Response) => {
 adminRouter.delete("/menu/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    await db.delete(menuItems).where(eq(menuItems.id, id));
+    if (db) {
+      await db.delete(menuItems).where(eq(menuItems.id, id));
+    } else {
+      await storage.deleteMenuItem(id);
+    }
     res.json({ success: true });
   } catch (error) {
     console.error("Error deleting menu item:", error);
@@ -134,11 +164,15 @@ adminRouter.delete("/menu/:id", async (req: Request, res: Response) => {
 // Get recent orders for admin
 adminRouter.get("/orders", async (req: Request, res: Response) => {
   try {
-    const recentOrders = await db.select()
-      .from(orders)
-      .orderBy(desc(orders.createdAt))
-      .limit(50);
-    res.json(recentOrders);
+    if (db) {
+      const recentOrders = await db.select()
+        .from(orders)
+        .orderBy(desc(orders.createdAt))
+        .limit(50);
+      return res.json(recentOrders);
+    }
+    const allOrders = await storage.getOrdersByRestaurant(1);
+    res.json(allOrders.slice(0, 50));
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).json({ error: "Failed to fetch orders" });
@@ -150,16 +184,20 @@ adminRouter.put("/orders/:id/status", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const { status } = req.body;
-    
-    const [order] = await db.update(orders)
-      .set({ status })
-      .where(eq(orders.id, id))
-      .returning();
-    
-    if (!order) {
-      return res.status(404).json({ error: "Order not found" });
+
+    if (db) {
+      const [order] = await db.update(orders)
+        .set({ status })
+        .where(eq(orders.id, id))
+        .returning();
+
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+      return res.json(order);
     }
-    
+
+    const order = await storage.updateOrderStatus(id, status);
     res.json(order);
   } catch (error) {
     console.error("Error updating order status:", error);
@@ -170,12 +208,15 @@ adminRouter.put("/orders/:id/status", async (req: Request, res: Response) => {
 // Get upload URL for menu item photos
 adminRouter.post("/upload-url", async (req: Request, res: Response) => {
   try {
+    // Object storage requires Replit environment
+    const { ObjectStorageService } = await import("./replit_integrations/object_storage");
+    const objectStorage = new ObjectStorageService();
     const uploadURL = await objectStorage.getObjectEntityUploadURL();
     const objectPath = objectStorage.normalizeObjectEntityPath(uploadURL);
     res.json({ uploadURL, objectPath });
   } catch (error) {
     console.error("Error generating upload URL:", error);
-    res.status(500).json({ error: "Failed to generate upload URL" });
+    res.status(500).json({ error: "File uploads require Replit Object Storage (not available in local mode)" });
   }
 });
 
@@ -183,12 +224,17 @@ adminRouter.post("/upload-url", async (req: Request, res: Response) => {
 adminRouter.get("/orders/:id", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const [order] = await db.select().from(orders).where(eq(orders.id, id));
-    
+    if (db) {
+      const [order] = await db.select().from(orders).where(eq(orders.id, id));
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+      return res.json(order);
+    }
+    const order = await storage.getOrder(id);
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }
-    
     res.json(order);
   } catch (error) {
     console.error("Error fetching order:", error);
@@ -201,36 +247,41 @@ adminRouter.post("/orders/:id/refund", async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     const { reason } = req.body;
-    
+
+    if (!db) {
+      return res.status(503).json({ error: "Refunds require database and Stripe (not available in local mode)" });
+    }
+
     const [order] = await db.select().from(orders).where(eq(orders.id, id));
-    
+
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }
-    
+
     if (!order.paymentId) {
       return res.status(400).json({ error: "No payment associated with this order" });
     }
-    
+
     if (order.status === 'refunded') {
       return res.status(400).json({ error: "Order has already been refunded" });
     }
-    
+
+    const { getUncachableStripeClient } = await import("./stripeClient");
     const stripe = await getUncachableStripeClient();
-    
+
     const refund = await stripe.refunds.create({
       payment_intent: order.paymentId,
       reason: reason || 'requested_by_customer',
     });
-    
+
     // Update order status
     const [updatedOrder] = await db.update(orders)
       .set({ status: 'refunded' })
       .where(eq(orders.id, id))
       .returning();
-    
-    res.json({ 
-      success: true, 
+
+    res.json({
+      success: true,
       refundId: refund.id,
       amount: refund.amount / 100,
       order: updatedOrder
@@ -246,24 +297,28 @@ adminRouter.post("/orders/:id/partial-refund", async (req: Request, res: Respons
   try {
     const id = parseInt(req.params.id);
     const { amount, itemIndices, reason } = req.body;
-    
+
+    if (!db) {
+      return res.status(503).json({ error: "Refunds require database and Stripe (not available in local mode)" });
+    }
+
     const [order] = await db.select().from(orders).where(eq(orders.id, id));
-    
+
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }
-    
+
     if (!order.paymentId) {
       return res.status(400).json({ error: "No payment associated with this order" });
     }
-    
+
     // Prevent multiple refunds on already refunded orders
     if (order.status === 'refunded') {
       return res.status(400).json({ error: "Order has already been fully refunded" });
     }
-    
+
     let refundAmount: number;
-    
+
     if (amount) {
       refundAmount = parseFloat(amount);
     } else if (itemIndices && Array.isArray(itemIndices)) {
@@ -274,7 +329,7 @@ adminRouter.post("/orders/:id/partial-refund", async (req: Request, res: Respons
       } catch (e) {
         return res.status(400).json({ error: "Invalid order items data" });
       }
-      
+
       refundAmount = itemIndices.reduce((sum: number, idx: number) => {
         const item = items[idx];
         if (item) {
@@ -282,7 +337,7 @@ adminRouter.post("/orders/:id/partial-refund", async (req: Request, res: Respons
         }
         return sum;
       }, 0);
-      
+
       // Add proportional tax
       const subtotal = parseFloat(order.subtotal as string);
       const tax = parseFloat(order.tax as string);
@@ -291,27 +346,28 @@ adminRouter.post("/orders/:id/partial-refund", async (req: Request, res: Respons
     } else {
       return res.status(400).json({ error: "Must specify amount or itemIndices" });
     }
-    
+
     if (refundAmount <= 0) {
       return res.status(400).json({ error: "Refund amount must be positive" });
     }
-    
+
+    const { getUncachableStripeClient } = await import("./stripeClient");
     const stripe = await getUncachableStripeClient();
-    
+
     const refund = await stripe.refunds.create({
       payment_intent: order.paymentId,
       amount: Math.round(refundAmount * 100), // Convert to cents
       reason: reason || 'requested_by_customer',
     });
-    
+
     // Update order status to partial refund
     const [updatedOrder] = await db.update(orders)
       .set({ status: 'partial_refund' })
       .where(eq(orders.id, id))
       .returning();
-    
-    res.json({ 
-      success: true, 
+
+    res.json({
+      success: true,
       refundId: refund.id,
       amount: refund.amount / 100,
       order: updatedOrder
@@ -334,15 +390,15 @@ adminRouter.post("/scan-menu", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Image too large. Please use an image under 15MB." });
     }
 
-    const mimeMatch = image.match(/^data:(image\/(jpeg|png|webp|gif));base64,/);
     if (!image.startsWith("data:image/")) {
       return res.status(400).json({ error: "Invalid image format. Please upload a JPG, PNG, or WEBP image." });
     }
 
     if (!process.env.XAI_API_KEY) {
-      return res.status(500).json({ error: "AI service not configured" });
+      return res.status(500).json({ error: "AI service not configured (XAI_API_KEY required)" });
     }
 
+    const OpenAI = (await import("openai")).default;
     const xai = new OpenAI({
       baseURL: "https://api.x.ai/v1",
       apiKey: process.env.XAI_API_KEY,
@@ -413,10 +469,10 @@ Respond with ONLY valid JSON in this exact format:
     }
 
     const allowedCategories = ["Main Course", "Appetizer", "Dessert", "Drinks", "Sides", "Pizza", "Pasta", "Salad", "Breakfast", "Steaks", "Seafood", "Burgers", "Sandwiches", "Soups", "Kids Menu", "Other"];
-    
+
     const createdItems: any[] = [];
     const failedItems: string[] = [];
-    
+
     for (const item of parsed.items) {
       try {
         const name = typeof item.name === 'string' ? item.name.slice(0, 100) : "Unknown Item";
@@ -427,20 +483,33 @@ Respond with ONLY valid JSON in this exact format:
         const aliases = Array.isArray(item.aliases) ? item.aliases.filter((a: any) => typeof a === 'string').slice(0, 10) : [];
         const dietaryTags = Array.isArray(item.dietaryTags) ? item.dietaryTags.filter((t: any) => typeof t === 'string').slice(0, 10) : [];
 
-        const [created] = await db.insert(menuItems).values({
-          restaurantId: 1,
-          name,
-          description,
-          price: safePrice.toString(),
-          category,
-          aliases,
-          keywords: [...aliases, ...dietaryTags],
-          weightedKeywords: {},
-          dietaryTags,
-          allergens: [],
-          isAvailable: true,
-        }).returning();
-        createdItems.push(created);
+        if (db) {
+          const [created] = await db.insert(menuItems).values({
+            restaurantId: 1,
+            name,
+            description,
+            price: safePrice.toString(),
+            category,
+            aliases,
+            keywords: [...aliases, ...dietaryTags],
+            weightedKeywords: {},
+            dietaryTags,
+            allergens: [],
+            isAvailable: true,
+          }).returning();
+          createdItems.push(created);
+        } else {
+          const created = await storage.createMenuItem({
+            restaurantId: 1,
+            name,
+            description,
+            price: safePrice.toString(),
+            category,
+            isAvailable: true,
+            tags: dietaryTags,
+          });
+          createdItems.push(created);
+        }
       } catch (itemError) {
         console.error(`Error creating item "${item.name}":`, itemError);
         failedItems.push(item.name || "Unknown");
@@ -518,7 +587,7 @@ IMPORTANT: You are embedded in the staff dashboard. When referring to features, 
 adminRouter.post("/copilot/chat", async (req: Request, res: Response) => {
   try {
     const { message, conversationHistory, pageContext } = req.body;
-    
+
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
       return res.status(400).json({ error: "Message is required" });
     }
@@ -528,9 +597,10 @@ adminRouter.post("/copilot/chat", async (req: Request, res: Response) => {
     }
 
     if (!process.env.XAI_API_KEY) {
-      return res.status(500).json({ error: "AI service not configured" });
+      return res.status(500).json({ error: "AI service not configured (XAI_API_KEY required)" });
     }
 
+    const OpenAI = (await import("openai")).default;
     const xai = new OpenAI({
       baseURL: "https://api.x.ai/v1",
       apiKey: process.env.XAI_API_KEY,
@@ -562,7 +632,7 @@ adminRouter.post("/copilot/chat", async (req: Request, res: Response) => {
     const feedbackType = detectFeedbackType(message);
     const sentiment = detectSentiment(message);
 
-    if (feedbackType !== 'general') {
+    if (feedbackType !== 'general' && db) {
       const sessionId = `copilot_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
       await db.insert(copilotFeedback).values({
         sessionId,
@@ -584,6 +654,9 @@ adminRouter.post("/copilot/chat", async (req: Request, res: Response) => {
 
 adminRouter.get("/copilot/feedback", async (_req: Request, res: Response) => {
   try {
+    if (!db) {
+      return res.json([]);
+    }
     const feedback = await db.select().from(copilotFeedback).orderBy(desc(copilotFeedback.createdAt)).limit(50);
     res.json(feedback);
   } catch (error: any) {
@@ -594,6 +667,9 @@ adminRouter.get("/copilot/feedback", async (_req: Request, res: Response) => {
 
 adminRouter.patch("/copilot/feedback/:id", async (req: Request, res: Response) => {
   try {
+    if (!db) {
+      return res.status(503).json({ error: "Database not available in local mode" });
+    }
     const id = parseInt(req.params.id);
     const [updated] = await db.update(copilotFeedback).set({ resolved: true }).where(eq(copilotFeedback.id, id)).returning();
     res.json(updated);
@@ -628,3 +704,173 @@ function detectSentiment(message: string): string {
   if (posScore > negScore) return 'positive';
   return 'neutral';
 }
+
+// === Table Management ===
+
+adminRouter.get("/tables", async (_req: Request, res: Response) => {
+  try {
+    const tables = await storage.getTables(1);
+    res.json(tables);
+  } catch (error) {
+    console.error("Error fetching tables:", error);
+    res.status(500).json({ error: "Failed to fetch tables" });
+  }
+});
+
+adminRouter.post("/tables", async (req: Request, res: Response) => {
+  try {
+    const { tableNumber, tableName, capacity, section, qrCodeId } = req.body;
+    const table = await storage.createTable({
+      restaurantId: 1,
+      tableNumber: tableNumber || "1",
+      tableName,
+      capacity: capacity || 4,
+      section,
+      qrCodeId: qrCodeId || `table-${Date.now()}`,
+      isActive: true,
+    });
+    res.json(table);
+  } catch (error) {
+    console.error("Error creating table:", error);
+    res.status(500).json({ error: "Failed to create table" });
+  }
+});
+
+adminRouter.put("/tables/:id", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const table = await storage.updateTable(id, req.body);
+    res.json(table);
+  } catch (error) {
+    console.error("Error updating table:", error);
+    res.status(500).json({ error: "Failed to update table" });
+  }
+});
+
+adminRouter.delete("/tables/:id", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    await storage.deleteTable(id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting table:", error);
+    res.status(500).json({ error: "Failed to delete table" });
+  }
+});
+
+// === Menu Categories ===
+
+adminRouter.get("/categories", async (_req: Request, res: Response) => {
+  try {
+    const categories = await storage.getMenuCategories(1);
+    res.json(categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ error: "Failed to fetch categories" });
+  }
+});
+
+adminRouter.post("/categories", async (req: Request, res: Response) => {
+  try {
+    const { name, description, displayOrder, availabilitySchedule } = req.body;
+    const category = await storage.createMenuCategory({
+      restaurantId: 1,
+      name: name || "New Category",
+      description,
+      displayOrder: displayOrder || 0,
+      availabilitySchedule: availabilitySchedule || "all_day",
+    });
+    res.json(category);
+  } catch (error) {
+    console.error("Error creating category:", error);
+    res.status(500).json({ error: "Failed to create category" });
+  }
+});
+
+adminRouter.delete("/categories/:id", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    await storage.deleteMenuCategory(id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    res.status(500).json({ error: "Failed to delete category" });
+  }
+});
+
+// === Restaurant Settings ===
+
+adminRouter.get("/restaurant", async (_req: Request, res: Response) => {
+  try {
+    const restaurant = await storage.getRestaurant(1);
+    res.json(restaurant || { error: "No restaurant configured" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch restaurant" });
+  }
+});
+
+adminRouter.put("/restaurant", async (req: Request, res: Response) => {
+  try {
+    const restaurant = await storage.updateRestaurant(1, req.body);
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update restaurant" });
+  }
+});
+
+// === Analytics ===
+
+adminRouter.get("/analytics", async (_req: Request, res: Response) => {
+  try {
+    const allOrders = await storage.getOrdersByRestaurant(1);
+    const menuItemsList = await storage.getMenuItems(1);
+
+    const totalOrders = allOrders.length;
+    const totalRevenue = allOrders.reduce((sum, o) => sum + parseFloat(o.total as string || "0"), 0);
+    const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+    // Orders by status
+    const byStatus: Record<string, number> = {};
+    allOrders.forEach(o => { byStatus[o.status || 'pending'] = (byStatus[o.status || 'pending'] || 0) + 1; });
+
+    // Item popularity from orders
+    const itemCounts: Record<string, number> = {};
+    allOrders.forEach(o => {
+      try {
+        const items = typeof o.items === 'string' ? JSON.parse(o.items) : o.items;
+        if (Array.isArray(items)) {
+          items.forEach((item: any) => {
+            itemCounts[item.name] = (itemCounts[item.name] || 0) + (item.quantity || 1);
+          });
+        }
+      } catch {}
+    });
+
+    const popularItems = Object.entries(itemCounts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 10)
+      .map(([name, count]) => ({ name, count }));
+
+    // Orders by hour (mock distribution)
+    const ordersByHour: Record<number, number> = {};
+    allOrders.forEach(o => {
+      if (o.createdAt) {
+        const hour = new Date(o.createdAt).getHours();
+        ordersByHour[hour] = (ordersByHour[hour] || 0) + 1;
+      }
+    });
+
+    res.json({
+      totalOrders,
+      totalRevenue: totalRevenue.toFixed(2),
+      avgOrderValue: avgOrderValue.toFixed(2),
+      totalMenuItems: menuItemsList.length,
+      byStatus,
+      popularItems,
+      ordersByHour,
+    });
+  } catch (error) {
+    console.error("Error fetching analytics:", error);
+    res.status(500).json({ error: "Failed to fetch analytics" });
+  }
+});

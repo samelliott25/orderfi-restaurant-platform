@@ -1,16 +1,26 @@
 import { Router, Request, Response } from "express";
-import { getUncachableStripeClient, getStripePublishableKey } from "./stripeClient";
 import { sessions } from "./voice-routes";
 
 export const paymentRouter = Router();
 
+// Helper: lazy-import Stripe client (only works on Replit with connector)
+async function getStripe() {
+  const { getUncachableStripeClient } = await import("./stripeClient");
+  return getUncachableStripeClient();
+}
+
+async function getPubKey() {
+  const { getStripePublishableKey } = await import("./stripeClient");
+  return getStripePublishableKey();
+}
+
 // Get Stripe publishable key for client
 paymentRouter.get("/config", async (_req: Request, res: Response) => {
   try {
-    const publishableKey = await getStripePublishableKey();
+    const publishableKey = await getPubKey();
     res.json({ publishableKey });
   } catch (error) {
-    res.status(500).json({ error: "Failed to get Stripe config" });
+    res.status(503).json({ error: "Stripe is not configured (requires Replit Stripe connector)" });
   }
 });
 
@@ -41,8 +51,8 @@ paymentRouter.post("/create-intent", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Invalid order total" });
     }
 
-    const stripe = await getUncachableStripeClient();
-    
+    const stripe = await getStripe();
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(total * 100), // Convert to cents
       currency: "usd",
@@ -76,7 +86,7 @@ paymentRouter.post("/confirm", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Missing payment intent ID" });
     }
 
-    const stripe = await getUncachableStripeClient();
+    const stripe = await getStripe();
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
     if (paymentIntent.status === "succeeded") {

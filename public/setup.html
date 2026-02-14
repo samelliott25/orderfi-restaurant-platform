@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrderFi - Restaurant Setup</title>
+  <meta name="description" content="Set up your restaurant on OrderFi in minutes. Configure menus, tables, and QR codes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #FFF9F5;
+      --card: #FFFFFF;
+      --text: #2D2A26;
+      --text-muted: #6B6560;
+      --primary: #E23D28;
+      --primary-dark: #C4311F;
+      --accent: #FF6B35;
+      --fresh: #4CAF50;
+      --warm: #FFB347;
+      --border: rgba(0,0,0,0.08);
+      --success: #4CAF50;
+      --error: #E23D28;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Lilita One', cursive;
+      font-size: 1.5rem;
+      color: white;
+      text-decoration: none;
+    }
+
+    .header-subtitle {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.9rem;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 56px;
+      z-index: 99;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .progress-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+
+    .progress-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--border);
+      transform: translateY(-50%);
+      z-index: 0;
+      border-radius: 2px;
+    }
+
+    .progress-line-fill {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transform: translateY(-50%);
+      z-index: 1;
+      border-radius: 2px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .progress-step {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 3px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      z-index: 2;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-step.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #FFF0EE;
+      transform: scale(1.1);
+    }
+
+    .progress-step.completed {
+      border-color: var(--fresh);
+      background: var(--fresh);
+      color: white;
+    }
+
+    .progress-step.completed::after {
+      content: '';
+      width: 10px;
+      height: 6px;
+      border-left: 2.5px solid white;
+      border-bottom: 2.5px solid white;
+      transform: rotate(-45deg) translateY(-1px);
+      display: block;
+    }
+
+    .progress-step.completed span {
+      display: none;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-align: center;
+      width: 36px;
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+
+    .progress-label.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem;
+      min-height: calc(100vh - 160px);
+    }
+
+    /* Step Panels */
+    .step-panel {
+      display: none;
+      animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .step-panel.active {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+    }
+
+    .step-header {
+      margin-bottom: 2rem;
+    }
+
+    .step-number-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .step-title {
+      font-family: 'Lilita One', cursive;
+      font-size: 2rem;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .step-subtitle {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    label .required {
+      color: var(--primary);
+      margin-left: 2px;
+    }
+
+    .label-hint {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 0.25rem;
+      line-height: 1.4;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="time"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--card);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(226, 61, 40, 0.1);
+    }
+
+    input.error,
+    select.error,
+    textarea.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(226, 61, 40, 0.1);
+    }
+
+    .error-message {
+      color: var(--error);
+      font-size: 0.78rem;
+      margin-top: 0.35rem;
+      display: none;
+    }
+
+    .error-message.visible {
+      display: block;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6560' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    /* Color Picker */
+    .color-picker-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    input[type="color"] {
+      width: 48px;
+      height: 48px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      padding: 4px;
+      background: var(--card);
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 8px;
+    }
+
+    .color-hex {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    /* Toggle Switch */
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+    }
+
+    .toggle-info {
+      flex: 1;
+    }
+
+    .toggle-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0;
+    }
+
+    .toggle-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #D1D1D1;
+      border-radius: 28px;
+      transition: background 0.3s;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background: var(--fresh);
+    }
+
+    .toggle-switch input:checked + .toggle-slider::before {
+      transform: translateX(24px);
+    }
+
+    .toggle-switch input:focus + .toggle-slider {
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    }
+
+    /* Tip Presets */
+    .tip-presets {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+      padding: 0 1.25rem 1rem;
+    }
+
+    .tip-presets .form-group {
+      margin-bottom: 0;
+    }
+
+    .tip-presets label {
+      font-size: 0.78rem;
+    }
+
+    /* Operating Hours */
+    .hours-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .hours-row {
+      display: grid;
+      grid-template-columns: 100px 1fr 30px 1fr 120px;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.9rem;
+    }
+
+    .hours-day {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .hours-separator {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .hours-closed {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      justify-content: flex-end;
+    }
+
+    .hours-closed input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .hours-closed label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+
+    .hours-row input[type="time"] {
+      padding: 0.5rem 0.6rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    .hours-row.closed-day input[type="time"] {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    /* File Upload */
+    .file-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: var(--card);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .file-upload-area:hover {
+      border-color: var(--primary);
+      background: #FFF5F3;
+    }
+
+    .file-upload-area.has-preview {
+      padding: 0;
+      border-style: solid;
+    }
+
+    .file-upload-icon {
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .file-upload-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .file-upload-text strong {
+      color: var(--primary);
+    }
+
+    .file-upload-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+      opacity: 0.7;
+    }
+
+    .file-upload-area input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .upload-preview {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .upload-preview-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.75rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      color: white;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    /* Section Checkboxes */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .checkbox-card {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1rem;
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .checkbox-card:hover {
+      border-color: var(--accent);
+    }
+
+    .checkbox-card input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .checkbox-card input[type="checkbox"]:checked ~ .checkbox-card-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .checkbox-card:has(input:checked) {
+      border-color: var(--primary);
+      background: #FFF5F3;
+    }
+
+    .checkbox-card-label {
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    /* Tables Preview */
+    .tables-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .table-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-card-name {
+      font-family: 'Lilita One', cursive;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .table-card-qr img {
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+    }
+
+    .table-card-url {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+      word-break: break-all;
+    }
+
+    /* Buttons */
+    .btn-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      box-shadow: 0 4px 15px rgba(226, 61, 40, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(226, 61, 40, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      padding: 0.85rem 1rem;
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+    }
+
+    .btn-success {
+      background: var(--fresh);
+      color: white;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(76, 175, 80, 0.4);
+    }
+
+    .btn-outline {
+      background: var(--card);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: #FFF5F3;
+      transform: translateY(-2px);
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Generate Tables Button */
+    .generate-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #FFF5F3, #FFF0EA);
+      border-radius: 16px;
+      text-align: center;
+      border: 1px solid rgba(226, 61, 40, 0.1);
+    }
+
+    .generate-section p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Completion Screen */
+    .completion-panel {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .completion-icon {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, var(--fresh), #66BB6A);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      box-shadow: 0 8px 30px rgba(76, 175, 80, 0.3);
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .completion-icon svg {
+      width: 48px;
+      height: 48px;
+      color: white;
+    }
+
+    .completion-title {
+      font-family: 'Lilita One', cursive;
+      font-size: 2.5rem;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .completion-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0 auto 1rem;
+    }
+
+    .completion-url {
+      display: inline-block;
+      padding: 0.75rem 1.25rem;
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin-bottom: 2.5rem;
+      word-break: break-all;
+    }
+
+    .completion-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 1rem 1.5rem;
+      background: var(--text);
+      color: white;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .toast.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.error {
+      background: var(--error);
+    }
+
+    .toast.success {
+      background: var(--fresh);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 0.75rem 1.25rem;
+      }
+
+      .progress-container {
+        padding: 1rem 1.25rem;
+      }
+
+      .progress-labels {
+        display: none;
+      }
+
+      .main-container {
+        padding: 1.5rem 1rem;
+      }
+
+      .step-title {
+        font-size: 1.6rem;
+      }
+
+      .form-row,
+      .form-row-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .tip-presets {
+        grid-template-columns: 1fr 1fr 1fr;
+        padding: 0;
+        margin-top: 0.5rem;
+      }
+
+      .hours-row {
+        grid-template-columns: 70px 1fr 20px 1fr auto;
+        gap: 0.4rem;
+        padding: 0.6rem 0.75rem;
+        font-size: 0.82rem;
+      }
+
+      .hours-day {
+        font-size: 0.78rem;
+      }
+
+      .btn-row {
+        gap: 0.75rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+      }
+
+      .tables-preview {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+
+      .completion-title {
+        font-size: 2rem;
+      }
+
+      .completion-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .progress-step {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+      }
+
+      .hours-row {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+      }
+
+      .hours-day {
+        font-weight: 700;
+      }
+
+      .hours-times {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 0.4rem;
+        align-items: center;
+      }
+
+      .tip-presets {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <a href="/" class="logo">OrderFi</a>
+    <span class="header-subtitle">Restaurant Setup</span>
+  </header>
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-inner">
+      <div class="progress-steps">
+        <div class="progress-line"></div>
+        <div class="progress-line-fill" id="progressFill"></div>
+        <div class="progress-step active" data-step="1" onclick="goToStep(1)"><span>1</span></div>
+        <div class="progress-step" data-step="2" onclick="goToStep(2)"><span>2</span></div>
+        <div class="progress-step" data-step="3" onclick="goToStep(3)"><span>3</span></div>
+        <div class="progress-step" data-step="4" onclick="goToStep(4)"><span>4</span></div>
+        <div class="progress-step" data-step="5" onclick="goToStep(5)"><span>5</span></div>
+        <div class="progress-step" data-step="6" onclick="goToStep(6)"><span>6</span></div>
+        <div class="progress-step" data-step="7" onclick="goToStep(7)"><span>7</span></div>
+      </div>
+      <div class="progress-labels">
+        <span class="progress-label active">Basics</span>
+        <span class="progress-label">Contact</span>
+        <span class="progress-label">Settings</span>
+        <span class="progress-label">Ordering</span>
+        <span class="progress-label">Branding</span>
+        <span class="progress-label">Tables</span>
+        <span class="progress-label">Done!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-container">
+
+    <!-- Step 1: Restaurant Basics -->
+    <div class="step-panel active" id="step1">
+      <div class="step-header">
+        <div class="step-number-label">Step 1 of 7</div>
+        <h2 class="step-title">Restaurant Basics</h2>
+        <p class="step-subtitle">Let's start with the essentials. Tell us about your restaurant.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="restaurantName">Restaurant Name <span class="required">*</span></label>
+        <input type="text" id="restaurantName" placeholder="e.g. The Golden Fork" required>
+        <div class="error-message" id="restaurantNameError">Restaurant name is required.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="cuisineType">Cuisine Type</label>
+        <select id="cuisineType">
+          <option value="">Select cuisine type...</option>
+          <option value="modern-australian">Modern Australian</option>
+          <option value="italian">Italian</option>
+          <option value="japanese">Japanese</option>
+          <option value="chinese">Chinese</option>
+          <option value="thai">Thai</option>
+          <option value="indian">Indian</option>
+          <option value="mexican">Mexican</option>
+          <option value="american">American</option>
+          <option value="french">French</option>
+          <option value="mediterranean">Mediterranean</option>
+          <option value="korean">Korean</option>
+          <option value="vietnamese">Vietnamese</option>
+          <option value="fusion">Fusion</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="Tell customers what makes your restaurant special..." rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="welcomeMessage">
+          Welcome Message
+          <span class="label-hint">This is what customers see when they scan your QR code</span>
+        </label>
+        <textarea id="welcomeMessage" placeholder="e.g. Welcome to The Golden Fork! Tap the mic to start ordering with your voice." rows="3"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <div></div>
+        <button class="btn btn-primary" onclick="nextStep()">
+          Next
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Contact & Location -->
+    <div class="step-panel" id="step2">
+      <div class="step-header">
+        <div class="step-number-label">Step 2 of 7</div>
+        <h2 class="step-title">Contact & Location</h2>
+        <p class="step-subtitle">Where can customers find you?</p>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="e.g. (02) 9876 5432">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="e.g. hello@restaurant.com">
+          <div class="error-message" id="emailError">Please enter a valid email address.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Street Address</label>
+        <input type="text" id="address" placeholder="e.g. 123 Gourmet Lane">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" placeholder="e.g. Sydney">
+        </div>
+        <div class="form-group">
+          <label for="stateProvince">State / Province</label>
+          <input type="text" id="stateProvince" placeholder="e.g. NSW">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="postalCode">Postal Code</label>
+          <input type="text" id="postalCode" placeholder="e.g. 2000">
+        </div>
+        <div class="form-group">
+          <label for="country">Country</label>
+          <select id="country">
+            <option value="AU" selected>Australia</option>
+            <option value="NZ">New Zealand</option>
+            <option value="US">United States</option>
+            <option value="GB">United Kingdom</option>
+            <option value="SG">Singapore</option>
+            <option value="CA">Canada</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="JP">Japan</option>
+            <option value="KR">South Korea</option>
+            <option value="IN">India</option>
+            <option value="TH">Thailand</option>
+            <option value="MY">Malaysia</option>
+            <option value="ID">Indonesia</option>
+            <option value="PH">Philippines</option>
+            <option value="VN">Vietnam</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <button class="btn btn-primary" onclick="nextStep()">
+          Next
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 3: Business Settings -->
+    <div class="step-panel" id="step3">
+      <div class="step-header">
+        <div class="step-number-label">Step 3 of 7</div>
+        <h2 class="step-title">Business Settings</h2>
+        <p class="step-subtitle">Configure currency, tax, and payment preferences.</p>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <select id="currency">
+            <option value="AUD" selected>AUD - Australian Dollar</option>
+            <option value="USD">USD - US Dollar</option>
+            <option value="GBP">GBP - British Pound</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="NZD">NZD - New Zealand Dollar</option>
+            <option value="SGD">SGD - Singapore Dollar</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="taxRate">Tax Rate (%)</label>
+          <input type="number" id="taxRate" value="10" min="0" max="100" step="0.1">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="toggle-group">
+          <div class="toggle-info">
+            <div class="toggle-label">Enable Tipping</div>
+            <div class="toggle-desc">Allow customers to add a tip at checkout</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="enableTipping" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="tip-presets" id="tipPresetsContainer">
+          <div class="form-group">
+            <label for="tipPreset1">Preset 1 (%)</label>
+            <input type="number" id="tipPreset1" value="10" min="0" max="100" step="1">
+          </div>
+          <div class="form-group">
+            <label for="tipPreset2">Preset 2 (%)</label>
+            <input type="number" id="tipPreset2" value="15" min="0" max="100" step="1">
+          </div>
+          <div class="form-group">
+            <label for="tipPreset3">Preset 3 (%)</label>
+            <input type="number" id="tipPreset3" value="20" min="0" max="100" step="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="toggle-group">
+          <div class="toggle-info">
+            <div class="toggle-label">Enable Bill Splitting</div>
+            <div class="toggle-desc">Let groups split the bill equally or by item</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="enableBillSplitting" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <button class="btn btn-primary" onclick="nextStep()">
+          Next
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 4: Ordering Options -->
+    <div class="step-panel" id="step4">
+      <div class="step-header">
+        <div class="step-number-label">Step 4 of 7</div>
+        <h2 class="step-title">Ordering Options</h2>
+        <p class="step-subtitle">Choose how customers can order and set your hours.</p>
+      </div>
+
+      <div class="form-group">
+        <div class="toggle-group">
+          <div class="toggle-info">
+            <div class="toggle-label">Dine-In Ordering</div>
+            <div class="toggle-desc">Customers scan a QR code at their table to order</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="enableDineIn" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="toggle-group">
+          <div class="toggle-info">
+            <div class="toggle-label">Takeaway</div>
+            <div class="toggle-desc">Accept orders for pickup</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="enableTakeaway">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="toggle-group">
+          <div class="toggle-info">
+            <div class="toggle-label">Voice Ordering</div>
+            <div class="toggle-desc">Let customers order by speaking (powered by AI)</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="enableVoiceOrdering" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 2rem;">
+        <label>Operating Hours</label>
+        <div class="hours-grid" id="hoursGrid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <button class="btn btn-primary" onclick="nextStep()">
+          Next
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 5: Branding -->
+    <div class="step-panel" id="step5">
+      <div class="step-header">
+        <div class="step-number-label">Step 5 of 7</div>
+        <h2 class="step-title">Branding</h2>
+        <p class="step-subtitle">Customize the look and feel of your customer-facing pages.</p>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="primaryColor">Primary Color</label>
+          <div class="color-picker-group">
+            <input type="color" id="primaryColor" value="#E23D28">
+            <span class="color-hex" id="primaryColorHex">#E23D28</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="secondaryColor">Secondary Color</label>
+          <div class="color-picker-group">
+            <input type="color" id="secondaryColor" value="#FF6B35">
+            <span class="color-hex" id="secondaryColorHex">#FF6B35</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Logo</label>
+        <div class="file-upload-area" id="logoUploadArea">
+          <div class="file-upload-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="file-upload-text"><strong>Click to upload</strong> or drag and drop</div>
+          <div class="file-upload-hint">PNG, JPG, or SVG. Max 2MB.</div>
+          <input type="file" id="logoUpload" accept="image/png,image/jpeg,image/svg+xml" onchange="handleFileUpload(this, 'logoPreview', 'logoUploadArea')">
+        </div>
+        <img id="logoPreview" class="upload-preview" style="display:none;">
+      </div>
+
+      <div class="form-group">
+        <label>Cover Image</label>
+        <div class="file-upload-area" id="coverUploadArea">
+          <div class="file-upload-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="file-upload-text"><strong>Click to upload</strong> or drag and drop</div>
+          <div class="file-upload-hint">Recommended: 1200 x 400px. Max 5MB.</div>
+          <input type="file" id="coverUpload" accept="image/png,image/jpeg" onchange="handleFileUpload(this, 'coverPreview', 'coverUploadArea')">
+        </div>
+        <img id="coverPreview" class="upload-preview" style="display:none;">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <button class="btn btn-primary" onclick="nextStep()">
+          Next
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 6: Tables -->
+    <div class="step-panel" id="step6">
+      <div class="step-header">
+        <div class="step-number-label">Step 6 of 7</div>
+        <h2 class="step-title">Tables & QR Codes</h2>
+        <p class="step-subtitle">Set up your table layout. We'll generate a QR code for each one.</p>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="tableCount">How Many Tables? <span class="required">*</span></label>
+          <input type="number" id="tableCount" value="10" min="1" max="200" step="1">
+          <div class="error-message" id="tableCountError">Please enter at least 1 table.</div>
+        </div>
+        <div class="form-group">
+          <label for="tablePrefix">Table Prefix</label>
+          <input type="text" id="tablePrefix" placeholder="e.g. TBL">
+          <span class="label-hint" style="display:block; margin-top:0.3rem;">Preview: <strong id="tablePrefixPreview">TBL-1</strong>, <strong id="tablePrefixPreview2">TBL-2</strong>, ...</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Sections</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-card">
+            <input type="checkbox" name="sections" value="indoor" checked>
+            <span class="checkbox-card-label">Indoor</span>
+          </label>
+          <label class="checkbox-card">
+            <input type="checkbox" name="sections" value="outdoor">
+            <span class="checkbox-card-label">Outdoor</span>
+          </label>
+          <label class="checkbox-card">
+            <input type="checkbox" name="sections" value="bar">
+            <span class="checkbox-card-label">Bar</span>
+          </label>
+          <label class="checkbox-card">
+            <input type="checkbox" name="sections" value="vip">
+            <span class="checkbox-card-label">VIP</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="generate-section">
+        <p>Once you're happy with your settings, generate your table QR codes.</p>
+        <button class="btn btn-primary" id="generateTablesBtn" onclick="generateTables()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Generate Tables & QR Codes
+        </button>
+      </div>
+
+      <div id="tablesPreview" class="tables-preview" style="display:none;"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <button class="btn btn-primary" id="completeSetupBtn" onclick="completeSetup()">
+          Complete Setup
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 7: Complete -->
+    <div class="step-panel" id="step7">
+      <div class="completion-panel">
+        <div class="completion-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h2 class="completion-title">You're All Set!</h2>
+        <p class="completion-subtitle">
+          Your restaurant is ready to accept orders on OrderFi. Share your QR codes with customers and start receiving orders.
+        </p>
+        <div class="completion-url" id="completionUrl"></div>
+        <div class="completion-actions">
+          <a href="/admin" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Go to Dashboard
+          </a>
+          <a href="#" class="btn btn-outline" id="viewMenuBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            View Customer Menu
+          </a>
+          <button class="btn btn-success" onclick="downloadQRCodes()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download QR Codes
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ============================================================
+    // State
+    // ============================================================
+    let currentStep = 1;
+    const totalSteps = 7;
+    let restaurantSlug = '';
+    let generatedTables = [];
+    let logoFile = null;
+    let coverFile = null;
+
+    // ============================================================
+    // Operating Hours initialization
+    // ============================================================
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const defaultHours = {
+      Monday:    { open: '09:00', close: '22:00', closed: false },
+      Tuesday:   { open: '09:00', close: '22:00', closed: false },
+      Wednesday: { open: '09:00', close: '22:00', closed: false },
+      Thursday:  { open: '09:00', close: '22:00', closed: false },
+      Friday:    { open: '09:00', close: '23:00', closed: false },
+      Saturday:  { open: '09:00', close: '23:00', closed: false },
+      Sunday:    { open: '10:00', close: '21:00', closed: false },
+    };
+
+    function initHoursGrid() {
+      const grid = document.getElementById('hoursGrid');
+      grid.innerHTML = '';
+      days.forEach(function(day) {
+        var h = defaultHours[day];
+        var shortDay = day.substring(0, 3);
+        var row = document.createElement('div');
+        row.className = 'hours-row';
+        row.id = 'hours-' + day;
+        row.innerHTML =
+          '<span class="hours-day">' + shortDay + '</span>' +
+          '<input type="time" id="open-' + day + '" value="' + h.open + '">' +
+          '<span class="hours-separator">to</span>' +
+          '<input type="time" id="close-' + day + '" value="' + h.close + '">' +
+          '<div class="hours-closed">' +
+            '<input type="checkbox" id="closed-' + day + '" onchange="toggleDayClosed(\'' + day + '\')">' +
+            '<label for="closed-' + day + '">Closed</label>' +
+          '</div>';
+        grid.appendChild(row);
+      });
+    }
+
+    function toggleDayClosed(day) {
+      var row = document.getElementById('hours-' + day);
+      var cb = document.getElementById('closed-' + day);
+      if (cb.checked) {
+        row.classList.add('closed-day');
+      } else {
+        row.classList.remove('closed-day');
+      }
+    }
+
+    // ============================================================
+    // Tipping toggle
+    // ============================================================
+    document.getElementById('enableTipping').addEventListener('change', function() {
+      document.getElementById('tipPresetsContainer').style.display = this.checked ? 'grid' : 'none';
+    });
+
+    // ============================================================
+    // Color pickers
+    // ============================================================
+    document.getElementById('primaryColor').addEventListener('input', function() {
+      document.getElementById('primaryColorHex').textContent = this.value.toUpperCase();
+    });
+    document.getElementById('secondaryColor').addEventListener('input', function() {
+      document.getElementById('secondaryColorHex').textContent = this.value.toUpperCase();
+    });
+
+    // ============================================================
+    // Table prefix preview
+    // ============================================================
+    document.getElementById('tablePrefix').addEventListener('input', updateTablePrefixPreview);
+    document.getElementById('tableCount').addEventListener('input', updateTablePrefixPreview);
+
+    function updateTablePrefixPreview() {
+      var prefix = document.getElementById('tablePrefix').value || getSlug();
+      document.getElementById('tablePrefixPreview').textContent = prefix + '-1';
+      document.getElementById('tablePrefixPreview2').textContent = prefix + '-2';
+    }
+
+    // ============================================================
+    // File upload
+    // ============================================================
+    function handleFileUpload(input, previewId, areaId) {
+      var file = input.files[0];
+      if (!file) return;
+
+      // Size checks
+      var maxSize = previewId === 'logoPreview' ? 2 * 1024 * 1024 : 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        showToast('File is too large. Maximum size is ' + (maxSize / 1024 / 1024) + 'MB.', 'error');
+        input.value = '';
+        return;
+      }
+
+      if (previewId === 'logoPreview') logoFile = file;
+      else coverFile = file;
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var preview = document.getElementById(previewId);
+        var area = document.getElementById(areaId);
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        area.classList.add('has-preview');
+        area.innerHTML = '';
+        var img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'upload-preview';
+        img.alt = 'Preview';
+        area.appendChild(img);
+        var overlay = document.createElement('div');
+        overlay.className = 'upload-preview-overlay';
+        overlay.textContent = 'Click to change';
+        area.appendChild(overlay);
+        var fi = document.createElement('input');
+        fi.type = 'file';
+        fi.accept = input.accept;
+        fi.onchange = function() { handleFileUpload(fi, previewId, areaId); };
+        area.appendChild(fi);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ============================================================
+    // Slug generation
+    // ============================================================
+    function getSlug() {
+      var name = document.getElementById('restaurantName').value.trim();
+      return name.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '') || 'my-restaurant';
+    }
+
+    // ============================================================
+    // Navigation
+    // ============================================================
+    function updateProgress() {
+      // Update step indicators
+      var steps = document.querySelectorAll('.progress-step');
+      var labels = document.querySelectorAll('.progress-label');
+
+      steps.forEach(function(step, i) {
+        var stepNum = i + 1;
+        step.classList.remove('active', 'completed');
+        labels[i].classList.remove('active');
+
+        if (stepNum < currentStep) {
+          step.classList.add('completed');
+        } else if (stepNum === currentStep) {
+          step.classList.add('active');
+          labels[i].classList.add('active');
+        }
+      });
+
+      // Update progress line
+      var pct = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      document.getElementById('progressFill').style.width = pct + '%';
+    }
+
+    function showStep(step) {
+      var panels = document.querySelectorAll('.step-panel');
+      panels.forEach(function(p) { p.classList.remove('active'); });
+
+      var target = document.getElementById('step' + step);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      currentStep = step;
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToStep(step) {
+      // Only allow going to completed steps or the current step
+      if (step > currentStep) return;
+      showStep(step);
+    }
+
+    function nextStep() {
+      if (!validateStep(currentStep)) return;
+      if (currentStep < totalSteps) {
+        showStep(currentStep + 1);
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        showStep(currentStep - 1);
+      }
+    }
+
+    // ============================================================
+    // Validation
+    // ============================================================
+    function clearErrors() {
+      document.querySelectorAll('.error').forEach(function(el) { el.classList.remove('error'); });
+      document.querySelectorAll('.error-message').forEach(function(el) { el.classList.remove('visible'); });
+    }
+
+    function showFieldError(inputId, errorId) {
+      var input = document.getElementById(inputId);
+      var error = document.getElementById(errorId);
+      if (input) input.classList.add('error');
+      if (error) error.classList.add('visible');
+    }
+
+    function validateStep(step) {
+      clearErrors();
+
+      if (step === 1) {
+        var name = document.getElementById('restaurantName').value.trim();
+        if (!name) {
+          showFieldError('restaurantName', 'restaurantNameError');
+          document.getElementById('restaurantName').focus();
+          showToast('Please enter your restaurant name.', 'error');
+          return false;
+        }
+      }
+
+      if (step === 2) {
+        var email = document.getElementById('email').value.trim();
+        if (email && !isValidEmail(email)) {
+          showFieldError('email', 'emailError');
+          document.getElementById('email').focus();
+          showToast('Please enter a valid email address.', 'error');
+          return false;
+        }
+      }
+
+      if (step === 6) {
+        var count = parseInt(document.getElementById('tableCount').value);
+        if (!count || count < 1) {
+          showFieldError('tableCount', 'tableCountError');
+          document.getElementById('tableCount').focus();
+          showToast('Please enter at least 1 table.', 'error');
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // ============================================================
+    // Generate Tables
+    // ============================================================
+    async function generateTables() {
+      if (!validateStep(6)) return;
+
+      var btn = document.getElementById('generateTablesBtn');
+      var originalHTML = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Generating...';
+
+      var count = parseInt(document.getElementById('tableCount').value);
+      var prefix = document.getElementById('tablePrefix').value.trim() || getSlug();
+      var sections = [];
+      document.querySelectorAll('input[name="sections"]:checked').forEach(function(cb) {
+        sections.push(cb.value);
+      });
+
+      var slug = getSlug();
+      var baseUrl = window.location.origin;
+
+      try {
+        // Try API call first
+        var response = await fetch('/api/setup/tables/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            count: count,
+            prefix: prefix,
+            sections: sections,
+            slug: slug
+          })
+        });
+
+        if (response.ok) {
+          var data = await response.json();
+          generatedTables = data.tables || [];
+        } else {
+          // Fall back to client-side generation
+          generatedTables = generateTablesLocally(count, prefix, slug, baseUrl);
+        }
+      } catch (e) {
+        // Offline / API not available - generate locally
+        generatedTables = generateTablesLocally(count, prefix, slug, baseUrl);
+      }
+
+      renderTablesPreview(baseUrl);
+      btn.disabled = false;
+      btn.innerHTML = originalHTML;
+      showToast(generatedTables.length + ' tables generated successfully!', 'success');
+    }
+
+    function generateTablesLocally(count, prefix, slug, baseUrl) {
+      var tables = [];
+      for (var i = 1; i <= count; i++) {
+        var tableId = prefix + '-' + i;
+        tables.push({
+          id: tableId,
+          number: i,
+          name: 'Table ' + i,
+          url: baseUrl + '/menu/' + slug + '?table=' + tableId
+        });
+      }
+      return tables;
+    }
+
+    function renderTablesPreview(baseUrl) {
+      var container = document.getElementById('tablesPreview');
+      container.style.display = 'grid';
+      container.innerHTML = '';
+
+      var maxShow = Math.min(generatedTables.length, 12);
+      for (var i = 0; i < maxShow; i++) {
+        var t = generatedTables[i];
+        var qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(t.url) + '&size=200x200&margin=8';
+        var card = document.createElement('div');
+        card.className = 'table-card';
+        card.innerHTML =
+          '<div class="table-card-name">' + t.id + '</div>' +
+          '<div class="table-card-qr"><img src="' + qrUrl + '" alt="QR Code for ' + t.id + '" loading="lazy"></div>' +
+          '<div class="table-card-url">' + t.url + '</div>';
+        container.appendChild(card);
+      }
+
+      if (generatedTables.length > maxShow) {
+        var more = document.createElement('div');
+        more.className = 'table-card';
+        more.style.display = 'flex';
+        more.style.alignItems = 'center';
+        more.style.justifyContent = 'center';
+        more.style.flexDirection = 'column';
+        more.style.color = 'var(--text-muted)';
+        more.innerHTML =
+          '<div style="font-family:\'Lilita One\',cursive; font-size:2rem; color:var(--primary);">+' + (generatedTables.length - maxShow) + '</div>' +
+          '<div style="font-size:0.85rem; margin-top:0.25rem;">more tables</div>';
+        container.appendChild(more);
+      }
+    }
+
+    // ============================================================
+    // Complete Setup
+    // ============================================================
+    async function completeSetup() {
+      if (!validateStep(6)) return;
+
+      var btn = document.getElementById('completeSetupBtn');
+      var originalHTML = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Saving...';
+
+      // Collect all data
+      var slug = getSlug();
+      restaurantSlug = slug;
+
+      var operatingHours = {};
+      days.forEach(function(day) {
+        var closed = document.getElementById('closed-' + day).checked;
+        operatingHours[day] = {
+          open: closed ? null : document.getElementById('open-' + day).value,
+          close: closed ? null : document.getElementById('close-' + day).value,
+          closed: closed
+        };
+      });
+
+      var sections = [];
+      document.querySelectorAll('input[name="sections"]:checked').forEach(function(cb) {
+        sections.push(cb.value);
+      });
+
+      var payload = {
+        name: document.getElementById('restaurantName').value.trim(),
+        slug: slug,
+        cuisineType: document.getElementById('cuisineType').value,
+        description: document.getElementById('description').value.trim(),
+        welcomeMessage: document.getElementById('welcomeMessage').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        stateProvince: document.getElementById('stateProvince').value.trim(),
+        postalCode: document.getElementById('postalCode').value.trim(),
+        country: document.getElementById('country').value,
+        currency: document.getElementById('currency').value,
+        taxRate: parseFloat(document.getElementById('taxRate').value) || 10,
+        enableTipping: document.getElementById('enableTipping').checked,
+        tipPresets: [
+          parseFloat(document.getElementById('tipPreset1').value) || 10,
+          parseFloat(document.getElementById('tipPreset2').value) || 15,
+          parseFloat(document.getElementById('tipPreset3').value) || 20
+        ],
+        enableBillSplitting: document.getElementById('enableBillSplitting').checked,
+        enableDineIn: document.getElementById('enableDineIn').checked,
+        enableTakeaway: document.getElementById('enableTakeaway').checked,
+        enableVoiceOrdering: document.getElementById('enableVoiceOrdering').checked,
+        operatingHours: operatingHours,
+        primaryColor: document.getElementById('primaryColor').value,
+        secondaryColor: document.getElementById('secondaryColor').value,
+        tableCount: parseInt(document.getElementById('tableCount').value) || 10,
+        tablePrefix: document.getElementById('tablePrefix').value.trim() || slug,
+        sections: sections,
+        tables: generatedTables
+      };
+
+      try {
+        var response = await fetch('/api/setup/restaurant', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          var data = await response.json();
+          restaurantSlug = data.slug || slug;
+        }
+      } catch (e) {
+        // API not available - proceed anyway with local slug
+        console.log('Setup API not available, proceeding with local state.');
+      }
+
+      // Generate tables locally if not yet done
+      if (generatedTables.length === 0) {
+        var prefix = document.getElementById('tablePrefix').value.trim() || slug;
+        var count = parseInt(document.getElementById('tableCount').value) || 10;
+        generatedTables = generateTablesLocally(count, prefix, slug, window.location.origin);
+      }
+
+      // Update completion screen
+      var menuUrl = window.location.origin + '/menu/' + restaurantSlug;
+      document.getElementById('completionUrl').textContent = menuUrl;
+      document.getElementById('viewMenuBtn').href = '/menu/' + restaurantSlug;
+
+      btn.disabled = false;
+      btn.innerHTML = originalHTML;
+
+      showStep(7);
+      showToast('Restaurant setup complete!', 'success');
+    }
+
+    // ============================================================
+    // Download QR Codes
+    // ============================================================
+    function downloadQRCodes() {
+      var slug = restaurantSlug || getSlug();
+      var name = document.getElementById('restaurantName').value.trim() || 'My Restaurant';
+
+      var html = '<!DOCTYPE html><html><head><meta charset="UTF-8">' +
+        '<title>QR Codes - ' + escapeHtml(name) + '</title>' +
+        '<style>' +
+        'body{font-family:Inter,-apple-system,sans-serif;margin:0;padding:2rem;background:#fff;}' +
+        'h1{font-family:"Lilita One",cursive;text-align:center;margin-bottom:0.5rem;font-size:2rem;color:#2D2A26;}' +
+        'p.sub{text-align:center;color:#6B6560;margin-bottom:2rem;font-size:0.95rem;}' +
+        '.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:900px;margin:0 auto;}' +
+        '.card{border:2px solid #eee;border-radius:12px;padding:1.5rem;text-align:center;page-break-inside:avoid;}' +
+        '.card h3{font-family:"Lilita One",cursive;font-size:1.25rem;margin-bottom:0.75rem;color:#2D2A26;}' +
+        '.card img{width:180px;height:180px;}' +
+        '.card .url{font-size:0.65rem;color:#6B6560;margin-top:0.5rem;word-break:break-all;}' +
+        '@media print{body{padding:0.5rem;}.grid{gap:0.75rem;}.card{padding:1rem;}.card img{width:140px;height:140px;}}' +
+        '</style>' +
+        '<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;600&display=swap" rel="stylesheet">' +
+        '</head><body>' +
+        '<h1>' + escapeHtml(name) + '</h1>' +
+        '<p class="sub">Scan a QR code to view the menu and order</p>' +
+        '<div class="grid">';
+
+      generatedTables.forEach(function(t) {
+        var qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(t.url) + '&size=300x300&margin=10';
+        html += '<div class="card">' +
+          '<h3>' + escapeHtml(t.id) + '</h3>' +
+          '<img src="' + qrUrl + '" alt="QR for ' + escapeHtml(t.id) + '">' +
+          '<div class="url">' + escapeHtml(t.url) + '</div>' +
+          '</div>';
+      });
+
+      html += '</div>' +
+        '<script>window.onload=function(){setTimeout(function(){window.print()},1500)}<\/script>' +
+        '</body></html>';
+
+      var blob = new Blob([html], { type: 'text/html' });
+      var url = URL.createObjectURL(blob);
+      var win = window.open(url, '_blank');
+      if (!win) {
+        // Fallback: direct download
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'qr-codes-' + slug + '.html';
+        a.click();
+      }
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ============================================================
+    // Toast Notifications
+    // ============================================================
+    var toastTimeout = null;
+    function showToast(message, type) {
+      var toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast ' + (type || '');
+      clearTimeout(toastTimeout);
+
+      // Force reflow to restart animation
+      void toast.offsetWidth;
+      toast.classList.add('visible');
+
+      toastTimeout = setTimeout(function() {
+        toast.classList.remove('visible');
+      }, 3500);
+    }
+
+    // ============================================================
+    // Initialize
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+      initHoursGrid();
+      updateProgress();
+      updateTablePrefixPreview();
+
+      // Update table prefix default based on name
+      document.getElementById('restaurantName').addEventListener('input', function() {
+        var prefixInput = document.getElementById('tablePrefix');
+        if (!prefixInput.value.trim()) {
+          updateTablePrefixPreview();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

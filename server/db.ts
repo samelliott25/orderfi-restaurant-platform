@@ -2,12 +2,15 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
 import * as schema from "../shared/schema";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL must be set");
+let db: ReturnType<typeof drizzle<typeof schema>> | null = null;
+
+if (process.env.DATABASE_URL) {
+  const pool = new pg.Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
+  db = drizzle(pool, { schema });
+} else {
+  console.warn("[db] DATABASE_URL not set – database features disabled, using in-memory storage");
 }
 
-const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-
-export const db = drizzle(pool, { schema });
+export { db };

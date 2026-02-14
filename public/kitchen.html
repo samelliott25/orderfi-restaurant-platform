@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kitchen Display - OrderFi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0f0f1a; --card: #1a1a2e; --card-hover: #222240;
+      --text: #e8e8f0; --text-muted: #8888a0;
+      --new: #E23D28; --preparing: #f59e0b; --ready: #22c55e; --completed: #6366f1;
+      --border: rgba(255,255,255,0.08);
+    }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow: hidden; }
+
+    .kds-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; background: var(--card); border-bottom: 1px solid var(--border); }
+    .kds-logo { font-family: 'Lilita One', cursive; font-size: 1.5rem; color: var(--text); }
+    .kds-logo span { color: var(--new); }
+    .kds-info { display: flex; align-items: center; gap: 2rem; }
+    .kds-clock { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .kds-stats { display: flex; gap: 1rem; }
+    .kds-stat { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; }
+    .kds-stat.new-stat { background: rgba(226,61,40,0.15); color: var(--new); }
+    .kds-stat.prep-stat { background: rgba(245,158,11,0.15); color: var(--preparing); }
+    .kds-stat.ready-stat { background: rgba(34,197,94,0.15); color: var(--ready); }
+
+    .kds-columns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); height: calc(100vh - 70px); overflow: hidden; }
+    .kds-column { background: var(--bg); display: flex; flex-direction: column; overflow: hidden; }
+    .kds-column-header { padding: 0.75rem 1.25rem; font-family: 'Lilita One', cursive; font-size: 1.1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+    .kds-column-header .count { font-family: 'Inter', sans-serif; font-size: 0.8rem; background: rgba(255,255,255,0.1); padding: 0.15rem 0.5rem; border-radius: 10px; }
+    .col-new .kds-column-header { background: rgba(226,61,40,0.12); color: var(--new); border-bottom: 3px solid var(--new); }
+    .col-preparing .kds-column-header { background: rgba(245,158,11,0.12); color: var(--preparing); border-bottom: 3px solid var(--preparing); }
+    .col-ready .kds-column-header { background: rgba(34,197,94,0.12); color: var(--ready); border-bottom: 3px solid var(--ready); }
+
+    .kds-orders { flex: 1; overflow-y: auto; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+    .kds-orders::-webkit-scrollbar { width: 6px; }
+    .kds-orders::-webkit-scrollbar-track { background: transparent; }
+    .kds-orders::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+    .order-card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; animation: slideIn 0.3s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .order-card.urgent { border-left: 4px solid var(--new); }
+    .order-card.warning { border-left: 4px solid var(--preparing); }
+    .order-card.ok { border-left: 4px solid var(--ready); }
+
+    .order-card-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); }
+    .order-id { font-family: 'Lilita One', cursive; font-size: 1.25rem; }
+    .order-table { background: rgba(255,255,255,0.08); padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+    .order-type { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.15rem 0.4rem; border-radius: 4px; font-weight: 600; }
+    .order-type.dine_in { background: rgba(99,102,241,0.15); color: #818cf8; }
+    .order-type.takeaway { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .order-timer { font-size: 0.85rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .order-timer.urgent { color: var(--new); }
+    .order-timer.warning { color: var(--preparing); }
+
+    .order-items { padding: 0.5rem 1rem; }
+    .order-item { display: flex; gap: 0.5rem; padding: 0.35rem 0; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .order-item:last-child { border-bottom: none; }
+    .order-item-qty { font-weight: 700; color: var(--new); min-width: 24px; }
+    .order-item-name { flex: 1; }
+
+    .order-instructions { margin: 0 1rem; padding: 0.5rem 0.75rem; background: rgba(245,158,11,0.1); border-radius: 6px; border-left: 3px solid var(--preparing); font-size: 0.8rem; color: var(--preparing); margin-bottom: 0.5rem; }
+
+    .order-actions { padding: 0.5rem 0.75rem; display: flex; gap: 0.5rem; }
+    .order-btn { flex: 1; padding: 0.6rem; border: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+    .order-btn:active { transform: scale(0.97); }
+    .btn-start { background: var(--preparing); color: #000; }
+    .btn-start:hover { background: #fbbf24; }
+    .btn-ready { background: var(--ready); color: #000; }
+    .btn-ready:hover { background: #4ade80; }
+    .btn-complete { background: var(--completed); color: white; }
+    .btn-complete:hover { background: #818cf8; }
+    .btn-bump { background: rgba(255,255,255,0.08); color: var(--text-muted); }
+    .btn-bump:hover { background: rgba(255,255,255,0.15); }
+
+    .empty-column { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
+    .empty-column .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+    .empty-column p { font-size: 0.9rem; }
+
+    @media (max-width: 900px) {
+      .kds-columns { grid-template-columns: 1fr; height: auto; overflow: auto; }
+      .kds-column { max-height: 50vh; }
+    }
+  </style>
+</head>
+<body>
+  <header class="kds-header">
+    <div class="kds-logo">OrderFi <span>Kitchen</span></div>
+    <div class="kds-info">
+      <div class="kds-stats">
+        <div class="kds-stat new-stat"><span id="new-count">0</span> New</div>
+        <div class="kds-stat prep-stat"><span id="prep-count">0</span> Preparing</div>
+        <div class="kds-stat ready-stat"><span id="ready-count">0</span> Ready</div>
+      </div>
+      <div class="kds-clock" id="clock">00:00:00</div>
+    </div>
+  </header>
+
+  <div class="kds-columns">
+    <div class="kds-column col-new">
+      <div class="kds-column-header">New Orders <span class="count" id="new-header-count">0</span></div>
+      <div class="kds-orders" id="new-orders"></div>
+    </div>
+    <div class="kds-column col-preparing">
+      <div class="kds-column-header">Preparing <span class="count" id="prep-header-count">0</span></div>
+      <div class="kds-orders" id="preparing-orders"></div>
+    </div>
+    <div class="kds-column col-ready">
+      <div class="kds-column-header">Ready <span class="count" id="ready-header-count">0</span></div>
+      <div class="kds-orders" id="ready-orders"></div>
+    </div>
+  </div>
+
+  <audio id="ding-sound" preload="auto">
+    <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" type="audio/wav">
+  </audio>
+
+  <script>
+    let allOrders = [];
+    let prevOrderCount = 0;
+
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString('en-AU', { hour12: false });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Time ago
+    function timeAgo(dateStr) {
+      const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+      if (diff < 60) return `${diff}s`;
+      if (diff < 3600) return `${Math.floor(diff / 60)}m`;
+      return `${Math.floor(diff / 3600)}h ${Math.floor((diff % 3600) / 60)}m`;
+    }
+
+    function getUrgencyClass(dateStr) {
+      const mins = (Date.now() - new Date(dateStr).getTime()) / 60000;
+      if (mins > 15) return 'urgent';
+      if (mins > 5) return 'warning';
+      return 'ok';
+    }
+
+    function parseItems(itemsStr) {
+      try {
+        if (typeof itemsStr === 'string') return JSON.parse(itemsStr);
+        return itemsStr || [];
+      } catch { return []; }
+    }
+
+    function renderOrderCard(order, actions) {
+      const items = parseItems(order.items);
+      const urgency = getUrgencyClass(order.createdAt);
+      const timerClass = urgency === 'ok' ? '' : urgency;
+      const orderType = order.orderType || 'dine_in';
+
+      return `
+        <div class="order-card ${urgency}" data-id="${order.id}">
+          <div class="order-card-header">
+            <div style="display:flex;align-items:center;gap:0.75rem">
+              <span class="order-id">#${order.id}</span>
+              ${order.tableNumber ? `<span class="order-table">Table ${order.tableNumber}</span>` : ''}
+              <span class="order-type ${orderType}">${orderType.replace('_', ' ')}</span>
+            </div>
+            <span class="order-timer ${timerClass}">${timeAgo(order.createdAt)}</span>
+          </div>
+          <div class="order-items">
+            ${items.map(item => `
+              <div class="order-item">
+                <span class="order-item-qty">${item.quantity}x</span>
+                <span class="order-item-name">${item.name}${item.modifications ? ` (${item.modifications})` : ''}</span>
+              </div>
+            `).join('')}
+          </div>
+          ${order.specialInstructions ? `<div class="order-instructions">${order.specialInstructions}</div>` : ''}
+          <div class="order-actions">${actions}</div>
+        </div>
+      `;
+    }
+
+    function renderOrders() {
+      const newOrders = allOrders.filter(o => o.status === 'pending' || o.status === 'confirmed');
+      const preparingOrders = allOrders.filter(o => o.status === 'preparing');
+      const readyOrders = allOrders.filter(o => o.status === 'ready');
+
+      document.getElementById('new-count').textContent = newOrders.length;
+      document.getElementById('prep-count').textContent = preparingOrders.length;
+      document.getElementById('ready-count').textContent = readyOrders.length;
+      document.getElementById('new-header-count').textContent = newOrders.length;
+      document.getElementById('prep-header-count').textContent = preparingOrders.length;
+      document.getElementById('ready-header-count').textContent = readyOrders.length;
+
+      document.getElementById('new-orders').innerHTML = newOrders.length
+        ? newOrders.map(o => renderOrderCard(o, `
+            <button class="order-btn btn-start" onclick="updateStatus(${o.id}, 'preparing')">Start Preparing</button>
+          `)).join('')
+        : '<div class="empty-column"><div class="empty-icon">&#x1F389;</div><p>No new orders</p></div>';
+
+      document.getElementById('preparing-orders').innerHTML = preparingOrders.length
+        ? preparingOrders.map(o => renderOrderCard(o, `
+            <button class="order-btn btn-bump" onclick="updateStatus(${o.id}, 'pending')">Bump Back</button>
+            <button class="order-btn btn-ready" onclick="updateStatus(${o.id}, 'ready')">Ready!</button>
+          `)).join('')
+        : '<div class="empty-column"><div class="empty-icon">&#x1F373;</div><p>Nothing cooking</p></div>';
+
+      document.getElementById('ready-orders').innerHTML = readyOrders.length
+        ? readyOrders.map(o => renderOrderCard(o, `
+            <button class="order-btn btn-complete" onclick="updateStatus(${o.id}, 'completed')">Complete</button>
+          `)).join('')
+        : '<div class="empty-column"><div class="empty-icon">&#x2705;</div><p>All served</p></div>';
+    }
+
+    async function fetchOrders() {
+      try {
+        const res = await fetch('/api/admin/orders');
+        if (!res.ok) return;
+        const orders = await res.json();
+        const activeOrders = orders.filter(o => o.status !== 'completed' && o.status !== 'cancelled' && o.status !== 'refunded');
+
+        if (activeOrders.length > prevOrderCount && prevOrderCount > 0) {
+          try { document.getElementById('ding-sound').play(); } catch {}
+        }
+        prevOrderCount = activeOrders.length;
+        allOrders = activeOrders;
+        renderOrders();
+      } catch (e) {
+        console.error('Fetch error:', e);
+      }
+    }
+
+    async function updateStatus(orderId, status) {
+      try {
+        await fetch(`/api/admin/orders/${orderId}/status`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status }),
+        });
+        // Optimistic update
+        const order = allOrders.find(o => o.id === orderId);
+        if (order) {
+          if (status === 'completed') {
+            allOrders = allOrders.filter(o => o.id !== orderId);
+          } else {
+            order.status = status;
+          }
+          renderOrders();
+        }
+      } catch (e) {
+        console.error('Status update error:', e);
+      }
+    }
+
+    // Update timers every 10 seconds
+    setInterval(() => {
+      document.querySelectorAll('.order-timer').forEach(el => {
+        const card = el.closest('.order-card');
+        const order = allOrders.find(o => o.id === parseInt(card.dataset.id));
+        if (order) {
+          el.textContent = timeAgo(order.createdAt);
+          const urgency = getUrgencyClass(order.createdAt);
+          el.className = 'order-timer ' + (urgency === 'ok' ? '' : urgency);
+          card.className = 'order-card ' + urgency;
+        }
+      });
+    }, 10000);
+
+    // Poll for orders
+    fetchOrders();
+    setInterval(fetchOrders, 5000);
+  </script>
+</body>
+</html>
