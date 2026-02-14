@@ -148,7 +148,61 @@
     .content-panel.active {
       display: block;
     }
-    
+
+    .kds-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem; }
+    .kds-stats-bar { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .kds-stat-pill { display: flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.9rem; border-radius: 50px; font-size: 0.85rem; font-weight: 600; }
+    .kds-stat-pill.new-pill { background: rgba(226,61,40,0.12); color: var(--primary); }
+    .kds-stat-pill.prep-pill { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .kds-stat-pill.ready-pill { background: rgba(76,175,80,0.12); color: var(--fresh); }
+    .kds-clock-inline { font-size: 1.1rem; font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+    .kds-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; min-height: 400px; }
+    .kds-col { background: white; border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+    .kds-col-head { padding: 0.75rem 1rem; font-family: 'Lilita One', cursive; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.04em; display: flex; align-items: center; gap: 0.5rem; }
+    .kds-col-count { font-family: 'Inter', sans-serif; font-size: 0.75rem; background: rgba(0,0,0,0.08); padding: 0.1rem 0.45rem; border-radius: 10px; }
+    .col-head-new { background: rgba(226,61,40,0.08); color: var(--primary); border-bottom: 3px solid var(--primary); }
+    .col-head-prep { background: rgba(245,158,11,0.08); color: #d97706; border-bottom: 3px solid #f59e0b; }
+    .col-head-ready { background: rgba(76,175,80,0.08); color: #2e7d32; border-bottom: 3px solid var(--fresh); }
+    .kds-col-body { flex: 1; overflow-y: auto; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; max-height: 60vh; }
+
+    .kds-order { background: var(--bg); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+    .kds-order.urgent { border-left: 4px solid var(--primary); }
+    .kds-order.warning { border-left: 4px solid #f59e0b; }
+    .kds-order.ok { border-left: 4px solid var(--fresh); }
+    .kds-order-head { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.75rem; background: rgba(0,0,0,0.02); }
+    .kds-order-id { font-family: 'Lilita One', cursive; font-size: 1.1rem; }
+    .kds-order-table { background: rgba(0,0,0,0.06); padding: 0.15rem 0.5rem; border-radius: 5px; font-size: 0.75rem; font-weight: 600; }
+    .kds-order-type { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.12rem 0.35rem; border-radius: 4px; font-weight: 600; }
+    .kds-order-type.dine_in { background: rgba(99,102,241,0.12); color: #6366f1; }
+    .kds-order-type.takeaway { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .kds-order-timer { font-size: 0.8rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+    .kds-order-timer.urgent { color: var(--primary); }
+    .kds-order-timer.warning { color: #f59e0b; }
+    .kds-order-items { padding: 0.4rem 0.75rem; }
+    .kds-order-item { display: flex; gap: 0.4rem; padding: 0.25rem 0; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+    .kds-order-item:last-child { border-bottom: none; }
+    .kds-order-item-qty { font-weight: 700; color: var(--primary); min-width: 22px; }
+    .kds-order-item-name { flex: 1; }
+    .kds-order-note { margin: 0 0.75rem 0.4rem; padding: 0.4rem 0.6rem; background: rgba(245,158,11,0.1); border-radius: 6px; border-left: 3px solid #f59e0b; font-size: 0.75rem; color: #d97706; }
+    .kds-order-actions { padding: 0.4rem 0.6rem; display: flex; gap: 0.4rem; }
+    .kds-btn { flex: 1; padding: 0.5rem; border: none; border-radius: 8px; font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .kds-btn:active { transform: scale(0.97); }
+    .kds-btn-start { background: #f59e0b; color: #000; }
+    .kds-btn-start:hover { background: #fbbf24; }
+    .kds-btn-ready { background: var(--fresh); color: #000; }
+    .kds-btn-ready:hover { background: #66bb6a; }
+    .kds-btn-complete { background: #6366f1; color: white; }
+    .kds-btn-complete:hover { background: #818cf8; }
+    .kds-btn-bump { background: rgba(0,0,0,0.06); color: var(--text-muted); }
+    .kds-btn-bump:hover { background: rgba(0,0,0,0.1); }
+    .kds-empty { text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.85rem; opacity: 0.7; }
+
+    @media (max-width: 900px) {
+      .kds-grid { grid-template-columns: 1fr; }
+      .kds-col-body { max-height: 40vh; }
+    }
+
     .add-btn {
       background: var(--primary);
       color: white;
@@ -2540,7 +2594,7 @@
         <a href="/">Home</a>
         <a href="/order">Voice Order</a>
         <a href="/menu/loose-moose">Menu</a>
-        <a href="/kitchen">Kitchen</a>
+        <a href="/admin?tab=kitchen">Kitchen</a>
         <a href="/admin" class="active">Dashboard</a>
       </nav>
       <div class="user-info">
@@ -2563,6 +2617,7 @@
       <div class="tabs">
         <button class="tab active" data-tab="menu">Menu Items</button>
         <button class="tab" data-tab="orders">Recent Orders</button>
+        <button class="tab" data-tab="kitchen">Kitchen</button>
         <button class="tab" data-tab="config">Configuration</button>
       </div>
 
@@ -2613,6 +2668,34 @@
         <div id="orders-container">
           <div class="loading"><div class="spinner"></div></div>
         </div>
+      </div>
+
+      <div id="kitchen-panel" class="content-panel">
+        <div class="kds-toolbar">
+          <div class="kds-stats-bar">
+            <div class="kds-stat-pill new-pill"><span id="kds-new-count">0</span> New</div>
+            <div class="kds-stat-pill prep-pill"><span id="kds-prep-count">0</span> Preparing</div>
+            <div class="kds-stat-pill ready-pill"><span id="kds-ready-count">0</span> Ready</div>
+          </div>
+          <div class="kds-clock-inline" id="kds-clock">00:00</div>
+        </div>
+        <div class="kds-grid">
+          <div class="kds-col">
+            <div class="kds-col-head col-head-new">New Orders <span class="kds-col-count" id="kds-new-head">0</span></div>
+            <div class="kds-col-body" id="kds-new-orders"></div>
+          </div>
+          <div class="kds-col">
+            <div class="kds-col-head col-head-prep">Preparing <span class="kds-col-count" id="kds-prep-head">0</span></div>
+            <div class="kds-col-body" id="kds-prep-orders"></div>
+          </div>
+          <div class="kds-col">
+            <div class="kds-col-head col-head-ready">Ready <span class="kds-col-count" id="kds-ready-head">0</span></div>
+            <div class="kds-col-body" id="kds-ready-orders"></div>
+          </div>
+        </div>
+        <audio id="kds-ding" preload="auto">
+          <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" type="audio/wav">
+        </audio>
       </div>
 
       <div id="config-panel" class="content-panel">
@@ -3183,6 +3266,12 @@
       loadMenu();
       setupFilters();
       setupTagSelectors();
+
+      var urlTab = new URLSearchParams(window.location.search).get('tab');
+      if (urlTab) {
+        var tabBtn = document.querySelector('.tab[data-tab="' + urlTab + '"]');
+        if (tabBtn) tabBtn.click();
+      }
     }
 
     function setupTagSelectors() {
@@ -3349,6 +3438,127 @@
       renderFilteredMenu(filtered);
     }
 
+    // ========================
+    // KITCHEN DISPLAY (embedded)
+    // ========================
+    let kdsOrders = [];
+    let kdsPrevCount = 0;
+    let kdsInterval = null;
+    let kdsTimerInterval = null;
+
+    function kdsTimeAgo(dateStr) {
+      const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+      if (diff < 60) return diff + 's';
+      if (diff < 3600) return Math.floor(diff / 60) + 'm';
+      return Math.floor(diff / 3600) + 'h ' + Math.floor((diff % 3600) / 60) + 'm';
+    }
+
+    function kdsUrgency(dateStr) {
+      const mins = (Date.now() - new Date(dateStr).getTime()) / 60000;
+      if (mins > 15) return 'urgent';
+      if (mins > 5) return 'warning';
+      return 'ok';
+    }
+
+    function kdsParseItems(v) {
+      try { return typeof v === 'string' ? JSON.parse(v) : (v || []); } catch { return []; }
+    }
+
+    function kdsRenderCard(order, actions) {
+      const items = kdsParseItems(order.items);
+      const urg = kdsUrgency(order.createdAt);
+      const ot = order.orderType || 'dine_in';
+      return '<div class="kds-order ' + urg + '" data-kid="' + order.id + '">' +
+        '<div class="kds-order-head"><div style="display:flex;align-items:center;gap:0.6rem">' +
+        '<span class="kds-order-id">#' + order.id + '</span>' +
+        (order.tableNumber ? '<span class="kds-order-table">Table ' + order.tableNumber + '</span>' : '') +
+        '<span class="kds-order-type ' + ot + '">' + ot.replace('_', ' ') + '</span>' +
+        '</div><span class="kds-order-timer ' + (urg === 'ok' ? '' : urg) + '">' + kdsTimeAgo(order.createdAt) + '</span></div>' +
+        '<div class="kds-order-items">' + items.map(function(it) {
+          return '<div class="kds-order-item"><span class="kds-order-item-qty">' + it.quantity + 'x</span><span class="kds-order-item-name">' + it.name + (it.modifications ? ' (' + it.modifications + ')' : '') + '</span></div>';
+        }).join('') + '</div>' +
+        (order.specialInstructions ? '<div class="kds-order-note">' + order.specialInstructions + '</div>' : '') +
+        '<div class="kds-order-actions">' + actions + '</div></div>';
+    }
+
+    function kdsRender() {
+      var nw = kdsOrders.filter(function(o) { return o.status === 'pending' || o.status === 'confirmed'; });
+      var pr = kdsOrders.filter(function(o) { return o.status === 'preparing'; });
+      var rd = kdsOrders.filter(function(o) { return o.status === 'ready'; });
+
+      var el = function(id) { var e = document.getElementById(id); return e; };
+      el('kds-new-count').textContent = nw.length;
+      el('kds-prep-count').textContent = pr.length;
+      el('kds-ready-count').textContent = rd.length;
+      el('kds-new-head').textContent = nw.length;
+      el('kds-prep-head').textContent = pr.length;
+      el('kds-ready-head').textContent = rd.length;
+
+      el('kds-new-orders').innerHTML = nw.length
+        ? nw.map(function(o) { return kdsRenderCard(o, '<button class="kds-btn kds-btn-start" onclick="kdsUpdate(' + o.id + ',\'preparing\')">Start Preparing</button>'); }).join('')
+        : '<div class="kds-empty">No new orders</div>';
+
+      el('kds-prep-orders').innerHTML = pr.length
+        ? pr.map(function(o) { return kdsRenderCard(o, '<button class="kds-btn kds-btn-bump" onclick="kdsUpdate(' + o.id + ',\'pending\')">Bump Back</button><button class="kds-btn kds-btn-ready" onclick="kdsUpdate(' + o.id + ',\'ready\')">Ready!</button>'); }).join('')
+        : '<div class="kds-empty">Nothing cooking</div>';
+
+      el('kds-ready-orders').innerHTML = rd.length
+        ? rd.map(function(o) { return kdsRenderCard(o, '<button class="kds-btn kds-btn-complete" onclick="kdsUpdate(' + o.id + ',\'completed\')">Complete</button>'); }).join('')
+        : '<div class="kds-empty">All served</div>';
+    }
+
+    async function kdsFetch() {
+      try {
+        var res = await fetch('/api/admin/orders');
+        if (!res.ok) return;
+        var orders = await res.json();
+        var active = orders.filter(function(o) { return o.status !== 'completed' && o.status !== 'cancelled' && o.status !== 'refunded'; });
+        if (active.length > kdsPrevCount && kdsPrevCount > 0) {
+          try { document.getElementById('kds-ding').play(); } catch(e) {}
+        }
+        kdsPrevCount = active.length;
+        kdsOrders = active;
+        kdsRender();
+      } catch(e) { console.error('KDS fetch error:', e); }
+    }
+
+    async function kdsUpdate(id, status) {
+      try {
+        await fetch('/api/admin/orders/' + id + '/status', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: status }),
+        });
+        var order = kdsOrders.find(function(o) { return o.id === id; });
+        if (order) {
+          if (status === 'completed') {
+            kdsOrders = kdsOrders.filter(function(o) { return o.id !== id; });
+          } else {
+            order.status = status;
+          }
+          kdsRender();
+        }
+      } catch(e) { console.error('KDS update error:', e); }
+    }
+
+    function kdsStart() {
+      kdsFetch();
+      if (kdsInterval) clearInterval(kdsInterval);
+      kdsInterval = setInterval(kdsFetch, 5000);
+      function tick() {
+        var c = document.getElementById('kds-clock');
+        if (c) { var n = new Date(); c.textContent = n.toLocaleTimeString('en-AU', { hour12: false, hour: '2-digit', minute: '2-digit' }); }
+      }
+      tick();
+      if (kdsTimerInterval) clearInterval(kdsTimerInterval);
+      kdsTimerInterval = setInterval(tick, 1000);
+    }
+
+    function kdsStop() {
+      if (kdsInterval) { clearInterval(kdsInterval); kdsInterval = null; }
+      if (kdsTimerInterval) { clearInterval(kdsTimerInterval); kdsTimerInterval = null; }
+    }
+
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -3358,6 +3568,11 @@
         
         if (tab.dataset.tab === 'orders') {
           loadOrders();
+        }
+        if (tab.dataset.tab === 'kitchen') {
+          kdsStart();
+        } else {
+          kdsStop();
         }
       });
     });
