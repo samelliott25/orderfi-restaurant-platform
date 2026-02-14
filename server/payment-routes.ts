@@ -20,7 +20,7 @@ paymentRouter.get("/config", async (_req: Request, res: Response) => {
     const publishableKey = await getPubKey();
     res.json({ publishableKey });
   } catch (error) {
-    res.status(503).json({ error: "Stripe is not configured (requires Replit Stripe connector)" });
+    res.status(503).json({ error: "Stripe is not configured. Set STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY environment variables." });
   }
 });
 
