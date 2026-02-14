@@ -2015,13 +2015,21 @@
     if (restaurantSlug) {
       try {
         const res = await fetch(`/api/restaurant/${restaurantSlug}/menu`);
-        if (res.ok) return await res.json();
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.restaurant && !restaurant) restaurant = data.restaurant;
+          const raw = Array.isArray(data) ? data : (data.menu || data.items || []);
+          if (raw.length > 0 && raw[0].items && raw[0].category) {
+            return raw.flatMap(group => group.items || []);
+          }
+          return raw;
+        }
       } catch(e) {}
     }
-    // Fallback to existing /api/menu endpoint
     const res = await fetch('/api/menu');
     if (!res.ok) throw new Error('Failed to load menu');
-    return await res.json();
+    const data = await res.json();
+    return Array.isArray(data) ? data : (data.menu || data.items || []);
   }
 
   async function submitOrder(orderData) {
@@ -2097,7 +2105,12 @@
       // Extract categories
       const catSet = new Set();
       menuItems.forEach(item => {
-        if (item.category) catSet.add(item.category);
+        const cat = item.category;
+        if (cat) {
+          const catName = typeof cat === 'object' ? (cat.name || cat.title || String(cat.id)) : String(cat);
+          item._categoryName = catName;
+          catSet.add(catName);
+        }
       });
       categories = Array.from(catSet);
 
@@ -2186,7 +2199,7 @@
     $('#featured-section').style.display = '';
     const container = $('#featured-scroll');
     container.innerHTML = featured.map(item => {
-      const emoji = getFoodEmoji(item.name, item.category);
+      const emoji = getFoodEmoji(item.name, item._categoryName || item.category);
       return `
         <div class="featured-card" onclick="window._app.addToCart(${item.id})">
           <div class="featured-img">
@@ -2225,7 +2238,7 @@
     container.innerHTML = filtered.map((item, idx) => {
       const qty = cart[item.id] || 0;
       const inCart = qty > 0;
-      const emoji = getFoodEmoji(item.name, item.category);
+      const emoji = getFoodEmoji(item.name, item._categoryName || item.category);
       const tags = (item.dietaryTags || []);
       const allTags = [...tags, ...(item.tags || [])];
 
@@ -2264,7 +2277,7 @@
   function getFilteredItems() {
     return menuItems.filter(item => {
       // Category filter
-      if (activeCategory !== 'all' && item.category !== activeCategory) return false;
+      if (activeCategory !== 'all' && (item._categoryName || item.category) !== activeCategory) return false;
       // Dietary filters
       if (activeDiets.size > 0) {
         const itemDiets = (item.dietaryTags || []).map(t => t.toLowerCase());
