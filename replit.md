@@ -7,7 +7,7 @@ OrderFi Voice API is a voice-first AI food ordering system. Customers order food
 ## User Preferences
 
 - Communication style: Simple, everyday language
-- Design: Voice-first, minimal UI, 3-color palette (Orange, White, Charcoal)
+- Design: Voice-first, dark theme (Zest-inspired), Playfair Display serif headings, orange accent (#E23D28), charcoal dark bg (#1A1714)
 - Development approach: Keep code portable - no Replit-exclusive dependencies. All Replit integrations have standard env var fallbacks.
 - AI: Uses Claude (Anthropic) for voice ordering, xAI Grok for admin copilot/menu scanner
 
