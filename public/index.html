@@ -7,6 +7,9 @@
   <meta name="description" content="The free smart ordering platform for restaurants. QR code ordering, bill splitting, tipping, dietary filters, and voice ordering. Set up in minutes.">
   <meta property="og:title" content="OrderFi - Scan. Order. Pay.">
   <meta property="og:description" content="The free smart ordering platform for restaurants. Set up in minutes.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://orderfi.app">
+  <meta property="og:image" content="/images/hero-food.jpg">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#1A1714">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -176,12 +179,12 @@
       aspect-ratio: 4/3; cursor: pointer; text-decoration: none;
       transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    .feature-card:hover { transform: scale(1.02); }
+    .feature-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
     .feature-card img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: filter 0.4s ease;
     }
-    .feature-card:hover img { transform: scale(1.08); }
+    .feature-card:hover img { filter: brightness(1.1); }
     .feature-card-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);
@@ -225,7 +228,7 @@
       border: 1px solid var(--border); transition: transform 0.3s, border-color 0.3s;
       position: relative; overflow: hidden;
     }
-    .step-card:hover { transform: translateY(-4px); border-color: rgba(226,61,40,0.3); }
+    .step-card:hover { border-color: rgba(226,61,40,0.3); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
     .step-number {
       font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900;
       color: var(--primary); opacity: 0.12; position: absolute; top: 0.5rem; right: 1rem;
@@ -257,6 +260,8 @@
       font-family: 'Inter', sans-serif; transition: color 0.2s;
     }
     .faq-question:hover { color: var(--primary); }
+    .faq-question:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 4px; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 4px; }
     .faq-arrow {
       width: 20px; height: 20px; transition: transform 0.3s; flex-shrink: 0;
       stroke: var(--text-muted); fill: none;
@@ -391,13 +396,13 @@
   <nav class="nav">
     <div class="logo">OrderFi</div>
     <div class="nav-links">
-      <a href="/order">Voice Order</a>
-      <a href="/menu/loose-moose">Menu</a>
-      <a href="/admin?tab=kitchen">Kitchen</a>
-      <a href="/admin">Dashboard</a>
-      <a href="/setup" class="nav-btn">Get Started</a>
+      <a href="/order" data-testid="link-voice-order">Voice Order</a>
+      <a href="/menu/loose-moose" data-testid="link-menu">Menu</a>
+      <a href="/admin?tab=kitchen" data-testid="link-kitchen">Kitchen</a>
+      <a href="/admin" data-testid="link-dashboard">Dashboard</a>
+      <a href="/setup" class="nav-btn" data-testid="link-get-started">Get Started</a>
     </div>
-    <button class="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">
+    <button class="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu" data-testid="button-nav-toggle">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
     </button>
   </nav>
@@ -412,11 +417,11 @@
           Give your guests the power to scan, order, and pay from their phone. No app download needed. Set up in under 10 minutes.
         </p>
         <div class="hero-buttons">
-          <a href="/setup" class="btn-primary">
+          <a href="/setup" class="btn-primary" data-testid="link-setup-hero">
             <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Set Up Your Restaurant
           </a>
-          <a href="/menu/loose-moose?table=lm-table-1" class="btn-outline">Try Live Demo</a>
+          <a href="/menu/loose-moose?table=lm-table-1" class="btn-outline" data-testid="link-demo-hero">Try Live Demo</a>
         </div>
         <div class="hero-stats">
           <div>
@@ -480,7 +485,7 @@
     <h2 class="section-title">Everything your restaurant needs</h2>
     <p class="section-subtitle">From QR code ordering to AI-powered voice commands, OrderFi gives your guests a seamless modern dining experience.</p>
     <div class="feature-cards">
-      <a href="/menu/loose-moose?table=lm-table-1" class="feature-card">
+      <a href="/menu/loose-moose?table=lm-table-1" class="feature-card" data-testid="card-feature-qr">
         <img src="/images/feature-qr.jpg" alt="QR code table ordering" loading="lazy">
         <div class="feature-card-overlay"></div>
         <div class="feature-card-text">
@@ -488,7 +493,7 @@
           <p class="feature-card-desc">Guests scan a QR code at their table and start browsing your menu instantly. No app download needed.</p>
         </div>
       </a>
-      <a href="/order" class="feature-card">
+      <a href="/order" class="feature-card" data-testid="card-feature-voice">
         <img src="/images/feature-voice.jpg" alt="Voice ordering with AI" loading="lazy">
         <div class="feature-card-overlay"></div>
         <div class="feature-card-text">
@@ -496,7 +501,7 @@
           <p class="feature-card-desc">Customers speak their order naturally. AI understands context, handles modifications, and confirms everything.</p>
         </div>
       </a>
-      <a href="/admin?tab=kitchen" class="feature-card">
+      <a href="/admin?tab=kitchen" class="feature-card" data-testid="card-feature-kitchen">
         <img src="/images/feature-kitchen.jpg" alt="Kitchen display system" loading="lazy">
         <div class="feature-card-overlay"></div>
         <div class="feature-card-text">
@@ -504,7 +509,7 @@
           <p class="feature-card-desc">Real-time orders flow straight to the kitchen. Track preparation, mark as ready, alert on urgent items.</p>
         </div>
       </a>
-      <a href="/admin" class="feature-card">
+      <a href="/admin" class="feature-card" data-testid="card-feature-dashboard">
         <img src="/images/feature-dining.jpg" alt="Restaurant dining experience" loading="lazy">
         <div class="feature-card-overlay"></div>
         <div class="feature-card-text">
@@ -590,42 +595,42 @@
         <h2 class="section-title">Frequently asked questions</h2>
       </div>
       <div class="faq-item">
-        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <button class="faq-question" aria-expanded="false" onclick="this.parentElement.classList.toggle('open'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('open'))" data-testid="button-faq-1">
           Is OrderFi really free?
           <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>Yes, completely free. No monthly fees, no commissions per order, no hidden charges. We believe every restaurant deserves access to smart ordering technology.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <button class="faq-question" aria-expanded="false" onclick="this.parentElement.classList.toggle('open'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('open'))" data-testid="button-faq-2">
           Do my customers need to download an app?
           <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>No. Everything works directly in the browser. Customers just scan the QR code at their table and the menu opens instantly - no download or sign-up required.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <button class="faq-question" aria-expanded="false" onclick="this.parentElement.classList.toggle('open'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('open'))" data-testid="button-faq-3">
           How does voice ordering work?
           <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>Customers tap the microphone and speak naturally - "I'll have the burger with extra cheese and a side of fries." Our AI understands context, matches items to your menu, handles modifications, and confirms the order before sending it to the kitchen.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <button class="faq-question" aria-expanded="false" onclick="this.parentElement.classList.toggle('open'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('open'))" data-testid="button-faq-4">
           Can I customise the menu and branding?
           <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>Absolutely. You can add photos, descriptions, dietary tags, allergen info, weighted keywords for AI matching, and customise your restaurant branding including colors and logo.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <button class="faq-question" aria-expanded="false" onclick="this.parentElement.classList.toggle('open'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('open'))" data-testid="button-faq-5">
           How do payments work?
           <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>Payments are processed securely through Stripe. Customers can split the bill, add tips, and receive digital receipts. You connect your own Stripe account, so payments go directly to you.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <button class="faq-question" aria-expanded="false" onclick="this.parentElement.classList.toggle('open'); this.setAttribute('aria-expanded', this.parentElement.classList.contains('open'))" data-testid="button-faq-6">
           How long does setup take?
           <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
@@ -642,19 +647,19 @@
     </div>
     <div class="reviews-grid">
       <div class="review-card">
-        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="review-stars" aria-label="5 out of 5 stars"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span></div>
         <p class="review-text">"Set up in 8 minutes flat. Customers love scanning and ordering themselves - our table turnover has gone up and staff can focus on hospitality."</p>
         <div class="review-author">Sarah M.</div>
         <div class="review-role">Owner, The Rustic Plate</div>
       </div>
       <div class="review-card">
-        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="review-stars" aria-label="5 out of 5 stars"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span></div>
         <p class="review-text">"The voice ordering blew my mind. A customer literally said 'give me that spicy chicken thing' and the AI knew exactly what they meant. Incredible."</p>
         <div class="review-author">James K.</div>
         <div class="review-role">Manager, Wing & Co</div>
       </div>
       <div class="review-card">
-        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="review-stars" aria-label="5 out of 5 stars"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span></div>
         <p class="review-text">"We were paying $300/month for a competitor. OrderFi does more and costs nothing. The kitchen display alone has reduced our order errors by half."</p>
         <div class="review-author">Maria L.</div>
         <div class="review-role">Owner, Casa Fresca</div>
@@ -667,7 +672,7 @@
     <div class="cta-content">
       <h2 class="cta-title">Ready to transform your restaurant?</h2>
       <p class="cta-subtitle">Join restaurants using smart ordering. Free forever, set up in minutes.</p>
-      <a href="/setup" class="btn-white">
+      <a href="/setup" class="btn-white" data-testid="link-cta-setup">
         <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
         Get Started Free
       </a>
@@ -678,10 +683,10 @@
   <footer class="footer">
     <div class="footer-logo">OrderFi</div>
     <div class="footer-links">
-      <a href="/setup">Set Up Restaurant</a>
-      <a href="/menu/loose-moose?table=lm-table-1">Demo Menu</a>
-      <a href="/admin">Dashboard</a>
-      <a href="/admin?tab=kitchen">Kitchen</a>
+      <a href="/setup" data-testid="link-footer-setup">Set Up Restaurant</a>
+      <a href="/menu/loose-moose?table=lm-table-1" data-testid="link-footer-demo">Demo Menu</a>
+      <a href="/admin" data-testid="link-footer-dashboard">Dashboard</a>
+      <a href="/admin?tab=kitchen" data-testid="link-footer-kitchen">Kitchen</a>
     </div>
     <div class="footer-copy">Free and open source. Made for restaurants everywhere.</div>
   </footer>
