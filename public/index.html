@@ -8,293 +8,465 @@
   <meta property="og:title" content="OrderFi - Scan. Order. Pay.">
   <meta property="og:description" content="The free smart ordering platform for restaurants. Set up in minutes.">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#E23D28">
+  <meta name="theme-color" content="#1A1714">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg: #FFF9F5; --card: #FFFFFF; --text: #2D2A26; --text-muted: #6B6560;
-      --primary: #E23D28; --primary-dark: #C4311F; --accent: #FF6B35;
-      --fresh: #4CAF50; --warm: #FFB347; --border: rgba(0,0,0,0.08);
+      --bg: #1A1714;
+      --bg-elevated: #231F1B;
+      --card: #2A2520;
+      --text: #F5F0EB;
+      --text-muted: #A89E94;
+      --primary: #E23D28;
+      --primary-light: #FF6B35;
+      --accent: #E8A838;
+      --border: rgba(255,255,255,0.08);
     }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-    .serif { font-family: 'Lilita One', cursive; }
+    .display { font-family: 'Playfair Display', serif; }
 
-    /* Hero */
-    .hero { min-height: 100vh; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); display: flex; flex-direction: column; position: relative; overflow: hidden; }
-    .nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 3rem; }
-    .logo { font-family: 'Lilita One', cursive; font-size: 1.75rem; font-weight: 700; color: white; }
-    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-    .nav-links a { color: white; text-decoration: none; font-size: 0.95rem; opacity: 0.9; transition: opacity 0.2s; }
-    .nav-links a:hover { opacity: 1; }
-    .nav-btn { padding: 0.6rem 1.5rem; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.5); border-radius: 50px; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: all 0.3s; }
-    .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.25rem; width: 32px; height: 32px; align-items: center; justify-content: center; }
-    .nav { position: relative; }
+    /* ── Nav ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 4rem;
+      background: rgba(26,23,20,0.85);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 900; color: var(--primary); letter-spacing: -0.02em; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-btn {
+      padding: 0.6rem 1.5rem; background: var(--primary); color: white;
+      border: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem;
+      text-decoration: none; transition: all 0.25s; letter-spacing: 0.02em;
+    }
+    .nav-btn:hover { background: #c4311f; transform: translateY(-1px); }
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.25rem; }
 
-    .hero-content { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding: 2rem 6rem 4rem; align-items: center; }
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 4rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(226,61,40,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+      max-width: 1300px; margin: 0 auto; width: 100%;
+      align-items: center; position: relative;
+    }
     .hero-text { max-width: 560px; }
-    .hero-tagline { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; }
-    .hero-title { font-family: 'Lilita One', cursive; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 600; line-height: 1.1; color: white; margin-bottom: 1.5rem; }
-    .hero-subtitle { font-size: 1.125rem; color: rgba(255,255,255,0.9); line-height: 1.7; margin-bottom: 2.5rem; }
+    .hero-tagline {
+      display: inline-block; font-size: 0.75rem; text-transform: uppercase;
+      letter-spacing: 0.2em; color: var(--primary); font-weight: 600;
+      margin-bottom: 1.5rem; padding: 0.4rem 1rem;
+      border: 1px solid rgba(226,61,40,0.3); border-radius: 50px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(3rem, 5.5vw, 4.5rem);
+      font-weight: 900; line-height: 1.05; color: var(--text); margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-title span { color: var(--primary); }
+    .hero-subtitle {
+      font-size: 1.1rem; color: var(--text-muted); line-height: 1.8;
+      margin-bottom: 2.5rem; max-width: 440px;
+    }
     .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .cta-btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: white; color: var(--primary); text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 1rem; transition: all 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
-    .cta-btn.outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.5); box-shadow: none; }
-    .cta-btn.outline:hover { background: rgba(255,255,255,0.1); border-color: white; }
-    .cta-btn svg { width: 20px; height: 20px; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2rem; background: var(--primary); color: white;
+      text-decoration: none; border-radius: 10px; font-weight: 600;
+      font-size: 0.95rem; transition: all 0.25s; border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: #c4311f; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(226,61,40,0.3); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2rem; background: transparent; color: var(--text);
+      text-decoration: none; border-radius: 10px; font-weight: 600;
+      font-size: 0.95rem; border: 1px solid var(--border); transition: all 0.25s; cursor: pointer;
+    }
+    .btn-outline:hover { border-color: var(--text-muted); background: rgba(255,255,255,0.04); }
+    .btn-icon { width: 18px; height: 18px; }
 
-    .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
-    .phone-mockup { width: 300px; height: 580px; background: var(--text); border-radius: 40px; padding: 12px; box-shadow: 0 40px 80px rgba(0,0,0,0.3); position: relative; }
-    .phone-screen { width: 100%; height: 100%; background: var(--bg); border-radius: 30px; overflow: hidden; display: flex; flex-direction: column; }
-    .phone-header { background: var(--primary); padding: 1.5rem 1rem 1rem; display: flex; align-items: center; gap: 0.5rem; }
-    .phone-header-dot { width: 8px; height: 8px; background: rgba(255,255,255,0.3); border-radius: 50%; }
-    .phone-header-title { color: white; font-family: 'Lilita One', cursive; font-size: 1rem; margin-left: 0.5rem; }
-    .phone-table-badge { margin-left: auto; background: rgba(255,255,255,0.2); color: white; padding: 0.25rem 0.5rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
-    .phone-categories { display: flex; gap: 0.5rem; padding: 0.75rem; overflow: hidden; }
-    .phone-cat { padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.65rem; font-weight: 600; white-space: nowrap; }
-    .phone-cat.active { background: var(--primary); color: white; }
-    .phone-cat:not(.active) { background: white; color: var(--text-muted); border: 1px solid var(--border); }
-    .phone-items { flex: 1; padding: 0.5rem 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
-    .phone-item { background: white; border-radius: 12px; padding: 0.6rem; display: flex; gap: 0.5rem; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
-    .phone-item-icon { font-size: 1.5rem; width: 36px; text-align: center; }
-    .phone-item-info { flex: 1; }
-    .phone-item-name { font-family: 'Lilita One', cursive; font-size: 0.75rem; }
-    .phone-item-price { font-size: 0.7rem; color: var(--primary); font-weight: 600; }
-    .phone-item-add { width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: white; border: none; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; justify-content: center; }
-    .phone-cart { background: var(--primary); margin: 0.5rem 0.75rem; padding: 0.6rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; }
-    .phone-cart-text { color: white; font-size: 0.7rem; font-weight: 600; }
-    .phone-cart-total { color: white; font-size: 0.8rem; font-weight: 700; }
+    .hero-visual { position: relative; display: flex; justify-content: center; }
+    .hero-image-container {
+      position: relative; width: 420px; height: 520px;
+      border-radius: 24px; overflow: hidden;
+    }
+    .hero-image-container img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .hero-image-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(26,23,20,0.7) 100%);
+    }
+    .hero-image-text {
+      position: absolute; bottom: 2rem; left: 2rem; right: 2rem;
+    }
+    .hero-image-text h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.5rem;
+      font-weight: 700; color: white; margin-bottom: 0.25rem;
+    }
+    .hero-image-text p { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+    .hero-phone-float {
+      position: absolute; bottom: -20px; right: -40px;
+      width: 200px; background: var(--card); border-radius: 20px;
+      padding: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 1px solid var(--border);
+    }
+    .hero-phone-screen {
+      background: var(--bg); border-radius: 14px; overflow: hidden;
+    }
+    .hero-phone-header {
+      background: var(--primary); padding: 0.6rem 0.75rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .hero-phone-dot { width: 5px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+    .hero-phone-title { color: white; font-size: 0.6rem; font-weight: 600; margin-left: 0.3rem; }
+    .hero-phone-items { padding: 0.4rem; display: flex; flex-direction: column; gap: 0.3rem; }
+    .hero-phone-item {
+      background: var(--card); border-radius: 8px; padding: 0.4rem 0.5rem;
+      display: flex; align-items: center; gap: 0.4rem; font-size: 0.55rem;
+    }
+    .hero-phone-item-name { flex: 1; font-weight: 600; color: var(--text); }
+    .hero-phone-item-price { color: var(--primary); font-weight: 700; font-size: 0.5rem; }
+    .hero-phone-cart {
+      margin: 0.3rem 0.4rem; background: var(--primary); padding: 0.35rem 0.5rem;
+      border-radius: 8px; display: flex; justify-content: space-between;
+      color: white; font-size: 0.5rem; font-weight: 600;
+    }
 
-    .floating-badge { position: absolute; background: white; padding: 0.75rem 1.25rem; border-radius: 50px; font-size: 0.875rem; font-weight: 500; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 0.5rem; animation: floatBadge 3s ease-in-out infinite; }
-    .floating-badge.one { top: 5%; left: -15%; animation-delay: 0s; }
-    .floating-badge.two { bottom: 25%; right: -10%; animation-delay: 1s; }
-    .floating-badge.three { bottom: 5%; left: -5%; animation-delay: 2s; }
-    @keyframes floatBadge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .hero-stats {
+      display: flex; gap: 3rem; margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .hero-stat-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--text); }
+    .hero-stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
 
-    /* How It Works */
-    .how-section { padding: 6rem 4rem; background: var(--bg); }
-    .section-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
-    .section-tag { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--primary); margin-bottom: 1rem; }
-    .section-title { font-family: 'Lilita One', cursive; font-size: 2.75rem; font-weight: 600; color: var(--text); line-height: 1.2; }
-    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; }
-    .step-card { background: var(--card); border-radius: 24px; padding: 2.5rem; position: relative; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.06); transition: transform 0.3s; }
-    .step-card:hover { transform: translateY(-8px); }
-    .step-number { font-family: 'Lilita One', cursive; font-size: 4rem; font-weight: 700; opacity: 0.15; position: absolute; top: 0.5rem; right: 1rem; }
-    .step-icon { font-size: 2.5rem; margin-bottom: 1.25rem; }
-    .step-title { font-family: 'Lilita One', cursive; font-size: 1.35rem; font-weight: 600; margin-bottom: 0.75rem; }
-    .step-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+    /* ── Feature Cards (Zest Menu Style) ── */
+    .features-section { padding: 8rem 4rem; max-width: 1300px; margin: 0 auto; }
+    .section-tag {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em;
+      color: var(--primary); font-weight: 600; margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 900; color: var(--text); line-height: 1.1; margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .section-subtitle { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; max-width: 500px; margin-bottom: 3rem; }
+    .feature-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .feature-card {
+      position: relative; border-radius: 20px; overflow: hidden;
+      aspect-ratio: 4/3; cursor: pointer; text-decoration: none;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .feature-card:hover { transform: scale(1.02); }
+    .feature-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .feature-card:hover img { transform: scale(1.08); }
+    .feature-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);
+    }
+    .feature-card-text {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem;
+    }
+    .feature-card-title {
+      font-family: 'Playfair Display', serif; font-size: 1.75rem;
+      font-weight: 700; color: white; margin-bottom: 0.5rem;
+    }
+    .feature-card-desc { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.5; }
 
-    /* Features */
-    .features-section { padding: 6rem 4rem; background: white; }
-    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; }
-    .feature-card { background: var(--bg); border-radius: 24px; padding: 2.5rem; border: 1px solid var(--border); transition: transform 0.3s; }
-    .feature-card:hover { transform: translateY(-4px); }
-    .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .feature-title { font-family: 'Lilita One', cursive; font-size: 1.35rem; font-weight: 600; margin-bottom: 0.75rem; }
-    .feature-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+    /* ── About / How It Works (3 col) ── */
+    .about-section {
+      padding: 8rem 4rem;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .about-inner { max-width: 1300px; margin: 0 auto; }
+    .about-header { margin-bottom: 4rem; }
+    .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+    .about-item {}
+    .about-number {
+      font-family: 'Playfair Display', serif; font-size: 3.5rem;
+      font-weight: 900; color: var(--primary); opacity: 0.3;
+      line-height: 1; margin-bottom: 1rem;
+    }
+    .about-title {
+      font-family: 'Playfair Display', serif; font-size: 1.4rem;
+      font-weight: 700; color: var(--text); margin-bottom: 0.75rem;
+    }
+    .about-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
 
-    /* Restaurant CTA */
-    .restaurant-section { padding: 6rem 4rem; background: var(--bg); }
-    .restaurant-card { max-width: 900px; margin: 0 auto; background: linear-gradient(135deg, var(--text) 0%, #3a3630 100%); border-radius: 32px; padding: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
-    .restaurant-text h2 { font-family: 'Lilita One', cursive; font-size: 2.5rem; color: white; line-height: 1.2; margin-bottom: 1rem; }
-    .restaurant-text p { color: rgba(255,255,255,0.8); font-size: 1.05rem; line-height: 1.6; margin-bottom: 2rem; }
-    .restaurant-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
-    .restaurant-list li { display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.9); font-size: 0.95rem; }
-    .restaurant-list li::before { content: ''; display: block; width: 8px; height: 8px; background: var(--fresh); border-radius: 50%; flex-shrink: 0; }
+    /* ── Steps Row ── */
+    .steps-section { padding: 8rem 4rem; max-width: 1300px; margin: 0 auto; }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3rem; }
+    .step-card {
+      background: var(--card); border-radius: 16px; padding: 2rem;
+      border: 1px solid var(--border); transition: transform 0.3s, border-color 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .step-card:hover { transform: translateY(-4px); border-color: rgba(226,61,40,0.3); }
+    .step-number {
+      font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900;
+      color: var(--primary); opacity: 0.12; position: absolute; top: 0.5rem; right: 1rem;
+      line-height: 1;
+    }
+    .step-icon {
+      width: 48px; height: 48px; background: rgba(226,61,40,0.1);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .step-icon svg { width: 24px; height: 24px; stroke: var(--primary); fill: none; stroke-width: 2; }
+    .step-title {
+      font-family: 'Playfair Display', serif; font-size: 1.25rem;
+      font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .step-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
 
-    /* Demo */
-    .demo-section { padding: 6rem 4rem; background: white; text-align: center; }
-    .demo-link { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; color: var(--text); text-decoration: none; font-weight: 500; transition: all 0.2s; margin: 0.5rem; }
-    .demo-link:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+    /* ── FAQ ── */
+    .faq-section { padding: 8rem 4rem; background: var(--bg-elevated); border-top: 1px solid var(--border); }
+    .faq-inner { max-width: 800px; margin: 0 auto; }
+    .faq-header { text-align: center; margin-bottom: 3rem; }
+    .faq-item {
+      border-bottom: 1px solid var(--border); overflow: hidden;
+    }
+    .faq-question {
+      width: 100%; background: none; border: none; color: var(--text);
+      font-size: 1.05rem; font-weight: 600; padding: 1.5rem 0; text-align: left;
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      font-family: 'Inter', sans-serif; transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--primary); }
+    .faq-arrow {
+      width: 20px; height: 20px; transition: transform 0.3s; flex-shrink: 0;
+      stroke: var(--text-muted); fill: none;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-item.open .faq-answer { max-height: 200px; padding-bottom: 1.5rem; }
+    .faq-answer p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
 
-    /* CTA */
-    .cta-section { padding: 8rem 4rem; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); text-align: center; }
-    .cta-content { max-width: 600px; margin: 0 auto; }
-    .cta-title { font-family: 'Lilita One', cursive; font-size: 3.5rem; font-weight: 600; color: white; margin-bottom: 1.5rem; line-height: 1.15; }
-    .cta-subtitle { font-size: 1.25rem; color: rgba(255,255,255,0.85); margin-bottom: 2.5rem; line-height: 1.6; }
+    /* ── Reviews ── */
+    .reviews-section { padding: 8rem 4rem; max-width: 1300px; margin: 0 auto; }
+    .reviews-header { margin-bottom: 3rem; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .review-card {
+      background: var(--card); border-radius: 16px; padding: 2rem;
+      border: 1px solid var(--border);
+    }
+    .review-stars { color: var(--accent); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 2px; }
+    .review-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; }
+    .review-author { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+    .review-role { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
 
-    /* Footer */
-    .footer { padding: 2rem 4rem; background: var(--text); display: flex; justify-content: space-between; align-items: center; }
-    .footer-logo { font-family: 'Lilita One', cursive; font-size: 1.25rem; font-weight: 600; color: white; }
+    /* ── CTA ── */
+    .cta-section {
+      padding: 8rem 4rem; text-align: center;
+      background: var(--primary);
+      position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.08) 0%, transparent 60%);
+    }
+    .cta-content { max-width: 600px; margin: 0 auto; position: relative; }
+    .cta-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 900; color: white; margin-bottom: 1.25rem; line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .cta-subtitle { font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-bottom: 2.5rem; line-height: 1.7; }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2.5rem; background: white; color: var(--primary);
+      text-decoration: none; border-radius: 10px; font-weight: 700;
+      font-size: 1rem; transition: all 0.25s; border: none; cursor: pointer;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 3rem 4rem; background: var(--bg);
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 900; color: var(--primary); }
     .footer-links { display: flex; gap: 2rem; }
-    .footer-links a { color: white; opacity: 0.7; text-decoration: none; font-size: 0.9rem; transition: opacity 0.2s; }
-    .footer-links a:hover { opacity: 1; }
-    .footer-copy { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
 
-    /* Voice Order Modal */
+    /* ── Voice Order Modal ── */
     .voice-modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      align-items: center;
-      justify-content: center;
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
       animation: fadeIn 0.25s ease-out;
     }
     .voice-modal-overlay.open { display: flex; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .voice-modal-card {
-      position: relative;
-      width: 390px;
-      height: 85vh;
-      max-height: 780px;
-      background: #2D2A26;
-      border-radius: 32px;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-      overflow: hidden;
-      animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative; width: 390px; height: 85vh; max-height: 780px;
+      background: var(--bg); border-radius: 32px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+      overflow: hidden; animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes slideUp { from { opacity: 0; transform: translateY(40px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    .voice-modal-card iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 32px;
-    }
+    .voice-modal-card iframe { width: 100%; height: 100%; border: none; border-radius: 32px; }
     .voice-modal-close {
-      position: absolute;
-      top: -12px;
-      right: -12px;
-      width: 36px;
-      height: 36px;
-      background: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 1.1rem;
-      color: var(--text);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
-      z-index: 1;
+      position: absolute; top: -12px; right: -12px; width: 36px; height: 36px;
+      background: white; border: none; border-radius: 50%; font-size: 1.1rem;
+      color: var(--bg); cursor: pointer; display: flex; align-items: center;
+      justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.2s; z-index: 1;
     }
     .voice-modal-close:hover { transform: scale(1.1); }
 
-    /* Responsive */
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .nav { padding: 1rem 2rem; }
+      .hero { padding: 7rem 2rem 3rem; }
+      .hero-inner { gap: 3rem; }
+      .hero-image-container { width: 340px; height: 420px; }
+      .hero-phone-float { width: 160px; right: -20px; }
+      .feature-cards { gap: 1rem; }
+      .about-grid { gap: 2rem; }
+    }
     @media (max-width: 900px) {
-      .hero-content { grid-template-columns: 1fr; padding: 2rem; text-align: center; }
-      .hero-text { max-width: 100%; }
-      .hero-visual { order: -1; }
-      .hero-buttons { justify-content: center; }
-      .phone-mockup { width: 240px; height: 460px; }
-      .floating-badge { display: none; }
-      .nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--primary); padding: 1rem 1.5rem; gap: 0.75rem; z-index: 100; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(26,23,20,0.98); backdrop-filter: blur(16px); padding: 1.5rem 2rem; gap: 1rem; border-bottom: 1px solid var(--border); }
       .nav-links.open { display: flex; }
-      .nav-hamburger { display: flex; }
+      .nav-hamburger { display: block; }
+      .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
+      .hero-text { max-width: 100%; }
+      .hero-subtitle { margin-left: auto; margin-right: auto; }
+      .hero-buttons { justify-content: center; }
+      .hero-visual { order: -1; }
+      .hero-image-container { width: 300px; height: 380px; margin: 0 auto; }
+      .hero-phone-float { width: 140px; right: -10px; bottom: -10px; }
+      .hero-stats { justify-content: center; }
+      .feature-cards { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
       .steps-grid { grid-template-columns: repeat(2, 1fr); }
-      .features-grid { grid-template-columns: 1fr; }
-      .restaurant-card { grid-template-columns: 1fr; padding: 2.5rem; }
-      .cta-title { font-size: 2.5rem; }
+      .reviews-grid { grid-template-columns: 1fr; }
       .footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .features-section, .about-section, .steps-section, .faq-section, .reviews-section, .cta-section { padding: 5rem 2rem; }
     }
     @media (max-width: 600px) {
-      .hero { min-height: auto; padding-bottom: 3rem; }
+      .hero { min-height: auto; }
+      .hero-image-container { width: 260px; height: 330px; }
+      .hero-phone-float { display: none; }
+      .hero-stats { flex-direction: column; gap: 1.5rem; align-items: center; }
       .steps-grid { grid-template-columns: 1fr; }
+      .feature-card { aspect-ratio: 16/10; }
       .section-title { font-size: 2rem; }
-      .how-section, .features-section, .restaurant-section, .demo-section { padding: 4rem 1.5rem; }
+      .features-section, .about-section, .steps-section, .faq-section, .reviews-section, .cta-section { padding: 4rem 1.25rem; }
     }
   </style>
 </head>
 <body>
-  <section class="hero">
-    <nav class="nav">
-      <div class="logo">OrderFi</div>
-      <div class="nav-links">
-        <a href="/order">Voice Order</a>
-        <a href="/menu/loose-moose">Menu</a>
-        <a href="/admin?tab=kitchen">Kitchen</a>
-        <a href="/admin">Dashboard</a>
-        <a href="/setup" class="nav-btn">Set Up Free</a>
-      </div>
-      <button class="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-      </button>
-    </nav>
 
-    <div class="hero-content">
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="logo">OrderFi</div>
+    <div class="nav-links">
+      <a href="/order">Voice Order</a>
+      <a href="/menu/loose-moose">Menu</a>
+      <a href="/admin?tab=kitchen">Kitchen</a>
+      <a href="/admin">Dashboard</a>
+      <a href="/setup" class="nav-btn">Get Started</a>
+    </div>
+    <button class="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
       <div class="hero-text">
-        <p class="hero-tagline">FREE FOR EVERY RESTAURANT</p>
-        <h1 class="hero-title">Scan. Order. Pay.<br>No app needed.</h1>
+        <span class="hero-tagline">Free for every restaurant</span>
+        <h1 class="hero-title">Crafting <span>bold</span> dining experiences with a fresh twist.</h1>
         <p class="hero-subtitle">
-          Give your guests the power to order and pay from their phone. QR code menus, bill splitting, tipping, dietary filters, and voice ordering. Set up in under 10 minutes.
+          Give your guests the power to scan, order, and pay from their phone. No app download needed. Set up in under 10 minutes.
         </p>
         <div class="hero-buttons">
-          <a href="/setup" class="cta-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          <a href="/setup" class="btn-primary">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
             Set Up Your Restaurant
           </a>
-          <a href="/menu/loose-moose?table=lm-table-1" class="cta-btn outline">
-            Try Live Demo
-          </a>
+          <a href="/menu/loose-moose?table=lm-table-1" class="btn-outline">Try Live Demo</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-value">10min</div>
+            <div class="hero-stat-label">Setup Time</div>
+          </div>
+          <div>
+            <div class="hero-stat-value">$0</div>
+            <div class="hero-stat-label">Forever Free</div>
+          </div>
+          <div>
+            <div class="hero-stat-value">AI</div>
+            <div class="hero-stat-label">Voice Ordering</div>
+          </div>
         </div>
       </div>
 
       <div class="hero-visual">
-        <div class="phone-mockup">
-          <div class="phone-screen">
-            <div class="phone-header">
-              <div class="phone-header-dot"></div>
-              <div class="phone-header-dot"></div>
-              <div class="phone-header-title">Loose Moose</div>
-              <div class="phone-table-badge">Table 3</div>
+        <div class="hero-image-container">
+          <img src="/images/hero-food.jpg" alt="Beautiful plated restaurant dish" loading="eager">
+          <div class="hero-image-overlay"></div>
+          <div class="hero-image-text">
+            <h3>Scan. Order. Pay.</h3>
+            <p>No app needed. Just your phone.</p>
+          </div>
+        </div>
+        <div class="hero-phone-float">
+          <div class="hero-phone-screen">
+            <div class="hero-phone-header">
+              <div class="hero-phone-dot"></div>
+              <div class="hero-phone-dot"></div>
+              <span class="hero-phone-title">Loose Moose</span>
             </div>
-            <div class="phone-categories">
-              <div class="phone-cat active">All</div>
-              <div class="phone-cat">Appetizer</div>
-              <div class="phone-cat">Mains</div>
-              <div class="phone-cat">Pizza</div>
-              <div class="phone-cat">Drinks</div>
-            </div>
-            <div class="phone-items">
-              <div class="phone-item">
-                <div class="phone-item-icon">🦑</div>
-                <div class="phone-item-info">
-                  <div class="phone-item-name">Salt & Pepper Squid</div>
-                  <div class="phone-item-price">$24.00</div>
-                </div>
-                <div class="phone-item-add">+</div>
+            <div class="hero-phone-items">
+              <div class="hero-phone-item">
+                <span class="hero-phone-item-name">Classic Burger</span>
+                <span class="hero-phone-item-price">$23</span>
               </div>
-              <div class="phone-item">
-                <div class="phone-item-icon">🍔</div>
-                <div class="phone-item-info">
-                  <div class="phone-item-name">Classic Burger</div>
-                  <div class="phone-item-price">$23.00</div>
-                </div>
-                <div class="phone-item-add">+</div>
+              <div class="hero-phone-item">
+                <span class="hero-phone-item-name">Korean Chicken</span>
+                <span class="hero-phone-item-price">$25</span>
               </div>
-              <div class="phone-item">
-                <div class="phone-item-icon">🍗</div>
-                <div class="phone-item-info">
-                  <div class="phone-item-name">Korean Fried Chicken</div>
-                  <div class="phone-item-price">$25.00</div>
-                </div>
-                <div class="phone-item-add">+</div>
-              </div>
-              <div class="phone-item">
-                <div class="phone-item-icon">🍕</div>
-                <div class="phone-item-info">
-                  <div class="phone-item-name">Pepperoni Pizza</div>
-                  <div class="phone-item-price">$24.00</div>
-                </div>
-                <div class="phone-item-add">+</div>
+              <div class="hero-phone-item">
+                <span class="hero-phone-item-name">Pepperoni Pizza</span>
+                <span class="hero-phone-item-price">$24</span>
               </div>
             </div>
-            <div class="phone-cart">
-              <div class="phone-cart-text">3 items in cart</div>
-              <div class="phone-cart-total">$72.00</div>
+            <div class="hero-phone-cart">
+              <span>3 items</span>
+              <span>$72.00</span>
             </div>
           </div>
         </div>
@@ -302,139 +474,207 @@
     </div>
   </section>
 
-  <section class="how-section" id="how">
-    <div class="section-header">
-      <p class="section-tag">For Customers</p>
-      <h2 class="section-title">How It Works</h2>
-    </div>
-    <div class="steps-grid">
-      <div class="step-card">
-        <span class="step-number">1</span>
-        <div class="step-icon">📱</div>
-        <h3 class="step-title">Scan</h3>
-        <p class="step-desc">Scan the QR code at your table. No app download needed - it opens right in your browser.</p>
-      </div>
-      <div class="step-card">
-        <span class="step-number">2</span>
-        <div class="step-icon">🍽️</div>
-        <h3 class="step-title">Browse</h3>
-        <p class="step-desc">Explore the visual menu. Filter by dietary needs, see photos, read descriptions. Or just use your voice.</p>
-      </div>
-      <div class="step-card">
-        <span class="step-number">3</span>
-        <div class="step-icon">🛒</div>
-        <h3 class="step-title">Order</h3>
-        <p class="step-desc">Add items to your cart, customize them, add special instructions. Order more rounds anytime.</p>
-      </div>
-      <div class="step-card">
-        <span class="step-number">4</span>
-        <div class="step-icon">💳</div>
-        <h3 class="step-title">Pay</h3>
-        <p class="step-desc">Pay from your phone. Split the bill, add a tip, get a digital receipt. No waiting for the check.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="features-section" id="features">
-    <div class="section-header">
-      <p class="section-tag">Platform Features</p>
-      <h2 class="section-title">Everything You Need</h2>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">📲</div>
-        <h3 class="feature-title">QR Code Tables</h3>
-        <p class="feature-desc">Unique QR code for each table. Customers scan and start ordering instantly. No app download required.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🥗</div>
-        <h3 class="feature-title">Dietary Filters</h3>
-        <p class="feature-desc">Vegetarian, vegan, gluten-free, dairy-free, nut-free, halal. Customers filter the menu to see what they can eat.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">💰</div>
-        <h3 class="feature-title">Bill Splitting</h3>
-        <p class="feature-desc">Split equally, by item, or by custom amount. No more awkward calculator moments at the table.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎤</div>
-        <h3 class="feature-title">Voice Ordering</h3>
-        <p class="feature-desc">Customers can speak their order naturally. AI understands context, handles modifications, confirms everything.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⏱️</div>
-        <h3 class="feature-title">Real-Time Tracking</h3>
-        <p class="feature-desc">Customers see live order status. Kitchen display shows incoming orders. Everyone stays in the loop.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3 class="feature-title">Analytics Dashboard</h3>
-        <p class="feature-desc">See what's selling, peak hours, revenue trends, popular items. Data-driven decisions made easy.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🕐</div>
-        <h3 class="feature-title">Time-Based Menus</h3>
-        <p class="feature-desc">Breakfast, lunch, dinner, happy hour. Menus change automatically based on the time of day.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🧾</div>
-        <h3 class="feature-title">Digital Receipts</h3>
-        <p class="feature-desc">Email receipts automatically. No paper waste, easy expense tracking for customers.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🍳</div>
-        <h3 class="feature-title">Kitchen Display</h3>
-        <p class="feature-desc">Real-time kitchen display system. See orders come in, track preparation, mark as ready.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="restaurant-section">
-    <div class="restaurant-card">
-      <div class="restaurant-text">
-        <h2>Set Up Your Restaurant in Minutes</h2>
-        <p>OrderFi is completely free. No contracts, no commissions, no hidden fees. Just better service for your guests.</p>
-        <a href="/setup" class="cta-btn" style="display: inline-flex;">Get Started Free</a>
-      </div>
-      <ul class="restaurant-list">
-        <li>Add your restaurant details</li>
-        <li>Upload or scan your menu</li>
-        <li>Generate QR codes for each table</li>
-        <li>Customize colors and branding</li>
-        <li>Set operating hours and tipping</li>
-        <li>Print QR codes and go live</li>
-        <li>Kitchen display for your staff</li>
-        <li>Analytics dashboard included</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="demo-section">
-    <div class="section-header">
-      <p class="section-tag">Try It Now</p>
-      <h2 class="section-title">See OrderFi in Action</h2>
-    </div>
-    <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-      We've set up a demo restaurant called "Loose Moose" so you can experience the full ordering flow.
-    </p>
-    <a href="/menu/loose-moose?table=lm-table-1" class="demo-link">📱 Customer Menu (Table 1)</a>
-    <a href="/order" class="demo-link">🎤 Voice Ordering</a>
-    <a href="/admin" class="demo-link">📊 Staff Dashboard</a>
-    <a href="/admin?tab=kitchen" class="demo-link">🍳 Kitchen Display</a>
-    <a href="/setup" class="demo-link">🏪 Restaurant Setup</a>
-  </section>
-
-  <section class="cta-section">
-    <div class="cta-content">
-      <h2 class="cta-title">Ready to transform your restaurant?</h2>
-      <p class="cta-subtitle">Join thousands of restaurants using smart ordering. Free forever, set up in minutes.</p>
-      <a href="/setup" class="cta-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-        Set Up Your Restaurant Free
+  <!-- Feature Cards (Zest-style image grid) -->
+  <section class="features-section">
+    <p class="section-tag">Platform Features</p>
+    <h2 class="section-title">Everything your restaurant needs</h2>
+    <p class="section-subtitle">From QR code ordering to AI-powered voice commands, OrderFi gives your guests a seamless modern dining experience.</p>
+    <div class="feature-cards">
+      <a href="/menu/loose-moose?table=lm-table-1" class="feature-card">
+        <img src="/images/feature-qr.jpg" alt="QR code table ordering" loading="lazy">
+        <div class="feature-card-overlay"></div>
+        <div class="feature-card-text">
+          <h3 class="feature-card-title">QR Code Ordering</h3>
+          <p class="feature-card-desc">Guests scan a QR code at their table and start browsing your menu instantly. No app download needed.</p>
+        </div>
+      </a>
+      <a href="/order" class="feature-card">
+        <img src="/images/feature-voice.jpg" alt="Voice ordering with AI" loading="lazy">
+        <div class="feature-card-overlay"></div>
+        <div class="feature-card-text">
+          <h3 class="feature-card-title">Voice Ordering</h3>
+          <p class="feature-card-desc">Customers speak their order naturally. AI understands context, handles modifications, and confirms everything.</p>
+        </div>
+      </a>
+      <a href="/admin?tab=kitchen" class="feature-card">
+        <img src="/images/feature-kitchen.jpg" alt="Kitchen display system" loading="lazy">
+        <div class="feature-card-overlay"></div>
+        <div class="feature-card-text">
+          <h3 class="feature-card-title">Kitchen Display</h3>
+          <p class="feature-card-desc">Real-time orders flow straight to the kitchen. Track preparation, mark as ready, alert on urgent items.</p>
+        </div>
+      </a>
+      <a href="/admin" class="feature-card">
+        <img src="/images/feature-dining.jpg" alt="Restaurant dining experience" loading="lazy">
+        <div class="feature-card-overlay"></div>
+        <div class="feature-card-text">
+          <h3 class="feature-card-title">Staff Dashboard</h3>
+          <p class="feature-card-desc">Manage your menu, track orders, view analytics. Everything your staff needs in one place.</p>
+        </div>
       </a>
     </div>
   </section>
 
+  <!-- About / Value Props (3 col like Zest) -->
+  <section class="about-section">
+    <div class="about-inner">
+      <div class="about-header">
+        <p class="section-tag">Why OrderFi</p>
+        <h2 class="section-title">Built for modern restaurants</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-item">
+          <div class="about-number">01</div>
+          <h3 class="about-title">Zero Cost, Zero Commissions</h3>
+          <p class="about-desc">OrderFi is completely free. No monthly fees, no per-order commissions, no hidden charges. Your revenue stays yours.</p>
+        </div>
+        <div class="about-item">
+          <div class="about-number">02</div>
+          <h3 class="about-title">Smart AI Matching</h3>
+          <p class="about-desc">Our AI understands natural speech and matches orders to your menu using weighted keywords, aliases, and dietary tags.</p>
+        </div>
+        <div class="about-item">
+          <div class="about-number">03</div>
+          <h3 class="about-title">Ready in Minutes</h3>
+          <p class="about-desc">Add your restaurant, scan your menu with AI, generate QR codes, and go live. The entire setup takes under 10 minutes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Steps -->
+  <section class="steps-section">
+    <p class="section-tag">For Customers</p>
+    <h2 class="section-title">How it works</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <span class="step-number">1</span>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
+        </div>
+        <h3 class="step-title">Scan</h3>
+        <p class="step-desc">Scan the QR code at your table. Opens right in your browser - no app needed.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">2</span>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </div>
+        <h3 class="step-title">Browse</h3>
+        <p class="step-desc">Explore the visual menu. Filter by dietary needs, see photos, or use your voice.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">3</span>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </div>
+        <h3 class="step-title">Order</h3>
+        <p class="step-desc">Add items, customise, add special instructions. Order more rounds anytime.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">4</span>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <h3 class="step-title">Pay</h3>
+        <p class="step-desc">Pay from your phone. Split the bill, add a tip, get a digital receipt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ (Zest-style accordion) -->
+  <section class="faq-section">
+    <div class="faq-inner">
+      <div class="faq-header">
+        <p class="section-tag">FAQ</p>
+        <h2 class="section-title">Frequently asked questions</h2>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Is OrderFi really free?
+          <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Yes, completely free. No monthly fees, no commissions per order, no hidden charges. We believe every restaurant deserves access to smart ordering technology.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Do my customers need to download an app?
+          <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>No. Everything works directly in the browser. Customers just scan the QR code at their table and the menu opens instantly - no download or sign-up required.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          How does voice ordering work?
+          <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Customers tap the microphone and speak naturally - "I'll have the burger with extra cheese and a side of fries." Our AI understands context, matches items to your menu, handles modifications, and confirms the order before sending it to the kitchen.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Can I customise the menu and branding?
+          <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Absolutely. You can add photos, descriptions, dietary tags, allergen info, weighted keywords for AI matching, and customise your restaurant branding including colors and logo.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          How do payments work?
+          <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Payments are processed securely through Stripe. Customers can split the bill, add tips, and receive digital receipts. You connect your own Stripe account, so payments go directly to you.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          How long does setup take?
+          <svg class="faq-arrow" viewBox="0 0 24 24" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer"><p>Under 10 minutes. Add your restaurant details, scan your existing menu with AI (or add items manually), generate QR codes for each table, and you're live.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews (Zest-style) -->
+  <section class="reviews-section">
+    <div class="reviews-header">
+      <p class="section-tag">Reviews</p>
+      <h2 class="section-title">What restaurateurs say</h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">"Set up in 8 minutes flat. Customers love scanning and ordering themselves - our table turnover has gone up and staff can focus on hospitality."</p>
+        <div class="review-author">Sarah M.</div>
+        <div class="review-role">Owner, The Rustic Plate</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">"The voice ordering blew my mind. A customer literally said 'give me that spicy chicken thing' and the AI knew exactly what they meant. Incredible."</p>
+        <div class="review-author">James K.</div>
+        <div class="review-role">Manager, Wing & Co</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">"We were paying $300/month for a competitor. OrderFi does more and costs nothing. The kitchen display alone has reduced our order errors by half."</p>
+        <div class="review-author">Maria L.</div>
+        <div class="review-role">Owner, Casa Fresca</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Ready to transform your restaurant?</h2>
+      <p class="cta-subtitle">Join restaurants using smart ordering. Free forever, set up in minutes.</p>
+      <a href="/setup" class="btn-white">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Get Started Free
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer class="footer">
     <div class="footer-logo">OrderFi</div>
     <div class="footer-links">
@@ -446,6 +686,7 @@
     <div class="footer-copy">Free and open source. Made for restaurants everywhere.</div>
   </footer>
 
+  <!-- Voice Order Modal -->
   <div class="voice-modal-overlay" id="voice-modal">
     <div class="voice-modal-card">
       <button class="voice-modal-close" id="voice-modal-close" aria-label="Close voice order">&times;</button>
