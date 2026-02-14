@@ -704,3 +704,173 @@ function detectSentiment(message: string): string {
   if (posScore > negScore) return 'positive';
   return 'neutral';
 }
+
+// === Table Management ===
+
+adminRouter.get("/tables", async (_req: Request, res: Response) => {
+  try {
+    const tables = await storage.getTables(1);
+    res.json(tables);
+  } catch (error) {
+    console.error("Error fetching tables:", error);
+    res.status(500).json({ error: "Failed to fetch tables" });
+  }
+});
+
+adminRouter.post("/tables", async (req: Request, res: Response) => {
+  try {
+    const { tableNumber, tableName, capacity, section, qrCodeId } = req.body;
+    const table = await storage.createTable({
+      restaurantId: 1,
+      tableNumber: tableNumber || "1",
+      tableName,
+      capacity: capacity || 4,
+      section,
+      qrCodeId: qrCodeId || `table-${Date.now()}`,
+      isActive: true,
+    });
+    res.json(table);
+  } catch (error) {
+    console.error("Error creating table:", error);
+    res.status(500).json({ error: "Failed to create table" });
+  }
+});
+
+adminRouter.put("/tables/:id", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const table = await storage.updateTable(id, req.body);
+    res.json(table);
+  } catch (error) {
+    console.error("Error updating table:", error);
+    res.status(500).json({ error: "Failed to update table" });
+  }
+});
+
+adminRouter.delete("/tables/:id", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    await storage.deleteTable(id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting table:", error);
+    res.status(500).json({ error: "Failed to delete table" });
+  }
+});
+
+// === Menu Categories ===
+
+adminRouter.get("/categories", async (_req: Request, res: Response) => {
+  try {
+    const categories = await storage.getMenuCategories(1);
+    res.json(categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ error: "Failed to fetch categories" });
+  }
+});
+
+adminRouter.post("/categories", async (req: Request, res: Response) => {
+  try {
+    const { name, description, displayOrder, availabilitySchedule } = req.body;
+    const category = await storage.createMenuCategory({
+      restaurantId: 1,
+      name: name || "New Category",
+      description,
+      displayOrder: displayOrder || 0,
+      availabilitySchedule: availabilitySchedule || "all_day",
+    });
+    res.json(category);
+  } catch (error) {
+    console.error("Error creating category:", error);
+    res.status(500).json({ error: "Failed to create category" });
+  }
+});
+
+adminRouter.delete("/categories/:id", async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    await storage.deleteMenuCategory(id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    res.status(500).json({ error: "Failed to delete category" });
+  }
+});
+
+// === Restaurant Settings ===
+
+adminRouter.get("/restaurant", async (_req: Request, res: Response) => {
+  try {
+    const restaurant = await storage.getRestaurant(1);
+    res.json(restaurant || { error: "No restaurant configured" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch restaurant" });
+  }
+});
+
+adminRouter.put("/restaurant", async (req: Request, res: Response) => {
+  try {
+    const restaurant = await storage.updateRestaurant(1, req.body);
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update restaurant" });
+  }
+});
+
+// === Analytics ===
+
+adminRouter.get("/analytics", async (_req: Request, res: Response) => {
+  try {
+    const allOrders = await storage.getOrdersByRestaurant(1);
+    const menuItemsList = await storage.getMenuItems(1);
+
+    const totalOrders = allOrders.length;
+    const totalRevenue = allOrders.reduce((sum, o) => sum + parseFloat(o.total as string || "0"), 0);
+    const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+    // Orders by status
+    const byStatus: Record<string, number> = {};
+    allOrders.forEach(o => { byStatus[o.status || 'pending'] = (byStatus[o.status || 'pending'] || 0) + 1; });
+
+    // Item popularity from orders
+    const itemCounts: Record<string, number> = {};
+    allOrders.forEach(o => {
+      try {
+        const items = typeof o.items === 'string' ? JSON.parse(o.items) : o.items;
+        if (Array.isArray(items)) {
+          items.forEach((item: any) => {
+            itemCounts[item.name] = (itemCounts[item.name] || 0) + (item.quantity || 1);
+          });
+        }
+      } catch {}
+    });
+
+    const popularItems = Object.entries(itemCounts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 10)
+      .map(([name, count]) => ({ name, count }));
+
+    // Orders by hour (mock distribution)
+    const ordersByHour: Record<number, number> = {};
+    allOrders.forEach(o => {
+      if (o.createdAt) {
+        const hour = new Date(o.createdAt).getHours();
+        ordersByHour[hour] = (ordersByHour[hour] || 0) + 1;
+      }
+    });
+
+    res.json({
+      totalOrders,
+      totalRevenue: totalRevenue.toFixed(2),
+      avgOrderValue: avgOrderValue.toFixed(2),
+      totalMenuItems: menuItemsList.length,
+      byStatus,
+      popularItems,
+      ordersByHour,
+    });
+  } catch (error) {
+    console.error("Error fetching analytics:", error);
+    res.status(500).json({ error: "Failed to fetch analytics" });
+  }
+});
