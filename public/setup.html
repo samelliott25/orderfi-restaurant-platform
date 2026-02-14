@@ -7,7 +7,7 @@
   <meta name="description" content="Set up your restaurant on OrderFi in minutes. Configure menus, tables, and QR codes.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -23,21 +23,21 @@
     }
 
     :root {
-      --bg: #FFF9F5;
-      --card: #FFFFFF;
-      --text: #2D2A26;
-      --text-muted: #6B6560;
+      --bg: #1A1714;
+      --card: #2A2520;
+      --text: #F5F0EB;
+      --text-muted: #A89E94;
       --primary: #E23D28;
       --primary-dark: #C4311F;
       --accent: #FF6B35;
       --fresh: #4CAF50;
       --warm: #FFB347;
-      --border: rgba(0,0,0,0.08);
+      --border: rgba(255,255,255,0.08);
       --success: #4CAF50;
       --error: #E23D28;
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
-      --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.3);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.4);
     }
 
     html {
@@ -54,7 +54,8 @@
 
     /* Header */
     .header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
@@ -65,14 +66,15 @@
     }
 
     .logo {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.5rem;
-      color: white;
+      font-weight: 900;
+      color: var(--primary);
       text-decoration: none;
     }
 
     .header-subtitle {
-      color: rgba(255,255,255,0.85);
+      color: var(--text-muted);
       font-size: 0.9rem;
     }
 
@@ -145,7 +147,7 @@
     .progress-step.active {
       border-color: var(--primary);
       color: var(--primary);
-      background: #FFF0EE;
+      background: rgba(226, 61, 40, 0.15);
       transform: scale(1.1);
     }
 
@@ -242,8 +244,9 @@
     }
 
     .step-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 2rem;
+      font-weight: 900;
       color: var(--text);
       line-height: 1.2;
     }
@@ -309,17 +312,23 @@
       font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
       color: var(--text);
-      background: var(--card);
+      background: var(--bg);
       transition: border-color 0.2s, box-shadow 0.2s;
       outline: none;
       -webkit-appearance: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.6;
     }
 
     input:focus,
     select:focus,
     textarea:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(226, 61, 40, 0.1);
+      box-shadow: 0 0 0 3px rgba(226, 61, 40, 0.2);
     }
 
     input.error,
@@ -347,7 +356,7 @@
 
     select {
       cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6560' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A89E94' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 1rem center;
       padding-right: 2.5rem;
@@ -367,7 +376,7 @@
       border-radius: 12px;
       cursor: pointer;
       padding: 4px;
-      background: var(--card);
+      background: var(--bg);
     }
 
     input[type="color"]::-webkit-color-swatch-wrapper {
@@ -435,7 +444,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: #D1D1D1;
+      background: #4A4540;
       border-radius: 28px;
       transition: background 0.3s;
     }
@@ -447,10 +456,10 @@
       width: 22px;
       left: 3px;
       bottom: 3px;
-      background: white;
+      background: var(--text);
       border-radius: 50%;
       transition: transform 0.3s;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
 
     .toggle-switch input:checked + .toggle-slider {
@@ -560,7 +569,7 @@
 
     .file-upload-area:hover {
       border-color: var(--primary);
-      background: #FFF5F3;
+      background: rgba(226, 61, 40, 0.08);
     }
 
     .file-upload-area.has-preview {
@@ -656,7 +665,7 @@
 
     .checkbox-card:has(input:checked) {
       border-color: var(--primary);
-      background: #FFF5F3;
+      background: rgba(226, 61, 40, 0.1);
     }
 
     .checkbox-card-label {
@@ -683,7 +692,8 @@
     }
 
     .table-card-name {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
       font-size: 1.1rem;
       color: var(--text);
       margin-bottom: 0.5rem;
@@ -781,13 +791,13 @@
     }
 
     .btn-outline {
-      background: var(--card);
+      background: transparent;
       color: var(--primary);
       border: 2px solid var(--primary);
     }
 
     .btn-outline:hover {
-      background: #FFF5F3;
+      background: rgba(226, 61, 40, 0.1);
       transform: translateY(-2px);
     }
 
@@ -800,10 +810,10 @@
     .generate-section {
       margin-top: 2rem;
       padding: 1.5rem;
-      background: linear-gradient(135deg, #FFF5F3, #FFF0EA);
+      background: rgba(226, 61, 40, 0.08);
       border-radius: 16px;
       text-align: center;
-      border: 1px solid rgba(226, 61, 40, 0.1);
+      border: 1px solid rgba(226, 61, 40, 0.15);
     }
 
     .generate-section p {
@@ -843,7 +853,8 @@
     }
 
     .completion-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
       font-size: 2.5rem;
       color: var(--text);
       margin-bottom: 0.75rem;
@@ -898,8 +909,9 @@
       bottom: 2rem;
       right: 2rem;
       padding: 1rem 1.5rem;
-      background: var(--text);
-      color: white;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
       border-radius: 12px;
       font-size: 0.9rem;
       font-weight: 500;
@@ -1844,7 +1856,7 @@
         more.style.flexDirection = 'column';
         more.style.color = 'var(--text-muted)';
         more.innerHTML =
-          '<div style="font-family:\'Lilita One\',cursive; font-size:2rem; color:var(--primary);">+' + (generatedTables.length - maxShow) + '</div>' +
+          '<div style="font-family:\'Playfair Display\',serif; font-weight:900; font-size:2rem; color:var(--primary);">+' + (generatedTables.length - maxShow) + '</div>' +
           '<div style="font-size:0.85rem; margin-top:0.25rem;">more tables</div>';
         container.appendChild(more);
       }
@@ -1960,16 +1972,16 @@
         '<title>QR Codes - ' + escapeHtml(name) + '</title>' +
         '<style>' +
         'body{font-family:Inter,-apple-system,sans-serif;margin:0;padding:2rem;background:#fff;}' +
-        'h1{font-family:"Lilita One",cursive;text-align:center;margin-bottom:0.5rem;font-size:2rem;color:#2D2A26;}' +
+        'h1{font-family:"Playfair Display",serif;font-weight:900;text-align:center;margin-bottom:0.5rem;font-size:2rem;color:#2D2A26;}' +
         'p.sub{text-align:center;color:#6B6560;margin-bottom:2rem;font-size:0.95rem;}' +
         '.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:900px;margin:0 auto;}' +
         '.card{border:2px solid #eee;border-radius:12px;padding:1.5rem;text-align:center;page-break-inside:avoid;}' +
-        '.card h3{font-family:"Lilita One",cursive;font-size:1.25rem;margin-bottom:0.75rem;color:#2D2A26;}' +
+        '.card h3{font-family:"Playfair Display",serif;font-weight:700;font-size:1.25rem;margin-bottom:0.75rem;color:#2D2A26;}' +
         '.card img{width:180px;height:180px;}' +
         '.card .url{font-size:0.65rem;color:#6B6560;margin-top:0.5rem;word-break:break-all;}' +
         '@media print{body{padding:0.5rem;}.grid{gap:0.75rem;}.card{padding:1rem;}.card img{width:140px;height:140px;}}' +
         '</style>' +
-        '<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;600&display=swap" rel="stylesheet">' +
+        '<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">' +
         '</head><body>' +
         '<h1>' + escapeHtml(name) + '</h1>' +
         '<p class="sub">Scan a QR code to view the menu and order</p>' +

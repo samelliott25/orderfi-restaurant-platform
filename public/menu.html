@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -28,22 +28,22 @@
     }
 
     :root {
-      --bg: #FFF9F5;
-      --card: #FFFFFF;
-      --text: #2D2A26;
-      --text-muted: #6B6560;
-      --text-light: #9E9893;
+      --bg: #1A1714;
+      --card: #2A2520;
+      --text: #F5F0EB;
+      --text-muted: #A89E94;
+      --text-light: #7A7068;
       --primary: #E23D28;
       --primary-dark: #C4311F;
       --primary-light: #FF5A45;
       --accent: #FF6B35;
       --fresh: #4CAF50;
       --warm: #FFB347;
-      --border: rgba(0,0,0,0.07);
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
-      --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
+      --border: rgba(255,255,255,0.08);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.4);
+      --shadow-xl: 0 20px 50px rgba(0,0,0,0.5);
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
@@ -75,7 +75,7 @@
     }
 
     .serif {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
     }
 
     /* ======================== */
@@ -85,7 +85,7 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      background: var(--bg);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -100,23 +100,23 @@
     }
 
     .loading-logo {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 2rem;
-      color: white;
+      color: var(--primary);
       margin-bottom: 1.5rem;
     }
 
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-top-color: white;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
 
     .loading-text {
-      color: rgba(255,255,255,0.8);
+      color: var(--text-muted);
       font-size: 0.875rem;
       margin-top: 1rem;
     }
@@ -148,7 +148,7 @@
     }
 
     .error-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.5rem;
       color: var(--text);
       margin-bottom: 0.5rem;
@@ -177,7 +177,7 @@
     /* HEADER                    */
     /* ======================== */
     .menu-top-nav { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 1rem; background: var(--primary); }
-    .menu-top-nav-logo { font-family: 'Lilita One', cursive; font-size: 1.1rem; color: white; text-decoration: none; }
+    .menu-top-nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: white; text-decoration: none; }
     .menu-top-nav a:not(.menu-top-nav-logo) { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
     .menu-top-nav a:not(.menu-top-nav-logo):hover, .menu-top-nav a.active { color: white; }
 
@@ -185,7 +185,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: white;
+      background: var(--card);
       border-bottom: 1px solid var(--border);
       padding: 0;
     }
@@ -220,7 +220,7 @@
     }
 
     .back-link:hover {
-      background: #eee;
+      background: rgba(255,255,255,0.1);
     }
 
     .back-link svg {
@@ -233,7 +233,7 @@
     }
 
     .restaurant-name {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.125rem;
       color: var(--text);
       line-height: 1.2;
@@ -279,7 +279,7 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      background: white;
+      background: var(--card);
       border-bottom: 1px solid var(--border);
     }
 
@@ -290,12 +290,12 @@
     .cat-tab {
       flex-shrink: 0;
       padding: 0.5rem 1rem;
-      background: var(--bg);
-      border: 1.5px solid transparent;
+      background: var(--card);
+      border: 1.5px solid var(--border);
       border-radius: var(--radius-full);
       font-size: 0.8125rem;
       font-weight: 500;
-      color: var(--text-muted);
+      color: var(--text);
       cursor: pointer;
       transition: all 0.25s ease;
       white-space: nowrap;
@@ -324,7 +324,7 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      background: white;
+      background: var(--card);
     }
 
     .dietary-filters::-webkit-scrollbar {
@@ -334,12 +334,12 @@
     .diet-btn {
       flex-shrink: 0;
       padding: 0.375rem 0.75rem;
-      background: white;
+      background: var(--card);
       border: 1.5px solid var(--border);
       border-radius: var(--radius-full);
       font-size: 0.75rem;
       font-weight: 500;
-      color: var(--text-muted);
+      color: var(--text);
       cursor: pointer;
       transition: all 0.25s ease;
       white-space: nowrap;
@@ -355,9 +355,9 @@
     }
 
     .diet-btn.active {
-      background: #e8f5e9;
+      background: rgba(76,175,80,0.15);
       border-color: var(--fresh);
-      color: #2e7d32;
+      color: var(--fresh);
       font-weight: 600;
     }
 
@@ -382,7 +382,7 @@
     }
 
     .featured-label {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1rem;
       color: var(--text);
       padding: 0 0.25rem;
@@ -413,7 +413,7 @@
     .featured-card {
       flex-shrink: 0;
       width: 200px;
-      background: white;
+      background: var(--card);
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
@@ -468,7 +468,7 @@
     }
 
     .featured-name {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 0.875rem;
       color: var(--text);
       margin-bottom: 0.25rem;
@@ -485,7 +485,7 @@
     /* MENU GRID (1-column list) */
     /* ======================== */
     .menu-section-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.125rem;
       color: var(--text);
       padding: 1rem 0.25rem 0.5rem;
@@ -502,7 +502,7 @@
     }
 
     .menu-item {
-      background: white;
+      background: var(--card);
       border-radius: var(--radius-lg);
       overflow: hidden;
       border: 1.5px solid transparent;
@@ -532,7 +532,7 @@
 
     .menu-item.in-cart {
       border-color: var(--primary);
-      background: rgba(226,61,40,0.02);
+      background: rgba(226,61,40,0.08);
     }
 
     .menu-item-row {
@@ -567,7 +567,7 @@
     }
 
     .menu-item-name {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 0.9375rem;
       color: var(--text);
       line-height: 1.2;
@@ -614,14 +614,14 @@
       letter-spacing: 0.02em;
     }
 
-    .tag.vegetarian { background: #e8f5e9; color: #2e7d32; }
-    .tag.vegan { background: #e8f5e9; color: #1b5e20; }
-    .tag.gluten-free { background: #fff3e0; color: #e65100; }
-    .tag.dairy-free { background: #e3f2fd; color: #1565c0; }
-    .tag.nut-free { background: #fce4ec; color: #880e4f; }
-    .tag.halal { background: #f3e5f5; color: #6a1b9a; }
-    .tag.spicy { background: #ffebee; color: #c62828; }
-    .tag.popular { background: #fff8e1; color: #f57f17; }
+    .tag.vegetarian { background: rgba(76,175,80,0.15); color: #66BB6A; }
+    .tag.vegan { background: rgba(76,175,80,0.15); color: #81C784; }
+    .tag.gluten-free { background: rgba(255,152,0,0.15); color: #FFB74D; }
+    .tag.dairy-free { background: rgba(33,150,243,0.15); color: #64B5F6; }
+    .tag.nut-free { background: rgba(233,30,99,0.15); color: #F06292; }
+    .tag.halal { background: rgba(156,39,176,0.15); color: #CE93D8; }
+    .tag.spicy { background: rgba(244,67,54,0.15); color: #EF5350; }
+    .tag.popular { background: rgba(255,193,7,0.15); color: #FFD54F; }
 
     /* Add button */
     .add-btn {
@@ -677,12 +677,12 @@
     }
 
     .qty-btn.minus {
-      background: #f5f5f5;
+      background: rgba(255,255,255,0.08);
       color: var(--text-muted);
     }
 
     .qty-btn.minus:hover {
-      background: #eee;
+      background: rgba(255,255,255,0.15);
     }
 
     .qty-btn.plus {
@@ -713,7 +713,7 @@
       z-index: 200;
       padding: 0.75rem 1rem;
       padding-bottom: calc(0.75rem + var(--safe-bottom));
-      background: linear-gradient(to top, rgba(255,249,245,1) 60%, rgba(255,249,245,0));
+      background: linear-gradient(to top, rgba(26,23,20,1) 60%, rgba(26,23,20,0));
       transform: translateY(100%);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
@@ -809,7 +809,7 @@
       left: 0;
       right: 0;
       z-index: 400;
-      background: white;
+      background: var(--card);
       border-radius: var(--radius-xl) var(--radius-xl) 0 0;
       max-height: 92vh;
       max-height: 92dvh;
@@ -836,7 +836,7 @@
     .drawer-handle-bar {
       width: 40px;
       height: 4px;
-      background: #ddd;
+      background: rgba(255,255,255,0.2);
       border-radius: 2px;
     }
 
@@ -850,7 +850,7 @@
     }
 
     .drawer-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.25rem;
       color: var(--text);
     }
@@ -871,7 +871,7 @@
     }
 
     .drawer-close:hover {
-      background: #eee;
+      background: rgba(255,255,255,0.1);
     }
 
     .drawer-body {
@@ -1056,7 +1056,7 @@
     }
 
     .tip-btn.active {
-      background: rgba(226,61,40,0.08);
+      background: rgba(226,61,40,0.15);
       border-color: var(--primary);
       color: var(--primary);
       font-weight: 600;
@@ -1071,6 +1071,7 @@
       font-family: inherit;
       font-size: 0.875rem;
       color: var(--text);
+      background: var(--bg);
       outline: none;
       transition: border-color 0.2s;
       display: none;
@@ -1090,7 +1091,7 @@
       padding: 1rem 1.25rem;
       padding-bottom: calc(1rem + var(--safe-bottom));
       border-top: 1px solid var(--border);
-      background: white;
+      background: var(--card);
     }
 
     .place-order-btn {
@@ -1121,7 +1122,8 @@
     }
 
     .place-order-btn:disabled {
-      background: #ccc;
+      background: rgba(255,255,255,0.15);
+      color: var(--text-light);
       box-shadow: none;
       cursor: not-allowed;
     }
@@ -1135,7 +1137,7 @@
       width: 100%;
       margin-top: 0.625rem;
       padding: 0.75rem;
-      background: white;
+      background: var(--bg);
       color: var(--text);
       border: 1.5px solid var(--border);
       border-radius: var(--radius-lg);
@@ -1169,7 +1171,7 @@
       left: 0;
       right: 0;
       z-index: 500;
-      background: white;
+      background: var(--card);
       border-radius: var(--radius-xl) var(--radius-xl) 0 0;
       max-height: 85vh;
       max-height: 85dvh;
@@ -1211,7 +1213,7 @@
     }
 
     .split-mode-btn.active {
-      background: white;
+      background: var(--bg);
       color: var(--primary);
       font-weight: 600;
       box-shadow: var(--shadow-sm);
@@ -1237,7 +1239,7 @@
       height: 48px;
       border-radius: 50%;
       border: 2px solid var(--border);
-      background: white;
+      background: var(--bg);
       font-size: 1.25rem;
       font-weight: 700;
       cursor: pointer;
@@ -1254,7 +1256,7 @@
     }
 
     .people-count {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 3rem;
       color: var(--primary);
     }
@@ -1274,7 +1276,7 @@
     }
 
     .share-amount {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 2rem;
       color: var(--primary);
     }
@@ -1320,7 +1322,7 @@
       font-size: 0.8125rem;
       font-family: inherit;
       color: var(--text);
-      background: white;
+      background: var(--bg);
       outline: none;
     }
 
@@ -1348,6 +1350,8 @@
       font-size: 0.9375rem;
       text-align: right;
       outline: none;
+      background: var(--bg);
+      color: var(--text);
     }
 
     .split-amount-input:focus {
@@ -1423,7 +1427,7 @@
     }
 
     .confirm-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.75rem;
       color: var(--text);
       margin-bottom: 0.5rem;
@@ -1456,7 +1460,7 @@
     .tracking-card {
       width: 100%;
       max-width: 400px;
-      background: white;
+      background: var(--card);
       border-radius: var(--radius-xl);
       padding: 1.5rem;
       box-shadow: var(--shadow-md);
@@ -1464,7 +1468,7 @@
     }
 
     .tracking-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1rem;
       color: var(--text);
       margin-bottom: 1.25rem;
@@ -1491,7 +1495,7 @@
       top: 20px;
       width: 2px;
       height: calc(100% - 8px);
-      background: #eee;
+      background: rgba(255,255,255,0.1);
     }
 
     .tracking-step:last-child::before {
@@ -1509,9 +1513,9 @@
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      background: #eee;
-      border: 2px solid white;
-      box-shadow: 0 0 0 2px #eee;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid var(--card);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
     }
 
     .tracking-step.completed .tracking-dot {
@@ -1534,7 +1538,7 @@
     .tracking-step-label {
       font-size: 0.875rem;
       font-weight: 600;
-      color: #ccc;
+      color: var(--text-light);
     }
 
     .tracking-step.completed .tracking-step-label,
@@ -1550,7 +1554,7 @@
 
     .new-order-btn {
       padding: 0.75rem 2rem;
-      background: white;
+      background: var(--card);
       color: var(--primary);
       border: 2px solid var(--primary);
       border-radius: var(--radius-full);
