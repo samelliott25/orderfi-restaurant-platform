@@ -4382,21 +4382,25 @@
     }
     
     function updateReceiptPreview() {
-      const footerMessage = document.getElementById('receipt-footer').value;
+      const footerEl = document.getElementById('receipt-footer');
+      const footerMessage = footerEl ? footerEl.value : '';
       receiptConfig.footerMessage = footerMessage || 'Thank you for your order!';
       
       const footerLine = document.getElementById('receipt-footer-line');
       if (footerLine) {
-        footerLine.querySelector('.receipt-footer-text').textContent = receiptConfig.footerMessage;
+        const footerText = footerLine.querySelector('.receipt-footer-text');
+        if (footerText) footerText.textContent = receiptConfig.footerMessage;
       }
       
-      // Update paper width based on setting
-      const paperWidth = document.getElementById('printer-width').value;
+      const printerWidth = document.getElementById('printer-width');
+      const paperWidth = printerWidth ? printerWidth.value : '80';
       const receiptPaper = document.getElementById('receipt-paper');
-      if (paperWidth === '58') {
-        receiptPaper.classList.add('width-58');
-      } else {
-        receiptPaper.classList.remove('width-58');
+      if (receiptPaper) {
+        if (paperWidth === '58') {
+          receiptPaper.classList.add('width-58');
+        } else {
+          receiptPaper.classList.remove('width-58');
+        }
       }
       
       updateReceiptVisibility();
@@ -4433,14 +4437,14 @@
     document.getElementById('print-prices')?.addEventListener('change', updateReceiptVisibility);
     document.getElementById('printer-width')?.addEventListener('change', updateReceiptPreview);
 
-    // Load config when config panel becomes active
-    const originalInit = init;
-    function init() {
-      loadMenu();
+    // Extend the original init to also load config and receipt settings
+    const _originalInit = init;
+    init = function() {
+      _originalInit();
       loadOrders();
       loadConfig();
       loadReceiptConfig();
-    }
+    };
 
     // === AI Menu Scanner ===
     let scanImageData = null;

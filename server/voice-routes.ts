@@ -138,11 +138,11 @@ Respond in JSON format:
     );
 
     // Smart menu item matching with weighted keywords
-    function findBestMenuItem(searchTerm: string) {
+    function findBestMenuItem(searchTerm: string): typeof menuItems[number] | null {
       const searchLower = searchTerm.toLowerCase();
       const searchTokens = searchLower.split(/\s+/);
       
-      let bestMatch = null;
+      let bestMatch: typeof menuItems[number] | null = null;
       let bestScore = 0;
       
       for (const item of menuItems) {

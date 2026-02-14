@@ -27,6 +27,8 @@ import {
   type ChatMessage,
   type InsertChatMessage,
 } from "../shared/schema";
+import { db } from "./db";
+import { eq, desc, and } from "drizzle-orm";
 
 export interface IStorage {
   // Restaurant
@@ -436,4 +438,321 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  private database: NonNullable<typeof db>;
+
+  constructor() {
+    this.database = db!;
+  }
+
+  async seed() {
+    const existing = await this.database.select().from(restaurants).limit(1);
+    if (existing.length > 0) return;
+
+    const restaurant = await this.createRestaurant({
+      name: "Loose Moose",
+      slug: "loose-moose",
+      description: "A modern Australian pub offering fresh, locally-sourced dishes with creative twists on classic favorites.",
+      cuisineType: "Modern Australian",
+      tone: "friendly",
+      welcomeMessage: "Welcome to Loose Moose! Scan a QR code at your table to start ordering.",
+      primaryColor: "#E23D28",
+      secondaryColor: "#FF6B35",
+      phone: "+61 2 9876 5432",
+      email: "hello@loosemoose.com.au",
+      address: "123 George Street",
+      city: "Sydney",
+      state: "NSW",
+      postalCode: "2000",
+      country: "AU",
+      timezone: "Australia/Sydney",
+      currency: "AUD",
+      taxRate: "0.10",
+      tippingEnabled: true,
+      tipPresets: [10, 15, 20],
+      splitBillEnabled: true,
+      dineInEnabled: true,
+      takeawayEnabled: true,
+      voiceOrderingEnabled: true,
+      setupCompleted: true,
+      isActive: true,
+      operatingHours: {
+        mon: { open: "11:30", close: "22:00" },
+        tue: { open: "11:30", close: "22:00" },
+        wed: { open: "11:30", close: "22:00" },
+        thu: { open: "11:30", close: "23:00" },
+        fri: { open: "11:30", close: "00:00" },
+        sat: { open: "10:00", close: "00:00" },
+        sun: { open: "10:00", close: "21:00" },
+      },
+    });
+
+    const categoriesData = [
+      { restaurantId: restaurant.id, name: "Appetizer", displayOrder: 1, availabilitySchedule: "all_day" as const },
+      { restaurantId: restaurant.id, name: "Main Course", displayOrder: 2, availabilitySchedule: "all_day" as const },
+      { restaurantId: restaurant.id, name: "Pizza", displayOrder: 3, availabilitySchedule: "all_day" as const },
+      { restaurantId: restaurant.id, name: "Steaks", displayOrder: 4, availabilitySchedule: "dinner" as const },
+      { restaurantId: restaurant.id, name: "Salad", displayOrder: 5, availabilitySchedule: "all_day" as const },
+      { restaurantId: restaurant.id, name: "Side", displayOrder: 6, availabilitySchedule: "all_day" as const },
+      { restaurantId: restaurant.id, name: "Dessert", displayOrder: 7, availabilitySchedule: "all_day" as const },
+      { restaurantId: restaurant.id, name: "Drinks", displayOrder: 8, availabilitySchedule: "all_day" as const },
+    ];
+    for (const cat of categoriesData) {
+      await this.createMenuCategory(cat);
+    }
+
+    for (let i = 1; i <= 12; i++) {
+      await this.createTable({
+        restaurantId: restaurant.id,
+        tableNumber: String(i),
+        tableName: i <= 4 ? "Indoor" : i <= 8 ? "Outdoor" : "Bar",
+        capacity: i <= 8 ? 4 : 2,
+        section: i <= 4 ? "Indoor" : i <= 8 ? "Outdoor" : "Bar",
+        qrCodeId: `lm-table-${i}`,
+        isActive: true,
+      });
+    }
+
+    const menuItemsData = [
+      { restaurantId: restaurant.id, name: "Salt & Pepper Squid", description: "Aioli & lemon", price: "24.00", category: "Appetizer", dietaryTags: ["gluten-free"], isAvailable: true, isFeatured: true },
+      { restaurantId: restaurant.id, name: "Haloumi Fries", description: "Homemade chilli jam, lime yoghurt, pomegranate & mint", price: "25.00", category: "Appetizer", dietaryTags: ["vegetarian"], tags: ["popular"], isAvailable: true },
+      { restaurantId: restaurant.id, name: "Korean Fried Chicken", description: "Sweet & sour hot sauce, kewpie mayo, furikake & shallots", price: "25.00", category: "Appetizer", dietaryTags: ["spicy"], tags: ["popular"], isAvailable: true, isFeatured: true },
+      { restaurantId: restaurant.id, name: "Buffalo Wings - Sweet Jesus", description: "Maple & smoky BBQ, served with tangy ranch", price: "22.00", category: "Appetizer", isAvailable: true },
+      { restaurantId: restaurant.id, name: "Jalapeno Poppers", description: "Beer battered jalapenos, sundried tomato & roasted pepper cream cheese, dukkha, tangy ranch", price: "18.00", category: "Appetizer", dietaryTags: ["vegetarian", "spicy"], isAvailable: true },
+      { restaurantId: restaurant.id, name: "Classic Burger", description: "Byron beef, onion, pickles, tomato, crisp lettuce, American cheddar, secret sauce", price: "23.00", category: "Main Course", tags: ["popular"], isAvailable: true, isFeatured: true },
+      { restaurantId: restaurant.id, name: "Kentucky Chook Burger", description: "Southern fried chicken breast, tangy slaw, American cheddar, ketchup, smoked jalapeno mayo", price: "23.00", category: "Main Course", isAvailable: true },
+      { restaurantId: restaurant.id, name: "Pulled Pig Burger", description: "Slow smoked sticky pulled pork, tangy slaw, American cheddar, cajun onion rings", price: "23.00", category: "Main Course", isAvailable: true },
+      { restaurantId: restaurant.id, name: "Notorious V.E.G. Burger", description: "Plant based beef patty, vegan cheese, avo smash, beetroot, crisp lettuce, tomato, onion, aioli", price: "27.00", category: "Main Course", dietaryTags: ["vegan"], isAvailable: true },
+      { restaurantId: restaurant.id, name: "Fish and Chips", description: "NT barracuda barramundi, battered or grilled, beer-battered fries, house salad, tangy tartare", price: "42.00", category: "Main Course", tags: ["popular"], isAvailable: true },
+      { restaurantId: restaurant.id, name: "Pepperoni Pizza", description: "Spicy salami, mozzarella, fresh herbs", price: "24.00", category: "Pizza", tags: ["popular"], isAvailable: true },
+      { restaurantId: restaurant.id, name: "BBQ Chicken Pizza", description: "Smokey BBQ sauce, pulled chicken, fior di latte mozzarella, caramelised onion, aioli", price: "27.00", category: "Pizza", isAvailable: true },
+      { restaurantId: restaurant.id, name: "300g Rib Fillet MB2+", description: "English Angus cross, premium 120-day grain-fed, chargrilled with vine-ripened tomatoes & gravy", price: "38.00", category: "Steaks", tags: ["popular"], isAvailable: true },
+      { restaurantId: restaurant.id, name: "Vegan Poke Salad", description: "Grilled mushrooms, vegan feta, baby cos, slaw, basmati rice, house dressing, avocado", price: "28.00", category: "Salad", dietaryTags: ["vegan"], isAvailable: true },
+      { restaurantId: restaurant.id, name: "Beer-Battered Fries", description: "Served with jalapeno mayo", price: "13.00", category: "Side", dietaryTags: ["vegetarian"], isAvailable: true },
+      { restaurantId: restaurant.id, name: "Mars Bar Cheesecake", description: "Creamy vanilla, chocolate and caramelized blueberry cheesecake, caramilk soil, strawberries", price: "18.00", category: "Dessert", tags: ["popular"], isAvailable: true },
+      { restaurantId: restaurant.id, name: "House Lager", description: "Crisp, refreshing draft lager 425ml", price: "10.00", category: "Drinks", isAvailable: true },
+      { restaurantId: restaurant.id, name: "Shiraz", description: "Barossa Valley, South Australia 150ml", price: "14.00", category: "Drinks", isAvailable: true },
+    ];
+    for (const item of menuItemsData) {
+      await this.createMenuItem(item);
+    }
+
+    const faqsData = [
+      { restaurantId: restaurant.id, question: "Do you cater to dietary restrictions?", answer: "Absolutely! We have vegan, vegetarian, and gluten-free options clearly marked on our menu." },
+      { restaurantId: restaurant.id, question: "What are your opening hours?", answer: "We're open daily from 11:30 AM to 10:00 PM for food service, bar stays open late." },
+      { restaurantId: restaurant.id, question: "Do you take bookings?", answer: "Yes, we take bookings for groups of 6 or more. Smaller groups are walk-in." },
+    ];
+    for (const faq of faqsData) {
+      await this.createFAQ(faq);
+    }
+  }
+
+  async getRestaurant(id: number): Promise<Restaurant | undefined> {
+    const [result] = await this.database.select().from(restaurants).where(eq(restaurants.id, id));
+    return result;
+  }
+
+  async getRestaurantBySlug(slug: string): Promise<Restaurant | undefined> {
+    const [result] = await this.database.select().from(restaurants).where(eq(restaurants.slug, slug));
+    return result;
+  }
+
+  async createRestaurant(data: InsertRestaurant): Promise<Restaurant> {
+    const [result] = await this.database.insert(restaurants).values(data).returning();
+    return result;
+  }
+
+  async updateRestaurant(id: number, data: Partial<InsertRestaurant>): Promise<Restaurant> {
+    const [result] = await this.database.update(restaurants).set({ ...data, updatedAt: new Date() }).where(eq(restaurants.id, id)).returning();
+    if (!result) throw new Error("Restaurant not found");
+    return result;
+  }
+
+  async getAllRestaurants(): Promise<Restaurant[]> {
+    return await this.database.select().from(restaurants);
+  }
+
+  async getTables(restaurantId: number): Promise<Table[]> {
+    return await this.database.select().from(tables).where(eq(tables.restaurantId, restaurantId));
+  }
+
+  async getTable(id: number): Promise<Table | undefined> {
+    const [result] = await this.database.select().from(tables).where(eq(tables.id, id));
+    return result;
+  }
+
+  async getTableByQrCode(qrCodeId: string): Promise<Table | undefined> {
+    const [result] = await this.database.select().from(tables).where(eq(tables.qrCodeId, qrCodeId));
+    return result;
+  }
+
+  async createTable(data: InsertTable): Promise<Table> {
+    const [result] = await this.database.insert(tables).values(data).returning();
+    return result;
+  }
+
+  async updateTable(id: number, data: Partial<InsertTable>): Promise<Table> {
+    const [result] = await this.database.update(tables).set(data).where(eq(tables.id, id)).returning();
+    if (!result) throw new Error("Table not found");
+    return result;
+  }
+
+  async deleteTable(id: number): Promise<void> {
+    await this.database.delete(tables).where(eq(tables.id, id));
+  }
+
+  async getMenuCategories(restaurantId: number): Promise<MenuCategory[]> {
+    return await this.database.select().from(menuCategories).where(eq(menuCategories.restaurantId, restaurantId)).orderBy(menuCategories.displayOrder);
+  }
+
+  async createMenuCategory(data: InsertMenuCategory): Promise<MenuCategory> {
+    const [result] = await this.database.insert(menuCategories).values(data).returning();
+    return result;
+  }
+
+  async updateMenuCategory(id: number, data: Partial<InsertMenuCategory>): Promise<MenuCategory> {
+    const [result] = await this.database.update(menuCategories).set(data).where(eq(menuCategories.id, id)).returning();
+    if (!result) throw new Error("Category not found");
+    return result;
+  }
+
+  async deleteMenuCategory(id: number): Promise<void> {
+    await this.database.delete(menuCategories).where(eq(menuCategories.id, id));
+  }
+
+  async getMenuItems(restaurantId: number): Promise<MenuItem[]> {
+    return await this.database.select().from(menuItems).where(eq(menuItems.restaurantId, restaurantId));
+  }
+
+  async getMenuItem(id: number): Promise<MenuItem | undefined> {
+    const [result] = await this.database.select().from(menuItems).where(eq(menuItems.id, id));
+    return result;
+  }
+
+  async createMenuItem(data: InsertMenuItem): Promise<MenuItem> {
+    const [result] = await this.database.insert(menuItems).values(data).returning();
+    return result;
+  }
+
+  async updateMenuItem(id: number, data: Partial<InsertMenuItem>): Promise<MenuItem> {
+    const [result] = await this.database.update(menuItems).set({ ...data, updatedAt: new Date() }).where(eq(menuItems.id, id)).returning();
+    if (!result) throw new Error("Menu item not found");
+    return result;
+  }
+
+  async deleteMenuItem(id: number): Promise<void> {
+    await this.database.delete(menuItems).where(eq(menuItems.id, id));
+  }
+
+  async getFAQs(restaurantId: number): Promise<FAQ[]> {
+    return await this.database.select().from(faqs).where(eq(faqs.restaurantId, restaurantId));
+  }
+
+  async createFAQ(data: InsertFAQ): Promise<FAQ> {
+    const [result] = await this.database.insert(faqs).values(data).returning();
+    return result;
+  }
+
+  async deleteFAQ(id: number): Promise<void> {
+    await this.database.delete(faqs).where(eq(faqs.id, id));
+  }
+
+  async createOrder(data: InsertOrder): Promise<Order> {
+    const [result] = await this.database.insert(orders).values(data).returning();
+    return result;
+  }
+
+  async getOrder(id: number): Promise<Order | undefined> {
+    const [result] = await this.database.select().from(orders).where(eq(orders.id, id));
+    return result;
+  }
+
+  async getOrdersByRestaurant(restaurantId: number): Promise<Order[]> {
+    return await this.database.select().from(orders).where(eq(orders.restaurantId, restaurantId)).orderBy(desc(orders.createdAt));
+  }
+
+  async getOrdersByCustomer(customerId: string): Promise<Order[]> {
+    return await this.database.select().from(orders).where(eq(orders.customerName, customerId));
+  }
+
+  async getOrdersByTable(tableId: number): Promise<Order[]> {
+    return await this.database.select().from(orders).where(eq(orders.tableId, tableId));
+  }
+
+  async updateOrder(id: number, data: Partial<InsertOrder>): Promise<Order> {
+    const [result] = await this.database.update(orders).set({ ...data, updatedAt: new Date() }).where(eq(orders.id, id)).returning();
+    if (!result) throw new Error(`Order with id ${id} not found`);
+    return result;
+  }
+
+  async getActiveOrders(): Promise<Order[]> {
+    return await this.database.select().from(orders).where(
+      and(
+        eq(orders.status, "pending"),
+      )
+    ).then(async (pendingOrders) => {
+      const confirmed = await this.database.select().from(orders).where(eq(orders.status, "confirmed"));
+      const preparing = await this.database.select().from(orders).where(eq(orders.status, "preparing"));
+      const ready = await this.database.select().from(orders).where(eq(orders.status, "ready"));
+      return [...pendingOrders, ...confirmed, ...preparing, ...ready];
+    });
+  }
+
+  async updateOrderStatus(orderId: number, status: string): Promise<Order> {
+    const [result] = await this.database.update(orders).set({ status, updatedAt: new Date() }).where(eq(orders.id, orderId)).returning();
+    if (!result) throw new Error("Order not found");
+    return result;
+  }
+
+  async getCustomer(id: number): Promise<Customer | undefined> {
+    const [result] = await this.database.select().from(customers).where(eq(customers.id, id));
+    return result;
+  }
+
+  async getCustomerByEmail(email: string, restaurantId: number): Promise<Customer | undefined> {
+    const [result] = await this.database.select().from(customers).where(
+      and(eq(customers.email, email), eq(customers.restaurantId, restaurantId))
+    );
+    return result;
+  }
+
+  async createCustomer(data: InsertCustomer): Promise<Customer> {
+    const [result] = await this.database.insert(customers).values(data).returning();
+    return result;
+  }
+
+  async updateCustomer(id: number, data: Partial<InsertCustomer>): Promise<Customer> {
+    const [result] = await this.database.update(customers).set(data).where(eq(customers.id, id)).returning();
+    if (!result) throw new Error("Customer not found");
+    return result;
+  }
+
+  async createReceipt(data: InsertReceipt): Promise<Receipt> {
+    const [result] = await this.database.insert(receipts).values(data).returning();
+    return result;
+  }
+
+  async getReceiptByOrder(orderId: number): Promise<Receipt | undefined> {
+    const [result] = await this.database.select().from(receipts).where(eq(receipts.orderId, orderId));
+    return result;
+  }
+
+  async getChatMessages(sessionId: string): Promise<ChatMessage[]> {
+    return await this.database.select().from(chatMessages).where(eq(chatMessages.sessionId, sessionId));
+  }
+
+  async createChatMessage(data: InsertChatMessage): Promise<ChatMessage> {
+    const [result] = await this.database.insert(chatMessages).values(data).returning();
+    return result;
+  }
+}
+
+let storage: IStorage;
+if (db) {
+  const dbStorage = new DatabaseStorage();
+  dbStorage.seed();
+  storage = dbStorage;
+} else {
+  storage = new MemStorage();
+}
+export { storage };

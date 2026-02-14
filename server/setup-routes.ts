@@ -253,7 +253,7 @@ setupRouter.post("/setup/tables/generate", async (req: Request, res: Response) =
       return res.status(404).json({ error: "Restaurant not found" });
     }
 
-    const createdTables = [];
+    const createdTables: Awaited<ReturnType<typeof storage.createTable>>[] = [];
     for (let i = 1; i <= count; i++) {
       const tableNumber = `${prefix}${i}`;
       const qrCodeId = `${restaurant.slug}-table-${i}`;
