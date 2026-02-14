@@ -1,10 +1,10 @@
 import express, { type Request, Response } from "express";
 import cors from "cors";
 import path from "path";
+import crypto from "crypto";
+import session from "express-session";
 import { voiceRouter } from "./voice-routes";
 import { paymentRouter } from "./payment-routes";
-import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
-import { registerObjectStorageRoutes } from "./replit_integrations/object_storage";
 import { adminRouter } from "./admin-routes";
 
 const app = express();
@@ -17,12 +17,27 @@ app.use(express.static(path.join(process.cwd(), "public")));
 
 // Initialize auth and routes
 async function initializeApp() {
-  // Setup auth (must be before other routes)
-  await setupAuth(app);
-  registerAuthRoutes(app);
-  
-  // Object storage routes
-  registerObjectStorageRoutes(app);
+  const isReplit = !!(process.env.REPL_ID && process.env.DATABASE_URL);
+
+  if (isReplit) {
+    // Full Replit Auth + Object Storage when running on Replit
+    const { setupAuth, registerAuthRoutes } = await import("./replit_integrations/auth");
+    const { registerObjectStorageRoutes } = await import("./replit_integrations/object_storage");
+    await setupAuth(app);
+    registerAuthRoutes(app);
+    registerObjectStorageRoutes(app);
+    console.log("[auth] Replit Auth enabled");
+  } else {
+    // Lightweight local session (no DB, no OIDC)
+    const secret = process.env.SESSION_SECRET || crypto.randomBytes(32).toString("hex");
+    app.use(session({
+      secret,
+      resave: false,
+      saveUninitialized: false,
+      cookie: { httpOnly: true, secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 },
+    }));
+    console.log("[auth] Running in local mode (no Replit Auth)");
+  }
   
   // Health check
   app.get("/health", (_req: Request, res: Response) => {

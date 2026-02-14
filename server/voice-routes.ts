@@ -4,7 +4,16 @@ import { storage } from "./storage";
 
 export const voiceRouter = Router();
 
-const anthropic = new Anthropic();
+let anthropic: Anthropic | null = null;
+function getAnthropicClient(): Anthropic {
+  if (!anthropic) {
+    if (!process.env.ANTHROPIC_API_KEY) {
+      throw new Error("ANTHROPIC_API_KEY is required for voice ordering. Set it in your environment.");
+    }
+    anthropic = new Anthropic();
+  }
+  return anthropic;
+}
 
 interface OrderItem {
   menuItemId: number;
@@ -97,7 +106,7 @@ Respond in JSON format:
 }`;
 
     // Get AI response
-    const completion = await anthropic.messages.create({
+    const completion = await getAnthropicClient().messages.create({
       model: "claude-sonnet-4-5-20250929",
       max_tokens: 200,
       system: systemPrompt,
