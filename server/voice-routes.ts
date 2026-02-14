@@ -4,9 +4,15 @@ import { storage } from "./storage";
 
 export const voiceRouter = Router();
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+function getOpenAI() {
+  if (!_openai) {
+    _openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return _openai;
+}
 
 interface OrderItem {
   menuItemId: number;
@@ -99,7 +105,7 @@ Respond in JSON format:
 }`;
 
     // Get AI response
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [
         { role: "system", content: systemPrompt },
@@ -228,7 +234,7 @@ voiceRouter.post("/speak", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Missing text" });
     }
 
-    const mp3 = await openai.audio.speech.create({
+    const mp3 = await getOpenAI().audio.speech.create({
       model: "tts-1",
       voice: "nova",
       input: text,
