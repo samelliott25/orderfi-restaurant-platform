@@ -128,6 +128,60 @@
     .footer-links a:hover { opacity: 1; }
     .footer-copy { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
 
+    /* Voice Order Modal */
+    .voice-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .voice-modal-overlay.open { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .voice-modal-card {
+      position: relative;
+      width: 390px;
+      height: 85vh;
+      max-height: 780px;
+      background: #2D2A26;
+      border-radius: 32px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+      overflow: hidden;
+      animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .voice-modal-card iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 32px;
+    }
+    .voice-modal-close {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 36px;
+      height: 36px;
+      background: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      z-index: 1;
+    }
+    .voice-modal-close:hover { transform: scale(1.1); }
+
     /* Responsive */
     @media (max-width: 900px) {
       .hero-content { grid-template-columns: 1fr; padding: 2rem; text-align: center; }
@@ -394,5 +448,49 @@
     </div>
     <div class="footer-copy">Free and open source. Made for restaurants everywhere.</div>
   </footer>
+
+  <div class="voice-modal-overlay" id="voice-modal">
+    <div class="voice-modal-card">
+      <button class="voice-modal-close" id="voice-modal-close" aria-label="Close voice order">&times;</button>
+      <iframe id="voice-modal-iframe" title="Voice Order"></iframe>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var modal = document.getElementById('voice-modal');
+      var iframe = document.getElementById('voice-modal-iframe');
+      var closeBtn = document.getElementById('voice-modal-close');
+      var isMobile = function() { return window.innerWidth <= 900; };
+
+      function openModal(e) {
+        if (isMobile()) return;
+        e.preventDefault();
+        iframe.src = '/order?embed=1';
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(function() { iframe.src = ''; }, 300);
+      }
+
+      document.querySelectorAll('a[href="/order"]').forEach(function(link) {
+        link.addEventListener('click', openModal);
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -654,6 +654,18 @@
         max-width: 90%;
       }
     }
+
+    body.embed-mode header,
+    body.embed-mode .top-nav,
+    body.embed-mode .glow-bg {
+      display: none !important;
+    }
+    body.embed-mode {
+      border-radius: 32px;
+    }
+    body.embed-mode .container {
+      max-width: 100%;
+    }
     
     /* Mode Toggle */
     .mode-toggle-container {
@@ -960,6 +972,7 @@
   </style>
 </head>
 <body>
+  <script>if(new URLSearchParams(window.location.search).has('embed'))document.body.classList.add('embed-mode');</script>
   <div class="glow-bg"></div>
   
   <header>
