@@ -1,12 +1,10 @@
 import { Router, Request, Response } from "express";
-import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
 import { storage } from "./storage";
 
 export const voiceRouter = Router();
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const anthropic = new Anthropic();
 
 interface OrderItem {
   menuItemId: number;
@@ -99,19 +97,23 @@ Respond in JSON format:
 }`;
 
     // Get AI response
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
+    const completion = await anthropic.messages.create({
+      model: "claude-sonnet-4-5-20250929",
+      max_tokens: 200,
+      system: systemPrompt,
       messages: [
-        { role: "system", content: systemPrompt },
-        ...session.conversationHistory,
+        ...session.conversationHistory.map((msg) => ({
+          role: msg.role as "user" | "assistant",
+          content: msg.content,
+        })),
         { role: "user", content: transcript },
       ],
-      max_tokens: 200,
-      temperature: 0.7,
-      response_format: { type: "json_object" },
     });
 
-    const aiResponse = completion.choices[0].message.content || "{}";
+    const aiResponse =
+      completion.content[0].type === "text"
+        ? completion.content[0].text
+        : "{}";
     let parsed;
 
     try {
@@ -220,27 +222,15 @@ Respond in JSON format:
 });
 
 // Text-to-speech endpoint
+// Claude does not provide a TTS API — the client should use the browser's
+// built-in SpeechSynthesis API (Web Speech API) instead.
 voiceRouter.post("/speak", async (req: Request, res: Response) => {
-  try {
-    const { text } = req.body;
-
-    if (!text) {
-      return res.status(400).json({ error: "Missing text" });
-    }
-
-    const mp3 = await openai.audio.speech.create({
-      model: "tts-1",
-      voice: "nova",
-      input: text,
-    });
-
-    const buffer = Buffer.from(await mp3.arrayBuffer());
-    res.set("Content-Type", "audio/mpeg");
-    res.send(buffer);
-  } catch (error) {
-    console.error("TTS error:", error);
-    res.status(500).json({ error: "Failed to generate speech" });
+  const { text } = req.body;
+  if (!text) {
+    return res.status(400).json({ error: "Missing text" });
   }
+  // Return the text so the client can speak it via the browser's speechSynthesis API
+  res.json({ text, useBrowserTTS: true });
 });
 
 // Speech-to-text endpoint (for audio file uploads)
