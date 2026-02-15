@@ -64,7 +64,7 @@
     }
     .hero::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 70% 50%, rgba(226,61,40,0.12) 0%, transparent 60%);
+      background: radial-gradient(ellipse at 70% 50%, rgba(226,61,40,0.15) 0%, transparent 55%);
       pointer-events: none;
     }
     .hero-inner {
@@ -158,7 +158,7 @@
       display: flex; gap: 3rem; margin-top: 3rem; padding-top: 2rem;
       border-top: 1px solid var(--border);
     }
-    .hero-stat-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--text); }
+    .hero-stat-value { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--primary); }
     .hero-stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
 
     /* ── Feature Cards (Zest Menu Style) ── */
@@ -172,6 +172,7 @@
       font-weight: 900; color: var(--text); line-height: 1.1; margin-bottom: 1rem;
       letter-spacing: -0.02em;
     }
+    .section-title span { color: var(--primary); }
     .section-subtitle { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; max-width: 500px; margin-bottom: 3rem; }
     .feature-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .feature-card {
@@ -192,6 +193,11 @@
     .feature-card-text {
       position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem;
     }
+    .feature-card-tag {
+      display: inline-block; background: var(--primary); color: white; font-size: 0.65rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 0.25rem 0.6rem; border-radius: 4px; margin-bottom: 0.5rem;
+    }
     .feature-card-title {
       font-family: 'Playfair Display', serif; font-size: 1.75rem;
       font-weight: 700; color: white; margin-bottom: 0.5rem;
@@ -211,7 +217,7 @@
     .about-item {}
     .about-number {
       font-family: 'Playfair Display', serif; font-size: 3.5rem;
-      font-weight: 900; color: var(--primary); opacity: 0.3;
+      font-weight: 900; color: var(--primary); opacity: 0.5;
       line-height: 1; margin-bottom: 1rem;
     }
     .about-title {
@@ -227,15 +233,16 @@
       background: var(--card); border-radius: 16px; padding: 2rem;
       border: 1px solid var(--border); transition: transform 0.3s, border-color 0.3s;
       position: relative; overflow: hidden;
+      border-top: 3px solid var(--primary);
     }
-    .step-card:hover { border-color: rgba(226,61,40,0.3); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+    .step-card:hover { border-color: rgba(226,61,40,0.3); border-top-color: var(--primary); box-shadow: 0 8px 30px rgba(226,61,40,0.15); }
     .step-number {
       font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900;
-      color: var(--primary); opacity: 0.12; position: absolute; top: 0.5rem; right: 1rem;
+      color: var(--primary); opacity: 0.18; position: absolute; top: 0.5rem; right: 1rem;
       line-height: 1;
     }
     .step-icon {
-      width: 48px; height: 48px; background: rgba(226,61,40,0.1);
+      width: 48px; height: 48px; background: rgba(226,61,40,0.15);
       border-radius: 12px; display: flex; align-items: center; justify-content: center;
       margin-bottom: 1.25rem;
     }
@@ -260,6 +267,7 @@
       font-family: 'Inter', sans-serif; transition: color 0.2s;
     }
     .faq-question:hover { color: var(--primary); }
+    .faq-item.open .faq-question { color: var(--primary); }
     .faq-question:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 4px; }
     button:focus-visible, a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 4px; }
     .faq-arrow {
@@ -280,8 +288,9 @@
     .review-card {
       background: var(--card); border-radius: 16px; padding: 2rem;
       border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
     }
-    .review-stars { color: var(--accent); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 2px; }
+    .review-stars { color: var(--primary); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 2px; }
     .review-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; }
     .review-author { font-weight: 600; font-size: 0.9rem; color: var(--text); }
     .review-role { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
@@ -482,13 +491,14 @@
   <!-- Feature Cards (Zest-style image grid) -->
   <section class="features-section">
     <p class="section-tag">Platform Features</p>
-    <h2 class="section-title">Everything your restaurant needs</h2>
+    <h2 class="section-title">Everything your restaurant <span>needs</span></h2>
     <p class="section-subtitle">From QR code ordering to AI-powered voice commands, OrderFi gives your guests a seamless modern dining experience.</p>
     <div class="feature-cards">
       <a href="/menu/loose-moose?table=lm-table-1" class="feature-card" data-testid="card-feature-qr">
         <img src="/images/feature-qr.jpg" alt="QR code table ordering" loading="lazy">
         <div class="feature-card-overlay"></div>
         <div class="feature-card-text">
+          <div class="feature-card-tag">Popular</div>
           <h3 class="feature-card-title">QR Code Ordering</h3>
           <p class="feature-card-desc">Guests scan a QR code at their table and start browsing your menu instantly. No app download needed.</p>
         </div>
@@ -497,6 +507,7 @@
         <img src="/images/feature-voice.jpg" alt="Voice ordering with AI" loading="lazy">
         <div class="feature-card-overlay"></div>
         <div class="feature-card-text">
+          <div class="feature-card-tag">AI Powered</div>
           <h3 class="feature-card-title">Voice Ordering</h3>
           <p class="feature-card-desc">Customers speak their order naturally. AI understands context, handles modifications, and confirms everything.</p>
         </div>
@@ -505,6 +516,7 @@
         <img src="/images/feature-kitchen.jpg" alt="Kitchen display system" loading="lazy">
         <div class="feature-card-overlay"></div>
         <div class="feature-card-text">
+          <div class="feature-card-tag">Real-Time</div>
           <h3 class="feature-card-title">Kitchen Display</h3>
           <p class="feature-card-desc">Real-time orders flow straight to the kitchen. Track preparation, mark as ready, alert on urgent items.</p>
         </div>
@@ -525,7 +537,7 @@
     <div class="about-inner">
       <div class="about-header">
         <p class="section-tag">Why OrderFi</p>
-        <h2 class="section-title">Built for modern restaurants</h2>
+        <h2 class="section-title">Built for <span>modern</span> restaurants</h2>
       </div>
       <div class="about-grid">
         <div class="about-item">
@@ -550,7 +562,7 @@
   <!-- How It Works Steps -->
   <section class="steps-section">
     <p class="section-tag">For Customers</p>
-    <h2 class="section-title">How it works</h2>
+    <h2 class="section-title">How it <span>works</span></h2>
     <div class="steps-grid">
       <div class="step-card">
         <span class="step-number">1</span>
@@ -643,7 +655,7 @@
   <section class="reviews-section">
     <div class="reviews-header">
       <p class="section-tag">Reviews</p>
-      <h2 class="section-title">What restaurateurs say</h2>
+      <h2 class="section-title">What restaurateurs <span>say</span></h2>
     </div>
     <div class="reviews-grid">
       <div class="review-card">
