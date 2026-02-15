@@ -207,24 +207,31 @@
     /* ── About / How It Works (3 col) ── */
     .about-section {
       padding: 8rem 4rem;
-      background: var(--bg-elevated);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      background: var(--primary);
+      position: relative; overflow: hidden;
     }
-    .about-inner { max-width: 1300px; margin: 0 auto; }
+    .about-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .about-inner { max-width: 1300px; margin: 0 auto; position: relative; }
     .about-header { margin-bottom: 4rem; }
+    .about-header .section-tag { color: rgba(255,255,255,0.7); }
+    .about-header .section-title { color: white; }
+    .about-header .section-title span { color: rgba(255,255,255,0.7); }
     .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
     .about-item {}
     .about-number {
       font-family: 'Playfair Display', serif; font-size: 3.5rem;
-      font-weight: 900; color: var(--primary); opacity: 0.5;
+      font-weight: 900; color: white; opacity: 0.25;
       line-height: 1; margin-bottom: 1rem;
     }
     .about-title {
       font-family: 'Playfair Display', serif; font-size: 1.4rem;
-      font-weight: 700; color: var(--text); margin-bottom: 0.75rem;
+      font-weight: 700; color: white; margin-bottom: 0.75rem;
     }
-    .about-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+    .about-desc { font-size: 0.95rem; color: rgba(255,255,255,0.8); line-height: 1.7; }
 
     /* ── Steps Row ── */
     .steps-section { padding: 8rem 4rem; max-width: 1300px; margin: 0 auto; }
