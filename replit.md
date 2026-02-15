@@ -7,30 +7,61 @@ OrderFi Voice API is a voice-first AI food ordering system. Customers order food
 ## User Preferences
 
 - Communication style: Simple, everyday language
-- Design: Voice-first, minimal UI, 3-color palette (Orange, White, Charcoal)
+- Design: Voice-first, warm dark theme (Zest-inspired), Playfair Display serif headings, orange accent (#E23D28), warm dark bg (#2C2825), cards (#3D3835), muted text (#B5ABA2)
+- Development approach: Keep code portable - no Replit-exclusive dependencies. All Replit integrations have standard env var fallbacks.
+- AI: Uses Claude (Anthropic) for voice ordering, xAI Grok for admin copilot/menu scanner
 
 ## Architecture
 
 ### Backend (Node.js/Express)
-- **Entry**: `server/index.ts`
-- **Voice API**: `server/voice-routes.ts` - GPT-4o powered ordering with weighted keyword matching
+- **Entry**: `server/index.ts` - Auto-detects Replit vs standalone environment
+- **Voice API**: `server/voice-routes.ts` - Claude-powered ordering with weighted keyword matching
 - **Admin API**: `server/admin-routes.ts` - Protected menu CRUD with Zod validation
 - **Payments**: `server/payment-routes.ts` - Stripe integration
-- **Auth**: `server/replit_integrations/auth/` - Replit Auth (OIDC)
-- **Storage**: `server/storage.ts` - Database storage with Drizzle ORM
+- **Stripe Client**: `server/stripeClient.ts` - Supports both Replit connector and standard env vars
+- **Auth**: `server/replit_integrations/auth/` - Replit Auth (lazy-loaded, falls back to express-session)
+- **Storage**: `server/storage.ts` - DatabaseStorage (PostgreSQL via Drizzle) with MemStorage fallback
+- **Object Storage**: `server/replit_integrations/object_storage/` - Lazy-loaded, only on Replit
 
-### Frontend (Web Voice Client)
+### Frontend (Static HTML - No Build Step)
 - **Location**: `public/index.html` - Landing page
 - **Voice Ordering**: `public/order.html`
 - **Admin Dashboard**: `public/admin.html` - Staff menu management
+- **Menu Browser**: `public/menu.html` - Customer-facing menu with QR code entry
+- **Kitchen Display**: `public/kitchen.html` - Kitchen order management
+- **Order Tracking**: `public/track.html` - Customer order tracking
 - **Speech-to-Text**: Web Speech API (SpeechRecognition)
 - **Text-to-Speech**: Web Speech API (speechSynthesis)
 - **Payments**: Stripe Elements
 
-### Database (PostgreSQL/Neon)
+### Database (PostgreSQL)
 - **Schema**: `shared/schema.ts`
 - **Auth Models**: `shared/models/auth.ts` - Users and sessions tables
-- **ORM**: Drizzle ORM
+- **ORM**: Drizzle ORM with `drizzle-orm/node-postgres`
+- **Connection**: `server/db.ts` - Returns null if DATABASE_URL not set
+
+## Portability & Environment Detection
+
+The app auto-detects its environment and gracefully degrades:
+
+| Feature | On Replit | Standalone |
+|---------|-----------|------------|
+| Auth | Replit Auth (OIDC) | express-session (set SESSION_SECRET) |
+| Database | PostgreSQL via DATABASE_URL | In-memory storage (MemStorage) |
+| Stripe | Replit connector auto-fetches keys | Set STRIPE_SECRET_KEY + STRIPE_PUBLISHABLE_KEY |
+| Object Storage | Replit Object Storage | Not available (photo uploads disabled) |
+| Detection | `process.env.REPL_ID` present | `REPL_ID` absent |
+
+### Environment Variables
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | Recommended | PostgreSQL connection string |
+| `ANTHROPIC_API_KEY` | Yes | Claude API key for voice ordering |
+| `XAI_API_KEY` | For admin AI | xAI Grok key for copilot & menu scanner |
+| `STRIPE_SECRET_KEY` | For payments | Stripe secret key (not needed if using Replit connector) |
+| `STRIPE_PUBLISHABLE_KEY` | For payments | Stripe publishable key (not needed if using Replit connector) |
+| `SESSION_SECRET` | Standalone only | Session encryption key (auto-generated if missing) |
+| `PORT` | No | Server port (defaults to 5000) |
 
 ## API Endpoints
 
@@ -84,47 +115,51 @@ The voice ordering system uses weighted keyword matching to improve AI understan
 - **Dietary Tags**: vegetarian, gluten-free, etc.
 - **Scoring Algorithm**: Combines name matching, alias matching, keyword weights, and dietary tags
 
-## Required Secrets
-- `OPENAI_API_KEY` - OpenAI API for chat and TTS
-- Stripe (via Replit connector) - Payment processing
-- Object Storage (via Replit) - Photo uploads
-
 ## Key Files
-- `server/index.ts` - Express server with async initialization
-- `server/voice-routes.ts` - Voice ordering with GPT-4o and weighted matching
+- `server/index.ts` - Express server with async initialization and environment detection
+- `server/voice-routes.ts` - Voice ordering with Claude and weighted matching
 - `server/admin-routes.ts` - Admin CRUD with Zod validation
 - `server/payment-routes.ts` - Stripe payments
-- `server/db.ts` - Drizzle database connection
-- `server/storage.ts` - Data storage interface
-- `server/replit_integrations/auth/` - Replit Auth integration
-- `server/replit_integrations/object_storage/` - Object storage integration
+- `server/stripeClient.ts` - Stripe client (supports env vars and Replit connector)
+- `server/db.ts` - Drizzle database connection (nullable)
+- `server/storage.ts` - IStorage interface, DatabaseStorage, and MemStorage fallback
+- `server/replit_integrations/auth/` - Replit Auth integration (lazy-loaded)
+- `server/replit_integrations/object_storage/` - Object storage integration (lazy-loaded)
 - `public/index.html` - Landing page
 - `public/order.html` - Voice ordering client
 - `public/admin.html` - Staff admin dashboard
-- `shared/schema.ts` - Database schemas (menu_items, orders, restaurants, etc.)
+- `public/menu.html` - Customer menu browsing (QR code entry)
+- `public/kitchen.html` - Kitchen display system
+- `public/track.html` - Order tracking
+- `shared/schema.ts` - Database schemas (menu_items, orders, restaurants, tables, etc.)
 - `shared/models/auth.ts` - Auth tables (users, sessions)
 
 ## Routes
 - `/` - Landing page (with Staff Login link in footer)
 - `/order` - Voice ordering interface
-- `/admin` - Staff dashboard (requires Replit Auth)
+- `/admin` - Staff dashboard (requires auth)
+- `/menu/:slug` - Customer menu for a restaurant
+- `/kitchen` - Kitchen display system
+- `/track/:orderId` - Order tracking page
+- `/setup` - Restaurant setup wizard
 
 ## Security
 - Payment amounts calculated server-side from session data
-- Stripe credentials fetched from Replit connector (never exposed)
+- Stripe credentials via Replit connector or environment variables (never exposed to client)
 - Admin routes protected with `isAuthenticated` middleware
 - Request body validation with Zod schemas
 - Session-based order tracking
 
 ## Recent Changes (February 2026)
-- Added AI Copilot chat widget on staff dashboard (floating button, slide-out panel, xAI Grok-powered)
-- Copilot auto-detects feedback type (bug, confusion, feature request, praise) and stores in copilot_feedback table
-- Copilot has full platform knowledge and context-aware responses based on active tab
-- Added Ghost Guide: step-by-step walkthrough overlay that highlights dashboard buttons with spotlight, tooltips, and progress dots
-- Ghost Guide accessible via "Take a Tour" button on dashboard header and copilot quick action
-- Added AI Menu Scanner: upload a menu photo and Grok Vision extracts all items automatically
-- Added interactive menu browsing mode on /order page with voice/browse toggle
-- Receipt edit panel now properly positioned to right of receipt preview
+- Made Stripe client portable (supports standard env vars as fallback to Replit connector)
+- Added DatabaseStorage class for PostgreSQL persistence (replaces in-memory-only storage)
+- Fixed admin.html duplicate init() function conflict
+- Fixed admin.html receipt preview null reference errors
+- Migrated voice ordering from OpenAI GPT-4o to Claude (Anthropic SDK)
+- Added AI Copilot chat widget on staff dashboard (xAI Grok-powered)
+- Added Ghost Guide walkthrough overlay for dashboard
+- Added AI Menu Scanner (Grok Vision extracts items from photos)
+- Added interactive menu browsing mode on /order page
 
 ## Previous Changes (January 2026)
 - Added staff admin dashboard with menu management
@@ -133,4 +168,3 @@ The voice ordering system uses weighted keyword matching to improve AI understan
 - Implemented weighted keyword matching for smart AI menu matching
 - Added Zod validation on admin CRUD endpoints
 - Database schema enhanced with photo_url, reviews_url, weighted_keywords fields
-- Added Staff Login link to landing page footer

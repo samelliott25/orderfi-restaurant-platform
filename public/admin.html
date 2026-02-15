@@ -6,23 +6,33 @@
   <title>OrderFi Staff Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     :root {
-      --bg: #FFF9F5;
-      --card: #FFFFFF;
-      --text: #2D2A26;
-      --text-muted: #6B6560;
+      --bg: #2C2825;
+      --bg-elevated: #353130;
+      --card: #3D3835;
+      --text: #F5F0EB;
+      --text-muted: #B5ABA2;
       --primary: #E23D28;
       --primary-dark: #C4311F;
       --accent: #FF6B35;
       --fresh: #4CAF50;
       --warm: #FFB347;
-      --border: rgba(0,0,0,0.08);
+      --border: rgba(255,255,255,0.10);
       --success: #4CAF50;
       --error: #E23D28;
+      --cream: #3D3835;
+      --muted: #B5ABA2;
+      --charcoal: #F5F0EB;
+      --yellow: rgba(255,179,71,0.15);
+      --olive: rgba(255,255,255,0.15);
+      --olive-dark: #A89E94;
+      --orange: #FF6B35;
+      --coral: #E23D28;
+      --green-fresh: #4CAF50;
     }
     
     body {
@@ -37,18 +47,24 @@
     }
     
     .header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
+    .admin-nav { display: flex; gap: 1rem; align-items: center; }
+    .admin-nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .admin-nav a:hover, .admin-nav a.active { color: white; }
     
     .logo {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.5rem;
-      font-weight: 700;
-      color: white;
+      font-weight: 900;
+      color: var(--primary);
     }
     
     .logo a {
@@ -72,7 +88,7 @@
     .logout-btn {
       background: var(--cream);
       border: none;
-      color: var(--charcoal);
+      color: var(--text);
       padding: 0.5rem 1rem;
       border-radius: 50px;
       cursor: pointer;
@@ -82,7 +98,7 @@
     }
     
     .logout-btn:hover {
-      background: white;
+      background: var(--bg-elevated);
       transform: translateY(-1px);
     }
     
@@ -93,11 +109,11 @@
     }
     
     .page-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 2.25rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
-      color: var(--charcoal);
+      color: var(--text);
     }
     
     .page-subtitle {
@@ -128,7 +144,7 @@
     
     .tab:hover {
       color: var(--text);
-      background: rgba(0,0,0,0.05);
+      background: rgba(255,255,255,0.06);
     }
     
     .tab.active {
@@ -143,7 +159,61 @@
     .content-panel.active {
       display: block;
     }
-    
+
+    .kds-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem; }
+    .kds-stats-bar { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .kds-stat-pill { display: flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.9rem; border-radius: 50px; font-size: 0.85rem; font-weight: 600; }
+    .kds-stat-pill.new-pill { background: rgba(226,61,40,0.12); color: var(--primary); }
+    .kds-stat-pill.prep-pill { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .kds-stat-pill.ready-pill { background: rgba(76,175,80,0.12); color: var(--fresh); }
+    .kds-clock-inline { font-size: 1.1rem; font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+    .kds-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; min-height: 400px; }
+    .kds-col { background: var(--card); border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+    .kds-col-head { padding: 0.75rem 1rem; font-family: 'Playfair Display', serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.04em; display: flex; align-items: center; gap: 0.5rem; }
+    .kds-col-count { font-family: 'Inter', sans-serif; font-size: 0.75rem; background: rgba(255,255,255,0.08); padding: 0.1rem 0.45rem; border-radius: 10px; }
+    .col-head-new { background: rgba(226,61,40,0.08); color: var(--primary); border-bottom: 3px solid var(--primary); }
+    .col-head-prep { background: rgba(245,158,11,0.08); color: #d97706; border-bottom: 3px solid #f59e0b; }
+    .col-head-ready { background: rgba(76,175,80,0.08); color: #4CAF50; border-bottom: 3px solid var(--fresh); }
+    .kds-col-body { flex: 1; overflow-y: auto; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; max-height: 60vh; }
+
+    .kds-order { background: var(--bg); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+    .kds-order.urgent { border-left: 4px solid var(--primary); }
+    .kds-order.warning { border-left: 4px solid #f59e0b; }
+    .kds-order.ok { border-left: 4px solid var(--fresh); }
+    .kds-order-head { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.75rem; background: rgba(255,255,255,0.03); }
+    .kds-order-id { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+    .kds-order-table { background: rgba(255,255,255,0.06); padding: 0.15rem 0.5rem; border-radius: 5px; font-size: 0.75rem; font-weight: 600; }
+    .kds-order-type { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.12rem 0.35rem; border-radius: 4px; font-weight: 600; }
+    .kds-order-type.dine_in { background: rgba(99,102,241,0.12); color: #6366f1; }
+    .kds-order-type.takeaway { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .kds-order-timer { font-size: 0.8rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+    .kds-order-timer.urgent { color: var(--primary); }
+    .kds-order-timer.warning { color: #f59e0b; }
+    .kds-order-items { padding: 0.4rem 0.75rem; }
+    .kds-order-item { display: flex; gap: 0.4rem; padding: 0.25rem 0; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+    .kds-order-item:last-child { border-bottom: none; }
+    .kds-order-item-qty { font-weight: 700; color: var(--primary); min-width: 22px; }
+    .kds-order-item-name { flex: 1; }
+    .kds-order-note { margin: 0 0.75rem 0.4rem; padding: 0.4rem 0.6rem; background: rgba(245,158,11,0.1); border-radius: 6px; border-left: 3px solid #f59e0b; font-size: 0.75rem; color: #d97706; }
+    .kds-order-actions { padding: 0.4rem 0.6rem; display: flex; gap: 0.4rem; }
+    .kds-btn { flex: 1; padding: 0.5rem; border: none; border-radius: 8px; font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .kds-btn:active { transform: scale(0.97); }
+    .kds-btn-start { background: #f59e0b; color: #000; }
+    .kds-btn-start:hover { background: #fbbf24; }
+    .kds-btn-ready { background: var(--fresh); color: #000; }
+    .kds-btn-ready:hover { background: #66bb6a; }
+    .kds-btn-complete { background: #6366f1; color: white; }
+    .kds-btn-complete:hover { background: #818cf8; }
+    .kds-btn-bump { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+    .kds-btn-bump:hover { background: rgba(255,255,255,0.1); }
+    .kds-empty { text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.85rem; opacity: 0.7; }
+
+    @media (max-width: 900px) {
+      .kds-grid { grid-template-columns: 1fr; }
+      .kds-col-body { max-height: 40vh; }
+    }
+
     .add-btn {
       background: var(--primary);
       color: white;
@@ -257,7 +327,7 @@
       background: var(--card);
       border-radius: 16px;
       padding: 1.5rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
       border: 1px solid var(--border);
     }
     
@@ -320,7 +390,7 @@
     .category-icon.uncategorized { background: rgba(0, 0, 0, 0.08); }
     
     .category-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.35rem;
       color: var(--text);
     }
@@ -350,19 +420,19 @@
       border-radius: 20px;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
       border: 1px solid var(--border);
     }
     
     .menu-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
     }
     
     .card-image {
       width: 100%;
       height: 180px;
-      background: linear-gradient(135deg, #f8f4f0 0%, #eee8e2 100%);
+      background: linear-gradient(135deg, var(--bg) 0%, var(--bg-elevated) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -394,7 +464,7 @@
     }
     
     .card-name {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.25rem;
       font-weight: 600;
       color: var(--text);
@@ -529,7 +599,7 @@
     }
     
     .modal-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.5rem;
       font-weight: 600;
       color: var(--text);
@@ -636,10 +706,10 @@
     }
     
     .keywords-editor {
-      background: var(--cream);
+      background: var(--bg);
       border-radius: 12px;
       padding: 1rem;
-      border: 1px solid rgba(0,0,0,0.08);
+      border: 1px solid var(--border);
     }
     
     .keyword-row {
@@ -651,21 +721,21 @@
     
     .keyword-input {
       flex: 2;
-      background: white;
-      border: 1px solid rgba(0,0,0,0.1);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 0.5rem;
-      color: var(--charcoal);
+      color: var(--text);
       font-family: inherit;
     }
     
     .keyword-weight-input {
       flex: 1;
-      background: white;
-      border: 1px solid rgba(0,0,0,0.1);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 0.5rem;
-      color: var(--charcoal);
+      color: var(--text);
       font-family: inherit;
       text-align: center;
     }
@@ -700,7 +770,7 @@
     
     .modal-footer {
       padding: 1.5rem;
-      border-top: 1px solid rgba(0,0,0,0.08);
+      border-top: 1px solid var(--border);
       display: flex;
       gap: 1rem;
       justify-content: flex-end;
@@ -719,11 +789,11 @@
     .btn-secondary {
       background: transparent;
       border: 2px solid var(--muted);
-      color: var(--charcoal);
+      color: var(--text);
     }
     
     .btn-secondary:hover {
-      border-color: var(--charcoal);
+      border-color: var(--text);
     }
     
     .btn-primary {
@@ -747,7 +817,7 @@
     .orders-table {
       width: 100%;
       border-collapse: collapse;
-      background: white;
+      background: var(--card);
       border-radius: 16px;
       overflow: hidden;
     }
@@ -755,12 +825,12 @@
     .orders-table th, .orders-table td {
       text-align: left;
       padding: 1rem;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
+      border-bottom: 1px solid var(--border);
     }
     
     .orders-table th {
-      background: var(--olive);
-      color: var(--cream);
+      background: var(--bg-elevated);
+      color: var(--text-muted);
       font-weight: 500;
       font-size: 0.85rem;
       text-transform: uppercase;
@@ -777,7 +847,7 @@
     
     .status-pending {
       background: var(--yellow);
-      color: var(--charcoal);
+      color: var(--text);
     }
     
     .status-preparing {
@@ -805,17 +875,18 @@
     }
     
     .login-card {
-      background: white;
+      background: var(--card);
       border-radius: 24px;
       padding: 3rem;
       text-align: center;
       max-width: 400px;
       width: 100%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      border: 1px solid var(--border);
     }
     
     .login-logo {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 2rem;
       font-weight: 700;
       color: var(--orange);
@@ -885,9 +956,9 @@
     }
     
     .empty-state-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.25rem;
-      color: var(--charcoal);
+      color: var(--text);
       margin-bottom: 0.5rem;
     }
     
@@ -900,7 +971,7 @@
     .toggle {
       width: 44px;
       height: 24px;
-      background: rgba(0,0,0,0.15);
+      background: rgba(255,255,255,0.15);
       border-radius: 12px;
       position: relative;
       cursor: pointer;
@@ -941,7 +1012,7 @@
       background: var(--card);
       border-radius: 16px;
       padding: 1.5rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
       border: 1px solid var(--border);
     }
     
@@ -966,7 +1037,7 @@
     }
     
     .config-section-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.25rem;
       color: var(--text);
       margin-bottom: 0.25rem;
@@ -1053,7 +1124,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ccc;
+      background-color: rgba(255,255,255,0.15);
       border-radius: 28px;
       transition: 0.3s;
     }
@@ -1116,7 +1187,7 @@
     }
     
     .config-btn.secondary:hover {
-      background: #f0ebe6;
+      background: var(--bg-elevated);
     }
     
     .config-status {
@@ -1128,19 +1199,19 @@
     
     .config-status.success {
       background: rgba(76, 175, 80, 0.15);
-      color: #2e7d32;
+      color: #4CAF50;
       border: 1px solid rgba(76, 175, 80, 0.3);
     }
     
     .config-status.error {
       background: rgba(226, 61, 40, 0.15);
-      color: #c62828;
+      color: var(--primary);
       border: 1px solid rgba(226, 61, 40, 0.3);
     }
     
     .config-status.info {
       background: rgba(33, 150, 243, 0.15);
-      color: #1565c0;
+      color: #42A5F5;
       border: 1px solid rgba(33, 150, 243, 0.3);
     }
     
@@ -1235,13 +1306,13 @@
       align-items: center;
       margin-bottom: 20px;
       padding-bottom: 16px;
-      border-bottom: 2px solid #f0e6db;
+      border-bottom: 2px solid var(--border);
     }
     
     .order-id-large {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 24px;
-      color: var(--charcoal);
+      color: var(--text);
     }
     
     .order-detail-section {
@@ -1249,7 +1320,7 @@
     }
     
     .order-section-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 14px;
       color: var(--primary);
       margin-bottom: 12px;
@@ -1271,19 +1342,19 @@
     
     .order-info-label {
       font-size: 11px;
-      color: #888;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     
     .order-info-value {
       font-size: 14px;
-      color: var(--charcoal);
+      color: var(--text);
       font-weight: 500;
     }
     
     .order-items-list {
-      background: #f8f4f0;
+      background: var(--bg);
       border-radius: 8px;
       overflow: hidden;
     }
@@ -1292,7 +1363,7 @@
       display: flex;
       align-items: center;
       padding: 12px;
-      border-bottom: 1px solid #e8e0db;
+      border-bottom: 1px solid var(--border);
       gap: 12px;
     }
     
@@ -1314,16 +1385,16 @@
     
     .item-name {
       flex: 1;
-      color: var(--charcoal);
+      color: var(--text);
     }
     
     .item-price {
       font-weight: 600;
-      color: var(--charcoal);
+      color: var(--text);
     }
     
     .order-totals {
-      background: #f8f4f0;
+      background: var(--bg);
       border-radius: 8px;
       padding: 12px;
     }
@@ -1332,7 +1403,7 @@
       display: flex;
       justify-content: space-between;
       padding: 8px 0;
-      border-bottom: 1px dashed #e8e0db;
+      border-bottom: 1px dashed var(--border);
     }
     
     .order-total-row:last-child {
@@ -1342,7 +1413,7 @@
     .order-total-row.total {
       font-weight: bold;
       font-size: 16px;
-      color: var(--charcoal);
+      color: var(--text);
       border-bottom: 2px solid var(--primary);
       margin-bottom: 8px;
     }
@@ -1361,23 +1432,23 @@
     }
     
     .print-status.printed {
-      background: #e8f5e9;
-      color: #2e7d32;
+      background: rgba(76,175,80,0.15);
+      color: #4CAF50;
     }
     
     .print-status.not-printed {
-      background: #fff3e0;
-      color: #e65100;
+      background: rgba(255,107,53,0.15);
+      color: var(--accent);
     }
     
     .print-time {
       font-size: 12px;
-      color: #888;
+      color: var(--text-muted);
     }
     
     .order-time {
       font-size: 14px;
-      color: var(--charcoal);
+      color: var(--text);
     }
     
     .order-actions {
@@ -1386,7 +1457,7 @@
       gap: 10px;
       margin-top: 20px;
       padding-top: 16px;
-      border-top: 2px solid #f0e6db;
+      border-top: 2px solid var(--border);
     }
     
     .btn-warning {
@@ -1420,24 +1491,24 @@
     }
     
     .status-badge.status-refunded {
-      background: #e8f5e9;
-      color: #2e7d32;
+      background: rgba(76,175,80,0.15);
+      color: #4CAF50;
     }
     
     .status-badge.status-partial-refund {
-      background: #fff3e0;
-      color: #e65100;
+      background: rgba(255,107,53,0.15);
+      color: var(--accent);
     }
     
     .orders-table tr.order-row:hover {
-      background: #fff9f5;
+      background: var(--bg-elevated);
     }
     
     /* Expandable Order Rows */
     .expand-arrow {
       display: inline-block;
       margin-right: 8px;
-      color: #888;
+      color: var(--text-muted);
       font-size: 10px;
       transition: transform 0.2s ease;
     }
@@ -1447,7 +1518,7 @@
     }
     
     .order-expand-row {
-      background: #faf6f2;
+      background: var(--bg-elevated);
     }
     
     .order-expand-row td {
@@ -1457,7 +1528,7 @@
     
     .order-expand-content {
       padding: 20px;
-      border-top: 2px solid #f0e6db;
+      border-top: 2px solid var(--border);
       animation: slideDown 0.2s ease;
     }
     
@@ -1473,10 +1544,10 @@
     }
     
     .order-expand-detail {
-      background: white;
+      background: var(--card);
       border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
     
     .order-expand-grid {
@@ -1504,7 +1575,7 @@
     .order-expand-info {
       font-size: 13px;
       line-height: 1.6;
-      color: #555;
+      color: var(--text-muted);
     }
     
     .order-expand-items {
@@ -1516,7 +1587,7 @@
       align-items: center;
       gap: 8px;
       padding: 6px 0;
-      border-bottom: 1px dashed #e8e0db;
+      border-bottom: 1px dashed var(--border);
     }
     
     .order-expand-item:last-child {
@@ -1558,7 +1629,7 @@
     
     .total-line.total {
       font-weight: bold;
-      border-top: 1px solid #e8e0db;
+      border-top: 1px solid var(--border);
       padding-top: 8px;
       margin-top: 4px;
     }
@@ -1573,7 +1644,7 @@
       gap: 10px;
       margin-top: 16px;
       padding-top: 16px;
-      border-top: 2px solid #f0e6db;
+      border-top: 2px solid var(--border);
     }
     
     .btn-small {
@@ -1594,8 +1665,8 @@
       flex-direction: column;
       align-items: center;
       padding: 16px;
-      background: #fff;
-      border: 2px solid #e8e0db;
+      background: var(--card);
+      border: 2px solid var(--border);
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -1603,12 +1674,12 @@
     
     .receipt-type-tab:hover {
       border-color: var(--primary);
-      background: #fff9f5;
+      background: var(--bg-elevated);
     }
     
     .receipt-type-tab.active {
       border-color: var(--primary);
-      background: linear-gradient(135deg, #fff9f5 0%, #ffe5e0 100%);
+      background: rgba(226, 61, 40, 0.08);
       box-shadow: 0 4px 12px rgba(226, 61, 40, 0.15);
     }
     
@@ -1618,14 +1689,14 @@
     }
     
     .receipt-type-tab .tab-label {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 16px;
-      color: var(--charcoal);
+      color: var(--text);
     }
     
     .receipt-type-tab .tab-desc {
       font-size: 12px;
-      color: #888;
+      color: var(--text-muted);
       margin-top: 4px;
     }
     
@@ -1638,11 +1709,11 @@
       align-items: center;
       gap: 12px;
       padding: 12px 16px;
-      background: #f8f4f0;
+      background: var(--bg);
       border-radius: 8px;
       margin-bottom: 16px;
       font-size: 14px;
-      color: #666;
+      color: var(--text-muted);
     }
     
     .receipt-type-badge {
@@ -1665,16 +1736,16 @@
     
     .config-hint-box {
       padding: 12px 16px;
-      background: #fffbeb;
-      border: 1px solid #f0e6c8;
+      background: rgba(255,179,71,0.1);
+      border: 1px solid rgba(255,179,71,0.2);
       border-radius: 8px;
       font-size: 13px;
-      color: #856404;
+      color: var(--warm);
       margin-top: 8px;
     }
     
     .config-hint-box strong {
-      color: #664d00;
+      color: var(--warm);
     }
     
     /* Kitchen Receipt Preview Styles */
@@ -1698,13 +1769,13 @@
     }
     
     .receipt-type-indicator.kitchen {
-      background: #fff3e0;
-      color: #e65100;
+      background: rgba(255,107,53,0.15);
+      color: var(--accent);
     }
     
     .receipt-type-indicator.tax {
-      background: #e8f5e9;
-      color: #2e7d32;
+      background: rgba(76,175,80,0.15);
+      color: #4CAF50;
     }
     
     .kitchen-large-text {
@@ -1717,7 +1788,7 @@
       color: #c00;
       font-size: 13px;
       padding: 4px 0;
-      border-top: 1px dashed #ddd;
+      border-top: 1px dashed var(--border);
       margin-top: 4px;
     }
     
@@ -1752,7 +1823,7 @@
     .receipt-subheader {
       text-align: center;
       font-size: 10px;
-      color: #666;
+      color: var(--text-muted);
       margin-bottom: 12px;
     }
     
@@ -1799,7 +1870,7 @@
     .receipt-timestamp {
       text-align: center;
       font-size: 10px;
-      color: #666;
+      color: var(--text-muted);
     }
     
     .receipt-hidden {
@@ -1833,7 +1904,7 @@
     }
     
     .edit-panel-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1rem;
       color: var(--text);
       margin-bottom: 1rem;
@@ -1859,6 +1930,8 @@
       border-radius: 8px;
       font-family: 'Courier New', monospace;
       font-size: 0.9rem;
+      background: var(--bg);
+      color: var(--text);
     }
     
     .edit-field-input:focus {
@@ -1919,7 +1992,7 @@
     }
     
     .filter-bar {
-      background: white;
+      background: var(--card);
       border-radius: 16px;
       padding: 1rem 1.25rem;
       margin-bottom: 1.5rem;
@@ -1927,7 +2000,7 @@
       flex-wrap: wrap;
       gap: 1rem;
       align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
     
     .filter-section {
@@ -1950,9 +2023,9 @@
     }
     
     .filter-chip {
-      background: var(--cream);
-      border: 1px solid rgba(0,0,0,0.1);
-      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
       padding: 0.4rem 0.85rem;
       border-radius: 20px;
       cursor: pointer;
@@ -1962,8 +2035,8 @@
     }
     
     .filter-chip:hover {
-      color: var(--charcoal);
-      border-color: var(--olive);
+      color: var(--text);
+      border-color: rgba(255,255,255,0.2);
     }
     
     .filter-chip.active {
@@ -1985,11 +2058,11 @@
     }
     
     .search-input {
-      background: var(--cream);
-      border: 1px solid rgba(0,0,0,0.1);
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: 50px;
       padding: 0.5rem 1rem;
-      color: var(--charcoal);
+      color: var(--text);
       font-family: inherit;
       font-size: 0.9rem;
       min-width: 200px;
@@ -1997,7 +2070,7 @@
     
     .search-input:focus {
       outline: none;
-      border-color: var(--orange);
+      border-color: var(--primary);
     }
     
     .search-input::placeholder {
@@ -2034,9 +2107,9 @@
     }
     
     .tag-option {
-      background: var(--cream);
-      border: 1px solid rgba(0,0,0,0.1);
-      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
       padding: 0.4rem 0.75rem;
       border-radius: 20px;
       cursor: pointer;
@@ -2046,8 +2119,8 @@
     }
     
     .tag-option:hover {
-      border-color: var(--orange);
-      color: var(--charcoal);
+      border-color: rgba(255,255,255,0.2);
+      color: var(--text);
     }
     
     .tag-option.selected {
@@ -2158,11 +2231,12 @@
     }
     .ghost-tooltip {
       position: fixed;
-      background: white;
+      background: var(--card);
       border-radius: 16px;
       padding: 1.5rem;
       max-width: 340px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.05);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 1px solid var(--border);
       z-index: 10002;
       pointer-events: auto;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2182,7 +2256,7 @@
       margin-bottom: 0.5rem;
     }
     .ghost-tooltip-title {
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.1rem;
       color: var(--text);
       margin-bottom: 0.4rem;
@@ -2247,7 +2321,7 @@
       color: var(--text);
     }
     .ghost-btn-back:hover {
-      background: #eee;
+      background: var(--bg-elevated);
     }
     .ghost-start-btn {
       display: inline-flex;
@@ -2319,7 +2393,7 @@
       height: 18px;
       background: var(--fresh);
       border-radius: 50%;
-      border: 2px solid white;
+      border: 2px solid var(--bg);
       display: none;
     }
 
@@ -2366,7 +2440,7 @@
     }
     .copilot-header-text h3 {
       color: white;
-      font-family: 'Lilita One', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 1.1rem;
       margin: 0;
     }
@@ -2531,8 +2605,14 @@
   <div id="dashboard-view" class="">
     <header class="header">
       <div class="logo"><a href="/">OrderFi</a></div>
+      <nav class="admin-nav">
+        <a href="/">Home</a>
+        <a href="/order">Voice Order</a>
+        <a href="/menu/loose-moose">Menu</a>
+        <a href="/admin?tab=kitchen">Kitchen</a>
+        <a href="/admin" class="active">Dashboard</a>
+      </nav>
       <div class="user-info">
-        <span style="color: rgba(255,255,255,0.8);">Staff Dashboard</span>
         <a href="/" class="logout-btn">Back to Home</a>
       </div>
     </header>
@@ -2552,6 +2632,7 @@
       <div class="tabs">
         <button class="tab active" data-tab="menu">Menu Items</button>
         <button class="tab" data-tab="orders">Recent Orders</button>
+        <button class="tab" data-tab="kitchen">Kitchen</button>
         <button class="tab" data-tab="config">Configuration</button>
       </div>
 
@@ -2602,6 +2683,34 @@
         <div id="orders-container">
           <div class="loading"><div class="spinner"></div></div>
         </div>
+      </div>
+
+      <div id="kitchen-panel" class="content-panel">
+        <div class="kds-toolbar">
+          <div class="kds-stats-bar">
+            <div class="kds-stat-pill new-pill"><span id="kds-new-count">0</span> New</div>
+            <div class="kds-stat-pill prep-pill"><span id="kds-prep-count">0</span> Preparing</div>
+            <div class="kds-stat-pill ready-pill"><span id="kds-ready-count">0</span> Ready</div>
+          </div>
+          <div class="kds-clock-inline" id="kds-clock">00:00</div>
+        </div>
+        <div class="kds-grid">
+          <div class="kds-col">
+            <div class="kds-col-head col-head-new">New Orders <span class="kds-col-count" id="kds-new-head">0</span></div>
+            <div class="kds-col-body" id="kds-new-orders"></div>
+          </div>
+          <div class="kds-col">
+            <div class="kds-col-head col-head-prep">Preparing <span class="kds-col-count" id="kds-prep-head">0</span></div>
+            <div class="kds-col-body" id="kds-prep-orders"></div>
+          </div>
+          <div class="kds-col">
+            <div class="kds-col-head col-head-ready">Ready <span class="kds-col-count" id="kds-ready-head">0</span></div>
+            <div class="kds-col-body" id="kds-ready-orders"></div>
+          </div>
+        </div>
+        <audio id="kds-ding" preload="auto">
+          <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" type="audio/wav">
+        </audio>
       </div>
 
       <div id="config-panel" class="content-panel">
@@ -2861,7 +2970,7 @@
                 
                 <hr class="receipt-divider receipt-divider-double">
                 
-                <div style="text-align: center; font-size: 12px; color: #666; padding: 8px;">
+                <div style="text-align: center; font-size: 12px; color: var(--text-muted); padding: 8px;">
                   Kitchen Copy - Not for Customer
                 </div>
               </div>
@@ -2949,7 +3058,7 @@
                 
                 <!-- Payment Method -->
                 <div class="receipt-line" data-line="payment-method" data-type="info" id="receipt-payment-line" onclick="selectReceiptLine(this)">
-                  <div class="receipt-row" style="font-size: 12px; color: #666;">
+                  <div class="receipt-row" style="font-size: 12px; color: var(--text-muted);">
                     <span>Paid via:</span>
                     <span>Visa •••• 4242</span>
                   </div>
@@ -3172,6 +3281,12 @@
       loadMenu();
       setupFilters();
       setupTagSelectors();
+
+      var urlTab = new URLSearchParams(window.location.search).get('tab');
+      if (urlTab) {
+        var tabBtn = document.querySelector('.tab[data-tab="' + urlTab + '"]');
+        if (tabBtn) tabBtn.click();
+      }
     }
 
     function setupTagSelectors() {
@@ -3338,6 +3453,127 @@
       renderFilteredMenu(filtered);
     }
 
+    // ========================
+    // KITCHEN DISPLAY (embedded)
+    // ========================
+    let kdsOrders = [];
+    let kdsPrevCount = 0;
+    let kdsInterval = null;
+    let kdsTimerInterval = null;
+
+    function kdsTimeAgo(dateStr) {
+      const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+      if (diff < 60) return diff + 's';
+      if (diff < 3600) return Math.floor(diff / 60) + 'm';
+      return Math.floor(diff / 3600) + 'h ' + Math.floor((diff % 3600) / 60) + 'm';
+    }
+
+    function kdsUrgency(dateStr) {
+      const mins = (Date.now() - new Date(dateStr).getTime()) / 60000;
+      if (mins > 15) return 'urgent';
+      if (mins > 5) return 'warning';
+      return 'ok';
+    }
+
+    function kdsParseItems(v) {
+      try { return typeof v === 'string' ? JSON.parse(v) : (v || []); } catch { return []; }
+    }
+
+    function kdsRenderCard(order, actions) {
+      const items = kdsParseItems(order.items);
+      const urg = kdsUrgency(order.createdAt);
+      const ot = order.orderType || 'dine_in';
+      return '<div class="kds-order ' + urg + '" data-kid="' + order.id + '">' +
+        '<div class="kds-order-head"><div style="display:flex;align-items:center;gap:0.6rem">' +
+        '<span class="kds-order-id">#' + order.id + '</span>' +
+        (order.tableNumber ? '<span class="kds-order-table">Table ' + order.tableNumber + '</span>' : '') +
+        '<span class="kds-order-type ' + ot + '">' + ot.replace('_', ' ') + '</span>' +
+        '</div><span class="kds-order-timer ' + (urg === 'ok' ? '' : urg) + '">' + kdsTimeAgo(order.createdAt) + '</span></div>' +
+        '<div class="kds-order-items">' + items.map(function(it) {
+          return '<div class="kds-order-item"><span class="kds-order-item-qty">' + it.quantity + 'x</span><span class="kds-order-item-name">' + it.name + (it.modifications ? ' (' + it.modifications + ')' : '') + '</span></div>';
+        }).join('') + '</div>' +
+        (order.specialInstructions ? '<div class="kds-order-note">' + order.specialInstructions + '</div>' : '') +
+        '<div class="kds-order-actions">' + actions + '</div></div>';
+    }
+
+    function kdsRender() {
+      var nw = kdsOrders.filter(function(o) { return o.status === 'pending' || o.status === 'confirmed'; });
+      var pr = kdsOrders.filter(function(o) { return o.status === 'preparing'; });
+      var rd = kdsOrders.filter(function(o) { return o.status === 'ready'; });
+
+      var el = function(id) { var e = document.getElementById(id); return e; };
+      el('kds-new-count').textContent = nw.length;
+      el('kds-prep-count').textContent = pr.length;
+      el('kds-ready-count').textContent = rd.length;
+      el('kds-new-head').textContent = nw.length;
+      el('kds-prep-head').textContent = pr.length;
+      el('kds-ready-head').textContent = rd.length;
+
+      el('kds-new-orders').innerHTML = nw.length
+        ? nw.map(function(o) { return kdsRenderCard(o, '<button class="kds-btn kds-btn-start" onclick="kdsUpdate(' + o.id + ',\'preparing\')">Start Preparing</button>'); }).join('')
+        : '<div class="kds-empty">No new orders</div>';
+
+      el('kds-prep-orders').innerHTML = pr.length
+        ? pr.map(function(o) { return kdsRenderCard(o, '<button class="kds-btn kds-btn-bump" onclick="kdsUpdate(' + o.id + ',\'pending\')">Bump Back</button><button class="kds-btn kds-btn-ready" onclick="kdsUpdate(' + o.id + ',\'ready\')">Ready!</button>'); }).join('')
+        : '<div class="kds-empty">Nothing cooking</div>';
+
+      el('kds-ready-orders').innerHTML = rd.length
+        ? rd.map(function(o) { return kdsRenderCard(o, '<button class="kds-btn kds-btn-complete" onclick="kdsUpdate(' + o.id + ',\'completed\')">Complete</button>'); }).join('')
+        : '<div class="kds-empty">All served</div>';
+    }
+
+    async function kdsFetch() {
+      try {
+        var res = await fetch('/api/admin/orders');
+        if (!res.ok) return;
+        var orders = await res.json();
+        var active = orders.filter(function(o) { return o.status !== 'completed' && o.status !== 'cancelled' && o.status !== 'refunded'; });
+        if (active.length > kdsPrevCount && kdsPrevCount > 0) {
+          try { document.getElementById('kds-ding').play(); } catch(e) {}
+        }
+        kdsPrevCount = active.length;
+        kdsOrders = active;
+        kdsRender();
+      } catch(e) { console.error('KDS fetch error:', e); }
+    }
+
+    async function kdsUpdate(id, status) {
+      try {
+        await fetch('/api/admin/orders/' + id + '/status', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: status }),
+        });
+        var order = kdsOrders.find(function(o) { return o.id === id; });
+        if (order) {
+          if (status === 'completed') {
+            kdsOrders = kdsOrders.filter(function(o) { return o.id !== id; });
+          } else {
+            order.status = status;
+          }
+          kdsRender();
+        }
+      } catch(e) { console.error('KDS update error:', e); }
+    }
+
+    function kdsStart() {
+      kdsFetch();
+      if (kdsInterval) clearInterval(kdsInterval);
+      kdsInterval = setInterval(kdsFetch, 5000);
+      function tick() {
+        var c = document.getElementById('kds-clock');
+        if (c) { var n = new Date(); c.textContent = n.toLocaleTimeString('en-AU', { hour12: false, hour: '2-digit', minute: '2-digit' }); }
+      }
+      tick();
+      if (kdsTimerInterval) clearInterval(kdsTimerInterval);
+      kdsTimerInterval = setInterval(tick, 1000);
+    }
+
+    function kdsStop() {
+      if (kdsInterval) { clearInterval(kdsInterval); kdsInterval = null; }
+      if (kdsTimerInterval) { clearInterval(kdsTimerInterval); kdsTimerInterval = null; }
+    }
+
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -3347,6 +3583,11 @@
         
         if (tab.dataset.tab === 'orders') {
           loadOrders();
+        }
+        if (tab.dataset.tab === 'kitchen') {
+          kdsStart();
+        } else {
+          kdsStop();
         }
       });
     });
@@ -3733,7 +3974,7 @@
                 <div class="total-line"><span>Subtotal</span><span>$${parseFloat(order.subtotal || 0).toFixed(2)}</span></div>
                 <div class="total-line"><span>Tax</span><span>$${parseFloat(order.tax || 0).toFixed(2)}</span></div>
                 <div class="total-line total"><span>Total</span><span>$${parseFloat(order.total || 0).toFixed(2)}</span></div>
-                <div class="total-line" style="font-size: 11px; color: #888;"><span>Method</span><span>${order.paymentMethod || 'N/A'}</span></div>
+                <div class="total-line" style="font-size: 11px; color: var(--text-muted);"><span>Method</span><span>${order.paymentMethod || 'N/A'}</span></div>
               </div>
             </div>
             
@@ -3743,7 +3984,7 @@
                 <div class="print-status ${order.printedAt ? 'printed' : 'not-printed'}">
                   ${order.printedAt ? '✅ Printed' : '⏳ Not printed'}
                 </div>
-                <div style="font-size: 11px; color: #666; margin-top: 4px;">
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
                   ${time}
                 </div>
               </div>
@@ -4382,21 +4623,25 @@
     }
     
     function updateReceiptPreview() {
-      const footerMessage = document.getElementById('receipt-footer').value;
+      const footerEl = document.getElementById('receipt-footer');
+      const footerMessage = footerEl ? footerEl.value : '';
       receiptConfig.footerMessage = footerMessage || 'Thank you for your order!';
       
       const footerLine = document.getElementById('receipt-footer-line');
       if (footerLine) {
-        footerLine.querySelector('.receipt-footer-text').textContent = receiptConfig.footerMessage;
+        const footerText = footerLine.querySelector('.receipt-footer-text');
+        if (footerText) footerText.textContent = receiptConfig.footerMessage;
       }
       
-      // Update paper width based on setting
-      const paperWidth = document.getElementById('printer-width').value;
+      const printerWidth = document.getElementById('printer-width');
+      const paperWidth = printerWidth ? printerWidth.value : '80';
       const receiptPaper = document.getElementById('receipt-paper');
-      if (paperWidth === '58') {
-        receiptPaper.classList.add('width-58');
-      } else {
-        receiptPaper.classList.remove('width-58');
+      if (receiptPaper) {
+        if (paperWidth === '58') {
+          receiptPaper.classList.add('width-58');
+        } else {
+          receiptPaper.classList.remove('width-58');
+        }
       }
       
       updateReceiptVisibility();
@@ -4433,14 +4678,14 @@
     document.getElementById('print-prices')?.addEventListener('change', updateReceiptVisibility);
     document.getElementById('printer-width')?.addEventListener('change', updateReceiptPreview);
 
-    // Load config when config panel becomes active
-    const originalInit = init;
-    function init() {
-      loadMenu();
+    // Extend the original init to also load config and receipt settings
+    const _originalInit = init;
+    init = function() {
+      _originalInit();
       loadOrders();
       loadConfig();
       loadReceiptConfig();
-    }
+    };
 
     // === AI Menu Scanner ===
     let scanImageData = null;
